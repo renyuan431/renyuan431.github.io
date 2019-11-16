@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一、总原则4个W&amp;lt;What\Why\When\Where&amp;gt;和1个H （一）What：这个技术是什么，搞清楚这项技术是什么。 （二）Why\When\Where：为什么什么时候在哪使用这项技术，搞清楚使用这项技术解决了现网中的哪些问题。 （三）How：如何使用这项技术，搞清楚这项技术的原理、结构和实现方法、流程。 多看书，多做实验是提升技术水平的真正方式，敲命令不是关键，敲命令也是为了更">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CCNA笔记——1、学习方法">
+<meta property="og:url" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2018&#x2F;12&#x2F;25&#x2F;e5-ad-a6-e4-b9-a0-e6-96-b9-e6-b3-95-e5-8f-8a-e5-9f-ba-e7-a1-80-e7-9f-a5-e8-af-86-2&#x2F;index.html">
+<meta property="og:site_name" content="Rookie&#39;s Notebook">
+<meta property="og:description" content="一、总原则4个W&amp;lt;What\Why\When\Where&amp;gt;和1个H （一）What：这个技术是什么，搞清楚这项技术是什么。 （二）Why\When\Where：为什么什么时候在哪使用这项技术，搞清楚使用这项技术解决了现网中的哪些问题。 （三）How：如何使用这项技术，搞清楚这项技术的原理、结构和实现方法、流程。 多看书，多做实验是提升技术水平的真正方式，敲命令不是关键，敲命令也是为了更">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-16T07:09:37.757Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://renyuan431.github.io/2018/12/25/e5-ad-a6-e4-b9-a0-e6-96-b9-e6-b3-95-e5-8f-8a-e5-9f-ba-e7-a1-80-e7-9f-a5-e8-af-86-2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>CCNA笔记——1、学习方法 | Rookie's Notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Rookie's Notebook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于作者</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2018/12/25/e5-ad-a6-e4-b9-a0-e6-96-b9-e6-b3-95-e5-8f-8a-e5-9f-ba-e7-a1-80-e7-9f-a5-e8-af-86-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rookie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rookie's Notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CCNA笔记——1、学习方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-25 15:07:13" itemprop="dateCreated datePublished" datetime="2018-12-25T15:07:13+08:00">2018-12-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-16 15:09:37" itemprop="dateModified" datetime="2019-11-16T15:09:37+08:00">2019-11-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CCNA/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一、总原则"><a href="#一、总原则" class="headerlink" title="一、总原则"></a>一、总原则</h2><p><strong>4个W&lt;What\Why\When\Where&gt;和1个H<How></How></strong></p>
+<p>（一）What：这个技术是什么，搞清楚这项技术是什么。</p>
+<p>（二）Why\When\Where：为什么什么时候在哪使用这项技术，搞清楚使用这项技术解决了现网中的哪些问题。</p>
+<p>（三）How：如何使用这项技术，搞清楚这项技术的原理、结构和实现方法、流程。 多看书，多做实验是提升技术水平的真正方式，敲命令不是关键，敲命令也是为了更好的理解技术，从根本上理解这项技术才是关键。</p>
+<h2 id="二、遇到问题如何找寻答案"><a href="#二、遇到问题如何找寻答案" class="headerlink" title="二、遇到问题如何找寻答案"></a>二、遇到问题如何找寻答案</h2><p>如果周围有懂技术的朋友，请教他们是最快捷最直接的解决办法。</p>
+<p>但如果没有朋友可以请教，51CTO这种国内技术博客类网站、思科官方文档、思科官方社区以及搜索引擎是最好的选择。 国内技术类网站都是中文，可以解决部分问题。如果有再深入一些的问题，可能国内的中文网站已经很难找到解答，这时候思科的官方文档和官方社区是最好的求助对象。思科的官方文档有中英文两种版本，中文版本基本都是通过谷歌翻译机翻的，所以比较晦涩难懂，最佳的办法还是直接看英文文档，一般本科英语4级水平的，只要有耐心，在浏览器翻译插件的帮助下基本可以理解文档的意思。思科的官方英文社区比中文社区的知识更丰富，老外对技术细节的讨论十分到位，基本可以解决大部分疑惑。 搜索引擎尽量别用百度，搜索的效率相对低一些，容易浪费时间。</p>
+<h2 id="三、如何下载学习资料"><a href="#三、如何下载学习资料" class="headerlink" title="三、如何下载学习资料"></a>三、如何下载学习资料</h2><p>推荐两个论坛，<a href="http://bbs.hh010.com/" target="_blank" rel="noopener">鸿鹄论坛</a>以及<a href="http://bbs.vlan5.com/" target="_blank" rel="noopener">攻城狮论坛</a>。鸿鹄论坛上的考试题库更新比较快，包含版本比较新，也有一些学习资料；攻城狮论坛上的学习资料比较丰富，基本上所有需要的资料在攻城狮论坛都能下载到。</p>
+<h2 id="四、CCIE还是HCIE？是否有必要考？"><a href="#四、CCIE还是HCIE？是否有必要考？" class="headerlink" title="四、CCIE还是HCIE？是否有必要考？"></a>四、CCIE还是HCIE？是否有必要考？</h2><h3 id="（一）HCIE"><a href="#（一）HCIE" class="headerlink" title="（一）HCIE"></a>（一）HCIE</h3><p>HCIE考试更适合希望在国内发展或是接触华为设备较多的国企，考试由3个组成部分：笔试、lab上机考试以及面试。HCIE的lab考试拓扑相对思科的CCIE来说简明一些，不知道2019年考纲更新后是否还考帧中继这个完全没人用的技术，通过考试难度不太大；笔试和lab考试基本长期处于稳定状态，背背题库就可以过，可以说比较简单。HCIE面试相对难度大一些，因为考官不固定，是随机一位考官进行面试，一方面需要对技术原理掌握的更清楚，面试官不仅仅会问培训机构给的面试套路题，还有可能对你的回答进行追问；另一方面要心理素质过硬，在面试现场能够不慌乱有条理的回答出自己掌握的知识。几个考官中，据说有一位面试官相对比较棘手，容易问比较难的问题，其他几个考官相对好一些，如果实在点背抽到棘手的考官，多花5000再面试一次，准备充分一些基本就能过了，毕竟两次面试都是同一个考官这种几率比较小。</p>
+<h3 id="（二）CCIE"><a href="#（二）CCIE" class="headerlink" title="（二）CCIE"></a>（二）CCIE</h3><p>CCIE考试更适合接触思科设备较多的外企或私企，由2个组成部分：笔试和lab上机考试，笔试和HCIE类似，不过CCIE笔试的更新速度比HCIE要快得多，基本上1-2个月就变一次题，最好趁着题库稳定期间抓紧通过，笔试有效期是18个月，通过了笔试的18个月时间里才有资格去预约lab上机考试的位置。目前lab考试分为H1、H1+、H2、H2+以及H3这几套题目，lab考试的配置量相对HCIE大一些。</p>
+<h3 id="（三）是否该考证书"><a href="#（三）是否该考证书" class="headerlink" title="（三）是否该考证书"></a>（三）是否该考证书</h3><p>个人认为，无论是CCIE还是HCIE或是其他认证，其实质就是一个找工作的敲门砖，因为无论是笔试还是上机考试，通过培训机构都可以拿到原题，仅靠背原题而不真正掌握技术，完全没有任何意义，因为简单的背题既不能提升技术水平，更不能真正让你拿到高薪， 因为面试官只要和你聊上几句，就能对你的技术水平有个大概的了解，这时候你的证书不但起不到任何作用，还会让用人单位对你的诚信产生怀疑。如果有时间、有意愿去真正钻研技术且证书能为你找到工作有一些帮助，可以去考一个IE证书，但个人认为备考的过程才是真正让你有所收获的，一方面要在备考过程中要加深对技术原理的理解，另一方面要结合理论知识多做实验。</p>
+
+    </div>
+
+    
+    
+    
+      
+        <div class="reward-container">
+  <div></div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Rookie 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Rookie 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/12/17/e5-ad-a6-e4-b9-a0-e6-96-b9-e6-b3-95-e5-8f-8a-e5-9f-ba-e7-a1-80-e7-9f-a5-e8-af-86/" rel="next" title="CCNA笔记——4、基础知识">
+                  <i class="fa fa-chevron-left"></i> CCNA笔记——4、基础知识
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/12/25/e5-ad-a6-e4-b9-a0-e6-96-b9-e6-b3-95-e5-8f-8a-e5-9f-ba-e7-a1-80-e7-9f-a5-e8-af-86-3/" rel="prev" title="CCNA笔记——2、模拟器">
+                  CCNA笔记——2、模拟器 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzM4OS8yMzg4OQ=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、总原则"><span class="nav-number">1.</span> <span class="nav-text">一、总原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、遇到问题如何找寻答案"><span class="nav-number">2.</span> <span class="nav-text">二、遇到问题如何找寻答案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、如何下载学习资料"><span class="nav-number">3.</span> <span class="nav-text">三、如何下载学习资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、CCIE还是HCIE？是否有必要考？"><span class="nav-number">4.</span> <span class="nav-text">四、CCIE还是HCIE？是否有必要考？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（一）HCIE"><span class="nav-number">4.1.</span> <span class="nav-text">（一）HCIE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（二）CCIE"><span class="nav-number">4.2.</span> <span class="nav-text">（二）CCIE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（三）是否该考证书"><span class="nav-number">4.3.</span> <span class="nav-text">（三）是否该考证书</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Rookie"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Rookie</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rookie</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

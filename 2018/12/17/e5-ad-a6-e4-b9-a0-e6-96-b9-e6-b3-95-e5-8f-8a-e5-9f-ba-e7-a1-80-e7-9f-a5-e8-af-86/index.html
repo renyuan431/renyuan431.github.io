@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一、位（bit）与字节（byte）（一）位（bit）来自英文bit，音译为“比特”，表示一个二进制位（0或者1）。位是计算机内部数据储存的最小单位，11010100是一个8位二进制数。一个二进制位只可以表示0和1两种状态（21）；两个二进制位可以表示00、01、10、11四种（22）状态。 （二）字节（byte）字节来自英文Byte，音译为“拜特”，习惯上用大写的“B”表示。字节是计算机中数据处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CCNA笔记——4、基础知识">
+<meta property="og:url" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2018&#x2F;12&#x2F;17&#x2F;e5-ad-a6-e4-b9-a0-e6-96-b9-e6-b3-95-e5-8f-8a-e5-9f-ba-e7-a1-80-e7-9f-a5-e8-af-86&#x2F;index.html">
+<meta property="og:site_name" content="Rookie&#39;s Notebook">
+<meta property="og:description" content="一、位（bit）与字节（byte）（一）位（bit）来自英文bit，音译为“比特”，表示一个二进制位（0或者1）。位是计算机内部数据储存的最小单位，11010100是一个8位二进制数。一个二进制位只可以表示0和1两种状态（21）；两个二进制位可以表示00、01、10、11四种（22）状态。 （二）字节（byte）字节来自英文Byte，音译为“拜特”，习惯上用大写的“B”表示。字节是计算机中数据处理">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yuan.dkngit.com:14010&#x2F;wp-content&#x2F;uploads&#x2F;2018&#x2F;12&#x2F;%E8%BD%AC%E6%8D%A2%E8%A1%A8%E6%A0%BC.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;yuan.dkngit.com:14010&#x2F;wp-content&#x2F;uploads&#x2F;2018&#x2F;12&#x2F;image-33.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446004698089.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446019539875.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446033751877.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446059386793.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446083759737.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446107502896.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446126101198.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446144855271.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446161888058.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446173913759.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446194223347.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446216102748.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446233756320.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;images0.cnblogs.com&#x2F;blog&#x2F;48305&#x2F;201501&#x2F;191446253919136.png">
+<meta property="og:updated_time" content="2019-11-16T07:09:37.757Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yuan.dkngit.com:14010&#x2F;wp-content&#x2F;uploads&#x2F;2018&#x2F;12&#x2F;%E8%BD%AC%E6%8D%A2%E8%A1%A8%E6%A0%BC.jpg">
+
+<link rel="canonical" href="https://renyuan431.github.io/2018/12/17/e5-ad-a6-e4-b9-a0-e6-96-b9-e6-b3-95-e5-8f-8a-e5-9f-ba-e7-a1-80-e7-9f-a5-e8-af-86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>CCNA笔记——4、基础知识 | Rookie's Notebook</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Rookie's Notebook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于作者</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2018/12/17/e5-ad-a6-e4-b9-a0-e6-96-b9-e6-b3-95-e5-8f-8a-e5-9f-ba-e7-a1-80-e7-9f-a5-e8-af-86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rookie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rookie's Notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CCNA笔记——4、基础知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-17 23:24:04" itemprop="dateCreated datePublished" datetime="2018-12-17T23:24:04+08:00">2018-12-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-16 15:09:37" itemprop="dateModified" datetime="2019-11-16T15:09:37+08:00">2019-11-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CCNA/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一、位（bit）与字节（byte）"><a href="#一、位（bit）与字节（byte）" class="headerlink" title="一、位（bit）与字节（byte）"></a>一、位（bit）与字节（byte）</h2><h3 id="（一）位（bit）"><a href="#（一）位（bit）" class="headerlink" title="（一）位（bit）"></a>（一）位（bit）</h3><p>来自英文bit，音译为“比特”，表示一个二进制位（0或者1）。位是计算机内部数据储存的最小单位，11010100是一个8位二进制数。一个二进制位只可以表示0和1两种状态（21）；两个二进制位可以表示00、01、10、11四种（22）状态。</p>
+<h3 id="（二）字节（byte）"><a href="#（二）字节（byte）" class="headerlink" title="（二）字节（byte）"></a>（二）字节（byte）</h3><p>字节来自英文Byte，音译为“拜特”，习惯上用大写的“B”表示。字节是计算机中数据处理的基本单位。计算机中以字节为单位存储和解释信息，规定一个字节（Byte）由连续八个二进制位（bit）构成，即1个字节等于8个比特（1Byte=8bit）。八位二进制数最小为00000000，最大为11111111；通常1个字节可以存入一个ASCII码，2个字节可以存放一个汉字国标码。</p>
+<h3 id="（三）位与字节关系举例"><a href="#（三）位与字节关系举例" class="headerlink" title="（三）位与字节关系举例"></a>（三）位与字节关系举例</h3><p>生活中办理的宽带的带宽，比如100M宽带其实是100Mbit/s，换算成Byte/s约等于11MByte/s左右。</p>
+<p>计算方法：100Mbit/s*1000&lt;换算成K&gt;*1000&lt;换算成bit&gt;除以8除以1024&lt;换算成K&gt;除以1024&lt;换算成M&gt;  ≈  11MByte/s</p>
+<p>1Kbit=1000bit ； 1Mbit=1000Kbit  ;  1Gbit=1000Mbit 1Kbyte=1024Byte  ;  1Mbyte=1024Kbyte  ;  1Gbyte=1024Mbyte</p>
+<p><img src="http://yuan.dkngit.com:14010/wp-content/uploads/2018/12/%E8%BD%AC%E6%8D%A2%E8%A1%A8%E6%A0%BC.jpg" alt></p>
+<p>位与字节转换表</p>
+<h2 id="二、进制换算"><a href="#二、进制换算" class="headerlink" title="二、进制换算"></a><a href="https://www.cnblogs.com/gaizai/p/4233780.html" target="_blank" rel="noopener">二、进制换算</a></h2><h3 id="一-（二、八、十六进制）-→-（十进制）"><a href="#一-（二、八、十六进制）-→-（十进制）" class="headerlink" title="(一) （二、八、十六进制） → （十进制）"></a><strong>(一) （二、八、十六进制） → （十进制）</strong></h3><p><img src="http://yuan.dkngit.com:14010/wp-content/uploads/2018/12/image-33.png" alt></p>
+<p>其他进制转换为十进制</p>
+<h4 id="1、二进制-→-十进制"><a href="#1、二进制-→-十进制" class="headerlink" title="1、二进制 → 十进制"></a><strong>1、二进制 → 十进制</strong></h4><p>　　方法：二进制数从低位到高位（即从右往左）计算，第0位的权值是2的0次方，第1位的权值是2的1次方，第2位的权值是2的2次方，依次递增下去，把最后的结果相加的值就是十进制的值了。</p>
+<p>　　例：将二进制的(101011)B转换为十进制的步骤如下：</p>
+<p>1. 第0位 1 x 2^0 = 1；</p>
+<p>2. 第1位 1 x 2^1 = 2；</p>
+<p>3. 第2位 0 x 2^2 = 0；</p>
+<p>4. 第3位 1 x 2^3 = 8；</p>
+<p>5. 第4位 0 x 2^4 = 0；</p>
+<p>6. 第5位 1 x 2^5 = 32；</p>
+<p>7. 读数，把结果值相加，1+2+0+8+0+32=43，即(101011)B=(43)D。</p>
+<h4 id="2、八进制-→-十进制"><a href="#2、八进制-→-十进制" class="headerlink" title="2、八进制 → 十进制"></a><strong>2、八进制 → 十进制</strong></h4><p>　　方法：八进制数从低位到高位（即从右往左）计算，第0位的权值是8的0次方，第1位的权值是8的1次方，第2位的权值是8的2次方，依次递增下去，把最后的结果相加的值就是十进制的值了。</p>
+<p>　　八进制就是逢8进1，八进制数采用 0～7这八数来表达一个数。</p>
+<p>　　例：将八进制的(53)O转换为十进制的步骤如下：</p>
+<p>1. 第0位 3 x 8^0 = 3；</p>
+<p>2. 第1位 5 x 8^1 = 40；</p>
+<p>3. 读数，把结果值相加，3+40=43，即(53)O=(43)D。</p>
+<h4 id="3、十六进制-→-十进制"><a href="#3、十六进制-→-十进制" class="headerlink" title="3、十六进制 → 十进制"></a><strong>3、十六进制 → 十进制</strong></h4><p>　　方法：十六进制数从低位到高位（即从右往左）计算，第0位的权值是16的0次方，第1位的权值是16的1次方，第2位的权值是16的2次方，依次递增下去，把最后的结果相加的值就是十进制的值了。</p>
+<p>　　十六进制就是逢16进1，十六进制的16个数为0123456789ABCDEF。</p>
+<p>　　例：将十六进制的(2B)H转换为十进制的步骤如下：</p>
+<p>1. 第0位 B x 16^0 = 11；</p>
+<p>2. 第1位 2 x 16^1 = 32；</p>
+<p>3. 读数，把结果值相加，11+32=43，即(2B)H=(43)D。</p>
+<h3 id="二-（十进制）-→-（二、八、十六进制）"><a href="#二-（十进制）-→-（二、八、十六进制）" class="headerlink" title="(二) （十进制） → （二、八、十六进制）"></a><strong>(二) （十进制） → （二、八、十六进制）</strong></h3><p><a href="https://images0.cnblogs.com/blog/48305/201501/191445595475175.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446004698089.png" alt="wpsC01F.tmp"></a></p>
+<p>（Figure3：十进制转换为其它进制）</p>
+<h4 id="1、十进制-→-二进制"><a href="#1、十进制-→-二进制" class="headerlink" title="1、十进制 → 二进制"></a><strong>1、十进制 → 二进制</strong></h4><p>　　方法：除2取余法，即每次将整数部分除以2，余数为该位权上的数，而商继续除以2，余数又为上一个位权上的数，这个步骤一直持续下去，直到商为0为止，最后读数时候，从最后一个余数读起，一直到最前面的一个余数。 </p>
+<p>　　例：将十进制的(43)D转换为二进制的步骤如下：</p>
+<p>1. 将商43除以2，商21余数为1；</p>
+<p>2. 将商21除以2，商10余数为1；</p>
+<p>3. 将商10除以2，商5余数为0；</p>
+<p>4. 将商5除以2，商2余数为1；</p>
+<p>5. 将商2除以2，商1余数为0； </p>
+<p>6. 将商1除以2，商0余数为1； </p>
+<p>7. 读数，因为最后一位是经过多次除以2才得到的，因此它是最高位，读数字从最后的余数向前读，101011，即(43)D=(101011)B。</p>
+<p><a href="https://images0.cnblogs.com/blog/48305/201501/191446012199718.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446019539875.png" alt="wpsC02F.tmp"></a></p>
+<p>（Figure4：图解十进制 → 二进制）</p>
+<h4 id="2、十进制-→-八进制"><a href="#2、十进制-→-八进制" class="headerlink" title="2、十进制 → 八进制"></a><strong>2、十进制 → 八进制</strong></h4><p>　　方法1：除8取余法，即每次将整数部分除以8，余数为该位权上的数，而商继续除以8，余数又为上一个位权上的数，这个步骤一直持续下去，直到商为0为止，最后读数时候，从最后一个余数起，一直到最前面的一个余数。</p>
+<p>　　例：将十进制的(796)D转换为八进制的步骤如下：</p>
+<p>1. 将商796除以8，商99余数为4；</p>
+<p>2. 将商99除以8，商12余数为3；</p>
+<p>3. 将商12除以8，商1余数为4；</p>
+<p>4. 将商1除以8，商0余数为1；</p>
+<p>5. 读数，因为最后一位是经过多次除以8才得到的，因此它是最高位，读数字从最后的余数向前读，1434，即(796)D=(1434)O。</p>
+<p><a href="https://images0.cnblogs.com/blog/48305/201501/191446027976234.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446033751877.png" alt="wpsC030.tmp"></a></p>
+<p>（Figure5：图解十进制 → 八进制）</p>
+<p>　　方法2：使用间接法，先将十进制转换成二进制，然后将二进制又转换成八进制；</p>
+<p><a href="https://images0.cnblogs.com/blog/48305/201501/191446044383535.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446059386793.png" alt="wpsC031.tmp"></a></p>
+<p>（Figure6：图解十进制 → 八进制）</p>
+<h4 id="3、十进制-→-十六进制"><a href="#3、十进制-→-十六进制" class="headerlink" title="3、十进制 → 十六进制"></a><strong>3、十进制 → 十六进制</strong></h4><p>　　方法1：除16取余法，即每次将整数部分除以16，余数为该位权上的数，而商继续除以16，余数又为上一个位权上的数，这个步骤一直持续下去，直到商为0为止，最后读数时候，从最后一个余数起，一直到最前面的一个余数。</p>
+<p>　　例：将十进制的(796)D转换为十六进制的步骤如下：</p>
+<p>1. 将商796除以16，商49余数为12，对应十六进制的C；</p>
+<p>2. 将商49除以16，商3余数为1；</p>
+<p>3. 将商3除以16，商0余数为3；</p>
+<p>4. 读数，因为最后一位是经过多次除以16才得到的，因此它是最高位，读数字从最后的余数向前读，31C，即(796)D=(31C)H。</p>
+<p><a href="https://images0.cnblogs.com/blog/48305/201501/191446073607794.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446083759737.png" alt="wpsC042.tmp"></a></p>
+<p>（Figure7：图解十进制 → 十六进制）</p>
+<p>　　方法2：使用间接法，先将十进制转换成二进制，然后将二进制又转换成十六进制；</p>
+<p><a href="https://images0.cnblogs.com/blog/48305/201501/191446096567695.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446107502896.png" alt="wpsC043.tmp"></a></p>
+<p>（Figure8：图解十进制 → 十六进制）</p>
+<h3 id="三-（二进制）-↔-（八、十六进制）"><a href="#三-（二进制）-↔-（八、十六进制）" class="headerlink" title="(三) （二进制） ↔ （八、十六进制）"></a><strong>(三) （二进制） ↔ （八、十六进制）</strong></h3><p><a href="https://images0.cnblogs.com/blog/48305/201501/191446117669540.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446126101198.png" alt="wpsC044.tmp"></a></p>
+<p>（Figure9：二进制转换为其它进制）</p>
+<h4 id="1、二进制-→-八进制"><a href="#1、二进制-→-八进制" class="headerlink" title="1、二进制 → 八进制"></a><strong>1、二进制 → 八进制</strong></h4><p>　　方法：取三合一法，即从二进制的小数点为分界点，向左（向右）每三位取成一位，接着将这三位二进制按权相加，然后，按顺序进行排列，小数点的位置不变，得到的数字就是我们所求的八进制数。如果向左（向右）取三位后，取到最高（最低）位时候，如果无法凑足三位，可以在小数点最左边（最右边），即整数的最高位（最低位）添0，凑足三位。</p>
+<p>　　例：将二进制的(11010111.0100111)B转换为八进制的步骤如下：</p>
+<p>1. 小数点前111 = 7；</p>
+<p>2. 010 = 2；</p>
+<p>3. 11补全为011，011 = 3；</p>
+<p>4. 小数点后010 = 2；</p>
+<p>5. 011 = 3；</p>
+<p>6. 1补全为100，100 = 4；</p>
+<p>7. 读数，读数从高位到低位，即(11010111.0100111)B=(327.234)O。</p>
+<p><a href="https://images0.cnblogs.com/blog/48305/201501/191446138756684.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446144855271.png" alt="wpsC054.tmp"></a></p>
+<p>（Figure10：图解二进制 → 八进制）</p>
+<p>二进制与八进制编码对应表：</p>
+<p>二进制</p>
+<p>八进制</p>
+<p>000</p>
+<p>0</p>
+<p>001</p>
+<p>1</p>
+<p>010</p>
+<p>2</p>
+<p>011</p>
+<p>3</p>
+<p>100</p>
+<p>4</p>
+<p>101</p>
+<p>5</p>
+<p>110</p>
+<p>6</p>
+<p>111</p>
+<p>7</p>
+<h4 id="2、八进制-→-二进制"><a href="#2、八进制-→-二进制" class="headerlink" title="2、八进制 → 二进制"></a><strong>2、八进制 → 二进制</strong></h4><p>　　方法：取一分三法，即将一位八进制数分解成三位二进制数，用三位二进制按权相加去凑这位八进制数，小数点位置照旧。</p>
+<p>　　例：将八进制的(327)O转换为二进制的步骤如下：</p>
+<p>1. 3 = 011；</p>
+<p>2. 2 = 010；</p>
+<p>3. 7 = 111；</p>
+<p>4. 读数，读数从高位到低位，011010111，即(327)O=(11010111)B。</p>
+<p><a href="https://images0.cnblogs.com/blog/48305/201501/191446152665143.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446161888058.png" alt="wpsC055.tmp"></a></p>
+<p>（Figure11：图解八进制 → 二进制）</p>
+<h4 id="3、二进制-→-十六进制"><a href="#3、二进制-→-十六进制" class="headerlink" title="3、二进制 → 十六进制"></a><strong>3、二进制 → 十六进制</strong></h4><p>　　方法：取四合一法，即从二进制的小数点为分界点，向左（向右）每四位取成一位，接着将这四位二进制按权相加，然后，按顺序进行排列，小数点的位置不变，得到的数字就是我们所求的十六进制数。如果向左（向右）取四位后，取到最高（最低）位时候，如果无法凑足四位，可以在小数点最左边（最右边），即整数的最高位（最低位）添0，凑足四位。</p>
+<p>　　例：将二进制的(11010111)B转换为十六进制的步骤如下：</p>
+<p>1. 0111 = 7；</p>
+<p>2. 1101 = D；</p>
+<p>3. 读数，读数从高位到低位，即(11010111)B=(D7)H。</p>
+<p><a href="https://images0.cnblogs.com/blog/48305/201501/191446167506929.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446173913759.png" alt="wpsC056.tmp"></a></p>
+<p>（Figure12：图解二进制 → 十六进制）</p>
+<h4 id="4、十六进制-→-二进制"><a href="#4、十六进制-→-二进制" class="headerlink" title="4、十六进制 → 二进制"></a><strong>4、十六进制 → 二进制</strong></h4><p>　　方法：取一分四法，即将一位十六进制数分解成四位二进制数，用四位二进制按权相加去凑这位十六进制数，小数点位置照旧。</p>
+<p>　　例：将十六进制的(D7)H转换为二进制的步骤如下：</p>
+<p>1. D = 1101；</p>
+<p>2. 7 = 0111；</p>
+<p>3. 读数，读数从高位到低位，即(D7)H=(11010111)B。</p>
+<p><a href="https://images0.cnblogs.com/blog/48305/201501/191446183444917.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446194223347.png" alt="wpsC057.tmp"></a></p>
+<p>（Figure13：图解十六进制 → 二进制）</p>
+<h3 id="四-（八进制）-↔-（十六进制）"><a href="#四-（八进制）-↔-（十六进制）" class="headerlink" title="(四) （八进制） ↔ （十六进制）"></a><strong>(四) （八进制） ↔ （十六进制）</strong></h3><p><a href="https://images0.cnblogs.com/blog/48305/201501/191446207353847.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446216102748.png" alt="wpsC058.tmp"></a></p>
+<p>（Figure14：八进制与十六进制之间的转换）</p>
+<h4 id="1、八进制-→-十六进制"><a href="#1、八进制-→-十六进制" class="headerlink" title="1、八进制 → 十六进制"></a><strong>1、八进制 → 十六进制</strong></h4><p>　　方法：将八进制转换为二进制，然后再将二进制转换为十六进制，小数点位置不变。</p>
+<p>　　例：将八进制的(327)O转换为十六进制的步骤如下：</p>
+<p>1. 3 = 011；</p>
+<p>2. 2 = 010；</p>
+<p>3. 7 = 111；</p>
+<p>4. 0111 = 7；</p>
+<p>5. 1101 = D；</p>
+<p>6. 读数，读数从高位到低位，D7，即(327)O=(D7)H。</p>
+<p><a href="https://images0.cnblogs.com/blog/48305/201501/191446224386634.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446233756320.png" alt="wpsC069.tmp"></a></p>
+<p>（Figure15：图解八进制 → 十六进制）</p>
+<h4 id="2、十六进制-→-八进制"><a href="#2、十六进制-→-八进制" class="headerlink" title="2、十六进制 → 八进制"></a><strong>2、十六进制 → 八进制</strong></h4><p>　　方法：将十六进制转换为二进制，然后再将二进制转换为八进制，小数点位置不变。</p>
+<p>　　例：将十六进制的(D7)H转换为八进制的步骤如下：</p>
+<p>1. 7 = 0111；</p>
+<p>2. D = 1101；</p>
+<p>3. 0111 = 7；</p>
+<p>4. 010 = 2；</p>
+<p>5. 011 = 3；</p>
+<p>6. 读数，读数从高位到低位，327，即(D7)H=(327)O。</p>
+<p><a href="https://images0.cnblogs.com/blog/48305/201501/191446245008763.png" target="_blank" rel="noopener"><img src="https://images0.cnblogs.com/blog/48305/201501/191446253919136.png" alt="wpsC06A.tmp"></a></p>
+<p>（Figure16：图解十六进制 → 八进制）</p>
+
+    </div>
+
+    
+    
+    
+      
+        <div class="reward-container">
+  <div></div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Rookie 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Rookie 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/12/25/e5-ad-a6-e4-b9-a0-e6-96-b9-e6-b3-95-e5-8f-8a-e5-9f-ba-e7-a1-80-e7-9f-a5-e8-af-86-2/" rel="prev" title="CCNA笔记——1、学习方法">
+                  CCNA笔记——1、学习方法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzM4OS8yMzg4OQ=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、位（bit）与字节（byte）"><span class="nav-number">1.</span> <span class="nav-text">一、位（bit）与字节（byte）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（一）位（bit）"><span class="nav-number">1.1.</span> <span class="nav-text">（一）位（bit）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（二）字节（byte）"><span class="nav-number">1.2.</span> <span class="nav-text">（二）字节（byte）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（三）位与字节关系举例"><span class="nav-number">1.3.</span> <span class="nav-text">（三）位与字节关系举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、进制换算"><span class="nav-number">2.</span> <span class="nav-text">二、进制换算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-（二、八、十六进制）-→-（十进制）"><span class="nav-number">2.1.</span> <span class="nav-text">(一) （二、八、十六进制） → （十进制）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、二进制-→-十进制"><span class="nav-number">2.1.1.</span> <span class="nav-text">1、二进制 → 十进制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、八进制-→-十进制"><span class="nav-number">2.1.2.</span> <span class="nav-text">2、八进制 → 十进制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、十六进制-→-十进制"><span class="nav-number">2.1.3.</span> <span class="nav-text">3、十六进制 → 十进制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-（十进制）-→-（二、八、十六进制）"><span class="nav-number">2.2.</span> <span class="nav-text">(二) （十进制） → （二、八、十六进制）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、十进制-→-二进制"><span class="nav-number">2.2.1.</span> <span class="nav-text">1、十进制 → 二进制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、十进制-→-八进制"><span class="nav-number">2.2.2.</span> <span class="nav-text">2、十进制 → 八进制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、十进制-→-十六进制"><span class="nav-number">2.2.3.</span> <span class="nav-text">3、十进制 → 十六进制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-（二进制）-↔-（八、十六进制）"><span class="nav-number">2.3.</span> <span class="nav-text">(三) （二进制） ↔ （八、十六进制）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、二进制-→-八进制"><span class="nav-number">2.3.1.</span> <span class="nav-text">1、二进制 → 八进制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、八进制-→-二进制"><span class="nav-number">2.3.2.</span> <span class="nav-text">2、八进制 → 二进制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、二进制-→-十六进制"><span class="nav-number">2.3.3.</span> <span class="nav-text">3、二进制 → 十六进制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、十六进制-→-二进制"><span class="nav-number">2.3.4.</span> <span class="nav-text">4、十六进制 → 二进制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-（八进制）-↔-（十六进制）"><span class="nav-number">2.4.</span> <span class="nav-text">(四) （八进制） ↔ （十六进制）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、八进制-→-十六进制"><span class="nav-number">2.4.1.</span> <span class="nav-text">1、八进制 → 十六进制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、十六进制-→-八进制"><span class="nav-number">2.4.2.</span> <span class="nav-text">2、十六进制 → 八进制</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Rookie"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Rookie</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rookie</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
