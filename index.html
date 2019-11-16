@@ -240,7 +240,24 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2019-11-16 17:28:58 / 修改时间：17:29:13" itemprop="dateCreated datePublished" datetime="2019-11-16T17:28:58+08:00">2019-11-16</time>
+              <time title="创建时间：2019-11-16 17:28:58 / 修改时间：18:33:08" itemprop="dateCreated datePublished" datetime="2019-11-16T17:28:58+08:00">2019-11-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
             </span>
 
           
@@ -254,7 +271,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <h2 id="一、用什么模拟器"><a href="#一、用什么模拟器" class="headerlink" title="一、用什么模拟器"></a>一、用什么模拟器</h2><h3 id="（一）cisco-packet-tracer"><a href="#（一）cisco-packet-tracer" class="headerlink" title="（一）cisco packet tracer"></a>（一）cisco packet tracer</h3><p>cisco packet tracer 是思科出品的模拟器，界面、功能和使用都非常简单，对新手十分友好，基本上一学就会。不足是这个模拟器相对简单，一些命令无法运行，不过基本能满足NA阶段的学习。</p>
+<h3 id="（二）GNS3"><a href="#（二）GNS3" class="headerlink" title="（二）GNS3"></a>（二）GNS3</h3><p>GNS3是一个于2008年发布的网络软件模拟器，它允许组合的虚拟和实际设备，用于模拟复杂的网络。 它使用Dynamips模拟软件来模拟Cisco IOS。GNS3在很多大型公司中也有广泛的应用，例如埃克森公司、沃尔玛、AT&amp;T和美国宇航局。功能上比cisco packet tracer 要丰富的多，但相对真机还是有一定差距且使用起来有一些比较麻烦的地方。</p>
+<h3 id="（三）EVE-NG"><a href="#（三）EVE-NG" class="headerlink" title="（三）EVE-NG"></a>（三）EVE-NG</h3><p>个人推荐使用EVE，因为EVE不仅可以模拟网络设备，也可以运行一切虚拟机，可以算得上是仿真虚拟环境，给用户最接近真实网络设备的体验；它是深度定制的Ubuntu操作系统，可以直接把它安装在x86架构的物理主机上。它也有ova版本，可以导入到VMware等虚拟机软件中运行。EVE-NG在交互模式上更加具有优势，与GNS3截然不同。GNS3更像是用户使用的软件，只有GNS3支持的 OS才能使用；而EVE-NG更像是CS模型，EVE-NG是服务端，用户端可以是支持http/https的任意OS。</p>
+<h3 id="（四）NetSim"><a href="#（四）NetSim" class="headerlink" title="（四）NetSim"></a>（四）NetSim</h3><p>该软件相比之前几个软件，对新手更加友好，有很多设计好的实验，针对每一步的配置均有讲解，但该软件是全英文版，而且是付费软件，由于使用人数不多破解版本并不好找。</p>
+<h2 id="二、EVE-NG安装及设置"><a href="#二、EVE-NG安装及设置" class="headerlink" title="二、EVE-NG安装及设置"></a>二、EVE-NG安装及设置</h2><h3 id="（一）所需软件"><a href="#（一）所需软件" class="headerlink" title="（一）所需软件"></a>（一）所需软件</h3><p>EVE-NG的虚拟机文件、VMware-workstation（推荐用14以上版本，14之前的版本有安全隐患）、火狐浏览器、SecureCRT以及EVE-NG-Win-Client-Pack安装包。</p>
+<h3 id="（二）安装步骤"><a href="#（二）安装步骤" class="headerlink" title="（二）安装步骤"></a>（二）安装步骤</h3><h4 id="1、安装VMware-workstation"><a href="#1、安装VMware-workstation" class="headerlink" title="1、安装VMware-workstation"></a>1、安装VMware-workstation</h4><h4 id="2、导入虚拟机文件"><a href="#2、导入虚拟机文件" class="headerlink" title="2、导入虚拟机文件"></a>2、导入虚拟机文件</h4><h4 id="3、在BIOS中开启虚拟化功能"><a href="#3、在BIOS中开启虚拟化功能" class="headerlink" title="3、在BIOS中开启虚拟化功能"></a>3、在BIOS中开启虚拟化功能</h4><h4 id="4、设置虚拟机参数"><a href="#4、设置虚拟机参数" class="headerlink" title="4、设置虚拟机参数"></a>4、设置虚拟机参数</h4><h2 id="三、EVE-NG使用简略说明"><a href="#三、EVE-NG使用简略说明" class="headerlink" title="三、EVE-NG使用简略说明"></a>三、EVE-NG使用简略说明</h2><h3 id="（一）登陆"><a href="#（一）登陆" class="headerlink" title="（一）登陆"></a>（一）登陆</h3><h3 id="（二）新建实验拓扑"><a href="#（二）新建实验拓扑" class="headerlink" title="（二）新建实验拓扑"></a>（二）新建实验拓扑</h3><h3 id="（三）设置及保存开机启动配置"><a href="#（三）设置及保存开机启动配置" class="headerlink" title="（三）设置及保存开机启动配置"></a>（三）设置及保存开机启动配置</h3><h3 id="（四）命令行杂记"><a href="#（四）命令行杂记" class="headerlink" title="（四）命令行杂记"></a>（四）命令行杂记</h3><p>show run | section XXX</p>
+<p>show run 是查看所有运行在内存里的配置，在show run 后接管道符“|”（在英文输入状态下，按shift + 回车上面的键，即可输入管道符）section后面接所需要看的命令抬头，比如可以接 ip route ，表示只查看静态路由的相关配置。</p>
+<p>int range f0/0 - 2</p>
+<p>range 命令可以同时进入多个接口，进行普遍性的操作配置</p>
+<h3 id="（五）secure-CRT"><a href="#（五）secure-CRT" class="headerlink" title="（五）secure CRT"></a>（五）secure CRT</h3><p>窗口切换快捷键：Ctrl+Tab</p>
+
       
     </div>
 
@@ -298,7 +325,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2019-11-16 16:54:01 / 修改时间：17:26:03" itemprop="dateCreated datePublished" datetime="2019-11-16T16:54:01+08:00">2019-11-16</time>
+              <time title="创建时间：2019-11-16 16:54:01 / 修改时间：18:18:06" itemprop="dateCreated datePublished" datetime="2019-11-16T16:54:01+08:00">2019-11-16</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -306,14 +333,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
                   </a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
                   </a>
                 </span>
             </span>
@@ -333,11 +360,14 @@
 <p>（一）What：这个技术是什么，搞清楚这项技术是什么。</p>
 <p>（二）Why\When\Where：为什么什么时候在哪使用这项技术，搞清楚使用这项技术解决了现网中的哪些问题。</p>
 <p>（三）How：如何使用这项技术，搞清楚这项技术的原理、结构和实现方法、流程。 多看书，多做实验是提升技术水平的真正方式，多敲命令是为了更好的理解技术，从根本上理解这项技术才是关键。关键字段的含义最好记住，即使无法一下理解也没关系，等以后学会抓包分析的时候就会慢慢理解了。</p>
-<h2 id="二、遇到问题如何找寻答案"><a href="#二、遇到问题如何找寻答案" class="headerlink" title="二、遇到问题如何找寻答案"></a>二、遇到问题如何找寻答案</h2><p>如果周围有懂技术的朋友，请教他们是最快捷最直接的解决办法，但还是更建议通过搜索引擎、官方文档或做实验寻找答案，因为人的大脑可能记错答案但官方文档一般来说是不会出问题的，国内技术类网站都是中文，可以解决常见的一些疑问，但如果有比较冷门一些的问题，可能国内的中文网站已经很难找到解答，这时候思科的官方文档和官方社区是最好的求助对象，尤其是思科的官方论坛，经常有思科员工和技术大佬过去回答问题，是提升自我非常好的学习渠道，老外对技术细节的讨论十分到位，基本可以解决大部分疑惑。 搜索引擎尽量别用百度，搜索的效率相对低一些，容易浪费时间。</p>
-<h2 id="三、抓包有什么用？"><a href="#三、抓包有什么用？" class="headerlink" title="三、抓包有什么用？"></a>三、抓包有什么用？</h2><p>有一些故障的现象并不明显，并不是看配置就能那么轻易的找到问题的答案的，需要去抓包分析，分析包的行为能帮助你给出一个排错的大概方向。一般来说 TCP用的比较多，IP头看分片，TOS字段比较多。TCP的话主要看TCP的一些机制和算法。</p>
-<h2 id="四、如何下载学习资料"><a href="#四、如何下载学习资料" class="headerlink" title="四、如何下载学习资料"></a>四、如何下载学习资料</h2><p>推荐两个论坛，<a href="http://bbs.hh010.com/" target="_blank" rel="noopener">鸿鹄论坛</a>以及<a href="http://bbs.vlan5.com/" target="_blank" rel="noopener">攻城狮论坛</a>。鸿鹄论坛上的考试题库更新比较快，包含版本比较新，也有一些学习资料；攻城狮论坛上的学习资料比较丰富，基本上所有需要的资料在攻城狮论坛都能下载到。</p>
-<h2 id="五、厂商的认证是否有必要考？"><a href="#五、厂商的认证是否有必要考？" class="headerlink" title="五、厂商的认证是否有必要考？"></a>五、厂商的认证是否有必要考？</h2><p>谈一下我浅薄的看法，对个人来说，应该将备考的过程视为提高自己技术水平的过程，在这个过程中加深对技术的理解和掌握，而不是指着证书带你走向人生巅峰，证书带不来高薪职位，技术水平才是王道。一般来说有个认证能够让企业的招聘者对你的技术水平有个大概的定位，在进入面试环节之前给你一点帮助，但如果进入面试以后面试官发现你名不副实，花大价钱考下来的证书就显得一点用没有了。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/16/how-to-learn-network-knowledge/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -381,7 +411,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2019-11-16 15:06:16 / 修改时间：16:51:14" itemprop="dateCreated datePublished" datetime="2019-11-16T15:06:16+08:00">2019-11-16</time>
+              <time title="创建时间：2019-11-16 15:06:16 / 修改时间：18:17:36" itemprop="dateCreated datePublished" datetime="2019-11-16T15:06:16+08:00">2019-11-16</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -389,14 +419,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
                   </a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
                   </a>
                 </span>
             </span>
@@ -510,7 +540,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-16 15:09:37" itemprop="dateModified" datetime="2019-11-16T15:09:37+08:00">2019-11-16</time>
+                <time title="修改时间：2019-11-16 18:26:58" itemprop="dateModified" datetime="2019-11-16T18:26:58+08:00">2019-11-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -518,14 +548,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
                   </a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
                   </a>
                 </span>
             </span>
@@ -654,7 +684,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-16 15:09:37" itemprop="dateModified" datetime="2019-11-16T15:09:37+08:00">2019-11-16</time>
+                <time title="修改时间：2019-11-16 18:27:02" itemprop="dateModified" datetime="2019-11-16T18:27:02+08:00">2019-11-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -662,14 +692,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
                   </a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
                   </a>
                 </span>
             </span>
@@ -781,7 +811,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-16 17:27:31" itemprop="dateModified" datetime="2019-11-16T17:27:31+08:00">2019-11-16</time>
+                <time title="修改时间：2019-11-16 18:33:19" itemprop="dateModified" datetime="2019-11-16T18:33:19+08:00">2019-11-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -789,14 +819,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
                   </a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
                   </a>
                 </span>
             </span>
@@ -941,7 +971,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-16 15:09:37" itemprop="dateModified" datetime="2019-11-16T15:09:37+08:00">2019-11-16</time>
+                <time title="修改时间：2019-11-16 18:26:51" itemprop="dateModified" datetime="2019-11-16T18:26:51+08:00">2019-11-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -949,14 +979,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
                   </a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
                   </a>
                 </span>
             </span>
@@ -1032,7 +1062,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-16 15:09:37" itemprop="dateModified" datetime="2019-11-16T15:09:37+08:00">2019-11-16</time>
+                <time title="修改时间：2019-11-16 18:26:54" itemprop="dateModified" datetime="2019-11-16T18:26:54+08:00">2019-11-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1040,14 +1070,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
                   </a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CCNA/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
                   </a>
                 </span>
             </span>
