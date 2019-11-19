@@ -25,7 +25,9 @@
 <h3 id="（四）上三层，下四层"><a href="#（四）上三层，下四层" class="headerlink" title="（四）上三层，下四层"></a>（四）上三层，下四层</h3><p>下四层：物理层、链路层、网络层、传输层都是运行协议数据等保证网络通畅；接着的上面三层：会话层、表示层、应用层都是用来控制会话等。 </p>
 <h3 id="（五）TCP-IP模型和OSI模型"><a href="#（五）TCP-IP模型和OSI模型" class="headerlink" title="（五）TCP\IP模型和OSI模型"></a>（五）TCP\IP模型和OSI模型</h3><p><img src="/2019/11/18/OSI-7/OSI-VS-TCPIP.jpg" alt="OSI-VS-TCPIP"></p>
 <p>OSI七层模型是 ISO（国际标准化组织）制定的，为了方便学习把层级分的比较多，这七层涵盖很多分类过细导致协议太复杂实现较困难，厂家自己搞出了另一套通信协议，叫做TCP/IP，只有四层实现起来也较为方便简单，所以目前使用的几乎都是TCP/IP协议栈，现在的互联网也是基于TCP/IP的，所以在学习网络知识的时候，都是参照OSI模型的，但在使用的时候，都是使用TCP/IP模型。</p>
-<h2 id="五、各层介绍"><a href="#五、各层介绍" class="headerlink" title="五、各层介绍"></a>五、各层介绍</h2><h3 id="（第七层）应用层（Application）"><a href="#（第七层）应用层（Application）" class="headerlink" title="（第七层）应用层（Application）"></a>（第七层）应用层（Application）</h3><p>就是应用软件使用的协议，如邮箱使用的POP3，SMTP、远程登录使用的Telnet、获取IP地址的DHCP、域名解析的DNS、网页浏览的http协议等；这部分协议主要是规定应用软件如何去进行通信的。</p>
+<h3 id="（六）全双工、半双工"><a href="#（六）全双工、半双工" class="headerlink" title="（六）全双工、半双工"></a>（六）全双工、半双工</h3><p><strong>全双工</strong>（Full Duplex）是通讯传输的一个术语。 通信允许数据在两个方向上同时传输，它在能力上相当于两个单工通信方式的结合。 <strong>全双工</strong>指可以同时（瞬时）进行信号的双向传输（A→B且B→A）。 指A→B的同时B→A，是瞬时同步的。 </p>
+<p><strong>半双工</strong>(Half Duplex)数据传输指数据可以在一个信号载体的两个方向上传输，但是不能同时传输。 例如，在一个局域网上使用具有<strong>半双工</strong>传输的技术，一个工作站可以在线上发送数据，然后立即在线上接收数据，这些数据来自数据刚刚传输的方向。 </p>
+<h3 id="（七）冲突域、广播域"><a href="#（七）冲突域、广播域" class="headerlink" title="（七）冲突域、广播域"></a>（七）冲突域、广播域</h3><h2 id="五、各层介绍"><a href="#五、各层介绍" class="headerlink" title="五、各层介绍"></a>五、各层介绍</h2><h3 id="（第七层）应用层（Application）"><a href="#（第七层）应用层（Application）" class="headerlink" title="（第七层）应用层（Application）"></a>（第七层）应用层（Application）</h3><p>就是应用软件使用的协议，如邮箱使用的POP3，SMTP、远程登录使用的Telnet、获取IP地址的DHCP、域名解析的DNS、网页浏览的http协议等；这部分协议主要是规定应用软件如何去进行通信的。</p>
 <h3 id="（第六层）表示层（Presentation）"><a href="#（第六层）表示层（Presentation）" class="headerlink" title="（第六层）表示层（Presentation）"></a>（第六层）表示层（Presentation）</h3><p>决定数据的展现（编码）形式，如同一部电影可以采样、量化、编码为RMVB、AVI，一张图片能够是JPEG、BMP、PNG等。</p>
 <h3 id="（第五层）会话层（Session）"><a href="#（第五层）会话层（Session）" class="headerlink" title="（第五层）会话层（Session）"></a>（第五层）会话层（Session）</h3><p>为两端通信实体建立、管理及中断连接（会话），中间有认证鉴权以及检查点记录（供会话意外中断的时候可以继续，类似断点续传） 。</p>
 <h3 id="（第四层）传输层（Transport）-lt-数据段-gt"><a href="#（第四层）传输层（Transport）-lt-数据段-gt" class="headerlink" title="（第四层）传输层（Transport）&lt;数据段&gt;"></a>（第四层）传输层（Transport）&lt;数据段&gt;</h3><p>将一个数据/文件斩件分成很多小段，标记顺序以被对端接收后可以按顺序重组数据，另外标记该应用程序使用的端口号及提供QOS（不同的应用程序使用不同计算机的端口号，同样的应用程序需要使用一样的端口号才能正常通信） 。传输层的协议有TCP、UDP。</p>
@@ -35,6 +37,7 @@
 <p>MAC子层：介质访问控制子层</p>
 <p>LLC子层提供服务访问点（SAP），标识上层协议</p>
 <h3 id="（第一层）物理层-Physical-Layer-lt-比特-gt"><a href="#（第一层）物理层-Physical-Layer-lt-比特-gt" class="headerlink" title="（第一层）物理层(Physical Layer)&lt;比特&gt;"></a>（第一层）物理层(Physical Layer)&lt;比特&gt;</h3><p>将数据最终编码为用0、1标识的比特流，然后传输。（例如将QQ头像的图片，变为一串01100111100这样的数字来表示）。 <strong>物理层的作用就是通过物理手段把电脑连接起来，它主要规定了网络的一些电气特性，作用是负责传送0和1的电信号。物理层的协议有蓝牙（802.15）等。</strong></p>
+<p>物理层典型的设备有集线器（hub）、中继器（reperter）.中继器可以放大信号，延长网线传输距离。一般网线理论传输距离为100米，实际工作中不建议在超过70米的地方使用，丢包会很严重，传输质量无法保障；集线器相当于一个多端口的中继器，也能起到信号放大的作用，但集线器在半双工模式下工作，同一时间只能有一个方向的数据可以传输，发送的时候不能接收，接收的时候不能发送，所以集线器的所有接口都属于同一个冲突域。集线器的工作过程是接收到一个端口发来的数据后，将数据直接转发到除接收到这个数据的端口以外的所有端口上，工作效率比较低下，集线器已经被淘汰。</p>
 <h2 id="五、封装、解封装"><a href="#五、封装、解封装" class="headerlink" title="五、封装、解封装"></a>五、封装、解封装</h2><h3 id="（一）封装"><a href="#（一）封装" class="headerlink" title="（一）封装"></a>（一）封装</h3><h4 id="1、定义"><a href="#1、定义" class="headerlink" title="1、定义"></a>1、定义</h4><p>将数据变为比特流的过程中，在参考模型的每一层需要添加上特定的协议报头动作。</p>
 <h4 id="2、动作"><a href="#2、动作" class="headerlink" title="2、动作"></a>2、动作</h4><p><img src="/2019/11/18/OSI-7/osiencap.png" alt="osiencap"></p>
 <p><img src="/2019/11/18/OSI-7/ipencap-1574084483652.png" alt="ipencap"></p>
@@ -53,7 +56,7 @@
 <p>（3）解封装一旦停止，数据就会被丢弃</p>
 <p>（4）解封装由接收者触发，数据必须经过解封装才可以被接受</p>
 <h3 id="（三）PDU"><a href="#（三）PDU" class="headerlink" title="（三）PDU"></a>（三）PDU</h3><p><strong>PUD</strong>即协议数据单元（英语：Protocol Data Unit，缩写为_PDU_）。PDU包含来自上层的信息，以及当前层的实体附加的信息。 协议数据单元(Protocol Data Unit )物理层的 PDU是数据位（bit），数据链路层的 PDU是数据帧（frame），网络层的PDU是数据包（packet），传输层的 PDU是数据段（segment），其他更高层次的PDU是报文（message）。</p>
-<h2 id="五、OSI模型通信流程"><a href="#五、OSI模型通信流程" class="headerlink" title="五、OSI模型通信流程"></a>五、OSI模型通信流程</h2><h3 id="（一）A——B通信说明"><a href="#（一）A——B通信说明" class="headerlink" title="（一）A——B通信说明"></a>（一）A——B通信说明</h3><p>两主机通信的过程，从发送者（以下简称A）到接收者（以下简称B），属于从7层（应用层）-&gt;1层（物理层）封装，然后传输到远端，再从1层（物理层）-&gt;7层（应用层）解封装的过程。</p>
+<h2 id="五、通信流程说明"><a href="#五、通信流程说明" class="headerlink" title="五、通信流程说明"></a>五、通信流程说明</h2><h3 id="（一）A——B通信说明（按OSI七层模型）"><a href="#（一）A——B通信说明（按OSI七层模型）" class="headerlink" title="（一）A——B通信说明（按OSI七层模型）"></a>（一）A——B通信说明（按OSI七层模型）</h3><p>两主机通信的过程，从发送者（以下简称A）到接收者（以下简称B），属于从7层（应用层）-&gt;1层（物理层）封装，然后传输到远端，再从1层（物理层）-&gt;7层（应用层）解封装的过程。</p>
 <p>2个主机之间的通信，对于2台主机来说，肯定是都需要跨越7层的，而平常说的只需要去到2层或者3层，其实是对于中间系统而言的，就是说中间的交换机、路由器而言。</p>
 <p>1、 当A打开了QQ这个软件，相当就到达<strong>应用层</strong>了；因为软件会根据你的操作调动机器底层的硬件工作了。  </p>
 <p>2、 当A往QQ这个软件的聊天窗口里面输入信息，发出后，QQ会将这个信息保存在本地聊天记录文件MSGEX.db（一般就保存在QQ目录下以你的QQ号码为文件夹里）。以某种格式编码/保存某种信息，这可以理解为<strong>表示层</strong>了。  </p>
@@ -65,11 +68,11 @@
 <p>6、 然后再到<strong>数据链路层</strong>，数据链路层主要是负责同一个子网内的通信的。例如A、B连接在同一台二层交换机，就属于同一个子网，那么数据帧的通信室是不需要通过网络层的（即三层交换机或者路由器），直接在这台二层交换机就过去了。这一层打的是MAC地址的帧头，对于上述通信过程来说，就是为数据帧打上A的机器的MAC与A的网关的MAC。这一层的工作就完成了。  </p>
 <p>7、 到<strong>物理层</strong>了，经过上述斩件、打完各层标签后的6个数据帧，物理层将他们翻译文6段0、1表示的比特流，然后通过光纤、铜缆进行传输。  </p>
 <p>8、 当比特流传输到了远端，接着B的机器按照上述的1~7的步骤反方向运行一次即可（即有物理层到应用层）。就是一层层读取标签，传输给标签标记着的相应对象，然后摘除标签，再读取上一层标签，直到最后B的应用程序能够读到A往应用程序输入的数据为止。</p>
-<h3 id="（二）LAN（局域网）通信说明"><a href="#（二）LAN（局域网）通信说明" class="headerlink" title="（二）LAN（局域网）通信说明"></a>（二）LAN（局域网）通信说明</h3><p><img src="/2019/11/18/OSI-7/6e5c71b163a849019ec55a1267d64930_r.jpg" alt="6e5c71b163a849019ec55a1267d64930_r"></p>
+<h3 id="（一）A——B通信说明（按实际）"><a href="#（一）A——B通信说明（按实际）" class="headerlink" title="（一）A——B通信说明（按实际）"></a>（一）A——B通信说明（按实际）</h3><h4 id="2、LAN（局域网）通信说明"><a href="#2、LAN（局域网）通信说明" class="headerlink" title="2、LAN（局域网）通信说明"></a>2、LAN（局域网）通信说明</h4><p><img src="/2019/11/18/OSI-7/6e5c71b163a849019ec55a1267d64930_r.jpg" alt="6e5c71b163a849019ec55a1267d64930_r"></p>
 <p>假设两端的通信实体在一个局域网内，其实传输的数据包去到交换机时，交换机拆开二层帧头，再查自身的MAC地址表，发现表里面有对应的MAC地址，然后对应的对口是哪个，如果MAC地址表中没有该数据帧的MAC地址，则将数据包泛红至所有接口，如果MAC地址表中有该数据帧的目的MAC地址，就把帧发送到该端口转发出去，源MAC地址为它的任务就完成了。中间的网络设备不需要拆卡3层的IP包头来读取里面的信息。通过转发，最好到达B主机，然后从1层拆到7层，B用户的主机最终就读取到信息了。</p>
-<h3 id="（三）WAN（广域网）通信说明"><a href="#（三）WAN（广域网）通信说明" class="headerlink" title="（三）WAN（广域网）通信说明"></a>（三）WAN（广域网）通信说明</h3><p><img src="/2019/11/18/OSI-7/d16094e183b0e225719c4f614e75e7bc_r.jpg" alt="d16094e183b0e225719c4f614e75e7bc_r"></p>
+<h4 id="3、WAN（广域网）通信说明"><a href="#3、WAN（广域网）通信说明" class="headerlink" title="3、WAN（广域网）通信说明"></a>3、WAN（广域网）通信说明</h4><p><img src="/2019/11/18/OSI-7/d16094e183b0e225719c4f614e75e7bc_r.jpg" alt="d16094e183b0e225719c4f614e75e7bc_r"></p>
 <p>由于A、B两通信实体跨域广域网，所以光靠MAC地址表，肯定是查不到的，这时候路由器会把IP包头也拆开，读取目的IP地址，根据目的IP地址查询路由表，就知道往下一跳要往哪个端口发出去了，而后重新封装上二层帧头和FCS校验字段，帧头的源MAC地址是该路由器发出端口的MAC地址，目的MAC地址为下一跳设备的MAC地址。</p>
-]]></content>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;% pullquote mindmap mindmap-md %&#125;</span><br><span class="line">- [Hexo 的思维导图插件]</span><br><span class="line">  - 前言</span><br><span class="line">  - 使用方法</span><br><span class="line">    - 一</span><br><span class="line">    - 二</span><br><span class="line">    - 三</span><br><span class="line">  - 太长不看</span><br><span class="line">  - 参考资料</span><br><span class="line">&#123;% endpullquote %&#125;</span><br></pre></td></tr></table></figure><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
         <category>CCNA</category>
@@ -205,7 +208,7 @@
 <p><a href="https://images0.cnblogs.com/blog/48305/201501/191446245008763.png" target="_blank" rel="noopener"><img src="/2019/11/18/basic-knowledge/191446253919136.png" alt="wpsC06A.tmp"></a></p>
 <p>（Figure16：图解十六进制 → 八进制）</p>
 <p>此文从 <a href="https://www.cnblogs.com/gaizai/p/4233780.html" target="_blank" rel="noopener">https://www.cnblogs.com/gaizai/p/4233780.html</a> 搬运，感谢原作者~</p>
-]]></content>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
         <category>CCNA</category>
@@ -291,7 +294,7 @@
 
 <p>IP地址为模拟器登录的IP地址，不同的设备所使用的端口不同，鼠标移到设备上会在浏览器左下角显示该设备的IP地址和端口，从端口32796开始将每个设备的参数配置到CRT中，以后使用的时候在左侧面板中点击连接该设备，配置好后以后可方便在相同窗口的不同标签中打开不同设备。</p>
 <p>窗口切换快捷键：Ctrl+Tab</p>
-]]></content>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
         <category>CCNA</category>
@@ -310,7 +313,7 @@
 <h2 id="三、抓包有什么用？"><a href="#三、抓包有什么用？" class="headerlink" title="三、抓包有什么用？"></a>三、抓包有什么用？</h2><p>有一些故障的现象并不明显，并不是看配置就能那么轻易的找到问题的答案，需要去抓包分析，分析包的行为能帮助你给出一个排错的大概方向。一般来说 TCP用的比较多，IP头看分片，TOS字段比较多。TCP的话主要看TCP的一些机制和算法。</p>
 <h2 id="四、如何下载学习资料"><a href="#四、如何下载学习资料" class="headerlink" title="四、如何下载学习资料"></a>四、如何下载学习资料</h2><p>推荐两个论坛，<a href="http://bbs.hh010.com/" target="_blank" rel="noopener">鸿鹄论坛</a>以及<a href="http://bbs.vlan5.com/" target="_blank" rel="noopener">攻城狮论坛</a>。鸿鹄论坛上的考试题库更新比较快，包含版本比较新，也有一些学习资料；攻城狮论坛上的学习资料比较丰富，基本上所有需要的资料在攻城狮论坛都能下载到。</p>
 <h2 id="五、厂商的认证是否有必要考？"><a href="#五、厂商的认证是否有必要考？" class="headerlink" title="五、厂商的认证是否有必要考？"></a>五、厂商的认证是否有必要考？</h2><p>谈一下我浅薄的看法，对个人来说，应该将备考的过程视为提高自己技术水平的过程，在这个过程中加深对技术的理解和掌握，而不是指着证书带你走向人生巅峰，证书带不来高薪职位，技术水平才是王道。一般来说有个认证能够让企业的招聘者对你的技术水平有个大概的定位，在进入面试环节之前给你一点帮助，但如果进入面试以后面试官发现你名不副实，花大价钱考下来的证书就显得一点用没有了。</p>
-]]></content>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
         <category>CCNA</category>
@@ -332,6 +335,7 @@
 <p>交叉线：一头是568A，而另一头是568B， 两端线序不同，用来同种设备之间互连，比如电脑与电脑。</p>
 <p><strong>现网设备接口都支持自适应功能，可以自动翻转线序，不管是直通线还是交叉线可以随意使用，目前使用的基本都是直通线。但在认证考试中要注意。</strong></p>
 <h3 id="（三）水晶头的线序排列"><a href="#（三）水晶头的线序排列" class="headerlink" title="（三）水晶头的线序排列"></a>（三）水晶头的线序排列</h3><p><img src="/2019/11/16/lan-and-fiber/568B.jpg" alt="568B"></p>
+<p><strong>网线中的1、2、3、6四根线的通断决定了这跟网线是否能正常工作</strong></p>
 <h3 id="（四）网线制作步骤"><a href="#（四）网线制作步骤" class="headerlink" title="（四）网线制作步骤"></a>（四）网线制作步骤</h3><p>1、用双绞线网线钳把五类双绞线的一端剪齐（最好先剪一段符合布线长度要求的网线），然后把剪齐的一端插入到网线钳用于剥线的缺口中。注意网线不能弯，直插进去，直到顶住网线钳后面的挡位，稍微握紧压线钳慢慢旋转一圈（无需担心会损坏网络里面芯线的包皮，因为剥线的两刀之间留有一定距离，这距离通常就是里面4对芯线的直径），让刀口划开双绞线的保护胶皮，拔下胶皮。</p>
 <p>2、剥除外包皮即可见到双绞线的4对8条芯线，并且可以看到每对的颜色都不同。每对缠绕的两根芯线是由一种染有相应颜色的芯线加上一条只染有少许相应颜色的白色相间芯线组成。</p>
 <p>先把4对芯线一字并排排列，然后再把每对芯线分开，并按从左到右：白橙、橙、白绿、蓝、白蓝、绿、白棕、棕的顺序排列（这种排列称为568B排序）。然后用网线钳垂直于芯线排列方向剪齐。</p>
@@ -369,7 +373,7 @@
 <h3 id="（七）光纤配线架的连接"><a href="#（七）光纤配线架的连接" class="headerlink" title="（七）光纤配线架的连接"></a>（七）光纤配线架的连接</h3><p>FC法兰：FC法兰是拧的（像咱们平时用的螺丝一样），把法兰上凸出来的一个小东东对准跳线或者尾纤的一个小豁口，拧紧就OK了。</p>
 <p>SC与LC法兰：SC与LC法兰是卡接式法兰，直接把他和SC头的跳线或者尾纤一对，听到咔的一声就证明卡上了。</p>
 <p>ST法兰：ST法兰是也是卡接式法兰，但他的卡和SC还有LC是完全不一样的，他的前半部分和FC是一样的，找对方向，对准后用里推到里边然后旋转一下就会卡上。</p>
-<h3 id="（八）参考文章"><a href="#（八）参考文章" class="headerlink" title="（八）参考文章"></a>（八）参考文章</h3><h4 id="1、教你如何认识各种光纤接口类型"><a href="#1、教你如何认识各种光纤接口类型" class="headerlink" title="1、教你如何认识各种光纤接口类型"></a><a href="http://blog.51cto.com/68240021/1980520" target="_blank" rel="noopener">1、教你如何认识各种光纤接口类型</a></h4>]]></content>
+<h3 id="（八）参考文章"><a href="#（八）参考文章" class="headerlink" title="（八）参考文章"></a>（八）参考文章</h3><h4 id="1、教你如何认识各种光纤接口类型"><a href="#1、教你如何认识各种光纤接口类型" class="headerlink" title="1、教你如何认识各种光纤接口类型"></a><a href="http://blog.51cto.com/68240021/1980520" target="_blank" rel="noopener">1、教你如何认识各种光纤接口类型</a></h4><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
         <category>CCNA</category>
