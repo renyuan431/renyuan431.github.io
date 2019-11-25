@@ -13,9 +13,7 @@
 <p>1、OSI引入了服务、接口、协议、分层的概念，TCP/IP借鉴了OSI的这些概念建立TCP/IP模型。</p>
 <p>2、OSI先有模型，后有协议，先有标准，后进行实践；而TCP/IP则相反，先有协议和应用再提出了模型，且是参照的OSI模型。</p>
 <p>3、OSI是一种理论下的模型，而TCP/IP已被广泛使用，成为网络互联事实上的标准。</p>
-<h2 id="三、两个协议所存在的问题"><a href="#三、两个协议所存在的问题" class="headerlink" title="三、两个协议所存在的问题"></a>三、两个协议所存在的问题</h2><h3 id="（一）OSI模型的缺陷"><a href="#（一）OSI模型的缺陷" class="headerlink" title="（一）OSI模型的缺陷"></a>（一）OSI模型的缺陷</h3><h3 id="（二）TCP-IP模型的缺陷"><a href="#（二）TCP-IP模型的缺陷" class="headerlink" title="（二）TCP/IP模型的缺陷"></a>（二）TCP/IP模型的缺陷</h3><p>1、 在服务、接EI 与协议的区别上就不是很清楚， 使得该模型不适合于其他非TCP/IP 协议簇。</p>
-<p>2、 </p>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+<h2 id="三、各层功能"><a href="#三、各层功能" class="headerlink" title="三、各层功能"></a>三、各层功能</h2><h3 id="（一）应用层"><a href="#（一）应用层" class="headerlink" title="（一）应用层"></a>（一）应用层</h3><h3 id="（二）传输层"><a href="#（二）传输层" class="headerlink" title="（二）传输层"></a>（二）传输层</h3><h3 id="（三）网络层"><a href="#（三）网络层" class="headerlink" title="（三）网络层"></a>（三）网络层</h3><h3 id="（四）数据链路层"><a href="#（四）数据链路层" class="headerlink" title="（四）数据链路层"></a>（四）数据链路层</h3><h3 id="（五）物理层"><a href="#（五）物理层" class="headerlink" title="（五）物理层"></a>（五）物理层</h3><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
         <category>CCNA</category>
