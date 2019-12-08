@@ -33,7 +33,7 @@
 <h2 id="三、总览"><a href="#三、总览" class="headerlink" title="三、总览"></a>三、总览</h2><p><strong>OSI模型类似于生产车间中的流水线或单位中的部门，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。就好像流水线上负责装轮子的工人只会安心装自己的车轮而不会管生产底盘工人如何工作，上一个人将需要生产的产品（也就是网络中的数据）交给他，他只需要装上轮子（在通信过程中就是完成本层协议规定的动作，例如为数据打上本层的报头）然后将产品交给下一个人进行继续生产。</strong></p>
 <p><img src="/2019/11/18/OSI-7/v2-854e3df8ea850c977c30cb1deb1f64db_hd.jpg" alt="v2-854e3df8ea850c977c30cb1deb1f64db_hd"></p>
 <p><img src="/2019/11/18/OSI-7/osi5.png" alt="osi5"></p>
-<h2 id="四、OSI模型的缺陷"><a href="#四、OSI模型的缺陷" class="headerlink" title="四、OSI模型的缺陷"></a>四、OSI模型的缺陷</h2><p>OSI模型所存在的问题是模型与协议自身的缺陷。OSI参考模型将“服务”与“协议”的定义相结合，使得参考模型变得格外复杂，实现起来更加困难，而且整体上对安全方面考虑的不够。会话层在大多数应用中很少用到，表示层几乎是空的。在数据链路层与网络层有很多子层插入，每个子层都有不同的功能。</p>
+<h2 id="四、OSI模型的不足"><a href="#四、OSI模型的不足" class="headerlink" title="四、OSI模型的不足"></a>四、OSI模型的不足</h2><p>OSI模型所存在的问题是模型与协议自身的缺陷。OSI参考模型将“服务”与“协议”的定义相结合，使得参考模型变得格外复杂，实现起来更加困难，而且整体上对安全方面考虑的不够。会话层在大多数应用中很少用到，表示层几乎是空的。在数据链路层与网络层有很多子层插入，每个子层都有不同的功能。</p>
 <h2 id="五、相关概念"><a href="#五、相关概念" class="headerlink" title="五、相关概念"></a>五、相关概念</h2><h3 id="（一）协议号，端口号"><a href="#（一）协议号，端口号" class="headerlink" title="（一）协议号，端口号"></a>（一）协议号，端口号</h3><p>协议号是三层概念，存在于IP头部协议号字段(常见的例如：6=TCP，17=UDP)；<br>端口号是四层概念，存在于TCP或UDP源/目端口号字段(常见的例如：TCP80=HTTP, UDP53=DNS)</p>
 <p>说白了都是“区分上层”用的。但是所处的层次不一样。</p>
 <h3 id="（二）协议的定义及作用"><a href="#（二）协议的定义及作用" class="headerlink" title="（二）协议的定义及作用"></a>（二）协议的定义及作用</h3><p>什么是协议（protocol）？<br>是指通信双方对数据传送控制的一种约定。约定中包括对数据格式，同步方式，传送速度，传送步骤，检纠错方式以及控制字符定义等问题做出统一规定，通信双方必须共同遵守，它也叫做链路控制规程。</p>
@@ -51,6 +51,7 @@
 <h3 id="（七）冲突域、广播域"><a href="#（七）冲突域、广播域" class="headerlink" title="（七）冲突域、广播域"></a>（七）冲突域、广播域</h3><p>冲突域：冲突域中所有节点都链接到同一个被交换机和学习型网桥划分的相互连接的中继器集合。冲突域一般来说小于或者包含在广播域中。 一些处在数据链路层的设备能够划分冲突域，但是广播域只能由像路由器或者网络层交换机这样的网络层的设备来进行划分。</p>
 <p>广播域：广播域是计算机网络的一个逻辑划分。广播域中的任意一个节点可以在数据链路层通过广播的方式到达任意一个节点。广播域可以被部署在同一个局域网或者被桥接到其他的局域网。</p>
 <p>冲突域是发送一个单播会影响的范围，广播域是发送一个广播会影响的范围。 二层设备（例如二层交换机）可以分割冲突域，交换机的每个接口都是一个单独的冲突域；三层设备（例如路由器）可以分割广播域，路由器的每个接口都i是一个单独的广播域，一些靠广播才能工作的协议，例如ARP、DHCP协议，到路由器接口就被隔绝了，需要进行适当的中继配置才能跨广播域起到效果。</p>
+<h3 id="（八）网关"><a href="#（八）网关" class="headerlink" title="（八）网关"></a>（八）网关</h3><p>网关(Gateway)又称网间连接器、协议转换器。网关在传输层上以实现网络互连，是最复杂的网络互连设备，仅用于两个高层协议不同的网络互连。顾名思义，网关(Gateway)就是一个网络连接到另一个网络的“关口”。举个现实生活中的例子方便理解，从一个房间走到另一个房间，必然要经过一扇门。同样，从一个网络（192.168.10.0/24）向另一个网络（192.168.20.0/24）发送信息，也必须经过一道“关口”，这道关口就是网关，具体来说，如果要跨网段传输数据时，要先把数据发给本网段的网关，由该网关把本网段的信息发给其他网段的网关，然后再由其他网段的网关发给目的设备。</p>
 <h2 id="六、各层介绍"><a href="#六、各层介绍" class="headerlink" title="六、各层介绍"></a>六、各层介绍</h2><h3 id="（第七层）应用层（Application）"><a href="#（第七层）应用层（Application）" class="headerlink" title="（第七层）应用层（Application）"></a>（第七层）应用层（Application）</h3><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175324-1574502824777.png" alt="微信截图_20191123175324"></p>
 <p>就是应用软件使用的协议，如邮箱使用的POP3，SMTP、远程登录使用的Telnet、获取IP地址的DHCP、域名解析的DNS、网页浏览的http协议等；这部分协议主要是规定应用软件如何去进行通信的。</p>
 <p>http(80)、https（443）、 dns(53)、ftp(20/21)、smtp(25)、pop3(110)、telnet(23)</p>
@@ -61,7 +62,7 @@
 <h3 id="（第四层）传输层（Transport）-lt-数据段-gt"><a href="#（第四层）传输层（Transport）-lt-数据段-gt" class="headerlink" title="（第四层）传输层（Transport）&lt;数据段&gt;"></a>（第四层）传输层（Transport）&lt;数据段&gt;</h3><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175629.png" alt="微信截图_20191123175629"></p>
 <p>将一个数据/文件斩件分成很多小段，标记顺序以被对端接收后可以按顺序重组数据，另外标记该应用程序使用的端口号及提供QOS（不同的应用程序使用不同计算机的端口号，同样的应用程序需要使用一样的端口号才能正常通信） 。传输层的协议有TCP、UDP。</p>
 <h3 id="（第三层）网络层-Network-lt-数据包-gt"><a href="#（第三层）网络层-Network-lt-数据包-gt" class="headerlink" title="（第三层）网络层(Network)&lt;数据包&gt;"></a>（第三层）网络层(Network)&lt;数据包&gt;</h3><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175655.png" alt="微信截图_20191123175655"></p>
-<p>路由选路，选择本次通信使用的协议（http、ftp等），指定路由策略及访问控制策略（ospf、eigrp、BGP等协议），使用协议号标识上层应用 。（IP地址在这一层，路由器以及三层交换机属于三层设备） 网络层的协议有IPV4、IPV6、OSPF等协议。</p>
+<p>路由选路，选择本次通信使用的协议（http、ftp等），指定路由策略及访问控制策略（ospf、eigrp、BGP等协议），使用协议号标识上层应用 ，<strong>（IP地址在这一层，路由器以及三层交换机属于三层设备）</strong> 网络层的协议有IPV4、IPV6、OSPF等协议。</p>
 <h3 id="（第二层）数据链路层-Data-Link-Layer-lt-数据帧-gt"><a href="#（第二层）数据链路层-Data-Link-Layer-lt-数据帧-gt" class="headerlink" title="（第二层）数据链路层(Data Link Layer)&lt;数据帧&gt;"></a>（第二层）数据链路层(Data Link Layer)&lt;数据帧&gt;</h3><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175720.png" alt="微信截图_20191123175720"></p>
 <p>根据端口与MAC地址，做分组（VLAN）隔离、端口安全、访问控制。（<strong>MAC地址在这一层，二层交换机属于二层设备</strong>）处理VLAN内的数据帧转发，跨VLAN间的访问，需要上升到网络层。 数据链路层有FCS（帧检验字段）用于检测数据的完整性。数据链路层的协议有ARP、PPPOE等。</p>
 <h4 id="两个子层"><a href="#两个子层" class="headerlink" title="两个子层"></a>两个子层</h4><p>LLC子层：逻辑链路控制子层–负责和上层协商，使用SAP来区分不同的上层协议</p>
@@ -86,7 +87,7 @@
 <h4 id="3、封装原则"><a href="#3、封装原则" class="headerlink" title="3、封装原则"></a>3、封装原则</h4><p>（1）每一层在上一层数据前添加协议报头</p>
 <p>注：进行封装的时候是添加的“协议报头”，目前三层封装协议主要是IP协议，二层协议主要是以太网2协议，不代表只有这两个协议才能对二、三层进行封装。四层主要有TCP\UDP两个协议组成，所以在进行四层封装的时候添加的主要是这两个协议的报头。</p>
 <p>（2）添加完协议报头的整体，就是该层的PDU</p>
-<p>（3）每一层的PDU对于下一层来说就是上层数据（每一层的上层数据就是上层的PDU。</p>
+<p>（3）每一层的PDU对于下一层来说就是上层数据（每一层的上层数据就是上层的PDU）。</p>
 <h4 id="4、封装的必要参数"><a href="#4、封装的必要参数" class="headerlink" title="4、封装的必要参数"></a>4、封装的必要参数</h4><p>传输层：源端口号     目标端口号</p>
 <p>网络层：源IP地址     目标IP地址</p>
 <p>数据链路层：源MAC地址   目标MAC地址</p>
@@ -94,9 +95,9 @@
 <p>封装的逆过程，数据从比特流还原为数据的过程</p>
 <h4 id="2、动作-1"><a href="#2、动作-1" class="headerlink" title="2、动作"></a>2、动作</h4><p>从底层往高层依次解封装，每解封装一层，会将该层的协议报头去掉</p>
 <h4 id="3、解封装原则"><a href="#3、解封装原则" class="headerlink" title="3、解封装原则"></a>3、解封装原则</h4><p>（1）必须从底层往高层解封装</p>
-<p>（2）解封装时，只有协议报头合理（打个比方，你收到一个包裹，上面有你的名字还有你的家庭住址和电话才是你的，你才能拆开叫做合理），才可以解封装。举例说明，如果拆二层封装，必须目的MAC地址为自己接收这个帧的MAC地址才可以进行二层解封装，如果拆三层封装，必须目的IP地址为自己接收这个数据包的IP地址才可以进行三层解封装。</p>
+<p>（2）解封装时，<strong>只有协议报头合理，才可以解封装</strong>，打个比方，你收到一个包裹，上面有你的名字还有你的家庭住址和电话才是你的，你才能拆开叫做合理。举例说明，<strong>如果拆二层封装，必须目的MAC地址为自己接收这个帧的MAC地址才可以进行二层解封装，如果拆三层封装，必须目的IP地址为自己接收这个数据包的IP地址才可以进行三层解封装。</strong></p>
 <p>（3）解封装一旦停止，数据就会被丢弃</p>
-<p>（4）解封装由接收者触发，数据必须经过解封装才可以被接受</p>
+<p>（4）解封装由接收者触发，数据必须经过解封装才可以被接收</p>
 <h3 id="（三）PDU"><a href="#（三）PDU" class="headerlink" title="（三）PDU"></a>（三）PDU</h3><p><strong>PUD</strong>即协议数据单元（英语：Protocol Data Unit，缩写为_PDU_）。PDU包含来自上层的信息，以及当前层的实体附加的信息。 协议数据单元(Protocol Data Unit )物理层的 PDU是数据位（bit），数据链路层的 PDU是数据帧（frame），网络层的PDU是数据包（packet），传输层的 PDU是数据段（segment），其他更高层次的PDU是报文（message）。</p>
 <h2 id="八、通信流程说明"><a href="#八、通信流程说明" class="headerlink" title="八、通信流程说明"></a>八、通信流程说明</h2><h3 id="（一）A——B通信说明（按OSI七层模型）"><a href="#（一）A——B通信说明（按OSI七层模型）" class="headerlink" title="（一）A——B通信说明（按OSI七层模型）"></a>（一）A——B通信说明（按OSI七层模型）</h3><p>两主机通信的过程，从发送者（以下简称A）到接收者（以下简称B），属于从7层（应用层）-&gt;1层（物理层）封装，然后传输到远端，再从1层（物理层）-&gt;7层（应用层）解封装的过程。</p>
 <p>2个主机之间的通信，对于2台主机来说，肯定是都需要跨越7层的，而平常说的只需要去到2层或者3层，其实是对于中间系统而言的，就是说中间的交换机、路由器而言。</p>
@@ -110,9 +111,9 @@
 <p>6、 然后再到<strong>数据链路层</strong>，数据链路层主要是负责同一个子网内的通信的。例如A、B连接在同一台二层交换机，就属于同一个子网，那么数据帧的通信室是不需要通过网络层的（即三层交换机或者路由器），直接在这台二层交换机就过去了。<strong>这一层打的是MAC地址的帧头，对于上述通信过程来说，就是为数据帧打上A的机器的MAC与A的网关的MAC</strong>。这一层的工作就完成了。  </p>
 <p>7、 到<strong>物理层</strong>了，经过上述斩件、打完各层标签后的6个数据帧，物理层将他们翻译为N段0、1表示的比特流，然后通过光纤、铜缆进行传输。  </p>
 <p>8、 当比特流传输到了远端，接着B的机器按照上述的1~7的步骤反方向运行一次即可（即有物理层到应用层）。就是一层层读取标签，传输给标签标记着的相应对象，然后摘除标签，再读取上一层标签，直到最后B的应用程序能够读到A往应用程序输入的数据为止。</p>
-<h3 id="（二）A——B通信说明（按实际）"><a href="#（二）A——B通信说明（按实际）" class="headerlink" title="（二）A——B通信说明（按实际）"></a>（二）A——B通信说明（按实际）</h3><h4 id="1、交换机总体通信步骤"><a href="#1、交换机总体通信步骤" class="headerlink" title="1、交换机总体通信步骤"></a>1、交换机总体通信步骤</h4><p><img src="/2019/11/18/OSI-7/switch.jpg" alt="switch"></p>
+<h3 id="（二）A——B通信说明（按实际）"><a href="#（二）A——B通信说明（按实际）" class="headerlink" title="（二）A——B通信说明（按实际）"></a>（二）A——B通信说明（按实际）</h3><h4 id="1、总体原则"><a href="#1、总体原则" class="headerlink" title="1、总体原则"></a>1、总体原则</h4><h4 id="2、交换机总体通信步骤"><a href="#2、交换机总体通信步骤" class="headerlink" title="2、交换机总体通信步骤"></a>2、交换机总体通信步骤</h4><p><img src="/2019/11/18/OSI-7/switch.jpg" alt="switch"></p>
 <ul>
-<li><p>交换机如果刚刚加电启动，它的MAC地址缓存为空，此时假设PC1要发送数据给PC3，假设这里是PC1要ping PC3的IP地址，根据OSI七层模型，我们知道，下四层每一层需要封装本层的报头，三层网络层封装的时候需要源目的IP地址，二层数据链路层封装的时候需要原目的MAC地址，这里PC1只知道PC3的IP地址和自己的IP地址，所以三层需要封装的参数已经知道了，但在开始通信的时候，二层封装的目的MAC地址还不知道，所以需要获得MAC地址才能完成二层数据链路层的封装，PC1会使用ARP协议（Address Resolution Protocol，缩写：<strong>ARP</strong>）去获取目的MAC地址用来完成二层封装。</p>
+<li><p>交换机如果刚刚加电启动，它的MAC地址缓存为空，此时假设PC1要发送数据给PC3，假设这里是PC1要ping PC3的IP地址，根据OSI七层模型，我们知道，下四层每一层需要封装本层的报头，三层网络层封装的时候需要源目的IP地址，二层数据链路层封装的时候需要原目的MAC地址，这里PC1只知道PC3的IP地址和自己的IP地址，所以三层需要封装的参数已经知道了，但在开始通信的时候，二层封装的目的MAC地址还不知道，所以需要获得MAC地址才能完成二层数据链路层的封装，PC1会使用ARP（Address Resolution Protocol，缩写：<strong>ARP</strong>）这个协议去获取目的MAC地址用来完成二层封装。</p>
 </li>
 <li><p>假设PC1已经知道C的MAC地址（ARP获得目的MAC地址的过程在后边讨论）而Switch的MAC地址表项为空，PC1将数据封装好发送给Switch，Switch从接口1接收到PC1发过来的数据后，首先对数据包进行解封装，将0101的比特流还原成数据，然后对二层进行解封装，知道了该数据帧的源、目的MAC地址，然后添加这个数据帧的源MAC地址，既PC1的MAC地址（AAAAAAAAAA）和对应的端口G0/1添加到自己的MAC地址表中方便以后再进行数据传输时使用，然后从自己的MAC地址表中去查找这个数据帧目的地PC3（CCCCCCCCCC）的MAC地址，但是此时由于MAC地址表项为空所以找不到对应的MAC地址，这时Switch将这个数据封装上二层帧头，从除了收到这个数据的G0/1以外的其他接口（G0/2、G0/3、G0/0）泛洪出去；</p>
 </li>
@@ -129,43 +130,13 @@
 </ul>
 <p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191124185137.jpg" alt="微信截图_20191124185137"></p>
 <p>通过不停的通信，最终Switch能够获得所有端口对应的MAC地址，但需注意，MAC地址表项的老化时间为300秒，如果超过老化时间，表项会被删除，Switch需重新泛洪以获取目的MAC地址对应的表项。 </p>
-<h4 id="2、路由器通信步骤"><a href="#2、路由器通信步骤" class="headerlink" title="2、路由器通信步骤"></a>2、路由器通信步骤</h4><h4 id="3、LAN（局域网）通信说明"><a href="#3、LAN（局域网）通信说明" class="headerlink" title="3、LAN（局域网）通信说明"></a>3、LAN（局域网）通信说明</h4><p><img src="/2019/11/18/OSI-7/6e5c71b163a849019ec55a1267d64930_r.jpg" alt="6e5c71b163a849019ec55a1267d64930_r"></p>
+<h4 id="3、路由器通信步骤"><a href="#3、路由器通信步骤" class="headerlink" title="3、路由器通信步骤"></a>3、路由器通信步骤</h4><p><img src="/2019/11/18/OSI-7/newL3-PC1-PC2.png" alt="newL3-PC1-PC2"></p>
+<p>假设交换机如果刚刚加电启动，它的MAC地址缓存为空，两台PC的网关分别为路由器的G0/0和G0/1，此时路由器Router有去往PC1（192.168.10.1）和PC2（192.168.20.1）的路由，此时假设PC1要发送数据给PC3，假设这里是PC1要ping PC3的IP地址，PC1首先判断通信对象PC2的IP是否为同一网段地址，此时PC2为不同网段，所以数据要先发给网关，</p>
+<h4 id="4、LAN（局域网）通信说明"><a href="#4、LAN（局域网）通信说明" class="headerlink" title="4、LAN（局域网）通信说明"></a>4、LAN（局域网）通信说明</h4><p><img src="/2019/11/18/OSI-7/6e5c71b163a849019ec55a1267d64930_r.jpg" alt="6e5c71b163a849019ec55a1267d64930_r"></p>
 <p>假设两端的通信实体在一个局域网内，其实传输的数据包去到交换机时，交换机拆开二层帧头，再查自身的MAC地址表，发现表里面有对应的MAC地址，然后对应的对口是哪个，如果MAC地址表中没有该数据帧的MAC地址，则将数据包泛红至所有接口，如果MAC地址表中有该数据帧的目的MAC地址，就把帧发送到该端口转发出去，源MAC地址为它的任务就完成了。中间的网络设备不需要拆卡3层的IP包头来读取里面的信息。通过转发，最好到达B主机，然后从1层拆到7层，B用户的主机最终就读取到信息了。</p>
 <h4 id="4、WAN（广域网）通信说明"><a href="#4、WAN（广域网）通信说明" class="headerlink" title="4、WAN（广域网）通信说明"></a>4、WAN（广域网）通信说明</h4><p><img src="/2019/11/18/OSI-7/d16094e183b0e225719c4f614e75e7bc_r.jpg" alt="d16094e183b0e225719c4f614e75e7bc_r"></p>
 <p>由于A、B两通信实体跨域广域网，所以光靠MAC地址表，肯定是查不到的，这时候路由器会把IP包头也拆开，读取目的IP地址，根据目的IP地址查询路由表，就知道往下一跳要往哪个端口发出去了，而后重新封装上二层帧头和FCS校验字段，帧头的源MAC地址是该路由器发出端口的MAC地址，目的MAC地址为下一跳设备的MAC地址。</p>
-<blockquote class="pullquote mindmap mindmap-md"><ul>
-<li><a href="https://hunterx.xyz/hexo-simple-mindmap-plugin-intro.html" target="_blank" rel="noopener">Hexo 的思维导图插件</a><ul>
-<li>前言</li>
-<li>使用方法<ul>
-<li>一</li>
-<li>二</li>
-<li>三</li>
-</ul>
-</li>
-<li>太长不看</li>
-<li>参考资料</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-
-
-
-<blockquote class="pullquote mindmap mindmap-md"><ul>
-<li>[Hexo 的思维导图插件]<ul>
-<li>前言</li>
-<li>使用方法<ul>
-<li>一</li>
-<li>二</li>
-<li>三</li>
-</ul>
-</li>
-<li>太长不看</li>
-<li>参考资料</li>
-</ul>
-</li>
-</ul>
-</blockquote><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
         <category>CCNA</category>
