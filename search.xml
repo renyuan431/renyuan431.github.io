@@ -111,7 +111,8 @@
 <p>6、 然后再到<strong>数据链路层</strong>，数据链路层主要是负责同一个子网内的通信的。例如A、B连接在同一台二层交换机，就属于同一个子网，那么数据帧的通信室是不需要通过网络层的（即三层交换机或者路由器），直接在这台二层交换机就过去了。<strong>这一层打的是MAC地址的帧头，对于上述通信过程来说，就是为数据帧打上A的机器的MAC与A的网关的MAC</strong>。这一层的工作就完成了。  </p>
 <p>7、 到<strong>物理层</strong>了，经过上述斩件、打完各层标签后的6个数据帧，物理层将他们翻译为N段0、1表示的比特流，然后通过光纤、铜缆进行传输。  </p>
 <p>8、 当比特流传输到了远端，接着B的机器按照上述的1~7的步骤反方向运行一次即可（即有物理层到应用层）。就是一层层读取标签，传输给标签标记着的相应对象，然后摘除标签，再读取上一层标签，直到最后B的应用程序能够读到A往应用程序输入的数据为止。</p>
-<h3 id="（二）A——B通信说明（按实际）"><a href="#（二）A——B通信说明（按实际）" class="headerlink" title="（二）A——B通信说明（按实际）"></a>（二）A——B通信说明（按实际）</h3><h4 id="1、总体原则"><a href="#1、总体原则" class="headerlink" title="1、总体原则"></a>1、总体原则</h4><h4 id="2、交换机总体通信步骤"><a href="#2、交换机总体通信步骤" class="headerlink" title="2、交换机总体通信步骤"></a>2、交换机总体通信步骤</h4><p><img src="/2019/11/18/OSI-7/switch.jpg" alt="switch"></p>
+<h3 id="（二）A——B通信说明（按实际）"><a href="#（二）A——B通信说明（按实际）" class="headerlink" title="（二）A——B通信说明（按实际）"></a>（二）A——B通信说明（按实际）</h3><h4 id="1、总体原则"><a href="#1、总体原则" class="headerlink" title="1、总体原则"></a>1、总体原则</h4><p><img src="/2019/11/18/OSI-7/Snipaste_2019-12-10_16-36-13.jpg" alt="Snipaste_2019-12-10_16-36-13"></p>
+<h4 id="2、局域网（LAN）通信步骤"><a href="#2、局域网（LAN）通信步骤" class="headerlink" title="2、局域网（LAN）通信步骤"></a>2、局域网（LAN）通信步骤</h4><p><img src="/2019/11/18/OSI-7/switch.jpg" alt="switch"></p>
 <ul>
 <li><p>交换机如果刚刚加电启动，它的MAC地址缓存为空，此时假设PC1要发送数据给PC3，假设这里是PC1要ping PC3的IP地址，根据OSI七层模型，我们知道，下四层每一层需要封装本层的报头，三层网络层封装的时候需要源目的IP地址，二层数据链路层封装的时候需要原目的MAC地址，这里PC1只知道PC3的IP地址和自己的IP地址，所以三层需要封装的参数已经知道了，但在开始通信的时候，二层封装的目的MAC地址还不知道，所以需要获得MAC地址才能完成二层数据链路层的封装，PC1会使用ARP（Address Resolution Protocol，缩写：<strong>ARP</strong>）这个协议去获取目的MAC地址用来完成二层封装。</p>
 </li>
@@ -119,7 +120,7 @@
 </li>
 <li><p>PC2和PC4都接收到了这个数据帧，这两台设备对数据帧进行解封装后查看该数据帧的目的MAC地址，发现目的MAC地址与自己的网卡MAC地址不相同，PC2和PC4丢弃这个数据帧；</p>
 </li>
-<li><p>在上一步中PC3也同时收到了这个数据帧，PC3对数据进行解封装后，检查目的MAC地址的时候发现，与本机相同，PC3接收这个数据包，并回发数据包对PC1进行确认，PC3封装一个源地址为自己MAC地址，目的地址是A的MAC地址的数据帧发送给Switch；</p>
+<li><p>在上一步中PC3也同时收到了这个数据帧，PC3对数据进行解封装后，检查目的MAC地址的时候发现，与本机相同，PC3接收这个数据包，并回发数据包对PC1进行确认，PC3封装一个源地址为自己MAC地址，目的地址是A的MAC地址，源IP为自己IP，目的IP为PC1的IP地址的数据发送给Switch；</p>
 </li>
 <li><p>Switch接收到这个数据，它首先添加PC3的MAC和对应的接口G0/3到自己的MAC地址表中，然后查询源MA地址表时候发现PC1的MAC地址在MAC地址表项中可以查到，此MAC地址对应端口为G0/1，Switch将这个数据帧发给接口G0/1的PC1；</p>
 </li>
@@ -130,12 +131,8 @@
 </ul>
 <p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191124185137.jpg" alt="微信截图_20191124185137"></p>
 <p>通过不停的通信，最终Switch能够获得所有端口对应的MAC地址，但需注意，MAC地址表项的老化时间为300秒，如果超过老化时间，表项会被删除，Switch需重新泛洪以获取目的MAC地址对应的表项。 </p>
-<h4 id="3、路由器通信步骤"><a href="#3、路由器通信步骤" class="headerlink" title="3、路由器通信步骤"></a>3、路由器通信步骤</h4><p><img src="/2019/11/18/OSI-7/newL3-PC1-PC2.png" alt="newL3-PC1-PC2"></p>
-<p>假设交换机如果刚刚加电启动，它的MAC地址缓存为空，两台PC的网关分别为路由器的G0/0和G0/1，此时路由器Router有去往PC1（192.168.10.1）和PC2（192.168.20.1）的路由，此时假设PC1要发送数据给PC3，假设这里是PC1要ping PC3的IP地址，PC1首先判断通信对象PC2的IP是否为同一网段地址，此时PC2为不同网段，所以数据要先发给网关，</p>
-<h4 id="4、LAN（局域网）通信说明"><a href="#4、LAN（局域网）通信说明" class="headerlink" title="4、LAN（局域网）通信说明"></a>4、LAN（局域网）通信说明</h4><p><img src="/2019/11/18/OSI-7/6e5c71b163a849019ec55a1267d64930_r.jpg" alt="6e5c71b163a849019ec55a1267d64930_r"></p>
-<p>假设两端的通信实体在一个局域网内，其实传输的数据包去到交换机时，交换机拆开二层帧头，再查自身的MAC地址表，发现表里面有对应的MAC地址，然后对应的对口是哪个，如果MAC地址表中没有该数据帧的MAC地址，则将数据包泛红至所有接口，如果MAC地址表中有该数据帧的目的MAC地址，就把帧发送到该端口转发出去，源MAC地址为它的任务就完成了。中间的网络设备不需要拆卡3层的IP包头来读取里面的信息。通过转发，最好到达B主机，然后从1层拆到7层，B用户的主机最终就读取到信息了。</p>
-<h4 id="4、WAN（广域网）通信说明"><a href="#4、WAN（广域网）通信说明" class="headerlink" title="4、WAN（广域网）通信说明"></a>4、WAN（广域网）通信说明</h4><p><img src="/2019/11/18/OSI-7/d16094e183b0e225719c4f614e75e7bc_r.jpg" alt="d16094e183b0e225719c4f614e75e7bc_r"></p>
-<p>由于A、B两通信实体跨域广域网，所以光靠MAC地址表，肯定是查不到的，这时候路由器会把IP包头也拆开，读取目的IP地址，根据目的IP地址查询路由表，就知道往下一跳要往哪个端口发出去了，而后重新封装上二层帧头和FCS校验字段，帧头的源MAC地址是该路由器发出端口的MAC地址，目的MAC地址为下一跳设备的MAC地址。</p>
+<h4 id="3、广域网（WAN）通信步骤"><a href="#3、广域网（WAN）通信步骤" class="headerlink" title="3、广域网（WAN）通信步骤"></a>3、广域网（WAN）通信步骤</h4><p><img src="/2019/11/18/OSI-7/newL3-PC1-PC2.png" alt="newL3-PC1-PC2"></p>
+<p>假设交换机如果刚刚加电启动，它的MAC地址缓存为空，两台PC的网关分别为路由器的G0/0和G0/1，此时路由器Router有去往PC1（192.168.10.1）和PC2（192.168.20.1）的路由，此时假设PC1要发送数据给PC3，假设这里是PC1要ping PC3的IP地址，PC1首先判断通信对象PC2的IP是否为同一网段地址，此时PC2为不同网段，所以数据要先发给自身的网关（192.168.10.254），所以数据的源MAC地址为PC1的MAC地址，目的MAC地址为网关（192.168.10.254）对应的MAC地址，源IP地址为自身IP地址（192.168.10.1），目的IP地址为PC2的IP地址（192.168.20.1），抓包的结果如下：</p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
