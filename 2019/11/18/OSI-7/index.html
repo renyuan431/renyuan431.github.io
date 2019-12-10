@@ -77,7 +77,15 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;switch.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191124185137.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;newL3-PC1-PC2.png">
-<meta property="og:updated_time" content="2019-12-10T08:38:07.920Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;PC1.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;PC1-1.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;PC1-2.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;route.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;PC2-2.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;PC2-3.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;PC2-4.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;PC2.jpg">
+<meta property="og:updated_time" content="2019-12-10T09:20:39.670Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;v2-854e3df8ea850c977c30cb1deb1f64db_hd.jpg">
 
@@ -279,7 +287,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-10 16:38:07" itemprop="dateModified" datetime="2019-12-10T16:38:07+08:00">2019-12-10</time>
+                <time title="修改时间：2019-12-10 17:20:39" itemprop="dateModified" datetime="2019-12-10T17:20:39+08:00">2019-12-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -411,7 +419,7 @@
 <ul>
 <li><p>交换机如果刚刚加电启动，它的MAC地址缓存为空，此时假设PC1要发送数据给PC3，假设这里是PC1要ping PC3的IP地址，根据OSI七层模型，我们知道，下四层每一层需要封装本层的报头，三层网络层封装的时候需要源目的IP地址，二层数据链路层封装的时候需要原目的MAC地址，这里PC1只知道PC3的IP地址和自己的IP地址，所以三层需要封装的参数已经知道了，但在开始通信的时候，二层封装的目的MAC地址还不知道，所以需要获得MAC地址才能完成二层数据链路层的封装，PC1会使用ARP（Address Resolution Protocol，缩写：<strong>ARP</strong>）这个协议去获取目的MAC地址用来完成二层封装。</p>
 </li>
-<li><p>假设PC1已经知道C的MAC地址（ARP获得目的MAC地址的过程在后边讨论）而Switch的MAC地址表项为空，PC1将数据封装好发送给Switch，Switch从接口1接收到PC1发过来的数据后，首先对数据包进行解封装，将0101的比特流还原成数据，然后对二层进行解封装，知道了该数据帧的源、目的MAC地址，然后添加这个数据帧的源MAC地址，既PC1的MAC地址（AAAAAAAAAA）和对应的端口G0/1添加到自己的MAC地址表中方便以后再进行数据传输时使用，然后从自己的MAC地址表中去查找这个数据帧目的地PC3（CCCCCCCCCC）的MAC地址，但是此时由于MAC地址表项为空所以找不到对应的MAC地址，这时Switch将这个数据封装上二层帧头，从除了收到这个数据的G0/1以外的其他接口（G0/2、G0/3、G0/0）泛洪出去；</p>
+<li><p>假设PC1已经知道C的MAC地址（ARP获得目的MAC地址的过程在后边讨论）而Switch的MAC地址表项为空，PC1将数据封装好发送给Switch，Switch从接口1接收到PC1发过来的数据后，首先对数据进行解封装，将0101的比特流还原成数据，然后对二层进行解封装，知道了该数据帧的源、目的MAC地址，然后添加这个数据帧的源MAC地址，既PC1的MAC地址（AAAAAAAAAA）和对应的端口G0/1添加到自己的MAC地址表中方便以后再进行数据传输时使用，然后从自己的MAC地址表中去查找这个数据帧目的地PC3（CCCCCCCCCC）的MAC地址，但是此时由于MAC地址表项为空所以找不到对应的MAC地址，这时Switch将这个数据封装上二层帧头，从除了收到这个数据的G0/1以外的其他接口（G0/2、G0/3、G0/0）泛洪出去；</p>
 </li>
 <li><p>PC2和PC4都接收到了这个数据帧，这两台设备对数据帧进行解封装后查看该数据帧的目的MAC地址，发现目的MAC地址与自己的网卡MAC地址不相同，PC2和PC4丢弃这个数据帧；</p>
 </li>
@@ -428,6 +436,18 @@
 <p>通过不停的通信，最终Switch能够获得所有端口对应的MAC地址，但需注意，MAC地址表项的老化时间为300秒，如果超过老化时间，表项会被删除，Switch需重新泛洪以获取目的MAC地址对应的表项。 </p>
 <h4 id="3、广域网（WAN）通信步骤"><a href="#3、广域网（WAN）通信步骤" class="headerlink" title="3、广域网（WAN）通信步骤"></a>3、广域网（WAN）通信步骤</h4><p><img src="/2019/11/18/OSI-7/newL3-PC1-PC2.png" alt="newL3-PC1-PC2"></p>
 <p>假设交换机如果刚刚加电启动，它的MAC地址缓存为空，两台PC的网关分别为路由器的G0/0和G0/1，此时路由器Router有去往PC1（192.168.10.1）和PC2（192.168.20.1）的路由，此时假设PC1要发送数据给PC3，假设这里是PC1要ping PC3的IP地址，PC1首先判断通信对象PC2的IP是否为同一网段地址，此时PC2为不同网段，所以数据要先发给自身的网关（192.168.10.254），所以数据的源MAC地址为PC1的MAC地址，目的MAC地址为网关（192.168.10.254）对应的MAC地址，源IP地址为自身IP地址（192.168.10.1），目的IP地址为PC2的IP地址（192.168.20.1），抓包的结果如下：</p>
+<p><img src="/2019/11/18/OSI-7/PC1.jpg" alt="PC1"></p>
+<p>PC1的G0/0接口的MAC地址如下：</p>
+<p><img src="/2019/11/18/OSI-7/PC1-1.jpg" alt="PC1-1"></p>
+<p>网关，Router的G0/0接口MAC地址如下：</p>
+<p><img src="/2019/11/18/OSI-7/PC1-2.jpg" alt="PC1-2"></p>
+<p>路由器接到数据以后，首先对数据进行解封装，将0101的比特流还原成数据，然后对二层进行解封装，查看二层的目的MAC地址和接收端口G0/0的MAC地址是否一致，确定两者一致后继续对三层解封装查看目的IP地址，网关根据目的IP按照最长匹配原则查询是否有对应路由条目，在这里路由器是有10.0网段和20.0网段的路由的：</p>
+<p><img src="/2019/11/18/OSI-7/route.jpg" alt="route"></p>
+<p>查询路由表发现192.168.20.0网段直连G0/1接口，需要讲数据从G0/1发出，此时三层的源、目的IP地址封装是不变的，二层封装的MAC地址发生变化，源MAC地址为发出接口的G0/1的MAC地址，目的地址为PC2的G0/0接口MAC地址：</p>
+<p><img src="/2019/11/18/OSI-7/PC2-2.jpg" alt="PC2-2"></p>
+<p><img src="/2019/11/18/OSI-7/PC2-3.jpg" alt="PC2-3"></p>
+<p><img src="/2019/11/18/OSI-7/PC2-4.jpg" alt="PC2-4"></p>
+<p><img src="/2019/11/18/OSI-7/PC2.jpg" alt="PC2"></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
     </div>
 
