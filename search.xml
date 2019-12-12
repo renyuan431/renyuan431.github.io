@@ -13,6 +13,8 @@
 <p>1、OSI引入了服务、接口、协议、分层的概念，TCP/IP借鉴了OSI的这些概念建立TCP/IP模型。</p>
 <p>2、OSI先有模型，后有协议，先有标准，后进行实践；而TCP/IP则相反，先有协议和应用再提出了模型，且是参照的OSI模型。</p>
 <p>3、OSI是一种理论下的模型，而TCP/IP已被广泛使用，成为网络互联事实上的标准。</p>
+<p>4、<strong>OSI 参考模型注重“通信协议必要的功能是什么”，而 TCP/IP 则更强调“在计算机上实现协议应该开发哪种程序”。</strong></p>
+<h2 id="三、TCP-IP基础知识"><a href="#三、TCP-IP基础知识" class="headerlink" title="三、TCP\IP基础知识"></a>三、TCP\IP基础知识</h2><p>1、</p>
 <h2 id="三、各层功能"><a href="#三、各层功能" class="headerlink" title="三、各层功能"></a>三、各层功能</h2><h3 id="（一）应用层"><a href="#（一）应用层" class="headerlink" title="（一）应用层"></a>（一）应用层</h3><h3 id="（二）传输层"><a href="#（二）传输层" class="headerlink" title="（二）传输层"></a>（二）传输层</h3><h3 id="（三）网络层"><a href="#（三）网络层" class="headerlink" title="（三）网络层"></a>（三）网络层</h3><h3 id="（四）数据链路层"><a href="#（四）数据链路层" class="headerlink" title="（四）数据链路层"></a>（四）数据链路层</h3><h3 id="（五）物理层"><a href="#（五）物理层" class="headerlink" title="（五）物理层"></a>（五）物理层</h3><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
@@ -52,6 +54,7 @@
 <p>广播域：广播域是计算机网络的一个逻辑划分。广播域中的任意一个节点可以在数据链路层通过广播的方式到达任意一个节点。广播域可以被部署在同一个局域网或者被桥接到其他的局域网。</p>
 <p>冲突域是发送一个单播会影响的范围，广播域是发送一个广播会影响的范围。 二层设备（例如二层交换机）可以分割冲突域，交换机的每个接口都是一个单独的冲突域；三层设备（例如路由器）可以分割广播域，路由器的每个接口都i是一个单独的广播域，一些靠广播才能工作的协议，例如ARP、DHCP协议，到路由器接口就被隔绝了，需要进行适当的中继配置才能跨广播域起到效果。</p>
 <h3 id="（八）网关"><a href="#（八）网关" class="headerlink" title="（八）网关"></a>（八）网关</h3><p>网关(Gateway)又称网间连接器、协议转换器。网关在传输层上以实现网络互连，是最复杂的网络互连设备，仅用于两个高层协议不同的网络互连。顾名思义，网关(Gateway)就是一个网络连接到另一个网络的“关口”。举个现实生活中的例子方便理解，从一个房间走到另一个房间，必然要经过一扇门。同样，从一个网络（192.168.10.0/24）向另一个网络（192.168.20.0/24）发送信息，也必须经过一道“关口”，这道关口就是网关，具体来说，如果要跨网段传输数据时，要先把数据发给本网段的网关，由该网关把本网段的信息发给其他网段的网关，然后再由其他网段的网关发给目的设备。</p>
+<h3 id="（九）泛洪"><a href="#（九）泛洪" class="headerlink" title="（九）泛洪"></a>（九）泛洪</h3><p>交换机将数据从所有的端口（除了接收到此帧的端口）发送出去，通常称为泛洪。如果配置了VLAN，泛洪也只在属于该VLAN ID的端口上泛洪。</p>
 <h2 id="六、各层介绍"><a href="#六、各层介绍" class="headerlink" title="六、各层介绍"></a>六、各层介绍</h2><h3 id="（第七层）应用层（Application）"><a href="#（第七层）应用层（Application）" class="headerlink" title="（第七层）应用层（Application）"></a>（第七层）应用层（Application）</h3><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175324-1574502824777.png" alt="微信截图_20191123175324"></p>
 <p>就是应用软件使用的协议，如邮箱使用的POP3，SMTP、远程登录使用的Telnet、获取IP地址的DHCP、域名解析的DNS、网页浏览的http协议等；这部分协议主要是规定应用软件如何去进行通信的。</p>
 <p>http(80)、https（443）、 dns(53)、ftp(20/21)、smtp(25)、pop3(110)、telnet(23)</p>
@@ -130,7 +133,7 @@
 </li>
 </ul>
 <p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191124185137.jpg" alt="微信截图_20191124185137"></p>
-<p>通过不停的通信，最终Switch能够获得所有端口对应的MAC地址，但需注意，MAC地址表项的老化时间为300秒，如果超过老化时间，表项会被删除，Switch需重新泛洪以获取目的MAC地址对应的表项。 </p>
+<p>通过不停的通信，最终Switch能够获得所有端口对应的MAC地址，但需注意，MAC地址表项的老化时间为300秒，如果超过老化时间，表项会被删除，Switch需重新泛洪以获取目的MAC地址对应的表项。思科交换机查看MAC地址表的命令为：<strong>show mac-address</strong> </p>
 <h4 id="3、广域网（WAN）通信步骤"><a href="#3、广域网（WAN）通信步骤" class="headerlink" title="3、广域网（WAN）通信步骤"></a>3、广域网（WAN）通信步骤</h4><p><img src="/2019/11/18/OSI-7/newL3-PC1-PC2.png" alt="newL3-PC1-PC2"></p>
 <p>假设交换机如果刚刚加电启动，它的MAC地址缓存为空，两台PC的网关分别为路由器的G0/0和G0/1，此时路由器Router有去往PC1（192.168.10.1）和PC2（192.168.20.1）的路由，此时假设PC1要发送数据给PC3，假设这里是PC1要ping PC3的IP地址，PC1首先判断通信对象PC2的IP是否为同一网段地址，此时PC2为不同网段，所以数据要先发给自身的网关（192.168.10.254），所以数据的源MAC地址为PC1的MAC地址，目的MAC地址为网关（192.168.10.254）对应的MAC地址，源IP地址为自身IP地址（192.168.10.1），目的IP地址为PC2的IP地址（192.168.20.1），抓包的结果如下：</p>
 <p><img src="/2019/11/18/OSI-7/PC1.jpg" alt="PC1"></p>
