@@ -14,8 +14,12 @@
 <p>2、OSI先有模型，后有协议，先有标准，后进行实践；而TCP/IP则相反，先有协议和应用再提出了模型，且是参照的OSI模型。</p>
 <p>3、OSI是一种理论下的模型，而TCP/IP已被广泛使用，成为网络互联事实上的标准。</p>
 <p>4、<strong>OSI 参考模型注重“通信协议必要的功能是什么”，而 TCP/IP 则更强调“在计算机上实现协议应该开发哪种程序”。</strong></p>
-<h2 id="三、TCP-IP基础知识"><a href="#三、TCP-IP基础知识" class="headerlink" title="三、TCP\IP基础知识"></a>三、TCP\IP基础知识</h2><p>1、</p>
-<h2 id="三、各层功能"><a href="#三、各层功能" class="headerlink" title="三、各层功能"></a>三、各层功能</h2><h3 id="（一）应用层"><a href="#（一）应用层" class="headerlink" title="（一）应用层"></a>（一）应用层</h3><h3 id="（二）传输层"><a href="#（二）传输层" class="headerlink" title="（二）传输层"></a>（二）传输层</h3><h3 id="（三）网络层"><a href="#（三）网络层" class="headerlink" title="（三）网络层"></a>（三）网络层</h3><h3 id="（四）数据链路层"><a href="#（四）数据链路层" class="headerlink" title="（四）数据链路层"></a>（四）数据链路层</h3><h3 id="（五）物理层"><a href="#（五）物理层" class="headerlink" title="（五）物理层"></a>（五）物理层</h3><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+<h2 id="三、TCP-IP基础知识"><a href="#三、TCP-IP基础知识" class="headerlink" title="三、TCP\IP基础知识"></a>三、TCP\IP基础知识</h2><h3 id="1、TCP-IP-的具体含义"><a href="#1、TCP-IP-的具体含义" class="headerlink" title="1、TCP/IP 的具体含义"></a>1、TCP/IP 的具体含义</h3><p>TCP/IP（Transmission Control Protocol/Internet Protocol，传输控制协议/网际协议）是指能够在多个不同网络间实现信息传输的协议簇。TCP/IP协议不仅仅指的是TCP 和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇， 只是因为在TCP/IP协议中TCP协议和IP协议最具代表性，所以被称为TCP/IP协议。</p>
+<p> 互联网进行通信时，需要相应的网络协议，TCP/IP 原本就是为使用互联网而开发制定的协议族。因此，互联网的协议就是 TCP/IP，TCP/IP 就是互联网的协议。</p>
+<p><img src="/2019/11/23/6-tcp-ip/tcpip.jpg" alt="tcpip"></p>
+<h3 id="2、数据段、数据包、数据帧、比特"><a href="#2、数据段、数据包、数据帧、比特" class="headerlink" title="2、数据段、数据包、数据帧、比特"></a>2、数据段、数据包、数据帧、比特</h3><p>数据链路层的PDU叫做Frame（帧）；<br>网络层的PDU叫做Packet（数据包）；<br>传输层TCP的叫做Segment（数据段），UDP的叫做Datagram。（数据报）；<br>物理层传输的叫Bit(比特)。</p>
+<h2 id="三、各层功能"><a href="#三、各层功能" class="headerlink" title="三、各层功能"></a>三、各层功能</h2><h3 id="（一）应用层"><a href="#（一）应用层" class="headerlink" title="（一）应用层"></a>（一）应用层</h3><p>向用户提供一组常用的应用程序，比如电子邮件、文件传输访问、远程登录等。应用层包含了所有的高层协议，如FTP、TELNET、DNS、SMTP、RIP、NFS、HTTP。</p>
+<h3 id="（二）传输层"><a href="#（二）传输层" class="headerlink" title="（二）传输层"></a>（二）传输层</h3><h3 id="（三）网络层"><a href="#（三）网络层" class="headerlink" title="（三）网络层"></a>（三）网络层</h3><h3 id="（四）数据链路层"><a href="#（四）数据链路层" class="headerlink" title="（四）数据链路层"></a>（四）数据链路层</h3><h3 id="（五）物理层"><a href="#（五）物理层" class="headerlink" title="（五）物理层"></a>（五）物理层</h3><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
         <category>CCNA</category>
@@ -37,7 +41,8 @@
 <p><img src="/2019/11/18/OSI-7/osi5.png" alt="osi5"></p>
 <h2 id="四、OSI模型的不足"><a href="#四、OSI模型的不足" class="headerlink" title="四、OSI模型的不足"></a>四、OSI模型的不足</h2><p>OSI模型所存在的问题是模型与协议自身的缺陷。OSI参考模型将“服务”与“协议”的定义相结合，使得参考模型变得格外复杂，实现起来更加困难，而且整体上对安全方面考虑的不够。会话层在大多数应用中很少用到，表示层几乎是空的。在数据链路层与网络层有很多子层插入，每个子层都有不同的功能。</p>
 <h2 id="五、相关概念"><a href="#五、相关概念" class="headerlink" title="五、相关概念"></a>五、相关概念</h2><h3 id="（一）协议号，端口号"><a href="#（一）协议号，端口号" class="headerlink" title="（一）协议号，端口号"></a>（一）协议号，端口号</h3><p>协议号是三层概念，存在于IP头部协议号字段(常见的例如：6=TCP，17=UDP)；<br>端口号是四层概念，存在于TCP或UDP源/目端口号字段(常见的例如：TCP80=HTTP, UDP53=DNS)</p>
-<p>说白了都是“区分上层”用的。但是所处的层次不一样。</p>
+<p>说白了都是“区分上层”用的，就是用来识别同一台计算机中进行通信的不同应用程序。但是所处的层次不一样。</p>
+<p><img src="/2019/11/18/OSI-7/1e487b21-906d-41ae-8894-d02f1037cf25.jpg" alt="1e487b21-906d-41ae-8894-d02f1037cf25"></p>
 <h3 id="（二）协议的定义及作用"><a href="#（二）协议的定义及作用" class="headerlink" title="（二）协议的定义及作用"></a>（二）协议的定义及作用</h3><p>什么是协议（protocol）？<br>是指通信双方对数据传送控制的一种约定。约定中包括对数据格式，同步方式，传送速度，传送步骤，检纠错方式以及控制字符定义等问题做出统一规定，通信双方必须共同遵守，它也叫做链路控制规程。</p>
 <p><strong>通俗的来讲，协议是一种双方都明白或者必须遵守的事先约定</strong>，比如说长城上放狼烟，是因为人们已经预先设定好狼烟这个物理信号代表了“敌人入侵”这一抽象信号。这样一个“狼烟=敌人入侵”就是一个简单的协议。协议可以更复杂，比如摩尔斯码(Morse Code)，使用短信号和长信号的组合，来代表不同的英文字母。</p>
 <h3 id="（三）X层设备"><a href="#（三）X层设备" class="headerlink" title="（三）X层设备"></a>（三）X层设备</h3><p>经常会听到三层交换机、二层交换机以及路由器是三层设备这种叫法。</p>
