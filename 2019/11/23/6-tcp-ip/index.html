@@ -61,7 +61,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;999804-20170926194048637-1078586652.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;tcpip.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2019-12-13_14-10-29.jpg">
-<meta property="og:updated_time" content="2019-12-13T06:25:41.744Z">
+<meta property="og:updated_time" content="2019-12-14T03:53:29.051Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCP-IP%E6%A8%A1%E5%9E%8B%20(2)%20(1).jpg">
 
@@ -263,7 +263,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-13 14:25:41" itemprop="dateModified" datetime="2019-12-13T14:25:41+08:00">2019-12-13</time>
+                <time title="修改时间：2019-12-14 11:53:29" itemprop="dateModified" datetime="2019-12-14T11:53:29+08:00">2019-12-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -311,9 +311,10 @@
 <p>1、OSI引入了服务、接口、协议、分层的概念，TCP/IP借鉴了OSI的这些概念建立TCP/IP模型。</p>
 <p>2、OSI先有模型，后有协议，先有标准，后进行实践；而TCP/IP则相反，先有协议和应用再提出了模型，且是参照的OSI模型。</p>
 <p>3、OSI是一种理论下的模型，而TCP/IP已被广泛使用，成为网络互联事实上的标准。</p>
-<p>4、<strong>OSI 参考模型注重“通信协议必要的功能是什么”，而 TCP/IP 则更强调“在计算机上实现协议应该开发哪种程序”。</strong></p>
+<p>4、OSI 参考模型注重“通信协议必要的功能是什么”，而 TCP/IP 则更强调“在计算机上实现协议应该开发哪种程序”。</p>
+<p><strong>简单来说，OSI参考模型和TCP/IP参考模型，其实都是每一层加上本层的报头然后发给其他层这么一个工作模式，不过分层方式有所不同，现在的互联网用的都是TCP/IP，因为OSI分层太多，有些层没必要，比如表示层、会话层，在TCP/IP模型中应用层都搞定了。</strong></p>
 <h2 id="三、TCP-IP基础知识"><a href="#三、TCP-IP基础知识" class="headerlink" title="三、TCP\IP基础知识"></a>三、TCP\IP基础知识</h2><h3 id="1、TCP-IP-的具体含义"><a href="#1、TCP-IP-的具体含义" class="headerlink" title="1、TCP/IP 的具体含义"></a>1、TCP/IP 的具体含义</h3><p>TCP/IP（Transmission Control Protocol/Internet Protocol，传输控制协议/网际协议）是指能够在多个不同网络间实现信息传输的协议簇。TCP/IP协议不仅仅指的是TCP 和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇， 只是因为在TCP/IP协议中TCP协议和IP协议最具代表性，所以被称为TCP/IP协议。</p>
-<p> 互联网进行通信时，需要相应的网络协议，TCP/IP 原本就是为使用互联网而开发制定的协议族。因此，互联网的协议就是 TCP/IP，TCP/IP 就是互联网的协议。</p>
+<p>互联网进行通信时，需要相应的网络协议，TCP/IP 原本就是为使用互联网而开发制定的协议族。因此，互联网的协议就是 TCP/IP，TCP/IP 就是互联网的协议。</p>
 <p><img src="/2019/11/23/6-tcp-ip/tcpip.jpg" alt="tcpip"></p>
 <h3 id="2、数据段、数据包、数据帧、比特"><a href="#2、数据段、数据包、数据帧、比特" class="headerlink" title="2、数据段、数据包、数据帧、比特"></a>2、数据段、数据包、数据帧、比特</h3><p>数据链路层的PDU叫做Frame（帧）；<br>网络层的PDU叫做Packet（数据包）；<br>传输层TCP的叫做Segment（数据段），UDP的叫做Datagram。（数据报）；<br>物理层传输的叫Bit(比特)。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-13_14-10-29.jpg" alt="Snipaste_2019-12-13_14-10-29"></p>
@@ -321,6 +322,7 @@
 <h3 id="（二）传输层"><a href="#（二）传输层" class="headerlink" title="（二）传输层"></a>（二）传输层</h3><p>位于应用层和网络接口层之间，为两台主机提供端到端的通信，在TCP/IP协议族中，有两个互不相同的传输协议：TCP（传输控制协议）和UDP（用户数据报协议）。</p>
 <h4 id="1、TCP"><a href="#1、TCP" class="headerlink" title="1、TCP"></a>1、TCP</h4><p>TCP（Transmission Control Protocol，传输控制协议）为两台主机提供高可靠性的数据通信，是一种面向连接的、可靠的、基于字节流的传输层通信协议，由 IETF 的RFC 793定义。TCP 是面向连接的、可靠的流协议。流就是指不间断的数据结构，你可以把它想象成排水管中的水流。</p>
 <p>TCP的三次握手</p>
+<p>TCP的四次分手</p>
 <h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层"><a href="#（三）网络层" class="headerlink" title="（三）网络层"></a>（三）网络层</h3><h3 id="（四）数据链路层"><a href="#（四）数据链路层" class="headerlink" title="（四）数据链路层"></a>（四）数据链路层</h3><h3 id="（五）物理层"><a href="#（五）物理层" class="headerlink" title="（五）物理层"></a>（五）物理层</h3><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
     </div>
 

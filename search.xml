@@ -13,9 +13,10 @@
 <p>1、OSI引入了服务、接口、协议、分层的概念，TCP/IP借鉴了OSI的这些概念建立TCP/IP模型。</p>
 <p>2、OSI先有模型，后有协议，先有标准，后进行实践；而TCP/IP则相反，先有协议和应用再提出了模型，且是参照的OSI模型。</p>
 <p>3、OSI是一种理论下的模型，而TCP/IP已被广泛使用，成为网络互联事实上的标准。</p>
-<p>4、<strong>OSI 参考模型注重“通信协议必要的功能是什么”，而 TCP/IP 则更强调“在计算机上实现协议应该开发哪种程序”。</strong></p>
+<p>4、OSI 参考模型注重“通信协议必要的功能是什么”，而 TCP/IP 则更强调“在计算机上实现协议应该开发哪种程序”。</p>
+<p><strong>简单来说，OSI参考模型和TCP/IP参考模型，其实都是每一层加上本层的报头然后发给其他层这么一个工作模式，不过分层方式有所不同，现在的互联网用的都是TCP/IP，因为OSI分层太多，有些层没必要，比如表示层、会话层，在TCP/IP模型中应用层都搞定了。</strong></p>
 <h2 id="三、TCP-IP基础知识"><a href="#三、TCP-IP基础知识" class="headerlink" title="三、TCP\IP基础知识"></a>三、TCP\IP基础知识</h2><h3 id="1、TCP-IP-的具体含义"><a href="#1、TCP-IP-的具体含义" class="headerlink" title="1、TCP/IP 的具体含义"></a>1、TCP/IP 的具体含义</h3><p>TCP/IP（Transmission Control Protocol/Internet Protocol，传输控制协议/网际协议）是指能够在多个不同网络间实现信息传输的协议簇。TCP/IP协议不仅仅指的是TCP 和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇， 只是因为在TCP/IP协议中TCP协议和IP协议最具代表性，所以被称为TCP/IP协议。</p>
-<p> 互联网进行通信时，需要相应的网络协议，TCP/IP 原本就是为使用互联网而开发制定的协议族。因此，互联网的协议就是 TCP/IP，TCP/IP 就是互联网的协议。</p>
+<p>互联网进行通信时，需要相应的网络协议，TCP/IP 原本就是为使用互联网而开发制定的协议族。因此，互联网的协议就是 TCP/IP，TCP/IP 就是互联网的协议。</p>
 <p><img src="/2019/11/23/6-tcp-ip/tcpip.jpg" alt="tcpip"></p>
 <h3 id="2、数据段、数据包、数据帧、比特"><a href="#2、数据段、数据包、数据帧、比特" class="headerlink" title="2、数据段、数据包、数据帧、比特"></a>2、数据段、数据包、数据帧、比特</h3><p>数据链路层的PDU叫做Frame（帧）；<br>网络层的PDU叫做Packet（数据包）；<br>传输层TCP的叫做Segment（数据段），UDP的叫做Datagram。（数据报）；<br>物理层传输的叫Bit(比特)。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-13_14-10-29.jpg" alt="Snipaste_2019-12-13_14-10-29"></p>
@@ -23,6 +24,7 @@
 <h3 id="（二）传输层"><a href="#（二）传输层" class="headerlink" title="（二）传输层"></a>（二）传输层</h3><p>位于应用层和网络接口层之间，为两台主机提供端到端的通信，在TCP/IP协议族中，有两个互不相同的传输协议：TCP（传输控制协议）和UDP（用户数据报协议）。</p>
 <h4 id="1、TCP"><a href="#1、TCP" class="headerlink" title="1、TCP"></a>1、TCP</h4><p>TCP（Transmission Control Protocol，传输控制协议）为两台主机提供高可靠性的数据通信，是一种面向连接的、可靠的、基于字节流的传输层通信协议，由 IETF 的RFC 793定义。TCP 是面向连接的、可靠的流协议。流就是指不间断的数据结构，你可以把它想象成排水管中的水流。</p>
 <p>TCP的三次握手</p>
+<p>TCP的四次分手</p>
 <h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层"><a href="#（三）网络层" class="headerlink" title="（三）网络层"></a>（三）网络层</h3><h3 id="（四）数据链路层"><a href="#（四）数据链路层" class="headerlink" title="（四）数据链路层"></a>（四）数据链路层</h3><h3 id="（五）物理层"><a href="#（五）物理层" class="headerlink" title="（五）物理层"></a>（五）物理层</h3><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
@@ -93,9 +95,7 @@
 <h4 id="3、设备"><a href="#3、设备" class="headerlink" title="3、设备"></a>3、设备</h4><p>物理层典型的设备有集线器（hub）、中继器（reperter）.中继器可以放大信号，延长网线传输距离。一般网线理论传输距离为100米，实际工作中不建议在超过70米的地方使用，丢包会很严重，传输质量无法保障；集线器相当于一个多端口的中继器，也能起到信号放大的作用，但集线器在半双工模式下工作，同一时间只能有一个方向的数据可以传输，发送的时候不能接收，接收的时候不能发送，所以集线器的所有接口都属于同一个冲突域。集线器的工作过程是接收到一个端口发来的数据后，将数据直接转发到除接收到这个数据的端口以外的所有端口上，工作效率比较低下，集线器已经被淘汰。</p>
 <h2 id="七、封装、解封装"><a href="#七、封装、解封装" class="headerlink" title="七、封装、解封装"></a>七、封装、解封装</h2><h3 id="（一）封装"><a href="#（一）封装" class="headerlink" title="（一）封装"></a>（一）封装</h3><h4 id="1、定义-1"><a href="#1、定义-1" class="headerlink" title="1、定义"></a>1、定义</h4><p>将数据变为比特流的过程中，在参考模型的每一层需要添加上特定的协议报头动作。</p>
 <h4 id="2、动作"><a href="#2、动作" class="headerlink" title="2、动作"></a>2、动作</h4><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175033.png" alt="微信截图_20191123175033"></p>
-<p><img src="/2019/11/18/OSI-7/osiencap.png" alt="osiencap"></p>
-<p><img src="/2019/11/18/OSI-7/ipencap-1574084483652.png" alt="ipencap"></p>
-<p>从高层往低层依次封装，在每一层使用特定的协议，对数据进行处理，在数据前添加特定的协议报头。L代表layer，表示第几层，H表示header，表示报头，第七层的报头在DATA（数据）的前面，表示数据在第七层（应用层）的时候前边加上了该层的报头。再到下一层（第六层，表示层）时前面又加上了第六层的报头，以此类推，到了第一层物理层的时候，打上了各层报头的数据被转换成0101的电信号发送给其他设备，</p>
+<p>从高层往低层依次封装，在每一层使用特定的协议，对数据进行处理，在数据前添加特定的协议报头。L代表layer，表示第几层，H表示header，表示报头，第七层的报头在DATA（数据）的前面，表示数据在第七层（应用层）的时候前边加上了该层的报头。再到下一层（第六层，表示层）时前面又加上了第六层的报头，以此类推，到了第一层物理层的时候，打上了各层报头的数据被转换成0101的电信号发送给其他设备。</p>
 <h4 id="3、封装原则"><a href="#3、封装原则" class="headerlink" title="3、封装原则"></a>3、封装原则</h4><p>（1）每一层在上一层数据前添加协议报头</p>
 <p>注：进行封装的时候是添加的“协议报头”，目前三层封装协议主要是IP协议，二层协议主要是以太网2协议，不代表只有这两个协议才能对二、三层进行封装。四层主要有TCP\UDP两个协议组成，所以在进行四层封装的时候添加的主要是这两个协议的报头。</p>
 <p>（2）添加完协议报头的整体，就是该层的PDU</p>
@@ -111,7 +111,9 @@
 <p>（3）解封装一旦停止，数据就会被丢弃</p>
 <p>（4）解封装由接收者触发，数据必须经过解封装才可以被接收</p>
 <h3 id="（三）PDU"><a href="#（三）PDU" class="headerlink" title="（三）PDU"></a>（三）PDU</h3><p><strong>PUD</strong>即协议数据单元（英语：Protocol Data Unit，缩写为_PDU_）。PDU包含来自上层的信息，以及当前层的实体附加的信息。 协议数据单元(Protocol Data Unit )物理层的 PDU是数据位（bit），数据链路层的 PDU是数据帧（frame），网络层的PDU是数据包（packet），传输层的 PDU是数据段（segment），其他更高层次的PDU是报文（message）。</p>
-<h2 id="八、通信流程说明"><a href="#八、通信流程说明" class="headerlink" title="八、通信流程说明"></a>八、通信流程说明</h2><h3 id="（一）A——B通信说明（按OSI七层模型）"><a href="#（一）A——B通信说明（按OSI七层模型）" class="headerlink" title="（一）A——B通信说明（按OSI七层模型）"></a>（一）A——B通信说明（按OSI七层模型）</h3><p>两主机通信的过程，从发送者（以下简称A）到接收者（以下简称B），属于从7层（应用层）-&gt;1层（物理层）封装，然后传输到远端，再从1层（物理层）-&gt;7层（应用层）解封装的过程。</p>
+<h2 id="八、通信流程说明"><a href="#八、通信流程说明" class="headerlink" title="八、通信流程说明"></a>八、通信流程说明</h2><p><img src="/2019/11/18/OSI-7/osiencap.png" alt="osiencap"></p>
+<p>从高层往低层依次封装，在每一层使用特定的协议，对数据进行处理，在数据前添加特定的协议报头。L代表layer，表示第几层，H表示header，表示报头，第七层的报头在DATA（数据）的前面，表示数据在第七层（应用层）的时候前边加上了该层的报头。再到下一层（第六层，表示层）时前面又加上了第六层的报头，以此类推，到了第一层物理层的时候，打上了各层报头的数据被转换成0101的电信号发送给其他设备。其他设备接到电信号后，由物理层将电信号转换成数据，然后发送到上层的数据链路层，拆二层报头识别后交给上一层，网络层继续拆封装并识别，以此类推直到应用层拆除所有层的报头后识别数据。</p>
+<h3 id="（一）A——B通信说明（按OSI七层模型）"><a href="#（一）A——B通信说明（按OSI七层模型）" class="headerlink" title="（一）A——B通信说明（按OSI七层模型）"></a>（一）A——B通信说明（按OSI七层模型）</h3><p>两主机通信的过程，从发送者（以下简称A）到接收者（以下简称B），属于从7层（应用层）-&gt;1层（物理层）封装，然后传输到远端，再从1层（物理层）-&gt;7层（应用层）解封装的过程。</p>
 <p>2个主机之间的通信，对于2台主机来说，肯定是都需要跨越7层的，而平常说的只需要去到2层或者3层，其实是对于中间系统而言的，就是说中间的交换机、路由器而言。</p>
 <p>1、 当A打开了QQ这个软件，相当就到达<strong>应用层</strong>了；因为软件会根据你的操作调动机器底层的硬件工作了。  </p>
 <p>2、 当A往QQ这个软件的聊天窗口里面输入信息，发出后，QQ会将这个信息保存在本地聊天记录文件MSGEX.db（一般就保存在QQ目录下以你的QQ号码为文件夹里）。以某种格式编码/保存某种信息，这可以理解为<strong>表示层</strong>了。  </p>
