@@ -22,10 +22,37 @@
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-13_14-10-29.jpg" alt="Snipaste_2019-12-13_14-10-29"></p>
 <h2 id="三、各层功能"><a href="#三、各层功能" class="headerlink" title="三、各层功能"></a>三、各层功能</h2><h3 id="（一）应用层"><a href="#（一）应用层" class="headerlink" title="（一）应用层"></a>（一）应用层</h3><p>向用户提供一组常用的应用程序，比如电子邮件、文件传输访问、远程登录等。应用层包含了所有的高层协议，如FTP、TELNET、DNS、SMTP、RIP、NFS、HTTP。</p>
 <h3 id="（二）传输层"><a href="#（二）传输层" class="headerlink" title="（二）传输层"></a>（二）传输层</h3><p>位于应用层和网络接口层之间，为两台主机提供端到端的通信，在TCP/IP协议族中，有两个互不相同的传输协议：TCP（传输控制协议）和UDP（用户数据报协议）。</p>
+<p><img src="/2019/11/23/6-tcp-ip/TCPUDP.jpg" alt="TCPUDP"></p>
 <h4 id="1、TCP"><a href="#1、TCP" class="headerlink" title="1、TCP"></a>1、TCP</h4><p>TCP（Transmission Control Protocol，传输控制协议）为两台主机提供高可靠性的数据通信，是一种面向连接的、可靠的、基于字节流的传输层通信协议，由 IETF 的RFC 793定义。TCP 是面向连接的、可靠的流协议。流就是指不间断的数据结构，你可以把它想象成排水管中的水流。</p>
-<p>TCP的三次握手</p>
-<p>TCP的四次分手</p>
-<h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层"><a href="#（三）网络层" class="headerlink" title="（三）网络层"></a>（三）网络层</h3><h3 id="（四）数据链路层"><a href="#（四）数据链路层" class="headerlink" title="（四）数据链路层"></a>（四）数据链路层</h3><h3 id="（五）物理层"><a href="#（五）物理层" class="headerlink" title="（五）物理层"></a>（五）物理层</h3><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+<h5 id="TCP报头格式"><a href="#TCP报头格式" class="headerlink" title="TCP报头格式"></a>TCP报头格式</h5><p>一个 TCP Header 一般有 20 个字节，如果启用了options，header的长度可以达到 60 个字节。图中每一行是 4 个 bytes，32 个 bits。</p>
+<p><img src="/2019/11/23/6-tcp-ip/01e54adf-35dc-4628-8de3-044c64437a37.jpg" alt="01e54adf-35dc-4628-8de3-044c64437a37"></p>
+<p>■ 源端口号（Source Port）</p>
+<p>表示发送端端口号，字段长16位。</p>
+<p>■ 目标端口号（Destination Port）</p>
+<p>表示接收端端口号，字段长度16位。</p>
+<p>■ 序列号（Sequence Number）</p>
+<p>字段长32位。序列号（有时也叫序号）是指发送数据的位置。每发送一次数据，就累加一次该数据字节数的大小。</p>
+<p>序列号不会从0或1开始，而是在建立连接时由计算机生成的随机数作为其初始值，通过SYN包传给接收端主机。然后再将每转发过去的字节数累加到初始值上表示数据的位置。此外，在建立连接和断开连接时发送的SYN包和FIN包虽然并不携带数据，但是也会作为一个字节增加对应的序列号。</p>
+<p>■ 确认应答号（Acknowledgement Number）</p>
+<p>确认应答号字段长度32位。是指下一次应该收到的数据的序列号。实际上，它是指已收到确认应答号减一为止的数据。发送端收到这个确认应答以后可以认为在这个序号以前的数据都已经被正常接收。</p>
+<p>■ 数据偏移（Data Offset）</p>
+<p>该字段表示TCP所传输的数据部分应该从TCP包的哪个位开始计算，当然也可以把它看作TCP首部的长度。该字段长4位，单位为4字节（即32位）。不包括选项字段的话，如图6.26所示TCP的首部为20字节长，因此数据偏移字段可以设置为5。反之，如果该字段的值为5，那说明从TCP包的最一开始到20字节为止都是TCP首部，余下的部分为TCP数据。</p>
+<p>■ 保留（Reserved）</p>
+<p>该字段主要是为了以后扩展时使用，其长度为4位。一般设置为0，但即使收到的包在该字段不为0，此包也不会被丢弃（保留字段的第4位（如图中的第7位）用于实验目的，相当于NS（Nonce Sum）标志位。） 。</p>
+<p>■ 控制位（Control Flag）</p>
+<p>字段长为8位，每一位从左至右分别为CWR、ECE、URG、ACK、PSH、RST、SYN、FIN。这些控制标志也叫做控制位。当它们对应位上的值为1时，具体含义如图所示。</p>
+<p><img src="/2019/11/23/6-tcp-ip/6976ea88-152b-4bc4-b602-dde1d632cd14.jpg" alt="6976ea88-152b-4bc4-b602-dde1d632cd14"></p>
+<p>CWR（Congestion Window Reduced）<br>CWR标志与后面的ECE标志都用于IP首部的ECN字段。ECE标志为1时，则通知对方已将拥塞窗口缩小。</p>
+<p>ECE（ECN-Echo）<br>ECE标志表示ECN-Echo。置为1会通知通信对方，从对方到这边的网络有拥塞。在收到数据包的IP首部中ECN为1时将TCP首部中的ECE设置为1。</p>
+<p>URG（Urgent Flag）<br>该位为1时，表示包中有需要紧急处理的数据。对于需要紧急处理的数据，会在后面的紧急指针中再进行解释。</p>
+<p>ACK（Acknowledgement Flag）<br>该位为1时，确认应答的字段变为有效。TCP规定除了最初建立连接时的SYN包之外该位必须设置为1。</p>
+<p>PSH（Push Flag）<br>该位为1时，表示需要将受到的数据立刻传给上层应用协议。PSH为0时，则不需要立即传而是先进行缓存。</p>
+<p>RST（Reset Flag）<br>该位为1时表示TCP连接中出现异常必须强制断开连接。例如，一个没有被使用的端口即使发来连接请求，也无法进行通信。此时就可以返回一个RST设置为1的包。此外，程序宕掉或切断电源等原因导致主机重启的情况下，由于所有的连接信息将全部被初始化，所以原有的TCP通信也将不能继续进行。这种情况下，如果通信对方发送一个设置为1的RST包，就会使通信强制断开连接。</p>
+<p>SYN（Synchronize Flag）<br>用于建立连接。SYN为1表示希望建立连接，并在其序列号的字段进行序列号初始值的设定（Synchronize本身有同步的意思。也就意味着建立连接的双方，序列号和确认应答号要保持同步。） 。</p>
+<p>FIN（Fin Flag）<br>该位为1时，表示今后不会再有数据发送，希望断开连接。当通信结束希望断开连接时，通信双方的主机之间就可以相互交换FIN位置为1的TCP段。每个主机又对对方的FIN包进行确认应答以后就可以断开连接。不过，主机收到FIN设置为1的TCP段以后不必马上回复一个FIN包，而是可以等到缓冲区中的所有数据都因已成功发送而被自动删除之后再发。</p>
+<p>■ 窗口大小（Window Size）</p>
+<p>该字段长为16位。用于通知从相同TCP首部的确认应答号所指位置开始能够接收的数据大小（8位字节）。TCP不允许发送超过此处所示大小的数据。不过，如果窗口为0，则表示可以发送窗口探测，以了解最新的窗口大小。但这个数据必须是1个字节。</p>
+<h5 id="TCP的三次握手"><a href="#TCP的三次握手" class="headerlink" title="TCP的三次握手"></a>TCP的三次握手</h5><h5 id="TCP的四次分手"><a href="#TCP的四次分手" class="headerlink" title="TCP的四次分手"></a>TCP的四次分手</h5><h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层"><a href="#（三）网络层" class="headerlink" title="（三）网络层"></a>（三）网络层</h3><h3 id="（四）数据链路层"><a href="#（四）数据链路层" class="headerlink" title="（四）数据链路层"></a>（四）数据链路层</h3><h3 id="（五）物理层"><a href="#（五）物理层" class="headerlink" title="（五）物理层"></a>（五）物理层</h3><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
         <category>CCNA</category>
@@ -111,7 +138,8 @@
 <p>（3）解封装一旦停止，数据就会被丢弃</p>
 <p>（4）解封装由接收者触发，数据必须经过解封装才可以被接收</p>
 <h3 id="（三）PDU"><a href="#（三）PDU" class="headerlink" title="（三）PDU"></a>（三）PDU</h3><p><strong>PUD</strong>即协议数据单元（英语：Protocol Data Unit，缩写为_PDU_）。PDU包含来自上层的信息，以及当前层的实体附加的信息。 协议数据单元(Protocol Data Unit )物理层的 PDU是数据位（bit），数据链路层的 PDU是数据帧（frame），网络层的PDU是数据包（packet），传输层的 PDU是数据段（segment），其他更高层次的PDU是报文（message）。</p>
-<h2 id="八、通信流程说明"><a href="#八、通信流程说明" class="headerlink" title="八、通信流程说明"></a>八、通信流程说明</h2><p><img src="/2019/11/18/OSI-7/osiencap.png" alt="osiencap"></p>
+<h2 id="八、通信流程说明"><a href="#八、通信流程说明" class="headerlink" title="八、通信流程说明"></a>八、通信流程说明</h2><p>![o_0D_2V8B_`V86P43E6OKYDVV](OSI-7/o_0D_2V8B_%60V86P43E6OKYDVV.gif)</p>
+<p><img src="/2019/11/18/OSI-7/osiencap.png" alt="osiencap"></p>
 <p>从高层往低层依次封装，在每一层使用特定的协议，对数据进行处理，在数据前添加特定的协议报头。L代表layer，表示第几层，H表示header，表示报头，第七层的报头在DATA（数据）的前面，表示数据在第七层（应用层）的时候前边加上了该层的报头。再到下一层（第六层，表示层）时前面又加上了第六层的报头，以此类推，到了第一层物理层的时候，打上了各层报头的数据被转换成0101的电信号发送给其他设备。其他设备接到电信号后，由物理层将电信号转换成数据，然后发送到上层的数据链路层，拆二层报头识别后交给上一层，网络层继续拆封装并识别，以此类推直到应用层拆除所有层的报头后识别数据。</p>
 <h3 id="（一）A——B通信说明（按OSI七层模型）"><a href="#（一）A——B通信说明（按OSI七层模型）" class="headerlink" title="（一）A——B通信说明（按OSI七层模型）"></a>（一）A——B通信说明（按OSI七层模型）</h3><p>两主机通信的过程，从发送者（以下简称A）到接收者（以下简称B），属于从7层（应用层）-&gt;1层（物理层）封装，然后传输到远端，再从1层（物理层）-&gt;7层（应用层）解封装的过程。</p>
 <p>2个主机之间的通信，对于2台主机来说，肯定是都需要跨越7层的，而平常说的只需要去到2层或者3层，其实是对于中间系统而言的，就是说中间的交换机、路由器而言。</p>
@@ -124,7 +152,7 @@
 <p>选路后，<strong>这一层要标记IP包头，包头主要内容是源IP地址，目的IP地址，使用什么协议</strong>。其中源、目的IP相当于你寄信的时候的收发的地址与邮政编码，标记出发送者与接收者。而协议相当于这封信到底用什么语言书写。（只有保证2端使用同种语言，才能确保通信起来，否则你用英文写信给大妈，大妈怎么看得懂呢？）  </p>
 <p>6、 然后再到<strong>数据链路层</strong>，数据链路层主要是负责同一个子网内的通信的。例如A、B连接在同一台二层交换机，就属于同一个子网，那么数据帧的通信室是不需要通过网络层的（即三层交换机或者路由器），直接在这台二层交换机就过去了。<strong>这一层打的是MAC地址的帧头，对于上述通信过程来说，就是为数据帧打上A的机器的MAC与A的网关的MAC</strong>。这一层的工作就完成了。  </p>
 <p>7、 到<strong>物理层</strong>了，经过上述斩件、打完各层标签后的6个数据帧，物理层将他们翻译为N段0、1表示的比特流，然后通过光纤、铜缆进行传输。  </p>
-<p>8、 当比特流传输到了远端，接着B的机器按照上述的1~7的步骤反方向运行一次即可（即有物理层到应用层）。就是一层层读取标签，传输给标签标记着的相应对象，然后摘除标签，再读取上一层标签，直到最后B的应用程序能够读到A往应用程序输入的数据为止。</p>
+<p>8、 当比特流传输到了远端，接着B的机器按照上述的1~7的步骤反方向运行一次即可（即由物理层到应用层）。就是一层层读取标签，传输给标签标记着的相应对象，然后摘除标签，再读取上一层标签，直到最后B的应用程序能够读到A往应用程序输入的数据为止。</p>
 <h3 id="（二）A——B通信说明（按实际）"><a href="#（二）A——B通信说明（按实际）" class="headerlink" title="（二）A——B通信说明（按实际）"></a>（二）A——B通信说明（按实际）</h3><h4 id="1、总体原则"><a href="#1、总体原则" class="headerlink" title="1、总体原则"></a>1、总体原则</h4><p><img src="/2019/11/18/OSI-7/Snipaste_2019-12-10_16-36-13.jpg" alt="Snipaste_2019-12-10_16-36-13"></p>
 <h4 id="2、局域网（LAN）通信步骤"><a href="#2、局域网（LAN）通信步骤" class="headerlink" title="2、局域网（LAN）通信步骤"></a>2、局域网（LAN）通信步骤</h4><p><img src="/2019/11/18/OSI-7/switch.jpg" alt="switch"></p>
 <ul>
