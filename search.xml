@@ -20,27 +20,38 @@
 <p><img src="/2019/11/23/6-tcp-ip/tcpip.jpg" alt="tcpip"></p>
 <h3 id="2、数据段、数据包、数据帧、比特"><a href="#2、数据段、数据包、数据帧、比特" class="headerlink" title="2、数据段、数据包、数据帧、比特"></a>2、数据段、数据包、数据帧、比特</h3><p>数据链路层的PDU叫做Frame（帧）；<br>网络层的PDU叫做Packet（数据包）；<br>传输层TCP的叫做Segment（数据段），UDP的叫做Datagram。（数据报）；<br>物理层传输的叫Bit(比特)。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-13_14-10-29.jpg" alt="Snipaste_2019-12-13_14-10-29"></p>
-<h2 id="三、各层功能"><a href="#三、各层功能" class="headerlink" title="三、各层功能"></a>三、各层功能</h2><h3 id="（一）应用层"><a href="#（一）应用层" class="headerlink" title="（一）应用层"></a>（一）应用层</h3><p>向用户提供一组常用的应用程序，比如电子邮件、文件传输访问、远程登录等。应用层包含了所有的高层协议，如FTP、TELNET、DNS、SMTP、RIP、NFS、HTTP。</p>
+<h2 id="三、各层功能"><a href="#三、各层功能" class="headerlink" title="三、各层功能"></a>三、各层功能</h2><h3 id="（一）应用层"><a href="#（一）应用层" class="headerlink" title="（一）应用层"></a>（一）应用层</h3><p>向用户提供一组常用的应用程序，比如电子邮件、文件传输访问、远程登录，常见用的软件所使用的很多协议都在这一层。应用层包含了所有的高层协议：</p>
+<ul>
+<li>HTTP 80 超文本传输协议，提供浏览网页服务 </li>
+<li>Telnet 23 远程登陆协议，提供远程管理服务</li>
+<li>FTP 20、21 文件传输协议，提供互联网文件资源共享服务</li>
+<li>SMTP 25 简单邮件传输协议，提供互联网电子邮件服务</li>
+<li>POP3 110 邮局协议，提供互联网电子邮件服务</li>
+<li>TFTP 69 (UDP) 简单文件传输协议，提供简单的文件传输服务 </li>
+</ul>
 <h3 id="（二）传输层"><a href="#（二）传输层" class="headerlink" title="（二）传输层"></a>（二）传输层</h3><p>位于应用层和网络接口层之间，为两台主机提供端到端的通信，在TCP/IP协议族中，有两个互不相同的传输协议：TCP（传输控制协议）和UDP（用户数据报协议）。</p>
 <p><img src="/2019/11/23/6-tcp-ip/TCPUDP.jpg" alt="TCPUDP"></p>
 <h4 id="1、TCP"><a href="#1、TCP" class="headerlink" title="1、TCP"></a>1、TCP</h4><p>TCP（Transmission Control Protocol，传输控制协议）为两台主机提供高可靠性的数据通信，是一种面向连接的、可靠的、基于字节流的传输层通信协议，由 IETF 的RFC 793定义。TCP 是面向连接的、可靠的流协议。流就是指不间断的数据结构，你可以把它想象成排水管中的水流。</p>
 <h5 id="TCP报头格式"><a href="#TCP报头格式" class="headerlink" title="TCP报头格式"></a>TCP报头格式</h5><p>一个 TCP Header 一般有 20 个字节，如果启用了options，header的长度可以达到 60 个字节。图中每一行是 4 个 bytes，32 个 bits。</p>
-<p><img src="/2019/11/23/6-tcp-ip/01e54adf-35dc-4628-8de3-044c64437a37.jpg" alt="01e54adf-35dc-4628-8de3-044c64437a37"></p>
-<p>■ 源端口号（Source Port）</p>
-<p>表示发送端端口号，字段长16位。</p>
-<p>■ 目标端口号（Destination Port）</p>
-<p>表示接收端端口号，字段长度16位。</p>
-<p>■ 序列号（Sequence Number）</p>
-<p>字段长32位。序列号（有时也叫序号）是指发送数据的位置。每发送一次数据，就累加一次该数据字节数的大小。</p>
-<p>序列号不会从0或1开始，而是在建立连接时由计算机生成的随机数作为其初始值，通过SYN包传给接收端主机。然后再将每转发过去的字节数累加到初始值上表示数据的位置。此外，在建立连接和断开连接时发送的SYN包和FIN包虽然并不携带数据，但是也会作为一个字节增加对应的序列号。</p>
-<p>■ 确认应答号（Acknowledgement Number）</p>
-<p>确认应答号字段长度32位。是指下一次应该收到的数据的序列号。实际上，它是指已收到确认应答号减一为止的数据。发送端收到这个确认应答以后可以认为在这个序号以前的数据都已经被正常接收。</p>
-<p>■ 数据偏移（Data Offset）</p>
-<p>该字段表示TCP所传输的数据部分应该从TCP包的哪个位开始计算，当然也可以把它看作TCP首部的长度。该字段长4位，单位为4字节（即32位）。不包括选项字段的话，如图6.26所示TCP的首部为20字节长，因此数据偏移字段可以设置为5。反之，如果该字段的值为5，那说明从TCP包的最一开始到20字节为止都是TCP首部，余下的部分为TCP数据。</p>
-<p>■ 保留（Reserved）</p>
-<p>该字段主要是为了以后扩展时使用，其长度为4位。一般设置为0，但即使收到的包在该字段不为0，此包也不会被丢弃（保留字段的第4位（如图中的第7位）用于实验目的，相当于NS（Nonce Sum）标志位。） 。</p>
-<p>■ 控制位（Control Flag）</p>
-<p>字段长为8位，每一位从左至右分别为CWR、ECE、URG、ACK、PSH、RST、SYN、FIN。这些控制标志也叫做控制位。当它们对应位上的值为1时，具体含义如图所示。</p>
+<img src="/2019/11/23/6-tcp-ip/01e54adf-35dc-4628-8de3-044c64437a37.jpg" alt="01e54adf-35dc-4628-8de3-044c64437a37" style="zoom:67%;">
+
+<h6 id="⑴源端口号（Source-Port）"><a href="#⑴源端口号（Source-Port）" class="headerlink" title="⑴源端口号（Source Port）"></a>⑴源端口号（Source Port）</h6><p><strong>表示发送端端口号</strong>，字段长16位。</p>
+<h6 id="⑵目标端口号（Destination-Port）"><a href="#⑵目标端口号（Destination-Port）" class="headerlink" title="⑵目标端口号（Destination Port）"></a>⑵目标端口号（Destination Port）</h6><p><strong>表示接收端端口号</strong>，字段长度16位。</p>
+<p><strong>源端口号和目的端口号用来告知主机该报文段是来自哪里以及传送给哪个应用程序（应用程序绑定了端口）的。</strong><br><strong>进行 TCP 通讯时，客户端通常使用系统自动选择的临时端口号，而服务器则使用知名服务端口号。</strong></p>
+<h6 id="⑶序列号（Sequence-Number）"><a href="#⑶序列号（Sequence-Number）" class="headerlink" title="⑶序列号（Sequence Number）"></a>⑶序列号（Sequence Number）</h6><p>字段长32位。<strong>序列号（有时也叫序号）是指发送数据的位置</strong>。每发送一次数据，就累加一次该数据字节数的大小。</p>
+<p>一个 TCP 流是有无数个 0 和 1 构成，这些 0 和 1 以 8 个 bit 为单位，可以分割成一个个的 byte，TCP 是可靠传输协议，每一个 byte 都是有标号的，因为我们需要追踪每个 byte 是否被成功传输了，每个 byte 的标号就是我们这里的 sequence number。</p>
+<p><strong>序列号不会从0或1开始，而是在建立连接时由计算机生成的随机数作为其初始值，通过SYN包传给接收端主机。然后再将每转发过去的字节数累加到初始值上表示数据的位置。此外，在建立连接和断开连接时发送的SYN包和FIN包虽然并不携带数据，但是也会作为一个字节增加对应的序列号。</strong></p>
+<h6 id="⑷确认应答号（Acknowledgement-Number）"><a href="#⑷确认应答号（Acknowledgement-Number）" class="headerlink" title="⑷确认应答号（Acknowledgement Number）"></a>⑷确认应答号（Acknowledgement Number）</h6><p>确认应答号字段长度32位。是指表示<strong>期望收到对方下一个报文段的序号值</strong>。实际上，它是指已收到确认应答号减一为止的数据。当发送端收到确认应答号后，用来确认这个位置以前所有数据都被正常接收，否则将会从新连接发送，这也是TCP是可靠传输的原因，因为有“序列号—确认应答号”这么一个确认机制，可以知道数据是否发送完整。例如下图中，主机A向主机B发送了长度为725的数据，主机B在回复的数据中将应答号设置为726，标识前725个数据都正常接收。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-15_17-04-48.jpg" alt="Snipaste_2019-12-15_17-04-48"></p>
+<p>The sequence number is always valid. The acknowledgement number is only valid when the ACK flag is one. The only time the ACK flag is not set, that is, the only time there is not a valid acknowledgement number in the TCP header, is during the first packet of connection set-up.</p>
+<p>序列号始终存在。确认编号仅在ACK标志为1时存在。 唯一未设置ACK标志的时间，即TCP头中没有有效确认号的唯一时间是在连接建立的第一个数据包期间。</p>
+<h6 id="关于序列号和确认应答号的说明"><a href="#关于序列号和确认应答号的说明" class="headerlink" title="关于序列号和确认应答号的说明"></a>关于序列号和确认应答号的说明</h6><img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-15_16-52-20.jpg" alt="Snipaste_2019-12-15_16-52-20" style="zoom:50%;">
+
+<p>When a host initiates a TCP session, its initial sequence number is effectively random; it may be any value between 0 and 4,294,967,295, inclusive. However, protocol analyzers like Wireshark will typically display <em>relative</em> sequence and acknowledgement numbers in place of the actual values. These numbers are relative to the initial sequence number of that stream. This is handy, as it is much easier to keep track of relatively small, predictable numbers rather than the actual numbers sent on the wire.</p>
+<p>主机启动TCP会话时，<strong>其初始序列号实际上是随机的； 它可以是0到4,294,967,295（含）之间的任何值。</strong> 但是，像Wireshark这样的<strong>抓包分析软件通常会显示相对序列和确认号来代替实际值</strong>。 这些数字是相对于该流的初始序列号。 这很方便，因为跟踪相对较小的可预测数字比在线上发送的实际数字要容易得多。</p>
+<h6 id="⑸-数据偏移（Data-Offset）"><a href="#⑸-数据偏移（Data-Offset）" class="headerlink" title="⑸ 数据偏移（Data Offset）"></a>⑸ 数据偏移（Data Offset）</h6><p>该字段表示TCP所传输的数据部分应该从TCP包的哪个位开始计算，当然也可以把它看作TCP首部的长度。该字段长4位，单位为4字节（即32位）。不包括选项字段的话，TCP的首部为20字节长，因此数据偏移字段可以设置为5。反之，如果该字段的值为5，那说明从TCP包的最一开始到20字节为止都是TCP首部，余下的部分为TCP数据。</p>
+<h6 id="⑹保留（Reserved）"><a href="#⑹保留（Reserved）" class="headerlink" title="⑹保留（Reserved）"></a>⑹保留（Reserved）</h6><p>该字段主要是为了以后扩展时使用，其长度为4位。一般设置为0，但即使收到的包在该字段不为0，此包也不会被丢弃（保留字段的第4位（如图中的第7位）用于实验目的，相当于NS（Nonce Sum）标志位。） 。</p>
+<h6 id="⑺控制位（Control-Flag）"><a href="#⑺控制位（Control-Flag）" class="headerlink" title="⑺控制位（Control Flag）"></a>⑺控制位（Control Flag）</h6><p>字段长为8位，每一位从左至右分别为CWR、ECE、URG、ACK、PSH、RST、SYN、FIN。这些控制标志也叫做控制位。当它们对应位上的值为1时，具体含义如图所示。</p>
 <p><img src="/2019/11/23/6-tcp-ip/6976ea88-152b-4bc4-b602-dde1d632cd14.jpg" alt="6976ea88-152b-4bc4-b602-dde1d632cd14"></p>
 <p>CWR（Congestion Window Reduced）<br>CWR标志与后面的ECE标志都用于IP首部的ECN字段。ECE标志为1时，则通知对方已将拥塞窗口缩小。</p>
 <p>ECE（ECN-Echo）<br>ECE标志表示ECN-Echo。置为1会通知通信对方，从对方到这边的网络有拥塞。在收到数据包的IP首部中ECN为1时将TCP首部中的ECE设置为1。</p>
@@ -50,9 +61,17 @@
 <p>RST（Reset Flag）<br>该位为1时表示TCP连接中出现异常必须强制断开连接。例如，一个没有被使用的端口即使发来连接请求，也无法进行通信。此时就可以返回一个RST设置为1的包。此外，程序宕掉或切断电源等原因导致主机重启的情况下，由于所有的连接信息将全部被初始化，所以原有的TCP通信也将不能继续进行。这种情况下，如果通信对方发送一个设置为1的RST包，就会使通信强制断开连接。</p>
 <p>SYN（Synchronize Flag）<br>用于建立连接。SYN为1表示希望建立连接，并在其序列号的字段进行序列号初始值的设定（Synchronize本身有同步的意思。也就意味着建立连接的双方，序列号和确认应答号要保持同步。） 。</p>
 <p>FIN（Fin Flag）<br>该位为1时，表示今后不会再有数据发送，希望断开连接。当通信结束希望断开连接时，通信双方的主机之间就可以相互交换FIN位置为1的TCP段。每个主机又对对方的FIN包进行确认应答以后就可以断开连接。不过，主机收到FIN设置为1的TCP段以后不必马上回复一个FIN包，而是可以等到缓冲区中的所有数据都因已成功发送而被自动删除之后再发。</p>
-<p>■ 窗口大小（Window Size）</p>
-<p>该字段长为16位。用于通知从相同TCP首部的确认应答号所指位置开始能够接收的数据大小（8位字节）。TCP不允许发送超过此处所示大小的数据。不过，如果窗口为0，则表示可以发送窗口探测，以了解最新的窗口大小。但这个数据必须是1个字节。</p>
-<h5 id="TCP的三次握手"><a href="#TCP的三次握手" class="headerlink" title="TCP的三次握手"></a>TCP的三次握手</h5><h5 id="TCP的四次分手"><a href="#TCP的四次分手" class="headerlink" title="TCP的四次分手"></a>TCP的四次分手</h5><h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层"><a href="#（三）网络层" class="headerlink" title="（三）网络层"></a>（三）网络层</h3><h3 id="（四）数据链路层"><a href="#（四）数据链路层" class="headerlink" title="（四）数据链路层"></a>（四）数据链路层</h3><h3 id="（五）物理层"><a href="#（五）物理层" class="headerlink" title="（五）物理层"></a>（五）物理层</h3><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+<h6 id="⑻窗口大小（Window-Size）"><a href="#⑻窗口大小（Window-Size）" class="headerlink" title="⑻窗口大小（Window Size）"></a>⑻窗口大小（Window Size）</h6><p>该字段长为16位。用于通知从相同TCP首部的确认应答号所指位置开始能够接收的数据大小（8位字节）。TCP不允许发送超过此处所示大小的数据。不过，如果窗口为0，则表示可以发送窗口探测，以了解最新的窗口大小。但这个数据必须是1个字节。</p>
+<h6 id="⑼校验和（Checksum）"><a href="#⑼校验和（Checksum）" class="headerlink" title="⑼校验和（Checksum）"></a>⑼校验和（Checksum）</h6><p>该字段长为16位。由发送端填充，接收端对 TCP 报文段执行 CRC 算法，以检验 TCP 报文段在传输过程中是否损坏，如果损坏这丢弃。<strong>检验范围包括首部和数据两部分，这也是 TCP 可靠传输的一个重要保障。</strong></p>
+<h6 id="⑽紧急指针（Urgent-Pointer）"><a href="#⑽紧急指针（Urgent-Pointer）" class="headerlink" title="⑽紧急指针（Urgent Pointer）"></a>⑽紧急指针（Urgent Pointer）</h6><p>该字段长为16位。仅在 URG = 1 时才有意义，<strong>它指出本报文段中的紧急数据的字节数</strong>。当 URG = 1 时，发送方 TCP 就把紧急数据插入到本报文段数据的<strong>最前面</strong>，而在紧急数据后面的数据仍是普通数据。因此，紧急指针指出了紧急数据的末尾在报文段中的位置。</p>
+<h5 id="TCP的三次握手"><a href="#TCP的三次握手" class="headerlink" title="TCP的三次握手"></a>TCP的三次握手</h5><p><img src="/2019/11/23/6-tcp-ip/TCP-handshake1.jpg" alt="TCP-handshake1"></p>
+<p><img src="/2019/11/23/6-tcp-ip/TCP-handshake.jpg" alt="TCP-handshake"></p>
+<p>第一次握手：客户端将标志位SYN置为1，随机产生一个值seq=J，并将该数据包发送给服务器端，客户端进入SYN_SENT状态，等待服务器端确认。</p>
+<p>第二次握手：服务器端收到数据包后由标志位SYN=1知道客户端请求建立连接，服务器端将标志位SYN和ACK都置为1，ack=J+1，随机产生一个值seq=K，并将该数据包发送给客户端以确认连接请求，服务器端进入SYN_RCVD状态。</p>
+<p>第三次握手：客户端收到确认后，检查ack是否为J+1，ACK是否为1，如果正确则将标志位ACK置为1，ack=K+1，并将该数据包发送给服务器端，服务器端检查ack是否为K+1，ACK是否为1，如果正确则连接建立成功，客户端和服务器端进入ESTABLISHED状态，完成三次握手，随后客户端与服务器端之间可以开始传输数据了。</p>
+<h5 id="TCP的四次分手"><a href="#TCP的四次分手" class="headerlink" title="TCP的四次分手"></a>TCP的四次分手</h5><p><img src="/2019/11/23/6-tcp-ip/TCP-88-1.jpg" alt="TCP-88-1"></p>
+<p><img src="/2019/11/23/6-tcp-ip/TCP-88.jpg" alt="TCP-88"></p>
+<h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层"><a href="#（三）网络层" class="headerlink" title="（三）网络层"></a>（三）网络层</h3><h3 id="（四）数据链路层"><a href="#（四）数据链路层" class="headerlink" title="（四）数据链路层"></a>（四）数据链路层</h3><h3 id="（五）物理层"><a href="#（五）物理层" class="headerlink" title="（五）物理层"></a>（五）物理层</h3><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
         <category>CCNA</category>
