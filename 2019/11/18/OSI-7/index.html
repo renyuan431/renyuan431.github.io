@@ -85,7 +85,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;PC2-3.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;PC2-4.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;PC2.jpg">
-<meta property="og:updated_time" content="2019-12-14T07:07:09.119Z">
+<meta property="og:updated_time" content="2019-12-31T05:38:46.042Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;v2-854e3df8ea850c977c30cb1deb1f64db_hd.jpg">
 
@@ -287,7 +287,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-14 15:07:09" itemprop="dateModified" datetime="2019-12-14T15:07:09+08:00">2019-12-14</time>
+                <time title="修改时间：2019-12-31 13:38:46" itemprop="dateModified" datetime="2019-12-31T13:38:46+08:00">2019-12-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -338,7 +338,7 @@
 <p><img src="/2019/11/18/OSI-7/osi5.png" alt="osi5"></p>
 <h2 id="四、OSI模型的不足"><a href="#四、OSI模型的不足" class="headerlink" title="四、OSI模型的不足"></a>四、OSI模型的不足</h2><p>OSI模型所存在的问题是模型与协议自身的缺陷。OSI参考模型将“服务”与“协议”的定义相结合，使得参考模型变得格外复杂，实现起来更加困难，而且整体上对安全方面考虑的不够。会话层在大多数应用中很少用到，表示层几乎是空的。在数据链路层与网络层有很多子层插入，每个子层都有不同的功能。</p>
 <h2 id="五、相关概念"><a href="#五、相关概念" class="headerlink" title="五、相关概念"></a>五、相关概念</h2><h3 id="（一）协议号，端口号"><a href="#（一）协议号，端口号" class="headerlink" title="（一）协议号，端口号"></a>（一）协议号，端口号</h3><p>协议号是三层概念，存在于IP头部协议号字段(常见的例如：6=TCP，17=UDP)；<br>端口号是四层概念，存在于TCP或UDP源/目端口号字段(常见的例如：TCP80=HTTP, UDP53=DNS)</p>
-<p>说白了都是“区分上层”用的，就是用来识别同一台计算机中进行通信的不同应用程序。但是所处的层次不一样。</p>
+<p>说白了都是“区分上层”用的，就是用来识别同一台计算机中进行通信的不同应用程序。但是所处的层次不一样。一台计算机上同时可以运行多个程序。传输层协议正是利用这些端口号识别本机中正在进行通信的应用程序，并准确地将数据传输。</p>
 <p><img src="/2019/11/18/OSI-7/1e487b21-906d-41ae-8894-d02f1037cf25.jpg" alt="1e487b21-906d-41ae-8894-d02f1037cf25"></p>
 <h3 id="（二）协议的定义及作用"><a href="#（二）协议的定义及作用" class="headerlink" title="（二）协议的定义及作用"></a>（二）协议的定义及作用</h3><p>什么是协议（protocol）？<br>是指通信双方对数据传送控制的一种约定。约定中包括对数据格式，同步方式，传送速度，传送步骤，检纠错方式以及控制字符定义等问题做出统一规定，通信双方必须共同遵守，它也叫做链路控制规程。</p>
 <p><strong>通俗的来讲，协议是一种双方都明白或者必须遵守的事先约定</strong>，比如说长城上放狼烟，是因为人们已经预先设定好狼烟这个物理信号代表了“敌人入侵”这一抽象信号。这样一个“狼烟=敌人入侵”就是一个简单的协议。协议可以更复杂，比如摩尔斯码(Morse Code)，使用短信号和长信号的组合，来代表不同的英文字母。</p>
