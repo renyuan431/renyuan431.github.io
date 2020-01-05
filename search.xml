@@ -26,10 +26,19 @@
 <p>Thus, to support these applications, something has to be done to <strong>guarantee</strong> that the data sent by one end of the application is delivered <strong>correctly</strong> and <strong>completely</strong> to the other end of the application. If a protocol provides such a guaranteed data delivery service, it is said to provide reliable data transfer.</p>
 </blockquote>
 <p>分组可能会在网络中丢失、损坏，应用层可能对网络通信有所要求，不允许出现这种差错，<strong>必须保证接收方的应用收到了完整且正确的数据，这种服务就是可靠数据传输服务。</strong>如果一个协议可以确保发送端发送了怎样的数据，那么接收端就必然能接收到怎样的数据，那么就可以说这个协议提供了可靠数据传输服务，这个协议是可靠（Reliable）的，反之则是不可靠（Unreliable）的。</p>
-<h3 id="5、端口号、协议号"><a href="#5、端口号、协议号" class="headerlink" title="5、端口号、协议号"></a>5、端口号、协议号</h3><p>协议号是三层概念，存在于IP头部协议号字段(常见的例如：6=TCP，17=UDP)；<br>端口号是四层概念，存在于TCP或UDP源/目端口号字段(常见的例如：TCP80=HTTP, UDP53=DNS)</p>
+<h3 id="5、端口号、协议号"><a href="#5、端口号、协议号" class="headerlink" title="5、端口号、协议号"></a>5、端口号、协议号</h3><p>数据链路和 IP 中的地址，分别指的是 MAC 地址和 IP 地址。前者用来识别同一链路中不同的计算机，后者用来识别 TCP/IP 网络中互连的主机和路由器。在传输层也有这种类似于地址的概念，那就是端口号。端口号用来识别同一台计算机中进行通信的不同应用程序。因此，它也被称为程序地址。</p>
+<p>协议号是三层概念，存在于IP头部协议号字段(常见的例如：6=TCP，17=UDP)；<br>端口号是四层概念，存在于TCP或UDP源/目端口号字段(常见的例如：TCP80=HTTP, UDP53=DNS)</p>
 <p>说白了都是“区分上层”用的，就是用来识别同一台计算机中进行通信的不同应用程序。但是所处的层次不一样。一台计算机上同时可以运行多个程序。传输层协议正是利用这些端口号识别本机中正在进行通信的应用程序，并准确地将数据传输。</p>
 <p><img src="/2019/11/23/6-tcp-ip/1e487b21-906d-41ae-8894-d02f1037cf25-1577770747233.jpg" alt="1e487b21-906d-41ae-8894-d02f1037cf25"></p>
-<h2 id="三、各层功能"><a href="#三、各层功能" class="headerlink" title="三、各层功能"></a>三、各层功能</h2><h3 id="（一）应用层"><a href="#（一）应用层" class="headerlink" title="（一）应用层"></a>（一）应用层</h3><p>向用户提供一组常用的应用程序，比如电子邮件、文件传输访问、远程登录，常见用的软件所使用的很多协议都在这一层。应用层包含了所有的高层协议：</p>
+<p><img src="/2019/11/23/6-tcp-ip/c9daa-20190821100721-bd5df.jpeg" alt="c9daa-20190821100721-bd5df"></p>
+<p><img src="/2019/11/23/6-tcp-ip/3d251-20190821100721-c0e40.jpeg" alt="3d251-20190821100721-c0e40"></p>
+<p>通过端口号、IP地址、协议号进行通信识别</p>
+<ul>
+<li>① 和② 的通信是在两台计算机上进行的。它们的目标端口号相同，都是80。这里可以根据源端口号加以区分。</li>
+<li>③ 和 ① 的目标端口号和源端口号完全相同，但它们各自的源 IP 地址不同。</li>
+<li>此外，当 IP 地址和端口号全都一样时，我们还可以通过协议号来区分（TCP 和 UDP）。</li>
+</ul>
+<h2 id="三、各层功能"><a href="#三、各层功能" class="headerlink" title="三、各层功能"></a>三、各层功能</h2><h3 id="（一）应用层（Network-Access-Layer）"><a href="#（一）应用层（Network-Access-Layer）" class="headerlink" title="（一）应用层（Network Access Layer）"></a>（一）应用层（Network Access Layer）</h3><p>向用户提供一组常用的应用程序，比如电子邮件、文件传输访问、远程登录，常见用的软件所使用的很多协议都在这一层。应用层包含了所有的高层协议：</p>
 <ul>
 <li>HTTP 80 超文本传输协议，提供浏览网页服务 </li>
 <li>Telnet 23 远程登陆协议，提供远程管理服务</li>
@@ -38,7 +47,7 @@
 <li>POP3 110 邮局协议，提供互联网电子邮件服务</li>
 <li>TFTP 69 (UDP) 简单文件传输协议，提供简单的文件传输服务 </li>
 </ul>
-<h3 id="（二）传输层"><a href="#（二）传输层" class="headerlink" title="（二）传输层"></a>（二）传输层</h3><p>位于应用层和网络接口层之间，为两台主机提供端到端的通信，在TCP/IP协议族中，有两个互不相同的传输协议：TCP（传输控制协议）和UDP（用户数据报协议）。</p>
+<h3 id="（二）传输层（Transport-Layer）"><a href="#（二）传输层（Transport-Layer）" class="headerlink" title="（二）传输层（Transport Layer）"></a>（二）传输层（Transport Layer）</h3><p>位于应用层和网络接口层之间，为两台主机提供端到端的通信，在TCP/IP协议族中，有两个互不相同的传输协议：TCP（传输控制协议）和UDP（用户数据报协议）。</p>
 <p><img src="/2019/11/23/6-tcp-ip/TCPUDP.jpg" alt="TCPUDP"></p>
 <h4 id="1、TCP"><a href="#1、TCP" class="headerlink" title="1、TCP"></a>1、TCP</h4><p>TCP（Transmission Control Protocol，传输控制协议）为两台主机提供高可靠性的数据通信，是一种面向连接的、可靠的、基于字节流的传输层通信协议，由 IETF 的RFC 793定义。TCP 是面向连接的、可靠的流协议。流就是指不间断的数据结构，你可以把它想象成排水管中的水流。</p>
 <h5 id="TCP的特点："><a href="#TCP的特点：" class="headerlink" title="TCP的特点："></a>TCP的特点：</h5><p>1、面向连接</p>
@@ -98,15 +107,23 @@
 <img src="/2019/11/23/6-tcp-ip/TCP-handshake.jpg" alt="TCP-handshake" style="zoom:150%;">
 
 <h6 id="第一次握手："><a href="#第一次握手：" class="headerlink" title="第一次握手："></a>第一次握手：</h6><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-04_17-56-06.jpg" alt="Snipaste_2020-01-04_17-56-06"></p>
-<p>开始三次握手的主机会将TCP控制位（Control Flag）中的SYN位置为1，表示希望建立TCP连接；序列号（Sequence Number）置为0（这个0是相对序列号，解释见上边序列号部分或下段说明），并将该数据包发送给服务器端，客户端进入SYN_SENT状态，等待服务器端确认。会话的每一端都以（相对）序列号零开始。同样，确认数也为零，因为还没有对话的互补面需要确认。</p>
+<p>开始三次握手的设备1（IP地址为192.168.1.2）会将TCP控制位（Control Flag）中的SYN位置为1，表示希望建立TCP连接；序列号（Sequence Number）置为J，在这K为0（这个0是相对序列号，解释见上边序列号部分或下段说明），并将该数据包发送给对端的设备2（IP地址为174.143.213.184），客户端进入SYN_SENT状态，等待对端确认。会话的每一端都以（相对）序列号零开始。同样，确认数也为零，因为还没有对话的互补面需要确认。</p>
 <p>必须注意的是，主机启动TCP会话时，<strong>其初始序列号实际上是随机的； 它可以是0到4,294,967,295（含）之间的任何值。</strong> 但是，像Wireshark这样的<strong>抓包分析软件通常会显示相对序列和确认号来代替实际值</strong>。 这些数字是相对于该流的初始序列号。 这很方便，因为跟踪相对较小的可预测数字比在线上发送的实际数字要容易得多。</p>
 <h6 id="第二次握手："><a href="#第二次握手：" class="headerlink" title="第二次握手："></a>第二次握手：</h6><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-04_18-03-45.jpg" alt="Snipaste_2020-01-04_18-03-45"></p>
-<p>服务器端收到数据包后由标志位SYN=1知道客户端请求建立连接，服务器端将标志位SYN和ACK都置为1，ack=J+1，随机产生一个值seq=K，并将该数据包发送给客户端以确认连接请求，服务器端进入SYN_RCVD状态。</p>
-<h6 id="第三次握手："><a href="#第三次握手：" class="headerlink" title="第三次握手："></a>第三次握手：</h6><p>第三次握手：客户端收到确认后，检查ack是否为J+1，ACK是否为1，如果正确则将标志位ACK置为1，ack=K+1，并将该数据包发送给服务器端，服务器端检查ack是否为K+1，ACK是否为1，如果正确则连接建立成功，客户端和服务器端进入ESTABLISHED状态，完成三次握手，随后客户端与服务器端之间可以开始传输数据了。</p>
+<p>设备2（IP地址为174.143.213.184）收到数据包后解封装发现TCP的控制位中SYN置1，说明设备1（IP地址为192.168.1.2）请求建立连接，于是将自己TCP的控制位中的SYN和ACK都置为1，ACK为设备1的序列号J+1，也就是0+1=1，随机产生一个序列号K，这个K在这也是0，也是个相对序列号，然后将该数据包发送给设备1并进入SYN_RCVD状态。</p>
+<h6 id="第三次握手："><a href="#第三次握手：" class="headerlink" title="第三次握手："></a>第三次握手：</h6><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_18-58-43.jpg" alt="Snipaste_2020-01-05_18-58-43"></p>
+<p>设备1（IP地址为192.168.1.2）收到确认后，检查ack是否为J+1，ACK是否为1，如果正确则将标志位ACK置为1，ack=K+1，并将该数据包发送给服务器端，服务器端检查ack是否为K+1，ACK是否为1，如果正确则连接建立成功，客户端和服务器端进入ESTABLISHED状态，完成三次握手，随后客户端与服务器端之间可以开始传输数据了。</p>
 <h5 id="TCP的四次分手"><a href="#TCP的四次分手" class="headerlink" title="TCP的四次分手"></a>TCP的四次分手</h5><p><img src="/2019/11/23/6-tcp-ip/TCP-88-1.jpg" alt="TCP-88-1"></p>
-<img src="/2019/11/23/6-tcp-ip/TCP-88.jpg" alt="TCP-88" style="zoom:150%;">
+<img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_17-07-53.jpg" alt="Snipaste_2020-01-05_17-07-53" style="zoom:150%;">
 
-<h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层"><a href="#（三）网络层" class="headerlink" title="（三）网络层"></a>（三）网络层</h3><h3 id="（四）数据链路层"><a href="#（四）数据链路层" class="headerlink" title="（四）数据链路层"></a>（四）数据链路层</h3><h3 id="（五）物理层"><a href="#（五）物理层" class="headerlink" title="（五）物理层"></a>（五）物理层</h3><p>引用文章：</p>
+<p>中断连接的发起者可以是客户端，也可以是服务器端。</p>
+<h6 id="第一次分手："><a href="#第一次分手：" class="headerlink" title="第一次分手："></a>第一次分手：</h6><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_17-14-40.jpg" alt="Snipaste_2020-01-05_17-14-40"></p>
+<p>设备1（IP地址为10.0.2.15）发送一个序列号（sequence number，此处为相对序列号）为106，确认应答号（Acknowledgement number）为321，相对FIN位置1的数据给设备2（IP地址为176.32.99.41），表示我这段要结束数据传送并进入FIN_WAIT_1状态。意思是说”我没有数据要发给你了”，但是如果你还有数据没有发送完成，则不必急着关闭连接，可以继续发送数据。</p>
+<h6 id="第二次分手："><a href="#第二次分手：" class="headerlink" title="第二次分手："></a>第二次分手：</h6><p>对端收到FIN后，先发送ack=M+1，告诉客户端，你的请求我收到了，但是我还没准备好，请继续你等我的消息。这个时候客户端就进入FIN_WAIT_2 状态，继续等待服务器端的FIN报文。</p>
+<h6 id="第三次分手："><a href="#第三次分手：" class="headerlink" title="第三次分手："></a>第三次分手：</h6><p>当服务器端确定数据已发送完成，则向客户端发送FIN=N报文，告诉客户端，好了，我这边数据发完了，准备好关闭连接了。服务器端进入LAST_ACK状态。</p>
+<h6 id="第四次分手："><a href="#第四次分手：" class="headerlink" title="第四次分手："></a>第四次分手：</h6><p>客户端收到FIN=N报文后，就知道可以关闭连接了，但是他还是不相信网络，怕服务器端不知道要关闭，所以发送ack=N+1后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传。服务器端收到ACK后，就知道可以断开连接了。客户端等待了2MSL后依然没有收到回复，则证明服务器端已正常关闭，那好，我客户端也可以关闭连接了。最终完成了四次握手。</p>
+<p><strong>上面是一方主动关闭，另一方被动关闭的情况，实际中还会出现同时发起主动关闭的情况，</strong></p>
+<h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层（Internet-Layer）"><a href="#（三）网络层（Internet-Layer）" class="headerlink" title="（三）网络层（Internet Layer）"></a>（三）网络层（Internet Layer）</h3><h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><h3 id="（五）物理层（Physical-Layer）"><a href="#（五）物理层（Physical-Layer）" class="headerlink" title="（五）物理层（Physical Layer）"></a>（五）物理层（Physical Layer）</h3><p>引用文章：</p>
 <p><a href="https://blog.csdn.net/hanzhen7541/article/details/79072036" target="_blank" rel="noopener">TCP和UDP协议的特点和区别详解</a></p>
 <p><a href="https://www.zhihu.com/question/39324847" target="_blank" rel="noopener">怎么有效理解可靠数据传输</a>？</p>
 <p><a href="http://docs.52im.net/extend/docs/book/tcpip/vol1/17/" target="_blank" rel="noopener">第17章 TCP：传输控制协议</a></p>
@@ -483,6 +500,7 @@
 <p>（三）掌握协议是如何工作的。协议的标准是什么，工作的机制是什么，例如EIGRP的DUAL算法是如何规定且工作的，OSPF的SPF算法是如何规定且工作的。</p>
 <p>（四）掌握协议底层的工作机制和报文。例如OSPF协议中，两个路由器之间建立邻居的过程，反应在底层是什么样的，也就是报文是如何传输的，报文的格式是什么，每个报文中重要字段有什么，这些字段的含义是什么。</p>
 <p>以上总结出自红茶三杯CCNP课程的路由选择原理。</p>
+<p><strong>强烈建议听懂一个知识点以后总结一份自己的笔记，因为很多东西听懂的和自己能总结完全不是一个层次，笔记是一个对知识消化并进一步总结归纳的过程，比简单的听懂视频看懂书籍要高了一个档次，虽然耗时更长，但对知识会有更深层次的理解并且记得更牢固。</strong></p>
  <a id="more"></a>  
 
 <h2 id="二、遇到问题如何找寻答案"><a href="#二、遇到问题如何找寻答案" class="headerlink" title="二、遇到问题如何找寻答案"></a>二、遇到问题如何找寻答案</h2><p>如果周围有懂技术的朋友，请教他们是最快捷最直接的解决办法，但还是更建议通过搜索引擎、官方文档或做实验寻找答案，因为人的大脑可能记错答案但官方文档一般来说是不会出问题的，国内技术类网站都是中文，可以解决常见的一些疑问，但如果有比较冷门一些的问题，可能国内的中文网站已经很难找到解答，这时候思科的官方文档和官方社区是最好的求助对象，尤其是思科的官方论坛，经常有思科的技术大佬过去回答问题，是提升自我非常好的学习渠道，老外对技术细节的讨论十分到位，基本可以解决大部分疑惑。搜索引擎尽量别用百度，搜索的效率相对低一些，容易浪费时间。</p>
