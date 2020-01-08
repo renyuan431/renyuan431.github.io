@@ -106,12 +106,18 @@
 <h5 id="TCP的三次握手"><a href="#TCP的三次握手" class="headerlink" title="TCP的三次握手"></a>TCP的三次握手</h5><p><img src="/2019/11/23/6-tcp-ip/TCP-handshake1.jpg" alt="TCP-handshake1"></p>
 <img src="/2019/11/23/6-tcp-ip/TCP-handshake.jpg" alt="TCP-handshake" style="zoom:150%;">
 
-<h6 id="第一次握手："><a href="#第一次握手：" class="headerlink" title="第一次握手："></a>第一次握手：</h6><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-04_17-56-06.jpg" alt="Snipaste_2020-01-04_17-56-06"></p>
-<p>开始三次握手的设备1（IP地址为192.168.1.2）会将TCP控制位（Control Flag）中的SYN位置为1，表示希望建立TCP连接；序列号（Sequence Number）置为J，在这K为0（这个0是相对序列号，解释见上边序列号部分或下段说明），并将该数据包发送给对端的设备2（IP地址为174.143.213.184），客户端进入SYN_SENT状态，等待对端确认。会话的每一端都以（相对）序列号零开始。同样，确认数也为零，因为还没有对话的互补面需要确认。</p>
+<h6 id="第一次握手："><a href="#第一次握手：" class="headerlink" title="第一次握手："></a>第一次握手：</h6><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-08_17-51-08.jpg" alt="Snipaste_2020-01-08_17-51-08" style="zoom:150%;">
+
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-04_17-56-06.jpg" alt="Snipaste_2020-01-04_17-56-06"></p>
+<p>开始三次握手的设备1（IP地址为192.168.1.2）会将TCP控制位（Control Flag）中的SYN位置为1，表示希望建立TCP连接；序列号（Sequence Number）置为J，在这J为0（这个0是相对序列号，解释见上边序列号部分或下段说明），并将该数据包发送给对端的设备2（IP地址为174.143.213.184），客户端进入SYN_SENT状态，等待对端确认。会话的每一端都以（相对）序列号零开始。同样，确认数也为零，因为还没有对话的互补面需要确认。</p>
 <p>必须注意的是，主机启动TCP会话时，<strong>其初始序列号实际上是随机的； 它可以是0到4,294,967,295（含）之间的任何值。</strong> 但是，像Wireshark这样的<strong>抓包分析软件通常会显示相对序列和确认号来代替实际值</strong>。 这些数字是相对于该流的初始序列号。 这很方便，因为跟踪相对较小的可预测数字比在线上发送的实际数字要容易得多。</p>
-<h6 id="第二次握手："><a href="#第二次握手：" class="headerlink" title="第二次握手："></a>第二次握手：</h6><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-04_18-03-45.jpg" alt="Snipaste_2020-01-04_18-03-45"></p>
+<h6 id="第二次握手："><a href="#第二次握手：" class="headerlink" title="第二次握手："></a>第二次握手：</h6><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-08_17-52-06.jpg" alt="Snipaste_2020-01-08_17-52-06" style="zoom:150%;">
+
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-04_18-03-45.jpg" alt="Snipaste_2020-01-04_18-03-45"></p>
 <p>设备2（IP地址为174.143.213.184）收到数据包后解封装发现TCP的控制位中SYN置1，说明设备1（IP地址为192.168.1.2）请求建立连接，于是将自己TCP的控制位中的SYN和ACK都置为1，ACK为设备1的序列号J+1，也就是0+1=1，随机产生一个序列号K，这个K在这也是0，也是个相对序列号，然后将该数据包发送给设备1并进入SYN_RCVD状态。</p>
-<h6 id="第三次握手："><a href="#第三次握手：" class="headerlink" title="第三次握手："></a>第三次握手：</h6><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_18-58-43.jpg" alt="Snipaste_2020-01-05_18-58-43"></p>
+<h6 id="第三次握手："><a href="#第三次握手：" class="headerlink" title="第三次握手："></a>第三次握手：</h6><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-08_17-52-53.jpg" alt="Snipaste_2020-01-08_17-52-53" style="zoom:150%;">
+
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_18-58-43.jpg" alt="Snipaste_2020-01-05_18-58-43"></p>
 <p>设备1（IP地址为192.168.1.2）收到确认后，检查ack是否为J+1，ACK是否为1，如果正确则将标志位ACK置为1，ack=K+1，并将该数据包发送给服务器端，服务器端检查ack是否为K+1，ACK是否为1，如果正确则连接建立成功，客户端和服务器端进入ESTABLISHED状态，完成三次握手，随后客户端与服务器端之间可以开始传输数据了。</p>
 <h5 id="TCP的四次分手"><a href="#TCP的四次分手" class="headerlink" title="TCP的四次分手"></a>TCP的四次分手</h5><p><img src="/2019/11/23/6-tcp-ip/TCP-88-1.jpg" alt="TCP-88-1"></p>
 <img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_17-07-53.jpg" alt="Snipaste_2020-01-05_17-07-53" style="zoom:150%;">
@@ -123,7 +129,22 @@
 <h6 id="第三次分手："><a href="#第三次分手：" class="headerlink" title="第三次分手："></a>第三次分手：</h6><p>当服务器端确定数据已发送完成，则向客户端发送FIN=N报文，告诉客户端，好了，我这边数据发完了，准备好关闭连接了。服务器端进入LAST_ACK状态。</p>
 <h6 id="第四次分手："><a href="#第四次分手：" class="headerlink" title="第四次分手："></a>第四次分手：</h6><p>客户端收到FIN=N报文后，就知道可以关闭连接了，但是他还是不相信网络，怕服务器端不知道要关闭，所以发送ack=N+1后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传。服务器端收到ACK后，就知道可以断开连接了。客户端等待了2MSL后依然没有收到回复，则证明服务器端已正常关闭，那好，我客户端也可以关闭连接了。最终完成了四次握手。</p>
 <p><strong>上面是一方主动关闭，另一方被动关闭的情况，实际中还会出现同时发起主动关闭的情况，</strong></p>
-<h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层（Internet-Layer）"><a href="#（三）网络层（Internet-Layer）" class="headerlink" title="（三）网络层（Internet Layer）"></a>（三）网络层（Internet Layer）</h3><h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><h3 id="（五）物理层（Physical-Layer）"><a href="#（五）物理层（Physical-Layer）" class="headerlink" title="（五）物理层（Physical Layer）"></a>（五）物理层（Physical Layer）</h3><blockquote>
+<h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层（Internet-Layer）"><a href="#（三）网络层（Internet-Layer）" class="headerlink" title="（三）网络层（Internet Layer）"></a>（三）网络层（Internet Layer）</h3><p>IP报头</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-08_17-05-12.jpg" alt="Snipaste_2020-01-08_17-05-12"></p>
+<p><img src="/2019/11/23/6-tcp-ip/IP%20packet.png" alt="IP packet"></p>
+<p>版本号（Version）：长度4比特。标识目前采用的IP协议的版本号。一般的值为0100（IPv4），IPv6的值（0110），除此之外的版本号现网中已经几乎绝迹了。如果不知道为什么0100对应IPV4，0110对应IPV6，请看<a href="https://renyuan431.github.io/2019/11/18/basic-knowledge/">4、基础知识</a>中关于2进制转换的部分，2进制的0100换算成10进制就是4，代表IPV4，2进制的0110换算成10进制就是6，代表IPV6。</p>
+<p>IP包头长度（Header Length）：长度4比特。这个字段的作用是为了描述IP包头的长度，因为在IP包头中有变长的可选部分。IP包头最小长度为20字节，由于变长的可选部分最大长度可能会变成60字节。</p>
+<p>服务类型（Type of Service、TOS）：长度8比特，通知沿途路由器包含在数据报中的数据的重要性，从而设置数据报的优先级，只有当<strong>网络设备能够支持</strong>（能够识别IP首部中的ToS字段）识别ToS字段时，这给字段设置才有意义。否则都是空谈。这个子段可以拆分成两个部分：Precedence和TOS。TOS目前不太使用。而Precedence则用于QOS应用。（TOS字段的详细描述RFC 1340 1349）</p>
+<p>IP包总长（Total Length）：长度16比特。IP包最大长度65535字节。</p>
+<p>标识符（Identifier）:长度16比特。该字段和Flags和Fragment Offest字段联合使用，对大的上层数据包进行分段（fragment）操作。</p>
+<p>标记（Flags）：长度3比特。该字段第一位不使用。第二位是DF位，DF位设为1时表明路由器不能对该上层数据包分段。如果一个上层数据包无法在不分段 的情况下进行转发，则路由器会丢弃该上层数据包并返回一个错误信息。第三位是MF位，当路由器对一个上层数据包分段，则路由器会在除了最后一个分段的IP 包的包头中将MF位设为1。</p>
+<p>分段序号（Fragment Offset）：长度13比特。该字段对包含分段的上层数据包的IP包赋予序号。由于IP包在网络上传送的时候不一定能按顺序到达，这个字段保证了目标路 由器在接受到IP包之后能够还原分段的上层数据包。到某个包含分段的上层数据包的IP包在传送是丢失，则整个一系列包含分段的上层数据包的IP包都会被要 求重传。</p>
+<p>生存时间（TTL）：长度8比特。当IP包进行传送时，先会对该字段赋予某个特定的值。当IP包经过每一个沿途的路由器的时候，每 个沿途的路由器会将IP包的TTL值减少1。如果TTL减少为0，则该IP包会被丢弃。这个字段可以防止由于故障而导致IP包在网络中不停被转发。</p>
+<p>协议（Protocol）：长度8比特。标识了上层所使用的协议。</p>
+<p>头部校验（Header Checksum）：长度16位，由于IP包头是变长的，所以提供一个头部校验来保证IP包头中信息的正确性。</p>
+<p>起源和目标地址（Source and Destination Addresses<br>）：这两个地段都是32比特。标识了这个IP包的起源和目标地址。</p>
+<p>可选项（Options）：这是一个可变长的字段。该字段由起源设备根据需要改写。可选项目包含以下内容：<br>松散源路由（Loose source routing）：给出一连串路由器接口的IP地址。IP包必须沿着这些IP地址传送，但是允许在相继的两个IP地址之间跳过多个路由器。<br>严格源路由（Strict source routing）：给出一连串路由器接口的IP地址。IP包必须沿着这些IP地址传送，如果下一跳不在IP地址表中则表示发生错误。<br>路由记录（Record route）：当IP包离开每个路由器的时候记录路由器的出站接口的IP地址。<br>时间戳（Timestamps）：当IP包离开每个路由器的时候记录时间。</p>
+<h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><h3 id="（五）物理层（Physical-Layer）"><a href="#（五）物理层（Physical-Layer）" class="headerlink" title="（五）物理层（Physical Layer）"></a>（五）物理层（Physical Layer）</h3><blockquote>
 <p>The physical layer contains the protocols relating to the physical medium on which TCP/IP will be communicating. Officially, the protocols of this layer fall within four categories that together describe all aspects of physical media: </p>
 <p>Electrical/optical protocols describe signal characteristics such as voltage or photonic levels, bit timing, encoding, and signal shape. </p>
 <p>Mechanical protocols are specifications such as the dimensions of a connector or the metallic makeup of a wire. </p>
@@ -135,7 +156,9 @@
 <p><a href="http://docs.52im.net/extend/docs/book/tcpip/vol1/17/" target="_blank" rel="noopener">第17章 TCP：传输控制协议</a></p>
 <p><a href="https://www.jianshu.com/p/9f3e879a4c9c#comments" target="_blank" rel="noopener">一篇文章带你熟悉 TCP/IP 协议（网络协议篇二）</a></p>
 <p><a href="https://packetlife.net/blog/2010/jun/7/understanding-tcp-sequence-acknowledgment-numbers/" target="_blank" rel="noopener">Understanding TCP Sequence and Acknowledgment Numbers</a></p>
+<p><a href="https://www.cnblogs.com/xuekai-to-sharp/p/3506982.html" target="_blank" rel="noopener">IP包头</a></p>
 <p>Routing TCP/IP, Volume I</p>
+<p>数据通信与联网技术</p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
