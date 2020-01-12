@@ -38,6 +38,7 @@
 <li>③ 和 ① 的目标端口号和源端口号完全相同，但它们各自的源 IP 地址不同。</li>
 <li>此外，当 IP 地址和端口号全都一样时，我们还可以通过协议号来区分（TCP 和 UDP）。</li>
 </ul>
+<h3 id="6、最大传输单元（MTU）"><a href="#6、最大传输单元（MTU）" class="headerlink" title="6、最大传输单元（MTU）"></a>6、最大传输单元（MTU）</h3><p>（英语：<strong>M</strong>aximum <strong>T</strong>ransmission <strong>U</strong>nit，缩写MTU）是指一种通信协议的某一层上面所能通过的最大数据包大小（以字节为单位）。最大传输单元这个参数通常与通信接口有关（网络接口卡、串口等）。</p>
 <h2 id="三、各层功能"><a href="#三、各层功能" class="headerlink" title="三、各层功能"></a>三、各层功能</h2><h3 id="（一）应用层（Network-Access-Layer）"><a href="#（一）应用层（Network-Access-Layer）" class="headerlink" title="（一）应用层（Network Access Layer）"></a>（一）应用层（Network Access Layer）</h3><p>向用户提供一组常用的应用程序，比如电子邮件、文件传输访问、远程登录，常见用的软件所使用的很多协议都在这一层。应用层包含了所有的高层协议：</p>
 <ul>
 <li>HTTP 80 超文本传输协议，提供浏览网页服务 </li>
@@ -129,21 +130,54 @@
 <h6 id="第三次分手："><a href="#第三次分手：" class="headerlink" title="第三次分手："></a>第三次分手：</h6><p>当服务器端确定数据已发送完成，则向客户端发送FIN=N报文，告诉客户端，好了，我这边数据发完了，准备好关闭连接了。服务器端进入LAST_ACK状态。</p>
 <h6 id="第四次分手："><a href="#第四次分手：" class="headerlink" title="第四次分手："></a>第四次分手：</h6><p>客户端收到FIN=N报文后，就知道可以关闭连接了，但是他还是不相信网络，怕服务器端不知道要关闭，所以发送ack=N+1后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传。服务器端收到ACK后，就知道可以断开连接了。客户端等待了2MSL后依然没有收到回复，则证明服务器端已正常关闭，那好，我客户端也可以关闭连接了。最终完成了四次握手。</p>
 <p><strong>上面是一方主动关闭，另一方被动关闭的情况，实际中还会出现同时发起主动关闭的情况，</strong></p>
-<h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层（Internet-Layer）"><a href="#（三）网络层（Internet-Layer）" class="headerlink" title="（三）网络层（Internet Layer）"></a>（三）网络层（Internet Layer）</h3><p>IP报头</p>
-<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-08_17-05-12.jpg" alt="Snipaste_2020-01-08_17-05-12"></p>
+<h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层（Internet-Layer）"><a href="#（三）网络层（Internet-Layer）" class="headerlink" title="（三）网络层（Internet Layer）"></a>（三）网络层（Internet Layer）</h3><h4 id="IP报头"><a href="#IP报头" class="headerlink" title="IP报头"></a>IP报头</h4><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-08_17-05-12.jpg" alt="Snipaste_2020-01-08_17-05-12"></p>
 <p><img src="/2019/11/23/6-tcp-ip/IP%20packet.png" alt="IP packet"></p>
-<p>版本号（Version）：长度4比特。标识目前采用的IP协议的版本号。一般的值为0100（IPv4），IPv6的值（0110），除此之外的版本号现网中已经几乎绝迹了。如果不知道为什么0100对应IPV4，0110对应IPV6，请看<a href="https://renyuan431.github.io/2019/11/18/basic-knowledge/">4、基础知识</a>中关于2进制转换的部分，2进制的0100换算成10进制就是4，代表IPV4，2进制的0110换算成10进制就是6，代表IPV6。</p>
-<p>IP包头长度（Header Length）：长度4比特。这个字段的作用是为了描述IP包头的长度，因为在IP包头中有变长的可选部分。IP包头最小长度为20字节，由于变长的可选部分最大长度可能会变成60字节。</p>
-<p>服务类型（Type of Service、TOS）：长度8比特，通知沿途路由器包含在数据报中的数据的重要性，从而设置数据报的优先级，只有当<strong>网络设备能够支持</strong>（能够识别IP首部中的ToS字段）识别ToS字段时，这给字段设置才有意义。否则都是空谈。这个子段可以拆分成两个部分：Precedence和TOS。TOS目前不太使用。而Precedence则用于QOS应用。（TOS字段的详细描述RFC 1340 1349）</p>
-<p>IP包总长（Total Length）：长度16比特。IP包最大长度65535字节。</p>
-<p>标识符（Identifier）:长度16比特。该字段和Flags和Fragment Offest字段联合使用，对大的上层数据包进行分段（fragment）操作。</p>
-<p>标记（Flags）：长度3比特。该字段第一位不使用。第二位是DF位，DF位设为1时表明路由器不能对该上层数据包分段。如果一个上层数据包无法在不分段 的情况下进行转发，则路由器会丢弃该上层数据包并返回一个错误信息。第三位是MF位，当路由器对一个上层数据包分段，则路由器会在除了最后一个分段的IP 包的包头中将MF位设为1。</p>
-<p>分段序号（Fragment Offset）：长度13比特。该字段对包含分段的上层数据包的IP包赋予序号。由于IP包在网络上传送的时候不一定能按顺序到达，这个字段保证了目标路 由器在接受到IP包之后能够还原分段的上层数据包。到某个包含分段的上层数据包的IP包在传送是丢失，则整个一系列包含分段的上层数据包的IP包都会被要 求重传。</p>
-<p>生存时间（TTL）：长度8比特。当IP包进行传送时，先会对该字段赋予某个特定的值。当IP包经过每一个沿途的路由器的时候，每 个沿途的路由器会将IP包的TTL值减少1。如果TTL减少为0，则该IP包会被丢弃。这个字段可以防止由于故障而导致IP包在网络中不停被转发。</p>
-<p>协议（Protocol）：长度8比特。标识了上层所使用的协议。</p>
-<p>头部校验（Header Checksum）：长度16位，由于IP包头是变长的，所以提供一个头部校验来保证IP包头中信息的正确性。</p>
-<p>起源和目标地址（Source and Destination Addresses<br>）：这两个地段都是32比特。标识了这个IP包的起源和目标地址。</p>
-<p>可选项（Options）：这是一个可变长的字段。该字段由起源设备根据需要改写。可选项目包含以下内容：<br>松散源路由（Loose source routing）：给出一连串路由器接口的IP地址。IP包必须沿着这些IP地址传送，但是允许在相继的两个IP地址之间跳过多个路由器。<br>严格源路由（Strict source routing）：给出一连串路由器接口的IP地址。IP包必须沿着这些IP地址传送，如果下一跳不在IP地址表中则表示发生错误。<br>路由记录（Record route）：当IP包离开每个路由器的时候记录路由器的出站接口的IP地址。<br>时间戳（Timestamps）：当IP包离开每个路由器的时候记录时间。</p>
+<h5 id="版本号（Version）："><a href="#版本号（Version）：" class="headerlink" title="版本号（Version）："></a>版本号（Version）：</h5><p>长度4比特。标识目前采用的IP协议的版本号。一般的值为0100（IPv4），IPv6的值（0110），除此之外的版本号现网中已经几乎绝迹了。</p>
+<p>如果不知道为什么0100对应IPV4，0110对应IPV6，请看<a href="https://renyuan431.github.io/2019/11/18/basic-knowledge/">4、基础知识</a>中关于2进制转换的部分，这里简单的说一下计算方法。</p>
+<p>二进制转换成十进制的方法：二进制数从低位到高位（即从右往左）计算，第0位的权值是2的0次方，第1位的权值是2的1次方，第2位的权值是2的2次方，依次递增下去，把最后的结果相加的值就是十进制的值了。</p>
+<p><strong>2进制的0100换算成10进制就是4，代表IPV4</strong></p>
+<p>1. 第0位 0 x 2^0 = 0；</p>
+<p>2. 第1位 0 x 2^1 = 0；</p>
+<p>3. 第2位 1 x 2^2 = 4；</p>
+<p>4. 第3位 0 x 2^3 = 0；</p>
+<p>所以2进制的0100换算成10进制是：0+0+4+0=4</p>
+<p><strong>2进制的0110换算成10进制就是6，代表IPV6。</strong></p>
+<p>1. 第0位 0 x 2^0 = 0；</p>
+<p>2. 第1位 1 x 2^1 = 2；</p>
+<p>3. 第2位 1 x 2^2 = 4；</p>
+<p>4. 第3位 0 x 2^3 = 0；</p>
+<p>所以2进制的0110换算成10进制是：0+2+4+0=6</p>
+<h5 id="IP包头长度（Header-Length）："><a href="#IP包头长度（Header-Length）：" class="headerlink" title="IP包头长度（Header Length）："></a>IP包头长度（Header Length）：</h5><p>长度4比特。这个字段的作用是为了描述IP包头的长度，因为在IP包头中有变长的可选部分。IP包头最小长度为20字节，由于变长的可选部分最大长度可能会变成60字节。</p>
+<h5 id="服务类型（Type-of-Service、TOS）："><a href="#服务类型（Type-of-Service、TOS）：" class="headerlink" title="服务类型（Type of Service、TOS）："></a>服务类型（Type of Service、TOS）：</h5><p>长度8比特，通知沿途路由器包含在数据报中的数据的重要性，从而设置数据报的优先级，只有当<strong>网络设备能够支持</strong>（能够识别IP首部中的ToS字段）识别ToS字段时，这给字段设置才有意义。否则都是空谈。这个字段虽然在TCP\IP协议栈中被定义了，但一直以来基本没怎么使用过，在近些年被重新定义为<strong>Differentiated Services</strong>，这个字段又被划分为两部分，DSCP（differentiated services codepoint）和ECN（Explicit Congestion Notification）。</p>
+<p><img src="/2019/11/23/6-tcp-ip/differentiated%20services-1578811260461.jpg" alt="differentiated services"></p>
+<blockquote>
+<p>Differentiated services or DiffServ is a computer networking architecture that specifies a simple and scalable mechanism for classifying and managing network traffic and providing quality of service (QoS) on modern IP networks. DiffServ can, for example, be used to provide low-latency to critical network traffic such as voice or streaming media while providing simple best-effort service to non-critical services such as web traffic or file transfers.</p>
+<p>DiffServ uses a 6-bit differentiated services code point (DSCP) in the 8-bit differentiated services field (DS field) in the IP header for packet classification purposes. The DS field replaces the outdated IPv4 TOS field.</p>
+<p>Explicit Congestion Notification (ECN), is used by some routers to signal support for Explicit Congestion Notification and, when it is supported, the bits can be used to signal congestion (ECN = 11)</p>
+<p>区分服务或DiffServ是一种计算机网络体系结构，它指定了一种简单且可扩展的机制，用于对网络流量进行分类和管理，并在现代IP网络上提供服务质量（QoS）。 例如，DiffServ可用于为关键网络流量（例如语音或流媒体）提供低延迟，同时为非关键服务（例如Web流量或文件传输）提供简单的尽力而为服务。</p>
+<p>DiffServ使用了IP报头里8位差异服务字段（DS字段）中的6位差异服务代码点（DSCP）进行数据包分类。DS字段替换了过时的IPv4 TOS字段。</p>
+<p>一些路由器使用显式拥塞通知（ECN）来表示对显式拥塞通知的支持，并且在支持该显式拥塞通知时，可以使用这些位来指示拥塞（ECN = 11）。</p>
+</blockquote>
+<h5 id="IP包总长（Total-Length）："><a href="#IP包总长（Total-Length）：" class="headerlink" title="IP包总长（Total Length）："></a>IP包总长（Total Length）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112151420.jpg" alt="微信图片编辑_20200112151420"></p>
+<p>长度16比特。总长度是一个16比特字段，以字节为单位指定包的总长度，包括报头。IP包最大长度65535字节。</p>
+<h5 id="标识符（Identifier）"><a href="#标识符（Identifier）" class="headerlink" title="标识符（Identifier）:"></a>标识符（Identifier）:</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112151451.jpg" alt="微信图片编辑_20200112151451"></p>
+<p>长度16比特。该字段和Flags和Fragment Offest字段联合使用，对大的上层数据包进行分段（fragment）操作。当数据包的大小超过接口的<strong>最大传输单元</strong>（英语：<strong>M</strong>aximum <strong>T</strong>ransmission <strong>U</strong>nit，缩写<strong>MTU</strong>）时，必须将该数据包分割成较小的数据包，然后，路由器在“标识符（Identifier）”字段中用相同的数字标记每个片段，以便接收设备可以识别这些被分割的数据包，并将它们整合到一起。</p>
+<h5 id="标记（Flags）："><a href="#标记（Flags）：" class="headerlink" title="标记（Flags）："></a>标记（Flags）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112152850.jpg" alt="微信图片编辑_20200112152850"></p>
+<img src="/2019/11/23/6-tcp-ip/img9.png" alt="img9" style="zoom:150%;">
+
+<p>长度3比特。该字段第一位不使用。第二位是DF位，DF位设为1时表明路由器不能对该上层数据包分段。如果一个上层数据包无法在不分段的情况下进行转发（例如数据包大小超过MTU但不允许分片），则路由器会丢弃该上层数据包并返回一个错误信息。第三位是MF位，当路由器对一个上层数据包分段，会将最后一个分段之外的所有MF位都设置为1，以便接收设备明白要继续等待分段，直到遇到MF = 0的分段为止。假设一个数据包被分为10段，当其中的分段5的数据在传输中丢失的话，整个所有的分段，也就是10个分段的数据都必须要重新传输。这种情况有可能会增加网络拥塞。</p>
+<h5 id="分段序号（Fragment-Offset）："><a href="#分段序号（Fragment-Offset）：" class="headerlink" title="分段序号（Fragment Offset）："></a>分段序号（Fragment Offset）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112152954.jpg" alt="微信图片编辑_20200112152954"></p>
+<p>长度13比特。该字段对包含分段的上层数据包的IP包赋予序号。由于IP包在网络上传送的时候不一定能按顺序到达，这个字段保证了目标路由器在接收到IP包之后能够按照发送的顺序准确还原分段的上层数据包。</p>
+<h5 id="生存时间（Time-to-Live、TTL）："><a href="#生存时间（Time-to-Live、TTL）：" class="headerlink" title="生存时间（Time to Live、TTL）："></a>生存时间（Time to Live、TTL）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112153031.jpg" alt="微信图片编辑_20200112153031"></p>
+<p>长度8比特。当IP包进行传送时，先会对该字段赋予某个特定的值。当IP包经过每一个沿途的路由器的时候，每 个沿途的路由器会将IP包的TTL值减少1。如果TTL减少为0，则该IP包会被丢弃。这个字段可以防止由于故障而导致IP包在网络中不停被转发。TTL虽然中文翻译成生存时间，但实际来看其实是一个经过多少路由器的跳数计算，一般情况下建议TTL设置成为64，当然更小的TTL值（例如32或15）也能见到。</p>
+<h5 id="协议（Protocol）："><a href="#协议（Protocol）：" class="headerlink" title="协议（Protocol）："></a>协议（Protocol）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112153100.jpg" alt="微信图片编辑_20200112153100"></p>
+<p>长度8比特。标识了上层所使用的协议。</p>
+<h5 id="头部校验和（Header-Checksum）："><a href="#头部校验和（Header-Checksum）：" class="headerlink" title="头部校验和（Header Checksum）："></a>头部校验和（Header Checksum）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112153137.jpg" alt="微信图片编辑_20200112153137"></p>
+<p>长度16位，由于IP包头是变长的，所以提供一个头部校验来保证IP包头中信息的正确性。</p>
+<h5 id="起源和目标地址（Source-and-Destination-Addresses）："><a href="#起源和目标地址（Source-and-Destination-Addresses）：" class="headerlink" title="起源和目标地址（Source and Destination Addresses）："></a>起源和目标地址（Source and Destination Addresses）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112153206.jpg" alt="微信图片编辑_20200112153206"></p>
+<p>这两个地段都是32比特。标识了这个IP包的起源和目标地址。</p>
+<h5 id="可选项（Options）："><a href="#可选项（Options）：" class="headerlink" title="可选项（Options）："></a>可选项（Options）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112153233.jpg" alt="微信图片编辑_20200112153233"></p>
+<p>这是一个可变长的字段。该字段由起源设备根据需要改写。可选项目包含以下内容：<br>松散源路由（Loose source routing）：给出一连串路由器接口的IP地址。IP包必须沿着这些IP地址传送，但是允许在相继的两个IP地址之间跳过多个路由器。<br>严格源路由（Strict source routing）：给出一连串路由器接口的IP地址。IP包必须沿着这些IP地址传送，如果下一跳不在IP地址表中则表示发生错误。<br>路由记录（Record route）：当IP包离开每个路由器的时候记录路由器的出站接口的IP地址。<br>时间戳（Timestamps）：当IP包离开每个路由器的时候记录时间。</p>
 <h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><h3 id="（五）物理层（Physical-Layer）"><a href="#（五）物理层（Physical-Layer）" class="headerlink" title="（五）物理层（Physical Layer）"></a>（五）物理层（Physical Layer）</h3><blockquote>
 <p>The physical layer contains the protocols relating to the physical medium on which TCP/IP will be communicating. Officially, the protocols of this layer fall within four categories that together describe all aspects of physical media: </p>
 <p>Electrical/optical protocols describe signal characteristics such as voltage or photonic levels, bit timing, encoding, and signal shape. </p>
