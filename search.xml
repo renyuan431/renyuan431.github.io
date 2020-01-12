@@ -130,7 +130,7 @@
 <h6 id="第三次分手："><a href="#第三次分手：" class="headerlink" title="第三次分手："></a>第三次分手：</h6><p>当服务器端确定数据已发送完成，则向客户端发送FIN=N报文，告诉客户端，好了，我这边数据发完了，准备好关闭连接了。服务器端进入LAST_ACK状态。</p>
 <h6 id="第四次分手："><a href="#第四次分手：" class="headerlink" title="第四次分手："></a>第四次分手：</h6><p>客户端收到FIN=N报文后，就知道可以关闭连接了，但是他还是不相信网络，怕服务器端不知道要关闭，所以发送ack=N+1后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传。服务器端收到ACK后，就知道可以断开连接了。客户端等待了2MSL后依然没有收到回复，则证明服务器端已正常关闭，那好，我客户端也可以关闭连接了。最终完成了四次握手。</p>
 <p><strong>上面是一方主动关闭，另一方被动关闭的情况，实际中还会出现同时发起主动关闭的情况，</strong></p>
-<h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层（Internet-Layer）"><a href="#（三）网络层（Internet-Layer）" class="headerlink" title="（三）网络层（Internet Layer）"></a>（三）网络层（Internet Layer）</h3><h4 id="IP报头"><a href="#IP报头" class="headerlink" title="IP报头"></a>IP报头</h4><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-08_17-05-12.jpg" alt="Snipaste_2020-01-08_17-05-12"></p>
+<h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h3 id="（三）网络层（Internet-Layer）"><a href="#（三）网络层（Internet-Layer）" class="headerlink" title="（三）网络层（Internet Layer）"></a>（三）网络层（Internet Layer）</h3><h4 id="1、IP报头"><a href="#1、IP报头" class="headerlink" title="1、IP报头"></a>1、IP报头</h4><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-08_17-05-12.jpg" alt="Snipaste_2020-01-08_17-05-12"></p>
 <p><img src="/2019/11/23/6-tcp-ip/IP%20packet.png" alt="IP packet"></p>
 <h5 id="版本号（Version）："><a href="#版本号（Version）：" class="headerlink" title="版本号（Version）："></a>版本号（Version）：</h5><p>长度4比特。标识目前采用的IP协议的版本号。一般的值为0100（IPv4），IPv6的值（0110），除此之外的版本号现网中已经几乎绝迹了。</p>
 <p>如果不知道为什么0100对应IPV4，0110对应IPV6，请看<a href="https://renyuan431.github.io/2019/11/18/basic-knowledge/">4、基础知识</a>中关于2进制转换的部分，这里简单的说一下计算方法。</p>
@@ -171,13 +171,23 @@
 <h5 id="生存时间（Time-to-Live、TTL）："><a href="#生存时间（Time-to-Live、TTL）：" class="headerlink" title="生存时间（Time to Live、TTL）："></a>生存时间（Time to Live、TTL）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112153031.jpg" alt="微信图片编辑_20200112153031"></p>
 <p>长度8比特。当IP包进行传送时，先会对该字段赋予某个特定的值。当IP包经过每一个沿途的路由器的时候，每 个沿途的路由器会将IP包的TTL值减少1。如果TTL减少为0，则该IP包会被丢弃。这个字段可以防止由于故障而导致IP包在网络中不停被转发。TTL虽然中文翻译成生存时间，但实际来看其实是一个经过多少路由器的跳数计算，一般情况下建议TTL设置成为64，当然更小的TTL值（例如32或15）也能见到。</p>
 <h5 id="协议（Protocol）："><a href="#协议（Protocol）：" class="headerlink" title="协议（Protocol）："></a>协议（Protocol）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112153100.jpg" alt="微信图片编辑_20200112153100"></p>
-<p>长度8比特。标识了上层所使用的协议。</p>
+<p>长度8比特。IP头中的协议号用来说明IP报文中承载的是哪种协议（一般是传输层协议，比如6 TCP，17 UDP；但也可能是网络层协议，比如1 ICMP；也可能是应用层协议，比如89 OSPF）。</p>
+<p>一些知名协议号：</p>
+<p><img src="/2019/11/23/6-tcp-ip/wellKnowProto1.JPG" alt="wellKnowProto1"></p>
 <h5 id="头部校验和（Header-Checksum）："><a href="#头部校验和（Header-Checksum）：" class="headerlink" title="头部校验和（Header Checksum）："></a>头部校验和（Header Checksum）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112153137.jpg" alt="微信图片编辑_20200112153137"></p>
-<p>长度16位，由于IP包头是变长的，所以提供一个头部校验来保证IP包头中信息的正确性。</p>
+<p>长度16位，由于IP包头是变长的，所以提供一个头部校验值来保证IP包头中信息的正确性。这个校验和不包括所封装数据，因为UDP、TCP和ICMP这些有自己的校验和去检测信息正确与否。该字段包含一个16位的补码校验和，由数据包的初始发送设备计算得出。</p>
 <h5 id="起源和目标地址（Source-and-Destination-Addresses）："><a href="#起源和目标地址（Source-and-Destination-Addresses）：" class="headerlink" title="起源和目标地址（Source and Destination Addresses）："></a>起源和目标地址（Source and Destination Addresses）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112153206.jpg" alt="微信图片编辑_20200112153206"></p>
 <p>这两个地段都是32比特。标识了这个IP包的起源和目标地址。</p>
 <h5 id="可选项（Options）："><a href="#可选项（Options）：" class="headerlink" title="可选项（Options）："></a>可选项（Options）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112153233.jpg" alt="微信图片编辑_20200112153233"></p>
 <p>这是一个可变长的字段。该字段由起源设备根据需要改写。可选项目包含以下内容：<br>松散源路由（Loose source routing）：给出一连串路由器接口的IP地址。IP包必须沿着这些IP地址传送，但是允许在相继的两个IP地址之间跳过多个路由器。<br>严格源路由（Strict source routing）：给出一连串路由器接口的IP地址。IP包必须沿着这些IP地址传送，如果下一跳不在IP地址表中则表示发生错误。<br>路由记录（Record route）：当IP包离开每个路由器的时候记录路由器的出站接口的IP地址。<br>时间戳（Timestamps）：当IP包离开每个路由器的时候记录时间。</p>
+<h4 id="2、IPv4地址"><a href="#2、IPv4地址" class="headerlink" title="2、IPv4地址"></a>2、IPv4地址</h4><h5 id="定义及格式"><a href="#定义及格式" class="headerlink" title="定义及格式"></a>定义及格式</h5><p>IPv4地址（以下简称IP地址）用来表示一个节点的网络地址，和现实中家里或公司的地址类似，现实中的地址绝大多数是唯一的，是为了让使用一个地址的人收到快递；互联网中的IP地址除极个别情况外也是唯一的，是为了让使用一个虚拟IP地址的人收到数据。IP地址的长度为32位，也就是2的32位，32个1和0，例如00001011110000100011111101100100，但这个方式只有机器可以明白，人类很难理解，于是把32位的IP地址分成4组，每个八位位组都可以用0到255之间的十进制数表示，然后将2进制换算成10进制，也就是点分十进制，比如上面的地址可以写成：00001011.11000010.00111111.01100100，换算成10进制是：11.194.63.100。但要注意，点分十进制这个写法只是为了方便人类理解记忆IP地址，而网络设备只能看懂32位的0101组合的数字。IP地址由网络位和主机位构成。</p>
+<h5 id="关于IP地址的基本概念"><a href="#关于IP地址的基本概念" class="headerlink" title="关于IP地址的基本概念"></a>关于IP地址的基本概念</h5><h6 id="网络号："><a href="#网络号：" class="headerlink" title="网络号："></a>网络号：</h6><p>网络号：有的小区可能密密麻麻住了好几万人，有的小区可能是开阔的别墅区只住了不到一百人。如果统一门牌号为5位以满足那些住的很密集的小区的需求，那对于别墅区来说前面的几位数字浪费了，写起来麻烦。于是根据小区人口的不同对小区进行分类，不同类别的小区的门牌号位数也不同。人多的五位、人少的两位。</p>
+<h6 id="子网掩码："><a href="#子网掩码：" class="headerlink" title="子网掩码："></a>子网掩码：</h6><p>当一个小区越修越大，可能就会将本小区划分为几个分区或者几期工程。当一个单位的主机很多而且分布在较大地理位置时，可以将本单位所属主机划分为若干个子网，然后各个子网之间用路由器互联。</p>
+<p>由于网络号已经分好了，内部再划分的子网号的字段就不能加到网络号中了。我们将子网号的字段加到主机号字段中。</p>
+<p>规定用一个32位的子网掩码来表示子网号字段的长度。子网掩码由一连串的1和一连串的0构成。1对应于网络好和子网号字段，0对应于主机号。</p>
+<p>比如：某单位要分配一个C类IP地址为202.114.16.0.加入这个单位的主机要划分5个子网，5转换为二进制为101，所以要用3个二进制表示子网字段。若这个主机要划分为2个子网，2转换为二进制为10，所以要用2个二进制表示子网字段。若要划分为9个呢，一样的，9转化为二进制是1001，就需要4个二进制表示子网字段了。</p>
+<p><img src="/2019/11/23/6-tcp-ip/ipclasses.jpg" alt="ipclasses"></p>
+<p><img src="/2019/11/23/6-tcp-ip/874126-20180117224704553-1506200749.png" alt="874126-20180117224704553-1506200749"></p>
 <h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><h3 id="（五）物理层（Physical-Layer）"><a href="#（五）物理层（Physical-Layer）" class="headerlink" title="（五）物理层（Physical Layer）"></a>（五）物理层（Physical Layer）</h3><blockquote>
 <p>The physical layer contains the protocols relating to the physical medium on which TCP/IP will be communicating. Officially, the protocols of this layer fall within four categories that together describe all aspects of physical media: </p>
 <p>Electrical/optical protocols describe signal characteristics such as voltage or photonic levels, bit timing, encoding, and signal shape. </p>
@@ -193,6 +203,10 @@
 <p><a href="https://www.cnblogs.com/xuekai-to-sharp/p/3506982.html" target="_blank" rel="noopener">IP包头</a></p>
 <p>Routing TCP/IP, Volume I</p>
 <p>数据通信与联网技术</p>
+<p><a href="https://www.cnblogs.com/cyjaysun/p/4415439.html" target="_blank" rel="noopener">协议号与端口号详解</a></p>
+<p><a href="https://www.jannet.hk/zh-Hant/post/IP-Address-Version-4-IPv4/" target="_blank" rel="noopener">IP Address Version 4 (IPv4) 網際網路協定位址</a></p>
+<p><a href="https://www.cnblogs.com/straybirds/p/5319604.html" target="_blank" rel="noopener">ip地址的组成（网络位+主机位）</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/32361762" target="_blank" rel="noopener">IP地址、子网掩码和网络号的计算</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
