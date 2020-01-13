@@ -26,16 +26,13 @@
 <p>Thus, to support these applications, something has to be done to <strong>guarantee</strong> that the data sent by one end of the application is delivered <strong>correctly</strong> and <strong>completely</strong> to the other end of the application. If a protocol provides such a guaranteed data delivery service, it is said to provide reliable data transfer.</p>
 </blockquote>
 <p>分组可能会在网络中丢失、损坏，应用层可能对网络通信有所要求，不允许出现这种差错，<strong>必须保证接收方的应用收到了完整且正确的数据，这种服务就是可靠数据传输服务。</strong>如果一个协议可以确保发送端发送了怎样的数据，那么接收端就必然能接收到怎样的数据，那么就可以说这个协议提供了可靠数据传输服务，这个协议是可靠（Reliable）的，反之则是不可靠（Unreliable）的。</p>
-<h3 id="5、端口号、协议号"><a href="#5、端口号、协议号" class="headerlink" title="5、端口号、协议号"></a>5、端口号、协议号</h3><p>数据链路和 IP 中的地址，分别指的是 MAC 地址和 IP 地址。前者用来识别同一链路中不同的计算机，后者用来识别 TCP/IP 网络中互连的主机和路由器。在传输层也有这种类似于地址的概念，那就是端口号。端口号用来识别同一台计算机中进行通信的不同应用程序。因此，它也被称为程序地址。</p>
+<h3 id="5、端口号、协议号"><a href="#5、端口号、协议号" class="headerlink" title="5、端口号、协议号"></a>5、端口号、协议号</h3><p>数据链路和 IP 中的地址，分别指的是 MAC 地址和 IP 地址。前者用来识别同一链路中不同的计算机，后者用来识别 TCP/IP 网络中互连的主机和路由器。在传输层也有这种类似于地址的概念，那就是端口号，端口号用来识别同一台计算机中进行通信的不同应用程序。因此，它也被称为程序地址；在网络层的类似概念就是协议号。</p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200113145437.jpg" alt="微信图片编辑_20200113145437"></p>
-<p>协议号是三层概念，存在于IP头部协议号字段(常见的例如：6=TCP，17=UDP)；</p>
+<p>协议号（Protocol）是三层概念，存在于IP头部协议号字段(常见的例如：6=TCP，17=UDP)；</p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200113145310.jpg" alt="微信图片编辑_20200113145310"></p>
-<p>端口号是四层概念，存在于TCP或UDP源/目端口号字段(常见的例如：TCP80=HTTP, UDP53=DNS)</p>
+<p>端口号是四层概念，存在于TCP或UDP源/目端口号字段(常见的例如：TCP80=HTTP, UDP53=DNS)。</p>
 <p>说白了都是“区分上层”用的，就是用来识别同一台计算机中进行通信的不同应用程序。但是所处的层次不一样。一台计算机上同时可以运行多个程序。传输层协议正是利用这些端口号识别本机中正在进行通信的应用程序，并准确地将数据传输。</p>
-<p>端口号长度为16位，即允许一个主机有2的16次方，也就是65535个不同端口，其中：</p>
-<p>0——1023为分配给系统的端口号，属于知名端口，不可以乱用，常见的有HTTP的80端口，FTP的21端口以及TELNET的23端口。</p>
-<p>1024——49151为登记端口号，第三方可以使用。</p>
-<p>之所以有如此多的端口号是因为通信并不是由端口号一个字段决定的，识别一个通信是由五元组（<strong>源IP地址、目标IP地址、源端口号、目标端口 和 协议号</strong>）一起决定的。</p>
+<p>之所以有如此多的端口号是因为通信并不是由端口号一个字段决定的，识别一个通信是由五元组（<strong>源IP地址、目标IP地址、源端口号、目标端口和协议号</strong>）一起决定的。</p>
 <p><img src="/2019/11/23/6-tcp-ip/1e487b21-906d-41ae-8894-d02f1037cf25-1577770747233.jpg" alt="1e487b21-906d-41ae-8894-d02f1037cf25"></p>
 <p><img src="/2019/11/23/6-tcp-ip/c9daa-20190821100721-bd5df.jpeg" alt="c9daa-20190821100721-bd5df"></p>
 <p><img src="/2019/11/23/6-tcp-ip/3d251-20190821100721-c0e40.jpeg" alt="3d251-20190821100721-c0e40"></p>
@@ -56,7 +53,7 @@
 </ul>
 <h3 id="（二）传输层（Transport-Layer）"><a href="#（二）传输层（Transport-Layer）" class="headerlink" title="（二）传输层（Transport Layer）"></a>（二）传输层（Transport Layer）</h3><p>位于应用层和网络接口层之间，为两台主机提供端到端的通信，在TCP/IP协议族中，有两个互不相同的传输协议：TCP（传输控制协议）和UDP（用户数据报协议）。</p>
 <p><img src="/2019/11/23/6-tcp-ip/TCPUDP.jpg" alt="TCPUDP"></p>
-<h4 id="1、TCP"><a href="#1、TCP" class="headerlink" title="1、TCP"></a>1、TCP</h4><p>TCP（Transmission Control Protocol，传输控制协议）为两台主机提供高可靠性的数据通信，是一种面向连接的、可靠的、基于字节流的传输层通信协议，由 IETF 的RFC 793定义。TCP 是面向连接的、可靠的流协议。流就是指不间断的数据结构，你可以把它想象成排水管中的水流。</p>
+<h4 id="1、TCP"><a href="#1、TCP" class="headerlink" title="1、TCP"></a>1、TCP</h4><p>TCP（Transmission Control Protocol，传输控制协议）为两台主机提供高可靠性的数据通信，是一种面向连接的、可靠的、基于字节流的传输层通信协议，由IETF的RFC793定义。TCP 是面向连接的、可靠的流协议。流就是指不间断的数据结构，你可以把它想象成排水管中的水流。</p>
 <h5 id="TCP的特点："><a href="#TCP的特点：" class="headerlink" title="TCP的特点："></a>TCP的特点：</h5><p>1、面向连接</p>
 <p>面向连接，是指发送数据之前必须在两端建立连接。TCP建立连接的方法是“三次握手”，这样能建立可靠的连接，所以说TCP是面向连接的协议。</p>
 <p>建立连接，是为数据的可靠传输打下了基础。</p>
@@ -65,9 +62,11 @@
 <p>①如何处理丢失或重复等差错情况：靠的是TCP的序列号（Sequence Number）以及确认应答号（Acknowledgement Number、ACK）。TCP在发送数据的时候，为每个字节编号（也就是序列号），接收端收到数据之后，经过校验无误，发回确认应答号，确认应答号为接收端等待接受的写一个字节的序号。并且它会缓存到达的乱序数据，统一排序之后传递给上层。这样就解决了丢包，重复和乱序的问题。</p>
 <p>②如何初始化一个数据流传输：TCP的三次握手进行了规定。</p>
 <p>③如何协商结束数据流传输：TCP的四次分手进行了规定。</p>
+<p>④流量控制和拥塞控制机制：TCP的窗口字段、序列号及确认应答号提供了这些功能。</p>
 <p>3、支持流控</p>
 <p>TCP连接的每一方都有固定大小的缓冲空间。TCP的接收端只允许另一端发送接收端缓冲区所能接纳的数据。这将防止较快主机致使较慢主机的缓冲区溢出。具体见下文的窗口大小部分。</p>
 <p>4、窗口机制</p>
+<p>见下方的窗口机制部分。</p>
 <h5 id="TCP报头格式"><a href="#TCP报头格式" class="headerlink" title="TCP报头格式"></a>TCP报头格式</h5><p>每个分层中，都会对所发送的数据附加一个首部，在这个首部中包含了该层必要的信息，如发送的目标地址以及协议相关信息。通常，为协议提供的信息为包首部，所要发送的内容为数据。在下一层的角度看，从上一层收到的包全部都被认为是本层的数据。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-31_13-24-32.jpg" alt="Snipaste_2019-12-31_13-24-32"></p>
 <p>一个 TCP Header 一般有 20 个字节，如果启用了options，header的长度可以达到 60 个字节。图中每一行是 4 个 bytes，32 个 bits。</p>
@@ -75,8 +74,11 @@
 
 <h6 id="⑴源端口号（Source-Port）"><a href="#⑴源端口号（Source-Port）" class="headerlink" title="⑴源端口号（Source Port）"></a>⑴源端口号（Source Port）</h6><p><strong>表示发送端端口号</strong>，字段长16位。</p>
 <h6 id="⑵目标端口号（Destination-Port）"><a href="#⑵目标端口号（Destination-Port）" class="headerlink" title="⑵目标端口号（Destination Port）"></a>⑵目标端口号（Destination Port）</h6><p><strong>表示接收端端口号</strong>，字段长度16位。</p>
-<h6 id="⑶序列号（Sequence-Number）"><a href="#⑶序列号（Sequence-Number）" class="headerlink" title="⑶序列号（Sequence Number）"></a>⑶序列号（Sequence Number）</h6><p>字段长32位。<strong>序列号（有时也叫序号）是指发送数据的位置</strong>。每发送一次数据，就累加一次该数据字节数的大小。</p>
-<p>一个 TCP 流是有无数个 0 和 1 构成，这些 0 和 1 以 8 个 bit 为单位，可以分割成一个个的 byte，TCP 是可靠传输协议，每一个 byte 都是有标号的，因为我们需要追踪每个 byte 是否被成功传输了，每个 byte 的标号就是我们这里的 sequence number。</p>
+<p>端口号长度为16位，即允许一个主机有2的16次方，也就是65535个不同端口，其中：</p>
+<p>0——1023为分配给系统的端口号，属于知名端口，不可以乱用，常见的有HTTP的80端口，FTP的21端口以及TELNET的23端口。</p>
+<p>1024——49151为登记端口号，第三方可以使用。</p>
+<h6 id="⑶序列号（Sequence-Number）"><a href="#⑶序列号（Sequence-Number）" class="headerlink" title="⑶序列号（Sequence Number）"></a>⑶序列号（Sequence Number）</h6><p>字段长32位。<strong>序列号（有时也叫序号）是指发送数据的位置</strong>。每发送一次数据，就累加一次该数据字节数的大小。接收方可以通过检查收到的数据分组的序号发现哪些分组没有收到、哪些分组冗余了。发送ACK/NAK反馈时也可以指定Seq表示需要重传哪些分组或者继续往下发送哪些分组。</p>
+<p>一个TCP流是有无数个0和1构成，这些0和1以8个bit为单位，可以分割成一个个的byte，TCP是可靠传输协议，每一个byte都是有标号的，因为我们需要追踪每个byte是否被成功传输了，每个byte的标号就是我们这里的sequence number。</p>
 <p><strong>序列号不会从0或1开始，而是在建立连接时由计算机生成的随机数作为其初始值，通过SYN包传给接收端主机。然后再将每转发过去的字节数累加到初始值上表示数据的位置。此外，在建立连接和断开连接时发送的SYN包和FIN包虽然并不携带数据，但是也会作为一个字节增加对应的序列号。</strong></p>
 <h6 id="⑷确认应答号（Acknowledgement-Number、ACK）"><a href="#⑷确认应答号（Acknowledgement-Number、ACK）" class="headerlink" title="⑷确认应答号（Acknowledgement Number、ACK）"></a>⑷确认应答号（Acknowledgement Number、ACK）</h6><p>确认应答号字段长度32位。是指表示<strong>期望收到对方下一个报文段的序号值</strong>。实际上，它是指已收到确认应答号减一为止的数据。当发送端收到确认应答号后，用来确认这个位置以前所有数据都被正常接收，否则将会从新连接发送，这也是TCP是可靠传输的原因，因为有“序列号—确认应答号”这么一个确认机制，可以知道数据是否发送完整。例如下图中，主机A向主机B发送了长度为725的数据，主机B在回复的数据中将应答号设置为726，标识前725个数据都正常接收。</p>
 <img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-15_17-04-48.jpg" alt="Snipaste_2019-12-15_17-04-48" style="zoom:150%;">
@@ -84,7 +86,7 @@
 <blockquote>
 <p>The sequence number is always valid. The acknowledgement number is only valid when the ACK flag is one. The only time the ACK flag is not set, that is, the only time there is not a valid acknowledgement number in the TCP header, is during the first packet of connection set-up.</p>
 </blockquote>
-<p>序列号始终存在。确认编号仅在ACK标志为1时存在。 唯一未设置ACK标志的时间，即TCP头中没有有效确认号的唯一时间是在连接建立的第一个数据包期间。</p>
+<p><strong>序列号始终存在。确认编号仅在ACK标志为1时存在。</strong> 唯一未设置ACK标志的时间，即TCP头中没有有效确认号的唯一时间是在连接建立的第一个数据包期间。</p>
 <h6 id="关于序列号和确认应答号的相关说明"><a href="#关于序列号和确认应答号的相关说明" class="headerlink" title="关于序列号和确认应答号的相关说明"></a>关于序列号和确认应答号的相关说明</h6><blockquote>
 <p>When a host initiates a TCP session, its initial sequence number is effectively random; it may be any value between 0 and 4,294,967,295, inclusive. However, protocol analyzers like Wireshark will typically display <em>relative</em> sequence and acknowledgement numbers in place of the actual values. These numbers are relative to the initial sequence number of that stream. This is handy, as it is much easier to keep track of relatively small, predictable numbers rather than the actual numbers sent on the wire.</p>
 </blockquote>
@@ -130,22 +132,60 @@
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_18-58-43.jpg" alt="Snipaste_2020-01-05_18-58-43"></p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200113134609.jpg" alt="微信图片编辑_20200113134609"></p>
 <p>设备1（IP地址为192.168.1.2）收到确认后，检查ack是否为J+1，ACK是否为1，如果正确则将标志位ACK置为1，ack=K+1，并将该数据包发送给设备2（IP地址为174.143.213.184），设备2检查ack是否为K+1，ACK是否为1，如果正确则连接建立成功，两个设备均进入了ESTABLISHED状态，完成三次握手，随后客户端与服务器端之间可以开始传输数据了。</p>
+<h5 id="TCP三次握手的漏洞："><a href="#TCP三次握手的漏洞：" class="headerlink" title="TCP三次握手的漏洞："></a>TCP三次握手的漏洞：</h5><p><strong>漏洞：☛ SYN洪泛攻击</strong></p>
+<p><strong>☛ 定义：</strong></p>
+<p>通过网络服务所在的端口发送大量伪造原地址的攻击报文，发送到服务端，造成服务端上的半开连接队列被占满，从而阻止其他用户进行访问。</p>
+<p><strong>☛ 原理：</strong></p>
+<p>攻击者客户端利用伪造的IP地址向服务端发出请求(第一次握手)，而服务端的响应(第二次握手)的报文将永远发送不到真实的客户端，服务端在等待客户端的第三次握手(永远都不会有的)，服务端在等待这种半开的连接过程中消耗了资源，如果有成千上万的这种连接，主机资源将被耗尽，从而达到攻击的目的。</p>
+<p><strong>☛ 解决方案：</strong></p>
+<p>无效连接监控释放</p>
+<p>延缓TCB分配方法</p>
+<p>防火墙</p>
 <h5 id="TCP的四次分手"><a href="#TCP的四次分手" class="headerlink" title="TCP的四次分手"></a>TCP的四次分手</h5><p><img src="/2019/11/23/6-tcp-ip/TCP-88-1.jpg" alt="TCP-88-1"></p>
 <img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_17-07-53.jpg" alt="Snipaste_2020-01-05_17-07-53" style="zoom:150%;">
 
 <p>建立起TCP连接的设备两端均可以发起中断连接。</p>
 <h6 id="第一次分手："><a href="#第一次分手：" class="headerlink" title="第一次分手："></a>第一次分手：</h6><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_17-14-40.jpg" alt="Snipaste_2020-01-05_17-14-40"></p>
-<p>设备1（IP地址为10.0.2.15）发送一个序列号（sequence number，此处为相对序列号）为106，确认应答号（Acknowledgement number）为321，相对FIN与ACK均置1的数据给设备2（IP地址为176.32.99.41），表示我这段要结束数据传送并进入FIN_WAIT_1状态。意思是说”我没有数据要发给你了”，但是如果你还有数据没有发送完成，则不必急着关闭连接，可以继续发送数据。</p>
-<h6 id="第二次分手："><a href="#第二次分手：" class="headerlink" title="第二次分手："></a>第二次分手：</h6><p>设备2（IP地址50.17.253.86）收到FIN后，先发送ack=M+1，告诉客户端，你的请求我收到了，但是我还没准备好，请继续你等我的消息。这个时候客户端就进入FIN_WAIT_2 状态，继续等待服务器端的FIN报文。</p>
-<h6 id="第三次分手："><a href="#第三次分手：" class="headerlink" title="第三次分手："></a>第三次分手：</h6><p>当服务器端确定数据已发送完成，则向客户端发送FIN=N报文，告诉客户端，好了，我这边数据发完了，准备好关闭连接了。服务器端进入LAST_ACK状态。</p>
-<h6 id="第四次分手："><a href="#第四次分手：" class="headerlink" title="第四次分手："></a>第四次分手：</h6><p>客户端收到FIN=N报文后，就知道可以关闭连接了，但是他还是不相信网络，怕服务器端不知道要关闭，所以发送ack=N+1后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传。服务器端收到ACK后，就知道可以断开连接了。客户端等待了2MSL后依然没有收到回复，则证明服务器端已正常关闭，那好，我客户端也可以关闭连接了。最终完成了四次握手。</p>
+<p>理论步骤：客户端发送一个FIN=M，用来关闭客户端到服务器端的数据传送，客户端进入FIN_WAIT_1状态。意思是说”我客户端没有数据要发给你了”，但是如果你服务器端还有数据没有发送完成，则不必急着关闭连接，可以继续发送数据。</p>
+<p>实际例子分析：设备1（IP地址为10.0.2.15）发送一个序列号（sequence number，此处为相对序列号）为106，确认应答号（Acknowledgement number）为321，相对FIN与ACK均置1的数据给设备2（IP地址为176.32.99.41），表示我这段要结束数据传送并进入FIN_WAIT_1状态。意思是说”我没有数据要发给你了”，但是如果你还有数据没有发送完成，则不必急着关闭连接，可以继续发送数据。</p>
+<h6 id="第二次分手："><a href="#第二次分手：" class="headerlink" title="第二次分手："></a>第二次分手：</h6><p>理论步骤：服务器端收到FIN后，先发送ack=M+1，告诉客户端，你的请求我收到了，但是我还没准备好，请继续你等我的消息。这个时候客户端就进入FIN_WAIT_2 状态，继续等待服务器端的FIN报文。</p>
+<p>实际例子分析：设备2（IP地址50.17.253.86）收到FIN后，先发送ack=M+1，告诉客户端，你的请求我收到了，但是我还没准备好，请继续你等我的消息。这个时候客户端就进入FIN_WAIT_2 状态，继续等待服务器端的FIN报文。</p>
+<h6 id="第三次分手："><a href="#第三次分手：" class="headerlink" title="第三次分手："></a>第三次分手：</h6><p>理论步骤：当服务器端确定数据已发送完成，则向客户端发送FIN=N报文，告诉客户端，好了，我这边数据发完了，准备好关闭连接了。服务器端进入LAST_ACK状态。</p>
+<p>实际例子分析：</p>
+<h6 id="第四次分手："><a href="#第四次分手：" class="headerlink" title="第四次分手："></a>第四次分手：</h6><p>理论步骤：客户端收到FIN=N报文后，就知道可以关闭连接了，但是他还是不相信网络，怕服务器端不知道要关闭，所以发送ack=N+1后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传。服务器端收到ACK后，就知道可以断开连接了。客户端等待了2MSL后依然没有收到回复，则证明服务器端已正常关闭，那好，我客户端也可以关闭连接了。最终完成了四次握手。</p>
+<p>实际例子分析：</p>
 <p><strong>上面是一方主动关闭，另一方被动关闭的情况，实际中还会出现同时发起主动关闭的情况，</strong></p>
+<h5 id="为什么TCP实放需要四次分手"><a href="#为什么TCP实放需要四次分手" class="headerlink" title="为什么TCP实放需要四次分手"></a>为什么TCP实放需要四次分手</h5><p>为了保证双方都能通知对方“需要释放连接”，即在释放连接后都无法接收或发送消息给对方</p>
+<ul>
+<li><p>需要明确的是：TCP是全双工模式，这意味着是双向都可以发送、接收的</p>
+</li>
+<li><p>释放连接的定义是：双方都无法接收或发送消息给对方，是双向的</p>
+</li>
+<li><p>当主机1发出“释放连接请求”（FIN报文段）时，只是表示主机1已经没有数据要发送 / 数据已经全部发送完毕；</p>
+<blockquote>
+<p>但是，这个时候主机1还是可以接受来自主机2的数据。</p>
+</blockquote>
+</li>
+<li><p>当主机2返回“确认释放连接”信息（ACK报文段）时，表示它已经知道主机1没有数据发送了 但此时主机2还是可以发送数据给主机1</p>
+</li>
+<li><p>当主机2也发送了FIN报文段时，即告诉主机1我也没有数据要发送了 此时，主机1和2已经无法进行通信：主机1无法发送数据给主机2，主机2也无法发送数据给主机1，此时，TCP的连接才算释放</p>
+</li>
+</ul>
+<h5 id="TCP的流控"><a href="#TCP的流控" class="headerlink" title="TCP的流控"></a>TCP的流控</h5><h5 id="TCP的滑动窗口机制"><a href="#TCP的滑动窗口机制" class="headerlink" title="TCP的滑动窗口机制"></a>TCP的滑动窗口机制</h5><p><strong>滑动窗口</strong></p>
+<p>发送方和接收方都会维护一个数据帧的序列，这个序列被称作窗口。</p>
+<p>发送方的窗口大小由接收方确认。</p>
+<p><strong>目的</strong>：</p>
+<p><strong>1.确保数据不丢失</strong></p>
+<p>​     如果发送的数据丢失了可以重新发。</p>
+<p><strong>2.控制发送速度</strong></p>
+<p>​     控制发送速度，以免接收方的缓存不够大导致溢出，同时控制流量也可以避免网络拥塞。</p>
 <h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h5 id="UDP的特点："><a href="#UDP的特点：" class="headerlink" title="UDP的特点："></a>UDP的特点：</h5><p>UDP是一种无连接的、不可靠的、面向报文、没有拥塞控制的协议。</p>
 <p><strong>无连接的</strong>：和TCP要建立连接不同，UDP传输数据不需要建立连接，就像写信，在信封写上收信人名称、地址就可以交给邮局发送了，至于能不能送到，就要看邮局的送信能力和送信过程的困难程度了。</p>
 <p><strong>不可靠的</strong>：因为UDP发出去的数据包发出去就不管了，不管它会不会到达，所以很可能会出现丢包现象，使传输的数据出错。</p>
 <p><strong>面向报文</strong>：数据报文，就相当于一个数据包，应用层交给UDP多大的数据包，UDP就照样发送，不会像TCP那样拆分。</p>
 <p><strong>没有拥塞控制</strong>：拥塞，是指到达通信子网中某一部分的分组数量过多，使得该部分网络来不及处理，以致引起这部分乃至整个网络性能下降的现象，严重时甚至会导致网络通信业务陷入停顿，即出现死锁现象，就像交通堵塞一样。TCP建立连接后如果发送的数据因为信道质量的原因不能到达目的地，它会不断重发，有可能导致越来越塞，所以需要一个复杂的原理来控制拥塞。而UDP就没有这个烦恼，发出去就不管了。</p>
-<p>UDP常见协议：DNS</p>
+<h5 id="UDP的应用场景："><a href="#UDP的应用场景：" class="headerlink" title="UDP的应用场景："></a>UDP的应用场景：</h5><p>很多的实时应用（如IP电话、实时视频会议、某些多人同时在线游戏等）要求源主机以很定的速率发送数据，并且允许在网络发生拥塞时候丢失一些数据，但是要求不能有太大的延时，UDP就刚好适合这种要求。</p>
+<h5 id="UDP常见协议："><a href="#UDP常见协议：" class="headerlink" title="UDP常见协议："></a>UDP常见协议：</h5><p>DNS</p>
 <h3 id="（三）网络层（Internet-Layer）"><a href="#（三）网络层（Internet-Layer）" class="headerlink" title="（三）网络层（Internet Layer）"></a>（三）网络层（Internet Layer）</h3><h4 id="1、IP报头"><a href="#1、IP报头" class="headerlink" title="1、IP报头"></a>1、IP报头</h4><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-08_17-05-12.jpg" alt="Snipaste_2020-01-08_17-05-12"></p>
 <p><img src="/2019/11/23/6-tcp-ip/IP%20packet.png" alt="IP packet"></p>
 <h5 id="版本号（Version）："><a href="#版本号（Version）：" class="headerlink" title="版本号（Version）："></a>版本号（Version）：</h5><p>长度4比特。标识目前采用的IP协议的版本号。一般的值为0100（IPv4），IPv6的值（0110），除此之外的版本号现网中已经几乎绝迹了。</p>
