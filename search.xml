@@ -289,6 +289,8 @@
 <p>由于网络号已经分好了，内部再划分的子网号的字段就不能加到网络号中了。我们将子网号的字段加到主机号字段中。</p>
 <p>规定用一个32位的子网掩码来表示子网号字段的长度。子网掩码由一连串的1和一连串的0构成。1对应于网络好和子网号字段，0对应于主机号。</p>
 <p>比如：某单位要分配一个C类IP地址为202.114.16.0.加入这个单位的主机要划分5个子网，5转换为二进制为101，所以要用3个二进制表示子网字段。若这个主机要划分为2个子网，2转换为二进制为10，所以要用2个二进制表示子网字段。若要划分为9个呢，一样的，9转化为二进制是1001，就需要4个二进制表示子网字段了。</p>
+<img src="/2019/11/23/6-tcp-ip/04_Class-Range.png" alt="04_Class-Range">
+
 <p><img src="/2019/11/23/6-tcp-ip/ipclasses.jpg" alt="ipclasses"></p>
 <p><img src="/2019/11/23/6-tcp-ip/874126-20180117224704553-1506200749.png" alt="874126-20180117224704553-1506200749"></p>
 <h6 id="网关："><a href="#网关：" class="headerlink" title="网关："></a>网关：</h6><h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><h3 id="（五）物理层（Physical-Layer）"><a href="#（五）物理层（Physical-Layer）" class="headerlink" title="（五）物理层（Physical Layer）"></a>（五）物理层（Physical Layer）</h3><blockquote>
