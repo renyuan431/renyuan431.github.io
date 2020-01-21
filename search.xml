@@ -98,7 +98,8 @@
 <p>The sequence number is always valid. The acknowledgement number is only valid when the ACK flag is one. The only time the ACK flag is not set, that is, the only time there is not a valid acknowledgement number in the TCP header, is during the first packet of connection set-up.</p>
 </blockquote>
 <p><strong>序列号始终存在。确认编号仅在ACK标志为1时存在。</strong> 唯一未设置ACK标志的时间，即TCP头中没有有效确认号的唯一时间是在连接建立的第一个数据包期间。</p>
-<h6 id="关于序列号和确认应答号的相关说明"><a href="#关于序列号和确认应答号的相关说明" class="headerlink" title="关于序列号和确认应答号的相关说明"></a><strong>关于序列号和确认应答号的相关说明</strong></h6><blockquote>
+<h6 id="关于序列号和确认应答号的相关说明"><a href="#关于序列号和确认应答号的相关说明" class="headerlink" title="关于序列号和确认应答号的相关说明"></a><strong>关于序列号和确认应答号的相关说明</strong></h6><p>序列号和确认号组合起来使用，<strong>可以提高可靠性。</strong></p>
+<blockquote>
 <p>When a host initiates a TCP session, its initial sequence number is effectively random; it may be any value between 0 and 4,294,967,295, inclusive. However, protocol analyzers like Wireshark will typically display <em>relative</em> sequence and acknowledgement numbers in place of the actual values. These numbers are relative to the initial sequence number of that stream. This is handy, as it is much easier to keep track of relatively small, predictable numbers rather than the actual numbers sent on the wire.</p>
 </blockquote>
 <p>主机启动TCP会话时，<strong>其初始序列号实际上是随机的； 它可以是0到4,294,967,295（含）之间的任何值。</strong> 但是，像Wireshark这样的<strong>抓包分析软件通常会显示相对序列和确认号来代替实际值</strong>。 这些数字是相对于该流的初始序列号。 这很方便，因为跟踪相对较小的可预测数字比在线上发送的实际数字要容易得多。</p>
@@ -189,36 +190,50 @@
 <p>防火墙：</p>
 <p>很多<strong>防火墙中都提供一种SYN代理的功能，其主要原理是对试图穿越的SYN请求进行验证后才放行。</strong></p>
 <h5 id="TCP的四次分手"><a href="#TCP的四次分手" class="headerlink" title="TCP的四次分手"></a>TCP的四次分手</h5><p><img src="/2019/11/23/6-tcp-ip/TCP-88-1.jpg" alt="TCP-88-1"></p>
+<p><img src="/2019/11/23/6-tcp-ip/topic_20180918110322_41280.jpg" alt="topic_20180918110322_41280"></p>
 <img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_17-07-53.jpg" alt="Snipaste_2020-01-05_17-07-53" style="zoom:150%;">
 
 <p>建立起TCP连接的设备两端均可以发起中断连接。</p>
-<h6 id="第一次分手："><a href="#第一次分手：" class="headerlink" title="第一次分手："></a>第一次分手：</h6><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_17-14-40.jpg" alt="Snipaste_2020-01-05_17-14-40"></p>
+<h6 id="第一次分手："><a href="#第一次分手：" class="headerlink" title="第一次分手："></a>第一次分手：</h6><p><img src="/2019/11/23/6-tcp-ip/Users/32759/Downloads/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200121145129.jpg" alt="微信图片编辑_20200121145129"></p>
 <p>理论步骤：客户端发送一个FIN=M，用来关闭客户端到服务器端的数据传送，客户端进入FIN_WAIT_1状态。意思是说”我客户端没有数据要发给你了”，但是如果你服务器端还有数据没有发送完成，则不必急着关闭连接，可以继续发送数据。</p>
-<p>实际例子分析：设备1（IP地址为10.0.2.15）发送一个序列号（sequence number，此处为相对序列号）为106，确认应答号（Acknowledgement number）为321，相对FIN与ACK均置1的数据给设备2（IP地址为176.32.99.41），表示我这段要结束数据传送并进入FIN_WAIT_1状态。意思是说”我没有数据要发给你了”，但是如果你还有数据没有发送完成，则不必急着关闭连接，可以继续发送数据。</p>
-<h6 id="第二次分手："><a href="#第二次分手：" class="headerlink" title="第二次分手："></a>第二次分手：</h6><p>理论步骤：服务器端收到FIN后，先发送ack=M+1，告诉客户端，你的请求我收到了，但是我还没准备好，请继续你等我的消息。这个时候客户端就进入FIN_WAIT_2 状态，继续等待服务器端的FIN报文。</p>
-<p>实际例子分析：设备2（IP地址50.17.253.86）收到FIN后，先发送ack=M+1，告诉客户端，你的请求我收到了，但是我还没准备好，请继续你等我的消息。这个时候客户端就进入FIN_WAIT_2 状态，继续等待服务器端的FIN报文。</p>
-<h6 id="第三次分手："><a href="#第三次分手：" class="headerlink" title="第三次分手："></a>第三次分手：</h6><p>理论步骤：当服务器端确定数据已发送完成，则向客户端发送FIN=N报文，告诉客户端，好了，我这边数据发完了，准备好关闭连接了。服务器端进入LAST_ACK状态。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_17-14-40.jpg" alt="Snipaste_2020-01-05_17-14-40"></p>
+<p>实际例子分析：设备1（IP地址为10.0.2.15）发送一个序列号（sequence number，此处为相对序列号）为106，确认应答号（Acknowledgement number）为321，这个321是用来确认之前对端发给该设备的，相对FIN与ACK均置为1的数据给设备2（IP地址为176.32.99.41），表示我这段要结束数据传送并进入FIN_WAIT_1状态。意思是说”我没有数据要发给你了”，但是如果你还有数据没有发送完成，则不必急着关闭连接，可以继续发送数据。</p>
+<p>上一个数据包的Next sequence number是321，所以这个回送数据中的ACK为321，表示成功接收了320个数据，可以从序列号321开始发送，上一个数据包的抓包如下：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-21_14-53-26.jpg" alt="Snipaste_2020-01-21_14-53-26"></p>
+<h6 id="第二次分手："><a href="#第二次分手：" class="headerlink" title="第二次分手："></a>第二次分手：</h6><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200121145617.jpg" alt="微信图片编辑_20200121145617"></p>
+<p>理论步骤：服务器端收到FIN后，先发送ack=M+1，告诉客户端，你的请求我收到了，但是我还没准备好，请继续你等我的消息。这个时候客户端就进入FIN_WAIT_2 状态，继续等待服务器端的FIN报文。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-21_14-57-58.jpg" alt="Snipaste_2020-01-21_14-57-58"></p>
+<p>实际例子分析：设备2（IP地址50.17.253.86）收到FIN后，先发送ack=M+1，这里的M为106，所以本数据包中的ACK为107，此序列号确认了设备1（IP地址为10.0.2.15）发送的序列号（sequence number，此处为相对序列号）为106的数据，告诉了设备1你的请求我收到了，但是我还没准备好，请继续你等我的消息。这个时候客户端就进入FIN_WAIT_2 状态，继续等待服务器端的FIN报文。</p>
+<h6 id="第三次分手："><a href="#第三次分手：" class="headerlink" title="第三次分手："></a>第三次分手：</h6><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200121150048.jpg" alt="微信图片编辑_20200121150048"></p>
+<p>理论步骤：当服务器端确定数据已发送完成，则向客户端发送FIN=N报文，告诉客户端，好了，我这边数据发完了，准备好关闭连接了。这里其实ACK位也是置位为1的，然后ACK值也是M+1。服务器端进入LAST_ACK状态。</p>
 <p>实际例子分析：</p>
-<h6 id="第四次分手："><a href="#第四次分手：" class="headerlink" title="第四次分手："></a>第四次分手：</h6><p>理论步骤：客户端收到FIN=N报文后，就知道可以关闭连接了，但是他还是不相信网络，怕服务器端不知道要关闭，所以发送ack=N+1后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传。服务器端收到ACK后，就知道可以断开连接了。客户端等待了2MSL后依然没有收到回复，则证明服务器端已正常关闭，那好，我客户端也可以关闭连接了。最终完成了四次握手。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-21_15-30-30.jpg" alt="Snipaste_2020-01-21_15-30-30"></p>
+<p>设备2（IP地址50.17.253.86）向设备1发送FIN位置为1的报文，告诉设备1（IP地址为10.0.2.15），我这边的数据已经发送完毕，准备好关闭连接了。服务器端进入LAST_ACK状态。这里的ACK值也是上一次分手时发送给设备1的ACK值，为107，因为第二次回复的ACK是一个纯ACK，里面没有数据，TCP Segment Len为0，所以这里ACK位也置为1。</p>
+<h6 id="第四次分手："><a href="#第四次分手：" class="headerlink" title="第四次分手："></a>第四次分手：</h6><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200121154015.jpg" alt="微信图片编辑_20200121154015"></p>
+<p>理论步骤：客户端收到FIN=N报文后，就知道可以关闭连接了，但是他还是不相信网络，怕服务器端不知道要关闭，所以发送ack=N+1后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传。服务器端收到ACK后，就知道可以断开连接了。客户端等待了2MSL后依然没有收到回复，则证明服务器端已正常关闭，那好，我客户端也可以关闭连接了。最终完成了四次握手。</p>
 <p>实际例子分析：</p>
-<p><strong>上面是一方主动关闭，另一方被动关闭的情况，实际中还会出现同时发起主动关闭的情况，</strong></p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-21_15-41-40.jpg" alt="Snipaste_2020-01-21_15-41-40"></p>
+<p>上面是一方主动关闭，另一方被动关闭的情况，实际中还会出现同时发起主动关闭的情况。</p>
+<blockquote>
+<p>It is also possible to terminate the connection by a 3-way handshake, when host A sends a FIN and host B replies with a FIN &amp; ACK (merely combines 2 steps into one) and host A replies with an ACK</p>
+<p><a href="https://en.wikipedia.org/wiki/Andrew_S._Tanenbaum" target="_blank" rel="noopener">Tanenbaum, Andrew S.</a> (2003-03-17). <a href="https://archive.org/details/computernetworks00tane_2" target="_blank" rel="noopener"><em>Computer Networks</em></a> (Fourth ed.). Prentice Hall. <a href="https://en.wikipedia.org/wiki/International_Standard_Book_Number" target="_blank" rel="noopener">ISBN</a> <a href="https://en.wikipedia.org/wiki/Special:BookSources/978-0-13-066102-9" target="_blank" rel="noopener">978-0-13-066102-9</a>.</p>
+</blockquote>
+<p>TCP连接的关闭也可以通过3次分手实现，当主机A发送FIN置位为1的数据时，主机B回复一个FIN和ACK位均置位为1的数据，相当于把中间的两步整合为一步，最后主机A回复一个ACK结束TCP连接。</p>
 <h5 id="为什么TCP实放需要四次分手"><a href="#为什么TCP实放需要四次分手" class="headerlink" title="为什么TCP实放需要四次分手"></a>为什么TCP实放需要四次分手</h5><p>为了保证双方都能通知对方“需要释放连接”，即在释放连接后都无法接收或发送消息给对方</p>
 <ul>
 <li><p>需要明确的是：TCP是全双工模式，这意味着是双向都可以发送、接收的</p>
 </li>
 <li><p>释放连接的定义是：双方都无法接收或发送消息给对方，是双向的</p>
 </li>
-<li><p>当主机1发出“释放连接请求”（FIN报文段）时，只是表示主机1已经没有数据要发送 / 数据已经全部发送完毕；</p>
-<blockquote>
-<p>但是，这个时候主机1还是可以接受来自主机2的数据。</p>
-</blockquote>
+<li><p>当主机1发出“释放连接请求”（FIN报文段）时，只是表示主机1已经没有数据要发送 / 数据已经全部发送完毕；但是，这个时候主机1还是可以接受来自主机2的数据。</p>
 </li>
 <li><p>当主机2返回“确认释放连接”信息（ACK报文段）时，表示它已经知道主机1没有数据发送了 但此时主机2还是可以发送数据给主机1</p>
 </li>
-<li><p>当主机2也发送了FIN报文段时，即告诉主机1我也没有数据要发送了 此时，主机1和2已经无法进行通信：主机1无法发送数据给主机2，主机2也无法发送数据给主机1，此时，TCP的连接才算释放</p>
+<li><p>当主机2也发送了FIN报文段时，即告诉主机1我也没有数据要发送了 此时，主机1和2已经无法进行通信：主机1无法发送数据给主机2，主机2也无法发送数据给主机1，此时，TCP的连接才算释放。</p>
 </li>
 </ul>
-<h5 id="TCP的流控"><a href="#TCP的流控" class="headerlink" title="TCP的流控"></a>TCP的流控</h5><h5 id="TCP的滑动窗口机制"><a href="#TCP的滑动窗口机制" class="headerlink" title="TCP的滑动窗口机制"></a>TCP的滑动窗口机制</h5><p><strong>滑动窗口</strong></p>
+<h5 id="TCP的流量控制——窗口滑动机制"><a href="#TCP的流量控制——窗口滑动机制" class="headerlink" title="TCP的流量控制——窗口滑动机制"></a>TCP的流量控制——窗口滑动机制</h5><p><img src="/2019/11/23/6-tcp-ip/gifhome_448x336_13s.gif" alt="gifhome_448x336_13s"></p>
+<p><strong>滑动窗口</strong></p>
 <p>发送方和接收方都会维护一个数据帧的序列，这个序列被称作窗口。</p>
 <p>发送方的窗口大小由接收方确认。</p>
 <p><strong>目的</strong>：</p>
@@ -316,6 +331,8 @@
 <p><a href="https://juejin.im/post/5e187698f265da3e3c4ced87" target="_blank" rel="noopener">网络架构系列1–TCP/IP详解</a></p>
 <p><a href="https://www.jianshu.com/p/c4fcecc2fd2e" target="_blank" rel="noopener">SYN-Flood攻击解决办法？</a></p>
 <p><a href="https://blog.csdn.net/nie19940803/article/details/76647834" target="_blank" rel="noopener">SYN Flood攻击及防御方法</a></p>
+<p><a href="https://v.youku.com/v_show/id_XNDg1NDUyMDUy.html" target="_blank" rel="noopener">TCP sliding window</a></p>
+<p><a href="https://blog.csdn.net/wdscq1234/article/details/52444277" target="_blank" rel="noopener">TCP-IP详解：滑动窗口（Sliding Window）</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
