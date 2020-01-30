@@ -15,7 +15,7 @@
 <p>3、OSI是一种理论下的模型，而TCP/IP已被广泛使用，比如现在我们每天都在用的互联网就是用的TCP/IP协议。</p>
 <p>4、OSI 参考模型注重“通信协议必要的功能是什么”，而 TCP/IP 则更强调“在计算机上实现协议应该开发哪种程序”。</p>
 <p><strong>简单来说，OSI参考模型和TCP/IP参考模型，其实都是每一层加上本层的报头然后发给其他层这么一个工作模式，不过分层方式有所不同，现在的互联网用的都是TCP/IP，因为OSI分层太多，有些层没必要，比如表示层、会话层，在TCP/IP模型中应用层都搞定了。</strong></p>
-<h2 id="三、TCP-IP基础知识"><a href="#三、TCP-IP基础知识" class="headerlink" title="三、TCP\IP基础知识"></a>三、TCP\IP基础知识</h2><h3 id="1、TCP-IP-的具体含义"><a href="#1、TCP-IP-的具体含义" class="headerlink" title="1、TCP/IP 的具体含义"></a>1、TCP/IP 的具体含义</h3><p>TCP/IP（Transmission Control Protocol/Internet Protocol，传输控制协议/网际协议）是指能够在多个不同网络间实现信息传输的协议簇。TCP/IP协议不仅仅指的是TCP 和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇， 只是因为在TCP/IP协议中TCP协议和IP协议最具代表性，所以被称为TCP/IP协议。</p>
+<h2 id="三、TCP-IP相关概念"><a href="#三、TCP-IP相关概念" class="headerlink" title="三、TCP\IP相关概念"></a>三、TCP\IP相关概念</h2><h3 id="1、TCP-IP-的具体含义"><a href="#1、TCP-IP-的具体含义" class="headerlink" title="1、TCP/IP 的具体含义"></a>1、TCP/IP 的具体含义</h3><p>TCP/IP（Transmission Control Protocol/Internet Protocol，传输控制协议/网际协议）是指能够在多个不同网络间实现信息传输的协议簇。TCP/IP协议不仅仅指的是TCP 和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇， 只是因为在TCP/IP协议中TCP协议和IP协议最具代表性，所以被称为TCP/IP协议。</p>
 <p>互联网进行通信时，需要相应的网络协议，TCP/IP 原本就是为使用互联网而开发制定的协议族。因此，互联网的协议就是 TCP/IP，TCP/IP 就是互联网的协议。</p>
 <p><img src="/2019/11/23/6-tcp-ip/tcpip.jpg" alt="tcpip"></p>
 <h3 id="2、数据段、数据包、数据帧、比特、PDU"><a href="#2、数据段、数据包、数据帧、比特、PDU" class="headerlink" title="2、数据段、数据包、数据帧、比特、PDU"></a>2、数据段、数据包、数据帧、比特、PDU</h3><p><img src="/2019/11/23/6-tcp-ip/featured-4.jpg" alt="featured-4"></p>
@@ -46,7 +46,7 @@
 <li>③ 和 ① 的目标端口号和源端口号完全相同，但它们各自的源 IP 地址不同。</li>
 <li>此外，当 IP 地址和端口号全都一样时，我们还可以通过协议号来区分（TCP 和 UDP）。</li>
 </ul>
-<h3 id="6、Default-media-MTU、Default-IP-MTU、MTU、Protocol-MTU"><a href="#6、Default-media-MTU、Default-IP-MTU、MTU、Protocol-MTU" class="headerlink" title="6、Default media MTU、Default IP MTU、MTU、Protocol MTU"></a>6、Default media MTU、Default IP MTU、MTU、Protocol MTU</h3><p>MTU是最大传输单元的英文简写（<strong>M</strong>aximum <strong>T</strong>ransmission <strong>U</strong>nit）</p>
+<h3 id="6、MTU、Default-media-MTU、Default-IP-MTU、Protocol-MTU"><a href="#6、MTU、Default-media-MTU、Default-IP-MTU、Protocol-MTU" class="headerlink" title="6、MTU、Default media MTU、Default IP MTU、Protocol MTU"></a>6、MTU、Default media MTU、Default IP MTU、Protocol MTU</h3><p>MTU是最大传输单元的英文简写（<strong>M</strong>aximum <strong>T</strong>ransmission <strong>U</strong>nit）</p>
 <blockquote>
 <p>the maximum transmission unit (MTU) is the size of the largest protocol data unit (PDU) that can be communicated in a single network layer transaction</p>
 </blockquote>
@@ -71,8 +71,7 @@
 <h3 id="8、TCP-segment-length"><a href="#8、TCP-segment-length" class="headerlink" title="8、TCP segment length"></a>8、TCP segment length</h3><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-26_17-04-26.jpg" alt="Snipaste_2020-01-26_17-04-26"></p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-26_17-06-18.jpg" alt="Snipaste_2020-01-26_17-06-18"></p>
 <p>这个TCP segment length就是上图的DATA部分，TCP MSS 、Payload、 DATA 以及 TCP segment length其实是同一个东西，也就是应用层交给传输层的数据。</p>
-<p>9、FCS和CRC</p>
-<p>定义：</p>
+<h3 id="9、FCS和CRC"><a href="#9、FCS和CRC" class="headerlink" title="9、FCS和CRC"></a>9、FCS和CRC</h3><p>定义：</p>
 <blockquote>
 <p>FCS - Frame Check Sequence is the process of using an algorithm or many algorithms to check frames</p>
 <p>CRC - Cyclical Redunancy Check is a checksum type. It uses a specific algorithm (found below) for checking computation or transmission integrity.</p>
@@ -182,8 +181,8 @@
 <h6 id="第二次握手："><a href="#第二次握手：" class="headerlink" title="第二次握手："></a>第二次握手：</h6><ul>
 <li>理论分析：</li>
 </ul>
-<p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200118163108.jpg" alt="微信图片编辑_20200118163108"></p>
-<p>服务器端收到数据包后由标志位SYN=1知道客户端请求建立连接，服务器端将标志位SYN和ACK都置为1，ack=J+1，随机产生一个值seq=K，并将该数据包发送给客户端以确认连接请求，服务器端进入SYN_RCVD状态。</p>
+<p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200130170823.jpg" alt="微信图片编辑_20200130170823"></p>
+<p>服务器端收到数据包后由标志位SYN=1知道客户端请求建立连接，服务器端将标志位SYN和ACK都置为1，ack=J+1，表示这个带ack的值是回应之前Seq值为J的数据的，随机产生一个值seq=K，并将该数据包发送给客户端以确认连接请求，服务器端进入SYN_RCVD状态。</p>
 <ul>
 <li>实际抓包过程举例：</li>
 </ul>
@@ -195,8 +194,8 @@
 <h6 id="第三次握手："><a href="#第三次握手：" class="headerlink" title="第三次握手："></a>第三次握手：</h6><ul>
 <li>理论分析：</li>
 </ul>
-<p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200118171736.jpg" alt="微信图片编辑_20200118171736"></p>
-<p>客户端收到确认后，检查ack是否为J+1，ACK是否为1，如果正确则将标志位ACK置为1，ack=K+1，并将该数据包发送给服务器端，服务器端检查ack是否为K+1，ACK是否为1，如果正确则连接建立成功，客户端和服务器端进入ESTABLISHED状态，完成三次握手，随后客户端与服务器端之间可以开始传输数据了。</p>
+<p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200130171052.jpg" alt="微信图片编辑_20200130171052"></p>
+<p>客户端收到确认后，检查ack是否为J+1（回应之前Seq值为J的数据），ACK是否为1，如果正确则将标志位ACK置为1，ack=K+1，并将该数据包发送给服务器端，服务器端检查ack是否为K+1，ACK是否为1，如果正确则连接建立成功，客户端和服务器端进入ESTABLISHED状态，完成三次握手，随后客户端与服务器端之间可以开始传输数据了。</p>
 <ul>
 <li>实际抓包过程举例：</li>
 </ul>
@@ -269,16 +268,18 @@
 <li><p>当主机2也发送了FIN报文段时，即告诉主机1我也没有数据要发送了 此时，主机1和2已经无法进行通信：主机1无法发送数据给主机2，主机2也无法发送数据给主机1，此时，TCP的连接才算释放。</p>
 </li>
 </ul>
-<h5 id="TCP的流量控制——窗口滑动机制"><a href="#TCP的流量控制——窗口滑动机制" class="headerlink" title="TCP的流量控制——窗口滑动机制"></a>TCP的流量控制——窗口滑动机制</h5><p>窗口</p>
-<p><img src="/2019/11/23/6-tcp-ip/gifhome_448x336_13s.gif" alt="gifhome_448x336_13s"></p>
-<p><strong>滑动窗口</strong></p>
-<p>发送方和接收方都会维护一个数据帧的序列，这个序列被称作窗口。</p>
+<h5 id="TCP的流量控制——窗口滑动机制"><a href="#TCP的流量控制——窗口滑动机制" class="headerlink" title="TCP的流量控制——窗口滑动机制"></a>TCP的流量控制——窗口滑动机制</h5><h6 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h6><p>TCP 用“序列号（Sequence Number）”和“确认应答号（Acknowledge Number）”确保数据可靠传输，但如果每发送一个数据都要等这个数据的确认返回才能发送下一个数据的话，包的往返时间越长通信性能就越低，为解决这个问题，TCP引入了窗口这个概念。确认应答不再是以每个分段，而是以更大的单位进行确认，转发时间将会被大幅地缩短。也就是说，发送端主机，在发送了一个段以后不必要一直等待确认应答，而是继续发送。接收方利用接收缓存（Buffer）去暂时存储那些还没来得及处理的数据。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-30_18-08-06.jpg" alt="Snipaste_2020-01-30_18-08-06"></p>
+<p>窗口大小就是指无需等待确认应答而可以继续发送数据的最大值。</p>
+<p>通常，TCP连接一开始将把窗口设置成较小值，在每次成功收到确认时，增加窗口大小。</p>
+<h6 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h6><p>发送方和接收方都会维护一个数据帧的序列，这个序列被称作窗口。</p>
 <p>发送方的窗口大小由接收方确认。</p>
 <p><strong>目的</strong>：</p>
 <p><strong>1.确保数据不丢失</strong></p>
 <p>​     如果发送的数据丢失了可以重新发。</p>
 <p><strong>2.控制发送速度</strong></p>
 <p>​     控制发送速度，以免接收方的缓存不够大导致溢出，同时控制流量也可以避免网络拥塞。</p>
+<p><img src="/2019/11/23/6-tcp-ip/gifhome_448x336_13s.gif" alt="gifhome_448x336_13s"></p>
 <h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h5 id="UDP的特点："><a href="#UDP的特点：" class="headerlink" title="UDP的特点："></a>UDP的特点：</h5><p>UDP是一种无连接的、不可靠的、面向报文、没有拥塞控制的协议。</p>
 <p><strong>无连接的</strong>：和TCP要建立连接不同，UDP传输数据不需要建立连接，就像写信，在信封写上收信人名称、地址就可以交给邮局发送了，至于能不能送到，就要看邮局的送信能力和送信过程的困难程度了。</p>
 <p><strong>不可靠的</strong>：因为UDP发出去的数据包发出去就不管了，不管它会不会到达，所以很可能会出现丢包现象，使传输的数据出错。</p>
