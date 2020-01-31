@@ -120,7 +120,11 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-01-21_15-30-30.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200121154015.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-01-21_15-41-40.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200118160548-1580447316189.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-01-31_13-20-31.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-01-31_13-50-39.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-01-30_18-08-06.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-01-31_16-01-52.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;gifhome_448x336_13s.gif">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-01-08_17-05-12.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;IP%20packet.png">
@@ -140,7 +144,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;ipclasses.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;874126-20180117224704553-1506200749.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCPIP%20ENCAPSULATION.png">
-<meta property="og:updated_time" content="2020-01-30T10:12:52.561Z">
+<meta property="og:updated_time" content="2020-01-31T08:15:45.550Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCP-IP%E6%A8%A1%E5%9E%8B%20(2)%20(1).jpg">
 
@@ -342,7 +346,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-30 18:12:52" itemprop="dateModified" datetime="2020-01-30T18:12:52+08:00">2020-01-30</time>
+                <time title="修改时间：2020-01-31 16:15:45" itemprop="dateModified" datetime="2020-01-31T16:15:45+08:00">2020-01-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -437,6 +441,12 @@
 <p>注：TCP MSS 、Payload、 DATA 以及 TCP segment length其实是同一个东西</p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200129144404.jpg" alt="微信图片编辑_20200129144404"></p>
 <p>如果IP层有&lt;=1500 byte 需要发送，只需要一个IP包就可以完成发送任务；如果IP层有&gt; 1500 byte 数据需要发送，需要分片才能完成发送，这些分片有一个共同点，即IP Header ID相同。但如果分片的话，会导致网络传输效率降低，所以要尽量避免分片。</p>
+<blockquote>
+<p>Why we ‘ve both of Interface MTU and IP MTU?</p>
+<p>IP MTU will only affect IP packets while MTU will affect all ethernet frames. It gives you a bit more granularity to only set the MTU for IP packets.</p>
+</blockquote>
+<p>为什么同时需要Default IP MTU和Default media MTU这两个概念呢？</p>
+<p>因为IP MTU仅仅影响IP包，Default media MTU将影响所有以太网帧，这样区分概念可以为网络提供更高的颗粒度，比如可以仅仅设置IP MTU而不影响以太网帧。</p>
 <h3 id="7、最大分段大小（MSS）"><a href="#7、最大分段大小（MSS）" class="headerlink" title="7、最大分段大小（MSS）"></a>7、最大分段大小（MSS）</h3><p>“最大分段大小”（英语：<strong>M</strong>aximum <strong>S</strong>egment <strong>S</strong>ize）。TCP提交给IP层最大分段大小，不包含TCP Header和 TCP Option，只包含TCP Payload ，注意，<strong>UDP是没有MSS这个概念的</strong>。MSS是TCP用来限制application层最大的发送字节数，是tcp能发送的分组的最大长度。MSS是系统默认的，就是系统TCP/IP栈所能允许的最大包。<strong>在建立连接的三次握手时，这个MSS值经过双方协商后已经被确定了</strong>，这个值并不是客观的值，而是由tcp/ip的实现确定的。下图中，左右两边的MSS都是1460。</p>
 <img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-26_13-48-20.jpg" alt="Snipaste_2020-01-26_13-48-20" style="zoom:150%;">
 
@@ -645,10 +655,19 @@
 <li><p>当主机2也发送了FIN报文段时，即告诉主机1我也没有数据要发送了 此时，主机1和2已经无法进行通信：主机1无法发送数据给主机2，主机2也无法发送数据给主机1，此时，TCP的连接才算释放。</p>
 </li>
 </ul>
-<h5 id="TCP的流量控制——窗口滑动机制"><a href="#TCP的流量控制——窗口滑动机制" class="headerlink" title="TCP的流量控制——窗口滑动机制"></a>TCP的流量控制——窗口滑动机制</h5><h6 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h6><p>TCP 用“序列号（Sequence Number）”和“确认应答号（Acknowledge Number）”确保数据可靠传输，但如果每发送一个数据都要等这个数据的确认返回才能发送下一个数据的话，包的往返时间越长通信性能就越低，为解决这个问题，TCP引入了窗口这个概念。确认应答不再是以每个分段，而是以更大的单位进行确认，转发时间将会被大幅地缩短。也就是说，发送端主机，在发送了一个段以后不必要一直等待确认应答，而是继续发送。接收方利用接收缓存（Buffer）去暂时存储那些还没来得及处理的数据。</p>
+<h5 id="TCP的流量控制——窗口滑动机制"><a href="#TCP的流量控制——窗口滑动机制" class="headerlink" title="TCP的流量控制——窗口滑动机制"></a>TCP的流量控制——窗口滑动机制</h5><h6 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h6><p>TCP 用“序列号（Sequence Number）”和“确认应答号（Acknowledge Number）”确保数据可靠传输，但如果每发送一个数据都要等对端发送ACK确认后才能发送下一个数据的话，显然效率是很低的，而且包的往返时间越长通信性能就越低，为解决这个问题，TCP引入了窗口这个概念。不再是一个数据段确认一次，而是以更大的单位进行确认，这么做的好处是转发时间将会被大幅地缩短。也就是说，发送端主机，在发送了一个数据段以后不必要一直等待确认应答，而是继续发送其他的数据段。接收方的硬件性能有限，不可能在同一时间处理完这些数据，所以接收方利用接收缓存（Buffer）去暂时存储那些还没来得及处理的数据。但接收这些未经确认的数据是有大小限制的，这个限制的大小称作窗口大小，也就是TCP报头中的16位字段“Window Size”，这个字段用来告诉发送端，接收端还有多少缓存可以用，发送端会根据缓存的大小来调整发送的数据量。</p>
+<img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200118160548-1580447316189.jpg" alt="微信图片编辑_20200118160548" style="zoom:80%;">
+
+<p>假设有两台主机用TCP协议连接，在TCP建立连接之初，两端都为接收数据设置了32K的缓存空间，所以这个初始的TCP 窗口大小是32678K（32X1024）。<strong>主机的buffer缓存，是由操作系统决定的。路由器交换机的buffer就是硬件内存</strong>。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-31_13-20-31.jpg" alt="Snipaste_2020-01-31_13-20-31"></p>
+<p>假设两边的MSS协商为1460位，主机A在主机B的接收缓存满之前，可发送22个数据段，1460X22=32120，小于窗口最大值32768。</p>
+<p>确认收到主机A发送的数据后，主机B可以调整其窗口大小。 例如，如果上层应用程序仅处理了一半的缓冲区，则主机B会将其窗口大小减小到16 KB。 如果缓冲区仍然完全满，主机B会将其窗口大小设置为零，表明它还不能接收更多数据。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-31_13-50-39.jpg" alt="Snipaste_2020-01-31_13-50-39"></p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-30_18-08-06.jpg" alt="Snipaste_2020-01-30_18-08-06"></p>
 <p>窗口大小就是指无需等待确认应答而可以继续发送数据的最大值。</p>
-<p>通常，TCP连接一开始将把窗口设置成较小值，在每次成功收到确认时，增加窗口大小。</p>
+<p>通常，TCP连接一开始将把窗口设置成较小值，在每次成功收到确认时，增加窗口大小。只要接收方能确认所有发送数据或窗口未达到最大限制前，窗口大小都会增加；如果接收方在特定时间段（称为往返时间）内未发送确认，则窗口大小将减小。当窗口过大超过了处理能力和缓存大小时，接口出现拥塞导致数据包丢失，TCP有一系列算法解决这个问题，其中之一就是缓慢启动（Slow start）。</p>
+<p>如下图所示：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-31_16-01-52.jpg" alt="Snipaste_2020-01-31_16-01-52"></p>
 <h6 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h6><p>发送方和接收方都会维护一个数据帧的序列，这个序列被称作窗口。</p>
 <p>发送方的窗口大小由接收方确认。</p>
 <p><strong>目的</strong>：</p>
@@ -756,6 +775,9 @@
 <p><a href="https://blog.csdn.net/wdscq1234/article/details/52444277" target="_blank" rel="noopener">TCP-IP详解：滑动窗口（Sliding Window）</a></p>
 <p><a href="https://blog.csdn.net/guizaijianchic/article/details/77524825" target="_blank" rel="noopener">MTU，窗口大小和mss的区别</a></p>
 <p><a href="https://www.juniper.net/documentation/en_US/junos/topics/concept/interfaces-media-mtu.html" target="_blank" rel="noopener">Media MTU Overview</a></p>
+<p><a href="https://packetlife.net/blog/2010/aug/4/tcp-windows-and-window-scaling/" target="_blank" rel="noopener">TCP Windows and Window Scaling</a></p>
+<p><a href="https://learningnetwork.cisco.com/message/553728#553728" target="_blank" rel="noopener">TCP - Interface MTU VS. IP MTU</a></p>
+<p><a href="https://networklessons.com/cisco/ccie-routing-switching-written/tcp-window-size-scaling" target="_blank" rel="noopener">TCP Window Size Scaling</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
     </div>
 
