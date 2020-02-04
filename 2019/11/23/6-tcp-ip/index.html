@@ -145,7 +145,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;ipclasses.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;874126-20180117224704553-1506200749.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCPIP%20ENCAPSULATION.png">
-<meta property="og:updated_time" content="2020-02-02T12:51:33.368Z">
+<meta property="og:updated_time" content="2020-02-04T10:05:17.530Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCP-IP%E6%A8%A1%E5%9E%8B%20(2)%20(1).jpg">
 
@@ -347,7 +347,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-02 20:51:33" itemprop="dateModified" datetime="2020-02-02T20:51:33+08:00">2020-02-02</time>
+                <time title="修改时间：2020-02-04 18:05:17" itemprop="dateModified" datetime="2020-02-04T18:05:17+08:00">2020-02-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -683,12 +683,6 @@
 <p>举例来说，让我们假设两台主机A、B之间用延迟80ms，带宽为10M的专线物理连接，他们之间用TCP建立连接，两边都有最大值为65535的TCP窗口（因为TCP报头中window size是16位，2的16次方就是65535），我们能够通过 “ 带宽 * 延迟 ” 的公式计算出某一时间点在一个方向上传输的潜在数据量：</p>
 <p>10Mbps连接的带宽：也就是10,000,000 bps，除以8，将单位由bps换算成Bps，换算成Byte是因为byte（字节）一般做容量，bit（比特、位）一般用作速率（1B=8b、1B/s=8b/s或1Bps=8bps），然后乘以延迟0.08s（1ms = 0.001s，80ms=0.08s），等于100,000bytes。</p>
 <p>也就是说在主机B收到第一个数据前，主机A会发送100，000字节的数据。但是因为我们接收的TCP最大窗口值为65535字节，所以主机A发送了65535字节的数据后必须停下来等待主机B发送ACK表示数据成功接收，因为 “window size” 这个字段的含义就是<strong>接收端告诉发送端自己还有多少缓冲区可以接收数据</strong>，发送端会按照这个值去发送数据，等对端确认接收了再继续发送余下的数据。（为了简单起见，我们这个例子的计算不考虑TCP报头以及其他报头的开销）。这种延迟浪费了潜在的吞吐量，不必要地增加了跨网络可靠传输数据所需的时间，将最大窗口限制在65535对所谓的“大而胖的网络”（那些有大带宽延迟产品）的性能有显著的损害。TCP窗口缩放就是为了解决这个问题而产生的。</p>
-<p><strong>关于 “ 带宽 * 延迟 ” 的公式</strong></p>
-<p>可以把主机A和主机B的通信想象成两台主机通过一根管子（网络）连接，我们要计算它的体积，通过其“宽度”（它的带宽，这更像它的横截面积，以比特每秒为单位）乘以“长度”（单向延迟，以秒为单位）。由此产生的BDP（带宽时延乘积）以比特为单位，<strong>等同在任何特定时间该网络线路上的最大数据量——已发送但尚未确认的数据。</strong>这个数值</p>
-<p>延迟就是水从管子一端到另一端的时间，</p>
-<p>这个公式就是带宽时延乘积（英语：bandwidth-delay product；或称带宽延时乘积、带宽延时积等）指的是一个数据链路的能力（每秒比特）与来回通信延迟（单位秒）的乘积。其结果是以比特（或字节）为单位的一个数据总量，<strong>等同在任何特定时间该网络线路上的最大数据量——已发送但尚未确认的数据。</strong></p>
-<p>在给定的网络环境中，“最佳”窗口大小即为最大化网络流率。最好的窗口大小是一个使得发件人完全“填满管道”的大小，算出来的这个100,000bytes就是这个能最大化使用网络带宽的数字，将这个数字设置为window size能最大限度的利用网络带宽。上文中的公式：“带宽 X 延迟”，就是带宽时延乘积（英语：bandwidth-delay product；或称带宽延时乘积、带宽延时积等）指的是一个数据链路的能力（每秒比特）与来回通信延迟（单位秒）的乘积。其结果是以比特（或字节）为单位的一个数据总量，<strong>等同在任何特定时间该网络线路上的最大数据量——已发送但尚未确认的数据。</strong></p>
-<p>谈谈自己关于作者为什么写这个计算公式，是因为在给定的网络环境中，“最佳”窗口大小即为最大化网络流率。最好的窗口大小是一个使得发件人完全“填满管道”的大小，算出来的这个100,000bytes就是这个能最大化使用网络带宽的数字，将这个数字设置为window size能最大限度的利用网络带宽。“如果我们认为发送端和接收端之间的路径作为一个管道，我们要计算它的体积，通过其“宽度”（它的流率，这更像它的横截面积，以比特每秒为单位）乘以“长度”（单向延迟，以秒为单位）。由此产生的BDP（带宽时延乘积）以比特为单位测量。换言之，管道大小表示在发送端和接收端之间“在线路上”物理传输的位的比特数目。</p>
 <h6 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h6><blockquote>
 <p>Window scaling was introduced in RFC 1072 and refined in <a href="http://tools.ietf.org/html/rfc1323" target="_blank" rel="noopener">RFC 1323</a>. Essentially, window scaling simply extends the 16-bit window field to 32 bits in length. Of course, the engineers could not simply insert an extra 16 bits into the TCP header, which would have rendered it completely incompatible with existing implementations. The solution was to define a TCP option to specify a count by which the TCP header field should be <a href="http://en.wikipedia.org/wiki/Bitwise_operation#Logical_shift" target="_blank" rel="noopener">bitwise shifted</a> to produce a larger value.</p>
 </blockquote>
@@ -702,7 +696,23 @@
 <blockquote>
 <p>The window scaling option may be sent only once during a connection by each host, in its SYN packet. The window size can be dynamically adjusted by modifying the value of the window field in the TCP header, but the scale multiplier remains static for the duration of the TCP connection. Scaling is only in effect if both ends include the option; if only one end of the connection supports window scaling, it will not be enabled in either direction. The maximum valid scale value is 14 (section 2.3 of <a href="http://tools.ietf.org/html/rfc1323" target="_blank" rel="noopener">RFC 1323</a> provides some background on this caveat for those interested).</p>
 </blockquote>
+<p>在TCP三次握手建立连接期间，窗口缩放选项只在其SYN数据包中发送一次。 可以通过修改TCP标头中的窗口字段的值来动态调整窗口大小，但是比例乘数在TCP连接期间保持不变。 仅当两端都包含该选项时，缩放才有效； 如果仅连接的一端支持窗口缩放，则两端都不会启用该参数。 最大有效比例值是14（有进一步研究兴趣的请查阅RFC 1323的2.3节）。</p>
+<blockquote>
+<p>Revisiting our earlier example, we can observe how window scaling allows us to make much more efficient use of long fat networks. To calculate our ideal window, we double the end-to-end delay to find the round trip time, and multiple it by the available bandwidth: 2 * 0.08 seconds * 10,000,000 bps / 8 = 200,000 bytes. To support a window of this size, host B could set its window size to 3,125 with a scale value of 6 (3,125 left shifted by 6 equals 200,000). Fortunately, these calculations are all handled automatically by modern TCP/IP stack implementations.</p>
+</blockquote>
+<p>回头看我们之前举的例子，我们可以看到，滑动窗口是如何让我们能更有效的利用“长且胖”（long fat networks）网络的。为了计算我们所需要的理想窗口大小，我们将“端到端延迟”加倍，就能得到“往返时间”（RTT），将这个往返时间（RTT）乘以现有的带宽：2 X 0.08s X 10,000,000 bps / 8 = 200,000 bytes。为了能支持200,000 bytes大小的理想window size，主机B将它的window size 设置成3125（小于window size最大值的65535），然后将缩放比例值（也就是window scale）设置为6,（3125 X 2的6次方等于200,000），幸运的是，这些计算都自动的被近代的TCP\IP协议栈所处理好了。</p>
+<p><strong>关于“长且胖”的网络和RTT</strong></p>
+<blockquote>
+<p>The term, long fat network (<strong>LFN</strong>), which are “<strong>long</strong>” in terms of distance and network delay and “<strong>fat</strong>” in terms of link bandwidth.</p>
+</blockquote>
+<p>“长且胖”网络是从英文：<strong>L</strong>ong <strong>F</strong>at <strong>N</strong>etwork翻译过来的，简称LFN，“Long”表示传输距离，“Fat”表示链路带宽。</p>
+<p>RTT表示来回通信延迟（Round-trip delay time），在通信（Communication）、电脑网络（Computer network）领域中，意指：在双方通信中，发讯方的信号（Signal）传播（Propagation）到收讯方的时间（意即：传播延迟（Propagation delay）），加上收讯方回传消息到发讯方的时间（如果没有造成双向传播速率差异的因素，此时间与发讯方将信号传播到收讯方的时间一样久）</p>
+<p><strong>关于 “ 带宽 * 延迟 ” 的公式</strong></p>
+<p>在文章中，一共有两个“ 带宽 * 延迟 ” ，一开始是由带宽乘以单向通信延迟，后面是由带宽乘以来回通信延迟（RTT）。</p>
+<p>前面的带宽乘以单向通信延迟，是为说明65535作为window size 过小，已经影响了TCP传输效率。这里可以把主机A和主机B的通信想象成两台主机通过一根管子（网络）连接，我们要计算它的体积，通过其“宽度”（它的带宽，这更像它的横截面积，以比特每秒为单位）乘以“长度”（单向延迟，以秒为单位），得出来的值<strong>等同在任何特定时间该网络线路上的最大数据量——已发送但尚未确认的数据。</strong>因为这个计算出来的值是100,000 bytes，远远大于65,535 bytes这个window size的值，没有最大限度的利用网络带宽，最理想的状态是当A发送第1个字节到达B的时候，A刚好停止发送数据，等待ACK，所以后面要加入window scale这个参数把window size扩大到32位、4294967296，更好的利用网络。</p>
+<p>后面由带宽乘以来回通信延迟（RTT）这个公式，就是带宽时延乘积（英语：bandwidth-delay product，简写为BDP；或称带宽延时乘积、带宽延时积等），网络速率越高、延迟越大的情况下，计算出来的BDP越大，在这种情况下，TCP的性能难以发挥。</p>
 <p>通常，TCP连接一开始将把窗口设置成较小值，在每次成功收到确认时，增加窗口大小。只要接收方能确认所有发送数据或窗口未达到最大限制前，窗口大小都会增加；如果接收方在特定时间段（称为往返时间）内未发送确认，则窗口大小将减小。当窗口过大超过了处理能力和缓存大小时，接口出现拥塞导致数据包丢失，TCP有一系列算法解决这个问题，其中之一就是缓慢启动（Slow start）。</p>
+<p>The TCP window scale option is used to solve the bandwidth utilization issue caused by insufficient window size, which is limited to 65,535 bytes without scaling. For example, if the receive window is 65,535 bytes and the window scale factor is 3, RWIN is as follows: 65535 * 2 ³ = 524,280 bytes. The maximum value of 14 shifts the 16 bits to the left by 14, increasing the window size by 2 ¹⁴.</p>
 <p>如下图所示：</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-31_16-01-52.jpg" alt="Snipaste_2020-01-31_16-01-52"></p>
 <p>发送方和接收方都会维护一个数据帧的序列，这个序列被称作窗口。</p>
@@ -816,6 +826,7 @@
 <p><a href="https://learningnetwork.cisco.com/message/553728#553728" target="_blank" rel="noopener">TCP - Interface MTU VS. IP MTU</a></p>
 <p><a href="https://networklessons.com/cisco/ccie-routing-switching-written/tcp-window-size-scaling" target="_blank" rel="noopener">TCP Window Size Scaling</a></p>
 <p><a href="https://python.freelycode.com/contribution/detail/948" target="_blank" rel="noopener">你不知道什么是网络性能（一）</a></p>
+<p><a href="https://medium.com/@retroviseur/long-fat-network-lfn-and-tcp-7df4654b7c21" target="_blank" rel="noopener">Long Fat Network (LFN) and TCP</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
     </div>
 
