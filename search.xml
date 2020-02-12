@@ -66,6 +66,7 @@
 </blockquote>
 <p>为什么同时需要Default IP MTU和Default media MTU这两个概念呢？</p>
 <p>因为IP MTU仅仅影响IP包，Default media MTU将影响所有以太网帧，这样区分概念可以为网络提供更高的颗粒度，比如可以仅仅设置IP MTU而不影响以太网帧。</p>
+<p>当然，上面这个解答是在二层用以太网封装的情况下，如果用PPP或其他方式的话，上文中的Default media MTU影响的就不是所有以太网了。</p>
 <h3 id="7、最大分段大小（MSS）"><a href="#7、最大分段大小（MSS）" class="headerlink" title="7、最大分段大小（MSS）"></a>7、最大分段大小（MSS）</h3><p>“最大分段大小”（英语：<strong>M</strong>aximum <strong>S</strong>egment <strong>S</strong>ize）。TCP提交给IP层最大分段大小，不包含TCP Header和 TCP Option，只包含TCP Payload ，注意，<strong>UDP是没有MSS这个概念的</strong>。MSS是TCP用来限制application层最大的发送字节数，是tcp能发送的分组的最大长度。MSS是系统默认的，就是系统TCP/IP栈所能允许的最大包。<strong>在建立连接的三次握手时，这个MSS值经过双方协商后已经被确定了</strong>，这个值并不是客观的值，而是由tcp/ip的实现确定的。下图中，左右两边的MSS都是1460。</p>
 <img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-26_13-48-20.jpg" alt="Snipaste_2020-01-26_13-48-20" style="zoom:150%;">
 
@@ -164,7 +165,7 @@
 <h6 id="⑻窗口大小（Window-Size）"><a href="#⑻窗口大小（Window-Size）" class="headerlink" title="⑻窗口大小（Window Size）"></a>⑻窗口大小（Window Size）</h6><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200118160548.jpg" alt="微信图片编辑_20200118160548"></p>
 <p>该字段长为16位。用于通知从相同TCP首部的确认应答号所指位置开始能够接收的数据大小（8位字节）。TCP不允许发送超过此处所示大小的数据，换句话说就是<strong>接收端告诉发送端自己还有多少缓冲区可以接收数据</strong>。于是发送端就可以根据这个接收端的处理能力来发送数据，而不会导致接收端处理不过来。不过，如果窗口为0，则表示可以发送窗口探测，以了解最新的窗口大小。但这个数据必须是1个字节。</p>
 <h6 id="⑼校验和（Checksum）"><a href="#⑼校验和（Checksum）" class="headerlink" title="⑼校验和（Checksum）"></a>⑼校验和（Checksum）</h6><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200118160621.jpg" alt="微信图片编辑_20200118160621"></p>
-<p>该字段长为16位。由发送端填充，接收端对 TCP 报文段执行 CRC 算法，以检验 TCP 报文段在传输过程中是否损坏，如果损坏这丢弃。<strong>检验范围包括首部和数据两部分，这也是 TCP 可靠传输的一个重要保障。</strong></p>
+<p>该字段长为16位。由发送端填充，接收端对 TCP 报文段执行 CRC 算法，以检验 TCP 报文段在传输过程中是否损坏，<strong>会校验包括IP头部、TCP头部和TCP数据在内的整个序列，确保IP地址、端口号和其他相关信息正确</strong>，如果损坏接收方会丢弃该TCP片段。<strong>检验范围包括首部和数据两部分，这也是 TCP 可靠传输的一个重要保障。</strong></p>
 <h6 id="⑽紧急指针（Urgent-Pointer）"><a href="#⑽紧急指针（Urgent-Pointer）" class="headerlink" title="⑽紧急指针（Urgent Pointer）"></a>⑽紧急指针（Urgent Pointer）</h6><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200118160652-1579334838087.jpg" alt="微信图片编辑_20200118160652"></p>
 <p>该字段长为16位。仅在 URG = 1 时才有意义，<strong>它指出本报文段中的紧急数据的字节数</strong>。当 URG = 1 时，发送方 TCP 就把紧急数据插入到本报文段数据的<strong>最前面</strong>，而在紧急数据后面的数据仍是普通数据。因此，紧急指针指出了紧急数据的末尾在报文段中的位置。</p>
 <h5 id="TCP的三次握手"><a href="#TCP的三次握手" class="headerlink" title="TCP的三次握手"></a>TCP的三次握手</h5><p><img src="/2019/11/23/6-tcp-ip/topic_20180918110121_47429.jpg" alt="topic_20180918110121_47429"></p>
@@ -341,9 +342,29 @@
 <p><strong>2.控制发送速度</strong></p>
 <p>​     控制发送速度，以免接收方的缓存不够大导致溢出，同时控制流量也可以避免网络拥塞。</p>
 <p><img src="/2019/11/23/6-tcp-ip/gifhome_448x336_13s.gif" alt="gifhome_448x336_13s"></p>
+<h5 id="TCP的重传机制"><a href="#TCP的重传机制" class="headerlink" title="TCP的重传机制"></a>TCP的重传机制</h5><p>当发送方送出一个TCP片段后，将开始<strong>计时</strong>（<strong>RTO</strong>, retransmission timeout），等待该TCP片段的ACK回复。如果接收方正确接收到符合次序的片段，接收方会利用ACK片段回复发送方。发送方得到ACK回复后，继续移动窗口，发送接下来的TCP片段。如果直到<strong>计时完成</strong>，发送方还是没有收到ACK回复，那么发送方推断之前发送的TCP片段丢失，因此重新发送之前的TCP片段。这个计时等待的时间叫做重新发送超时时间(<strong>RTO</strong>, retransmission timeout)。</p>
+<p>除了上面的RTO，还有一个名词叫RTT，<strong>RTT</strong>，Round-trip delay time，来回通信延迟，就是在双方通信中，发讯方的信号传播到收讯方的时间，加上收讯方回传消息到发讯方的时间，要注意两者的区别。</p>
+<p>需要注意的是，网络是一直波动的, RTT 是一直变化的, RTO 的值基于上次 RTT 往返时间动态计算出来的而不是一成不变的。</p>
+<p><img src="/2019/11/23/6-tcp-ip/RTT.png" alt="RTT"></p>
+<p><img src="/2019/11/23/6-tcp-ip/TCP-RTO-Retransmission-Timeout-Diagram.jpg" alt="TCP-RTO-Retransmission-Timeout-Diagram"></p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-10_15-38-54.jpg" alt="Snipaste_2020-02-10_15-38-54"></p>
+<p>例如上图中，client没收到server发送的segment2 ，所以会一直发送ACK2用来请求seq为2的数据，请注意，这里client收到了其他的比如segment 5，但client是不会发送ACK6的，因为它没收到seq2的数据，server一直收到ACK=2的数据，说明client只确认收到了seq=1的数据，所以在计时完成（RTO），认为client没收到数据以后，server从seq=2的数据重新开始发送。</p>
+<h5 id="TCP的慢启动"><a href="#TCP的慢启动" class="headerlink" title="TCP的慢启动"></a>TCP的慢启动</h5><p>定义和作用：</p>
+<blockquote>
+<p>TCP slow start is an algorithm which balances the speed of a network connection. Slow start gradually increases the amount of data transmitted until it finds the network’s maximum carrying capacity.</p>
+</blockquote>
+<p>TCP慢启动是一种用来平衡网络连接速度的算法，慢启动渐渐增加传输的数量直到发现网络最大负载能力为止。</p>
+<blockquote>
+<p>Slow start prevents a network from becoming congested by regulating the amount of data that’s sent over it. It negotiates the connection between a sender and receiver by defining the amount of data that can be transmitted with each packet, and slowly increases the amount of data until the network’s capacity is reached. This ensures that as much data is transmitted as possible without clogging the network.</p>
+</blockquote>
+<p>慢速启动可以通过调节网络上发送的数据量来防止网络拥塞。 它通过定义每个数据包可以传输的数据量来协商发送方和接收方之间的连接，并缓慢增加数据量，直到达到网络容量为止。 这样可以确保在不阻塞网络的情况下传输尽可能多的数据。</p>
+<p>工作机制：</p>
+<p><strong>慢启动</strong>（Slow-start）是用于结合其他阶段算法，来避免发送过多数据到网络中而导致网络拥塞，算法在<a href="https://zh.wikipedia.org/wiki/RFC" target="_blank" rel="noopener">RFC</a> <a href="https://tools.ietf.org/html/rfc5681" target="_blank" rel="noopener">5681</a>中定义。</p>
+<p>慢开始算法的思路就是，不要一开始就发送大量的数据，先探测一下网络的拥塞程度，也就是说由小到大逐渐增加拥塞窗口的大小。</p>
+<p>慢启动初始启动时设置拥塞窗口值（cwnd）为1、2、4或10个MSS。<a href="https://zh.wikipedia.org/wiki/TCP拥塞控制#cite_note-9" target="_blank" rel="noopener">[7]</a><a href="https://zh.wikipedia.org/wiki/TCP拥塞控制#cite_note-RFC_3390-10" target="_blank" rel="noopener">[8]</a>:1拥塞窗口在每接收到一个确认包时增加，每个RTT内成倍增加，当然实际上并不完全是指数增长，因为接收方会延迟发送确认，通常是每接收两个分段则发送一次确认包。<a href="https://zh.wikipedia.org/wiki/TCP拥塞控制#cite_note-11" target="_blank" rel="noopener">[9]</a>发送速率随着慢启动的进行而增加，直到遇到出现丢失、达到慢启动阈值（ssthresh）、或者接收方的接收窗口进行限制。如果发生丢失，则TCP推断网络出现了拥塞，会试图采取措施来降低网络负载。这些是靠具体使用的TCP拥塞算法来进行测量判断。当达到慢启动阈值（ssthresh）时，慢启动算法就会转换为线性增长的阶段，算法控制每个RTT内拥塞窗口只增加1个分段量。虽然称为“慢启动”，但实际上比拥塞控制阶段的窗口增加更为激进。<a href="https://zh.wikipedia.org/wiki/TCP拥塞控制#cite_note-12" target="_blank" rel="noopener">[10]</a></p>
 <h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><h5 id="UDP的特点："><a href="#UDP的特点：" class="headerlink" title="UDP的特点："></a>UDP的特点：</h5><p>UDP是一种无连接的、不可靠的、面向报文、没有拥塞控制的协议。</p>
 <p><strong>无连接的</strong>：和TCP要建立连接不同，UDP传输数据不需要建立连接，就像写信，在信封写上收信人名称、地址就可以交给邮局发送了，至于能不能送到，就要看邮局的送信能力和送信过程的困难程度了。</p>
-<p><strong>不可靠的</strong>：因为UDP发出去的数据包发出去就不管了，不管它会不会到达，所以很可能会出现丢包现象，使传输的数据出错。</p>
+<p><strong>不可靠的</strong>：因为UDP发出去的数据包发出去就不管了，不管它会不会到达，即使到达不了也不会像TCP那样重传，因为UDP报头很精简，不像TCP报头中有序列号、确认号以及重传机制，能知道哪些数据发送到哪些没法送到，也不会重传那些没发送到的数据，所以很可能会出现丢包现象，使传输的数据出错。</p>
 <p><strong>面向报文</strong>：数据报文，就相当于一个数据包，应用层交给UDP多大的数据包，UDP就照样发送，不会像TCP那样拆分。</p>
 <p><strong>没有拥塞控制</strong>：拥塞，是指到达通信子网中某一部分的分组数量过多，使得该部分网络来不及处理，以致引起这部分乃至整个网络性能下降的现象，严重时甚至会导致网络通信业务陷入停顿，即出现死锁现象，就像交通堵塞一样。TCP建立连接后如果发送的数据因为信道质量的原因不能到达目的地，它会不断重发，有可能导致越来越塞，所以需要一个复杂的原理来控制拥塞。而UDP就没有这个烦恼，发出去就不管了。</p>
 <h5 id="UDP的应用场景："><a href="#UDP的应用场景：" class="headerlink" title="UDP的应用场景："></a>UDP的应用场景：</h5><p>很多的实时应用（如IP电话、实时视频会议、某些多人同时在线游戏等）要求源主机以很定的速率发送数据，并且允许在网络发生拥塞时候丢失一些数据，但是要求不能有太大的延时，UDP就刚好适合这种要求。</p>
@@ -372,10 +393,34 @@
 <p>Differentiated services or DiffServ is a computer networking architecture that specifies a simple and scalable mechanism for classifying and managing network traffic and providing quality of service (QoS) on modern IP networks. DiffServ can, for example, be used to provide low-latency to critical network traffic such as voice or streaming media while providing simple best-effort service to non-critical services such as web traffic or file transfers.</p>
 <p>DiffServ uses a 6-bit differentiated services code point (DSCP) in the 8-bit differentiated services field (DS field) in the IP header for packet classification purposes. The DS field replaces the outdated IPv4 TOS field.</p>
 <p>Explicit Congestion Notification (ECN), is used by some routers to signal support for Explicit Congestion Notification and, when it is supported, the bits can be used to signal congestion (ECN = 11)</p>
+</blockquote>
 <p>区分服务或DiffServ是一种计算机网络体系结构，它指定了一种简单且可扩展的机制，用于对网络流量进行分类和管理，并在现代IP网络上提供服务质量（QoS）。 例如，DiffServ可用于为关键网络流量（例如语音或流媒体）提供低延迟，同时为非关键服务（例如Web流量或文件传输）提供简单的尽力而为服务。</p>
 <p>DiffServ使用了IP报头里8位差异服务字段（DS字段）中的6位差异服务代码点（DSCP）进行数据包分类。DS字段替换了过时的IPv4 TOS字段。</p>
-<p>一些路由器使用显式拥塞通知（ECN）来表示对显式拥塞通知的支持，并且在支持该显式拥塞通知时，可以使用这些位来指示拥塞（ECN = 11）。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-09_13-12-48.jpg" alt="Snipaste_2020-02-09_13-12-48"></p>
+<p>一些路由器使用显式拥塞通知（ECN）来表示对显式拥塞通知的支持，这是一个2个比特的字段，置00时，表示设备不支持ECN字段，当两边都置为ECT的时候，表示两端设备均支持ECN字段，可以协商这个能力。ECT（1）和ECT（0）均表示支持这个能力，但一般用ECT（0）。置位为11（CE）的时候，表示网络中出现拥塞。</p>
+<p>一开始是没有ECN这个字段的，传统的做法是，如果接收方的缓存满了，就把尾部的帧丢弃，也就是丢弃了缓存外的数据，用来表示我的缓存已经满了，没法处理再多的数据了。发送方通过接收方的ACK发现，发送给对方1000个数据，可能只确认了200个，而且window size字段数字很小，说明接收方缓存已经满了，我得少发数据，因为发送了也处理不过来，等不拥塞了再多发数据。因为网络上用TCP的肯定不止一个程序，众多用TCP的程序发现拥塞以后是这么一个“传输——拥塞——丢尾部帧——等待不拥塞——传输”，大家同时这么干，这个过程就是TCP的全局同步（<a href="https://en.wikipedia.org/wiki/TCP_global_synchronization" target="_blank" rel="noopener">TCP global synchronization</a>），这样对网络利用效率就很低，因为大家一股脑的在同一时间传输，再一起等待不拥塞，如果这时候再有UDP这种不管是否拥塞都传输的，就会造成TCP饥饿（tcp starvation），所以有了RED ( <strong>Random early detection</strong> ) 这个技术，大概就是说不丢尾部帧了，而是随机丢一些队列里的帧，不会造成TCP上面那些同步的情况。但问题是还是需要丢包，会某些应用造成性能损伤，因为TCP的重传和慢启动机制，这时候ECN就横空出世，大概过程是一开始通过ECN字段为ECT（0），也就是这两位置10，来协商ECN这个字段，两边都支持协商好以后，当队列快要满的时候，网络设备给数据包mark CE bit（ECN=11），然后接收端看到数据包ECN=11 就知道路上有拥塞了，然后下一个TCP返回的报文就TCP  flag ECE（ecn echo）=1，告诉发送端：我这检测到拥塞了，你慢点发，然后发送端收到这个TCP包之后，看到ECE=1，就调小发送速率，并且CWR=1，相当于ECE的确认。更具体的协商工作机制如下：</p>
+<p>TCP initiation and process for ECN</p>
+<ol>
+<li>Host A sends a SYNC packet with ECE and CWR set in TCP options field. ECN bit set to 00 in IP header.</li>
+<li>Host B responds with a SYNC+ACK packet with ECE set in TCP options field. ECN bit set to 00 in IP header.</li>
+<li>After TCP establishes with ECN capable, data start to be transmitted with ECT set(ECN=01/10,same meaning) </li>
+<li>The middle device must enable support ECN on respective queue to enable ECN feature.</li>
+<li>If a middle device detects that the WRED drop probability is greater than O in a ECN enabled queue, which means congestion experiencing in this queue. Device will remark the packet with CE(Congestion Experienced, ECN=II), and downstream device must remain it unchanged.</li>
+<li>The receiver gets a packet with CE set, it responds in next ACK with ECE flag set in TCP header</li>
+<li>When sender gets the ACK packet with ECE flag set, it reduces the sending rate and reply with CWR flag set in next packet to ack the ECE set packet.</li>
+<li>When the receiver receives the CWR flag, the receiver stops setting the ECE bit in replies to the sender.</li>
+</ol>
+<p>1、主机A在TCP三次握手发送第一次SYN时，除了将SYN位置1以外，还将TCP报头里的控制位中的ECE和CWR两个位也置为1；将IP报头中的ECN位设置为00：</p>
+<img src="/2019/11/23/6-tcp-ip/%E4%B8%8B%E8%BD%BD.png" alt="下载" style="zoom:150%;">
+
+<p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200212184752.jpg" alt="微信图片编辑_20200212184752"></p>
+<p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200212185545.jpg" alt="微信图片编辑_20200212185545"></p>
+<p>2、主机B发送数据相应主机A的TCP三次握手，将TCP报头中控制位里的SYN和ACK两位置为1，将IP报头中ECN两位也置为00。<br>3、当TCP建立完具有ECN能力的连接后，所传输的数据的IP报头中的ECN位将设置为01或10（表示的含义一样），这两个ECT置为本质上是在IP数据包中的ECN field中放置了一个随机数（<strong>The use of two ECT codepoints essentially gives a one-bit ECN noncein packet headers, and routers necessarily “erase” the nonce whenthey set the CE codepoint</strong>）。<br>4、主机AB之间的中间网络设备，必须在相应的队列上启用支持ECN才能启用ECN功能。<br>5、如果中间设备在启用ECN的队列中检测到WRED丢弃概率大于0，则表示此队列中出现拥塞。 设备将使用CE（表示经历拥塞，ECN = 11）标记该数据包，下游设备必须保持其不变。<br>6.接收方获得一个带有CE设置的数据包，它在下一个ACK中响应，并在TCP报头中设置了ECE标志<br>7.当发送方收到设置了ECE标志的ACK数据包时，它将降低发送速率并在下一个数据包中设置CWR标志进行答复，以确认ECE设置数据包。<br>8.当接收方收到CWR标志时，接收方停止设置ECE位，以回复发送方。</p>
+<p><strong>关于ECT的说明：</strong></p>
+<blockquote>
+<p>The use of two ECT codepoints essentially gives a one-bit ECN noncein packet headers, and routers necessarily “erase” the nonce whenthey set the CE codepoint [SCWA99].  For example, routers that erasedthe CE codepoint would face additional difficulty in reconstructingthe original nonce, and thus repeated erasure of the CE codepoint would be more likely to be detected by the end-nodes.  The ECN nonce also can address the problem of misbehaving transport receivers lying to the transport sender about whether or not the CE codepoint was setin a packet.</p>
 </blockquote>
+<p>这两个ECT置为本质上是在IP数据包中的ECN field中放置了一个随机数，当路由器将ECN field置为位CE（也就是置位11的时候），会将ECT置位抹去（其实也就是将ECT的10换为CE的11用来表示有拥塞了）。举例来说，如果路由器将CE字段抹去会面临难以恢复ECT置位中的那个随机数的情况（因为抹掉CE置位的路由器也不知道ECT置位的随机数是多少，它收到的只是个CE置位，所以就没法复原那个随机数，所以后面的路由器就会知道这个数据有问题因为没有ECT的随机数或者随机数有问题和之前的不同。这里说的这个抹去CE&lt;11&gt;的动作其实是错误的，因为CE表示有拥塞，不能简单的把这个抹去），并且重复的抹去CE置位会让后面的路由器更容易发现这个问题。ECN随机数还可以解决不管是否在分组中设置CE码点的情况下，传输层接收者欺骗传输层发送者的问题。我理解是说是加上了ECT以后，因为多了一个随机数，如果上游设备对TCP层进行了擅自改变，能够检测出来。</p>
 <h5 id="IP包总长（Total-Length）："><a href="#IP包总长（Total-Length）：" class="headerlink" title="IP包总长（Total Length）："></a>IP包总长（Total Length）：</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112151420.jpg" alt="微信图片编辑_20200112151420"></p>
 <p>长度16比特。总长度是一个16比特字段，以字节为单位指定包的总长度，包括报头。IP包最大长度65535字节。</p>
 <h5 id="标识符（Identifier）"><a href="#标识符（Identifier）" class="headerlink" title="标识符（Identifier）:"></a>标识符（Identifier）:</h5><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200112151451.jpg" alt="微信图片编辑_20200112151451"></p>
@@ -445,6 +490,7 @@
 <p><a href="https://networklessons.com/cisco/ccie-routing-switching-written/tcp-window-size-scaling" target="_blank" rel="noopener">TCP Window Size Scaling</a></p>
 <p><a href="https://python.freelycode.com/contribution/detail/948" target="_blank" rel="noopener">你不知道什么是网络性能（一）</a></p>
 <p><a href="https://medium.com/@retroviseur/long-fat-network-lfn-and-tcp-7df4654b7c21" target="_blank" rel="noopener">Long Fat Network (LFN) and TCP</a></p>
+<p><a href="https://blog.stackpath.com/tcp-slow-start/" target="_blank" rel="noopener">What is TCP Slow Start?</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
