@@ -152,7 +152,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;ipclasses.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;874126-20180117224704553-1506200749.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCPIP%20ENCAPSULATION.png">
-<meta property="og:updated_time" content="2020-02-12T11:19:02.833Z">
+<meta property="og:updated_time" content="2020-02-15T09:36:59.508Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCP-IP%E6%A8%A1%E5%9E%8B%20(2)%20(1).jpg">
 
@@ -354,7 +354,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-12 19:19:02" itemprop="dateModified" datetime="2020-02-12T19:19:02+08:00">2020-02-12</time>
+                <time title="修改时间：2020-02-15 17:36:59" itemprop="dateModified" datetime="2020-02-15T17:36:59+08:00">2020-02-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -424,14 +424,13 @@
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200113145310.jpg" alt="微信图片编辑_20200113145310"></p>
 <p>端口号是四层概念，存在于TCP或UDP源/目端口号字段，用以识别发送主机跟接收主机上的应用，解封装时会根据端口号的不同，传给由端口号识别的应用程序。(常见的例如：TCP80=HTTP, UDP53=DNS)。</p>
 <p>说白了都是“区分上层”用的，就是用来识别同一台计算机中进行通信的不同应用程序。但是所处的层次不一样。一台计算机上同时可以运行多个程序。传输层协议正是利用这些端口号识别本机中正在进行通信的应用程序，并准确地将数据传输。</p>
-<p>之所以有如此多的端口号是因为通信并不是由端口号一个字段决定的，识别一个通信是由五元组（<strong>源IP地址、目标IP地址、源端口号、目标端口和协议号</strong>）一起决定的。源目标地址决定了通信起源设备，目标IP地址决定了通信目的设备，但仅有源、目的IP地址不能识别一个通信，因为一台设备可以同时运行多个程序，下面举个接收端的例子来说明：</p>
-<p>设备收到了一个数据后，先通过把0101的比特流还原成二层的数据帧，然后看二层数据帧帧头的目的MAC地址和自己所接收端口的MAC地址是否相一致，如果一致就继续解封装到三层，查看目的IP地址是否是自己的，如果是自己的IP地址，再看协议号中的字段规定</p>
-<p>怎么知道把该数据交给哪个程序去处理呢？这就要通过端口号了</p>
+<p>之所以有如此多的端口号是因为通信并不是由端口号一个字段决定的，识别一个通信是由五元组（<strong>源IP地址、目标IP地址、源端口号、目标端口和协议号</strong>）一起决定的。源IP地址决定了通信起源设备，目标IP地址决定了通信目的设备，但仅有源、目的IP地址不能识别一个通信，因为一台设备可以同时运行多个程序，下面举个接收端的例子来说明：</p>
+<p>设备收到了一个数据后，先通过把0101的比特流还原成二层的数据帧，然后看二层数据帧帧头的目的MAC地址和自己所接收端口的MAC地址是否相一致，如果一致就继续解封装到三层，查看目的IP地址是否是自己的，如果是自己的IP地址，再看协议号中的字段规定使用的是TCP还是UDP协议，然后将这个数据交给相应的四层（应用层）去处理，应用层处理以后，怎么知道把该数据交给上层（应用层）的哪个程序去处理呢？这就要通过端口号了，如果端口号是80，说明这是一个http协议，交给http处理，如果有多个http进程，则可以根据源端口号加以区分，其他的协议以此类推。</p>
 <p><img src="/2019/11/23/6-tcp-ip/1e487b21-906d-41ae-8894-d02f1037cf25-1577770747233.jpg" alt="1e487b21-906d-41ae-8894-d02f1037cf25"></p>
 <p><img src="/2019/11/23/6-tcp-ip/c9daa-20190821100721-bd5df.jpeg" alt="c9daa-20190821100721-bd5df"></p>
 <p><img src="/2019/11/23/6-tcp-ip/3d251-20190821100721-c0e40.jpeg" alt="3d251-20190821100721-c0e40"></p>
 <ul>
-<li>① 和② 的通信是在两台计算机上进行的。它们的目标端口号相同，都是80。这里可以根据源端口号加以区分。</li>
+<li>① 和② 的通信是在两台计算机上进行的。它们五元组中的源、目的IP（源IP为192.168.4.22，目标地址为192.168.4.20），协议号（TCP6）以及目标端口号（80）均相同。这里可以根据五元组的源端口号加以区分。</li>
 <li>③ 和 ① 的目标端口号和源端口号完全相同，但它们各自的源 IP 地址不同。</li>
 <li>此外，当 IP 地址和端口号全都一样时，我们还可以通过协议号来区分（TCP 和 UDP）。</li>
 </ul>
@@ -497,7 +496,7 @@
 <p>①如何处理丢失或重复等差错情况：靠的是TCP的序列号（Sequence Number）以及确认应答号（Acknowledgement Number、ACK）。TCP在发送数据的时候，为每个字节编号（也就是序列号），接收端收到数据之后，经过校验无误，发回确认应答号，确认应答号为接收端等待接受的写一个字节的序号。并且它会缓存到达的乱序数据，统一排序之后传递给上层。这样就解决了丢包，重复和乱序的问题。</p>
 <p>②如何初始化一个数据流传输：TCP的三次握手进行了规定。</p>
 <p>③如何协商结束数据流传输：TCP的四次分手进行了规定。</p>
-<p>④流量控制和拥塞控制机制：TCP的窗口字段、序列号及确认应答号提供了这些功能。</p>
+<p>④流量控制和拥塞控制机制：TCP的窗口字段、序列号、确认应答号、Tail drop（尾帧丢弃）和RED（Random early detection）等提供了这些功能。</p>
 <p>3、支持流控</p>
 <p>TCP连接的每一方都有固定大小的缓冲空间。TCP的接收端只允许另一端发送接收端缓冲区所能接纳的数据。这将防止较快主机致使较慢主机的缓冲区溢出。具体见下文的窗口大小部分。</p>
 <p>4、窗口机制</p>
@@ -524,6 +523,11 @@
 <p>The sequence number is always valid. The acknowledgement number is only valid when the ACK flag is one. The only time the ACK flag is not set, that is, the only time there is not a valid acknowledgement number in the TCP header, is during the first packet of connection set-up.</p>
 </blockquote>
 <p><strong>序列号始终存在。确认编号仅在ACK标志为1时存在。</strong> 唯一未设置ACK标志的时间，即TCP头中没有有效确认号的唯一时间是在连接建立的第一个数据包期间。</p>
+<blockquote>
+<p>if ACK flag is 1 , Acknowledgment number is considered by application; if ACK flag is 0, Acknowledgment Number is not considered</p>
+</blockquote>
+<p>如果控制位中的ACK置位为1，则应用程序考虑确认号；如果ACK为0，则不考虑确认编号。关于控制位中的ACK置位问题，请参照后面的控制位部分。</p>
+<p><a href="https://networkengineering.stackexchange.com/questions/59441/whats-the-use-of-an-acknowledgement-number-without-the-ack-flag-set" target="_blank" rel="noopener">https://networkengineering.stackexchange.com/questions/59441/whats-the-use-of-an-acknowledgement-number-without-the-ack-flag-set</a></p>
 <h6 id="——关于序列号和确认应答号的相关说明——"><a href="#——关于序列号和确认应答号的相关说明——" class="headerlink" title="——关于序列号和确认应答号的相关说明——"></a><strong>——关于序列号和确认应答号的相关说明——</strong></h6><p>序列号和确认号组合起来使用，<strong>可以提高可靠性。</strong></p>
 <blockquote>
 <p>When a host initiates a TCP session, its initial sequence number is effectively random; it may be any value between 0 and 4,294,967,295, inclusive. However, protocol analyzers like Wireshark will typically display <em>relative</em> sequence and acknowledgement numbers in place of the actual values. These numbers are relative to the initial sequence number of that stream. This is handy, as it is much easier to keep track of relatively small, predictable numbers rather than the actual numbers sent on the wire.</p>
@@ -731,7 +735,10 @@
 <p><strong>2.控制发送速度</strong></p>
 <p>​     控制发送速度，以免接收方的缓存不够大导致溢出，同时控制流量也可以避免网络拥塞。</p>
 <p><img src="/2019/11/23/6-tcp-ip/gifhome_448x336_13s.gif" alt="gifhome_448x336_13s"></p>
-<h5 id="TCP的重传机制"><a href="#TCP的重传机制" class="headerlink" title="TCP的重传机制"></a>TCP的重传机制</h5><p>当发送方送出一个TCP片段后，将开始<strong>计时</strong>（<strong>RTO</strong>, retransmission timeout），等待该TCP片段的ACK回复。如果接收方正确接收到符合次序的片段，接收方会利用ACK片段回复发送方。发送方得到ACK回复后，继续移动窗口，发送接下来的TCP片段。如果直到<strong>计时完成</strong>，发送方还是没有收到ACK回复，那么发送方推断之前发送的TCP片段丢失，因此重新发送之前的TCP片段。这个计时等待的时间叫做重新发送超时时间(<strong>RTO</strong>, retransmission timeout)。</p>
+<h5 id="TCP的重传机制"><a href="#TCP的重传机制" class="headerlink" title="TCP的重传机制"></a>TCP的重传机制</h5><blockquote>
+<p>When the TCP transmits a segment containing data, it puts a copy on a retransmission queue and starts a timer; when the acknowledgment for that data is received, the segment is deleted from the queue. If the acknowledgment is not received before the timer runs out, the segment is retransmitted.</p>
+</blockquote>
+<p>当TCP传输包含数据的段时，它将改数据段的副本放在重传队列上并启动计时器。如果在计时器计时结束之前，收到该数据的ACK，则将该数据段的副本从重传队列中删除，然后继续移动窗口，发送接下来的TCP片段。 如果在计时器用尽之前未收到确认，则重新发送该段。这个计时等待的时间叫做重新发送超时时间(<strong>RTO</strong>, retransmission timeout)。</p>
 <p>除了上面的RTO，还有一个名词叫RTT，<strong>RTT</strong>，Round-trip delay time，来回通信延迟，就是在双方通信中，发讯方的信号传播到收讯方的时间，加上收讯方回传消息到发讯方的时间，要注意两者的区别。</p>
 <p>需要注意的是，网络是一直波动的, RTT 是一直变化的, RTO 的值基于上次 RTT 往返时间动态计算出来的而不是一成不变的。</p>
 <p><img src="/2019/11/23/6-tcp-ip/RTT.png" alt="RTT"></p>
