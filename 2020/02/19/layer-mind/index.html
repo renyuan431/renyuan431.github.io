@@ -50,17 +50,19 @@
   };
 </script>
 
-  <meta name="description" content="一、学习网络知识的四个阶段（一）掌握协议的概念。这个协议的概念是什么，是在什么地方应用的，例如什么是路由，什么是交换。 （二）掌握如何使用。例如OSPF、EIGRP在现网中如何配置，如何查看，如何使用。 （三）掌握协议是如何工作的。协议的标准是什么，工作的机制是什么，例如EIGRP的DUAL算法是如何规定且工作的，OSPF的SPF算法是如何规定且工作的。 （四）掌握协议底层的工作机制和报文。例如O">
+  <meta name="description" content="OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CCNA笔记——1、学习方法">
-<meta property="og:url" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;16&#x2F;how-to-learn-network-knowledge&#x2F;index.html">
+<meta property="og:title" content="CCNA笔记——7、建立分层思维">
+<meta property="og:url" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;layer-mind&#x2F;index.html">
 <meta property="og:site_name" content="Rookie&#39;s Notebook">
-<meta property="og:description" content="一、学习网络知识的四个阶段（一）掌握协议的概念。这个协议的概念是什么，是在什么地方应用的，例如什么是路由，什么是交换。 （二）掌握如何使用。例如OSPF、EIGRP在现网中如何配置，如何查看，如何使用。 （三）掌握协议是如何工作的。协议的标准是什么，工作的机制是什么，例如EIGRP的DUAL算法是如何规定且工作的，OSPF的SPF算法是如何规定且工作的。 （四）掌握协议底层的工作机制和报文。例如O">
+<meta property="og:description" content="OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-01-05T09:18:15.515Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;layer-mind&#x2F;%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg">
+<meta property="og:updated_time" content="2020-02-19T07:00:08.498Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;layer-mind&#x2F;%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg">
 
-<link rel="canonical" href="https://renyuan431.github.io/2019/11/16/how-to-learn-network-knowledge/">
+<link rel="canonical" href="https://renyuan431.github.io/2020/02/19/layer-mind/">
 
 
 <script id="page-configurations">
@@ -74,7 +76,7 @@
   };
 </script>
 
-  <title>CCNA笔记——1、学习方法 | Rookie's Notebook</title>
+  <title>CCNA笔记——7、建立分层思维 | Rookie's Notebook</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-153169643-1"></script>
     <script>
@@ -228,7 +230,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2019/11/16/how-to-learn-network-knowledge/">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/02/19/layer-mind/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -241,7 +243,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          CCNA笔记——1、学习方法
+          CCNA笔记——7、建立分层思维
         </h1>
 
         <div class="post-meta">
@@ -250,16 +252,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-11-16 16:54:01" itemprop="dateCreated datePublished" datetime="2019-11-16T16:54:01+08:00">2019-11-16</time>
+              <time title="创建时间：2020-02-19 11:42:18 / 修改时间：15:00:08" itemprop="dateCreated datePublished" datetime="2020-02-19T11:42:18+08:00">2020-02-19</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-05 17:18:15" itemprop="dateModified" datetime="2020-01-05T17:18:15+08:00">2020-01-05</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -296,18 +292,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="一、学习网络知识的四个阶段"><a href="#一、学习网络知识的四个阶段" class="headerlink" title="一、学习网络知识的四个阶段"></a>一、学习网络知识的四个阶段</h2><p>（一）掌握协议的概念。这个协议的概念是什么，是在什么地方应用的，例如什么是路由，什么是交换。</p>
-<p>（二）掌握如何使用。例如OSPF、EIGRP在现网中如何配置，如何查看，如何使用。</p>
-<p>（三）掌握协议是如何工作的。协议的标准是什么，工作的机制是什么，例如EIGRP的DUAL算法是如何规定且工作的，OSPF的SPF算法是如何规定且工作的。</p>
-<p>（四）掌握协议底层的工作机制和报文。例如OSPF协议中，两个路由器之间建立邻居的过程，反应在底层是什么样的，也就是报文是如何传输的，报文的格式是什么，每个报文中重要字段有什么，这些字段的含义是什么。</p>
-<p>以上总结出自红茶三杯CCNP课程的路由选择原理。</p>
-<p><strong>强烈建议听懂一个知识点以后总结一份自己的笔记，因为很多东西听懂的和自己能总结完全不是一个层次，笔记是一个对知识消化并进一步总结归纳的过程，比简单的听懂视频看懂书籍要高了一个档次，虽然耗时更长，但对知识会有更深层次的理解并且记得更牢固。</strong></p>
- <a id="more"></a>  
-
-<h2 id="二、遇到问题如何找寻答案"><a href="#二、遇到问题如何找寻答案" class="headerlink" title="二、遇到问题如何找寻答案"></a>二、遇到问题如何找寻答案</h2><p>如果周围有懂技术的朋友，请教他们是最快捷最直接的解决办法，但还是更建议通过搜索引擎、官方文档或做实验寻找答案，因为人的大脑可能记错答案但官方文档一般来说是不会出问题的，国内技术类网站都是中文，可以解决常见的一些疑问，但如果有比较冷门一些的问题，可能国内的中文网站已经很难找到解答，这时候思科的官方文档和官方社区是最好的求助对象，尤其是思科的官方论坛，经常有思科的技术大佬过去回答问题，是提升自我非常好的学习渠道，老外对技术细节的讨论十分到位，基本可以解决大部分疑惑。搜索引擎尽量别用百度，搜索的效率相对低一些，容易浪费时间。</p>
-<h2 id="三、抓包有什么用？"><a href="#三、抓包有什么用？" class="headerlink" title="三、抓包有什么用？"></a>三、抓包有什么用？</h2><p>有一些故障的现象并不明显，并不是看配置就能那么轻易的找到问题的答案，需要去抓包分析，分析包的行为能帮助你给出一个排错的大概方向。一般来说 TCP用的比较多，IP头看分片，TOS字段比较多。TCP的话主要看TCP的一些机制和算法。</p>
-<h2 id="四、如何下载学习资料"><a href="#四、如何下载学习资料" class="headerlink" title="四、如何下载学习资料"></a>四、如何下载学习资料</h2><p>推荐两个论坛，<a href="http://bbs.hh010.com/" target="_blank" rel="noopener">鸿鹄论坛</a>以及<a href="http://bbs.vlan5.com/" target="_blank" rel="noopener">攻城狮论坛</a>。鸿鹄论坛上的考试题库更新比较快，包含版本比较新，也有一些学习资料；攻城狮论坛上的学习资料比较丰富，基本上所有需要的资料在攻城狮论坛都能下载到。</p>
-<h2 id="五、厂商的认证是否有必要考？"><a href="#五、厂商的认证是否有必要考？" class="headerlink" title="五、厂商的认证是否有必要考？"></a>五、厂商的认证是否有必要考？</h2><p>谈一下我浅薄的看法，对个人来说，应该将备考的过程视为提高自己技术水平的过程，在这个过程中加深对技术的理解和掌握，而不是指着证书带你走向人生巅峰，证书带不来高薪职位，技术水平才是王道。一般来说有个认证能够让企业的招聘者对你的技术水平有个大概的定位，在进入面试环节之前给你一点帮助，但如果进入面试以后面试官发现你名不副实，花大价钱考下来的证书就显得一点用没有了。</p>
+        <p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，起因是看到TCP的RFC文档的2.6 Reliable Communication里有这么一段话：</p>
+<blockquote>
+<p>An acknowledgment by TCP does not guarantee that the data has been delivered to the end user, but only that the receiving TCP has taken the responsibility to do so.</p>
+</blockquote>
+<p>一开始觉得这段话的意思是说，对一个数据进行ACK了也不能确保整个数据肯定传到“用户”（user）了，发送ACK的这个设备（也就是其他路由器或网络设备）需要完成接下来的步骤，因为可能收到这个数据并发送ACK的设备给丢弃了，例如它这没有路由表或者说它down了。但因为知道自己很渣，所以到思科论坛发了<a href="https://community.cisco.com/t5/routing/what-s-the-meaning-of-an-acknowledgment-by-tcp-does-not/m-p/4030767#M329627" target="_blank" rel="noopener">求助帖</a>，想验证一下自己的想法是否正确，有个哥们回复我说，他认为：</p>
+<blockquote>
+<p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
+</blockquote>
+<p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
+<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，发送端已收到TCP-ACK，但在接收端，用户尚未收到该消息。</p>
+<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
+<p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
+<blockquote>
+<p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
+</blockquote>
+<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。还是在强调分层这个概念，当然我这种啃不下去RFC，只能抽其中章节看看的，是看不到这段话的。</p>
+<p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
+<p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
     </div>
 
@@ -342,17 +344,14 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/11/16/lan-and-fiber/" rel="next" title="CCNA笔记——3、网线和光纤">
-                  <i class="fa fa-chevron-left"></i> CCNA笔记——3、网线和光纤
+                <a href="/2019/11/23/6-tcp-ip/" rel="next" title="CCNA笔记——6、tcp/ip参考模型">
+                  <i class="fa fa-chevron-left"></i> CCNA笔记——6、tcp/ip参考模型
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/11/16/network-simulator/" rel="prev" title="CCNA笔记——2、模拟器">
-                  CCNA笔记——2、模拟器 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -396,7 +395,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、学习网络知识的四个阶段"><span class="nav-number">1.</span> <span class="nav-text">一、学习网络知识的四个阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、遇到问题如何找寻答案"><span class="nav-number">2.</span> <span class="nav-text">二、遇到问题如何找寻答案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、抓包有什么用？"><span class="nav-number">3.</span> <span class="nav-text">三、抓包有什么用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、如何下载学习资料"><span class="nav-number">4.</span> <span class="nav-text">四、如何下载学习资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、厂商的认证是否有必要考？"><span class="nav-number">5.</span> <span class="nav-text">五、厂商的认证是否有必要考？</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

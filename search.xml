@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CCNA笔记——7、建立分层思维</title>
+    <url>/2020/02/19/layer-mind/</url>
+    <content><![CDATA[<p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，起因是看到TCP的RFC文档的2.6 Reliable Communication里有这么一段话：</p>
+<blockquote>
+<p>An acknowledgment by TCP does not guarantee that the data has been delivered to the end user, but only that the receiving TCP has taken the responsibility to do so.</p>
+</blockquote>
+<p>一开始觉得这段话的意思是说，对一个数据进行ACK了也不能确保整个数据肯定传到“用户”（user）了，发送ACK的这个设备（也就是其他路由器或网络设备）需要完成接下来的步骤，因为可能收到这个数据并发送ACK的设备给丢弃了，例如它这没有路由表或者说它down了。但因为知道自己很渣，所以到思科论坛发了<a href="https://community.cisco.com/t5/routing/what-s-the-meaning-of-an-acknowledgment-by-tcp-does-not/m-p/4030767#M329627" target="_blank" rel="noopener">求助帖</a>，想验证一下自己的想法是否正确，有个哥们回复我说，他认为：</p>
+<blockquote>
+<p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
+</blockquote>
+<p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
+<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，发送端已收到TCP-ACK，但在接收端，用户尚未收到该消息。</p>
+<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
+<p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
+<blockquote>
+<p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
+</blockquote>
+<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。还是在强调分层这个概念，当然我这种啃不下去RFC，只能抽其中章节看看的，是看不到这段话的。</p>
+<p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
+<p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+      <categories>
+        <category>路由交换方向</category>
+        <category>CCNA</category>
+      </categories>
+  </entry>
+  <entry>
     <title>CCNA笔记——6、tcp/ip参考模型</title>
     <url>/2019/11/23/6-tcp-ip/</url>
     <content><![CDATA[<h2 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h2><img src="/2019/11/23/6-tcp-ip/TCP-IP%E6%A8%A1%E5%9E%8B%20(2)%20(1).jpg" alt="TCP-IP模型 (2) (1)" style="zoom: 67%;">
