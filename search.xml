@@ -383,7 +383,6 @@
 <p>通常，TCP连接一开始将把窗口设置成较小值，在每次成功收到确认时，增加窗口大小。只要接收方能确认所有发送数据或窗口未达到最大限制前，窗口大小都会增加；如果接收方在特定时间段（称为往返时间）内未发送确认，则窗口大小将减小。当窗口过大超过了处理能力和缓存大小时，接口出现拥塞导致数据包丢失，TCP有一系列算法解决这个问题，其中之一就是缓慢启动（Slow start）。</p>
 <p>The TCP window scale option is used to solve the bandwidth utilization issue caused by insufficient window size, which is limited to 65,535 bytes without scaling. For example, if the receive window is 65,535 bytes and the window scale factor is 3, RWIN is as follows: 65535 * 2 ³ = 524,280 bytes. The maximum value of 14 shifts the 16 bits to the left by 14, increasing the window size by 2 ¹⁴.</p>
 <p>如下图所示：</p>
-<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-31_16-01-52.jpg" alt="Snipaste_2020-01-31_16-01-52"></p>
 <p>发送方和接收方都会维护一个数据帧的序列，这个序列被称作窗口。</p>
 <p>发送方的窗口大小由接收方确认。</p>
 <p><strong>目的</strong>：</p>
@@ -412,9 +411,9 @@
 </blockquote>
 <p>慢速启动可以通过调节网络上发送的数据量来防止网络拥塞。 它通过定义每个数据包可以传输的数据量来协商发送方和接收方之间的连接，并缓慢增加数据量，直到达到网络容量为止。 这样可以确保在不阻塞网络的情况下传输尽可能多的数据。</p>
 <p>工作机制：</p>
-<p><strong>慢启动</strong>（Slow-start）是用于结合其他阶段算法，来避免发送过多数据到网络中而导致网络拥塞，算法在<a href="https://zh.wikipedia.org/wiki/RFC" target="_blank" rel="noopener">RFC</a> <a href="https://tools.ietf.org/html/rfc5681" target="_blank" rel="noopener">5681</a>中定义。</p>
-<p>慢开始算法的思路就是，不要一开始就发送大量的数据，先探测一下网络的拥塞程度，也就是说由小到大逐渐增加拥塞窗口的大小。</p>
-<p>慢启动初始启动时设置拥塞窗口值（cwnd）为1、2、4或10个MSS。<a href="https://zh.wikipedia.org/wiki/TCP拥塞控制#cite_note-9" target="_blank" rel="noopener">[7]</a><a href="https://zh.wikipedia.org/wiki/TCP拥塞控制#cite_note-RFC_3390-10" target="_blank" rel="noopener">[8]</a>:1拥塞窗口在每接收到一个确认包时增加，每个RTT内成倍增加，当然实际上并不完全是指数增长，因为接收方会延迟发送确认，通常是每接收两个分段则发送一次确认包。<a href="https://zh.wikipedia.org/wiki/TCP拥塞控制#cite_note-11" target="_blank" rel="noopener">[9]</a>发送速率随着慢启动的进行而增加，直到遇到出现丢失、达到慢启动阈值（ssthresh）、或者接收方的接收窗口进行限制。如果发生丢失，则TCP推断网络出现了拥塞，会试图采取措施来降低网络负载。这些是靠具体使用的TCP拥塞算法来进行测量判断。当达到慢启动阈值（ssthresh）时，慢启动算法就会转换为线性增长的阶段，算法控制每个RTT内拥塞窗口只增加1个分段量。虽然称为“慢启动”，但实际上比拥塞控制阶段的窗口增加更为激进。<a href="https://zh.wikipedia.org/wiki/TCP拥塞控制#cite_note-12" target="_blank" rel="noopener">[10]</a></p>
+<p><strong>慢启动</strong>（Slow-start）是用于结合其他阶段算法，来避免发送过多数据到网络中而导致网络拥塞，算法在<a href="https://zh.wikipedia.org/wiki/RFC" target="_blank" rel="noopener">RFC</a> <a href="https://tools.ietf.org/html/rfc5681" target="_blank" rel="noopener">5681</a>中定义。慢开始算法的思路就是，不要一开始就发送大量的数据，先探测一下网络的拥塞程度，也就是说由小到大逐渐增加拥塞窗口的大小。</p>
+<p>慢启动初始启动时设置拥塞窗口值（cwnd）为1、2、4或10个MSS。拥塞窗口在每接收到一个ACK时增加，每个RTT（<strong>RTT</strong>，Round-trip delay time，来回通信延迟，就是在双方通信中，发讯方的信号传播到收讯方的时间，加上收讯方回传消息到发讯方的时间）内成倍增加，当然实际上并不完全是指数增长，因为接收方会延迟发送确认，通常是每接收两个分段则发送一次确认包。发送速率随着慢启动的进行而增加，直到遇到出现丢失、达到慢启动阈值（ssthresh）、或者接收方的接收窗口进行限制。如果数据发生丢失（发送端发现有个ACK一直没来，一直重传然后超过重传次数的threshold，就认为丢包了），则TCP推断网络出现了拥塞，会试图采取措施来降低网络负载。这些是靠具体使用的TCP拥塞算法来进行测量判断。当达到慢启动阈值（ssthresh）时，慢启动算法就会转换为线性增长的阶段，算法控制每个RTT内拥塞窗口只增加1个分段量。虽然称为“慢启动”，但实际上比拥塞控制阶段的窗口增加更为激进。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-31_16-01-52.jpg" alt="Snipaste_2020-01-31_16-01-52"></p>
 <h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><p><img src="/2019/11/23/6-tcp-ip/unnamed.png" alt="unnamed"></p>
 <p><img src="/2019/11/23/6-tcp-ip/con_026a.gif" alt="con_026a"></p>
 <h5 id="UDP的特点："><a href="#UDP的特点：" class="headerlink" title="UDP的特点："></a>UDP的特点：</h5><p>UDP是一种无连接的、不可靠的、面向报文、没有拥塞控制的协议。</p>
@@ -422,7 +421,6 @@
 <p><strong>不可靠的</strong>：因为UDP发出去的数据包发出去就不管了，不管它会不会到达，即使到达不了也不会像TCP那样重传，因为UDP报头很精简，不像TCP报头中有序列号、确认号以及重传机制，能知道哪些数据发送到哪些没法送到，也不会重传那些没发送到的数据，所以很可能会出现丢包现象，使传输的数据出错。</p>
 <p><strong>面向报文</strong>：数据报文，就相当于一个数据包，应用层交给UDP多大的数据包，UDP就照样发送，不会像TCP那样拆分。</p>
 <p><strong>没有拥塞控制</strong>：拥塞，是指到达通信子网中某一部分的分组数量过多，使得该部分网络来不及处理，以致引起这部分乃至整个网络性能下降的现象，严重时甚至会导致网络通信业务陷入停顿，即出现死锁现象，就像交通堵塞一样。TCP建立连接后如果发送的数据因为信道质量的原因不能到达目的地，它会不断重发，有可能导致越来越塞，所以需要一个复杂的原理来控制拥塞。而UDP就没有这个烦恼，发出去就不管了。</p>
-<p>UDP和TCP</p>
 <h5 id="UDP的应用场景："><a href="#UDP的应用场景：" class="headerlink" title="UDP的应用场景："></a>UDP的应用场景：</h5><p>UDP通常用于对时间敏感的通信，在这种情况下，偶尔丢弃数据包比等待数据流更好。 语音和视频流量使用此协议发送，因为它们既对时间敏感，又被设计成可处理一定程度的丢失。 例如，许多基于Internet的电话服务使用的VOIP（基于IP的语音）通过UDP运行，在线游戏也通常使用UDP。 同样，由于DNS和NTP服务器都需要快速高效，因此它们通过UDP运行。</p>
 <h5 id="UDP报头"><a href="#UDP报头" class="headerlink" title="UDP报头"></a>UDP报头</h5><p><img src="/2019/11/23/6-tcp-ip/th.jpg" alt="th"></p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-18_20-44-36.jpg" alt="Snipaste_2020-02-18_20-44-36"></p>
@@ -431,7 +429,7 @@
 <p>（3）长度：UDP用户数据报的长度，其最小值是8（仅有首部）。</p>
 <p>（4）校验和     校验UDP用户数据报在传输中是否有错，有错就丢弃。</p>
 <h5 id="UDP常见协议："><a href="#UDP常见协议：" class="headerlink" title="UDP常见协议："></a>UDP常见协议：</h5><p>DNS</p>
-<h3 id="（三）网络层（Internet-Layer）"><a href="#（三）网络层（Internet-Layer）" class="headerlink" title="（三）网络层（Internet Layer）"></a>（三）网络层（Internet Layer）</h3><h4 id="1、IP报头"><a href="#1、IP报头" class="headerlink" title="1、IP报头"></a>1、IP报头</h4><img src="/2019/11/23/6-tcp-ip/ip-v4-datagram-header.png" alt="ip-v4-datagram-header" style="zoom:150%;">
+<h4 id="TCP-VS-UDP"><a href="#TCP-VS-UDP" class="headerlink" title="TCP VS UDP"></a>TCP VS UDP</h4><h3 id="（三）网络层（Internet-Layer）"><a href="#（三）网络层（Internet-Layer）" class="headerlink" title="（三）网络层（Internet Layer）"></a>（三）网络层（Internet Layer）</h3><h4 id="1、IP报头"><a href="#1、IP报头" class="headerlink" title="1、IP报头"></a>1、IP报头</h4><img src="/2019/11/23/6-tcp-ip/ip-v4-datagram-header.png" alt="ip-v4-datagram-header" style="zoom:150%;">
 
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-08_17-05-12.jpg" alt="Snipaste_2020-01-08_17-05-12"></p>
 <p><img src="/2019/11/23/6-tcp-ip/IP%20packet.png" alt="IP packet"></p>
