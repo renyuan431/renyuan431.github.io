@@ -133,6 +133,9 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCP-RTO-Retransmission-Timeout-Diagram.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-02-10_15-38-54.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-01-31_16-01-52.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;ss-ca.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-02-24_17-01-25.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;cwnd-rwnd.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;unnamed.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;con_026a.gif">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;th.jpg">
@@ -160,7 +163,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;ipclasses.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;874126-20180117224704553-1506200749.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCPIP%20ENCAPSULATION.png">
-<meta property="og:updated_time" content="2020-02-23T13:53:03.315Z">
+<meta property="og:updated_time" content="2020-02-24T09:38:46.070Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCP-IP%E6%A8%A1%E5%9E%8B%20(2)%20(1).jpg">
 
@@ -362,7 +365,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-23 21:53:03" itemprop="dateModified" datetime="2020-02-23T21:53:03+08:00">2020-02-23</time>
+                <time title="修改时间：2020-02-24 17:38:46" itemprop="dateModified" datetime="2020-02-24T17:38:46+08:00">2020-02-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -781,6 +784,13 @@
 <p><strong>慢启动</strong>（Slow-start）是用于结合其他阶段算法，来避免发送过多数据到网络中而导致网络拥塞，算法在<a href="https://zh.wikipedia.org/wiki/RFC" target="_blank" rel="noopener">RFC</a> <a href="https://tools.ietf.org/html/rfc5681" target="_blank" rel="noopener">5681</a>中定义。慢开始算法的思路就是，不要一开始就发送大量的数据，先探测一下网络的拥塞程度，也就是说由小到大逐渐增加拥塞窗口的大小。</p>
 <p>慢启动初始启动时设置拥塞窗口值（cwnd）为1、2、4或10个MSS。拥塞窗口在每接收到一个ACK时增加，每个RTT（<strong>RTT</strong>，Round-trip delay time，来回通信延迟，就是在双方通信中，发讯方的信号传播到收讯方的时间，加上收讯方回传消息到发讯方的时间）内成倍增加，当然实际上并不完全是指数增长，因为接收方会延迟发送确认，通常是每接收两个分段则发送一次确认包。发送速率随着慢启动的进行而增加，直到遇到出现丢失、达到慢启动阈值（ssthresh）、或者接收方的接收窗口进行限制。如果数据发生丢失（发送端发现有个ACK一直没来，一直重传然后超过重传次数的threshold，就认为丢包了），则TCP推断网络出现了拥塞，会试图采取措施来降低网络负载。这些是靠具体使用的TCP拥塞算法来进行测量判断。当达到慢启动阈值（ssthresh）时，慢启动算法就会转换为线性增长的阶段，算法控制每个RTT内拥塞窗口只增加1个分段量。虽然称为“慢启动”，但实际上比拥塞控制阶段的窗口增加更为激进。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-31_16-01-52.jpg" alt="Snipaste_2020-01-31_16-01-52"></p>
+<p>关于CWND、slow start与congestion avoidance 之间的切换</p>
+<p><a href="https://packetlife.net/blog/2011/jul/5/tcp-slow-start/" target="_blank" rel="noopener">TCP Slow Start</a></p>
+<p><a href="https://packetbomb.com/understanding-throughput-and-tcp-windows/" target="_blank" rel="noopener">Understanding Throughput and TCP Windows</a></p>
+<p><a href="https://indigoo.com/petersblog/?p=215" target="_blank" rel="noopener">SCTP Congestion Control</a></p>
+<p><img src="/2019/11/23/6-tcp-ip/ss-ca.png" alt="ss-ca"></p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-24_17-01-25.jpg" alt="Snipaste_2020-02-24_17-01-25"></p>
+<p><img src="/2019/11/23/6-tcp-ip/cwnd-rwnd.png" alt="cwnd-rwnd"></p>
 <h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><p><img src="/2019/11/23/6-tcp-ip/unnamed.png" alt="unnamed"></p>
 <p><img src="/2019/11/23/6-tcp-ip/con_026a.gif" alt="con_026a"></p>
 <h5 id="UDP的特点："><a href="#UDP的特点：" class="headerlink" title="UDP的特点："></a>UDP的特点：</h5><p>UDP是一种无连接的、不可靠的、面向报文、没有拥塞控制的协议。</p>
@@ -794,8 +804,8 @@
 <p>（1）源端口：源端口长度为16位，用于标识源端口号，在需要对方回信时选用，不需要时可全用0。</p>
 <p>（2）目的端口：目的端口号长度为16位，用于标识目的地数据包的端口。</p>
 <p>（3）长度：UDP用户数据报的长度，其最小值是8（仅有首部）。</p>
-<p>（4）校验和     校验UDP用户数据报在传输中是否有错，有错就丢弃。</p>
-<h5 id="UDP常见协议："><a href="#UDP常见协议：" class="headerlink" title="UDP常见协议："></a>UDP常见协议：</h5><p>DNS</p>
+<p>（4）校验和：校验UDP用户数据报在传输中是否有错，有错就丢弃。</p>
+<h5 id="UDP常见协议："><a href="#UDP常见协议：" class="headerlink" title="UDP常见协议："></a>UDP常见协议：</h5><p>Multimedia applications, DNS, BOOTP, DHCP, TFTP, SNMP, RIP</p>
 <h4 id="TCP-VS-UDP"><a href="#TCP-VS-UDP" class="headerlink" title="TCP VS UDP"></a>TCP VS UDP</h4><h3 id="（三）网络层（Internet-Layer）"><a href="#（三）网络层（Internet-Layer）" class="headerlink" title="（三）网络层（Internet Layer）"></a>（三）网络层（Internet Layer）</h3><h4 id="1、IP报头"><a href="#1、IP报头" class="headerlink" title="1、IP报头"></a>1、IP报头</h4><img src="/2019/11/23/6-tcp-ip/ip-v4-datagram-header.png" alt="ip-v4-datagram-header" style="zoom:150%;">
 
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-08_17-05-12.jpg" alt="Snipaste_2020-01-08_17-05-12"></p>
