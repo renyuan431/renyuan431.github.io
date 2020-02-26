@@ -15,15 +15,18 @@
 <p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
 </blockquote>
 <p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
-<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，发送端已收到TCP-ACK，但在接收端，用户尚未收到该消息。</p>
+<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，也就是数据从发送端的传输层——网络层——数据链路层——物理层——接收端的物理层——传输层——网络层——传输层的这个过程都是没问题的，当然按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，会出现发送端已收到TCP-ACK，但在接收端，“user”也就是应用层的程序，尚未收到该消息。</p>
 <p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
 <p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
 <blockquote>
 <p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
 </blockquote>
-<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。还是在强调分层这个概念，当然我这种啃不下去RFC，只能抽其中章节看看的，是看不到这段话的。</p>
+<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC只能抽其中章节看看的人，是看不到这段话的。</p>
 <p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
 <p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
+<p>最后再针对一张很好的图说两句自己对于封层概念以及模型的理解：</p>
+<p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
+<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
@@ -521,8 +524,26 @@
 <p>比如关于Loose Source and Record Route (LSRR)，<a href="https://tools.ietf.org/html/rfc6274#section-3.13.2" target="_blank" rel="noopener">RCF6274</a>上3.13.2.3.的描述是：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">The LSRR option has well-known security implications.  Among other</span><br><span class="line">   things, the option can be used to:</span><br><span class="line"></span><br><span class="line">   o  Bypass firewall rules</span><br><span class="line"></span><br><span class="line">   o  Reach otherwise unreachable Internet systems</span><br><span class="line"></span><br><span class="line">   o  Establish TCP connections in a stealthy way</span><br><span class="line"></span><br><span class="line">   o  Learn about the topology of a network</span><br><span class="line"></span><br><span class="line">   o  Perform bandwidth-exhaustion attacks</span><br></pre></td></tr></table></figure>
 
-<h4 id="2、IPv4地址"><a href="#2、IPv4地址" class="headerlink" title="2、IPv4地址"></a>2、IPv4地址</h4><h5 id="定义及格式"><a href="#定义及格式" class="headerlink" title="定义及格式"></a>定义及格式</h5><p>IPv4地址（以下简称IP地址）用来表示一个节点的网络地址，和现实中家里或公司的地址类似，现实中的地址绝大多数是唯一的，是为了让使用一个地址的人收到快递；互联网中的IP地址除极个别情况外也是唯一的，是为了让使用一个虚拟IP地址的人收到数据。IP地址的长度为32位，也就是2的32位，32个1和0，例如00001011110000100011111101100100，但这个方式只有机器可以明白，人类很难理解，于是把32位的IP地址分成4组，每个八位位组都可以用0到255之间的十进制数表示，然后将2进制换算成10进制，也就是点分十进制，比如上面的地址可以写成：00001011.11000010.00111111.01100100，换算成10进制是：11.194.63.100。但要注意，点分十进制这个写法只是为了方便人类理解记忆IP地址，而网络设备只能看懂32位的0101组合的数字。IP地址由网络位和主机位构成。</p>
-<h5 id="关于IP地址的基本概念"><a href="#关于IP地址的基本概念" class="headerlink" title="关于IP地址的基本概念"></a>关于IP地址的基本概念</h5><h6 id="网络号："><a href="#网络号：" class="headerlink" title="网络号："></a>网络号：</h6><p>网络号：有的小区可能密密麻麻住了好几万人，有的小区可能是开阔的别墅区只住了不到一百人。如果统一门牌号为5位以满足那些住的很密集的小区的需求，那对于别墅区来说前面的几位数字浪费了，写起来麻烦。于是根据小区人口的不同对小区进行分类，不同类别的小区的门牌号位数也不同。人多的五位、人少的两位。</p>
+<h4 id="2、IPv4地址"><a href="#2、IPv4地址" class="headerlink" title="2、IPv4地址"></a>2、IPv4地址</h4><h5 id="定义及格式"><a href="#定义及格式" class="headerlink" title="定义及格式"></a>定义及格式</h5><p>IPv4地址（以下简称IP地址）是为了确切地标识Internet中的主机和路由器，TCP/IP建立了一套编址方案，为每台主机和路由器分配一个全网唯一的地址。这个地址的名字就叫IP地址。（相当于国家为了知道谁是谁为每个人都分配了一个身份证号码一样）。值得注意的是，一台主机至少拥有一个IP地址，允许一台主机拥有多个IP地址。（计算机可以有几个身份证但是人只能有一个）。和现实中家里或公司的地址类似，现实中的地址绝大多数是唯一的，是为了让使用一个地址的人收到快递，现实中，一个身份证号（一个地址）对应一个人，网络中，一个IP地址对应一个设备或接口；互联网中的IP地址除极个别情况外也是唯一的，是为了让使用一个虚拟IP地址的人收到数据。IP地址的长度为32位，也就是2的32位，32个1和0，例如00001011110000100011111101100100，但这个方式只有机器可以明白，人类很难理解，于是把32位的IP地址分成4组，每个八位组都可以用0到255之间的十进制数表示，然后将2进制换算成10进制，也就是点分十进制，比如上面的地址可以写成：00001011.11000010.00111111.01100100，换算成10进制是：11.194.63.100。这个换算的方式只说一下第一段如何换算，其他的以此类推：</p>
+<p>00001011：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-26_11-18-30.jpg" alt="Snipaste_2020-02-26_11-18-30"></p>
+<p>8+2+1=11，所以第一段00001011这个二进制数字换算成10进制数字为11。</p>
+<p>以此类推，如果要将11000000换算成10进制：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-26_14-22-10.jpg" alt="Snipaste_2020-02-26_14-22-10"></p>
+<p><strong>但要注意，点分十进制这个写法只是为了方便人类理解记忆IP地址，而网络设备只能看懂32位的0101组合的数字。IP地址由网络位和主机位构成，</strong>网络位（网络号）用于确定某一特定的网络，作用类似于邮政编码，一个邮编对应一个相对大的区域中的所有住户，看到邮寄品上写着这个邮编，可以直接将它发到这个大的地区的邮局，由该地区的邮局再进行详细的地址查询后送达，类比到网络中的网络位（网络号），一个网络位对应一个大的主机范围，只要是发往这个网络号包含主机的数据，都可以直接发往通往这个网络号的，主机位用于确定该网络中某一特定的主机。同一网络中绝对不能有主机号完全相同的两台计算机<strong>。</strong></p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-26_14-21-06.jpg" alt="Snipaste_2020-02-26_14-21-06"></p>
+<p>IP地址的类别：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-26_14-29-40.jpg" alt="Snipaste_2020-02-26_14-29-40"></p>
+<p>IP地址共分5个类别：A、B、C、D、E</p>
+<p>A：左起第1位必须是0，其他随意变换（1~126）</p>
+<p>第1位必须是0，说明第1个八位组中的第一个数字是固定的，其他7个数字可以任意变化，也就是从00000000 ~ 01111111，将前面的二进制换算成十进制，就是从1 ~ 127，但由于全0地址被保留，因为0.0.0.0表示所有IP地址，常用于定义默认路由，而127.*的这个整个网段常被用作loopback网络接口的默认地址，用于测试本机的TCP\IP协议是否正常（能ping通这个地址说明本机的TCP\IP协议工作正常），按惯例通常设置为 127.0.0.1。这个地址在其他计算机上不能访问，就算你想访问，访问的也是自己，因为每台带有TCP/IP协议栈的设备基本上都有 localhost/127.0.0.1。所以A类地址的网络位只是从1~126，可用的A类网络有126个（1.0.0.0；2.0.0.0…126.0.0.0），每个网络能容纳1亿6千多万个主机，也就是从1.0.0.0 ~ 126.255.255.255。</p>
+<p>B：左起第1、2位必须是10（128 ~ 191）</p>
+<p>第1、2位必须是10，说明第1个八位组中的第1、2位数字是固定的，其他6个数字可以任意变化，也就是从10000000 ~ 10111111，将前面的二进制换算成十进制，就是从128 ~ 191，所以IP地址的范围是从128.0.0.0 ~ 191.255.255.255。可用的B类网络有16382个，每个网络能容纳6万多个主机。</p>
+<p>C：左起第1、2、3位必须是110（192 ~ 223）<br>D：左起第1、2、3、4位必须是1110（224 ~ 239）<br>E：左起第1、2、3、4、5位必须是11110（240 ~ 255）</p>
+<h5 id="关于IP地址的基本概念"><a href="#关于IP地址的基本概念" class="headerlink" title="关于IP地址的基本概念"></a>关于IP地址的基本概念</h5><p>•<strong>网络地址：</strong>指代网络的地址。在网络的 IPv4 地址范围内，最小地址保留为网络地址。此地址的主机部分的每个主机位均为0。</p>
+<p>•<strong>广播地址：</strong>用于向网络中的所有主机发送数据的特殊地址。广播地址使用该网络范围内的最大地址。即主机部分的各比特位全部为1的地址。</p>
+<p>•<strong>主机地址：</strong>分配给网络中终端设备的地址。</p>
+<h6 id="网络号："><a href="#网络号：" class="headerlink" title="网络号："></a>网络号：</h6><p>网络号：有的小区可能密密麻麻住了好几万人，有的小区可能是开阔的别墅区只住了不到一百人。如果统一门牌号为5位以满足那些住的很密集的小区的需求，那对于别墅区来说前面的几位数字浪费了，写起来麻烦。于是根据小区人口的不同对小区进行分类，不同类别的小区的门牌号位数也不同。人多的五位、人少的两位。</p>
 <h6 id="子网掩码："><a href="#子网掩码：" class="headerlink" title="子网掩码："></a>子网掩码：</h6><p>当一个小区越修越大，可能就会将本小区划分为几个分区或者几期工程。当一个单位的主机很多而且分布在较大地理位置时，可以将本单位所属主机划分为若干个子网，然后各个子网之间用路由器互联。</p>
 <p>由于网络号已经分好了，内部再划分的子网号的字段就不能加到网络号中了。我们将子网号的字段加到主机号字段中。</p>
 <p>规定用一个32位的子网掩码来表示子网号字段的长度。子网掩码由一连串的1和一连串的0构成。1对应于网络好和子网号字段，0对应于主机号。</p>
@@ -566,6 +587,7 @@
 <p><a href="https://medium.com/@retroviseur/long-fat-network-lfn-and-tcp-7df4654b7c21" target="_blank" rel="noopener">Long Fat Network (LFN) and TCP</a></p>
 <p><a href="https://blog.stackpath.com/tcp-slow-start/" target="_blank" rel="noopener">What is TCP Slow Start?</a></p>
 <p><a href="https://networkengineering.stackexchange.com/questions/59441/whats-the-use-of-an-acknowledgement-number-without-the-ack-flag-set" target="_blank" rel="noopener">What’s the use of an acknowledgement number without the ACK flag set?</a></p>
+<p><a href="https://www.zhihu.com/question/23940717" target="_blank" rel="noopener">localhost、127.0.0.1 和 本机IP 三者的区别?</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>

@@ -58,7 +58,8 @@
 <meta property="og:description" content="OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;layer-mind&#x2F;%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg">
-<meta property="og:updated_time" content="2020-02-19T07:05:21.911Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;layer-mind&#x2F;tcpipprotocols.png">
+<meta property="og:updated_time" content="2020-02-26T06:01:46.737Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;layer-mind&#x2F;%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg">
 
@@ -252,10 +253,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-02-19 11:42:18 / 修改时间：15:05:21" itemprop="dateCreated datePublished" datetime="2020-02-19T11:42:18+08:00">2020-02-19</time>
+              <time title="创建时间：2020-02-19 11:42:18" itemprop="dateCreated datePublished" datetime="2020-02-19T11:42:18+08:00">2020-02-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-26 14:01:46" itemprop="dateModified" datetime="2020-02-26T14:01:46+08:00">2020-02-26</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -304,15 +311,18 @@
 <p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
 </blockquote>
 <p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
-<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，发送端已收到TCP-ACK，但在接收端，用户尚未收到该消息。</p>
+<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，也就是数据从发送端的传输层——网络层——数据链路层——物理层——接收端的物理层——传输层——网络层——传输层的这个过程都是没问题的，当然按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，会出现发送端已收到TCP-ACK，但在接收端，“user”也就是应用层的程序，尚未收到该消息。</p>
 <p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
 <p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
 <blockquote>
 <p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
 </blockquote>
-<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。还是在强调分层这个概念，当然我这种啃不下去RFC，只能抽其中章节看看的，是看不到这段话的。</p>
+<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC只能抽其中章节看看的人，是看不到这段话的。</p>
 <p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
 <p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
+<p>最后再针对一张很好的图说两句自己对于封层概念以及模型的理解：</p>
+<p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
+<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
     </div>
 
