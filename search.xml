@@ -21,11 +21,12 @@
 <blockquote>
 <p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
 </blockquote>
-<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC只能抽其中章节看看的人，是看不到这段话的。</p>
+<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC的人，是看不到这段话的。</p>
 <p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
 <p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
-<p>最后再针对一张很好的图说两句自己对于封层概念以及模型的理解：</p>
+<p>最后再针对一张很好的图说两句自己对于分层概念以及模型的理解：</p>
 <p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
+<p>当然仅仅分层也是不够的，还必须对每一层进行标准化，而生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，否则如果没有统一的规则，自己按照自己的规则开发导致相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态。标准化就类似于生产汽车零件的厂家有很多，但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用。</p>
 <p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
@@ -152,6 +153,7 @@
 <p>一个 TCP Header 一般有 20 个字节，如果启用了options，header的长度可以达到 60 个字节。图中每一行是 4 个 bytes，32 个 bits。</p>
 <img src="/2019/11/23/6-tcp-ip/01e54adf-35dc-4628-8de3-044c64437a37.jpg" alt="01e54adf-35dc-4628-8de3-044c64437a37" style="zoom:67%;">
 
+<p><img src="/2019/11/23/6-tcp-ip/3-slide3.jpg" alt="3-slide3"></p>
 <h6 id="⑴源端口号（Source-Port）"><a href="#⑴源端口号（Source-Port）" class="headerlink" title="⑴源端口号（Source Port）"></a>⑴源端口号（Source Port）</h6><p><strong>表示发送端端口号</strong>，字段长16位。</p>
 <h6 id="⑵目标端口号（Destination-Port）"><a href="#⑵目标端口号（Destination-Port）" class="headerlink" title="⑵目标端口号（Destination Port）"></a>⑵目标端口号（Destination Port）</h6><p><strong>表示接收端端口号</strong>，字段长度16位。</p>
 <p>源和目标端口号长度均为16位，即允许一个主机有2的16次方，也就是65535个不同端口，其中：</p>
@@ -329,6 +331,9 @@
 </li>
 </ul>
 <h5 id="TCP的流量控制——窗口滑动机制"><a href="#TCP的流量控制——窗口滑动机制" class="headerlink" title="TCP的流量控制——窗口滑动机制"></a>TCP的流量控制——窗口滑动机制</h5><h6 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h6><p>TCP 用“序列号（Sequence Number）”和“确认应答号（Acknowledge Number）”确保数据可靠传输，但如果每发送一个数据都要等对端发送ACK确认后才能发送下一个数据的话，显然效率是很低的，而且包的往返时间越长通信性能就越低，为解决这个问题，TCP引入了窗口这个概念。不再是一个数据段确认一次，而是以更大的单位进行确认，这么做的好处是转发时间将会被大幅地缩短。也就是说，发送端主机，在发送了一个数据段以后不必要一直等待确认应答，而是继续发送其他的数据段。接收方的硬件性能有限，不可能在同一时间处理完这些数据，所以接收方利用接收缓存（Buffer）去暂时存储那些还没来得及处理的数据。但接收这些未经确认的数据是有大小限制的，这个限制的大小称作窗口大小，也就是TCP报头中的16位字段“Window Size”，这个字段用来告诉发送端，接收端还有多少缓存可以用，发送端会根据缓存的大小来调整发送的数据量。<strong>换句话说，窗口大小就是指无需等待确认应答而可以继续发送数据的最大值。</strong>但是这个数值并不是对方一次发送数据的值，因为发送数据的值收到带宽等多方面因素的影响。</p>
+<p>窗口的作用：</p>
+<p><strong>1.确保数据不丢失</strong>：如果发送的数据丢失了可以重新发。</p>
+<p><strong>2.控制发送速度</strong>：控制发送速度，以免接收方的缓存不够大导致溢出，同时控制流量也可以避免网络拥塞。</p>
 <img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200118160548-1580447316189.jpg" alt="微信图片编辑_20200118160548" style="zoom:80%;">
 
 <blockquote>
@@ -383,21 +388,13 @@
 <p>在文章中，一共有两个“ 带宽 * 延迟 ” ，一开始是由带宽乘以单向通信延迟，后面是由带宽乘以来回通信延迟（RTT）。</p>
 <p>前面的带宽乘以单向通信延迟，是为说明65535作为window size 过小，已经影响了TCP传输效率。这里可以把主机A和主机B的通信想象成两台主机通过一根管子（网络）连接，我们要计算它的体积，通过其“宽度”（它的带宽，这更像它的横截面积，以比特每秒为单位）乘以“长度”（单向延迟，以秒为单位），得出来的值<strong>等同在任何特定时间该网络线路上的最大数据量——已发送但尚未确认的数据。</strong>因为这个计算出来的值是100,000 bytes，远远大于65,535 bytes这个window size的值，没有最大限度的利用网络带宽，最理想的状态是当A发送第1个字节到达B的时候，A刚好停止发送数据，等待ACK，所以后面要加入window scale这个参数把window size扩大到32位、4294967296，更好的利用网络。</p>
 <p>后面由带宽乘以来回通信延迟（RTT）这个公式，就是带宽时延乘积（英语：bandwidth-delay product，简写为BDP；或称带宽延时乘积、带宽延时积等），网络速率越高、延迟越大的情况下，计算出来的BDP越大，在这种情况下，TCP的性能难以发挥。</p>
-<p>通常，TCP连接一开始将把窗口设置成较小值，在每次成功收到确认时，增加窗口大小。只要接收方能确认所有发送数据或窗口未达到最大限制前，窗口大小都会增加；如果接收方在特定时间段（称为往返时间）内未发送确认，则窗口大小将减小。当窗口过大超过了处理能力和缓存大小时，接口出现拥塞导致数据包丢失，TCP有一系列算法解决这个问题，其中之一就是缓慢启动（Slow start）。</p>
-<p>The TCP window scale option is used to solve the bandwidth utilization issue caused by insufficient window size, which is limited to 65,535 bytes without scaling. For example, if the receive window is 65,535 bytes and the window scale factor is 3, RWIN is as follows: 65535 * 2 ³ = 524,280 bytes. The maximum value of 14 shifts the 16 bits to the left by 14, increasing the window size by 2 ¹⁴.</p>
-<p>如下图所示：</p>
-<p>发送方和接收方都会维护一个数据帧的序列，这个序列被称作窗口。</p>
-<p>发送方的窗口大小由接收方确认。</p>
-<p><strong>目的</strong>：</p>
-<p><strong>1.确保数据不丢失</strong></p>
-<p>​     如果发送的数据丢失了可以重新发。</p>
-<p><strong>2.控制发送速度</strong></p>
-<p>​     控制发送速度，以免接收方的缓存不够大导致溢出，同时控制流量也可以避免网络拥塞。</p>
+<p>滑动窗口的工作机制演示：</p>
 <p><img src="/2019/11/23/6-tcp-ip/gifhome_448x336_13s.gif" alt="gifhome_448x336_13s"></p>
 <h5 id="TCP的重传机制"><a href="#TCP的重传机制" class="headerlink" title="TCP的重传机制"></a>TCP的重传机制</h5><blockquote>
 <p>When the TCP transmits a segment containing data, it puts a copy on a retransmission queue and starts a timer; when the acknowledgment for that data is received, the segment is deleted from the queue. If the acknowledgment is not received before the timer runs out, the segment is retransmitted.</p>
 </blockquote>
 <p>当TCP传输包含数据的段时，它将改数据段的副本放在重传队列上并启动计时器。如果在计时器计时结束之前，收到该数据的ACK，则将该数据段的副本从重传队列中删除，然后继续移动窗口，发送接下来的TCP片段。 如果在计时器用尽之前未收到确认，则重新发送该段。这个计时等待的时间叫做重新发送超时时间(<strong>RTO</strong>, retransmission timeout)。</p>
+<p>数据被重发之后若还是收不到确认应答，则进行再次发送。此时，等待确认应答的时间将会以2倍、4倍的指数函数延长。此外，数据也不会被无限、反复地重发。<strong>达到一定重发次数之后，如果仍没有任何确认应答返回，就会判断为网络或对端主机发生了异常，强制关闭连接。并且通知应用通信异常强行终止。</strong></p>
 <p>除了上面的RTO，还有一个名词叫RTT，<strong>RTT</strong>，Round-trip delay time，来回通信延迟，就是在双方通信中，发讯方的信号传播到收讯方的时间，加上收讯方回传消息到发讯方的时间，要注意两者的区别。</p>
 <p>需要注意的是，网络是一直波动的, RTT 是一直变化的, RTO 的值基于上次 RTT 往返时间动态计算出来的而不是一成不变的。</p>
 <p><img src="/2019/11/23/6-tcp-ip/RTT.png" alt="RTT"></p>
@@ -424,7 +421,14 @@
 <p><img src="/2019/11/23/6-tcp-ip/ss-ca.png" alt="ss-ca"></p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-24_17-01-25.jpg" alt="Snipaste_2020-02-24_17-01-25"></p>
 <p><img src="/2019/11/23/6-tcp-ip/cwnd-rwnd.png" alt="cwnd-rwnd"></p>
+<h5 id="TCP拥塞的出现"><a href="#TCP拥塞的出现" class="headerlink" title="TCP拥塞的出现"></a>TCP拥塞的出现</h5><p>当接口必须传输超出其处理能力的更多数据时，就会发生拥塞。传统的体现是当它的队列将达到限制，尾部的帧会被丢掉，也就是把缓存之外收到的数据丢弃掉，表示我的缓存已经满了，没法处理再多的数据了。当然这么做肯定有很多弊端，所以出现了拥塞避免机制，具体的见下文。</p>
+<h5 id="TCP拥塞避免"><a href="#TCP拥塞避免" class="headerlink" title="TCP拥塞避免"></a>TCP拥塞避免</h5><p>传统的做法是，如果接收方的缓存满了，就把尾部的帧丢弃，也就是丢弃了缓存外的数据，用来表示我的缓存已经满了，没法处理再多的数据了。发送方通过接收方的ACK发现，发送给对方1000个数据，可能只确认了200个，而且window size字段数字很小，说明接收方缓存已经满了，我得少发数据，因为发送了也处理不过来，等不拥塞了再多发数据。因为网络上用TCP的肯定不止一个程序，众多用TCP的程序发现拥塞以后是这么一个“传输——拥塞——丢尾部帧——等待不拥塞——传输”，大家同时这么干，这个过程就是TCP的全局同步（<a href="https://en.wikipedia.org/wiki/TCP_global_synchronization" target="_blank" rel="noopener">TCP global synchronization</a>），这样对网络利用效率就很低，因为大家一股脑的在同一时间传输，再一起等待不拥塞，如果这时候再有UDP这种不管是否拥塞都传输的，就会造成TCP饥饿（tcp starvation），所以有了RED ( <strong>Random early detection</strong> ) 这个技术，大概就是说不丢尾部帧了，而是随机丢一些队列里的帧（这个随机是基于队列中的数据包数量和数据包的TOS标记），<strong>因为丢的不是同一时刻的数据包，所以不会造成TCP上面那些同步的情况，</strong>因为造成TCP全局同步需要在同一时间传输，同一时间等待，而因为RED的丢包是随机丢的，并不是同一时刻的包，所以不会造成TCP全局同步。但问题是还是需要丢包，会某些应用造成性能损伤，因为TCP的重传和慢启动机制，这时候ECN就横空出世，大概过程是一开始通过ECN字段为ECT（0），也就是这两位置10，来协商ECN这个字段，两边都支持协商好以后，当队列快要满的时候，网络设备给数据包mark CE bit（ECN=11），然后接收端看到数据包ECN=11 就知道路上有拥塞了，然后下一个TCP返回的报文就TCP  flag ECE（ecn echo）=1，告诉发送端：我这检测到拥塞了，你慢点发，然后发送端收到这个TCP包之后，看到ECE=1，就调小发送速率，并且CWR=1，相当于ECE的确认。<strong>具体实现过程请参照后面IP报头部分的“服务类型”章节。</strong>为了改善RED的这个问题，衍生出来了其他的RED，比如最常用的WRED，是给数据设置优先级，每个优先级丢包的概率不同，优先级低的数据被丢的概率高，优先级高的数据被丢的概率低；除了最常用的WRED还有ARED，RRED等其他方式，就不展开说了，因为使用率不高我也没看，不会说什么，囧~</p>
+<p>TCP全局同步的示意图：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-29_15-59-48.jpg" alt="Snipaste_2020-02-29_15-59-48"></p>
+<p>加入RED之后的TCP拥塞避免示意图：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-29_17-20-26.jpg" alt="Snipaste_2020-02-29_17-20-26"></p>
 <h4 id="2、UDP"><a href="#2、UDP" class="headerlink" title="2、UDP"></a>2、UDP</h4><p><img src="/2019/11/23/6-tcp-ip/unnamed.png" alt="unnamed"></p>
+<p><img src="/2019/11/23/6-tcp-ip/wireshark5-1.png" alt="wireshark5-1"></p>
 <p><img src="/2019/11/23/6-tcp-ip/con_026a.gif" alt="con_026a"></p>
 <h5 id="UDP的特点："><a href="#UDP的特点：" class="headerlink" title="UDP的特点："></a>UDP的特点：</h5><p>UDP是一种无连接的、不可靠的、面向报文、没有拥塞控制的协议。</p>
 <p><strong>无连接的</strong>：和TCP要建立连接不同，UDP传输数据不需要建立连接，就像写信，在信封写上收信人名称、地址就可以交给邮局发送了，至于能不能送到，就要看邮局的送信能力和送信过程的困难程度了。</p>
@@ -444,6 +448,7 @@
 
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-08_17-05-12.jpg" alt="Snipaste_2020-01-08_17-05-12"></p>
 <p><img src="/2019/11/23/6-tcp-ip/IP%20packet.png" alt="IP packet"></p>
+<p><img src="/2019/11/23/6-tcp-ip/2-slide2.jpg" alt="2-slide2"></p>
 <h5 id="版本号（Version）："><a href="#版本号（Version）：" class="headerlink" title="版本号（Version）："></a>版本号（Version）：</h5><p>长度4比特。标识目前采用的IP协议的版本号。一般的值为0100（IPv4），IPv6的值（0110），除此之外的版本号现网中已经几乎绝迹了。</p>
 <p>如果不知道为什么0100对应IPV4，0110对应IPV6，请看<a href="https://renyuan431.github.io/2019/11/18/basic-knowledge/">4、基础知识</a>中关于2进制转换的部分，这里简单的说一下计算方法。</p>
 <p>二进制转换成十进制的方法：二进制数从低位到高位（即从右往左）计算，第0位的权值是2的0次方，第1位的权值是2的1次方，第2位的权值是2的2次方，依次递增下去，把最后的结果相加的值就是十进制的值了。</p>
@@ -525,14 +530,14 @@
 <p>比如关于Loose Source and Record Route (LSRR)，<a href="https://tools.ietf.org/html/rfc6274#section-3.13.2" target="_blank" rel="noopener">RCF6274</a>上3.13.2.3.的描述是：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">The LSRR option has well-known security implications.  Among other</span><br><span class="line">   things, the option can be used to:</span><br><span class="line"></span><br><span class="line">   o  Bypass firewall rules</span><br><span class="line"></span><br><span class="line">   o  Reach otherwise unreachable Internet systems</span><br><span class="line"></span><br><span class="line">   o  Establish TCP connections in a stealthy way</span><br><span class="line"></span><br><span class="line">   o  Learn about the topology of a network</span><br><span class="line"></span><br><span class="line">   o  Perform bandwidth-exhaustion attacks</span><br></pre></td></tr></table></figure>
 
-<h4 id="2、IPv4地址"><a href="#2、IPv4地址" class="headerlink" title="2、IPv4地址"></a>2、IPv4地址</h4><h5 id="定义及格式"><a href="#定义及格式" class="headerlink" title="定义及格式"></a>定义及格式</h5><p>IPv4地址（以下简称IP地址）是为了确切地标识Internet中的主机和路由器，TCP/IP建立了一套编址方案，为每台主机和路由器分配一个全网唯一的地址。这个地址的名字就叫IP地址。（相当于国家为了知道谁是谁为每个人都分配了一个身份证号码一样）。值得注意的是，一台主机至少拥有一个IP地址，允许一台主机拥有多个IP地址。（计算机可以有几个身份证但是人只能有一个）。和现实中家里或公司的地址类似，现实中的地址绝大多数是唯一的，是为了让使用一个地址的人收到快递，现实中，一个身份证号（一个地址）对应一个人，网络中，一个IP地址对应一个设备或接口；互联网中的IP地址除极个别情况外也是唯一的，是为了让使用一个虚拟IP地址的人收到数据。IP地址的长度为32位，也就是2的32位，32个1和0，例如00001011110000100011111101100100，但这个方式只有机器可以明白，人类很难理解，于是把32位的IP地址分成4组，每个八位组都可以用0到255之间的十进制数表示，然后将2进制换算成10进制，也就是点分十进制，比如上面的地址可以写成：00001011.11000010.00111111.01100100，换算成10进制是：11.194.63.100。这个换算的方式只说一下第一段如何换算，其他的以此类推：</p>
+<h4 id="2、IPv4地址"><a href="#2、IPv4地址" class="headerlink" title="2、IPv4地址"></a>2、IPv4地址</h4><h5 id="定义及格式"><a href="#定义及格式" class="headerlink" title="定义及格式"></a>定义及格式</h5><p>IPv4地址（以下简称IP地址）是为了确切地标识Internet中的主机和路由器，TCP/IP建立了一套编址方案，为每台主机和路由器分配一个全网唯一的地址。这个地址的名字就叫IP地址。（相当于国家为了知道谁是谁为每个人都分配了一个身份证号码一样）。和现实中家里或公司的地址类似，现实中的地址绝大多数是唯一的，是为了让使用一个地址的人收到快递，现实中，一个身份证号（一个地址）对应一个人，网络中，一个IP地址对应一个设备或接口；互联网中的IP地址除极个别情况外也是唯一的，是为了让使用一个虚拟IP地址的人收到数据。IP地址的长度为32位，也就是2的32位，32个1和0，例如00001011110000100011111101100100，但这个方式只有机器可以明白，人类很难理解，于是把32位的IP地址分成4组，每个八位组都可以用0到255之间的十进制数表示，然后将2进制换算成10进制，也就是点分十进制，比如上面的地址可以写成：00001011.11000010.00111111.01100100，换算成10进制是：11.194.63.100。这个换算的方式只说一下第一段如何换算，其他的以此类推：</p>
 <p>00001011：</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-26_11-18-30.jpg" alt="Snipaste_2020-02-26_11-18-30"></p>
 <p>8+2+1=11，所以第一段00001011这个二进制数字换算成10进制数字为11。</p>
 <p>以此类推，如果要将11000000换算成10进制：</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-26_14-22-10.jpg" alt="Snipaste_2020-02-26_14-22-10"></p>
-<p><strong>但要注意，点分十进制这个写法只是为了方便人类理解记忆IP地址，而网络设备只能看懂32位的0101组合的数字。IP地址由网络位和主机位构成，</strong>网络位（网络号）用于确定某一特定的网络，作用类似于邮政编码，一个邮编对应一个相对大的区域中的所有住户（一个网络号对应着），看到邮寄品上写着这个邮编，可以直接将它发到这个大的地区的邮局，由该地区的邮局再进行详细的地址查询后送达，类比到网络中的网络位（网络号），一个网络位对应一个大的主机范围，只要是发往这个网络号包含主机的数据，都可以直接发往通往这个网络号的设备；主机位用于确定该网络中某一特定的主机，类似于用来确定具体你在一栋楼的几单元几号，知道了具体的单元和门牌号才能将</p>
-<p>同一网络中绝对不能有主机号完全相同的两台计算机<strong>。</strong></p>
+<p><strong>但要注意，点分十进制这个写法只是为了方便人类理解记忆IP地址，而网络设备只能看懂32位的0101组合的数字。IP地址由网络位和主机位构成，</strong>网络位用于确定某一特定的网络，主机位用于确定该网络中某一特定的主机，可能一开始接触会觉得不知所云，这个命名规则用收件地址来类比会比较易懂一些：</p>
+<p>比如要从广州寄个快递给北京市海淀区复兴路26号复兴小区7号楼1单元109的李磊收，快递员拿到这个快递以后，只需要看最开头的“北京市海淀区”就够了，他不需要管后面那一长串详细的小区名门牌号之类的因为那些信息等快递到了北京才要去管，快递不到北京知道那些东西毫无意义，他只需要知道地址最开头的大地址“北京市海淀区”，然后把这个快递交给发往北京的线路，发送到北京海淀的集散中心，由北京海淀的集散中心再去关心后边的具体的门牌地址之类的具体信息进行分拣投送。网络位起到的作用和收货地址里“北京市海淀区”这个大范围的作用类似，定义了一个大的IP地址范围，网络位对应使用同一个网络号的主机范围，只要是发往这个网络号包含主机的数据，都可以直接发往通往这个网络号的设备；主机位则是在这个特定的网络中的某一台特定的设备或接口，和地址后面具体的门牌号和收件人功能类似，属于在特定的网络号的范围内，精确定位用的。网络号和网络位的概念基本一致，就是网络位+主机位为0。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-26_14-21-06.jpg" alt="Snipaste_2020-02-26_14-21-06"></p>
 <p>IP地址的类别：</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-27_20-35-06.jpg" alt="Snipaste_2020-02-27_20-35-06"></p>
@@ -545,27 +550,32 @@
 <p>C：左起第1、2、3位必须是110（192 ~ 223）</p>
 <p>第1、2、3位必须是110，说明第1个八位组中的第1、2、3位数字是固定的，其他5个数字可以任意变化，也就是从11000000 ~ 11011111，将前面的二进制换算成十进制，就是从192 ~ 223，所以IP地址的范围是从192.0.0.0 ~ 223.255.255.255。可用的B类网络有16382个，每个网络能容纳6万多个主机。</p>
 <p>D：左起第1、2、3、4位必须是1110（224 ~ 239）</p>
-<p>E：左起第1、2、3、4、5位必须是11110（240 ~ 255）</p>
-<h5 id="关于IP地址的基本概念"><a href="#关于IP地址的基本概念" class="headerlink" title="关于IP地址的基本概念"></a>关于IP地址的基本概念</h5><p>•<strong>网络地址：</strong>指代网络的地址。在网络的 IPv4 地址范围内，最小地址保留为网络地址。此地址的主机部分的每个主机位均为0。</p>
-<p>•<strong>广播地址：</strong>用于向网络中的所有主机发送数据的特殊地址。广播地址使用该网络范围内的最大地址。即主机部分的各比特位全部为1的地址。</p>
-<p>•<strong>主机地址：</strong>分配给网络中终端设备的地址。</p>
-<h6 id="网络号："><a href="#网络号：" class="headerlink" title="网络号："></a>网络号：</h6><p>网络号：有的小区可能密密麻麻住了好几万人，有的小区可能是开阔的别墅区只住了不到一百人。如果统一门牌号为5位以满足那些住的很密集的小区的需求，那对于别墅区来说前面的几位数字浪费了，写起来麻烦。于是根据小区人口的不同对小区进行分类，不同类别的小区的门牌号位数也不同。人多的五位、人少的两位。</p>
-<h6 id="子网掩码："><a href="#子网掩码：" class="headerlink" title="子网掩码："></a>子网掩码：</h6><p>当一个小区越修越大，可能就会将本小区划分为几个分区或者几期工程。当一个单位的主机很多而且分布在较大地理位置时，可以将本单位所属主机划分为若干个子网，然后各个子网之间用路由器互联。</p>
-<p>由于网络号已经分好了，内部再划分的子网号的字段就不能加到网络号中了。我们将子网号的字段加到主机号字段中。</p>
-<p>规定用一个32位的子网掩码来表示子网号字段的长度。子网掩码由一连串的1和一连串的0构成。1对应于网络好和子网号字段，0对应于主机号。</p>
-<p>比如：某单位要分配一个C类IP地址为202.114.16.0.加入这个单位的主机要划分5个子网，5转换为二进制为101，所以要用3个二进制表示子网字段。若这个主机要划分为2个子网，2转换为二进制为10，所以要用2个二进制表示子网字段。若要划分为9个呢，一样的，9转化为二进制是1001，就需要4个二进制表示子网字段了。</p>
-<img src="/2019/11/23/6-tcp-ip/04_Class-Range.png" alt="04_Class-Range">
-
-<p><img src="/2019/11/23/6-tcp-ip/ipclasses.jpg" alt="ipclasses"></p>
-<p><img src="/2019/11/23/6-tcp-ip/874126-20180117224704553-1506200749.png" alt="874126-20180117224704553-1506200749"></p>
-<h6 id="网关："><a href="#网关：" class="headerlink" title="网关："></a>网关：</h6><h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><h3 id="（五）物理层（Physical-Layer）"><a href="#（五）物理层（Physical-Layer）" class="headerlink" title="（五）物理层（Physical Layer）"></a>（五）物理层（Physical Layer）</h3><blockquote>
+<p>第1、2、3、4位必须是1110，说明第1个八位组中的第1、2、3、4位数字是固定的，其他5个数字可以任意变化，也就是从11100000 ~ 11101111，将前面的二进制换算成十进制，就是从224 ~ 239，所以IP地址的范围是从224.0.0.0 ~ 239.255.255.255。D 类地址没有主机标识，常用于组播（多播）。</p>
+<p>E：左起第1、2、3、4、5位必须是11110（240 ~ 255）E类地址用于实验和将来使用。</p>
+<p><strong>在分配 IP 地址时关于主机标识有一点需要注意。即要用比特位表示主机地址时，不可以全部为 0 或全部为 1。因为全部为 0 只有在表示对应的网络地址或 IP 地址不可以获知的情况下才使用。而全部为 1 的主机通常作为广播地址。因此，在分配过程中，应该去掉这两种情况。这也是为什么 C 类地址每个网段最多只能有 254（ 28 - 2 = 254）个主机地址的原因。</strong></p>
+<h5 id="关于IP地址的基本概念"><a href="#关于IP地址的基本概念" class="headerlink" title="关于IP地址的基本概念"></a>关于IP地址的基本概念</h5><h6 id="•单播（Unicast）："><a href="#•单播（Unicast）：" class="headerlink" title="•单播（Unicast）："></a>•<strong>单播（Unicast）：</strong></h6><p>主机之间一对一的通讯模式，网络中的交换机和路由器对数据只进行转发不进行复制。如果10个客户机需要相同的数据，则服务器需要逐一传送，重复10次相同的工作。但由于其能够针对每个客户的及时响应，所以现在的网页浏览全部都是采用单播模式，具体的说就是IP单播协议。网络中的路由器和交换机根据其目标地址选择传输路径，将IP单播数据传送到其指定的目的地。</p>
+<h6 id="•广播（Broadcast）："><a href="#•广播（Broadcast）：" class="headerlink" title="•广播（Broadcast）："></a>•<strong>广播（Broadcast）：</strong></h6><p>主机之间一对所有的通讯模式，网络对其中每一台主机发出的信号都进行无条件复制并转发，所有主机都可以接收到所有信息（不管你是否需要），由于其不用路径选择，所以其网络成本可以很低廉。有线电视网就是典型的广播型网络，我们的电视机实际上是接受到所有频道的信号，但只将一个频道的信号还原成画面。在数据网络中也允许广播的存在，但其被限制在二层交换机的局域网范围内，禁止广播数据穿过路由器，防止广播数据影响大面积的主机。</p>
+<h6 id="•组播（Multicast）："><a href="#•组播（Multicast）：" class="headerlink" title="•组播（Multicast）："></a>•<strong>组播（Multicast）：</strong></h6><p>主机之间一对多（一组ip地址）的通讯模式，加入了同一个组的主机可以接受到此组内的所有数据，网络中的交换机和路由器只向有需求者复制并转发其所需数据。主机可以向路由器请求加入或退出某个组，网络中的路由器和交换机有选择的复制并传输数据，即只将组内数据传输给那些加入组的主机。这样既能一次将数据传输给多个有需要（加入组）的主机，又能保证不影响其他不需要（未加入组）的主机的其他通讯，IP地址中的D类就是组播用的地址，大概意思就是想接收特定组播地址的设备去监听该组播地址，就能收到相应的组播消息。</p>
+<h6 id="•网络地址、网络号、网络位："><a href="#•网络地址、网络号、网络位：" class="headerlink" title="•网络地址、网络号、网络位："></a>•<strong>网络地址、网络号、网络位：</strong></h6><p>指代网络的地址，又叫网络号。标识网络上的一个物理网络地址，位于相同的物理网络上的所有主机（包括网关）共享一个相同的网络号，其主机地址的网络部分相同。这样的地址模式便于对大量地址进行分级管理，可以极大的减少路由表的规模，使得网络容纳大量主机成为可能。比如说，如果没有网络号，去往192.168.10.2、192.168.10.3、192.168.10.4将数据从E0口发送出去这个路由，在路由表中就要生成三个条目，而如果用网络号记录则只需要记录一条192.168.10.0的条目即可，能大大节约网络设备的条目数量。</p>
+<h6 id="•广播地址："><a href="#•广播地址：" class="headerlink" title="•广播地址："></a>•<strong>广播地址：</strong></h6><p>用于向网络中的所有主机发送数据的特殊地址。广播地址使用该网络范围内的最大地址。即主机部分的各比特位全部为1的地址。如下图中，192.168.1.255是192.168.1.0这个网络号代表的网段的广播地址，如果向192.168.1.255这个广播地址发送数据，整个192.168.1.0网段包括的IP地址都能收到这个消息。</p>
+<h6 id="•主机地址："><a href="#•主机地址：" class="headerlink" title="•主机地址："></a>•<strong>主机地址：</strong></h6><p>分配给网络中终端设备的地址，例如：192.168.1.5。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-01_21-35-35.jpg" alt="Snipaste_2020-03-01_21-35-35"></p>
+<h6 id="子网掩码："><a href="#子网掩码：" class="headerlink" title="子网掩码："></a>子网掩码：</h6><p>网络掩码与IP地址搭配使用，用于描述一个IP地址中的网络部分及主机部分。网络掩码32bits，与32bits的IP地址一一对应，掩码中为1的位对应IP地址中的网络位， 掩码中为0的位对应IP地址中的主机位。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-01_22-17-44.jpg" alt="Snipaste_2020-03-01_22-17-44"></p>
+<p>用一个生活中的例子去比如就是，当一个小区越修越大，可能就会将本小区划分为几个分区或者几期工程。当一个单位的主机很多而且分布在较大地理位置时，可以将本单位所属主机划分为若干个子网，然后各个子网之间用路由器互联。</p>
+<h5 id="子网划分"><a href="#子网划分" class="headerlink" title="子网划分"></a>子网划分</h5><h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><p><img src="/2019/11/23/6-tcp-ip/1-slide11.jpg" alt="1-slide11"></p>
+<h3 id="（五）物理层（Physical-Layer）"><a href="#（五）物理层（Physical-Layer）" class="headerlink" title="（五）物理层（Physical Layer）"></a>（五）物理层（Physical Layer）</h3><blockquote>
 <p>The physical layer contains the protocols relating to the physical medium on which TCP/IP will be communicating. Officially, the protocols of this layer fall within four categories that together describe all aspects of physical media: </p>
 <p>Electrical/optical protocols describe signal characteristics such as voltage or photonic levels, bit timing, encoding, and signal shape. </p>
 <p>Mechanical protocols are specifications such as the dimensions of a connector or the metallic makeup of a wire. </p>
 <p>Functional protocols describe what something does. For example, “Request to Send” is the functional description of pin 4 of an EIA-232-D connector. </p>
 <p>Procedural protocols describe how something is done. For example, a binary 1 is represented on an EIA-232-D lead as a voltage more negative than 3 volts.</p>
 </blockquote>
-<h2 id="四、数据处理的过程"><a href="#四、数据处理的过程" class="headerlink" title="四、数据处理的过程"></a>四、数据处理的过程</h2><h3 id="（一）发送数据包过程"><a href="#（一）发送数据包过程" class="headerlink" title="（一）发送数据包过程"></a>（一）发送数据包过程</h3><h3 id="（二）接收数据包过程"><a href="#（二）接收数据包过程" class="headerlink" title="（二）接收数据包过程"></a>（二）接收数据包过程</h3><p><img src="/2019/11/23/6-tcp-ip/TCPIP%20ENCAPSULATION.png" alt="TCPIP ENCAPSULATION"></p>
+<h2 id="四、数据处理的过程"><a href="#四、数据处理的过程" class="headerlink" title="四、数据处理的过程"></a>四、数据处理的过程</h2><p>路由器（Router）对数据的处理过程：</p>
+<p>Router 的责任是记录相应路由信息应该从哪个接口发出，并形成一张路由表，当收到数据时，根据网络层报头的目的地址去查询路由表中是否有相对应的条目，如果有就从该路由条目的出接口发出数据，如果没有就将数据丢弃，具体的</p>
+<p>，当它收到，就按目的地位置把讯息交给另一隻 Router，直至讯息传到目的地为止，有点像快递公司，收到快件后就由速递人员拿到最近的收发站，收发站的职员又把快件送到另一个最近目的地的收发站，如此类推，直至送到收件者手上。</p>
+<p>交换机（Switch）对数据的处理过程：</p>
+<h3 id="（一）发送数据包过程"><a href="#（一）发送数据包过程" class="headerlink" title="（一）发送数据包过程"></a>（一）发送数据包过程</h3><h3 id="（二）接收数据包过程"><a href="#（二）接收数据包过程" class="headerlink" title="（二）接收数据包过程"></a>（二）接收数据包过程</h3><p><img src="/2019/11/23/6-tcp-ip/TCPIP%20ENCAPSULATION.png" alt="TCPIP ENCAPSULATION"></p>
 <h2 id="引用文章："><a href="#引用文章：" class="headerlink" title="引用文章："></a>引用文章：</h2><p><a href="https://blog.csdn.net/hanzhen7541/article/details/79072036" target="_blank" rel="noopener">TCP和UDP协议的特点和区别详解</a></p>
 <p><a href="https://www.zhihu.com/question/39324847" target="_blank" rel="noopener">怎么有效理解可靠数据传输</a>？</p>
 <p><a href="http://docs.52im.net/extend/docs/book/tcpip/vol1/17/" target="_blank" rel="noopener">第17章 TCP：传输控制协议</a></p>
@@ -594,6 +604,8 @@
 <p><a href="https://blog.stackpath.com/tcp-slow-start/" target="_blank" rel="noopener">What is TCP Slow Start?</a></p>
 <p><a href="https://networkengineering.stackexchange.com/questions/59441/whats-the-use-of-an-acknowledgement-number-without-the-ack-flag-set" target="_blank" rel="noopener">What’s the use of an acknowledgement number without the ACK flag set?</a></p>
 <p><a href="https://www.zhihu.com/question/23940717" target="_blank" rel="noopener">localhost、127.0.0.1 和 本机IP 三者的区别?</a></p>
+<p><a href="https://www.jianshu.com/p/164ab8a6e6a9" target="_blank" rel="noopener">单播、多播（组播）和广播的区别</a></p>
+<p><a href="https://www.jannet.hk/zh-Hant/post/IP-Address-Version-4-IPv4/" target="_blank" rel="noopener">IP Address Version 4 (IPv4) 網際網路協定位址</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
@@ -987,10 +999,12 @@
 <p><strong>强烈建议听懂一个知识点以后总结一份自己的笔记，因为很多东西听懂的和自己能总结完全不是一个层次，笔记是一个对知识消化并进一步总结归纳的过程，比简单的听懂视频看懂书籍要高了一个档次，虽然耗时更长，但对知识会有更深层次的理解并且记得更牢固。</strong></p>
  <a id="more"></a>  
 
-<h2 id="二、遇到问题如何找寻答案"><a href="#二、遇到问题如何找寻答案" class="headerlink" title="二、遇到问题如何找寻答案"></a>二、遇到问题如何找寻答案</h2><p>如果周围有懂技术的朋友，请教他们是最快捷最直接的解决办法，但还是更建议通过搜索引擎、官方文档或做实验寻找答案，因为人的大脑可能记错答案但官方文档一般来说是不会出问题的，国内技术类网站都是中文，可以解决常见的一些疑问，但如果有比较冷门一些的问题，可能国内的中文网站已经很难找到解答，这时候思科的官方文档和官方社区是最好的求助对象，尤其是思科的官方论坛，经常有思科的技术大佬过去回答问题，是提升自我非常好的学习渠道，老外对技术细节的讨论十分到位，基本可以解决大部分疑惑。搜索引擎尽量别用百度，搜索的效率相对低一些，容易浪费时间。</p>
-<h2 id="三、抓包有什么用？"><a href="#三、抓包有什么用？" class="headerlink" title="三、抓包有什么用？"></a>三、抓包有什么用？</h2><p>有一些故障的现象并不明显，并不是看配置就能那么轻易的找到问题的答案，需要去抓包分析，分析包的行为能帮助你给出一个排错的大概方向。一般来说 TCP用的比较多，IP头看分片，TOS字段比较多。TCP的话主要看TCP的一些机制和算法。</p>
-<h2 id="四、如何下载学习资料"><a href="#四、如何下载学习资料" class="headerlink" title="四、如何下载学习资料"></a>四、如何下载学习资料</h2><p>推荐两个论坛，<a href="http://bbs.hh010.com/" target="_blank" rel="noopener">鸿鹄论坛</a>以及<a href="http://bbs.vlan5.com/" target="_blank" rel="noopener">攻城狮论坛</a>。鸿鹄论坛上的考试题库更新比较快，包含版本比较新，也有一些学习资料；攻城狮论坛上的学习资料比较丰富，基本上所有需要的资料在攻城狮论坛都能下载到。</p>
-<h2 id="五、厂商的认证是否有必要考？"><a href="#五、厂商的认证是否有必要考？" class="headerlink" title="五、厂商的认证是否有必要考？"></a>五、厂商的认证是否有必要考？</h2><p>谈一下我浅薄的看法，对个人来说，应该将备考的过程视为提高自己技术水平的过程，在这个过程中加深对技术的理解和掌握，而不是指着证书带你走向人生巅峰，证书带不来高薪职位，技术水平才是王道。一般来说有个认证能够让企业的招聘者对你的技术水平有个大概的定位，在进入面试环节之前给你一点帮助，但如果进入面试以后面试官发现你名不副实，花大价钱考下来的证书就显得一点用没有了。</p>
+<h2 id="二、学习一定要打好基础循序渐进"><a href="#二、学习一定要打好基础循序渐进" class="headerlink" title="二、学习一定要打好基础循序渐进"></a>二、学习一定要打好基础循序渐进</h2><p>这段像是一堆废话，但打好基础的过程是非常痛苦且无聊的，因为可能你根本看不懂这段在说什么，比如OSI七层模型每层的功能以及TCP\IP模型的报头格式这种纯理论，在本章节很难联系实际去理解掌握的东西，真的很枯燥乏味，但真心应该把这些东西掌握了再看后面</p>
+<h2 id="三、到35岁就要转型管理吗？"><a href="#三、到35岁就要转型管理吗？" class="headerlink" title="三、到35岁就要转型管理吗？"></a>三、到35岁就要转型管理吗？</h2><p>我觉得这个问题得一分为二的看，如果到了35岁以后，无论你的技术水平还是客户沟通能力都比一个毕业2-3年的大学生强不了多少，但薪资反而高不少，事儿多了不少，加班也不如人家能加，换你是老板你会不会找个薪资低的年轻人来顶替你呢？你肯定也会，毕竟老板的钱不是大风刮来的；反观不仅是国内还是国外（国外比较多）有一些50+的技术大神，还在写代码或处理系统问题，他们做的这种高水平的工作需要长时间的实践和技术积累，所以即使上了岁数依旧可以有工作拿高薪。所以我感觉应该随着入行时间的增长尽量提升自己的技术水平和工作能力，尽量做不可替代或者不好替代的那种人，当然，学习是个苦差事，至于如何选择完全看个人。</p>
+<h2 id="四、遇到问题如何找寻答案"><a href="#四、遇到问题如何找寻答案" class="headerlink" title="四、遇到问题如何找寻答案"></a>四、遇到问题如何找寻答案</h2><p>如果周围有懂技术的朋友，请教他们是最快捷最直接的解决办法，但还是更建议通过搜索引擎、官方文档或做实验寻找答案，因为人的大脑可能记错答案但官方文档一般来说是不会出问题的，国内技术类网站都是中文，可以解决常见的一些疑问，但如果有比较冷门一些的问题，可能国内的中文网站已经很难找到解答，这时候思科的官方文档和官方社区是最好的求助对象，尤其是思科的官方论坛，经常有思科的技术大佬过去回答问题，是提升自我非常好的学习渠道，老外对技术细节的讨论十分到位，基本可以解决大部分疑惑。搜索引擎尽量别用百度，搜索的效率相对低一些，容易浪费时间。</p>
+<h2 id="五、抓包有什么用？"><a href="#五、抓包有什么用？" class="headerlink" title="五、抓包有什么用？"></a>五、抓包有什么用？</h2><p>有一些故障的现象并不明显，并不是看配置就能那么轻易的找到问题的答案，需要去抓包分析，分析包的行为能帮助你给出一个排错的大概方向。一般来说 TCP用的比较多，IP头看分片，TOS字段比较多。TCP的话主要看TCP的一些机制和算法。</p>
+<h2 id="六、如何下载学习资料"><a href="#六、如何下载学习资料" class="headerlink" title="六、如何下载学习资料"></a>六、如何下载学习资料</h2><p>推荐两个论坛，<a href="http://bbs.hh010.com/" target="_blank" rel="noopener">鸿鹄论坛</a>以及<a href="http://bbs.vlan5.com/" target="_blank" rel="noopener">攻城狮论坛</a>。鸿鹄论坛上的考试题库更新比较快，包含版本比较新，也有一些学习资料；攻城狮论坛上的学习资料比较丰富，基本上所有需要的资料在攻城狮论坛都能下载到。</p>
+<h2 id="七、厂商的认证是否有必要考？"><a href="#七、厂商的认证是否有必要考？" class="headerlink" title="七、厂商的认证是否有必要考？"></a>七、厂商的认证是否有必要考？</h2><p>谈一下我浅薄的看法，对个人来说，应该将备考的过程视为提高自己技术水平的过程，在这个过程中加深对技术的理解和掌握，而不是指着证书带你走向人生巅峰，证书带不来高薪职位，技术水平才是王道。一般来说有个认证能够让企业的招聘者对你的技术水平有个大概的定位，在进入面试环节之前给你一点帮助，但如果进入面试以后面试官发现你名不副实，花大价钱考下来的证书就显得一点用没有了。</p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
