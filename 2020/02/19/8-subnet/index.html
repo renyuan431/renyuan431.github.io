@@ -58,7 +58,18 @@
 <meta property="og:description" content="说明此篇笔记是在IP地址和子网划分学习笔记之《子网划分详解》以及IP地址和子网划分学习笔记之《超网合并详解》两篇笔记的基础上进行了部分改动。 子网划分子网划分的定义可以自由的加减子网掩码长度，也就是不限制于A&#x2F;B&#x2F;C类默认的掩码长度，A类地址不必须使用8&#x2F;位的掩码，也可以用诸如：10&#x2F;位掩码或者7&#x2F;位掩码。 子网划分的原因子网就是把一个大网划分为几个小网，而如果按照默认的A\B\C类默认使用的话，">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;8-subnet&#x2F;afdf9cfdadeda8e3fce05fd4857b1947.png">
-<meta property="og:updated_time" content="2020-03-07T10:50:12.178Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;8-subnet&#x2F;cc05ee8e14483fc9144d7f74397aa78e.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;8-subnet&#x2F;Snipaste_2020-03-10_14-52-56.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;8-subnet&#x2F;Snipaste_2020-03-10_14-59-24.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;8-subnet&#x2F;b238a2ab335a04d7c47484f6d6b63528.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;8-subnet&#x2F;e4a37fd71224bf10f85f89b656e395ba.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;8-subnet&#x2F;2e44e2a13a05f4de228f0a1eec2f173c.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;8-subnet&#x2F;93b1e2732ce3bf7a221c62cad65482ed.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;8-subnet&#x2F;ddcabb080e751306e58335a533daeb20.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;8-subnet&#x2F;76c86f103dd758c8dc3cd81d7aa85005.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;8-subnet&#x2F;de085bbf8eb4753018b7e8c8bbbad651.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;8-subnet&#x2F;Snipaste_2020-03-10_17-11-40.jpg">
+<meta property="og:updated_time" content="2020-03-10T09:46:25.673Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;02&#x2F;19&#x2F;8-subnet&#x2F;afdf9cfdadeda8e3fce05fd4857b1947.png">
 
@@ -260,7 +271,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-07 18:50:12" itemprop="dateModified" datetime="2020-03-07T18:50:12+08:00">2020-03-07</time>
+                <time title="修改时间：2020-03-10 17:46:25" itemprop="dateModified" datetime="2020-03-10T17:46:25+08:00">2020-03-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -308,9 +319,9 @@
 <p>②、把一部分原来属于“主机ID”部分的位变成“网络ID”的一部分（通常称之为“子网ID”）。</p>
 <p>③、原来的“网络ID”+“子网ID”=新“网络ID”。“子网ID”的长度决定了可以划分子网的数量。</p>
 <p>网络ID等同于网络位，主机ID等同于主机位，翻译方式不同。</p>
-<p><strong>必须注意的是，子网ID和网络位、主机位概念类似，都是一个范围，根据借位的多少有所区别，后面会结合实际例子进一步说明，这里一定要记住这个概念。</strong></p>
+<p><strong>必须注意的是，子网ID和网络位、主机位概念类似，都是一个范围，根据借位的多少有所区别，因为IP地址都是二进制的，所以接1位会多出2个子网，借两位多出4个子网，借三位多出8个子网，以此类推。后面会结合实际例子进一步说明，这里一定要记住这个概念。</strong></p>
 <p><img src="/2020/02/19/8-subnet/afdf9cfdadeda8e3fce05fd4857b1947.png" alt="afdf9cfdadeda8e3fce05fd4857b1947"></p>
-<p>全0子网与全1子网</p>
+<p><strong>全0子网与全1子网</strong></p>
 <p>①、“全0子网”代表的是对应子网的“子网ID”部分各位都是0，是第一个子网。</p>
 <p>②、“全1子网”代表的是对应子网的“子网ID”部分各位都是1，是最后一个子网。</p>
 <p>③、按照RFC950参考规定，划分子网后，只有n-2个可用的子网（n表示总的子网数）。</p>
@@ -318,9 +329,117 @@
 <blockquote>
 <p>RFC950参考规定：第一个子网（也就是“全0子网”）和最后一个子网（也就是“全1子网”）不可用，为的就是避免全0子网的网络地址和全1子网的广播地址分别与没有划分子网前的网络地址和广播地址相冲突。 但是在后来RFC1878规定中，该项规定已被废止了，现在的设备基本上都普遍支持RFC1878。</p>
 </blockquote>
-<h3 id="等长子网划分"><a href="#等长子网划分" class="headerlink" title="等长子网划分"></a>等长子网划分</h3><h4 id="C类网络子网划分示例"><a href="#C类网络子网划分示例" class="headerlink" title="C类网络子网划分示例"></a>C类网络子网划分示例</h4><p>1、等分位两个字网</p>
-<p>将192.168.0.0 255.255.255.0这个网络等分成2个子网，并写出每个子网的地址信息</p>
-<h3 id="变长子网划分"><a href="#变长子网划分" class="headerlink" title="变长子网划分"></a>变长子网划分</h3><h3 id="子网划分总结和技巧"><a href="#子网划分总结和技巧" class="headerlink" title="子网划分总结和技巧"></a>子网划分总结和技巧</h3><h3 id="子网划分举例"><a href="#子网划分举例" class="headerlink" title="子网划分举例"></a>子网划分举例</h3><h2 id="超网"><a href="#超网" class="headerlink" title="超网"></a>超网</h2><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
+<p><strong>子网划分的任务：</strong></p>
+<p>①、确定子网掩码的长度。</p>
+<p>②、确定子网下的主机可用地址范围（第一个可用IP和最后一个可用IP）。</p>
+<p>③、确定网络地址（主机位全为0）和广播地址（主机位全为1），不能分配计算机主机用。</p>
+<h3 id="等长子网划分"><a href="#等长子网划分" class="headerlink" title="等长子网划分"></a>等长子网划分</h3><p>等长子网划分就是将一个有类网络等分成多个网络，也就是等分成多个子网，所有子网的子网掩码都相同。</p>
+<h4 id="C类网络子网划分示例"><a href="#C类网络子网划分示例" class="headerlink" title="C类网络子网划分示例"></a>C类网络子网划分示例</h4><h5 id="等分位两个字网"><a href="#等分位两个字网" class="headerlink" title="等分位两个字网"></a>等分位两个字网</h5><p>将192.168.0.0 255.255.255.0这个网络等分成2个子网，并写出每个子网的地址信息</p>
+<p>分析步骤：</p>
+<p>该子网掩码位/24位，要划分成2个子网，<strong>网络位向主机位接用1位作为子网位</strong>，因为IP地址都是2进制，1位2进制数字有两种可能，0以及1，0是A子网，1是B子网。</p>
+<p>接用主机位1位，所以子网掩码+1位，由原来的255.255.255.0（/24）变为255.255.255.128（/25）</p>
+<p><strong>结论：C类网络等分成2个子网，子网掩码往右移动1位，就能等分成2个子网，即2^1。</strong></p>
+<p><img src="/2020/02/19/8-subnet/cc05ee8e14483fc9144d7f74397aa78e.png" alt="cc05ee8e14483fc9144d7f74397aa78e"></p>
+<p><img src="/2020/02/19/8-subnet/Snipaste_2020-03-10_14-52-56.jpg" alt="Snipaste_2020-03-10_14-52-56"></p>
+<p><img src="/2020/02/19/8-subnet/Snipaste_2020-03-10_14-59-24.jpg" alt="Snipaste_2020-03-10_14-59-24"></p>
+<p><strong>最终结果：</strong></p>
+<p>A子网的网络地址：192.168.0.0/25，可用地址（192.168.0.1、192.168.0.2….～192.168.0.126），广播地址：192.168.0.127。</p>
+<p>B子网的网络地址：192.168.0.128/25，可用地址（192.168.0.129、192.168.130….～192.168.0.254），广播地址：192.168.0.255。</p>
+<h5 id="等分为四个子网"><a href="#等分为四个子网" class="headerlink" title="等分为四个子网"></a>等分为四个子网</h5><p>同样将192.168.0.0 255.255.255.0 这个网络等分成4个子网</p>
+<p>分析：要想分成4个子网，需要将子网掩码往右移动两位，这样第1位和第2位就变为网络位，就可以分成4个子网，因为二进制数0和1按两位排列组合，只有这4种，分别为：00，01，10，11，如下图所示：</p>
+<ul>
+<li>00为A子网</li>
+<li>01为B子网</li>
+<li>10为C子网</li>
+<li>11为D子网</li>
+</ul>
+<p>借用主机2位，所以子网掩码+2位，由原来的255.255.255.0 （/24）变为255.255.255.192 （/26）</p>
+<p>结论：C类网络等分成4个子网，子网掩码往右移动2位，就能等分成4个子网，即2^2。</p>
+<p><img src="/2020/02/19/8-subnet/b238a2ab335a04d7c47484f6d6b63528.png" alt="b238a2ab335a04d7c47484f6d6b63528"></p>
+<p><img src="/2020/02/19/8-subnet/e4a37fd71224bf10f85f89b656e395ba.png" alt="e4a37fd71224bf10f85f89b656e395ba"></p>
+<p>最终结果：</p>
+<p>A子网的网络地址：192.168.0.0/26，可用地址（192.168.0.1～192.168.0.62），广播地址：192.168.0.63/26。</p>
+<p>B子网的网络地址：192.168.0.64/26，可用地址（192.168.65～192.168.0.126），广播地址：192.168.0.127。</p>
+<p>C子网的网络地址：192.168.0.128/26，可用地址（192.168.129～192.168.0.190），广播地址：192.168.0.191。</p>
+<p>D子网的网络地址：192.168.0.192/26，可用地址（192.168.193/26～192.168.0.254），广播地址：192.168.0.255。</p>
+<h5 id="等分为八个子网"><a href="#等分为八个子网" class="headerlink" title="等分为八个子网"></a>等分为八个子网</h5><p>同样将192.168.0.0 255.255.255.0 这个网络等分成8个子网</p>
+<p>分析：要想分成8个子网，需要将子网掩码往右移动三位</p>
+<p>这样第1位、第2位和第3位就变为网络位，就可以分成8个子网</p>
+<p>因为二进制数0和1按两位排列组合，只有这8种，分别为：000，001，010，011，100，101,110,111，</p>
+<p>借用主机3位，所以子网掩码+3位，由原来的255.255.255.0 （/24）变为255.255.255.192 （/29）</p>
+<p>结论：C类网络等分成8个子网，子网掩码往右移动3位，就能等分成8个子网，即2^3。</p>
+<p><img src="/2020/02/19/8-subnet/2e44e2a13a05f4de228f0a1eec2f173c.png" alt="2e44e2a13a05f4de228f0a1eec2f173c"></p>
+<p>最终结果：</p>
+<p>子网掩码：255.255.255.224 （/27）</p>
+<p>A子网的网络地址：192.168.0.0/27，可用地址（192.168.0.1～192.168.0.30），广播地址：192.168.0.31。</p>
+<p>B子网的网络地址：192.168.0.32/27，可用地址（192.168.33～192.168.0.62），广播地址：192.168.0.63。</p>
+<p>C子网的网络地址：192.168.0.64/27，可用地址（192.168.65～192.168.0.94），广播地址：192.168.0.95。</p>
+<p>D子网的网络地址：192.168.0.96/27，可用地址（192.168.97～192.168.0.126），广播地址：192.168.0.127。</p>
+<p>E子网的网络地址：192.168.0.128/27，可用地址（192.168.129～192.168.0.158），广播地址：192.168.0.159。</p>
+<p>F子网的网络地址：192.168.0.160/27，可用地址（192.168.161～192.168.0.190），广播地址：192.168.0.191。</p>
+<p>G子网的网络地址：192.168.0.192/27，可用地址（192.168.193～192.168.0.222），广播地址：192.168.0.223。</p>
+<p>H子网的网络地址：192.168.0.224/27，可用地址（192.168.225～192.168.0.254），广播地址：192.168.0.255。</p>
+<h4 id="B类网络子网划分示例"><a href="#B类网络子网划分示例" class="headerlink" title="B类网络子网划分示例"></a>B类网络子网划分示例</h4><p>将131.107.0.0/16等分成2个子网，写出各个子网的第一个和最后一个可用的IP地址</p>
+<p>分析：要划分为2个子网，就要借用主机位1位作为子网位。</p>
+<ul>
+<li>0是A子网</li>
+<li>1是B子网</li>
+</ul>
+<p>借用主机1位，所以子网掩码+1位，由原来的255.255.0.0 （/16）变为255.255.128.0（/17）</p>
+<p>结论：B类网络等分成2个子网，子网掩码往右移动1位，就能等分成2个子网，即2^1。</p>
+<p>最终结果：</p>
+<p>A子网<br>网络地址：131.107.0.0/17，<br>可用地址（131.107.0.1 ~ 131.107.127.254）<br>广播地址：131.107.127.255</p>
+<p>B子网<br>网络地址：131.107.128.0/17<br>可用地址（131.107.128.1 ~ 131.107.255.254）<br>广播地址：131.107.255.255</p>
+<p><img src="/2020/02/19/8-subnet/93b1e2732ce3bf7a221c62cad65482ed.png" alt="93b1e2732ce3bf7a221c62cad65482ed"></p>
+<h3 id="3、A类网络子网划分示例"><a href="#3、A类网络子网划分示例" class="headerlink" title="3、A类网络子网划分示例"></a>3、A类网络子网划分示例</h3><p>将A类网络42.0.0.0/8等分成4个子网，写出各个子网的第一个和最后一个可用的IP地址？</p>
+<p>分析：要划分为4个子网，就要借用主机位2位作为子网位</p>
+<ul>
+<li>00是A子网</li>
+<li>01是B子网</li>
+<li>10是C子网</li>
+<li>11是D子网</li>
+</ul>
+<p>借用主机2位，所以子网掩码+2位，由原来的255.0.0.0 （/8）变为255.192.0.0（/10）</p>
+<p>结论：A类网络等分成4个子网，子网掩码往右移动2位，就能等分成4个子网，即2^2。</p>
+<p>最终结果：</p>
+<p>A子网的网络地址：42.0.0.0/10，可用地址（42.0.0.1 ~ 42.63.255.254），广播地址：42.63.255.255</p>
+<p>B子网的网络地址：42.64.0.0/10，可用地址（42.64.0.1 ~ 42.127.255.254），广播地址：42.127.255.255</p>
+<p>C子网的网络地址：42.128.0.0/10，可用地址（42.128.0.1 ~ 42.191.255.254），广播地址：42.191.255.255</p>
+<p>D子网的网络地址：42.192.0.0/10，可用地址（42.192.0.1 ~ 42.255.255.254），广播地址：42.255.255.255</p>
+<p><img src="/2020/02/19/8-subnet/ddcabb080e751306e58335a533daeb20.png" alt="ddcabb080e751306e58335a533daeb20"></p>
+<h3 id="变长子网划分"><a href="#变长子网划分" class="headerlink" title="变长子网划分"></a>变长子网划分</h3><p>VLSM规定了如何在一个进行了子网划分的网络中，不同子网使用不同的子网掩码。这对于网络内部不同网段需要不同大小子网的情形来说很有效，这种划分子网的方式叫变长子网划分。</p>
+<p>变长子网划分其实就是在等长子网的划分上，分别取不同等分子网中的某个或者多个子网。</p>
+<p><img src="/2020/02/19/8-subnet/76c86f103dd758c8dc3cd81d7aa85005.png" alt="76c86f103dd758c8dc3cd81d7aa85005"></p>
+<p>如上示例划分分析结果：</p>
+<p>A子网<br>网络地址：192.168.10.32，255.255.255.224（/27），可用地址（192.168.10.33 ~ 192.168.10.62），广播地址：192.168.10.63<br>相当于取了等长子网划分为8个子网中的一个子网</p>
+<p>B子网<br>网络地址：192.168.10.64，255.255.255.192（/26），可用地址（192.168.10.65 ~ 192.168.10.126），广播地址：192.168.10.127<br>相当于取了等长子网划分为4个子网中的一个子网</p>
+<p>C子网<br>网络地址：192.168.10.128，255.255.255.128（/25），可用地址（192.168.10.129 ~ 192.168.10.254），广播地址：192.168.10.255<br>相当于取了等长子网划分为2个子网中的一个子网</p>
+<p>D子网<br>网络地址：192.168.10.0，255.255.255.252（/30），可用地址（192.168.10.1 ~ 192.168.10.2），广播地址：192.168.10.3<br>相当于取了等长子网划分为64个子网中的第一个子网</p>
+<p>E子网<br>网络地址：192.168.10.4，255.255.255.252（/30），可用地址（192.168.10.5 ~ 192.168.10.6），广播地址：192.168.10.7<br>相当于取了等长子网划分为64个子网中的第二个子网</p>
+<p><strong>变长子网划分总结</strong></p>
+<p>①、变长子网划分规律</p>
+<p>如果一个子网地址块是原来网段的(1/2)^n，子网掩码就在原网段的基础上右移n位，不等长子网，子网掩码也不同。</p>
+<p>②、点到点网络的子网掩码</p>
+<p>每个子网是原来网络的(1/2)×(1/2)×(1/2)×(1/2)×(1/2)×(1/2)，也就是(1/2)^6，子网掩码往右移动6位。</p>
+<p>例如：11111111.11111111.11111111.11111100写成十进制子网掩码也就是255.255.255.252。</p>
+<h3 id="子网划分总结和技巧"><a href="#子网划分总结和技巧" class="headerlink" title="子网划分总结和技巧"></a>子网划分总结和技巧</h3><p><img src="/2020/02/19/8-subnet/de085bbf8eb4753018b7e8c8bbbad651.png" alt="de085bbf8eb4753018b7e8c8bbbad651"></p>
+<p>1、确定划分子网数</p>
+<p>子网数 = 2^n，n代表子网掩码往右移动的位数<br>例如：<br>要划分2个子网，子网掩码需要往右移动1位，2^1=2<br>要划分4个子网，子网掩码需要往右移动2位，2^2=4<br>要划分8个子网，子网掩码需要往右移动3位，2^3=8<br>……<br>子网数只能为2倍的关系划分。</p>
+<p>2、确定子网划分后的地址</p>
+<p>每个子网地址块大小（IP_block）= 2^(8-n)<br>每个子网可用地址个数（IP_num）= 2^(8-n)-2<br>①、子网的网络地址 = 从0到255，取每段地址块的首个值<br>②、子网的广播地址 = 下一个子网的网络地址-1<br>③、子网的可用地址 = 子网的网络地址到子网的广播地址区间</p>
+<p>例如：<br>要划分为4个网段（2^2），子网掩码右移2位<br>每个子网地址块大小（IP_block）= 2^(8-4) = 64<br>每个子网可用地址个数（IP_num）= 2^(8-4)-2 = 62<br>每段取值分别为：0，64，128，192<br>第一个子网<br>①、网络地址 = 0<br>②、广播地址 = 63<br>③、可用地址 = 1到62</p>
+<p>第二个子网<br>①、网络地址 = 64<br>②、广播地址 = 127<br>③、可用地址 = 65到126</p>
+<p>第三个子网<br>①、网络地址 = 128<br>②、广播地址 = 191<br>③、可用地址 = 129到190</p>
+<p>第四个子网<br>①、网络地址 = 192<br>②、广播地址 = 255<br>③、可用地址 = 193到254</p>
+<p>3、确定子网掩码</p>
+<p>划分后的子网掩码CIDR = 原网络的子网掩码CIDR+n，如要写成十进制：256-2^(8-n)<br>例如：<br>原来子网掩码：255.255.255.0（/24），往右移动3位，则划分为8个子网<br>子网掩码就变为为 /27，256-2^(8-3) = 256-2^5 = 256-32 = 224<br>最后子网掩码结果：255.255.255.224（/27）</p>
+<p>如还有不明白的，请参照上面给出的VLSM可变长子网掩码对应CIDR值这个图就一目了然。</p>
+<h3 id="子网划分举例"><a href="#子网划分举例" class="headerlink" title="子网划分举例"></a>子网划分举例</h3><p>1、计算一下172.16.1.0/27这个子网的网络号、广播号，及可用IP地址</p>
+<p>答案：</p>
+<p><img src="/2020/02/19/8-subnet/Snipaste_2020-03-10_17-11-40.jpg" alt="Snipaste_2020-03-10_17-11-40"></p>
+<h2 id="超网"><a href="#超网" class="headerlink" title="超网"></a>超网</h2><h3 id="超网的概念"><a href="#超网的概念" class="headerlink" title="超网的概念"></a>超网的概念</h3><p>超网(Supernetting)是与子网类似的概念，IP地址根据子网掩码被分为独立的网络地址和主机地址。超网，也称无类别域间路由选择（CIDR），它是集合多个同类互联网地址的一种方法。</p>
+<p>与子网划分（把大网络分成若干小网络）相反，它是把一些小网络组合成一个大网络，就是超网。</p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
     </div>
 
     
@@ -405,7 +524,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子网划分"><span class="nav-number">2.</span> <span class="nav-text">子网划分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#子网划分的定义"><span class="nav-number">2.1.</span> <span class="nav-text">子网划分的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子网划分的原因"><span class="nav-number">2.2.</span> <span class="nav-text">子网划分的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子网划分的方法"><span class="nav-number">2.3.</span> <span class="nav-text">子网划分的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#等长子网划分"><span class="nav-number">2.4.</span> <span class="nav-text">等长子网划分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#C类网络子网划分示例"><span class="nav-number">2.4.1.</span> <span class="nav-text">C类网络子网划分示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变长子网划分"><span class="nav-number">2.5.</span> <span class="nav-text">变长子网划分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子网划分总结和技巧"><span class="nav-number">2.6.</span> <span class="nav-text">子网划分总结和技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子网划分举例"><span class="nav-number">2.7.</span> <span class="nav-text">子网划分举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超网"><span class="nav-number">3.</span> <span class="nav-text">超网</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子网划分"><span class="nav-number">2.</span> <span class="nav-text">子网划分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#子网划分的定义"><span class="nav-number">2.1.</span> <span class="nav-text">子网划分的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子网划分的原因"><span class="nav-number">2.2.</span> <span class="nav-text">子网划分的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子网划分的方法"><span class="nav-number">2.3.</span> <span class="nav-text">子网划分的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#等长子网划分"><span class="nav-number">2.4.</span> <span class="nav-text">等长子网划分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#C类网络子网划分示例"><span class="nav-number">2.4.1.</span> <span class="nav-text">C类网络子网划分示例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#等分位两个字网"><span class="nav-number">2.4.1.1.</span> <span class="nav-text">等分位两个字网</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#等分为四个子网"><span class="nav-number">2.4.1.2.</span> <span class="nav-text">等分为四个子网</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#等分为八个子网"><span class="nav-number">2.4.1.3.</span> <span class="nav-text">等分为八个子网</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B类网络子网划分示例"><span class="nav-number">2.4.2.</span> <span class="nav-text">B类网络子网划分示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、A类网络子网划分示例"><span class="nav-number">2.5.</span> <span class="nav-text">3、A类网络子网划分示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变长子网划分"><span class="nav-number">2.6.</span> <span class="nav-text">变长子网划分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子网划分总结和技巧"><span class="nav-number">2.7.</span> <span class="nav-text">子网划分总结和技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子网划分举例"><span class="nav-number">2.8.</span> <span class="nav-text">子网划分举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超网"><span class="nav-number">3.</span> <span class="nav-text">超网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#超网的概念"><span class="nav-number">3.1.</span> <span class="nav-text">超网的概念</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
