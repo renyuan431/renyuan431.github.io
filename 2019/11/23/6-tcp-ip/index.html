@@ -190,7 +190,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;1-slide11.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2019-12-10_16-36-13.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCPIP%20ENCAPSULATION.png">
-<meta property="og:updated_time" content="2020-03-12T08:13:07.896Z">
+<meta property="og:updated_time" content="2020-03-14T09:19:53.233Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCP-IP%E6%A8%A1%E5%9E%8B%20(2)%20(1).jpg">
 
@@ -392,7 +392,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-12 16:13:07" itemprop="dateModified" datetime="2020-03-12T16:13:07+08:00">2020-03-12</time>
+                <time title="修改时间：2020-03-14 17:19:53" itemprop="dateModified" datetime="2020-03-14T17:19:53+08:00">2020-03-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1070,6 +1070,10 @@
 <p><img src="/2019/11/23/6-tcp-ip/2015-10-18_00-33-22.png" alt="2015-10-18_00-33-22"></p>
 <p>注意，图1中的“<strong>Sender protocol address (SPA)</strong>”是Internetwork address of the sender，也就是发送设备的IP地址，“<strong>Target protocol address (TPA)</strong>”是Internetwork address of the intended receiver，也就是目标设备的IP地址。</p>
 <p><strong>工作过程：</strong></p>
+<blockquote>
+<p>ARP is a relatively simple request-and-reply protocol. The source device broadcasts an ARP Request that’s looking for a particular device based on the device’s IP address. That device responds with its hardware address in an ARP Reply message.</p>
+</blockquote>
+<p>ARP是一个比较简单的“请求——回应”的协议，源设备广播它的ARP请求，这个ARP请求基于目标设备的IP地址，那个有ARP请求中同样IP地址的设备将用ARP回复来告知源设备它的MAC地址。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-12_13-58-43.jpg" alt="Snipaste_2020-03-12_13-58-43"></p>
 <blockquote>
 <ol>
@@ -1089,10 +1093,18 @@
 <p>3、源设备将ARP请求信息在本网段上进行广播。</p>
 <p>4、本网段设备对ARP请求信息进行处理。本网段所有设备将收到源设备发送的ARP的请求信息，因为ARP请求信息是个“broadcasts”，广播，它所传播的范围就是在本网段，每个收到该广播的设备都会核对自身的IP地址和ARP请求信息中的“目标”是否一致，如果不一致的话将丢弃该ARP请求信息也不会有下一步的处理了。</p>
 <p>5、目标设备生成ARP回复信息。那个IP地址和ARP请求信息中“目标IP地址”相同的设备，将生成一个ARP回复信息，这个回复信息将使用ARP请求信息中的源IP地址和源MAC地址，并将它们作为ARP回复信息中的目的IP地址和目的MAC地址。然后将自身的IP地址作为ARP回复信息中的源IP地址，将自己的MAC地址作为源MAC地址，然后封装好ARP报头。</p>
-<p>6、目标设备更新自身的ARP缓存表项。</p>
+<p>6、目标设备更新自身的ARP缓存表项。如果源设备在得知目标设备的MAC地址后要向目标设备发送数据，目标设备之后回复数据的时候，也是需要源设备的MAC地址的，毕竟大多数的通信都是双向的，所以作为一个优化步骤，目标设备会将收到的ARP请求中的，源设备的“IP地址——MAC地址”对应的ARP条目放入缓存中，以便于以后使用，缓存中有源设备的ARP条目后，再通信的时候就不用进行ARP请求而可以直接使用了。</p>
+<p>7、目标设备发送APR回复消息。目标设备发送ARP回复信息，这个ARP回复信息是基于单播的，因为已经知道源设备的IP地址和MAC地址，无需用广播回复。</p>
+<p>8、源设备处理ARP回复消息。</p>
 <p><strong>示例及抓包分析：</strong></p>
 <p>实际应用：</p>
-<h6 id="Ping（ICMP）"><a href="#Ping（ICMP）" class="headerlink" title="Ping（ICMP）"></a>Ping（ICMP）</h6><h6 id="Traceroute"><a href="#Traceroute" class="headerlink" title="Traceroute"></a>Traceroute</h6><h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><p><img src="/2019/11/23/6-tcp-ip/1-slide11.jpg" alt="1-slide11"></p>
+<h6 id="Ping（ICMP）"><a href="#Ping（ICMP）" class="headerlink" title="Ping（ICMP）"></a>Ping（ICMP）</h6><p>模拟双向通信过程</p>
+<p>−!  通</p>
+<p>−. 不通</p>
+<p>−U 中间丢了</p>
+<h6 id="Traceroute"><a href="#Traceroute" class="headerlink" title="Traceroute"></a>Traceroute</h6><p>探测到目标主机所经过的路径</p>
+<p>利用IP头部的TTL字段，利用TTL超时报错探测每一个设备节点</p>
+<h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><p><img src="/2019/11/23/6-tcp-ip/1-slide11.jpg" alt="1-slide11"></p>
 <p>二层常见的封装结构为IEEE 802.3和Ethernet II帧（以太网2），之所以有两种帧封装格式，是因为有OSI七层以及TCP/IP两种模型定义了两种不同的分装格式，之前商定的结果是控制层面的用802.3格式封装，转发层面的用以太网2封装，但目前基本上是以太网一统天下。至于什么是控制层面、转发层面，后面会有专门的章节进行阐述。</p>
 <h3 id="（五）物理层（Physical-Layer）"><a href="#（五）物理层（Physical-Layer）" class="headerlink" title="（五）物理层（Physical Layer）"></a>（五）物理层（Physical Layer）</h3><blockquote>
 <p>The physical layer contains the protocols relating to the physical medium on which TCP/IP will be communicating. Officially, the protocols of this layer fall within four categories that together describe all aspects of physical media: </p>
