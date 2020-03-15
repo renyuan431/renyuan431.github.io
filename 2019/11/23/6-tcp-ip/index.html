@@ -187,10 +187,18 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;ARP+Packet+Format+Same+format+for+request+and+reply..jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;2015-10-18_00-33-22.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-03-12_13-58-43.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-03-15_14-08-38.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-03-15_14-29-05.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-03-15_14-35-41.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-03-15_14-39-09.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-03-15_15-15-53.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-03-15_15-22-21.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2020-03-15_15-22-52.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;1920px-Ethernet_Type_II_Frame_format.svg.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;1-slide11.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;Snipaste_2019-12-10_16-36-13.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCPIP%20ENCAPSULATION.png">
-<meta property="og:updated_time" content="2020-03-14T09:19:53.233Z">
+<meta property="og:updated_time" content="2020-03-15T08:38:13.473Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;6-tcp-ip&#x2F;TCP-IP%E6%A8%A1%E5%9E%8B%20(2)%20(1).jpg">
 
@@ -392,7 +400,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-14 17:19:53" itemprop="dateModified" datetime="2020-03-14T17:19:53+08:00">2020-03-14</time>
+                <time title="修改时间：2020-03-15 16:38:13" itemprop="dateModified" datetime="2020-03-15T16:38:13+08:00">2020-03-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1088,24 +1096,49 @@
 <li>Source Device Updates ARP Cache The source device uses the Sender Proto-col Address and Sender Hardware Address to update its ARP cache for use in the future when transmitting to this device.<br>KEY CONCEPT ARP is a relatively simple request-and-reply protocol. The source device broadcasts an ARP Request that’s looking for a particular device based on the device’s IP address. That device responds with its hardware address in an ARP Reply message.</li>
 </ol>
 </blockquote>
-<p>1、源设备进行ARP缓存表查询。发送数据的源设备在一开始将会对自己的ARP缓存表进行查询，看它是否有目标设备的“IP地址——MAC地址”的ARP解析结果，如果有该结果则直接跳到第九步。</p>
-<p>2、源设备生成ARP请求消息。当源设备发现自身并没有对应的ARP缓存时，源设备生会成ARP请求信息，将本设备的源IP地址以及源MAC地址作为ARP请求信息的源IP地址以及源MAC地址，将目的设备的IP地址作为目标IP地址。这个请求消息会将目标MAC地址设置为空因为它正在请求目标MAC地址。对比ARP报头格式我们可以知道，ARP封装的信息已经齐了，可以进行ARP报头的封装了。</p>
-<p>3、源设备将ARP请求信息在本网段上进行广播。</p>
+<p>源设备，也就是要发送数据的设备为设备A</p>
+<p>目标设备，也就是要接收数据的设备为设备B</p>
+<p>1、源设备A进行ARP缓存表查询。发送数据的源设备A在一开始将会对自己的ARP缓存表进行查询，看它是否有目标设备的“IP地址——MAC地址”的ARP解析结果，如果有该结果则直接跳到第九步。</p>
+<p>2、源设备A生成ARP请求消息。当源设备A发现自身并没有对应的ARP缓存时，源设备生会成ARP请求信息，将本设备的源IP地址以及源MAC地址作为ARP请求信息的源IP地址以及源MAC地址，将目的设备B的IP地址作为目标IP地址。这个请求消息会将目标MAC地址设置为空因为A正在请求目标MAC地址。对比ARP报头格式我们可以知道，ARP封装的信息已经齐了，可以进行ARP报头的封装了。</p>
+<p>3、源设备A将ARP请求信息在本网段上进行广播。</p>
 <p>4、本网段设备对ARP请求信息进行处理。本网段所有设备将收到源设备发送的ARP的请求信息，因为ARP请求信息是个“broadcasts”，广播，它所传播的范围就是在本网段，每个收到该广播的设备都会核对自身的IP地址和ARP请求信息中的“目标”是否一致，如果不一致的话将丢弃该ARP请求信息也不会有下一步的处理了。</p>
-<p>5、目标设备生成ARP回复信息。那个IP地址和ARP请求信息中“目标IP地址”相同的设备，将生成一个ARP回复信息，这个回复信息将使用ARP请求信息中的源IP地址和源MAC地址，并将它们作为ARP回复信息中的目的IP地址和目的MAC地址。然后将自身的IP地址作为ARP回复信息中的源IP地址，将自己的MAC地址作为源MAC地址，然后封装好ARP报头。</p>
-<p>6、目标设备更新自身的ARP缓存表项。如果源设备在得知目标设备的MAC地址后要向目标设备发送数据，目标设备之后回复数据的时候，也是需要源设备的MAC地址的，毕竟大多数的通信都是双向的，所以作为一个优化步骤，目标设备会将收到的ARP请求中的，源设备的“IP地址——MAC地址”对应的ARP条目放入缓存中，以便于以后使用，缓存中有源设备的ARP条目后，再通信的时候就不用进行ARP请求而可以直接使用了。</p>
-<p>7、目标设备发送APR回复消息。目标设备发送ARP回复信息，这个ARP回复信息是基于单播的，因为已经知道源设备的IP地址和MAC地址，无需用广播回复。</p>
-<p>8、源设备处理ARP回复消息。</p>
-<p><strong>示例及抓包分析：</strong></p>
-<p>实际应用：</p>
+<p>5、目标设备B生成ARP回复信息。那个IP地址和ARP请求信息中“目标IP地址”相同的设备，将生成一个ARP回复信息，这个回复信息将使用ARP请求信息中的源IP地址和源MAC地址，并将它们作为ARP回复信息中的目的IP地址和目的MAC地址。然后将自身的IP地址作为ARP回复信息中的源IP地址，将自己的MAC地址作为源MAC地址，然后封装好ARP报头。</p>
+<p>6、目标设备B更新自身的ARP缓存表项。如果源设备A在得知目标设备的MAC地址后要向目标设备发送数据，目标设备B之后回复数据的时候，也是需要源设备A的MAC地址的，毕竟大多数的通信都是双向的，所以作为一个优化步骤，目标设备B会将收到的ARP请求中的，源设备A的“IP地址——MAC地址”对应的ARP条目放入缓存中，以便于以后使用，缓存中有源设备A的ARP条目后，再通信的时候就不用进行ARP请求而可以直接使用了。</p>
+<p>7、目标设备B发送APR回复消息。目标设备B发送ARP回复信息，这个ARP回复信息是基于单播的，因为已经知道源设备A的IP地址和MAC地址，无需用广播回复。</p>
+<p>8、源设备A处理ARP回复消息。源设备处理A从目标设备处发送的ARP回复消息。源设备A将目标设备的二层MAC地址封装好二层报头并发送数据。</p>
+<p>9、源设备A更新ARP缓存。源设备A用目标设备的IP地址及MAC地址更新ARP表项，以便未来使用。</p>
+<p><strong>示例分析：</strong></p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_14-08-38.jpg" alt="Snipaste_2020-03-15_14-08-38"></p>
+<p>当PC想和1.1.1.254通信，查询了本地ARP缓存表中并没有该缓存条目时，它需要发送ARP请求来获知1.1.1.254的MAC地址，先看二层封装，由于ARP请求是一个广播，所以源MAC地址是自身的MAC地址，目的MAC地址则为全F，表示这是一个广播；然后看ARP报头封装，源MAC地址和源IP地址都是自身的地址不多说，目标MAC地址为全0，因为前面也说了，发送ARP请求就是为了获取ARP缓存，目标IP地址就是1.1.1.254。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_14-29-05.jpg" alt="Snipaste_2020-03-15_14-29-05"></p>
+<p>当ARP请求到达交换机时，交换机会将该广播从除了接收接口以外的其他所有接口发送出去，每个收到该广播的设备都会核对自身的IP地址和ARP请求信息中的“目标”是否一致，如果不一致的话将丢弃该ARP请求信息也不会有下一步的处理。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_14-35-41.jpg" alt="Snipaste_2020-03-15_14-35-41"></p>
+<p>当路由器收到该ARP请求时，将0101的电信号还原成帧，然后解二层封装，发现目标MAC地址是一个广播，于是进一步解封装到ARP报头，发现Target IP和自身F0/0接口一致，于是对该请求进行处理。路由器将ARP请求信息中的源IP地址1.1.1.1，与源MAC地址00dd.f800.0001的对应条目放入本地ARP缓存中。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_14-39-09.jpg" alt="Snipaste_2020-03-15_14-39-09"></p>
+<p>路由器生成回复ARP请求的单播数据，二层封装的源MAC地址为路由器F0/0的MAC地址，0000.000C.AAAA，目的MAC地址为PC的MAC地址00dd.f800.0001，ARP报头封装的源MAC地址与源IP地址为F0/0口的相应地址，目标IP地址与目标MAC地址为PC的相应地址。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_15-15-53.jpg" alt="Snipaste_2020-03-15_15-15-53"></p>
+<p>ARP回复信息经交换机发送给PC后，PC对回复的信息还原成帧后查看目标MAC地址发现是发送给自己的，然后进一步对数据进行解封装，发现是arp 回复消息，然后将1.1.1.254与它的对应MAC地址条目放入arp缓存表，以后再向1.1.1.254发送数据的时候，就不用再通过arp请求MAC地址了。</p>
+<p><strong>ARP缓存在思科设备上的默认过期时间是1500秒，也就是25分钟，这个数字可以自行设置，设置范围为60 — 28800秒之间</strong>。</p>
+<p>ARP抓包：</p>
+<p>arp请求信息</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_15-22-21.jpg" alt="Snipaste_2020-03-15_15-22-21"></p>
+<p>arp回复信息</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_15-22-52.jpg" alt="Snipaste_2020-03-15_15-22-52"></p>
 <h6 id="Ping（ICMP）"><a href="#Ping（ICMP）" class="headerlink" title="Ping（ICMP）"></a>Ping（ICMP）</h6><p>模拟双向通信过程</p>
 <p>−!  通</p>
 <p>−. 不通</p>
 <p>−U 中间丢了</p>
+<p>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
 <h6 id="Traceroute"><a href="#Traceroute" class="headerlink" title="Traceroute"></a>Traceroute</h6><p>探测到目标主机所经过的路径</p>
 <p>利用IP头部的TTL字段，利用TTL超时报错探测每一个设备节点</p>
-<h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><p><img src="/2019/11/23/6-tcp-ip/1-slide11.jpg" alt="1-slide11"></p>
-<p>二层常见的封装结构为IEEE 802.3和Ethernet II帧（以太网2），之所以有两种帧封装格式，是因为有OSI七层以及TCP/IP两种模型定义了两种不同的分装格式，之前商定的结果是控制层面的用802.3格式封装，转发层面的用以太网2封装，但目前基本上是以太网一统天下。至于什么是控制层面、转发层面，后面会有专门的章节进行阐述。</p>
+<p>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
+<h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><p><img src="/2019/11/23/6-tcp-ip/1920px-Ethernet_Type_II_Frame_format.svg.png" alt="1920px-Ethernet_Type_II_Frame_format.svg"></p>
+<p><img src="/2019/11/23/6-tcp-ip/1-slide11.jpg" alt="1-slide11"></p>
+<p>二层常见的封装结构为IEEE 802.3和Ethernet II帧（以太网2），之所以有两种帧封装格式，是因为有OSI七层以及TCP/IP两种模型定义了两种不同的分装格式，之前商定的结果是控制层面的用802.3格式封装，转发层面的用以太网2封装，但目前基本上是以太网一统天下，所以在这就不介绍802.3的相关东西了。至于什么是控制层面、转发层面，后面会有专门的章节进行阐述。</p>
+<p>源目的MAC地址两个字段并不复杂就不多说了。</p>
+<p>EtherType：这个字段标识由帧数据封装的上层协议，以便接收端能根据不同的上层协议用不同的协议进行处理。 例如，EtherType值0x0800表示该帧包含IPv4数据报。同样，以太类型0x0806表示ARP帧，0x86DD表示IPv6帧，0x8100表示存在IEEE 802.1Q标签。</p>
+<p>标识上层以后才能用相应的进程去处理数据？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
+<p>最后的CRC checksum，4字节，是表示Cyclical Redunancy Check (CRC)，最后这个部分是让接收端在收到数据的时候检查收到的帧是否正确无误。多说两句，这个部分从严格意义上来说应该叫“FCS - Frame Check Sequence”，FCS是用算法校验数据的过程，而CRC是FCS这个校验过程可以采用的一种校验的方式，以太网用的就是CRC这种校验方式，所以在以太网里可以暂且把两者看成是同一个东西，但从概念上来讲，要知道二者是不同的。</p>
 <h3 id="（五）物理层（Physical-Layer）"><a href="#（五）物理层（Physical-Layer）" class="headerlink" title="（五）物理层（Physical Layer）"></a>（五）物理层（Physical Layer）</h3><blockquote>
 <p>The physical layer contains the protocols relating to the physical medium on which TCP/IP will be communicating. Officially, the protocols of this layer fall within four categories that together describe all aspects of physical media: </p>
 <p>Electrical/optical protocols describe signal characteristics such as voltage or photonic levels, bit timing, encoding, and signal shape. </p>
