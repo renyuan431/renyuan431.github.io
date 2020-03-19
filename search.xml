@@ -1,51 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CCNA笔记——7、为什么要建立TCP/IP通信模型</title>
-    <url>/2020/02/19/layer-mind/</url>
-    <content><![CDATA[<p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，可能这个概念要真正掌握并且固话还需要一次次的反复，每次当发现认知有问题的时候，会对此篇笔记进行更新。</p>
- <a id="more"></a>  
-
-<h2 id="2020年"><a href="#2020年" class="headerlink" title="2020年"></a>2020年</h2><h3 id="2月17日事件"><a href="#2月17日事件" class="headerlink" title="2月17日事件"></a>2月17日事件</h3><p>起因是看到TCP的RFC文档的2.6 Reliable Communication里有这么一段话：</p>
-<blockquote>
-<p>An acknowledgment by TCP does not guarantee that the data has been delivered to the end user, but only that the receiving TCP has taken the responsibility to do so.</p>
-</blockquote>
-<p>一开始觉得这段话的意思是说，对一个数据进行ACK了也不能确保整个数据肯定传到“用户”（user）了，发送ACK的这个设备（也就是其他路由器或网络设备）需要完成接下来的步骤，因为可能收到这个数据并发送ACK的设备给丢弃了，例如它这没有路由表或者说它down了。但因为知道自己很渣，所以到思科论坛发了<a href="https://community.cisco.com/t5/routing/what-s-the-meaning-of-an-acknowledgment-by-tcp-does-not/m-p/4030767#M329627" target="_blank" rel="noopener">求助帖</a>，想验证一下自己的想法是否正确，有个哥们回复我说，他认为：</p>
-<blockquote>
-<p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
-</blockquote>
-<p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
-<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，也就是数据从发送端的传输层——网络层——数据链路层——物理层——接收端的物理层——传输层——网络层——传输层的这个过程都是没问题的，当然按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，会出现发送端已收到TCP-ACK，但在接收端，“user”也就是应用层的程序，尚未收到该消息。</p>
-<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
-<p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
-<blockquote>
-<p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
-</blockquote>
-<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC的人，是看不到这段话的。</p>
-<p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
-<p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
-<h3 id="3月12日事件"><a href="#3月12日事件" class="headerlink" title="3月12日事件"></a>3月12日事件</h3><p>起因是因为感觉对RTO（retransmission timeout）还是理解的有问题，所以去网上看了<a href="https://www.extrahop.com/company/blog/2011/retransmission-timeouts-rtos-application-performance-degradation/" target="_blank" rel="noopener">一篇文章</a>，发现文章里有这么一句话：TCP starts a retransmission timer when an outbound segment is handed down to IP。看完这句话，感觉又被教育了一次什么叫分层。</p>
-<p>TCP是一个可靠的协议，里面的重传机制也是仅仅工作在本层的，和其他层没关系，之前看到一句话说：When the TCP transmits a segment containing data, it puts a copy on a retransmission queue and starts a timer，结合上面的那句话就是说，当TCP传输包含数据的段时，也就是说当TCP将数据段传送给下层的网络层时，它将该数据段的副本放在重传队列上并启动计时器。而并不是之前我所感觉的数据发出本设备时，计时器开始计时，而是当数据发出本层时计时器就开始计时了，因为TCP是传输层的协议，仅对自己传输层的东西负责和影响。</p>
-<h2 id="关于分层概念的浅见"><a href="#关于分层概念的浅见" class="headerlink" title="关于分层概念的浅见"></a>关于分层概念的浅见</h2><p>最后再针对一张很好的图说两句自己对于分层概念以及模型的理解：</p>
-<p>1、标准化</p>
-<p>2、彼此独立</p>
-<p>3、相互联系</p>
-<p>4、便于实现</p>
-<h3 id="便于网络通信的实现"><a href="#便于网络通信的实现" class="headerlink" title="便于网络通信的实现"></a>便于网络通信的实现</h3><p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。类似于汽车上的流水线分工，一开始是一个工人生产一辆汽车，但随着汽车需求原来越大，汽车生产过程的越来越复杂，这种模式已经不适合大规模生产的要求了，首先是一个人很难掌握如此多的工序，其次是即使掌握了也不便于汽车的大规模生产，第三是由于一个人要做很多道工序，很难精通所有的工序，无法加快汽车生产速度也无法提高优化每一步的生产精度，无法提高产品质量。</p>
-<p>网络传输也是同样的道理，一开始的时候协议是不分层的，实现所有的功能，但随着通信量的上升，协议越来越复杂越来越臃肿，必须将所有的通信步骤进行分层，每层完成不同的功能才能保证大规模数据传输的稳定，使得网络易于实现和维护，便于调试。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。</p>
-<h3 id="标准化"><a href="#标准化" class="headerlink" title="标准化"></a>标准化</h3><p>生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，依旧用汽车这货来举个贴近生活的例子方便理解，在网络通信中，如果没有统一的规则，自己按照自己的规则开发导致协议、设备相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态，类推到汽车行业就是，生产汽车零件的厂家有很多，比如轮胎有普利司通的，有马牌的也有韩泰的，品牌不同但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用，才能像汽车一样，如果轮胎坏了（类推到网络中就是其中某些层的某些协议或功能出了问题），只需要更换一个同型号的换轮胎即可上路飞驰，汽车的其他零件不受影响也不用变动（对相应出问题层级进行排错，出问题的特定层级排除错误通信即可恢复）。</p>
-<h3 id="彼此独立又相互依靠"><a href="#彼此独立又相互依靠" class="headerlink" title="彼此独立又相互依靠"></a>彼此独立又相互依靠</h3><p>？？？？？？？？？？？？？？？</p>
-<h3 id="上层依赖于下层，下层为上层提供服务"><a href="#上层依赖于下层，下层为上层提供服务" class="headerlink" title="上层依赖于下层，下层为上层提供服务"></a>上层依赖于下层，下层为上层提供服务</h3><p>？？？？？？？？？？？？？？</p>
-<p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
-<p>当然仅仅分层也是不够的，还必须对每一层进行标准化，而生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，否则如果没有统一的规则，自己按照自己的规则开发导致相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态。标准化就类似于生产汽车零件的厂家有很多，但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用。</p>
-<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
-      <categories>
-        <category>路由交换方向</category>
-        <category>CCNA</category>
-      </categories>
-  </entry>
-  <entry>
     <title>CCNA笔记——8、子网划分</title>
     <url>/2020/02/19/8-subnet/</url>
     <content><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>此篇笔记是在<a href="https://blog.51cto.com/6930123/2113151" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《子网划分详解》</a>以及<a href="https://blog.51cto.com/6930123/2115072" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《超网合并详解》</a>两篇笔记的基础上进行了部分改动。</p>
@@ -55,10 +10,18 @@
  <a id="more"></a>  
 
 <p>VLSM用于IPv4子网的划分，也就是把一个大的网络划分成多个小的子网；而CIDR则用于IPv4子网的聚合，当然主要是指路由方面的聚合，也就是路由汇总。通过CIDR可以把多个小的子网路由条目汇总成一个大网络的路由条目，以减少路由器中路由条目的数量，提高路由效率。</p>
+<h3 id="子网掩码的作用"><a href="#子网掩码的作用" class="headerlink" title="子网掩码的作用"></a>子网掩码的作用</h3><p>知道划分子网的实质就是把host-id分出若干位数来作net-id，这时外界是怎样和划分好了的子网内的主机联系的呢？</p>
+<p>在没有子网掩码的情况下，外界要和子网内的主机联系必须通过先前没划分的总的网络路由器，然后由路由器查找网内的各主机，这样效率就很低下。可不可以让各个子网独自通过自己的路由和外界通信呢？掩码正是为了解决这个问题。</p>
+<p>各个子网要和外界独自通信，必须让外界知道你是划分了的子网，你的具体网络ID。但路由表并没有划分子网的具体信息，所以外界也无法通过你的路由器和你联系。掩码就是在你划分了的子网IP地址中，net-id相对应的地方标上1, host-id相对应的地方标上0.再在路由表中添加掩码这一项，这样外界就很容易知道你的具体网络ID了。这就是掩码的作用。</p>
 <h3 id="子网划分的方法"><a href="#子网划分的方法" class="headerlink" title="子网划分的方法"></a>子网划分的方法</h3><p>子网划分的总体思路是借用现有网段的主机位的最左边某几位作为子网位，划分出多个子网：</p>
-<p>①、把原来有类网络IPv4地址中的“网络ID”部分向“主机ID”部分借位</p>
-<p>②、把一部分原来属于“主机ID”部分的位变成“网络ID”的一部分（通常称之为“子网ID”）。</p>
-<p>③、原来的“网络ID”+“子网ID”=新“网络ID”。“子网ID”的长度决定了可以划分子网的数量。</p>
+<ol>
+<li><p>把原来有类网络IPv4地址中的“网络ID”部分向“主机ID”部分借位</p>
+</li>
+<li><p>把一部分原来属于“主机ID”部分的位变成“网络ID”的一部分（通常称之为“子网ID”）。</p>
+</li>
+<li><p>原来的“网络ID”+“子网ID”=新“网络ID”。“子网ID”的长度决定了可以划分子网的数量。</p>
+</li>
+</ol>
 <p>网络ID等同于网络位，主机ID等同于主机位，翻译方式不同。</p>
 <p><strong>必须注意的是，子网ID和网络位、主机位概念类似，都是一个范围，根据借位的多少有所区别，因为IP地址都是二进制的，所以接1位会多出2个子网，借两位多出4个子网，借三位多出8个子网，以此类推。后面会结合实际例子进一步说明，这里一定要记住这个概念。</strong></p>
 <p><img src="/2020/02/19/8-subnet/afdf9cfdadeda8e3fce05fd4857b1947.png" alt="afdf9cfdadeda8e3fce05fd4857b1947"></p>
@@ -178,8 +141,130 @@
 <h3 id="子网划分举例"><a href="#子网划分举例" class="headerlink" title="子网划分举例"></a>子网划分举例</h3><p>1、计算一下172.16.1.0/27这个子网的网络号、广播号，及可用IP地址</p>
 <p>答案：</p>
 <p><img src="/2020/02/19/8-subnet/Snipaste_2020-03-10_17-11-40.jpg" alt="Snipaste_2020-03-10_17-11-40"></p>
+<p>2、200.200.200.0是一个C类地址。要求划分一个子网100主机，另外四个子网20主机。</p>
+<p>解析过程：</p>
+<p>我们可以先把该网络划分成两个子网。一个给100主机的子网，一个给另外20主机的四子网。</p>
+<p>C类地址有8bit的主机号，划分子网就是把主机号拿出若干位来作网络ID。</p>
+<p>具体要拿出多少位这里有一个公式：子网内主机数=2的x次方-2（x是主机号的位数）</p>
+<p>现在主机数是100，我们取2的x次方-2略大于100。即x=7。</p>
+<p>也就是说主机号位数是7位，这个子网才能够连100台主机。本来有8位的，剩下的一位拿去当网络号。（也实在是巧，这一位刚好可以标识两个子网（0或者1）下面的红色部分！）</p>
+<p>NET ID              200.200.200.00000000</p>
+<p>NETMASK        255.255.255.00000000</p>
+<p>子网1:</p>
+<p>NET ID           200.200.200.00000000               </p>
+<p>NETMASK     255.255.255.10000000  （掩码就是用1标识网络ID，看蓝色部分）</p>
+<p>子网2:</p>
+<p>NET ID          200.200.200.10000000               </p>
+<p>NETMASK     255.255.255.10000000</p>
+<p>接下来划分四个子网，用上面任何一个子网划分都行。这里用子网2吧。</p>
+<p>由上面的公式，子网内主机数=2的x次方-2</p>
+<p>取2的x次方-2略大于20，也即x=5.</p>
+<p>也就是主机号位数是5位，刚才是7位，剩下2位作网络ID,</p>
+<p>子网2.1:</p>
+<p>NET ID             200.200.200.10000000               </p>
+<p>NETMASK       255.255.255.11100000</p>
+<p>子网2.2:</p>
+<p>NET ID             200.200.200.10100000               </p>
+<p>NETMASK        255.255.255.11100000</p>
+<p>子网2.3:</p>
+<p>NET ID             200.200.200.11000000               </p>
+<p>NETMASK       255.255.255.11100000</p>
+<p>子网2.4:</p>
+<p>NET ID            200.200.200.11100000               </p>
+<p>NETMASK      255.255.255.11100000</p>
+<p>这样，子网划分就完成了。</p>
+<p>接下来写出五个子网的子网掩码、网络地址、第一个主机地址、最后一个主机地址、广播地址就比较简单了。</p>
+<p>记住这一条：</p>
+<p><strong>主机号全0是网络地址,网络地址+1是第1个主机地址,主机号全1是广播地址.广播地址-1是最后的主机地址.</strong></p>
+<p>子网一主机号全是0的：NET ID  200.200.200.00000000   后面八个0是二进制，换成十进制就是它的网络地址了，然后+1是主机地址；广播地址要注意，那个红色0已是网络ID，主机号是后面七个0，把7个0全置为1就是他的广播地址。</p>
+<p>接下来以此类推。</p>
+<p><img src="/2020/02/19/8-subnet/Snipaste_2020-03-17_15-35-30.jpg" alt="Snipaste_2020-03-17_15-35-30"></p>
+<p>这篇<a href="https://blog.csdn.net/gui951753/article/details/79412524" target="_blank" rel="noopener">子网划分详解与子网划分实例精析</a>的博客写的非常不错，就不搬运了，贴出链接可以自己做一下后面的子网划分题目。</p>
 <h2 id="超网"><a href="#超网" class="headerlink" title="超网"></a>超网</h2><h3 id="超网的概念"><a href="#超网的概念" class="headerlink" title="超网的概念"></a>超网的概念</h3><p>超网(Supernetting)是与子网类似的概念，IP地址根据子网掩码被分为独立的网络地址和主机地址。超网，也称无类别域间路由选择（CIDR），它是集合多个同类互联网地址的一种方法。</p>
 <p>与子网划分（把大网络分成若干小网络）相反，它是把一些小网络组合成一个大网络，就是超网。</p>
+<h4 id="合并网段"><a href="#合并网段" class="headerlink" title="合并网段"></a>合并网段</h4><p>示例：某企业有一个网段，该网段有200台主机，使用192.168.0.0 255.255.255.0网段。</p>
+<p>后来计算机数量增加到400台，为后来增加的200台主机使用192.168.1.0 255.255.255.0网段，如下图：</p>
+<p><img src="/2020/02/19/8-subnet/5d24088e7d02bd4ed72abd42b3a7da8e.png" alt="5d24088e7d02bd4ed72abd42b3a7da8e"></p>
+<p>在路由器配置了192.168.0.1的IP地址接口，再添加192.168.1.1地址后，这样192.168.0.0和192.168.1.0这两个网段内的主机就通过路由器转发来实现通信了。</p>
+<p>那么有没有更好的办法，让这两个C类网段的计算机认为在一个网段？</p>
+<p>这就需要将192.168.0.0/24和192.168.1.0/24 两个C类网络合并。</p>
+<p><img src="/2020/02/19/8-subnet/f47b84ff5c676c5ab1c7b164777c3255.png" alt="f47b84ff5c676c5ab1c7b164777c3255"></p>
+<p>网段合并：子网掩码向前移动1位，使得网络部分保持前部分相同。</p>
+<p>注：子网掩码往左移1位，能够合并2个连续的网段，但<strong>不是任何连续的网段都能合并</strong>。</p>
+<p>合并网段之后，如下图，这样所有主机相互通信就不再经过路由器转发了。</p>
+<p><img src="/2020/02/19/8-subnet/aac305e52a42ee6b66c91467e700ff01.png" alt="aac305e52a42ee6b66c91467e700ff01"></p>
+<p>①、合并之后网段为：192.168.0.0/23，IP分配如下图：</p>
+<p>②、合并之后IP地址192.168.0.255/23也是可以给计算机使用的，因为主机部分往左增加了一位0（并不是全1），如下图：</p>
+<p><img src="/2020/02/19/8-subnet/b7a8122e3f4cb53da6150d1e665ed15e.png" alt="b7a8122e3f4cb53da6150d1e665ed15e"></p>
+<h4 id="不是任何连续的网段都能合并"><a href="#不是任何连续的网段都能合并" class="headerlink" title="不是任何连续的网段都能合并"></a>不是任何连续的网段都能合并</h4><p>示例，如下两个连续的网段是不能合并（往前移动1位，网络部分不能保持相同）的。</p>
+<p><img src="/2020/02/19/8-subnet/c1a0729463af746735f8bc6e9f363c69-1584431224823.png" alt="c1a0729463af746735f8bc6e9f363c69"></p>
+<p>如果非要合并，就要往前移动2位，这时候网络部分保持相同，这样一来，等于合并了4个网段，如下图：</p>
+<p><img src="/2020/02/19/8-subnet/3856bdd5d929cc7a387cdde9f897d7ea.png" alt="3856bdd5d929cc7a387cdde9f897d7ea"></p>
+<h4 id="哪些连续的网段能够合并"><a href="#哪些连续的网段能够合并" class="headerlink" title="哪些连续的网段能够合并"></a>哪些连续的网段能够合并</h4><p>（1）判断2个网段是否能够合并</p>
+<p><img src="/2020/02/19/8-subnet/39d316df0dc23263117006deafc8cc35.png" alt="39d316df0dc23263117006deafc8cc35"></p>
+<p>子网掩码往左移动相应位数后，网络部分保持相同才能合并。</p>
+<p><strong>结论：判断连续的2个网段是否能够合并，只要第一个网络号能被2整除，就能够通过左移1位子网掩码合并。</strong></p>
+<p>（2）判断4个网段是否能够合并</p>
+<p><img src="/2020/02/19/8-subnet/9d6bf7bb37c193e6ff334f315c7bbab4.png" alt="9d6bf7bb37c193e6ff334f315c7bbab4"></p>
+<p><strong>结论：判断连续的4个网段是否能够合并，只要第一个网络号能被4整除，就能够通过左移2位子网掩码合并。</strong></p>
+<p>依次类推，要想判断连续的8个网段是否能够合并，只要第一个网络号能被8整除，这8个连续的网段就能够通过左移3位子网掩码合并。</p>
+<h4 id="网段合并的规律"><a href="#网段合并的规律" class="headerlink" title="网段合并的规律"></a>网段合并的规律</h4><p>子网掩码左移1位能够将能够合并两个网段，左移2位，能够合并四个网段，左移3位，能够合并8个网段。</p>
+<p><img src="/2020/02/19/8-subnet/8a0dbd60f0d4db1a709e316c7b2628c4.png" alt="8a0dbd60f0d4db1a709e316c7b2628c4"></p>
+<h4 id="判断一个网段是超网还是子网"><a href="#判断一个网段是超网还是子网" class="headerlink" title="判断一个网段是超网还是子网"></a>判断一个网段是超网还是子网</h4><ol>
+<li><p>通过左移子网掩码合并多个网段，右移子网掩码将一个网段划分成多个子网，使得IP地址打破了传统的A类、B类、C类的界限。</p>
+</li>
+<li><p>判断一个网段到底是子网还是超网，就要看该网段是A类网络、还是B类网络、还是C类网络，默认A类子网掩码/8，B类子网掩码是/16，C类子网掩码是/24。</p>
+</li>
+<li><p>如果该网段的子网掩码比默认子网掩码长，就是子网，如果该网段的子网掩码比默认子网掩码短，则是超网。</p>
+</li>
+</ol>
+<p>引用文章：</p>
+<p><a href="https://blog.csdn.net/lemontree1945/article/details/79553187" target="_blank" rel="noopener">划分子网例题详解</a></p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+      <categories>
+        <category>路由交换方向</category>
+        <category>CCNA</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>CCNA笔记——7、为什么要建立TCP/IP通信模型</title>
+    <url>/2020/02/19/layer-mind/</url>
+    <content><![CDATA[<p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，可能这个概念要真正掌握并且固话还需要一次次的反复，每次当发现认知有问题的时候，会对此篇笔记进行更新。</p>
+ <a id="more"></a>  
+
+<h2 id="2020年"><a href="#2020年" class="headerlink" title="2020年"></a>2020年</h2><h3 id="2月17日事件"><a href="#2月17日事件" class="headerlink" title="2月17日事件"></a>2月17日事件</h3><p>起因是看到TCP的RFC文档的2.6 Reliable Communication里有这么一段话：</p>
+<blockquote>
+<p>An acknowledgment by TCP does not guarantee that the data has been delivered to the end user, but only that the receiving TCP has taken the responsibility to do so.</p>
+</blockquote>
+<p>一开始觉得这段话的意思是说，对一个数据进行ACK了也不能确保整个数据肯定传到“用户”（user）了，发送ACK的这个设备（也就是其他路由器或网络设备）需要完成接下来的步骤，因为可能收到这个数据并发送ACK的设备给丢弃了，例如它这没有路由表或者说它down了。但因为知道自己很渣，所以到思科论坛发了<a href="https://community.cisco.com/t5/routing/what-s-the-meaning-of-an-acknowledgment-by-tcp-does-not/m-p/4030767#M329627" target="_blank" rel="noopener">求助帖</a>，想验证一下自己的想法是否正确，有个哥们回复我说，他认为：</p>
+<blockquote>
+<p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
+</blockquote>
+<p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
+<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，也就是数据从发送端的传输层——网络层——数据链路层——物理层——接收端的物理层——传输层——网络层——传输层的这个过程都是没问题的，当然按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，会出现发送端已收到TCP-ACK，但在接收端，“user”也就是应用层的程序，尚未收到该消息。</p>
+<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
+<p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
+<blockquote>
+<p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
+</blockquote>
+<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC的人，是看不到这段话的。</p>
+<p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
+<p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
+<h3 id="3月12日事件"><a href="#3月12日事件" class="headerlink" title="3月12日事件"></a>3月12日事件</h3><p>起因是因为感觉对RTO（retransmission timeout）还是理解的有问题，所以去网上看了<a href="https://www.extrahop.com/company/blog/2011/retransmission-timeouts-rtos-application-performance-degradation/" target="_blank" rel="noopener">一篇文章</a>，发现文章里有这么一句话：TCP starts a retransmission timer when an outbound segment is handed down to IP。看完这句话，感觉又被教育了一次什么叫分层。</p>
+<p>TCP是一个可靠的协议，里面的重传机制也是仅仅工作在本层的，和其他层没关系，之前看到一句话说：When the TCP transmits a segment containing data, it puts a copy on a retransmission queue and starts a timer，结合上面的那句话就是说，当TCP传输包含数据的段时，也就是说当TCP将数据段传送给下层的网络层时，它将该数据段的副本放在重传队列上并启动计时器。而并不是之前我所感觉的数据发出本设备时，计时器开始计时，而是当数据发出本层时计时器就开始计时了，因为TCP是传输层的协议，仅对自己传输层的东西负责和影响。</p>
+<h2 id="关于分层概念的浅见"><a href="#关于分层概念的浅见" class="headerlink" title="关于分层概念的浅见"></a>关于分层概念的浅见</h2><p>最后再针对一张很好的图说两句自己对于分层概念以及模型的理解：</p>
+<p>1、标准化</p>
+<p>2、彼此独立</p>
+<p>3、相互联系</p>
+<p>4、便于实现</p>
+<h3 id="便于网络通信的实现"><a href="#便于网络通信的实现" class="headerlink" title="便于网络通信的实现"></a>便于网络通信的实现</h3><p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。类似于汽车上的流水线分工，一开始是一个工人生产一辆汽车，但随着汽车需求原来越大，汽车生产过程的越来越复杂，这种模式已经不适合大规模生产的要求了，首先是一个人很难掌握如此多的工序，其次是即使掌握了也不便于汽车的大规模生产，第三是由于一个人要做很多道工序，很难精通所有的工序，无法加快汽车生产速度也无法提高优化每一步的生产精度，无法提高产品质量。</p>
+<p>网络传输也是同样的道理，一开始的时候协议是不分层的，实现所有的功能，但随着通信量的上升，协议越来越复杂越来越臃肿，必须将所有的通信步骤进行分层，每层完成不同的功能才能保证大规模数据传输的稳定，使得网络易于实现和维护，便于调试。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。</p>
+<h3 id="标准化"><a href="#标准化" class="headerlink" title="标准化"></a>标准化</h3><p>生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，依旧用汽车这货来举个贴近生活的例子方便理解，在网络通信中，如果没有统一的规则，自己按照自己的规则开发导致协议、设备相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态，类推到汽车行业就是，生产汽车零件的厂家有很多，比如轮胎有普利司通的，有马牌的也有韩泰的，品牌不同但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用，才能像汽车一样，如果轮胎坏了（类推到网络中就是其中某些层的某些协议或功能出了问题），只需要更换一个同型号的换轮胎即可上路飞驰，汽车的其他零件不受影响也不用变动（对相应出问题层级进行排错，出问题的特定层级排除错误通信即可恢复）。</p>
+<h3 id="彼此独立又相互依靠"><a href="#彼此独立又相互依靠" class="headerlink" title="彼此独立又相互依靠"></a>彼此独立又相互依靠</h3><p>？？？？？？？？？？？？？？？</p>
+<h3 id="上层依赖于下层，下层为上层提供服务"><a href="#上层依赖于下层，下层为上层提供服务" class="headerlink" title="上层依赖于下层，下层为上层提供服务"></a>上层依赖于下层，下层为上层提供服务</h3><p>？？？？？？？？？？？？？？</p>
+<p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
+<p>当然仅仅分层也是不够的，还必须对每一层进行标准化，而生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，否则如果没有统一的规则，自己按照自己的规则开发导致相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态。标准化就类似于生产汽车零件的厂家有很多，但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用。</p>
+<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
@@ -820,19 +905,29 @@
 <p>– 维护IP与MAC映射关系的缓存</p>
 <p>ARP是为了促进IP和以太网之间的动态地址解析而开发的，现在也可以在其他第二层技术上使用。 它通过允许IP设备在本地网络上发送广播来工作，并且它请求来自同一本地网络上另一设备的带有硬件地址的响应。</p>
 <p><strong>ARP协议解决现网中的什么问题？</strong></p>
-<p>在前面的笔记中也提到过，识别一个数据通信是靠：源IP地址、目的IP地址、协议、源端口地址、目的端口地址，这5个元素，其中源、目的IP地址以及协议是封装在ipv4报头中的，源、目的端口是封装在以太网2报头中的，必须有这几个东西，数据才能封装成帧然后转换成0101的电信号通过网线传给另一端的设备，但一般情况下，网工测试线路是否通畅采用的是ping这个工具，比如你的地址是192.168.1.2，想看看到192.168.1.3是否通畅，你都是直接输入“ping 192.168.1.3”，然后系统就会告诉你连通性，但这时候通信必须的五元组里，你只有源、目的IP地址，协议（ping是ICMP协议中的一部分）以及源MAC地址这四个元组，目的MAC地址是不知道的，如何获取目的MAC地址完成二层帧封装呢？这就需要用到ARP协议，英文翻译成中文就是地址解析协议，地址解析是将网络层地址（IP地址）解析为数据链路层地址（MAC地址）的过程。</p>
+<p>在前面的笔记中也提到过，识别、传输一个数据通信是靠：源IP地址、目的IP地址、协议、源端口地址、目的端口地址，这5个元素，其中源、目的IP地址以及协议是封装在三层的ipv4报头中的，源、目的端口是封装在二层的以太网2报头中的，必须有这几个东西，数据才能封装成帧然后转换成0101的电信号通过网线传给另一端的设备，但一般情况下，网工测试线路是否通畅采用的是ping这个工具，比如你的地址是192.168.1.2，想看看到192.168.1.3是否通畅，你都是直接输入“ping 192.168.1.3”，然后系统就会告诉你连通性，但这时候通信必须的五元组里，你只有源、目的IP地址，协议（ping是ICMP协议中的一部分）以及源MAC地址这四个元组，目的MAC地址是不知道的，如何获取目的MAC地址完成二层帧封装呢？这就需要用到ARP协议，英文翻译成中文就是地址解析协议，地址解析是将网络层地址（IP地址）解析为数据链路层地址（MAC地址）的过程。</p>
 <p><strong>必须注意的是，这里的ARP地址解析协议只用于解析Internet协议（IPv4）版本4中的单播地址</strong>，而IPv4下的组播地址使用直接映射方法，而IPv6使用新的邻居发现（ND）协议代替ARP，IPV4组播和IPV6中的部分会在后面的笔记中涉及到。</p>
 <p>有两种关联IP和以太网地址的基本方法：直接映射或动态解析。但是，以太网地址长48位，而IP地址只有32位，这立即排除了直接映射的可能。</p>
 <p>顺便提一句，ARP协议是出现时间比较早而且还在大范围使用的协议之一，RFC编号是826，发布于1982年。</p>
 <p><strong>ARP封装格式</strong></p>
 <p><img src="/2019/11/23/6-tcp-ip/ARP+Packet+Format+Same+format+for+request+and+reply..jpg" alt="ARP+Packet+Format+Same+format+for+request+and+reply."></p>
 <p><img src="/2019/11/23/6-tcp-ip/2015-10-18_00-33-22.png" alt="2015-10-18_00-33-22"></p>
-<p>注意，图1中的“<strong>Sender protocol address (SPA)</strong>”是Internetwork address of the sender，也就是发送设备的IP地址，“<strong>Target protocol address (TPA)</strong>”是Internetwork address of the intended receiver，也就是目标设备的IP地址。</p>
+<p><strong>Hardware type</strong> ：该字段表示网络链接协议类型。例如常用的TCP/IP中以太网表示为1，换算成16进制就是0X0001。</p>
+<p><strong>Protocol type</strong>：该字段表示ARP请求所针对的互联网络协议。对于IPv4，其值为0x0800。</p>
+<p><strong>Hardware address length</strong>：硬件地址（MAC地址）的长度（八位字节）。以太网地址长度为6。</p>
+<p><strong>Protocol address length</strong>：互联网络地址（IP地址）的长度（八位字节）。互联协议在PTYPE中指定。示例：IPv4地址长度为4。</p>
+<p><strong>Sender protocol address (SPA)</strong>：Internetwork address of the sender，也就是发送设备的IP地址</p>
+<p><strong>Target protocol address (TPA)</strong>：Internetwork address of the intended receiver，也就是目标设备的IP地址。</p>
+<p>在图中有<strong>两组MAC地址</strong>，要明白他们各自代表的是什么含义并且区分开，可以简单理解为一组是以太网2协议中的通信用MAC地址，另一组是arp协议中的请求用MAC地址：</p>
+<ol>
+<li>从左边起算的，在ARP前边的destination address 和 source address， source address表示的是这整个的数据帧的发送者的源MAC地址，destination address表示的是整个数据帧接收者的MAC地址，这个是以太网报头中的通信用的MAC地址，这组MAC地址的目的是把ARP请求信息送到接收端。</li>
+<li>而ARP段中的source hardware address根据该数据是ARP请求还是ARP回复所表示的含义不同，在ARP请求中，此字段用于指示发送请求的主机的地址。在ARP答复中，此字段用于指示请求正在寻找的主机的地址。Target hardware address含义也是有区别的，在ARP请求中，此字段为空，因为并不知道目标MAC地址才要使用ARP协议。在ARP答复中，此字段用于指示发起ARP请求的主机的地址。ARP中的这组MAC地址是为了完成请求目的MAC地址的功能的。</li>
+</ol>
 <p><strong>工作过程：</strong></p>
 <blockquote>
 <p>ARP is a relatively simple request-and-reply protocol. The source device broadcasts an ARP Request that’s looking for a particular device based on the device’s IP address. That device responds with its hardware address in an ARP Reply message.</p>
 </blockquote>
-<p>ARP是一个比较简单的“请求——回应”的协议，源设备广播它的ARP请求，这个ARP请求基于目标设备的IP地址，那个有ARP请求中同样IP地址的设备将用ARP回复来告知源设备它的MAC地址。</p>
+<p>ARP是一个相对来说比较简单的“请求——回应”的协议，源设备广播它的ARP请求，这个ARP请求基于目标设备的IP地址，那个有ARP请求中同样IP地址的设备将用ARP回复来告知源设备它的MAC地址。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-12_13-58-43.jpg" alt="Snipaste_2020-03-12_13-58-43"></p>
 <blockquote>
 <ol>
@@ -851,38 +946,71 @@
 <p>目标设备，也就是要接收数据的设备为设备B</p>
 <p>1、源设备A进行ARP缓存表查询。发送数据的源设备A在一开始将会对自己的ARP缓存表进行查询，看它是否有目标设备的“IP地址——MAC地址”的ARP解析结果，如果有该结果则直接跳到第九步。</p>
 <p>2、源设备A生成ARP请求消息。当源设备A发现自身并没有对应的ARP缓存时，源设备生会成ARP请求信息，将本设备的源IP地址以及源MAC地址作为ARP请求信息的源IP地址以及源MAC地址，将目的设备B的IP地址作为目标IP地址。这个请求消息会将目标MAC地址设置为空因为A正在请求目标MAC地址。对比ARP报头格式我们可以知道，ARP封装的信息已经齐了，可以进行ARP报头的封装了。</p>
+<p><img src="/2019/11/23/6-tcp-ip/arp-packet-format-1.jpg" alt="arp-packet-format-1"></p>
+<p>“<strong>Sender protocol address (SPA)</strong>”是Internetwork address of the sender，也就是发送设备的IP地址，“<strong>Target protocol address (TPA)</strong>”是Internetwork address of the intended receiver，也就是目标设备的IP地址。</p>
 <p>3、源设备A将ARP请求信息在本网段上进行广播。</p>
-<p>4、本网段设备对ARP请求信息进行处理。本网段所有设备将收到源设备发送的ARP的请求信息，因为ARP请求信息是个“broadcasts”，广播，它所传播的范围就是在本网段，每个收到该广播的设备都会核对自身的IP地址和ARP请求信息中的“目标”是否一致，如果不一致的话将丢弃该ARP请求信息也不会有下一步的处理了。</p>
+<p>4、本网段设备对ARP请求信息进行处理。本网段所有设备将收到源设备发送的ARP的请求信息，因为ARP请求信息是个“broadcasts”，也就是广播，它所传播的范围就是在本网段，每个收到该广播的设备都会核对自身的IP地址和ARP请求信息中的“目标”是否一致，如果不一致的话将丢弃该ARP请求信息也不会有下一步的处理了。如果所请求的arp目标在不同网段，则需要用到代理ARP，在这篇笔记中暂时不涉及到。</p>
 <p>5、目标设备B生成ARP回复信息。那个IP地址和ARP请求信息中“目标IP地址”相同的设备，将生成一个ARP回复信息，这个回复信息将使用ARP请求信息中的源IP地址和源MAC地址，并将它们作为ARP回复信息中的目的IP地址和目的MAC地址。然后将自身的IP地址作为ARP回复信息中的源IP地址，将自己的MAC地址作为源MAC地址，然后封装好ARP报头。</p>
-<p>6、目标设备B更新自身的ARP缓存表项。如果源设备A在得知目标设备的MAC地址后要向目标设备发送数据，目标设备B之后回复数据的时候，也是需要源设备A的MAC地址的，毕竟大多数的通信都是双向的，所以作为一个优化步骤，目标设备B会将收到的ARP请求中的，源设备A的“IP地址——MAC地址”对应的ARP条目放入缓存中，以便于以后使用，缓存中有源设备A的ARP条目后，再通信的时候就不用进行ARP请求而可以直接使用了。</p>
+<p>6、目标设备B更新自身的ARP缓存表项。如果源设备A在得知目标设备B的MAC地址后要向目标设备发送数据，目标设备B之后回复数据的时候，也是需要源设备A的MAC地址的，毕竟大多数的通信都是双向的，所以作为一个优化步骤，目标设备B会将收到的ARP请求中的，源设备A的“IP地址——MAC地址”对应的ARP条目放入缓存中，以便于以后使用，因为缓存中有源设备A的ARP条目后，再通信的时候就不用进行ARP请求而可以直接使用了。</p>
 <p>7、目标设备B发送APR回复消息。目标设备B发送ARP回复信息，这个ARP回复信息是基于单播的，因为已经知道源设备A的IP地址和MAC地址，无需用广播回复。</p>
-<p>8、源设备A处理ARP回复消息。源设备处理A从目标设备处发送的ARP回复消息。源设备A将目标设备的二层MAC地址封装好二层报头并发送数据。</p>
+<p>8、源设备A处理ARP回复消息。源设备处理A从目标设备B处收到的ARP回复消息，源设备A使用ARP中的发件人硬件地址（也就是ARP报头中的Target hardware address）作为发送给目标设备B的以太网报头中的目的MAC地址。</p>
+<p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200319135836.jpg" alt="微信图片编辑_20200319135836"></p>
 <p>9、源设备A更新ARP缓存。源设备A用目标设备的IP地址及MAC地址更新ARP表项，以便未来使用。</p>
 <p><strong>示例分析：</strong></p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_14-08-38.jpg" alt="Snipaste_2020-03-15_14-08-38"></p>
-<p>当PC想和1.1.1.254通信，查询了本地ARP缓存表中并没有该缓存条目时，它需要发送ARP请求来获知1.1.1.254的MAC地址，先看二层封装，由于ARP请求是一个广播，所以源MAC地址是自身的MAC地址，目的MAC地址则为全F，表示这是一个广播；然后看ARP报头封装，源MAC地址和源IP地址都是自身的地址不多说，目标MAC地址为全0，因为前面也说了，发送ARP请求就是为了获取ARP缓存，目标IP地址就是1.1.1.254。</p>
+<p>当PC想和1.1.1.254通信，通过上面ARP的9步我们知道，它先要查询本地的ARP表中是否有相关条目，这时在PC上是用arp -a这个命令在CMD中查询发现，PC并没有该条目所以要发送ARP请求来获知1.1.1.254的MAC地址。先看<strong>二层封装</strong>，由于ARP请求是一个广播，所以源MAC地址是自身的MAC地址，目的MAC地址则为全F，表示这是一个广播；然后看<strong>ARP报头封装</strong>，<strong>源MAC地址</strong>和<strong>源IP地址</strong>都是自身的地址不多说，<strong>目标MAC地址</strong>为全0，因为前面也说了，发送ARP请求就是为了获取ARP缓存，<strong>目标IP地址</strong>就是1.1.1.254。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_14-29-05.jpg" alt="Snipaste_2020-03-15_14-29-05"></p>
 <p>当ARP请求到达交换机时，交换机会将该广播从除了接收接口以外的其他所有接口发送出去，每个收到该广播的设备都会核对自身的IP地址和ARP请求信息中的“目标”是否一致，如果不一致的话将丢弃该ARP请求信息也不会有下一步的处理。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_14-35-41.jpg" alt="Snipaste_2020-03-15_14-35-41"></p>
-<p>当路由器收到该ARP请求时，将0101的电信号还原成帧，然后解二层封装，发现目标MAC地址是一个广播，于是进一步解封装到ARP报头，发现Target IP和自身F0/0接口一致，于是对该请求进行处理。路由器将ARP请求信息中的源IP地址1.1.1.1，与源MAC地址00dd.f800.0001的对应条目放入本地ARP缓存中。</p>
+<p>当路由器收到该ARP请求时，将0101的电信号还原成帧，然后解二层封装，发现目标MAC地址为全F，也就是一个广播，因为广播是发送给全网段的，所以也就是发给自己的于是进一步解封装到ARP报头，发现Target IP和自身F0/0接口一致，于是对该请求进行处理。路由器将ARP请求信息中的源IP地址1.1.1.1，与源MAC地址00dd.f800.0001的对应条目放入本地ARP缓存中。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_14-39-09.jpg" alt="Snipaste_2020-03-15_14-39-09"></p>
-<p>路由器生成回复ARP请求的单播数据，二层封装的源MAC地址为路由器F0/0的MAC地址，0000.000C.AAAA，目的MAC地址为PC的MAC地址00dd.f800.0001，ARP报头封装的源MAC地址与源IP地址为F0/0口的相应地址，目标IP地址与目标MAC地址为PC的相应地址。</p>
+<p>路由器生成回复ARP请求的单播数据，<strong>二层封装</strong>的<strong>源MAC地址</strong>为路由器F0/0的MAC地址，0000.000C.AAAA，<strong>目的MAC地址</strong>为PC的MAC地址00dd.f800.0001，PC的MAC地址是从PC的ARP报头中获得的，<strong>ARP报头</strong>封装的<strong>源MAC地址</strong>与<strong>源IP地址</strong>为F0/0口的相应地址，<strong>目标IP地址</strong>与<strong>目标MAC地址</strong>为PC的相应地址。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_15-15-53.jpg" alt="Snipaste_2020-03-15_15-15-53"></p>
 <p>ARP回复信息经交换机发送给PC后，PC对回复的信息还原成帧后查看目标MAC地址发现是发送给自己的，然后进一步对数据进行解封装，发现是arp 回复消息，然后将1.1.1.254与它的对应MAC地址条目放入arp缓存表，以后再向1.1.1.254发送数据的时候，就不用再通过arp请求MAC地址了。</p>
 <p><strong>ARP缓存在思科设备上的默认过期时间是1500秒，也就是25分钟，这个数字可以自行设置，设置范围为60 — 28800秒之间</strong>。</p>
-<p>ARP抓包：</p>
+<p><strong>ARP抓包：</strong></p>
 <p>arp请求信息</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_15-22-21.jpg" alt="Snipaste_2020-03-15_15-22-21"></p>
 <p>arp回复信息</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_15-22-52.jpg" alt="Snipaste_2020-03-15_15-22-52"></p>
-<h6 id="Ping（ICMP）"><a href="#Ping（ICMP）" class="headerlink" title="Ping（ICMP）"></a>Ping（ICMP）</h6><p>模拟双向通信过程</p>
-<p>−!  通</p>
-<p>−. 不通</p>
-<p>−U 中间丢了</p>
-<p>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
-<h6 id="Traceroute"><a href="#Traceroute" class="headerlink" title="Traceroute"></a>Traceroute</h6><p>探测到目标主机所经过的路径</p>
-<p>利用IP头部的TTL字段，利用TTL超时报错探测每一个设备节点</p>
-<p>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
+<h6 id="ICMP（ping、Traceroute）"><a href="#ICMP（ping、Traceroute）" class="headerlink" title="ICMP（ping、Traceroute）"></a>ICMP（ping、Traceroute）</h6><p><strong>定义</strong>：</p>
+<p><strong>用途</strong>：</p>
+<p>ICMP由设备（如路由器）用于与数据包的源进行通信，以解决传输问题，例如，如果数据未发送到目的设备，则ICMP可能将此信息报告给主机，并提供详细信息，以帮助识别传输错误。比较常用的是两种工具，Ping和Traceroute。</p>
+<p><img src="/2019/11/23/6-tcp-ip/icmp-header-how.jpg" alt="icmp-header-how"></p>
+<p><img src="/2019/11/23/6-tcp-ip/icmp-header-fields.jpg" alt="icmp-header-fields"></p>
+<p>ICMP报头跟在IPV4报头后面，ICMP在IPV4报头中的协议号为1，所有的ICMP包都有8字节的报头部分和可变长度的数据部分，8字节的报头中，前4字节为固定格式，后4字节取决于ICMP数据包的类型/代码。</p>
+<p>Type和Code两个字段，结合使用，在不同的字段下表示不同的含义，Type字段常用的为：</p>
+<ul>
+<li>Echo Reply (0)：表示对于ping包的回复，和Type8结合使用</li>
+<li>Echo Request (8)：表示ping包的请求，和Type0结合使用</li>
+<li>Destination Unreachable (3)：表示目标设备不可达</li>
+<li>Time Exceeded (11)：表示ICMP等待超时</li>
+</ul>
+<p>有兴趣可以查看下表</p>
+<p><img src="/2019/11/23/6-tcp-ip/Users/32759/Downloads/%E4%B8%8B%E8%BD%BD%20(1).png" alt="下载 (6-tcp-ip/%E4%B8%8B%E8%BD%BD%20(1).png)"></p>
+<p><strong>Ping</strong>（ Echo Request and Reply—Types 8 and 0）</p>
+<p>Ping是一种非常实用的程序，它使用ICMP消息来报告有关网络连接和主机与目标计算机之间的数据中继速度的信息。大概工作原理就是模拟双向通信过程来检测链路是否畅通，常用命令就是Ping x.x.x.x，一般会返回以下几种信息：</p>
+<ul>
+<li><p>! ! ! ! !            每一个感叹号代表收到一次回复，表示链路畅通</p>
+</li>
+<li><p>. . . . .            每一个省略号表示网络在等待答复时超时，表示链路不通</p>
+</li>
+<li><p>U U U U U    每一个U表示收到目标不可达的错误</p>
+</li>
+<li><p>Q Q Q Q Q   收到Q表示目的设备太忙无法回复</p>
+</li>
+</ul>
+<p>ping包出去时，在Type中的字段是8，ping包的回复，在Type中字段是0。</p>
+<p><strong>Traceroute</strong></p>
+<p>traceroute命令可用于识别数据包到达其目标所使用的路径。 它标识从源主机到目标主机的路径中的所有路由器，在排除网络故障时很有用。 这个命令可以帮助网络管理员确定数据传输到哪台设备时发生了丢失，以便对该设备进行进一步的检查以确定问题原因。该命令利用IP头部的TTL字段，TTL字段在每经过一个设备时减少1，当TTL为0时会返回一个ICMP信息告诉源设备该情况，Traceroute命令就是利用TTL超时报错的特性来探测网络路径中的每一个设备节点。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-19_19-07-16.jpg" alt="Snipaste_2020-03-19_19-07-16"></p>
+<p>上图是一个Traceroute成功的例子，Traceroute会把从源到目的设备的每一跳设备的信息显示出来。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-19_19-09-59.jpg" alt="Snipaste_2020-03-19_19-09-59"></p>
+<p>上图是一个Traceroute失败的例子，表示数据包到10.0.0.1以后就无法再传输下去，表示极有可能是在该设备上出了问题。</p>
+<p>Traceroute一般会返回如下的信息：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-19_19-18-15.jpg" alt="Snipaste_2020-03-19_19-18-15"></p>
+<p><strong>ping包抓包：</strong></p>
+<p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200319203904.jpg" alt="微信图片编辑_20200319203904"></p>
 <h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><p><img src="/2019/11/23/6-tcp-ip/1920px-Ethernet_Type_II_Frame_format.svg.png" alt="1920px-Ethernet_Type_II_Frame_format.svg"></p>
 <p><img src="/2019/11/23/6-tcp-ip/1-slide11.jpg" alt="1-slide11"></p>
 <p>二层常见的封装结构为IEEE 802.3和Ethernet II帧（以太网2），之所以有两种帧封装格式，是因为有OSI七层以及TCP/IP两种模型定义了两种不同的分装格式，之前商定的结果是控制层面的用802.3格式封装，转发层面的用以太网2封装，但目前基本上是以太网一统天下，所以在这就不介绍802.3的相关东西了。至于什么是控制层面、转发层面，后面会有专门的章节进行阐述。</p>
