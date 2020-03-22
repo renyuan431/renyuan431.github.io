@@ -900,6 +900,7 @@
 <p>就这样你和小明取得了联系。</p>
 <p>在网络中，不同网段之间的设备要进行通信，就必须经过网关（你家大院看大门的X大爷），帮你把你要发送的信息传送给目的IP所在网段的网关（对方大院看门的X大爷），因为只有对方的网关才能在收到发往该网段的数据时，完成之后的通信步骤，具体的通信步骤以及网关所扮演的角色，请参后文“用TCP/IP模型分析数据传输过程”部分。</p>
 <h5 id="默认网关"><a href="#默认网关" class="headerlink" title="默认网关"></a>默认网关</h5><p>如果搞清了什么是网关，默认网关也就好理解了。就好像一个房间可以有多扇门一样，一台主机可以有多个网关。默认网关的意思是一台主机如果找不到可用的网关，就把数据包发给默认指定的网关，由这个网关来处理数据包。现在主机使用的网关，一般指的是默认网关。</p>
+<p>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
 <h5 id="网络层协议"><a href="#网络层协议" class="headerlink" title="网络层协议"></a>网络层协议</h5><h6 id="ARP（Address-Resolution-Protocol-）"><a href="#ARP（Address-Resolution-Protocol-）" class="headerlink" title="ARP（Address Resolution Protocol ）"></a>ARP（Address Resolution Protocol ）</h6><p><strong>作用：</strong></p>
 <p>– 将IPv4 地址解析为MAC 地址</p>
 <p>– 维护IP与MAC映射关系的缓存</p>
@@ -973,8 +974,7 @@
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_15-22-21.jpg" alt="Snipaste_2020-03-15_15-22-21"></p>
 <p>arp回复信息</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-15_15-22-52.jpg" alt="Snipaste_2020-03-15_15-22-52"></p>
-<h6 id="ICMP（ping、Traceroute）"><a href="#ICMP（ping、Traceroute）" class="headerlink" title="ICMP（ping、Traceroute）"></a>ICMP（ping、Traceroute）</h6><p><strong>定义</strong>：</p>
-<p><strong>用途</strong>：</p>
+<h6 id="ICMP（ping、Traceroute）"><a href="#ICMP（ping、Traceroute）" class="headerlink" title="ICMP（ping、Traceroute）"></a>ICMP（ping、Traceroute）</h6><p><strong>用途</strong>：</p>
 <p>ICMP由设备（如路由器）用于与数据包的源进行通信，以解决传输问题，例如，如果数据未发送到目的设备，则ICMP可能将此信息报告给主机，并提供详细信息，以帮助识别传输错误。比较常用的是两种工具，Ping和Traceroute。</p>
 <p><img src="/2019/11/23/6-tcp-ip/icmp-header-how.jpg" alt="icmp-header-how"></p>
 <p><img src="/2019/11/23/6-tcp-ip/icmp-header-fields.jpg" alt="icmp-header-fields"></p>
@@ -986,7 +986,11 @@
 <li>Destination Unreachable (3)：表示目标设备不可达</li>
 <li>Time Exceeded (11)：表示ICMP等待超时</li>
 </ul>
-<p>有兴趣可以查看下表</p>
+<p>下面来看看常见的ICMP的抓包：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-22_15-44-45.jpg" alt="Snipaste_2020-03-22_15-44-45"></p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-22_15-45-21.jpg" alt="Snipaste_2020-03-22_15-45-21"></p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-22_15-46-19.jpg" alt="Snipaste_2020-03-22_15-46-19"></p>
+<p>更多的关于Type和Code表示的含义有兴趣可以查看下表</p>
 <p><img src="/2019/11/23/6-tcp-ip/Users/32759/Downloads/%E4%B8%8B%E8%BD%BD%20(1).png" alt="下载 (6-tcp-ip/%E4%B8%8B%E8%BD%BD%20(1).png)"></p>
 <p><strong>Ping</strong>（ Echo Request and Reply—Types 8 and 0）</p>
 <p>Ping是一种非常实用的程序，它使用ICMP消息来报告有关网络连接和主机与目标计算机之间的数据中继速度的信息。大概工作原理就是模拟双向通信过程来检测链路是否畅通，常用命令就是Ping x.x.x.x，一般会返回以下几种信息：</p>
@@ -1002,7 +1006,10 @@
 </ul>
 <p>ping包出去时，在Type中的字段是8，ping包的回复，在Type中字段是0。</p>
 <p><strong>Traceroute</strong></p>
-<p>traceroute命令可用于识别数据包到达其目标所使用的路径。 它标识从源主机到目标主机的路径中的所有路由器，在排除网络故障时很有用。 这个命令可以帮助网络管理员确定数据传输到哪台设备时发生了丢失，以便对该设备进行进一步的检查以确定问题原因。该命令利用IP头部的TTL字段，TTL字段在每经过一个设备时减少1，当TTL为0时会返回一个ICMP信息告诉源设备该情况，Traceroute命令就是利用TTL超时报错的特性来探测网络路径中的每一个设备节点。</p>
+<p>traceroute命令可用于识别数据包到达其目标所使用的路径。 它标识从源主机到目标主机的路径中的所有路由器，在排除网络故障时很有用。 这个命令可以帮助网络管理员确定数据传输到哪台设备时发生了丢失，以便对该设备进行进一步的检查以确定问题原因。该命令利用IP头部的TTL字段，TTL字段在每经过一个设备时减少1，当TTL为0时（实际上，TTL来没有被减小到0，因为将其减小到0的路由器在TTL变成0之前会产生错误）数据包会被丢弃然后返回一个ICMP信息告诉源设备该情况，Traceroute命令就是利用TTL超时报错的特性来探测网络路径中的每一个设备节点。</p>
+<p>Traceroute工作过程：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-22_16-09-58.jpg" alt="Snipaste_2020-03-22_16-09-58"></p>
+<p>当设备A发送Traceroute到设备D时，A发出的数据的TTL从1开始并且持续增加，第一次发出的数据TTL=1，第二次发出的TTL=2，以此类推。当TTL=1的第一个数据到达设备B时，B发现TTL=1，再将这个TTL-1的话就为0了，会出现错误，从而丢弃该数据并返回一个ICMP超时的信息给设备A；设备A发送第二个数据，将TTL设置为2，经过设备B到达设备C后，设备C发现设备B发过来的数据TTL=1，再将这个TTL-1的话就为0了，会出现错误，从而丢弃该数据返回一个ICMP超时的信息，后面以此类推直到到达最终的设备D，从而将设备A——设备D之间的设备都搞清了。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-19_19-07-16.jpg" alt="Snipaste_2020-03-19_19-07-16"></p>
 <p>上图是一个Traceroute成功的例子，Traceroute会把从源到目的设备的每一跳设备的信息显示出来。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-19_19-09-59.jpg" alt="Snipaste_2020-03-19_19-09-59"></p>
@@ -1011,12 +1018,15 @@
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-19_19-18-15.jpg" alt="Snipaste_2020-03-19_19-18-15"></p>
 <p><strong>ping包抓包：</strong></p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200319203904.jpg" alt="微信图片编辑_20200319203904"></p>
-<h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><p><img src="/2019/11/23/6-tcp-ip/1920px-Ethernet_Type_II_Frame_format.svg.png" alt="1920px-Ethernet_Type_II_Frame_format.svg"></p>
+<h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><h4 id="二层封装格式简析"><a href="#二层封装格式简析" class="headerlink" title="二层封装格式简析"></a>二层封装格式简析</h4><p>二层封装格式，能见到的有四种，分别是TCP/IP协议使用、目前基本大一统的Ethernet II，IEEE的IEEE 802.3、802.2 LLC、802.2 SNAP，常见的封装结构为IEEE 802.3和Ethernet II帧（以太网2），之所以有两种帧封装格式，是因为有OSI七层以及TCP/IP两种模型定义了两种不同的分装格式，之前商定的结果是控制层面的用802.3格式封装，转发层面的用以太网2封装，但目前基本上是以太网一统天下，所以在这就不介绍802.3的相关东西了。至于什么是控制层面、转发层面，后面会有专门的章节进行阐述。除了以上的知识，还有一些扩展的信息在思科论坛的<a href="https://community.cisco.com/t5/switching/ether-frames-802-3-naming-conventions/td-p/2076323" target="_blank" rel="noopener">这个帖子</a>以及<a href="https://community.cisco.com/t5/switching/ethernet-802-3-vs-ethernet-ii-frame/td-p/2718996" target="_blank" rel="noopener">这个帖子</a>里，如果有兴趣可以看看，这里贴一段我觉得总结的比较好的话：</p>
+<blockquote>
+<p>if you are going to look at an IPv4 or IPv6 communication, it will be practically always encapsulated into Ethernet II frames because those are the most efficient in terms of overhead. 802.3 + LLC frames are used nowadays mostly for older protocols authored by IEEE itself, such as STP/RSTP/MSTP. SNAP frames are often used for vendor-proprietary Layer2 protocols - Cisco uses it for CDP, DTP, VTP and PAgP, to name a few.</p>
+</blockquote>
+<p>如果你观察IPV6或者IPV4的通信，它们实际上都是用以太网2进行封装的，因为从开销方面来说这是最有效率的封装方式。如今，802.3+LLC子层的帧格式绝大部分时候是出现在IEEE编写的较老的协议上，比如STP/RSTP/MSTP等协议。SNAP帧格式经常出现在厂家私有的二层协议中，比如思科用在CDP, DTP, VTP 和 PAgP等协议上。</p>
+<h4 id="以太网2帧头分析"><a href="#以太网2帧头分析" class="headerlink" title="以太网2帧头分析"></a>以太网2帧头分析</h4><p><img src="/2019/11/23/6-tcp-ip/1920px-Ethernet_Type_II_Frame_format.svg.png" alt="1920px-Ethernet_Type_II_Frame_format.svg"></p>
 <p><img src="/2019/11/23/6-tcp-ip/1-slide11.jpg" alt="1-slide11"></p>
-<p>二层常见的封装结构为IEEE 802.3和Ethernet II帧（以太网2），之所以有两种帧封装格式，是因为有OSI七层以及TCP/IP两种模型定义了两种不同的分装格式，之前商定的结果是控制层面的用802.3格式封装，转发层面的用以太网2封装，但目前基本上是以太网一统天下，所以在这就不介绍802.3的相关东西了。至于什么是控制层面、转发层面，后面会有专门的章节进行阐述。</p>
 <p>源目的MAC地址两个字段并不复杂就不多说了。</p>
 <p>EtherType：这个字段标识由帧数据封装的上层协议，以便接收端能根据不同的上层协议用不同的协议进行处理。 例如，EtherType值0x0800表示该帧包含IPv4数据报。同样，以太类型0x0806表示ARP帧，0x86DD表示IPv6帧，0x8100表示存在IEEE 802.1Q标签。</p>
-<p>标识上层以后才能用相应的进程去处理数据？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
 <p>最后的CRC checksum，4字节，是表示Cyclical Redunancy Check (CRC)，最后这个部分是让接收端在收到数据的时候检查收到的帧是否正确无误。多说两句，这个部分从严格意义上来说应该叫“FCS - Frame Check Sequence”，FCS是用算法校验数据的过程，而CRC是FCS这个校验过程可以采用的一种校验的方式，以太网用的就是CRC这种校验方式，所以在以太网里可以暂且把两者看成是同一个东西，但从概念上来讲，要知道二者是不同的。</p>
 <h3 id="（五）物理层（Physical-Layer）"><a href="#（五）物理层（Physical-Layer）" class="headerlink" title="（五）物理层（Physical Layer）"></a>（五）物理层（Physical Layer）</h3><blockquote>
 <p>The physical layer contains the protocols relating to the physical medium on which TCP/IP will be communicating. Officially, the protocols of this layer fall within four categories that together describe all aspects of physical media: </p>
@@ -1025,6 +1035,14 @@
 <p>Functional protocols describe what something does. For example, “Request to Send” is the functional description of pin 4 of an EIA-232-D connector. </p>
 <p>Procedural protocols describe how something is done. For example, a binary 1 is represented on an EIA-232-D lead as a voltage more negative than 3 volts.</p>
 </blockquote>
+<p>物理层包含那些和物理传输介质相关的协议，官方规定了四类属性来描述物理层的各个方面：</p>
+<ul>
+<li>电气/光学协议描述了信号特征，例如电压或光子电平，位时序，编码和信号形状。</li>
+<li>机械协议是规范，例如连接器的尺寸或电线的金属外观。</li>
+<li>功能协议描述了某些功能。 例如，“请求发送”是EIA-232-D连接器的引脚4的功能描述。</li>
+<li>过程协议描述了如何完成某件事。 例如，二进制文件1在EIA-232-D引线上表示为比3伏更负的电压。</li>
+</ul>
+<p>？？？？？？？？？？？？？？？？？？</p>
 <h2 id="四、用TCP-IP模型分析数据传输过程"><a href="#四、用TCP-IP模型分析数据传输过程" class="headerlink" title="四、用TCP/IP模型分析数据传输过程"></a>四、用TCP/IP模型分析数据传输过程</h2><p><strong>这一部分开始把前面那堆枯燥乏味的理论联系到实际数据传输的过程了，阅读这部分建议结合OSI模型中的“相关概念”部分一起看，实际通信过程结合理论分析，有助于真正掌握通信的过程和概念。</strong></p>
 <h3 id="数据总体通讯过程"><a href="#数据总体通讯过程" class="headerlink" title="数据总体通讯过程"></a>数据总体通讯过程</h3><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-10_16-36-13.jpg" alt="Snipaste_2019-12-10_16-36-13"></p>
 <h3 id="路由器的通信原则过程"><a href="#路由器的通信原则过程" class="headerlink" title="路由器的通信原则过程"></a>路由器的通信原则过程</h3><p>路由器（Router）是一种负责寻径的网络设备，连接不同网段，负责不同网段之间的数据转发，例如192.168.1.0/24和192.168.2.0/24之间通信需要路由器，它在互连网络中从多条路径中寻找通讯量最少的一条网络路径提供给用户通信，它对数据的处理过程如下：</p>
@@ -1069,6 +1087,7 @@
 <p><a href="https://blog.51cto.com/6930123/2112748" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《子网掩码详解》</a></p>
 <p><a href="https://blog.51cto.com/6930123/2113151" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《子网划分详解》</a></p>
 <p><a href="https://blog.51cto.com/6930123/2115072" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《超网合并详解》</a></p>
+<p><a href="https://www.hackingarticles.in/working-of-traceroute-using-wireshark/" target="_blank" rel="noopener">Working of Traceroute using Wireshark</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
