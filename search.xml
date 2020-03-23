@@ -1018,11 +1018,16 @@
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-19_19-18-15.jpg" alt="Snipaste_2020-03-19_19-18-15"></p>
 <p><strong>ping包抓包：</strong></p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200319203904.jpg" alt="微信图片编辑_20200319203904"></p>
-<h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><h4 id="二层封装格式简析"><a href="#二层封装格式简析" class="headerlink" title="二层封装格式简析"></a>二层封装格式简析</h4><p>二层封装格式，能见到的有四种，分别是TCP/IP协议使用、目前基本大一统的Ethernet II，IEEE的IEEE 802.3、802.2 LLC、802.2 SNAP，常见的封装结构为IEEE 802.3和Ethernet II帧（以太网2），之所以有两种帧封装格式，是因为有OSI七层以及TCP/IP两种模型定义了两种不同的分装格式，之前商定的结果是控制层面的用802.3格式封装，转发层面的用以太网2封装，但目前基本上是以太网一统天下，所以在这就不介绍802.3的相关东西了。至于什么是控制层面、转发层面，后面会有专门的章节进行阐述。除了以上的知识，还有一些扩展的信息在思科论坛的<a href="https://community.cisco.com/t5/switching/ether-frames-802-3-naming-conventions/td-p/2076323" target="_blank" rel="noopener">这个帖子</a>以及<a href="https://community.cisco.com/t5/switching/ethernet-802-3-vs-ethernet-ii-frame/td-p/2718996" target="_blank" rel="noopener">这个帖子</a>里，如果有兴趣可以看看，这里贴一段我觉得总结的比较好的话：</p>
+<h3 id="（四）数据链路层（DataLink-Layer）"><a href="#（四）数据链路层（DataLink-Layer）" class="headerlink" title="（四）数据链路层（DataLink Layer）"></a>（四）数据链路层（DataLink Layer）</h3><h4 id="二层封装格式简析"><a href="#二层封装格式简析" class="headerlink" title="二层封装格式简析"></a>二层封装格式简析</h4><p>二层封装格式，能见到的有四种，分别是TCP/IP协议使用、目前基本大一统的Ethernet II，IEEE的IEEE 802.3、802.2 LLC、802.2 SNAP，常见的封装结构为IEEE 802.3和Ethernet II帧（以太网2），之所以有两种帧封装格式，是因为有OSI七层以及TCP/IP两种模型定义了两种不同的分装格式，他们的差别主要是在帧头封装部分，具体的区别有兴趣的自行搜索。之前商定的结果是控制层面的用802.3格式封装，转发层面的用以太网2封装，但目前基本上是以太网一统天下，所以在这就不介绍802.3的相关东西了。至于什么是控制层面、转发层面，后面会有专门的章节进行阐述。除了以上的知识，还有一些扩展的信息在思科论坛的<a href="https://community.cisco.com/t5/switching/ether-frames-802-3-naming-conventions/td-p/2076323" target="_blank" rel="noopener">这个帖子</a>以及<a href="https://community.cisco.com/t5/switching/ethernet-802-3-vs-ethernet-ii-frame/td-p/2718996" target="_blank" rel="noopener">这个帖子</a>里，如果有兴趣可以看看，这里贴一段我觉得总结的比较好的话：</p>
 <blockquote>
 <p>if you are going to look at an IPv4 or IPv6 communication, it will be practically always encapsulated into Ethernet II frames because those are the most efficient in terms of overhead. 802.3 + LLC frames are used nowadays mostly for older protocols authored by IEEE itself, such as STP/RSTP/MSTP. SNAP frames are often used for vendor-proprietary Layer2 protocols - Cisco uses it for CDP, DTP, VTP and PAgP, to name a few.</p>
 </blockquote>
 <p>如果你观察IPV6或者IPV4的通信，它们实际上都是用以太网2进行封装的，因为从开销方面来说这是最有效率的封装方式。如今，802.3+LLC子层的帧格式绝大部分时候是出现在IEEE编写的较老的协议上，比如STP/RSTP/MSTP等协议。SNAP帧格式经常出现在厂家私有的二层协议中，比如思科用在CDP, DTP, VTP 和 PAgP等协议上。</p>
+<h4 id="为什么Ethernet-2-使用的更加广泛"><a href="#为什么Ethernet-2-使用的更加广泛" class="headerlink" title="为什么Ethernet 2 使用的更加广泛"></a>为什么Ethernet 2 使用的更加广泛</h4><blockquote>
+<p>To run TCP/IP over IEEE 802.3, the SNAP format has to be used. That requires 8 bytes of the data field to identify the kind of data the frame is carrying: three bytes for the Logical Link Control, three bytes for the SNAP header, and two bytes for the Protocol Type field. That means the data field shrinks from the standard range of 46 to 1500 bytes down to a range of 38 to 1492. This is the reason most network managers stay with Ethernet II.</p>
+</blockquote>
+<p>在TCP/IP协议上运行IEEE802.3的封装时，必须使用SNAP格式，它需要8字节的数据字段用来标识帧所携带的数据的类型。这8个字节由，3个字节的逻辑子层控制、3字节的SNAP报头、2个字节的协议类型字段组成。这意味着能携带的数据部分将从46到1500字节，缩小到38到1492字节。数据部分缩小是绝大多数网络使用以太网2分装的原因。</p>
+<p><img src="/2019/11/23/6-tcp-ip/u7vjq.jpg" alt="u7vjq"></p>
 <h4 id="以太网2帧头分析"><a href="#以太网2帧头分析" class="headerlink" title="以太网2帧头分析"></a>以太网2帧头分析</h4><p><img src="/2019/11/23/6-tcp-ip/1920px-Ethernet_Type_II_Frame_format.svg.png" alt="1920px-Ethernet_Type_II_Frame_format.svg"></p>
 <p><img src="/2019/11/23/6-tcp-ip/1-slide11.jpg" alt="1-slide11"></p>
 <p>源目的MAC地址两个字段并不复杂就不多说了。</p>
@@ -1088,6 +1093,7 @@
 <p><a href="https://blog.51cto.com/6930123/2113151" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《子网划分详解》</a></p>
 <p><a href="https://blog.51cto.com/6930123/2115072" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《超网合并详解》</a></p>
 <p><a href="https://www.hackingarticles.in/working-of-traceroute-using-wireshark/" target="_blank" rel="noopener">Working of Traceroute using Wireshark</a></p>
+<p><a href="https://www.globalknowledge.com/us-en/resources/resource-library/articles/what-is-the-difference-between-ethernet-ii-and-ieee-8023/" target="_blank" rel="noopener">What is the Difference Between Ethernet II and IEEE 802.3</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
