@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CCNA笔记——7、为什么要建立TCP/IP通信模型</title>
+    <url>/2020/02/19/layer-mind/</url>
+    <content><![CDATA[<p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，可能这个概念要真正掌握并且固话还需要一次次的反复，每次当发现认知有问题的时候，会对此篇笔记进行更新。</p>
+ <a id="more"></a>  
+
+<h2 id="2020年"><a href="#2020年" class="headerlink" title="2020年"></a>2020年</h2><h3 id="2月17日事件"><a href="#2月17日事件" class="headerlink" title="2月17日事件"></a>2月17日事件</h3><p>起因是看到TCP的RFC文档的2.6 Reliable Communication里有这么一段话：</p>
+<blockquote>
+<p>An acknowledgment by TCP does not guarantee that the data has been delivered to the end user, but only that the receiving TCP has taken the responsibility to do so.</p>
+</blockquote>
+<p>一开始觉得这段话的意思是说，对一个数据进行ACK了也不能确保整个数据肯定传到“用户”（user）了，发送ACK的这个设备（也就是其他路由器或网络设备）需要完成接下来的步骤，因为可能收到这个数据并发送ACK的设备给丢弃了，例如它这没有路由表或者说它down了。但因为知道自己很渣，所以到思科论坛发了<a href="https://community.cisco.com/t5/routing/what-s-the-meaning-of-an-acknowledgment-by-tcp-does-not/m-p/4030767#M329627" target="_blank" rel="noopener">求助帖</a>，想验证一下自己的想法是否正确，有个哥们回复我说，他认为：</p>
+<blockquote>
+<p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
+</blockquote>
+<p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
+<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，也就是数据从发送端的传输层——网络层——数据链路层——物理层——接收端的物理层——传输层——网络层——传输层的这个过程都是没问题的，当然按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，会出现发送端已收到TCP-ACK，但在接收端，“user”也就是应用层的程序，尚未收到该消息。</p>
+<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
+<p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
+<blockquote>
+<p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
+</blockquote>
+<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC的人，是看不到这段话的。</p>
+<p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
+<p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
+<h3 id="3月12日事件"><a href="#3月12日事件" class="headerlink" title="3月12日事件"></a>3月12日事件</h3><p>起因是因为感觉对RTO（retransmission timeout）还是理解的有问题，所以去网上看了<a href="https://www.extrahop.com/company/blog/2011/retransmission-timeouts-rtos-application-performance-degradation/" target="_blank" rel="noopener">一篇文章</a>，发现文章里有这么一句话：TCP starts a retransmission timer when an outbound segment is handed down to IP。看完这句话，感觉又被教育了一次什么叫分层。</p>
+<p>TCP是一个可靠的协议，里面的重传机制也是仅仅工作在本层的，和其他层没关系，之前看到一句话说：When the TCP transmits a segment containing data, it puts a copy on a retransmission queue and starts a timer，结合上面的那句话就是说，当TCP传输包含数据的段时，也就是说当TCP将数据段传送给下层的网络层时，它将该数据段的副本放在重传队列上并启动计时器。而并不是之前我所感觉的数据发出本设备时，计时器开始计时，而是当数据发出本层时计时器就开始计时了，因为TCP是传输层的协议，仅对自己传输层的东西负责和影响。</p>
+<h2 id="关于分层概念的浅见"><a href="#关于分层概念的浅见" class="headerlink" title="关于分层概念的浅见"></a>关于分层概念的浅见</h2><p>最后再针对一张很好的图说两句自己对于分层概念以及模型的理解：</p>
+<p>1、标准化</p>
+<p>2、彼此独立</p>
+<p>3、相互联系</p>
+<p>4、便于实现</p>
+<h3 id="便于网络通信的实现"><a href="#便于网络通信的实现" class="headerlink" title="便于网络通信的实现"></a>便于网络通信的实现</h3><p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。类似于汽车上的流水线分工，一开始是一个工人生产一辆汽车，但随着汽车需求原来越大，汽车生产过程的越来越复杂，这种模式已经不适合大规模生产的要求了，首先是一个人很难掌握如此多的工序，其次是即使掌握了也不便于汽车的大规模生产，第三是由于一个人要做很多道工序，很难精通所有的工序，无法加快汽车生产速度也无法提高优化每一步的生产精度，无法提高产品质量。</p>
+<p>网络传输也是同样的道理，一开始的时候协议是不分层的，实现所有的功能，但随着通信量的上升，协议越来越复杂越来越臃肿，必须将所有的通信步骤进行分层，每层完成不同的功能才能保证大规模数据传输的稳定，使得网络易于实现和维护，便于调试。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。</p>
+<h3 id="标准化"><a href="#标准化" class="headerlink" title="标准化"></a>标准化</h3><p>生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，依旧用汽车这货来举个贴近生活的例子方便理解，在网络通信中，如果没有统一的规则，自己按照自己的规则开发导致协议、设备相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态，类推到汽车行业就是，生产汽车零件的厂家有很多，比如轮胎有普利司通的，有马牌的也有韩泰的，品牌不同但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用，才能像汽车一样，如果轮胎坏了（类推到网络中就是其中某些层的某些协议或功能出了问题），只需要更换一个同型号的换轮胎即可上路飞驰，汽车的其他零件不受影响也不用变动（对相应出问题层级进行排错，出问题的特定层级排除错误通信即可恢复）。</p>
+<h3 id="彼此独立又相互依靠"><a href="#彼此独立又相互依靠" class="headerlink" title="彼此独立又相互依靠"></a>彼此独立又相互依靠</h3><p>？？？？？？？？？？？？？？？</p>
+<h3 id="上层依赖于下层，下层为上层提供服务"><a href="#上层依赖于下层，下层为上层提供服务" class="headerlink" title="上层依赖于下层，下层为上层提供服务"></a>上层依赖于下层，下层为上层提供服务</h3><p>？？？？？？？？？？？？？？</p>
+<p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
+<p>当然仅仅分层也是不够的，还必须对每一层进行标准化，而生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，否则如果没有统一的规则，自己按照自己的规则开发导致相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态。标准化就类似于生产汽车零件的厂家有很多，但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用。</p>
+<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+      <categories>
+        <category>路由交换方向</category>
+        <category>CCNA</category>
+      </categories>
+  </entry>
+  <entry>
     <title>CCNA笔记——8、子网划分</title>
     <url>/2020/02/19/8-subnet/</url>
     <content><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>此篇笔记是在<a href="https://blog.51cto.com/6930123/2113151" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《子网划分详解》</a>以及<a href="https://blog.51cto.com/6930123/2115072" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《超网合并详解》</a>两篇笔记的基础上进行了部分改动。</p>
@@ -220,51 +265,6 @@
 </ol>
 <p>引用文章：</p>
 <p><a href="https://blog.csdn.net/lemontree1945/article/details/79553187" target="_blank" rel="noopener">划分子网例题详解</a></p>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
-      <categories>
-        <category>路由交换方向</category>
-        <category>CCNA</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>CCNA笔记——7、为什么要建立TCP/IP通信模型</title>
-    <url>/2020/02/19/layer-mind/</url>
-    <content><![CDATA[<p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，可能这个概念要真正掌握并且固话还需要一次次的反复，每次当发现认知有问题的时候，会对此篇笔记进行更新。</p>
- <a id="more"></a>  
-
-<h2 id="2020年"><a href="#2020年" class="headerlink" title="2020年"></a>2020年</h2><h3 id="2月17日事件"><a href="#2月17日事件" class="headerlink" title="2月17日事件"></a>2月17日事件</h3><p>起因是看到TCP的RFC文档的2.6 Reliable Communication里有这么一段话：</p>
-<blockquote>
-<p>An acknowledgment by TCP does not guarantee that the data has been delivered to the end user, but only that the receiving TCP has taken the responsibility to do so.</p>
-</blockquote>
-<p>一开始觉得这段话的意思是说，对一个数据进行ACK了也不能确保整个数据肯定传到“用户”（user）了，发送ACK的这个设备（也就是其他路由器或网络设备）需要完成接下来的步骤，因为可能收到这个数据并发送ACK的设备给丢弃了，例如它这没有路由表或者说它down了。但因为知道自己很渣，所以到思科论坛发了<a href="https://community.cisco.com/t5/routing/what-s-the-meaning-of-an-acknowledgment-by-tcp-does-not/m-p/4030767#M329627" target="_blank" rel="noopener">求助帖</a>，想验证一下自己的想法是否正确，有个哥们回复我说，他认为：</p>
-<blockquote>
-<p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
-</blockquote>
-<p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
-<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，也就是数据从发送端的传输层——网络层——数据链路层——物理层——接收端的物理层——传输层——网络层——传输层的这个过程都是没问题的，当然按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，会出现发送端已收到TCP-ACK，但在接收端，“user”也就是应用层的程序，尚未收到该消息。</p>
-<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
-<p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
-<blockquote>
-<p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
-</blockquote>
-<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC的人，是看不到这段话的。</p>
-<p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
-<p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
-<h3 id="3月12日事件"><a href="#3月12日事件" class="headerlink" title="3月12日事件"></a>3月12日事件</h3><p>起因是因为感觉对RTO（retransmission timeout）还是理解的有问题，所以去网上看了<a href="https://www.extrahop.com/company/blog/2011/retransmission-timeouts-rtos-application-performance-degradation/" target="_blank" rel="noopener">一篇文章</a>，发现文章里有这么一句话：TCP starts a retransmission timer when an outbound segment is handed down to IP。看完这句话，感觉又被教育了一次什么叫分层。</p>
-<p>TCP是一个可靠的协议，里面的重传机制也是仅仅工作在本层的，和其他层没关系，之前看到一句话说：When the TCP transmits a segment containing data, it puts a copy on a retransmission queue and starts a timer，结合上面的那句话就是说，当TCP传输包含数据的段时，也就是说当TCP将数据段传送给下层的网络层时，它将该数据段的副本放在重传队列上并启动计时器。而并不是之前我所感觉的数据发出本设备时，计时器开始计时，而是当数据发出本层时计时器就开始计时了，因为TCP是传输层的协议，仅对自己传输层的东西负责和影响。</p>
-<h2 id="关于分层概念的浅见"><a href="#关于分层概念的浅见" class="headerlink" title="关于分层概念的浅见"></a>关于分层概念的浅见</h2><p>最后再针对一张很好的图说两句自己对于分层概念以及模型的理解：</p>
-<p>1、标准化</p>
-<p>2、彼此独立</p>
-<p>3、相互联系</p>
-<p>4、便于实现</p>
-<h3 id="便于网络通信的实现"><a href="#便于网络通信的实现" class="headerlink" title="便于网络通信的实现"></a>便于网络通信的实现</h3><p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。类似于汽车上的流水线分工，一开始是一个工人生产一辆汽车，但随着汽车需求原来越大，汽车生产过程的越来越复杂，这种模式已经不适合大规模生产的要求了，首先是一个人很难掌握如此多的工序，其次是即使掌握了也不便于汽车的大规模生产，第三是由于一个人要做很多道工序，很难精通所有的工序，无法加快汽车生产速度也无法提高优化每一步的生产精度，无法提高产品质量。</p>
-<p>网络传输也是同样的道理，一开始的时候协议是不分层的，实现所有的功能，但随着通信量的上升，协议越来越复杂越来越臃肿，必须将所有的通信步骤进行分层，每层完成不同的功能才能保证大规模数据传输的稳定，使得网络易于实现和维护，便于调试。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。</p>
-<h3 id="标准化"><a href="#标准化" class="headerlink" title="标准化"></a>标准化</h3><p>生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，依旧用汽车这货来举个贴近生活的例子方便理解，在网络通信中，如果没有统一的规则，自己按照自己的规则开发导致协议、设备相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态，类推到汽车行业就是，生产汽车零件的厂家有很多，比如轮胎有普利司通的，有马牌的也有韩泰的，品牌不同但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用，才能像汽车一样，如果轮胎坏了（类推到网络中就是其中某些层的某些协议或功能出了问题），只需要更换一个同型号的换轮胎即可上路飞驰，汽车的其他零件不受影响也不用变动（对相应出问题层级进行排错，出问题的特定层级排除错误通信即可恢复）。</p>
-<h3 id="彼此独立又相互依靠"><a href="#彼此独立又相互依靠" class="headerlink" title="彼此独立又相互依靠"></a>彼此独立又相互依靠</h3><p>？？？？？？？？？？？？？？？</p>
-<h3 id="上层依赖于下层，下层为上层提供服务"><a href="#上层依赖于下层，下层为上层提供服务" class="headerlink" title="上层依赖于下层，下层为上层提供服务"></a>上层依赖于下层，下层为上层提供服务</h3><p>？？？？？？？？？？？？？？</p>
-<p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
-<p>当然仅仅分层也是不够的，还必须对每一层进行标准化，而生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，否则如果没有统一的规则，自己按照自己的规则开发导致相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态。标准化就类似于生产汽车零件的厂家有很多，但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用。</p>
-<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
@@ -889,7 +889,7 @@
 <p>网络ID等同于网络位，主机ID等同于主机位，翻译方式不同。</p>
 <p><img src="/2019/11/23/6-tcp-ip/afdf9cfdadeda8e3fce05fd4857b1947.png" alt="afdf9cfdadeda8e3fce05fd4857b1947"></p>
 <p>具体的划分步骤参见：<a href="https://renyuan431.github.io/2020/02/19/8-subnet/">子网划分</a></p>
-<h5 id="网关"><a href="#网关" class="headerlink" title="网关"></a>网关</h5><h6 id="网关的定义"><a href="#网关的定义" class="headerlink" title="网关的定义"></a>网关的定义</h6><p>网关实质上是一个网络通向其他网络（其他网段）的IP地址，比如有网络A和网络B，网络A的IP地址范围为“192.168.1.1 ~ 192.168.1.254”，子网掩码为255.255.255.0；网络B的IP地址范围为“192.168.2.1 ~ 192.168.2.254”，子网掩码为255.255.255.0。在没有路由器的情况下，两个网络之间是不能进行TCP/IP通信的，即使是两个网络连接在同一台交换机（或集线器）上，TCP/IP协议也会根据子网掩码（255.255.255.0）判定两个网络中的主机处在不同的网络里。而要实现这两个网络之间的通信，则必须通过网关。如果网络A中的主机发现数据包的目标主机不在本地网络中，就把数据包转发给它自己的网关，再由网关转发给网络B的网关，网络B的网关再转发给网络B的某个主机。网络B向网络A转发数据包的过程也是如此 所以说，只有设置好网关的IP地址，TCP/IP协议才能实现不同网络之间的相互通信。那么这个IP地址是哪台机器的IP地址呢？网关的IP地址是具有路由功能的设备的IP地址，具有路由功能的设备有路由器、启用了路由协议的服务器（实质上相当于一台路由器）、代理服务器（也相当于一台路由器）。</p>
+<h5 id="网关"><a href="#网关" class="headerlink" title="网关"></a>网关</h5><h6 id="网关的定义"><a href="#网关的定义" class="headerlink" title="网关的定义"></a>网关的定义</h6><p>网关实质上是一个网络通向其他网络（其他网段）的IP地址，比如有网络A和网络B，网络A的IP地址范围为“192.168.1.1  ~  192.168.1.254”，子网掩码为255.255.255.0；网络B的IP地址范围为“192.168.2.1  ~  192.168.2.254”，子网掩码为255.255.255.0。在没有路由器的情况下，两个网络之间是不能进行TCP/IP通信的，即使是两个网络连接在同一台交换机（或集线器）上，TCP/IP协议也会根据子网掩码（255.255.255.0）判定两个网络中的主机处在不同的网络里。而要实现这两个网络之间的通信，则必须通过网关。如果网络A中的主机发现数据包的目标主机不在本地网络中，就把数据包转发给它自己的网关，再由网关转发给网络B的网关，网络B的网关再转发给网络B的某个主机。网络B向网络A转发数据包的过程也是如此 所以说，只有设置好网关的IP地址，TCP/IP协议才能实现不同网络之间的相互通信。那么这个IP地址是哪台机器的IP地址呢？网关的IP地址是具有路由功能的设备的IP地址，具有路由功能的设备有路由器、启用了路由协议的服务器（实质上相当于一台路由器）、代理服务器（也相当于一台路由器）。</p>
 <p>举一个生活中的例子方便理解网关的概念和用途，大家都知道，从一个房间走到另一个房间，必然要经过一扇门。同样，从一个网络向另一个网络发送信息，也就是不同的网段不同的网络号之间相互发送信息，也必须经过一道“关口”，这道关口就是网关。顾名思义，网关(Gateway)就是一个网络连接到另一个网络的“关口”。没有这个“关口”，不同网段之间的通信就无法进行，就相当于去别的国家没法过人家海关，就没法入境。</p>
 <h6 id="网关的作用及工作流程的通俗解释"><a href="#网关的作用及工作流程的通俗解释" class="headerlink" title="网关的作用及工作流程的通俗解释"></a>网关的作用及工作流程的通俗解释</h6><p>假设你的名字叫小不点，你住在一个大院子里，你的邻居有很多小伙伴，在门口传达室还有个看大门的李大爷，李大爷就是你的网关。当你想跟院子里的某个小伙伴玩，只要你在院子里大喊一声他的名字，他听到了就会回应你，并且跑出来跟你玩。</p>
 <p>但是你不被允许走出大门，你想与外界发生的一切联系，都必须由门口的李大爷（网关）用电话帮助你联系。假如你想找你的同学小明聊天，小明家住在很远的另外一个院子里，他家的院子里也有一个看门的王大爷（小明的网关）。但是你不知道小明家的电话号码，不过你的班主任老师有一份你们班全体同学的名单和电话号码对照表，你的老师就是你的DNS服务器。于是你在家里拨通了门口李大爷的电话，有了下面的对话：</p>
@@ -898,7 +898,7 @@
 <p>小不点：太好了！李大爷，我想找小明，你再帮我联系一下小明吧。</p>
 <p>李大爷：没问题。（接着李大爷向电话局发出了请求接通小明家电话的请求，最后一关当然是被转接到了小明家那个院子的王大爷那里，然后王大爷把电话给转到小明家）</p>
 <p>就这样你和小明取得了联系。</p>
-<p>在网络中，不同网段之间的设备要进行通信，就必须经过网关（你家大院看大门的X大爷），帮你把你要发送的信息传送给目的IP所在网段的网关（对方大院看门的X大爷），因为只有对方的网关才能在收到发往该网段的数据时，完成之后的通信步骤，具体的通信步骤以及网关所扮演的角色，请参后文“用TCP/IP模型分析数据传输过程”部分。</p>
+<p>在网络中，同网段之间的设备要进行通信（和同一个大院里的其他小朋友联系）是不需要经过网关（看门的X大爷）的，不同网段之间的设备要进行通信，就必须经过网关（你家大院看大门的X大爷），帮你把你要发送的信息传送给目的IP所在网段的网关（对方大院看门的X大爷），因为只有对方的网关才能在收到发往该网段的数据时，完成之后的通信步骤，具体的通信步骤以及网关所扮演的角色，请参后文“用TCP/IP模型分析数据传输过程”部分。</p>
 <h5 id="默认网关"><a href="#默认网关" class="headerlink" title="默认网关"></a>默认网关</h5><p>如果搞清了什么是网关，默认网关也就好理解了。就好像一个房间可以有多扇门一样，一台主机可以有多个网关。默认网关的意思是一台主机如果找不到可用的网关，就把数据包发给默认指定的网关，由这个网关来处理数据包。现在主机使用的网关，一般指的是默认网关。</p>
 <p>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
 <h5 id="网络层协议"><a href="#网络层协议" class="headerlink" title="网络层协议"></a>网络层协议</h5><h6 id="ARP（Address-Resolution-Protocol-）"><a href="#ARP（Address-Resolution-Protocol-）" class="headerlink" title="ARP（Address Resolution Protocol ）"></a>ARP（Address Resolution Protocol ）</h6><p><strong>作用：</strong></p>
@@ -1055,7 +1055,8 @@
 <p>简单来说，物理层在传输中完成的动作就是在发送端将二层数字帧转换成电磁波，在不同的传输介质中，转换的结果不同，如果是在光纤中传输，也就是将0101的数字信号转换为光信号然后传输，如果是在铜缆中就是转换成高低电平然后传输，在接收端完成的动作就是将波形转换成0101的数字格式然后还原成二层帧。</p>
 <h2 id="四、用TCP-IP模型分析数据传输过程"><a href="#四、用TCP-IP模型分析数据传输过程" class="headerlink" title="四、用TCP/IP模型分析数据传输过程"></a>四、用TCP/IP模型分析数据传输过程</h2><p><strong>这一部分开始把前面那堆枯燥乏味的理论联系到实际数据传输的过程了，阅读这部分建议结合OSI模型中的“相关概念”部分一起看，实际通信过程结合理论分析，有助于真正掌握通信的过程和概念。</strong></p>
 <h3 id="数据总体通讯过程"><a href="#数据总体通讯过程" class="headerlink" title="数据总体通讯过程"></a>数据总体通讯过程</h3><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-10_16-36-13.jpg" alt="Snipaste_2019-12-10_16-36-13"></p>
-<p>如何判断是否在同一网段</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-23_16-33-15.jpg" alt="Snipaste_2020-03-23_16-33-15"></p>
+<p>如何判断是否在同一网段请参照<a href="https://renyuan431.github.io/2019/11/23/6-tcp-ip/#%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%EF%BC%9A">前文</a>，</p>
 <h3 id="路由器的通信原则过程"><a href="#路由器的通信原则过程" class="headerlink" title="路由器的通信原则过程"></a>路由器的通信原则过程</h3><p>路由器（Router）是一种负责寻径的网络设备，连接不同网段，负责不同网段之间的数据转发，例如192.168.1.0/24和192.168.2.0/24之间通信需要路由器，它在互连网络中从多条路径中寻找通讯量最少的一条网络路径提供给用户通信，它对数据的处理过程如下：</p>
 <p>Router 的责任是记录相应路由信息应该从哪个接口发出，并形成一张路由表，当收到数据时，根据网络层报头的目的地址去查询路由表中是否有相对应的条目，如果有就从该路由条目的出接口发出数据，如果没有就将数据丢弃，具体的</p>
 <h3 id="交换机的通信原则和过程"><a href="#交换机的通信原则和过程" class="headerlink" title="交换机的通信原则和过程"></a>交换机的通信原则和过程</h3><p>，当它收到，就按目的地位置把讯息交给另一隻 Router，直至讯息传到目的地为止，有点像快递公司，收到快件后就由速递人员拿到最近的收发站，收发站的职员又把快件送到另一个最近目的地的收发站，如此类推，直至送到收件者手上。</p>
