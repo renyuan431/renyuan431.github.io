@@ -299,7 +299,12 @@
 <h3 id="数据段、数据包、数据帧、比特、PDU"><a href="#数据段、数据包、数据帧、比特、PDU" class="headerlink" title="数据段、数据包、数据帧、比特、PDU"></a>数据段、数据包、数据帧、比特、PDU</h3><p><img src="/2019/11/23/6-tcp-ip/featured-4.jpg" alt="featured-4"></p>
 <p><img src="/2019/11/23/6-tcp-ip/tcp_pdus.png" alt="tcp_pdus"></p>
 <p>协议数据单元PDU（Protocol Data Unit）是指对等层次之间传递的数据单位。</p>
-<p>数据链路层的PDU叫做Frame（帧）；<br>网络层的PDU叫做Packet（数据包）；<br>传输层TCP的PDU叫做Segment（数据段），UDP的PDU叫做Datagram。（数据报）；<br>物理层传输的PDU叫Bit(比特)。</p>
+<ul>
+<li>数据链路层的PDU叫做Frame（帧）</li>
+<li>网络层的PDU叫做Packet（数据包）</li>
+<li>传输层TCP的PDU叫做Segment（数据段），UDP的PDU叫做Datagram。（数据报）</li>
+<li>物理层传输的PDU叫Bit(比特)</li>
+</ul>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-13_14-10-29.jpg" alt="Snipaste_2019-12-13_14-10-29"></p>
 <h3 id="面向连接协议与无连接协议"><a href="#面向连接协议与无连接协议" class="headerlink" title="面向连接协议与无连接协议"></a>面向连接协议与无连接协议</h3><p>面向连接（Connection-Oriented）：是指发送数据之前必须在两端建立连接。TCP建立连接的方法是“三次握手”，这样能建立可靠的连接。</p>
 <p>无连接（Connection-less）：是指发送数据之前不在两端建立连接。</p>
@@ -315,7 +320,7 @@
 <p>端口号是四层概念，存在于TCP或UDP源/目端口号字段，用以识别发送主机跟接收主机上的应用，解封装时会根据端口号的不同，传给由端口号识别的应用程序。(常见的例如：TCP80=HTTP, UDP53=DNS)。</p>
 <p>说白了都是“区分上层”用的，就是用来识别同一台计算机中进行通信的不同应用程序。但是所处的层次不一样。一台计算机上同时可以运行多个程序。传输层协议正是利用这些端口号识别本机中正在进行通信的应用程序，并准确地将数据传输。</p>
 <p>之所以有如此多的端口号是因为通信并不是由端口号一个字段决定的，识别一个通信是由五元组（<strong>源IP地址、目标IP地址、源端口号、目标端口和协议号</strong>）一起决定的。源IP地址决定了通信起源设备，目标IP地址决定了通信目的设备，但仅有源、目的IP地址不能识别一个通信，因为一台设备可以同时运行多个程序，下面举个接收端的例子来说明：</p>
-<p>设备收到了一个数据后，先通过把0101的比特流还原成二层的数据帧，然后看二层数据帧帧头的目的MAC地址和自己所接收端口的MAC地址是否相一致，如果一致就继续解封装到三层，查看目的IP地址是否是自己的，如果是自己的IP地址，再看协议号中的字段规定使用的是TCP还是UDP协议，然后将这个数据交给相应的四层（应用层）去处理，应用层处理以后，怎么知道把该数据交给上层（应用层）的哪个程序去处理呢？这就要通过端口号了，如果端口号是80，说明这是一个http协议，交给http处理，如果有多个http进程，则可以根据源端口号加以区分，其他的协议以此类推。</p>
+<p>设备收到了一个数据后，先通过把0101的比特流还原成二层的数据帧，然后看二层数据帧帧头的目的MAC地址和自己所接收端口的MAC地址是否相一致，如果一致就继续解封装到三层，查看目的IP地址是否是自己的，如果是自己的IP地址，再看协议号中的字段规定使用的是TCP还是UDP协议，然后将这个数据交给相应的四层（应用层）协议去处理，应用层处理以后，怎么知道把该数据交给上层（应用层）的哪个程序去处理呢？这就要通过端口号了，如果端口号是80，说明这是一个http协议，交给http处理，如果有多个http进程，则可以根据通信的五元组中其他不同的部分加以区分，其他的协议以此类推。</p>
 <p><img src="/2019/11/23/6-tcp-ip/1e487b21-906d-41ae-8894-d02f1037cf25-1577770747233.jpg" alt="1e487b21-906d-41ae-8894-d02f1037cf25"></p>
 <p><img src="/2019/11/23/6-tcp-ip/c9daa-20190821100721-bd5df.jpeg" alt="c9daa-20190821100721-bd5df"></p>
 <p><img src="/2019/11/23/6-tcp-ip/3d251-20190821100721-c0e40.jpeg" alt="3d251-20190821100721-c0e40"></p>
@@ -331,7 +336,8 @@
 <p>最大传输单元（MTU）是可以在单个网络层事务中通信的最大协议数据单元（PDU）的大小。</p>
 <p>Default media MTU是Juniper的叫法，个人觉得Juniper的命名方式比较清楚，所以以下均采用Juniper的方式。Default IP MTU和Default media MTU（MTU）不是同一个概念。Juniper有个计算公式：</p>
 <p>Default media MTU = Default IP MTU + encapsulation overhead</p>
-<p>encapsulation overhead 在现网中就是 Ethernet header，因为二层的协议用的都是以太网2封装技术，以太网头部（14字节）但<strong>不包括尾部的FCS校验部分</strong>（4字节），所以Default media MTU = 1500 （Default IP MTU） + 14（encapsulation overhead） =1514字节。</p>
+<p>encapsulation overhead 在现网中就是 Ethernet header，因为二层的协议用的都是以太网2封装技术，以太网头部（14字节）但<strong>不包括尾部的FCS校验部分</strong>（4字节），所以：</p>
+<p>Default media MTU = 1500 （Default IP MTU） + 14（encapsulation overhead） =1514字节。</p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200129143940.jpg" alt="微信图片编辑_20200129143940"></p>
 <p>Default IP MTU=TCP header + IP header + TCP segment length（也就是图中的Data部分） </p>
 <p>Default IP MTU（1500字节）= TCP header（20字节） + IP header（20字节） + TCP segment length（1460字节）</p>
