@@ -73,6 +73,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175033.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175058.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;osiencap.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;Y6OBY.gif">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;Snipaste_2019-12-10_16-36-13.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;switch.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191124185137.jpg">
@@ -85,7 +86,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;PC2-3.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;PC2-4.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;PC2.jpg">
-<meta property="og:updated_time" content="2020-03-04T10:23:56.283Z">
+<meta property="og:updated_time" content="2020-03-29T07:53:38.294Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2019&#x2F;11&#x2F;18&#x2F;OSI-7&#x2F;v2-854e3df8ea850c977c30cb1deb1f64db_hd.jpg">
 
@@ -287,7 +288,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-04 18:23:56" itemprop="dateModified" datetime="2020-03-04T18:23:56+08:00">2020-03-04</time>
+                <time title="修改时间：2020-03-29 15:53:38" itemprop="dateModified" datetime="2020-03-29T15:53:38+08:00">2020-03-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -423,6 +424,7 @@
 <h3 id="（三）PDU"><a href="#（三）PDU" class="headerlink" title="（三）PDU"></a>（三）PDU</h3><p><strong>PUD</strong>即协议数据单元（英语：Protocol Data Unit，缩写为_PDU_）。PDU包含来自上层的信息，以及当前层的实体附加的信息。 协议数据单元(Protocol Data Unit )物理层的 PDU是数据位（bit），数据链路层的 PDU是数据帧（frame），网络层的PDU是数据包（packet），传输层的 PDU是数据段（segment），其他更高层次的PDU是报文（message）。</p>
 <h2 id="八、通信流程说明"><a href="#八、通信流程说明" class="headerlink" title="八、通信流程说明"></a>八、通信流程说明</h2><p>![o_0D_2V8B_`V86P43E6OKYDVV](OSI-7/o_0D_2V8B_%60V86P43E6OKYDVV.gif)</p>
 <p><img src="/2019/11/18/OSI-7/osiencap.png" alt="osiencap"></p>
+<p><img src="/2019/11/18/OSI-7/Y6OBY.gif" alt="Y6OBY"></p>
 <p>从高层往低层依次封装，在每一层使用特定的协议，对数据进行处理，在数据前添加特定的协议报头。L代表layer，表示第几层，H表示header，表示报头，第七层的报头在DATA（数据）的前面，表示数据在第七层（应用层）的时候前边加上了该层的报头。再到下一层（第六层，表示层）时前面又加上了第六层的报头，以此类推，到了第一层物理层的时候，打上了各层报头的数据被转换成0101的电信号发送给其他设备。其他设备接到电信号后，由物理层将电信号转换成数据，然后发送到上层的数据链路层，拆二层报头识别后交给上一层，网络层继续拆封装并识别，以此类推直到应用层拆除所有层的报头后识别数据。</p>
 <h3 id="（一）A——B通信说明（按OSI七层模型）"><a href="#（一）A——B通信说明（按OSI七层模型）" class="headerlink" title="（一）A——B通信说明（按OSI七层模型）"></a>（一）A——B通信说明（按OSI七层模型）</h3><p>两主机通信的过程，从发送者（以下简称A）到接收者（以下简称B），属于从7层（应用层）-&gt;1层（物理层）封装，然后传输到远端，再从1层（物理层）-&gt;7层（应用层）解封装的过程。</p>
 <p>2个主机之间的通信，对于2台主机来说，肯定是都需要跨越7层的，而平常说的只需要去到2层或者3层，其实是对于中间系统而言的，就是说中间的交换机、路由器而言。</p>
