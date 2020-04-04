@@ -432,7 +432,23 @@
 <p>但由于一直有MSS&lt;=MTU，很明显，分段后的每一段TCP报文段再加上IP首部后的长度不可能超过MTU，因此也就不需要在网络层进行IP分片了。因此TCP报文段很少会发生IP分片的情况。</p>
 <p>再来看UDP数据报，由于UDP数据报不会自己进行分段，因此当长度超过了MTU时，会在网络层进行IP分片。同样，ICMP（在网络层中）同样会出现IP分片情况。</p>
 <p><strong>总结：UDP不会分段，就由IP来分。TCP会分段，当然就不用IP来分了！</strong></p>
-<p>另外，IP数据报分片后，只有第一片带有UDP首部或ICMP首部，其余的分片只有IP头部，到了端点后根据IP头部中的信息再网络层进行重组。而TCP报文段的每个分段中都有TCP首部，到了端点后根据TCP首部的信息在传输层进行重组。IP数据报分片后，只有到达目的地后才进行重组，而不是向其他网络协议，在下一站就要进行重组。</p>
+<h4 id="IP数据分片分析"><a href="#IP数据分片分析" class="headerlink" title="IP数据分片分析"></a>IP数据分片分析</h4><p>在分析IP数据分片时，有三个字段需要格外注意：</p>
+<blockquote>
+<ul>
+<li>Identification - this value identifies a group of fragments. It’s what tells the reassembling device which fragments make up the original packet.</li>
+<li>Fragment offset - once all the fragments have been received, they need to be put back in the correct order. This field tells the reassembling device where in the original packet to place the data from each fragment (after stripping the L2&amp;L3 headers).<br>the value for the first fragment will be 0</li>
+<li>Flags - MF bit - More Fragments means that there are additional packets coming in after this one.<br>it is set (1) in all but the last fragment (0)</li>
+</ul>
+</blockquote>
+<p>Identification（标识符），这个字段标识该数据为同一组分片的数据，用来告诉重组数据的设备哪些数据分片可以用来重组称为原始数据。</p>
+<p>Fragment offset（分段序号），当所有分段数据都被接收后，需要将这些数据根据正确的顺序重组起来，这个字段告诉重组的设备这些分段数据正确的重组顺序。第一个分段数据的Fragment offset值为0。</p>
+<p>Flags（标记）-MF位（more fragments），当该位为1时表示后面还有更多的分片数据，当最后一个分片数据的MF位为0，表示没有更多的分片数据了。</p>
+<p>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
+<p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200404205116.png" alt="微信截图_20200404205116"></p>
+<p>IP数据报分片后，只有第一片带有UDP首部或ICMP首部，其余的分片只有IP头部，到了端点后根据IP头部中的信息再网络层进行重组。</p>
+<p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200404194723.png" alt="微信截图_20200404194723"></p>
+<p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200404194744.png" alt="微信截图_20200404194744"></p>
+<p>而TCP报文段的每个分段中都有TCP首部，到了端点后根据TCP首部的信息在传输层进行重组。IP数据报分片后，只有到达目的地后才进行重组，而不是向其他网络协议，在下一站就要进行重组。</p>
 <p>最后一点，对IP分片的数据报来说，即使只丢失一片数据也要重新传整个数据报（既然有重传，说明运输层使用的是具有重传功能的协议，如TCP协议）。这是因为IP层本身没有超时重传机制——由更高层（比如TCP）来负责超时和重传。当来自TCP报文段的某一段（在IP数据报的某一片中）丢失后，TCP在超时后会重发整个TCP报文段，该报文段对应于一份IP数据报（可能有多个IP分片），没有办法只重传数据报中的一个数据分片。</p>
 <h3 id="FCS和CRC"><a href="#FCS和CRC" class="headerlink" title="FCS和CRC"></a>FCS和CRC</h3><p>定义：</p>
 <blockquote>
@@ -1187,6 +1203,7 @@
 <p><a href="https://www.globalknowledge.com/us-en/resources/resource-library/articles/what-is-the-difference-between-ethernet-ii-and-ieee-8023/" target="_blank" rel="noopener">What is the Difference Between Ethernet II and IEEE 802.3</a></p>
 <p><a href="https://www.jianshu.com/p/8d50e92a852c" target="_blank" rel="noopener">计算机网络-笔记</a></p>
 <p>TCP分段与IP<a href="https://www.jianshu.com/p/f9a5b07d99a2" target="_blank" rel="noopener">分片</a></p>
+<p><strong><a href="https://www.trueneutral.eu/2015/wireshark-frags-1.html" target="_blank" rel="noopener">IP FRAGMENTATION IN WIRESHARK (1)</a></strong></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
