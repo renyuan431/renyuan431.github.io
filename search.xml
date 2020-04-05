@@ -432,7 +432,7 @@
 <p>但由于一直有MSS&lt;=MTU，很明显，分段后的每一段TCP报文段再加上IP首部后的长度不可能超过MTU，因此也就不需要在网络层进行IP分片了。因此TCP报文段很少会发生IP分片的情况。</p>
 <p>再来看UDP数据报，由于UDP数据报不会自己进行分段，因此当长度超过了MTU时，会在网络层进行IP分片。同样，ICMP（在网络层中）同样会出现IP分片情况。</p>
 <p><strong>总结：UDP不会分段，就由IP来分。TCP会分段，当然就不用IP来分了！</strong></p>
-<h4 id="IP数据分片分析"><a href="#IP数据分片分析" class="headerlink" title="IP数据分片分析"></a>IP数据分片分析</h4><p>在分析IP数据分片时，有三个字段需要格外注意：</p>
+<h4 id="TCP分段分析"><a href="#TCP分段分析" class="headerlink" title="TCP分段分析"></a>TCP分段分析</h4><h4 id="IP数据分片分析"><a href="#IP数据分片分析" class="headerlink" title="IP数据分片分析"></a>IP数据分片分析</h4><p>前面说过，IP分片的原因是IP数据包的大小受到MTU的限制，当所需转发的IP数据报的大于MTU时，就需要在IP层面进行分片。在分析IP数据分片时，有三个IP报头中的字段需要格外注意：</p>
 <blockquote>
 <ul>
 <li>Identification - this value identifies a group of fragments. It’s what tells the reassembling device which fragments make up the original packet.</li>
@@ -443,8 +443,20 @@
 <p>Identification（标识符），这个字段标识该数据为同一组分片的数据，用来告诉重组数据的设备哪些数据分片可以用来重组称为原始数据。</p>
 <p>Fragment offset（分段序号），当所有分段数据都被接收后，需要将这些数据根据正确的顺序重组起来，这个字段告诉重组的设备这些分段数据正确的重组顺序。第一个分段数据的Fragment offset值为0。</p>
 <p>Flags（标记）-MF位（more fragments），当该位为1时表示后面还有更多的分片数据，当最后一个分片数据的MF位为0，表示没有更多的分片数据了。</p>
-<p>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200404205116.png" alt="微信截图_20200404205116"></p>
+<p>先总体来看看这个抓包，这个抓包工有14个数据，前7个是ping包，也就是红框中的这些，后7个是replay这个ping包的，是蓝色框中的部分。</p>
+<blockquote>
+<p>The most important information is in the last entry (<code>#7</code> for the request and <code>#14</code> for the reply). It shows a combination of the contents (and size) of the last fragment to arrive (<code>134</code> bytes), but it also shows the reassembled packet in all its glory (<code>8980</code> bytes).</p>
+<p>They key to that is noticing the tab that appears at the bottom which says <code>Reassembled IPv4 (8980 bytes)</code>.</p>
+</blockquote>
+<p>最重要的信息是在最后的两行中，对于ping包就是第七个数据，对于回复包就是第十四个数据，这两行显示的是最后一个整合了前面所有分片数据信息和大小，也是前面所有分片的整合。</p>
+<p>关键是要看到标签按键上的“组合起来是8980位”这个，表示7个数据的ipv4部分加起来是8980位。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-05_16-51-01.jpg" alt="Snipaste_2020-04-05_16-51-01"></p>
+<blockquote>
+<p>To make matters worse, the IP header shown inside the reassembled packet is the one from the last fragment (notice Fragment offset is <code>8880</code> and MF is <code>0</code>). On the flip side, it does tell you that the packet has been reassembled from 7 fragments and it gives you the sizes and links to the fragments themselves. Convenient.</p>
+</blockquote>
+<p>让事情变得更糟糕的是，只有分片最后的那片数据带有UDP或ICMP首部，在这个例子中，只有第七和第十四片带有ICMP头部，因为Flag位上的MF位（More Fragments）为0，也就是说没有更多分片了，这是最后一个分片了，所以可以把所有分片整合起来了。在7和14上可以看到所有的分片大小以及这些分片的链接。</p>
+<p>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
 <p>IP数据报分片后，只有第一片带有UDP首部或ICMP首部，其余的分片只有IP头部，到了端点后根据IP头部中的信息再网络层进行重组。</p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200404194723.png" alt="微信截图_20200404194723"></p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200404194744.png" alt="微信截图_20200404194744"></p>
@@ -467,10 +479,15 @@
 <li>TFTP 69 (UDP)        简单文件传输协议，提供简单的文件传输服务 </li>
 <li>DNS  53（UDP）    域名解析协议，提供网址和IP地址相互映射服务</li>
 </ul>
-<p>举个例子，我们在设备上ping百度网址的时候，其实ping的并不是百度<a href="http://www.baidu.com的网址而是ping的61.135.169.125这个IP地址，因为在网络上只有IP地址才是设备的唯一标识，必须通过IP地址数据才能通信，但相比一长串的IP地址，还是网址这个贴近人类记忆习惯的东西比较好记，但机器无法识别这些人类熟悉的网址，所以有了DNS这个映射协议，将网址和IP地址对应起来。" target="_blank" rel="noopener">www.baidu.com的网址而是ping的61.135.169.125这个IP地址，因为在网络上只有IP地址才是设备的唯一标识，必须通过IP地址数据才能通信，但相比一长串的IP地址，还是网址这个贴近人类记忆习惯的东西比较好记，但机器无法识别这些人类熟悉的网址，所以有了DNS这个映射协议，将网址和IP地址对应起来。</a></p>
+<p>举个例子，我们在设备上ping百度网址的时候，其实ping的并不是百度 <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> 的网址而是ping的61.135.169.125这个IP地址，因为在网络上只有IP地址才是设备的唯一标识，必须通过IP地址数据才能通信，但相比一长串的IP地址，还是网址这个贴近人类记忆习惯的东西比较好记，但机器无法识别这些人类熟悉的网址，所以有了DNS这个映射协议，将网址和IP地址对应起来。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-09_13-54-41-1583733928827.jpg" alt="Snipaste_2020-03-09_13-54-41"></p>
 <h3 id="传输层（Transport-Layer）"><a href="#传输层（Transport-Layer）" class="headerlink" title="传输层（Transport Layer）"></a>传输层（Transport Layer）</h3><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200118145922.jpg" alt="微信图片编辑_20200118145922"></p>
-<p>传输层位于应用层和网络接口层之间，为两台主机提供端到端的通信，在TCP/IP协议族中，有两个互不相同的传输协议：TCP（传输控制协议）和UDP（用户数据报协议）。图中的TCP协议（也可能是UDP协议）+端口号（Port Number）+应用层的DATA可以理解为整个传输层封装后产生的，在数据由应用层传递给传输层后，TCP提供将应用层发来的数据顺利发送至对端的可靠传输。</p>
+<p>传输层位于应用层和网络接口层之间，负责在主机之间提供逻辑连接，通常提供如下功能：</p>
+<p>流量控制：通过窗口技术</p>
+<p>可靠连接：通过序列号和确认号</p>
+<p>会话多路复用：通过端口号和IP地址</p>
+<p>分段：通过使用数据段的协议数据单元（PDU）</p>
+<p>在TCP/IP协议族中，有两个互不相同的传输协议：TCP（传输控制协议）和UDP（用户数据报协议）。图中的TCP协议（也可能是UDP协议）+端口号（Port Number）+应用层的DATA可以理解为整个传输层封装后产生的，在数据由应用层传递给传输层后，TCP提供将应用层发来的数据顺利发送至对端的可靠传输。</p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200118151853.jpg" alt="微信图片编辑_20200118151853"></p>
 <p>为了实现TCP的这一功能，需要在应用层数据的前端附加一个TCP首部。TCP首部中包括源端口号和目标端口号（用以识别发送主机跟接收主机上的应用）、序号（用以发送的包中哪部分是数据）以及校验和（Check Sum，用来检验数据的读取是否正常进行的方法。） （用以判断数据是否被损坏）。随后将附加了TCP首部的包再发送给IP。</p>
 <p><img src="/2019/11/23/6-tcp-ip/TCPUDP.jpg" alt="TCPUDP"></p>
