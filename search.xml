@@ -432,7 +432,9 @@
 <p>但由于一直有MSS&lt;=MTU，很明显，分段后的每一段TCP报文段再加上IP首部后的长度不可能超过MTU，因此也就不需要在网络层进行IP分片了。因此TCP报文段很少会发生IP分片的情况。</p>
 <p>再来看UDP数据报，由于UDP数据报不会自己进行分段，因此当长度超过了MTU时，会在网络层进行IP分片。同样，ICMP（在网络层中）同样会出现IP分片情况。</p>
 <p><strong>总结：UDP不会分段，就由IP来分。TCP会分段，当然就不用IP来分了！</strong></p>
-<h4 id="TCP分段分析"><a href="#TCP分段分析" class="headerlink" title="TCP分段分析"></a>TCP分段分析</h4><h4 id="IP数据分片分析"><a href="#IP数据分片分析" class="headerlink" title="IP数据分片分析"></a>IP数据分片分析</h4><p>前面说过，IP分片的原因是IP数据包的大小受到MTU的限制，当所需转发的IP数据报的大于MTU时，就需要在IP层面进行分片。在分析IP数据分片时，有三个IP报头中的字段需要格外注意：</p>
+<h4 id="TCP分段分析"><a href="#TCP分段分析" class="headerlink" title="TCP分段分析"></a>TCP分段分析</h4><p>TCP报文段的每个分段中都有TCP首部，到了端点后根据TCP首部的信息在传输层进行重组。IP数据报分片后，只有到达目的地后才进行重组，而不是向其他网络协议，在下一站就要进行重组。</p>
+<p>当来自TCP报文段的某一段（在IP数据报的某一片中）丢失后，TCP在超时后会重发整个TCP报文段，该报文段对应于一份IP数据报（可能有多个IP分片），没有办法只重传数据报中的一个数据分片。</p>
+<h4 id="IP数据分片分析"><a href="#IP数据分片分析" class="headerlink" title="IP数据分片分析"></a>IP数据分片分析</h4><p>前面说过，IP分片的原因是IP数据包的大小受到MTU的限制，当所需转发的IP数据报的大于MTU时，就需要在IP层面进行分片。在分析IP数据分片时，有三个IP报头中的字段需要格外注意：</p>
 <blockquote>
 <ul>
 <li>Identification - this value identifies a group of fragments. It’s what tells the reassembling device which fragments make up the original packet.</li>
@@ -455,12 +457,10 @@
 <blockquote>
 <p>To make matters worse, the IP header shown inside the reassembled packet is the one from the last fragment (notice Fragment offset is <code>8880</code> and MF is <code>0</code>). On the flip side, it does tell you that the packet has been reassembled from 7 fragments and it gives you the sizes and links to the fragments themselves. Convenient.</p>
 </blockquote>
-<p>让事情变得更糟糕的是，只有分片最后的那片数据带有UDP或ICMP首部，在这个例子中，只有第七和第十四片带有ICMP头部，因为Flag位上的MF位（More Fragments）为0，也就是说没有更多分片了，这是最后一个分片了，所以可以把所有分片整合起来了。在7和14上可以看到所有的分片大小以及这些分片的链接。</p>
-<p>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
-<p>IP数据报分片后，只有第一片带有UDP首部或ICMP首部，其余的分片只有IP头部，到了端点后根据IP头部中的信息再网络层进行重组。</p>
+<p>让事情变得更糟糕的是，只有分片最后的那片数据带有UDP或ICMP首部，在这个例子中，只有第七和第十四片带有ICMP头部，因为Flag位上的MF位（More Fragments）为0，也就是说没有更多分片了，这两个是他们分片中的最后一个分片了，所以可以把所有分片整合起来了。在7和14上可以看到所有的分片大小以及这些分片的链接。</p>
+<p>有些书上写的是只有第一个分片包含UDP或ICMP首部，但通过抓包以及询问原厂工程师，我觉得应该是最后一个分片带有UDP和ICMP首部，因为只有在7和14这两个上才有其他分片的信息以及Flag位中的MF位为0（表示没有更多分片）。在自己的结果和书上查到的资料有差异时，不要简单的就怀疑自己的结果有问题，要多方查证，通过做实验和抓包去证实真正的结果如何。</p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200404194723.png" alt="微信截图_20200404194723"></p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200404194744.png" alt="微信截图_20200404194744"></p>
-<p>而TCP报文段的每个分段中都有TCP首部，到了端点后根据TCP首部的信息在传输层进行重组。IP数据报分片后，只有到达目的地后才进行重组，而不是向其他网络协议，在下一站就要进行重组。</p>
 <p>最后一点，对IP分片的数据报来说，即使只丢失一片数据也要重新传整个数据报（既然有重传，说明运输层使用的是具有重传功能的协议，如TCP协议）。这是因为IP层本身没有超时重传机制——由更高层（比如TCP）来负责超时和重传。当来自TCP报文段的某一段（在IP数据报的某一片中）丢失后，TCP在超时后会重发整个TCP报文段，该报文段对应于一份IP数据报（可能有多个IP分片），没有办法只重传数据报中的一个数据分片。</p>
 <h3 id="FCS和CRC"><a href="#FCS和CRC" class="headerlink" title="FCS和CRC"></a>FCS和CRC</h3><p>定义：</p>
 <blockquote>
@@ -583,6 +583,10 @@
 <h6 id="紧急指针（Urgent-Pointer）"><a href="#紧急指针（Urgent-Pointer）" class="headerlink" title="紧急指针（Urgent Pointer）"></a>紧急指针（Urgent Pointer）</h6><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200118160652-1579334838087.jpg" alt="微信图片编辑_20200118160652"></p>
 <p>该字段长为16位。仅在 URG = 1 时才有意义，<strong>它指出本报文段中的紧急数据的字节数</strong>。当 URG = 1 时，发送方 TCP 就把紧急数据插入到本报文段数据的<strong>最前面</strong>，而在紧急数据后面的数据仍是普通数据。因此，紧急指针指出了紧急数据的末尾在报文段中的位置。</p>
 <h5 id="TCP的三次握手"><a href="#TCP的三次握手" class="headerlink" title="TCP的三次握手"></a>TCP的三次握手</h5><h6 id="为什么要三次握手"><a href="#为什么要三次握手" class="headerlink" title="为什么要三次握手"></a>为什么要三次握手</h6><p>因为想确保彼此告诉对方的东西都被准确无误的听到了，类比到现实生活中就是打电话，你给别人打电话，不可能电话一接通你就啪啦啪啦地说一大通，万一对方接通电话后因为有事还没来得及倾听呢？这不太符合正常人类的交流习惯。一般是电话接通后，双方一般会有个交互的过程，一般是你说一声“你好”，然后对方也回复一声“你好”，双方通过各自一句“你好”明确对方的注意力都放在了电话沟通上，然后你们双方就可以开始交流了，这才是正常的人类交流方式，这个过程体现在计算机网络里就是网络协议！我们通过TCP协议在两台电脑建立网络连接之前要先发数据包进行沟通，沟通后再建立连接，然后才是信息的传输，这个机器沟通的过程和人打电话沟通的过程类似，但因为机器始终是机器，没有人那么智能，必须用一系列机制来确保“双方的注意力都放在了电话沟通上”，在TCP建立连接的过程中，这个机制就是三次握手，这三次握手中的Seq、ACK以及控制字段彼此呼应，完成了建立沟通的过程。</p>
+<p>当然，上面这部分完全是为了方便理解所做的比喻，但真实情况和上面的例子还是有一些差别的，如果有兴趣请自行查阅<a href="https://draveness.me/whys-the-design-tcp-three-way-handshake/" target="_blank" rel="noopener">这篇文章</a>，后面我也会结合文章和自己的体会整理一篇单独的笔记，在这里摘要其中一些部分进行说明。</p>
+<p>在<a href="https://tools.ietf.org/html/rfc793" target="_blank" rel="noopener">RFC793 - Transmission Control Protocol</a> 的文档中，清楚的定义了TCP使用三次握手的重要原因——为了阻止历史的重复链接初始化造成的混乱问题，防止使用TCP协议通信的双方建立了错误的连接。</p>
+<p>The principle reason for the three-way handshake is to prevent old duplicate connection initiations from causing confusion.</p>
+<p>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200217174753.jpg" alt="微信图片编辑_20200217174753"></p>
 <img src="/2019/11/23/6-tcp-ip/TCP-handshake.jpg" alt="TCP-handshake" style="zoom:150%;">
 
@@ -1221,6 +1225,7 @@
 <p><a href="https://www.jianshu.com/p/8d50e92a852c" target="_blank" rel="noopener">计算机网络-笔记</a></p>
 <p>TCP分段与IP<a href="https://www.jianshu.com/p/f9a5b07d99a2" target="_blank" rel="noopener">分片</a></p>
 <p><strong><a href="https://www.trueneutral.eu/2015/wireshark-frags-1.html" target="_blank" rel="noopener">IP FRAGMENTATION IN WIRESHARK (1)</a></strong></p>
+<p><a href="https://draveness.me/whys-the-design-tcp-three-way-handshake/" target="_blank" rel="noopener">为什么 TCP 建立连接需要三次握手 · Why’s THE Design?</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
