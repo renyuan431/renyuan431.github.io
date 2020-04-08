@@ -322,7 +322,7 @@
 <p>3、相互联系</p>
 <p>4、便于实现</p>
 <h3 id="便于网络通信的实现"><a href="#便于网络通信的实现" class="headerlink" title="便于网络通信的实现"></a>便于网络通信的实现</h3><p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。类似于汽车上的流水线分工，一开始是一个工人生产一辆汽车，但随着汽车需求原来越大，汽车生产过程的越来越复杂，这种模式已经不适合大规模生产的要求了，首先是一个人很难掌握如此多的工序，其次是即使掌握了也不便于汽车的大规模生产，第三是由于一个人要做很多道工序，很难精通所有的工序，无法加快汽车生产速度也无法提高优化每一步的生产精度，无法提高产品质量。</p>
-<p>网络传输也是同样的道理，一开始的时候协议是不分层的，实现所有的功能，但随着通信量的上升，协议越来越复杂越来越臃肿，必须将所有的通信步骤进行分层，每层完成不同的功能才能保证大规模数据传输的稳定，使得网络易于实现和维护，便于调试。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。</p>
+<p>网络传输也是同样的道理，一开始的时候协议是不分层的，实现所有的功能，但随着通信量的上升，如果要一种协议规定所有的功能和作用，那么该协议的具体实施和编程就会变得非常复杂，无法轻易实现。相比之下，按照网络分层，明确定义每层协议的作用和责任以后，针对每层具体的协议进行编程会更加有利于该协议的实现，使得网络易于实现和维护，便于调试。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。</p>
 <h3 id="标准化"><a href="#标准化" class="headerlink" title="标准化"></a>标准化</h3><p>生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，依旧用汽车这货来举个贴近生活的例子方便理解，在网络通信中，如果没有统一的规则，自己按照自己的规则开发导致协议、设备相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态，类推到汽车行业就是，生产汽车零件的厂家有很多，比如轮胎有普利司通的，有马牌的也有韩泰的，品牌不同但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用，才能像汽车一样，如果轮胎坏了（类推到网络中就是其中某些层的某些协议或功能出了问题），只需要更换一个同型号的换轮胎即可上路飞驰，汽车的其他零件不受影响也不用变动（对相应出问题层级进行排错，出问题的特定层级排除错误通信即可恢复）。</p>
 <h3 id="彼此独立又相互依靠"><a href="#彼此独立又相互依靠" class="headerlink" title="彼此独立又相互依靠"></a>彼此独立又相互依靠</h3><p>？？？？？？？？？？？？？？？</p>
 <h3 id="上层依赖于下层，下层为上层提供服务"><a href="#上层依赖于下层，下层为上层提供服务" class="headerlink" title="上层依赖于下层，下层为上层提供服务"></a>上层依赖于下层，下层为上层提供服务</h3><p>？？？？？？？？？？？？？？</p>
@@ -371,7 +371,7 @@
 </ul>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-13_14-10-29.jpg" alt="Snipaste_2019-12-13_14-10-29"></p>
 <h3 id="面向连接协议与无连接协议"><a href="#面向连接协议与无连接协议" class="headerlink" title="面向连接协议与无连接协议"></a>面向连接协议与无连接协议</h3><p>面向连接（Connection-Oriented）：是指发送数据之前必须在两端建立连接。TCP建立连接的方法是“三次握手”，这样能建立可靠的连接。</p>
-<p>无连接（Connection-less）：是指发送数据之前不在两端建立连接。</p>
+<p>无连接（Connection-less）：是指发送数据之前不在两端建立连接。即使对端主机关机或不存在，数据包还是会被发送出去。反之，对于一台主机来说，它会何时从哪里收到数据也是不得而知的。通常应该进行网络监控，让主机只接收发给自己的数据包。若没有做好准备很有可能会错过一些该收的包。因此，在面向无连接的方式下可能会有很多冗余的通信。</p>
 <h3 id="可靠传输与不可靠传输"><a href="#可靠传输与不可靠传输" class="headerlink" title="可靠传输与不可靠传输"></a>可靠传输与不可靠传输</h3><blockquote>
 <p>Thus, to support these applications, something has to be done to <strong>guarantee</strong> that the data sent by one end of the application is delivered <strong>correctly</strong> and <strong>completely</strong> to the other end of the application. If a protocol provides such a guaranteed data delivery service, it is said to provide reliable data transfer.</p>
 </blockquote>
@@ -416,7 +416,7 @@
 <p>为什么同时需要Default IP MTU和Default media MTU这两个概念呢？</p>
 <p>因为IP MTU仅仅影响IP包，Default media MTU将影响所有以太网帧，这样区分概念可以为网络提供更高的颗粒度，比如可以仅仅设置IP MTU而不影响以太网帧。</p>
 <p>当然，上面这个解答是在二层用以太网封装的情况下，如果用PPP或其他方式的话，上文中的Default media MTU影响的就不是所有以太网了。</p>
-<h3 id="最大分段大小（MSS）"><a href="#最大分段大小（MSS）" class="headerlink" title="最大分段大小（MSS）"></a>最大分段大小（MSS）</h3><p>“最大分段大小”（英语：<strong>M</strong>aximum <strong>S</strong>egment <strong>S</strong>ize）。TCP提交给IP层最大分段大小，不包含TCP Header和 TCP Option，只包含TCP Payload ，注意，<strong>UDP是没有MSS这个概念的</strong>。MSS是TCP用来限制application层最大的发送字节数，是tcp能发送的分组的最大长度。MSS是系统默认的，就是系统TCP/IP栈所能允许的最大包。<strong>在建立连接的三次握手时，这个MSS值经过双方协商后已经被确定了</strong>，这个值并不是客观的值，而是由tcp/ip的实现确定的。下图中，左右两边的MSS都是1460。</p>
+<h3 id="最大分段大小（MSS）"><a href="#最大分段大小（MSS）" class="headerlink" title="最大分段大小（MSS）"></a>最大分段大小（MSS）</h3><p>“最大分段大小”（英语：<strong>M</strong>aximum <strong>S</strong>egment <strong>S</strong>ize）。TCP提交给IP层最大分段大小，不包含TCP Header和 TCP Option，只包含TCP Payload ，注意，<strong>UDP是没有MSS这个概念的</strong>。MSS是TCP用来限制application层最大的发送字节数，是tcp能发送的分组的最大长度。MSS是系统默认的，就是系统TCP/IP栈所能允许的最大包。<strong>在建立连接的三次握手时，这个MSS值经过双方协商后已经被确定了</strong>，这个值并不是客观的值，而是由tcp/ip的实现确定的，<strong>TCP在传送大量数据时，是以MSS的大小将数据进行分割发送。进行重发时也是以MSS为单位。</strong>下图中，左右两边的MSS都是1460。</p>
 <img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-26_13-48-20.jpg" alt="Snipaste_2020-01-26_13-48-20" style="zoom:150%;">
 
 <p>如果两边的MSS值不同，则MSS会使用较小值。通信双方最终的MSS一般情况下 = 双方较小IP MTU - 40。这个40是由20字节的IP Header和20字节的TCP Header构成的，但如果IP Header和TCP Header的大小有变化，比如下图中的MSS就是1448位：</p>
@@ -429,12 +429,15 @@
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-26_17-06-18.jpg" alt="Snipaste_2020-01-26_17-06-18"></p>
 <p>这个TCP segment length就是上图的DATA部分，TCP MSS 、Payload、 DATA 以及 TCP segment length其实是同一个东西，也就是应用层交给传输层的数据。</p>
 <h3 id="TCP分段与IP分片"><a href="#TCP分段与IP分片" class="headerlink" title="TCP分段与IP分片"></a>TCP分段与IP分片</h3><p>TCP分段的原因是因为TCP报文段的大小受到MSS的限制，当TCP报文段的长度大于MSS时，就要在TCP层面进行分段；IP分片的原因是IP数据包的大小受到MTU的限制，当所需转发的IP数据报的大于MTU时，就需要在IP层面进行分片。这两个分片有点类似于，一辆车上只能装4个人，如果有6个人想坐车就只能坐两辆车分开走一样。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-08_12-07-28.jpg" alt="Snipaste_2020-04-08_12-07-28"></p>
 <p>但由于一直有MSS&lt;=MTU，很明显，分段后的每一段TCP报文段再加上IP首部后的长度不可能超过MTU，因此也就不需要在网络层进行IP分片了。因此TCP报文段很少会发生IP分片的情况。</p>
 <p>再来看UDP数据报，由于UDP数据报不会自己进行分段，因此当长度超过了MTU时，会在网络层进行IP分片。同样，ICMP（在网络层中）同样会出现IP分片情况。</p>
 <p><strong>总结：UDP不会分段，就由IP来分。TCP会分段，当然就不用IP来分了！</strong></p>
 <h4 id="TCP分段分析"><a href="#TCP分段分析" class="headerlink" title="TCP分段分析"></a>TCP分段分析</h4><p>TCP报文段的每个分段中都有TCP首部，到了端点后根据TCP首部的信息在传输层进行重组。IP数据报分片后，只有到达目的地后才进行重组，而不是向其他网络协议，在下一站就要进行重组。</p>
 <p>当来自TCP报文段的某一段（在IP数据报的某一片中）丢失后，TCP在超时后会重发整个TCP报文段，该报文段对应于一份IP数据报（可能有多个IP分片），没有办法只重传数据报中的一个数据分片。</p>
-<h4 id="IP数据分片分析"><a href="#IP数据分片分析" class="headerlink" title="IP数据分片分析"></a>IP数据分片分析</h4><p>前面说过，IP分片的原因是IP数据包的大小受到MTU的限制，当所需转发的IP数据报的大于MTU时，就需要在IP层面进行分片。在分析IP数据分片时，有三个IP报头中的字段需要格外注意：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-12_15-59-26.jpg" alt="Snipaste_2020-03-12_15-59-26"></p>
+<h4 id="IP数据分片分析"><a href="#IP数据分片分析" class="headerlink" title="IP数据分片分析"></a>IP数据分片分析</h4><p>前面说过，IP分片的原因是IP数据包的大小受到MTU的限制，当所需转发的IP数据报的大于MTU时，就需要在IP层面进行分片。</p>
+<p>在分析IP数据分片时，有三个IP报头中的字段需要格外注意：</p>
 <blockquote>
 <ul>
 <li>Identification - this value identifies a group of fragments. It’s what tells the reassembling device which fragments make up the original packet.</li>
@@ -479,7 +482,7 @@
 <li>TFTP 69 (UDP)        简单文件传输协议，提供简单的文件传输服务 </li>
 <li>DNS  53（UDP）    域名解析协议，提供网址和IP地址相互映射服务</li>
 </ul>
-<p>举个例子，我们在设备上ping百度网址的时候，其实ping的并不是百度 <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> 的网址而是ping的61.135.169.125这个IP地址，因为在网络上只有IP地址才是设备的唯一标识，必须通过IP地址数据才能通信，但相比一长串的IP地址，还是网址这个贴近人类记忆习惯的东西比较好记，但机器无法识别这些人类熟悉的网址，所以有了DNS这个映射协议，将网址和IP地址对应起来。</p>
+<p>关于DNS举个现实中的例子，我们在设备上ping百度网址的时候，其实ping的并不是百度 <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> 的网址而是ping的61.135.169.125这个IP地址，因为在网络上只有IP地址才是设备的唯一标识，必须通过IP地址数据才能通信，但相比一长串的IP地址，还是网址这个贴近人类记忆习惯的东西比较好记，但机器无法识别这些人类熟悉的网址，所以有了DNS这个映射协议，将网址和IP地址对应起来，当用户输入主机名（域名）时，DNS会自动检索那个注册了主机名和IP地址的数据库，并迅速定位对应的IP地址。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-09_13-54-41-1583733928827.jpg" alt="Snipaste_2020-03-09_13-54-41"></p>
 <h3 id="传输层（Transport-Layer）"><a href="#传输层（Transport-Layer）" class="headerlink" title="传输层（Transport Layer）"></a>传输层（Transport Layer）</h3><p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200118145922.jpg" alt="微信图片编辑_20200118145922"></p>
 <p>传输层位于应用层和网络接口层之间，负责在主机之间提供逻辑连接，通常提供如下功能：</p>
@@ -491,7 +494,6 @@
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200118151853.jpg" alt="微信图片编辑_20200118151853"></p>
 <p>为了实现TCP的这一功能，需要在应用层数据的前端附加一个TCP首部。TCP首部中包括源端口号和目标端口号（用以识别发送主机跟接收主机上的应用）、序号（用以发送的包中哪部分是数据）以及校验和（Check Sum，用来检验数据的读取是否正常进行的方法。） （用以判断数据是否被损坏）。随后将附加了TCP首部的包再发送给IP。</p>
 <p><img src="/2019/11/23/6-tcp-ip/TCPUDP.jpg" alt="TCPUDP"></p>
-<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-03-12_15-59-26.jpg" alt="Snipaste_2020-03-12_15-59-26"></p>
 <p>TCP 就可以在自己这一层，把用户发送的数据，预先分成多个大小限制在 MTU 里的 TCP 包。每个 TCP 的分片包，都完整了包含了 TCP 头信息，方便在接收方重组。</p>
 <h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><p>TCP（Transmission Control Protocol，传输控制协议）为两台主机提供高可靠性的数据通信，是一种面向连接的、可靠的、基于字节流的传输层通信协议，由IETF的RFC793定义。TCP 是面向连接的、可靠的流协议。流就是指不间断的数据结构，你可以把它想象成排水管中的水流。</p>
 <h5 id="TCP的特点："><a href="#TCP的特点：" class="headerlink" title="TCP的特点："></a>TCP的特点：</h5><p>1、面向连接：是指发送数据之前必须在两端建立连接。TCP建立连接的方法是“三次握手”，这样能建立可靠的连接，所以说TCP是面向连接的协议。建立连接，是为数据的可靠传输打下了基础。</p>
@@ -815,7 +817,14 @@
 <p>（4）校验和：校验UDP用户数据报在传输中是否有错，有错就丢弃。</p>
 <h5 id="UDP常见协议："><a href="#UDP常见协议：" class="headerlink" title="UDP常见协议："></a>UDP常见协议：</h5><p>Multimedia applications, DNS, BOOTP, DHCP, TFTP, SNMP, RIP</p>
 <h4 id="TCP-VS-UDP"><a href="#TCP-VS-UDP" class="headerlink" title="TCP VS UDP"></a>TCP VS UDP</h4><p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-25_17-17-29.jpg" alt="Snipaste_2020-02-25_17-17-29"></p>
-<h3 id="网络层（Internet-Layer）"><a href="#网络层（Internet-Layer）" class="headerlink" title="网络层（Internet Layer）"></a>网络层（Internet Layer）</h3><h4 id="IPv4协议报头"><a href="#IPv4协议报头" class="headerlink" title="IPv4协议报头"></a>IPv4协议报头</h4><img src="/2019/11/23/6-tcp-ip/ip-v4-datagram-header.png" alt="ip-v4-datagram-header" style="zoom:150%;">
+<h3 id="网络层（Internet-Layer）"><a href="#网络层（Internet-Layer）" class="headerlink" title="网络层（Internet Layer）"></a>网络层（Internet Layer）</h3><h4 id="网络层总览"><a href="#网络层总览" class="headerlink" title="网络层总览"></a>网络层总览</h4><p>TCP/IP的心脏是互联网层。这一层主要由IP（Internet Protocol）、ICMP（Internet Control Message Protocol）等协议组成。IP协议是一个面向无连接的协议，也就是在发送数据包之前不需要与目标地址之间建立连接，上层如果到需要发送给IP的数据，该数据会立即被压缩成IP包发送出去。</p>
+<h5 id="为什么IP是无连接协议"><a href="#为什么IP是无连接协议" class="headerlink" title="为什么IP是无连接协议"></a>为什么IP是无连接协议</h5><p>主要有两点原因：一是为了简化，二是为了提速。面向连接比起面向无连接处理相对复杂。甚至管理每个连接本身就是一个相当繁琐的事情。此外，每次通信之前都要事先建立连接，又会降低处理速度。需要有连接时，可以委托上一层（比如TCP）提供此项服务。因此，IP为了实现简单化与高速化采用面向无连接的方式。</p>
+<h5 id="如何提高可靠性"><a href="#如何提高可靠性" class="headerlink" title="如何提高可靠性"></a>如何提高可靠性</h5><p>IP提供尽力服务（Best Effort），意指“为了把数据包发送到最终目标地址，尽最大努力。”然而，它并不做“最终收到与否的验证”。IP数据包在途中可能会发生丢包、错位以及数据量翻倍等问题。如果发送端的数据未能真正发送到对端目标主机会造成严重的问题。例如，发送一封电子邮件，如果邮件内容中很重要的一部分丢失，会让收件方无法及时获取信息。</p>
+<p>因此提高通信的可靠性很重要。<strong>TCP就提供这种功能。</strong>如果说IP只负责将数据发给目标主机，那么TCP则负责保证对端主机确实接收到数据。</p>
+<p>那么，有人可能会提出疑问：为什么不让IP具有可靠传输的功能，从而把这两种协议合并到一起呢？</p>
+<p>这其中的缘由就在于，<strong>如果要一种协议规定所有的功能和作用，那么该协议的具体实施和编程就会变得非常复杂，无法轻易实现。</strong>相比之下，按照网络分层，<strong>明确定义每层协议的作用和责任以后，针对每层具体的协议进行编程会更加有利于该协议的实现。</strong></p>
+<p>网络通信中如果能进行有效分层，就可以明确TCP与IP各自协议的最终目的，也有利于后续对这些协议进行扩展和性能上的优化。分层也简化了每个协议的具体实现。互联网能够发展到今天，与网络通信的分层密不可分。</p>
+<h4 id="IPv4协议报头"><a href="#IPv4协议报头" class="headerlink" title="IPv4协议报头"></a>IPv4协议报头</h4><img src="/2019/11/23/6-tcp-ip/ip-v4-datagram-header.png" alt="ip-v4-datagram-header" style="zoom:150%;">
 
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-08_17-05-12.jpg" alt="Snipaste_2020-01-08_17-05-12"></p>
 <p><img src="/2019/11/23/6-tcp-ip/IP%20packet.png" alt="IP packet"></p>
