@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CCNA笔记——10、设备管理及cisco IOS基础配置</title>
+    <url>/2020/04/14/10-cisco-ios/</url>
+    <content><![CDATA[<h2 id="CISCO路由器及启动过程"><a href="#CISCO路由器及启动过程" class="headerlink" title="CISCO路由器及启动过程"></a>CISCO路由器及启动过程</h2><h3 id="路由器组件"><a href="#路由器组件" class="headerlink" title="路由器组件"></a>路由器组件</h3><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-14_16-22-14.jpg" alt="Snipaste_2020-04-14_16-22-14"></p>
+<h3 id="路由器启动过程"><a href="#路由器启动过程" class="headerlink" title="路由器启动过程"></a>路由器启动过程</h3><h2 id="设备管理及CISCO-IOS介绍"><a href="#设备管理及CISCO-IOS介绍" class="headerlink" title="设备管理及CISCO IOS介绍"></a>设备管理及CISCO IOS介绍</h2><h3 id="通过Console接口管理网络设备"><a href="#通过Console接口管理网络设备" class="headerlink" title="通过Console接口管理网络设备"></a>通过Console接口管理网络设备</h3><h3 id="CISCO-IOS概述"><a href="#CISCO-IOS概述" class="headerlink" title="CISCO IOS概述"></a>CISCO IOS概述</h3><h3 id="CISCO-IOS命令行界面"><a href="#CISCO-IOS命令行界面" class="headerlink" title="CISCO IOS命令行界面"></a>CISCO IOS命令行界面</h3><h3 id="CISCO-IOS基础配置命令"><a href="#CISCO-IOS基础配置命令" class="headerlink" title="CISCO IOS基础配置命令"></a>CISCO IOS基础配置命令</h3><h2 id="CRT软件使用简介"><a href="#CRT软件使用简介" class="headerlink" title="CRT软件使用简介"></a>CRT软件使用简介</h2><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+      <categories>
+        <category>路由交换方向</category>
+        <category>CCNA</category>
+      </categories>
+  </entry>
+  <entry>
     <title>CCNA笔记——9、通信过程分析</title>
     <url>/2020/04/02/9-communication-process/</url>
     <content><![CDATA[<p>这一部分开始把前面那堆枯燥乏味的理论联系到实际数据传输的过程了，阅读这部分建议结合OSI模型以及TCP/IP模型中的“相关概念”部分一起看，实际通信过程结合理论分析，有助于真正掌握通信的过程和概念。</p>
@@ -370,6 +380,10 @@
 <li>物理层传输的PDU叫Bit(比特)</li>
 </ul>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-13_14-10-29.jpg" alt="Snipaste_2019-12-13_14-10-29"></p>
+<h3 id="什么是TCP的连接"><a href="#什么是TCP的连接" class="headerlink" title="什么是TCP的连接"></a>什么是TCP的连接</h3><blockquote>
+<p>The reliability and flow control mechanisms described above requirethat TCPs initialize and maintain certain status information foreach data stream.  The combination of this information, including sockets, sequence numbers, and window sizes, is called a connection.</p>
+</blockquote>
+<p>上面提到的TCP的可靠和流量控制机制，需要TCP为每个信息流数据初始化并维持特定的状态信息。包括sockets、序列号和窗口大小在内的这些信息的集合，叫做连接。</p>
 <h3 id="面向连接协议与无连接协议"><a href="#面向连接协议与无连接协议" class="headerlink" title="面向连接协议与无连接协议"></a>面向连接协议与无连接协议</h3><p>面向连接（Connection-Oriented）：是指发送数据之前必须在两端建立连接。TCP建立连接的方法是“三次握手”，这样能建立可靠的连接。</p>
 <p>无连接（Connection-less）：是指发送数据之前不在两端建立连接。即使对端主机关机或不存在，数据包还是会被发送出去。反之，对于一台主机来说，它会何时从哪里收到数据也是不得而知的。通常应该进行网络监控，让主机只接收发给自己的数据包。若没有做好准备很有可能会错过一些该收的包。因此，在面向无连接的方式下可能会有很多冗余的通信。</p>
 <h3 id="可靠传输与不可靠传输"><a href="#可靠传输与不可靠传输" class="headerlink" title="可靠传输与不可靠传输"></a>可靠传输与不可靠传输</h3><blockquote>
@@ -544,6 +558,8 @@
 <p>确认应答号字段长度32位。是指表示<strong>期望收到对方下一个报文段的序号值</strong>。实际上，它是指已收到确认应答号减1为止的数据。当发送端收到确认应答号后，用来确认这个位置以前所有数据都被正常接收，否则将会从新连接发送，这也<strong>是TCP是可靠传输的原因，因为有“序列号—确认应答号”这么一个确认机制，可以知道数据是否发送完整。</strong>例如下图中，主机A向主机B发送了长度为725的数据，主机B在回复的数据中将应答号设置为726，表示前725个数据都正常接收，下次请发送序列号从726开始的数据。</p>
 <img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-15_17-04-48.jpg" alt="Snipaste_2019-12-15_17-04-48" style="zoom:150%;">
 
+<p>必须要注意的是，<strong>TCP的ACK表达的意思一方面是期望收到对方下一个报文段的序列号，另一方面也是确认当前数据段前面的全部数据段已经被接收和处理</strong>，如果说对方发送了5个数据段，数据段1-5，如果后四段成功接收，但第一段未接收的话，接收者是不会发送ACK序列号为6的，因为如果发送了ACK=6就是说明1-5全部接收成功，但事实上数据段1并没有接收到所以是不会发送ACK为6的数据的，由于发送方没有收到 ACK，<strong>所有数据段</strong>对应的计时器就会超时并重新传输数据。在丢包较为严重的网络下，这种重传机制会造成大量的带宽浪费。</p>
+<p>如何解决上面说的这种其中某一个数据段没收到就要重传所有数据段的问题呢？要用到快速重传（Fast Retransmit/Fast Recovery），大概意思是当接收方收到乱序的数据段时，不会等待重传计时器到时再重传，而是会立刻发送两个连续的 ACK 触发发送方的重传，这里就不展开了，详见RFC2581中的<a href="https://tools.ietf.org/html/rfc2581#page-6" target="_blank" rel="noopener">3.2 Fast Retransmit/Fast Recovery</a>。</p>
 <blockquote>
 <p>The sequence number is always valid. The acknowledgement number is only valid when the ACK flag is one. The only time the ACK flag is not set, that is, the only time there is not a valid acknowledgement number in the TCP header, is during the first packet of connection set-up.</p>
 </blockquote>
@@ -594,6 +610,8 @@
 <p>当然，上面这部分完全是为了方便理解所做的比喻，但真实情况和上面的例子还是有一些差别的，如果有兴趣请自行查阅<a href="https://draveness.me/whys-the-design-tcp-three-way-handshake/" target="_blank" rel="noopener">这篇文章</a>，后面我也会结合文章和自己的体会整理一篇单独的笔记，在这里摘要其中一些部分进行说明。</p>
 <p>在<a href="https://tools.ietf.org/html/rfc793" target="_blank" rel="noopener">RFC793 - Transmission Control Protocol</a> 的文档中，清楚的定义了TCP使用三次握手的重要原因——为了阻止历史的重复链接初始化造成的混乱问题，防止使用TCP协议通信的双方建立了错误的连接。</p>
 <p>The principle reason for the three-way handshake is to prevent old duplicate connection initiations from causing confusion.</p>
+<p>当然，也有另一个原因就是让通信的双方确定初始序列号。</p>
+<p><img src="/2019/11/23/6-tcp-ip/2020-01-02-15779393353419-basic-3-way-handshake.png" alt="2020-01-02-15779393353419-basic-3-way-handshake"></p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200217174753.jpg" alt="微信图片编辑_20200217174753"></p>
 <img src="/2019/11/23/6-tcp-ip/TCP-handshake.jpg" alt="TCP-handshake" style="zoom:150%;">
 
@@ -653,7 +671,8 @@
 <p>Syn Cookie技术则完全不使用任何存储资源，这种方法比较巧妙，它使用一种特殊的算法生成Sequence Number，这种算法考虑到了对方的IP、端口、己方IP、端口的固定信息，以及对方无法知道而己方比较固定的一些信息，如MSS、时间等，在收到对方的ACK报文后，重新计算一遍，看其是否与对方回应报文中的（SequenceNumber-1）相同，从而决定是否分配TCB资源。</p>
 <p>防火墙：</p>
 <p>很多<strong>防火墙中都提供一种SYN代理的功能，其主要原理是对试图穿越的SYN请求进行验证后才放行。</strong></p>
-<h5 id="TCP的四次分手"><a href="#TCP的四次分手" class="headerlink" title="TCP的四次分手"></a>TCP的四次分手</h5><p><img src="/2019/11/23/6-tcp-ip/TCP-88-1.jpg" alt="TCP-88-1"></p>
+<h5 id="TCP的四次分手"><a href="#TCP的四次分手" class="headerlink" title="TCP的四次分手"></a>TCP的四次分手</h5><p><img src="/2019/11/23/6-tcp-ip/2020-03-10-15838517142219-tcp-closing-connection.png" alt="2020-03-10-15838517142219-tcp-closing-connection"></p>
+<p><img src="/2019/11/23/6-tcp-ip/TCP-88-1.jpg" alt="TCP-88-1"></p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200218152246.jpg" alt="微信图片编辑_20200218152246"></p>
 <img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_17-07-53.jpg" alt="Snipaste_2020-01-05_17-07-53" style="zoom:150%;">
 
@@ -696,17 +715,13 @@
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-18_17-07-05.jpg" alt="Snipaste_2020-02-18_17-07-05"></p>
 <h5 id="为什么TCP实放需要四次分手"><a href="#为什么TCP实放需要四次分手" class="headerlink" title="为什么TCP实放需要四次分手"></a>为什么TCP实放需要四次分手</h5><p>为了保证双方都能通知对方“需要释放连接”，即在释放连接后都无法接收或发送消息给对方</p>
 <ul>
-<li><p>需要明确的是：TCP是全双工模式，这意味着是双向都可以发送、接收的</p>
-</li>
-<li><p>释放连接的定义是：双方都无法接收或发送消息给对方，是双向的</p>
-</li>
-<li><p>当主机1发出“释放连接请求”（FIN报文段）时，只是表示主机1已经没有数据要发送 / 数据已经全部发送完毕；但是，这个时候主机1还是可以接受来自主机2的数据。</p>
-</li>
-<li><p>当主机2返回“确认释放连接”信息（ACK报文段）时，表示它已经知道主机1没有数据发送了 但此时主机2还是可以发送数据给主机1</p>
-</li>
-<li><p>当主机2也发送了FIN报文段时，即告诉主机1我也没有数据要发送了 此时，主机1和2已经无法进行通信：主机1无法发送数据给主机2，主机2也无法发送数据给主机1，此时，TCP的连接才算释放。</p>
-</li>
+<li>需要明确的是：TCP是全双工模式，这意味着是双向都可以发送、接收的</li>
+<li>释放连接的定义是：双方都无法接收或发送消息给对方，是双向的</li>
+<li>当主机1发出“释放连接请求”（FIN报文段）时，只是表示主机1已经没有数据要发送 / 数据已经全部发送完毕；但是，这个时候主机1还是可以接受来自主机2的数据。</li>
+<li>当主机2返回“确认释放连接”信息（ACK报文段）时，表示它已经知道主机1没有数据发送了 但此时主机2还是可以发送数据给主机1</li>
+<li>当主机2也发送了FIN报文段时，即告诉主机1我也没有数据要发送了 此时，主机1和2已经无法进行通信：主机1无法发送数据给主机2，主机2也无法发送数据给主机1，此时，TCP的连接才算释放。</li>
 </ul>
+<h5 id="为什么-TCP-协议有-TIME-WAIT-状态"><a href="#为什么-TCP-协议有-TIME-WAIT-状态" class="headerlink" title="为什么 TCP 协议有 TIME_WAIT 状态"></a><a href="https://draveness.me/whys-the-design-tcp-time-wait/" target="_blank" rel="noopener">为什么 TCP 协议有 TIME_WAIT 状态</a></h5><p>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</p>
 <h5 id="TCP的流量控制——窗口滑动机制"><a href="#TCP的流量控制——窗口滑动机制" class="headerlink" title="TCP的流量控制——窗口滑动机制"></a>TCP的流量控制——窗口滑动机制</h5><h6 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h6><p>TCP 用“序列号（Sequence Number）”和“确认应答号（Acknowledge Number）”确保数据可靠传输，但如果每发送一个数据都要等对端发送ACK确认后才能发送下一个数据的话，显然效率是很低的，而且包的往返时间越长通信性能就越低，为解决这个问题，TCP引入了窗口这个概念。不再是一个数据段确认一次，而是以更大的单位进行确认，这么做的好处是转发时间将会被大幅地缩短。也就是说，发送端主机，在发送了一个数据段以后不必要一直等待确认应答，而是继续发送其他的数据段。接收方的硬件性能有限，不可能在同一时间处理完这些数据，所以接收方利用接收缓存（Buffer）去暂时存储那些还没来得及处理的数据。但接收这些未经确认的数据是有大小限制的，这个限制的大小称作窗口大小，也就是TCP报头中的16位字段“Window Size”，这个字段用来告诉发送端，接收端还有多少缓存可以用，发送端会根据缓存的大小来调整发送的数据量。<strong>换句话说，窗口大小就是指无需等待确认应答而可以继续发送数据的最大值。</strong>但是这个数值并不是对方一次发送数据的值，因为发送数据的值收到带宽等多方面因素的影响。</p>
 <p>窗口的作用：</p>
 <p><strong>1.确保数据不丢失</strong>：如果发送的数据丢失了可以重新发。</p>
@@ -778,7 +793,8 @@
 <p><img src="/2019/11/23/6-tcp-ip/RTT.png" alt="RTT"></p>
 <p><img src="/2019/11/23/6-tcp-ip/TCP-RTO-Retransmission-Timeout-Diagram.jpg" alt="TCP-RTO-Retransmission-Timeout-Diagram"></p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-10_15-38-54.jpg" alt="Snipaste_2020-02-10_15-38-54"></p>
-<p>例如上图中，client没收到server发送的segment2 ，所以会一直发送ACK2用来请求seq为2的数据，请注意，这里client收到了其他的比如segment 5，但client是不会发送ACK6的，因为它没收到seq2的数据，server一直收到ACK=2的数据，说明client只确认收到了seq=1的数据，所以在计时完成（RTO），认为client没收到数据以后，server从seq=2的数据重新开始发送。</p>
+<p>例如上图中，client没收到server发送的segment2 ，所以会一直发送ACK2用来请求seq为2的数据，请注意，这里client收到了其他的比如segment 5，但client是不会发送ACK6的，因为它没收到seq2的数据，并且TCP ACK 的语义是<strong>当前数据段前的全部数据段都已经被接收和处理</strong>，所以接收方无法发送 ACK 消息，由于发送方没有收到 ACK，<strong>所有数据段</strong>对应的计时器就会超时并重新传输数据。</p>
+<p>server一直收到ACK=2的数据，说明client只确认收到了seq=1的数据，所以在计时完成（RTO），认为client没收到数据以后，server从seq=2的数据重新开始发送。</p>
 <h5 id="TCP的慢启动"><a href="#TCP的慢启动" class="headerlink" title="TCP的慢启动"></a>TCP的慢启动</h5><p>定义和作用：</p>
 <blockquote>
 <p>TCP slow start is an algorithm which balances the speed of a network connection. Slow start gradually increases the amount of data transmitted until it finds the network’s maximum carrying capacity.</p>
@@ -805,7 +821,7 @@
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-29_15-59-48.jpg" alt="Snipaste_2020-02-29_15-59-48"></p>
 <p>加入RED之后的TCP拥塞避免示意图：</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-29_17-20-26.jpg" alt="Snipaste_2020-02-29_17-20-26"></p>
-<h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><p><img src="/2019/11/23/6-tcp-ip/unnamed.png" alt="unnamed"></p>
+<h5 id="TCP快速重传（Fast-Retransmit-Fast-Recovery）"><a href="#TCP快速重传（Fast-Retransmit-Fast-Recovery）" class="headerlink" title="TCP快速重传（Fast Retransmit/Fast Recovery）"></a>TCP快速重传（Fast Retransmit/Fast Recovery）</h5><h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><p><img src="/2019/11/23/6-tcp-ip/unnamed.png" alt="unnamed"></p>
 <p><img src="/2019/11/23/6-tcp-ip/wireshark5-1.png" alt="wireshark5-1"></p>
 <p><img src="/2019/11/23/6-tcp-ip/con_026a.gif" alt="con_026a"></p>
 <h5 id="UDP的特点："><a href="#UDP的特点：" class="headerlink" title="UDP的特点："></a>UDP的特点：</h5><p>UDP是一种无连接的、不可靠的、面向报文、没有拥塞控制的协议。</p>
