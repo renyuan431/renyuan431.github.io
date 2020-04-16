@@ -4,7 +4,107 @@
     <title>CCNA笔记——10、设备管理及cisco IOS基础配置</title>
     <url>/2020/04/14/10-cisco-ios/</url>
     <content><![CDATA[<h2 id="CISCO路由器及启动过程"><a href="#CISCO路由器及启动过程" class="headerlink" title="CISCO路由器及启动过程"></a>CISCO路由器及启动过程</h2><h3 id="路由器组件"><a href="#路由器组件" class="headerlink" title="路由器组件"></a>路由器组件</h3><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-14_16-22-14.jpg" alt="Snipaste_2020-04-14_16-22-14"></p>
-<h3 id="路由器启动过程"><a href="#路由器启动过程" class="headerlink" title="路由器启动过程"></a>路由器启动过程</h3><h2 id="设备管理及CISCO-IOS介绍"><a href="#设备管理及CISCO-IOS介绍" class="headerlink" title="设备管理及CISCO IOS介绍"></a>设备管理及CISCO IOS介绍</h2><h3 id="通过Console接口管理网络设备"><a href="#通过Console接口管理网络设备" class="headerlink" title="通过Console接口管理网络设备"></a>通过Console接口管理网络设备</h3><h3 id="CISCO-IOS概述"><a href="#CISCO-IOS概述" class="headerlink" title="CISCO IOS概述"></a>CISCO IOS概述</h3><h3 id="CISCO-IOS命令行界面"><a href="#CISCO-IOS命令行界面" class="headerlink" title="CISCO IOS命令行界面"></a>CISCO IOS命令行界面</h3><h3 id="CISCO-IOS基础配置命令"><a href="#CISCO-IOS基础配置命令" class="headerlink" title="CISCO IOS基础配置命令"></a>CISCO IOS基础配置命令</h3><h2 id="CRT软件使用简介"><a href="#CRT软件使用简介" class="headerlink" title="CRT软件使用简介"></a>CRT软件使用简介</h2><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+<p>CPU：中央处理器，CPU执行操作系统的指令，例如启动，路由功能和交换功能。</p>
+<p>RAM（random access memory）：随机访问存储器，RAM是一种易失性内存，需要持续供电才能保留其内容，如果重启或电源断电的话，该存储器上的内容会全部丢失。RAM上存储那些需要被运行的数据，比如路由器的操作系统、目前正在运行的配置文件（Running Configuration File）、路由表（IP Routing Table）、ARP缓存表（ARP Cache）、缓存数据（Packet Buffer）等。思科设备上运行的操作系统叫做“Cisco IOS”，IOS是Internetwork Operating System的简写，和苹果运行的IOS系统简写一样，话说貌似苹果给了思科授权费才能也用这个简写；Running Configuration File，它是存储了路由器IOS系统目前运行的配置命令，路由器上几乎所有配置命令都存储在running configuration file中，一般叫做running configuration；ARP缓存表（ARP Cache），缓存表中包含了IPV4地址和MAC地址对应的表项，当路由器上有以太网接口时才会有ARP缓存表；缓存数据（Packet Buffer），当接口收到或发出数据前会暂时存储在缓存中，这些暂时存储的数据叫做数据缓存。</p>
+<p>ROM（read-only memory），ROM是一种永久性存储，即使断电重启，其中的数据也不会丢失。思科设备中的ROM存储的是，POST，bootstrap，ROMMON，mini-IOS。</p>
+<ul>
+<li>POST：Power on self test，开机自检程序，用来确定所有必备开机的组建都能正常运行；</li>
+<li>bootstrap：开机指令，负责启动路由器并找到IOS系统的位置将其加载到RAM中；</li>
+<li>ROMMON：ROMMON是一个精简版IOS程序，在ROMMON上可以进行各种系统检测和进行密码恢复，如果bootstrap成功找到IOS系统则不会进入ROMMON模式，如果bootstrap找不到系统则会进入ROMMON模式；</li>
+<li>mini-IOS：Mini-IOS是一个备用工具，它包含了一个剥离版的IOS。它适用于找不到IOS映像的关键情况。Mini-IOS只包含IP代码，允许你从其他资源（如TFTP Server）加载IOS。</li>
+</ul>
+<p>Flash Memory，Flash Memory是一种非易失性存储，可以通过电子方式进行存储和擦除数据，主要用来存放IOS操作系统。</p>
+<p>NVRAM，NVRAM是Nonvolatile RAM的简写，中文是非易失性RAM存储，这种存储在断电或重启时也不会丢失其中的数据，主要用来存放startup configuration，也就是设备的启动配置。</p>
+<h3 id="路由器启动过程"><a href="#路由器启动过程" class="headerlink" title="路由器启动过程"></a>路由器启动过程</h3><p><img src="/2020/04/14/10-cisco-ios/router-booting-process.jpg" alt="router-booting-process"></p>
+<p><img src="/2020/04/14/10-cisco-ios/071613_2203_CCNAPrepInt4.png" alt="071613_2203_CCNAPrepInt4"></p>
+<p>路由器开机后，先运行ROM中的POST，也就是进行硬件自检，看必备的开机部件（CPU, RAM和NVRAM）是否都工作正常，如果正常的话，将ROM中的Bootstrap程序拷贝到RAM中运行，当拷贝完毕且在RAM运行后，CPU执行bootstrap程序搜寻IOS操作系统的位置，搜索的过程依次为Flash — TFTP Server — ROM，如果都没有的话则进入ROMMON模式，如果找到操作系统则操作系统会加载到RAM中运行，并加载存储在NVRAM中的开机启动配置，当所有程序都在RAM中成功加载后，开机过程运行完毕。</p>
+<h2 id="设备管理及CISCO-IOS介绍"><a href="#设备管理及CISCO-IOS介绍" class="headerlink" title="设备管理及CISCO IOS介绍"></a>设备管理及CISCO IOS介绍</h2><h3 id="CISCO-IOS概述"><a href="#CISCO-IOS概述" class="headerlink" title="CISCO IOS概述"></a>CISCO IOS概述</h3><p>Cisco互联网络操作系统，Cisco私有的网络设备操作系统。它是Cisco 的一项核心技术，该操作系统应用于Cisco路由器、局域网交换机、小型无线接入点等设备。</p>
+<p>cisco IOS 可为设备提供下列网络服务：</p>
+<ul>
+<li>基本的路由和交换功能 </li>
+<li>安全可靠地访问网络资源 </li>
+<li>网络可伸缩性</li>
+</ul>
+<h3 id="设备管理方法"><a href="#设备管理方法" class="headerlink" title="设备管理方法"></a>设备管理方法</h3><p>可以通过多种方法访问CLI（Command Line Interface，命令行界面） 环境。最常用的方法有：</p>
+<ul>
+<li>通过Console接口管理设备 </li>
+<li>通过Telnet或SSH远程管理设备 </li>
+<li>辅助端口 </li>
+</ul>
+<h4 id="通过Console接口管理网络设备"><a href="#通过Console接口管理网络设备" class="headerlink" title="通过Console接口管理网络设备"></a>通过Console接口管理网络设备</h4><p><img src="/2020/04/14/10-cisco-ios/Cisco+console+port.jpg" alt="Cisco+console+port"></p>
+<p><img src="/2020/04/14/10-cisco-ios/console.jpg" alt="console"></p>
+<p>Console，翻译成中文就是控制台，Console口就是专门用来配置设备的接口，用Console线和电脑连接，常见的Console线有以下几种：</p>
+<p>一种是RJ-45（连接设备的Console口） —— DB-9（连接计算机）线，但由于现在很多电脑已经没有了DB-9接口，所以大多情况下需要额外的转接口才能和电脑连接：</p>
+<p><img src="/2020/04/14/10-cisco-ios/usb-to-serial-adapter-with-console-cable.jpg" alt="usb-to-serial-adapter-with-console-cable"></p>
+<p>另一种是RJ-45（连接设备的Console口） —— USB（连接计算机）线，所有电脑上都有USB接口，所以不用额外的设备即可连接计算机，比较方便，更推荐使用这种线连接设备：</p>
+<p><img src="/2020/04/14/10-cisco-ios/AJV5_131962502847611197bIdYqdnY8K.jpg" alt="AJV5_131962502847611197bIdYqdnY8K"></p>
+<p>还有一种蓝牙Console线，不受线长约束，非常方便：</p>
+<p><img src="/2020/04/14/10-cisco-ios/O1CN011d84wI1b0cM5C4Gqs_!!52403403.jpg" alt="O1CN011d84wI1b0cM5C4Gqs_!!52403403"></p>
+<p>用Console先连接好设备与计算机后，可以用超级终端或Secure CRT连接设备</p>
+<h5 id="超级终端（HyperTerminal）"><a href="#超级终端（HyperTerminal）" class="headerlink" title="超级终端（HyperTerminal）"></a>超级终端（HyperTerminal）</h5><p>连接上Console线并装好驱动后，设备管理器中的端口选项中会多出一个设备，记住连接的是哪个COM口</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_13-52-21.jpg" alt="Snipaste_2020-04-16_13-52-21"></p>
+<p>Win XP系统自带超级终端，可以再附件中找到该工具，其他系统的话需要自行下载。打开超级终端后，有个对话框提示要填写位置电话号码，点击取消关闭该对话框，然后进入连接配置界面，名称随便输入即可。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_13-55-22.jpg" alt="Snipaste_2020-04-16_13-55-22"></p>
+<p>确定使用端口为上面设备管理器中的设备后，点击确定。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-40-15.jpg" alt="Snipaste_2020-04-16_14-40-15"></p>
+<p>参数建议直接选择还原默认值，注意核对“位/秒”一项的值为9600即可点击确定，成功通过Console口登入设备。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-42-16.jpg" alt="Snipaste_2020-04-16_14-42-16"></p>
+<h5 id="Secure-CRT"><a href="#Secure-CRT" class="headerlink" title="Secure CRT"></a>Secure CRT</h5><p>SecureCRT是网工常用的登录并对设备进行配置的强大工具，它支持SSH、Telnet和rlogin等协议，也可运行VBScript 和 JScript 脚本。该软件是一款商业软件，可以免费试用30天。安装好软件后，点击“New Session”新建连接。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-48-36.jpg" alt="Snipaste_2020-04-16_14-48-36"></p>
+<p>协议（Protocol）使用Serial，端口（Port）使用设备管理器中显示的COM口号码，波特率（Baud rate）选择9600，其他用默认选项即可，连接名称可以自定义，此处用 “Cisco serial Console”，设置完毕后即可用Secure CRT通过Console口连接到设备。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-48-59.jpg" alt="Snipaste_2020-04-16_14-48-59"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-51-54.jpg" alt="Snipaste_2020-04-16_14-51-54"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-53-48.jpg" alt="Snipaste_2020-04-16_14-53-48"></p>
+<p>下次使用时，该连接在Connect标签中会有保存，可直接点击Connect使用进行连接，不用重新配置参数。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-54-08.jpg" alt="Snipaste_2020-04-16_14-54-08"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-55-10.jpg" alt="Snipaste_2020-04-16_14-55-10"></p>
+<h3 id="CISCO-IOS配置模式"><a href="#CISCO-IOS配置模式" class="headerlink" title="CISCO IOS配置模式"></a>CISCO IOS配置模式</h3><p><strong>用户模式</strong>（User Mode），显示为：cisco&gt; </p>
+<p>– 正常登陆设备CLI后的第一个配置模式，只具备最基本的查看权限，输入“？”查询能使用的命令后发现可用命令十分有限。 </p>
+<p><img src="/2020/04/14/10-cisco-ios/cisco_cli.png" alt="cisco_cli"></p>
+<p>输入命令：enable后即可进入特权模式。</p>
+<p><strong>特权模式</strong>（Privilege execute mode），显示为：cisco#</p>
+<p>– 从用户模式通过认证（如果设置了密码）后即可进入特权模式，从截图中可以看到，输入“？”查询能使用的命令后发现可用命令相比用户模式多了很多。 </p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-04-54.jpg" alt="Snipaste_2020-04-16_15-04-54"></p>
+<p><strong>全局配置模式</strong>（Global Configuration mode），在特权模式中输入config terminal 命令后即可进入全局模式，这个模式主要是针对网络整体参数进行的设置，例如DNS地址或接口IP地址等。从截图中可以看到，输入“？”查询能使用的命令后发现，命令相比前两个模式并不相同。</p>
+<p>– 可配置设备全局参数，开启或关闭设备全局特性或功能； </p>
+<p>– 从全局配置模式可进入多种不同的其他子配置模式。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-09-46.jpg" alt="Snipaste_2020-04-16_15-09-46"></p>
+<h3 id="CISCO-IOS命令"><a href="#CISCO-IOS命令" class="headerlink" title="CISCO IOS命令"></a>CISCO IOS命令</h3><h4 id="IOS命令结构"><a href="#IOS命令结构" class="headerlink" title="IOS命令结构"></a>IOS命令结构</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-31-37.jpg" alt="Snipaste_2020-04-16_15-31-37"></p>
+<ul>
+<li>每个IOS 命令都具有特定的格式或语法，并在相应的提示符下执行。 </li>
+<li>常规命令语法为命令后接相应的关键字和参数。 </li>
+<li>某些命令包含一个关键字和参数子集，此子集可提供额外功能。 </li>
+</ul>
+<h4 id="CLI的帮助"><a href="#CLI的帮助" class="headerlink" title="CLI的帮助"></a>CLI的帮助</h4><h5 id="命令提示及补全"><a href="#命令提示及补全" class="headerlink" title="命令提示及补全"></a>命令提示及补全</h5><p><strong>命令提示</strong>：输入一半或未输入命令时，在命令行中输入“？”后系统会提示接下来可能存在的补全命令，例如输入rout 然后输入？ 后，系统会告诉用户所有以“ rout ”开头的命令，在本例中有两个，一个是route-map，一个是router，如果没有任何以这个开头的命令则系统会提示用户知道。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-32-57.jpg" alt="Snipaste_2020-04-16_15-32-57"></p>
+<p>如果在命令行中不输入任何命令直接输入“？”，则系统会将所有可能运行的命令告知用户。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-04-54-1587022600316.jpg" alt="Snipaste_2020-04-16_15-04-54"></p>
+<p><strong>命令补全：</strong>在输入部分命令后，直接按键盘上的TAB键，如果此时用户输入的命令只存在一种可能，则按完TAB键后该命令会自动补全。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-38-17.jpg" alt="Snipaste_2020-04-16_15-38-17"></p>
+<h5 id="命令语法检查"><a href="#命令语法检查" class="headerlink" title="命令语法检查"></a>命令语法检查</h5><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-39-40.jpg" alt="Snipaste_2020-04-16_15-39-40"></p>
+<h5 id="热键和快捷方式"><a href="#热键和快捷方式" class="headerlink" title="热键和快捷方式"></a>热键和快捷方式</h5><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-40-11.jpg" alt="Snipaste_2020-04-16_15-40-11"></p>
+<h4 id="cisco-IOS-基础配置"><a href="#cisco-IOS-基础配置" class="headerlink" title="cisco IOS 基础配置"></a>cisco IOS 基础配置</h4><h5 id="修改设备名称"><a href="#修改设备名称" class="headerlink" title="修改设备名称"></a><strong>修改设备名称</strong></h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Router(config)# hostname AS_SSL_1F_S3640 </span><br><span class="line"></span><br><span class="line">AS_SSL_1F_S3640(config)#</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置用户登录密码："><a href="#配置用户登录密码：" class="headerlink" title="配置用户登录密码："></a><strong>配置用户登录密码</strong>：</h5><p>Console Password</p>
+<p>用于限制人员通过控制台（Console）连接访问设备 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1(config)#line console 0                                在全局配置模式下进入console口</span><br><span class="line"></span><br><span class="line">R1(config-line)#password  cisco                          将console口登录密码设置成&quot;cisco&quot;</span><br><span class="line"></span><br><span class="line">R1(config-line)#login                                    确认启用该密码</span><br></pre></td></tr></table></figure>
+
+<h5 id="特权模式密码"><a href="#特权模式密码" class="headerlink" title="特权模式密码"></a><strong>特权模式密码</strong></h5><p>限制人员使用特权模式配置设备</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Router(config)#enable password cisco          设置非加密的特权模式密码，在查看命令时会显示密码，不安全</span><br><span class="line"></span><br><span class="line">Router(config)#enable secret cisco            设置经过加密的特权模式密码，在查看命令时不会显示密码</span><br></pre></td></tr></table></figure>
+
+<h5 id="VTY-口令"><a href="#VTY-口令" class="headerlink" title="VTY 口令"></a><strong>VTY 口令</strong></h5><p>用于限制人员通过Telnet 远程访问设备</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Router(config)#line vty0 4                                   进入编号为0-4的这5条VTY线路中</span><br><span class="line"></span><br><span class="line">Router(config-line)#password cisco                           将VTY远程Telnet登录的密码设置为cisco                    </span><br><span class="line">Router(config-line)#login                                    确认启用该密码</span><br></pre></td></tr></table></figure>
+
+<h5 id="管理配置文件"><a href="#管理配置文件" class="headerlink" title="管理配置文件"></a>管理配置文件</h5><p>将当前配置写入启动配置文件，这样当前运行的配置（running-config）会保存在NVRAM中变成开机配置（startup-config），即使重启或断电后开机后依然会是该配置，下面两条命令均可实现此功能。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1# write                                                    也可简写做wr</span><br><span class="line"></span><br><span class="line">R1# copy running-config startup-config                       将运行配置保存为开机配置</span><br></pre></td></tr></table></figure>
+
+<p>删除启动配置文件，删除开机启动的所有配置，务必谨慎使用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1# erase startup-config                                     删除</span><br><span class="line"></span><br><span class="line">R1# delete flash:config.text</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="CRT软件使用简介"><a href="#CRT软件使用简介" class="headerlink" title="CRT软件使用简介"></a>CRT软件使用简介</h2><p><a href="http://vmnf.no-ip.org/itblog/how-to-setup-a-serial-console-connection/" target="_blank" rel="noopener">How to Setup a serial Console connection</a></p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
         <category>CCNA</category>
