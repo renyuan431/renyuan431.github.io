@@ -49,7 +49,7 @@
 <p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-40-15.jpg" alt="Snipaste_2020-04-16_14-40-15"></p>
 <p>参数建议直接选择还原默认值，注意核对“位/秒”一项的值为9600即可点击确定，成功通过Console口登入设备。</p>
 <p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-42-16.jpg" alt="Snipaste_2020-04-16_14-42-16"></p>
-<h5 id="Secure-CRT"><a href="#Secure-CRT" class="headerlink" title="Secure CRT"></a>Secure CRT</h5><p>SecureCRT是网工常用的登录并对设备进行配置的强大工具，它支持SSH、Telnet和rlogin等协议，也可运行VBScript 和 JScript 脚本。该软件是一款商业软件，可以免费试用30天。安装好软件后，点击“New Session”新建连接。</p>
+<h5 id="Secure-CRT"><a href="#Secure-CRT" class="headerlink" title="Secure CRT"></a>Secure CRT</h5><p>Secure CRT是网工常用的登录并对设备进行配置的强大工具，它支持SSH、Telnet和rlogin等协议，也可运行VBScript 和 JScript 脚本。该软件是一款商业软件，可以免费试用30天。安装好软件后，点击“New Session”新建连接。</p>
 <p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-48-36.jpg" alt="Snipaste_2020-04-16_14-48-36"></p>
 <p>协议（Protocol）使用Serial，端口（Port）使用设备管理器中显示的COM口号码，波特率（Baud rate）选择9600，其他用默认选项即可，连接名称可以自定义，此处用 “Cisco serial Console”，设置完毕后即可用Secure CRT通过Console口连接到设备。</p>
 <p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-48-59.jpg" alt="Snipaste_2020-04-16_14-48-59"></p>
@@ -101,8 +101,37 @@
 <p>删除启动配置文件，删除开机启动的所有配置，务必谨慎使用</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1# erase startup-config                                     删除</span><br><span class="line"></span><br><span class="line">R1# delete flash:config.text</span><br></pre></td></tr></table></figure>
 
+<h5 id="接口相关配置"><a href="#接口相关配置" class="headerlink" title="接口相关配置"></a>接口相关配置</h5><h6 id="进入接口"><a href="#进入接口" class="headerlink" title="进入接口"></a>进入接口</h6><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1(config)# interface ethernet 0/0             进入Ethernet 0/0接口</span><br><span class="line"></span><br><span class="line">R1(config-if)#</span><br></pre></td></tr></table></figure>
 
+<p>Ethernet是一种接口类型，全称是Fast Ethernet，速率为100M，除此之外还有Gigabit Ethernet，千兆接口。</p>
+<p>Ethernet 后面这个0/0，一般命名规则是：模块号/接口序号，0/0就是第0个模块板的第0个编号的接口</p>
+<h6 id="设备接口规则："><a href="#设备接口规则：" class="headerlink" title="设备接口规则："></a>设备接口规则：</h6><ul>
+<li>固定配置或者低端路由器。其接口编号使用单个数字，如1600路由器的接口编号可以是e0（以太网接口），s0(串行接口0)</li>
+<li>中低端模块化路由器，其接口编号使用两个数字，中间用“1”格开，斜杠前面的是模块号，后面是模块接口编号，如2600路由器上的fa0/1表示第1个槽位的第2个接口，该接口是快速以太网接口。</li>
+<li>高端模块化路由器，其接口编号有时是三个数字，中间用“/”格开，第一个数字是模块号，第二个数字是该模块上的子卡号，第三个数字是该子卡上的接口模块号。如2800路由器上的G0/0/0表示0槽位第1个子模块上的第一个接口，该接口是 千兆位以太网口。</li>
+</ul>
+<h6 id="为接口配置IP地址"><a href="#为接口配置IP地址" class="headerlink" title="为接口配置IP地址"></a>为接口配置IP地址</h6><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1(config-if)# ip address 192.168.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
 
+<h6 id="激活接口"><a href="#激活接口" class="headerlink" title="激活接口"></a>激活接口</h6><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1(config-if)# no shutdown                   CISCO设备接口默认shutdown状态，必须将接口开启才能使用</span><br></pre></td></tr></table></figure>
+
+<h6 id="配置serial接口"><a href="#配置serial接口" class="headerlink" title="配置serial接口"></a>配置serial接口</h6><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1(config)# interface serial 0/0                            进入serial 0/0接口</span><br><span class="line">R1(config-if)# ipaddress 192.168.1.1 255.255.255.0          为接口配置IP地址和子网掩码</span><br><span class="line">R1(config-if)# no shutdown                                  将默认为关闭的接口开启</span><br><span class="line">R1(config-if)# clock rate 64000                             在DCE端配置serial接口的时钟信号</span><br></pre></td></tr></table></figure>
+
+<h5 id="show命令"><a href="#show命令" class="headerlink" title="show命令"></a>show命令</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show ? </span><br><span class="line">show version                                                 查看当前操作系统版本 </span><br><span class="line">show running-config                                          查看运行配置 </span><br><span class="line">show startup-config                                          查看启动配置 </span><br><span class="line">show flash                                                   查看FLASH </span><br><span class="line">show cpu                                                     查看CPU利用率 </span><br><span class="line">show memory                                                  查看内存使用情况 </span><br><span class="line">show interface                                               查看端口</span><br></pre></td></tr></table></figure>
+
+<h4 id="Running-config-VS-Startup-config"><a href="#Running-config-VS-Startup-config" class="headerlink" title="Running-config VS Startup-config"></a>Running-config VS Startup-config</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-26-51.jpg" alt="Snipaste_2020-04-23_16-26-51"></p>
+<h4 id="基础实验"><a href="#基础实验" class="headerlink" title="基础实验"></a>基础实验</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-28-02.jpg" alt="Snipaste_2020-04-23_16-28-02"></p>
+<p>拓扑如上图所示，为两台直连路由器配置直连接口参数，使二者能够通信。</p>
+<p>R1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Router# configure terminal                                            进入全局配置模式</span><br><span class="line">Router(config)# hostname R1                                           将路由器名字改为R1</span><br><span class="line">R1(config)# interface fastethernet 0/0                                进入E0/0接口</span><br><span class="line">R1(config-if)# ip address 192.168.12.1 255.255.255.0                  为E0/0接口配置IP地址</span><br><span class="line">R1(config-if)# no shutdown                                            激活E0/0接口</span><br></pre></td></tr></table></figure>
+
+<p>R2：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Router# configure terminal </span><br><span class="line">Router(config)# hostname R2 </span><br><span class="line">R2(config)# interface fastethernet 0/0 </span><br><span class="line">R2(config-if)# ip address 192.168.12.2 255.255.255.0 </span><br><span class="line">R2(config-if)# no shutdown</span><br></pre></td></tr></table></figure>
+
+<p>验证配置：</p>
+<p>ping 命令，看两者之间通信是否畅通</p>
+<p>ping 192.168.12.2</p>
+<p>traceroute 命令，追踪两个IP之间的通信路径</p>
+<p>traceroute 192.168.12.2</p>
 <h2 id="CRT软件使用简介"><a href="#CRT软件使用简介" class="headerlink" title="CRT软件使用简介"></a>CRT软件使用简介</h2><p><a href="http://vmnf.no-ip.org/itblog/how-to-setup-a-serial-console-connection/" target="_blank" rel="noopener">How to Setup a serial Console connection</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
@@ -938,11 +967,16 @@
 <p><strong>理论步骤分析：</strong></p>
 <p><img src="/2019/11/23/6-tcp-ip/TCP_SACK.png" alt="TCP_SACK"></p>
 <blockquote>
-<h4 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h4><p>Response segment #2 is lost.</p>
-<h4 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h4><p>The client realizes it is missing a segment between segments #1 and #3. It sends a duplicate acknowledgment for segment #1, and attaches a SACK option indicating that it has received segment #3.</p>
-<h4 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h4><p>The client receives segment #4 and sends another duplicate acknowledgment for segment #1, but this time expands the SACK option to show that it has received segments #3 through #4.</p>
-<h4 id="Step-4"><a href="#Step-4" class="headerlink" title="Step 4"></a>Step 4</h4><p>The server receives the client’s duplicate ACK for segment #1 and SACK for segment #3 (both in the same TCP packet). From this, the server deduces that the client is missing segment #2, so segment #2 is retransmitted. The next SACK received by the server indicates that the client has also received segment #4 successfully, so no more segments need to be transmitted.</p>
-<h4 id="Step-5"><a href="#Step-5" class="headerlink" title="Step 5"></a>Step 5</h4><p>The client receives segment #2 and sends an acknowledgment to indicate that it has received all data up to an including segment #4.</p>
+<p>Step 1</p>
+<p>Response segment #2 is lost.</p>
+<p>Step 2</p>
+<p>The client realizes it is missing a segment between segments #1 and #3. It sends a duplicate acknowledgment for segment #1, and attaches a SACK option indicating that it has received segment #3.</p>
+<p>Step 3</p>
+<p>The client receives segment #4 and sends another duplicate acknowledgment for segment #1, but this time expands the SACK option to show that it has received segments #3 through #4.</p>
+<p>Step 4</p>
+<p>The server receives the client’s duplicate ACK for segment #1 and SACK for segment #3 (both in the same TCP packet). From this, the server deduces that the client is missing segment #2, so segment #2 is retransmitted. The next SACK received by the server indicates that the client has also received segment #4 successfully, so no more segments need to be transmitted.</p>
+<p>Step 5</p>
+<p>The client receives segment #2 and sends an acknowledgment to indicate that it has received all data up to an including segment #4.</p>
 </blockquote>
 <p>步骤1：服务器发往接收端的Segment 2丢失。</p>
 <p>步骤2：服务器继续发送数据段3被接收端成功接收。接收端通过查看序列号发现，数据段1和3之间丢失了数据段2，接收端发送重复ACK去确认Sequence=1的数据段成功收到并且在opinion中附加了SACK字段表示它收到了数据段3。</p>
@@ -950,7 +984,7 @@
 <p>步骤4：服务器端收到了接收端发送的确认数据段1收到重复ACK，这个数据中的SACK字段还表明接收端除了收到数据段1以外还收到了数据段3。至此，服务器端已经可以推测出来接收端并未受到数据段2，因此重新发送数据段2。接收到后一个SACK后发现接收端也收到了数据段4，因此没有其他需要重新传送的数据段了。</p>
 <p>步骤5：接收端收到了重新发送的数据段2并且发送了确认收到数据段1-4的ACK信息。</p>
 <p><strong>抓包分析：</strong></p>
-<p><a href="/download/TCP_SACK.cap"> 点击下载文件 </a></p>
+<p><a href="/download/TCP_SACK.cap"> 点击下载抓包文件 </a></p>
 <p>TCP在三次握手的前两个数据交互的时候就已经决定了这个TCP连接是否支持SACK属性，SACK在opinion字段中。</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-22_16-21-38-1587612395091.jpg" alt="Snipaste_2020-04-22_16-21-38"></p>
 <p>从第28个抓包中我们可以看到，这个ACK期待的下一个收到的序列号是17737：</p>
@@ -962,6 +996,11 @@
 <p>除了抓包31这个ACK以外，在抓包33、35、37也发送了同样的重复ACK，duplicate ACK，告诉发送端序列号17377-18825我没收到，于是发送端在抓包38的时候重新发送了序列号17377-18825的这些数据：</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-23_14-23-29.jpg" alt="Snipaste_2020-04-23_14-23-29"></p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-23_14-22-27.jpg" alt="Snipaste_2020-04-23_14-22-27"></p>
+<p>如果在TCP传输过程中，丢了好几个包，比如收到了序列号为0-500，900-1100和1300-2000的数据段，这时候SACK能否告诉发送端中间丢了好几段数据呢？当然可以，中间可以分几段来表示丢失的不同部分：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">                  +--------+--------+</span><br><span class="line">                  | Kind=5 | Length |</span><br><span class="line">+--------+--------+--------+--------+</span><br><span class="line">|      Left Edge of 1st Block       |</span><br><span class="line">+--------+--------+--------+--------+</span><br><span class="line">|      Right Edge of 1st Block      |</span><br><span class="line">+--------+--------+--------+--------+</span><br><span class="line">|                                   |</span><br><span class="line">/            . . .                  /</span><br><span class="line">|                                   |</span><br><span class="line">+--------+--------+--------+--------+</span><br><span class="line">|      Left Edge of nth Block       |</span><br><span class="line">+--------+--------+--------+--------+</span><br><span class="line">|      Right Edge of nth Block      |</span><br><span class="line">+--------+--------+--------+--------+</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">TCP ACK - 501 (in TCP header, not in SACK Option)</span><br><span class="line">TCP SACK - 1st block Left Edge  - 900</span><br><span class="line">TCP SACK - 1st block Right Edge - 1100</span><br><span class="line">TCP SACK - 2nd block Left Edge  - 1300</span><br><span class="line">TCP SACK - 2nd block Right Edge - 2000</span><br></pre></td></tr></table></figure>
+
 <h5 id="TCP协议存在的问题及解决"><a href="#TCP协议存在的问题及解决" class="headerlink" title="TCP协议存在的问题及解决"></a>TCP协议存在的问题及解决</h5><p><strong>TCP性能上存在的问题：</strong></p>
 <p>TCP 选择了充分利用带宽，为流量而设计，期望在尽可能短的时间内传输更多的数据，但这种设计会存在一些负面因素，例如TCP超时计算是RTOx2，这样连续丢三次包就变成RTOx8了，十分恐怖；例如TCP丢包时会全部重传从丢的那个包开始以后的数据；例如TCP为了充分利用带宽，延迟发送ACK（NODELAY都没用），这样超时计算会算出较大 RTT时间，延长了丢包时的判断过程；弱网环境是丢包率较高的特殊场景，TCP 在类似场景中的表现很差，当 RTT 为 30ms 时，一旦丢包率达到了 2%，TCP 的吞吐量就会下降 89.9%7，从下面的表中我们可以看出丢包对 TCP 的吞吐量极其显著的影响：</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-20_16-13-53.jpg" alt="Snipaste_2020-04-20_16-13-53"></p>
