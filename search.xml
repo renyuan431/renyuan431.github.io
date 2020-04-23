@@ -25,7 +25,7 @@
 <li>安全可靠地访问网络资源 </li>
 <li>网络可伸缩性</li>
 </ul>
-<h3 id="设备管理方法"><a href="#设备管理方法" class="headerlink" title="设备管理方法"></a>设备管理方法</h3><p>可以通过多种方法访问CLI（Command Line Interface，命令行界面） 环境。最常用的方法有：</p>
+<h3 id="设备管理方法"><a href="#设备管理方法" class="headerlink" title="设备管理方法"></a>设备管理方法</h3><p>可以通过多种方法访问CLI（Command Line Interface，命令行界面） 环境，CLI是一种基于字符（文本）的界面，要与CLI交互，只需要输入命令，就像在文本编辑器中输入文章那样，在CLI中也可以使用复制黏贴等功能，。最常用的方法有：</p>
 <ul>
 <li>通过Console接口管理设备 </li>
 <li>通过Telnet或SSH远程管理设备 </li>
@@ -711,6 +711,8 @@
 <p>在<a href="https://tools.ietf.org/html/rfc793" target="_blank" rel="noopener">RFC793 - Transmission Control Protocol</a> 的文档中，清楚的定义了TCP使用三次握手的重要原因——为了阻止历史的重复链接初始化造成的混乱问题，防止使用TCP协议通信的双方建立了错误的连接。</p>
 <p>The principle reason for the three-way handshake is to prevent old duplicate connection initiations from causing confusion.</p>
 <p>当然，也有另一个原因就是让通信的双方确定初始序列号。</p>
+<p>三次握手建立TCP连接的成本相当高，不仅需要额外增加1.5RTT的网络延迟，还要增加222字节的额外开销，以太网数据帧头是3*14=42字节，IP数据帧头占据3 * 20 = 60字节，TCP数据占据3 * 40 =120字节，加起来一共是222字节。所以在弱网环境下，通过三次握手建立TCP连接会加剧TCP的性能问题。</p>
+<p><img src="/2019/11/23/6-tcp-ip/2020-01-02-15779393353427-tcp-three-way-handshake-overhead.png" alt="2020-01-02-15779393353427-tcp-three-way-handshake-overhead"></p>
 <p><img src="/2019/11/23/6-tcp-ip/2020-01-02-15779393353419-basic-3-way-handshake.png" alt="2020-01-02-15779393353419-basic-3-way-handshake"></p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200217174753.jpg" alt="微信图片编辑_20200217174753"></p>
 <img src="/2019/11/23/6-tcp-ip/TCP-handshake.jpg" alt="TCP-handshake" style="zoom:150%;">
@@ -887,6 +889,7 @@
 <p>When the TCP transmits a segment containing data, it puts a copy on a retransmission queue and starts a timer; when the acknowledgment for that data is received, the segment is deleted from the queue. If the acknowledgment is not received before the timer runs out, the segment is retransmitted.</p>
 </blockquote>
 <p>当TCP传输包含数据的段时，它将该数据段的副本放在重传队列上并启动计时器。如果在计时器计时结束之前，收到该数据的ACK，则将该数据段的副本从重传队列中删除，然后继续移动窗口，发送接下来的TCP片段。 如果在计时器用尽之前未收到确认，则重新发送该段。这个计时等待的时间叫做重新发送超时时间(<strong>RTO</strong>, retransmission timeout)。</p>
+<p>注意，如果是发送端的数据到达了接收端，但接收端的ACK包没到发送端的情况下，也还是会重传数据。</p>
 <p>数据被重发之后若还是收不到确认应答，则进行再次发送。此时，等待确认应答的时间将会以2倍、4倍的指数函数延长。此外，数据也不会被无限、反复地重发。<strong>达到一定重发次数之后，如果仍没有任何确认应答返回，就会判断为网络或对端主机发生了异常，强制关闭连接。并且通知应用通信异常强行终止。</strong></p>
 <p>除了上面的RTO，还有一个名词叫RTT，<strong>RTT</strong>，Round-trip delay time，来回通信延迟，就是在双方通信中，发讯方的信号传播到收讯方的时间，加上收讯方回传消息到发讯方的时间，要注意两者的区别。</p>
 <p>需要注意的是，网络是一直波动的, RTT 是一直变化的, RTO 的值基于上次 RTT 往返时间动态计算出来的而不是一成不变的。</p>
@@ -921,7 +924,63 @@
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-29_15-59-48.jpg" alt="Snipaste_2020-02-29_15-59-48"></p>
 <p>加入RED之后的TCP拥塞避免示意图：</p>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-02-29_17-20-26.jpg" alt="Snipaste_2020-02-29_17-20-26"></p>
-<h5 id="TCP快速重传（Fast-Retransmit-Fast-Recovery）"><a href="#TCP快速重传（Fast-Retransmit-Fast-Recovery）" class="headerlink" title="TCP快速重传（Fast Retransmit/Fast Recovery）"></a>TCP快速重传（Fast Retransmit/Fast Recovery）</h5><h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><p><img src="/2019/11/23/6-tcp-ip/unnamed.png" alt="unnamed"></p>
+<h5 id="TCP快速重传（Fast-Retransmit-Fast-Recovery）"><a href="#TCP快速重传（Fast-Retransmit-Fast-Recovery）" class="headerlink" title="TCP快速重传（Fast Retransmit/Fast Recovery）"></a>TCP快速重传（Fast Retransmit/Fast Recovery）</h5><blockquote>
+<p>The TCP sender SHOULD use the “fast retransmit” algorithm to detect and repair loss, based on incoming duplicate ACKs.  The fastretransmit algorithm uses the arrival of 3 duplicate ACKs (4 identical ACKs without the arrival of any other intervening packets) as an indication that a segment has been lost.  After receiving 3duplicate ACKs, TCP performs a retransmission of what appears to be the missing segment, without waiting for the retransmission timer toexpire.</p>
+</blockquote>
+<p>TCP的发送方应该基于收到的重复ACK数据，利用快速重传算法检测并修复丢失的数据。快速重传算法使用3个重复ACK数据的到来（也就是4个相同且中间没有其他数据ACK干预的ACK，为什么这里是4个相同的ACK，而前面是3个重复的ACK呢，是因为第一个ACK不是重复的，后面3个一样的才是重复的）作为丢包的标志。收到3个重复的ACK包后，TCP不用等待重传计时器超时，立刻对丢失的数据段进行重传。</p>
+<blockquote>
+<p>After the fast retransmit algorithm sends what appears to be the missing segment, the “fast recovery” algorithm governs the transmission of new data until a non-duplicate ACK arrives.  The reason for not performing slow start is that the receipt of the duplicate ACKs not only indicates that a segment has been lost, but also that segments are most likely leaving the network (although a massive segment duplication by the network can invalidate this conclusion).  In other words, since the receiver can only generate a duplicate ACK when a segment has arrived, that segment has left the network and is in the receiver’s buffer, so we know it is no longer consuming network resources.  Furthermore, since the ACK “clock” is preserved, the TCP sender can continue to transmit new segments (although transmission must continue using a reduced cwnd)</p>
+</blockquote>
+<p>当快速重传算法发送了看似丢失的数据段后，“快速恢复”算法控制着新数据的传输，直到收到不重复的ACK为止。之所以不用慢启动是因为在这种情况下，重复的ACK不仅代表着数据段丢失，而且同时代表着这些数据段很可能离开了网络（尽管网络进行的大量段复制可能会使此结论无效），换句话说，因为接收方只能在数据段到达时产生重复的ACK，那个数据段已经不在网络上传输而是在接收方的缓存中了，所以并不消耗网络资源。此外，由于ACK的“时钟”被保留，所以TCP的发送方可以持续发送新的数据段（尽管网络必须使用缩小的CWND来传输）。</p>
+<p>RFC中还有一个快速重传的步骤，因为快速重传已经被SACK（Selective Acknowledgments）所取代（The algorithm outlined in this document, heavily based on the algorithm detailed in [FF96], is aconservative replacement of the fast recovery algorithm –rfc3517），所以在这就不摘录翻译剩下的部分了。</p>
+<h5 id="TCP-SACK"><a href="#TCP-SACK" class="headerlink" title="TCP SACK"></a><a href="https://packetlife.net/blog/2010/jun/17/tcp-selective-acknowledgments-sack/" target="_blank" rel="noopener">TCP SACK</a></h5><p>在TCP传输过程中，没有快速重传的情况下，如果一个传输数据被分成5个数据段发送，当其中一个数据段丢失时，假设数据段2丢失了其他数据段都收到了，接收者会发送一个ACK=2的数据告诉发送端，我只收到了数据段1，但无法告诉发送端我收到了数据段3-5，并且接收端也不能发送一个ACK=6或者其他不是2的数据，因为如果发送了ACK=6表示希望发送端下发送Sequence=6的数据，ACK表示的是希望下一个收到的报文段的序列号，接收端并没有收到数据段2所以不能发送除了ACK=2的其他的ACK信息，但此时接收端只需要数据段2就行了，其他的数据段重新传输完全是浪费网络资源并降低传输效率，所以SACK（Selective Acknowledgment）出现了，SACK可以告诉发送端哪些数据段我收到了，哪些我没有收到。SACK的能力也需要两端在TCP建立连接时进行协商，在两边都支持的情况下才能使用。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-22_16-21-38.jpg" alt="Snipaste_2020-04-22_16-21-38"></p>
+<p><strong>理论步骤分析：</strong></p>
+<p><img src="/2019/11/23/6-tcp-ip/TCP_SACK.png" alt="TCP_SACK"></p>
+<blockquote>
+<h4 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h4><p>Response segment #2 is lost.</p>
+<h4 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h4><p>The client realizes it is missing a segment between segments #1 and #3. It sends a duplicate acknowledgment for segment #1, and attaches a SACK option indicating that it has received segment #3.</p>
+<h4 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h4><p>The client receives segment #4 and sends another duplicate acknowledgment for segment #1, but this time expands the SACK option to show that it has received segments #3 through #4.</p>
+<h4 id="Step-4"><a href="#Step-4" class="headerlink" title="Step 4"></a>Step 4</h4><p>The server receives the client’s duplicate ACK for segment #1 and SACK for segment #3 (both in the same TCP packet). From this, the server deduces that the client is missing segment #2, so segment #2 is retransmitted. The next SACK received by the server indicates that the client has also received segment #4 successfully, so no more segments need to be transmitted.</p>
+<h4 id="Step-5"><a href="#Step-5" class="headerlink" title="Step 5"></a>Step 5</h4><p>The client receives segment #2 and sends an acknowledgment to indicate that it has received all data up to an including segment #4.</p>
+</blockquote>
+<p>步骤1：服务器发往接收端的Segment 2丢失。</p>
+<p>步骤2：服务器继续发送数据段3被接收端成功接收。接收端通过查看序列号发现，数据段1和3之间丢失了数据段2，接收端发送重复ACK去确认Sequence=1的数据段成功收到并且在opinion中附加了SACK字段表示它收到了数据段3。</p>
+<p>步骤3：接收端收到了服务器发送来的数据段4，并且接收端又发送了一个ACK确认数据段1成功接收，但这次扩展的opinion选项字段中的信息表示接收端收到了数据段3和4。</p>
+<p>步骤4：服务器端收到了接收端发送的确认数据段1收到重复ACK，这个数据中的SACK字段还表明接收端除了收到数据段1以外还收到了数据段3。至此，服务器端已经可以推测出来接收端并未受到数据段2，因此重新发送数据段2。接收到后一个SACK后发现接收端也收到了数据段4，因此没有其他需要重新传送的数据段了。</p>
+<p>步骤5：接收端收到了重新发送的数据段2并且发送了确认收到数据段1-4的ACK信息。</p>
+<p><strong>抓包分析：</strong></p>
+<p><a href="/download/TCP_SACK.cap"> 点击下载文件 </a></p>
+<p>TCP在三次握手的前两个数据交互的时候就已经决定了这个TCP连接是否支持SACK属性，SACK在opinion字段中。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-22_16-21-38-1587612395091.jpg" alt="Snipaste_2020-04-22_16-21-38"></p>
+<p>从第28个抓包中我们可以看到，这个ACK期待的下一个收到的序列号是17737：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-23_11-48-43.jpg" alt="Snipaste_2020-04-23_11-48-43"></p>
+<p>从第三十个抓包中我们可以看到，这个数据包是乱序的，因为前面收到的ACK表明下一个期待的数据序列号应为17377，而第三十个抓包中的序列号是18825，和之前ACK期待的不一样，所以是个乱序包。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-23_11-53-18.jpg" alt="Snipaste_2020-04-23_11-53-18"></p>
+<p>当收到乱序包以后，接收端用抓包31发送了重复的ACK，这个包中的opinion字段中有SACK部分，用来告诉发送端数据包30我收到了。当然这个SACK字段不可能简单的标明哪个数据段我收到了，而是标识出那些在数据包的确认号之外的数据的左右两边。从ACK17377到left edge18825之间的是没收到的，只传序列号17377-18825之间的数据段即可，而left edge18825到right edge20273这部分也是收到的，不用重新进行传递。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-23_11-57-12.jpg" alt="Snipaste_2020-04-23_11-57-12"></p>
+<p>除了抓包31这个ACK以外，在抓包33、35、37也发送了同样的重复ACK，duplicate ACK，告诉发送端序列号17377-18825我没收到，于是发送端在抓包38的时候重新发送了序列号17377-18825的这些数据：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-23_14-23-29.jpg" alt="Snipaste_2020-04-23_14-23-29"></p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-23_14-22-27.jpg" alt="Snipaste_2020-04-23_14-22-27"></p>
+<h5 id="TCP协议存在的问题及解决"><a href="#TCP协议存在的问题及解决" class="headerlink" title="TCP协议存在的问题及解决"></a>TCP协议存在的问题及解决</h5><p><strong>TCP性能上存在的问题：</strong></p>
+<p>TCP 选择了充分利用带宽，为流量而设计，期望在尽可能短的时间内传输更多的数据，但这种设计会存在一些负面因素，例如TCP超时计算是RTOx2，这样连续丢三次包就变成RTOx8了，十分恐怖；例如TCP丢包时会全部重传从丢的那个包开始以后的数据；例如TCP为了充分利用带宽，延迟发送ACK（NODELAY都没用），这样超时计算会算出较大 RTT时间，延长了丢包时的判断过程；弱网环境是丢包率较高的特殊场景，TCP 在类似场景中的表现很差，当 RTT 为 30ms 时，一旦丢包率达到了 2%，TCP 的吞吐量就会下降 89.9%7，从下面的表中我们可以看出丢包对 TCP 的吞吐量极其显著的影响：</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-04-20_16-13-53.jpg" alt="Snipaste_2020-04-20_16-13-53"></p>
+<p>影响TCP性能的三个原因：</p>
+<ul>
+<li>TCP 的拥塞控制算法会在丢包时主动降低吞吐量；</li>
+<li>TCP 的三次握手增加了数据传输的延迟和额外开销；</li>
+<li>TCP 的累计应答机制导致了数据段的传输；</li>
+</ul>
+<p>上边的这三个原因中，<strong>拥塞控制算法是导致 TCP 在弱网环境下有着较差表现的首要原因</strong>，三次握手和累计应答两者的影响依次递减，但是也加剧了 TCP 的性能问题。</p>
+<p><strong>目前解决的方法：</strong></p>
+<ol>
+<li>使用 UDP 构建性能更加优异、更灵活的传输协议，例如：QUIC 等；</li>
+<li>通过不同的手段优化 TCP 协议的性能，例如：选择性 ACK（Selective ACK, SACK），TCP 快开启（TCP Fast Open, TFO）</li>
+</ol>
+<p>既然TCP的拥塞算法是导致网络表现较差的首要原因，我们就需要改进这个算法，其中一种算法就是基于不丢包的拥塞算法，CDG（CAIA-Delay Gradient），该算法以 <strong>延迟</strong> 作为判断依据，延迟增大说明拥塞, 数据开始在路由器的缓冲中积累. 降低发送 <strong>窗口</strong>。然而 CDG 算法与基于丢包的算法不兼容, 只有全球的设备都换上 CDG，但这是不可能的，目前市面上的设备不可能一下子都切换到 CDG，因此 Google 就不开心了，Google 的科学家们开发了一种过渡算法来解决这个问题，这个算法的名字就是 <code>BBR（Bottleneck Bandwidth and RTT）</code>，它是一种全新的 <strong>拥塞控制算法</strong>，BBR 同 CDG 一致的思想是不以丢包作为拥塞控制信号，但是和 CDG 不同的是，BBR 能和 cubic 和 reno 共存。</p>
+<p>BBR 由 Google 开发，供 Linux 内核的 TCP 协议栈使用，有了 BBR 算法，Linux 服务器可以显著提高吞吐量并减少连接延迟，简单来说 BBR 能加速网络传输速度。此外，部署 BBR 也很容易，因为该算法只需要发送方，而不需要网络或接收方的支持。</p>
+<p><img src="/2019/11/23/6-tcp-ip/165a3f47af98be83.gif" alt="165a3f47af98be83"></p>
+<h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><p><img src="/2019/11/23/6-tcp-ip/unnamed.png" alt="unnamed"></p>
 <p><img src="/2019/11/23/6-tcp-ip/wireshark5-1.png" alt="wireshark5-1"></p>
 <p><img src="/2019/11/23/6-tcp-ip/con_026a.gif" alt="con_026a"></p>
 <h5 id="UDP的特点："><a href="#UDP的特点：" class="headerlink" title="UDP的特点："></a>UDP的特点：</h5><p>UDP是一种无连接的、不可靠的、面向报文、没有拥塞控制的协议。</p>
