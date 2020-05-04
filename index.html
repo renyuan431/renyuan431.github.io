@@ -166,7 +166,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">10</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">11</span></a>
 
   </li>
         <li class="menu-item menu-item-commonweal">
@@ -221,6 +221,437 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/04/14/10-cisco-ios/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rookie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rookie's Notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/14/10-cisco-ios/" class="post-title-link" itemprop="url">CCNA笔记——10、设备管理及cisco IOS基础配置</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-14 11:42:18" itemprop="dateCreated datePublished" datetime="2020-04-14T11:42:18+08:00">2020-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-04 18:23:28" itemprop="dateModified" datetime="2020-05-04T18:23:28+08:00">2020-05-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="CISCO路由器及启动过程"><a href="#CISCO路由器及启动过程" class="headerlink" title="CISCO路由器及启动过程"></a>CISCO路由器及启动过程</h2><h3 id="路由器组件"><a href="#路由器组件" class="headerlink" title="路由器组件"></a>路由器组件</h3><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-14_16-22-14.jpg" alt="Snipaste_2020-04-14_16-22-14"></p>
+<p>CPU：中央处理器，CPU执行操作系统的指令，例如启动，路由功能和交换功能。</p>
+<p>RAM（random access memory）：随机访问存储器，RAM是一种易失性内存，需要持续供电才能保留其内容，如果重启或电源断电的话，该存储器上的内容会全部丢失。RAM上存储那些需要被运行的数据，比如路由器的操作系统、目前正在运行的配置文件（Running Configuration File）、路由表（IP Routing Table）、ARP缓存表（ARP Cache）、缓存数据（Packet Buffer）等。思科设备上运行的操作系统叫做“Cisco IOS”，IOS是Internetwork Operating System的简写，和苹果运行的IOS系统简写一样，话说貌似苹果给了思科授权费才能也用这个简写；Running Configuration File，它是存储了路由器IOS系统目前运行的配置命令，路由器上几乎所有配置命令都存储在running configuration file中，一般叫做running configuration；ARP缓存表（ARP Cache），缓存表中包含了IPV4地址和MAC地址对应的表项，当路由器上有以太网接口时才会有ARP缓存表；缓存数据（Packet Buffer），当接口收到或发出数据前会暂时存储在缓存中，这些暂时存储的数据叫做数据缓存。</p>
+<p>ROM（read-only memory），ROM是一种永久性存储，即使断电重启，其中的数据也不会丢失。思科设备中的ROM存储的是，POST，bootstrap，ROMMON，mini-IOS。</p>
+<ul>
+<li>POST：Power on self test，开机自检程序，用来确定所有必备开机的组建都能正常运行；</li>
+<li>bootstrap：开机指令，负责启动路由器并找到IOS系统的位置将其加载到RAM中；</li>
+<li>ROMMON：ROMMON是一个精简版IOS程序，在ROMMON上可以进行各种系统检测和进行密码恢复，如果bootstrap成功找到IOS系统则不会进入ROMMON模式，如果bootstrap找不到系统则会进入ROMMON模式；</li>
+<li>mini-IOS：Mini-IOS是一个备用工具，它包含了一个剥离版的IOS。它适用于找不到IOS映像的关键情况。Mini-IOS只包含IP代码，允许你从其他资源（如TFTP Server）加载IOS。</li>
+</ul>
+<p>Flash Memory，Flash Memory是一种非易失性存储，可以通过电子方式进行存储和擦除数据，主要用来存放IOS操作系统。</p>
+<p>NVRAM，NVRAM是Nonvolatile RAM的简写，中文是非易失性RAM存储，这种存储在断电或重启时也不会丢失其中的数据，主要用来存放startup configuration，也就是设备的启动配置。</p>
+<h3 id="路由器启动过程"><a href="#路由器启动过程" class="headerlink" title="路由器启动过程"></a>路由器启动过程</h3><h4 id="理论步骤"><a href="#理论步骤" class="headerlink" title="理论步骤"></a>理论步骤</h4><p><img src="/2020/04/14/10-cisco-ios/router-booting-process.jpg" alt="router-booting-process"></p>
+<p><img src="/2020/04/14/10-cisco-ios/071613_2203_CCNAPrepInt4.png" alt="071613_2203_CCNAPrepInt4"></p>
+<p>路由器开机后，先运行ROM中的POST，也就是进行硬件自检，看必备的开机部件（CPU, RAM和NVRAM）是否都工作正常，如果正常的话，将ROM中的Bootstrap程序拷贝到RAM中运行，当拷贝完毕且在RAM运行后，CPU执行bootstrap程序搜寻IOS操作系统的位置，搜索的过程依次为Flash — TFTP Server — ROM，如果都没有的话则进入ROMMON模式，如果找到操作系统则操作系统会加载到RAM中运行，并加载存储在NVRAM中的开机启动配置，当所有程序都在RAM中成功加载后，开机过程运行完毕。</p>
+<h4 id="实际分析"><a href="#实际分析" class="headerlink" title="实际分析"></a>实际分析</h4><p><strong>POST</strong> (Power On Self Test) - 首先 Router 会自我检查一下</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-41-19.jpg" alt="Snipaste_2020-05-04_10-41-19"></p>
+<p><strong>载入Bootstrap</strong> - 然后会加载Bootstrap这个应用程序，功能是后面加载IOS操作系统。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-43-54.jpg" alt="Snipaste_2020-05-04_10-43-54"></p>
+<p><strong>读取Configuration Register</strong> </p>
+<p>接下来会读取配置寄存器的数值，预设为0X2102，换算成二进制就是0010 0001 0000 0010 ， 每位都有不同的作用，一般情况下不会改变这个数值，但如果要冲重新设置密码，需要看第六位，也就是从右往左数第七个数字，之所以是第七个数字，是因为右起第一个数字是第零位，右起第二个数字是第一位，以此类推第六位也就是尤其第七个数字：</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-54-08.jpg" alt="Snipaste_2020-05-04_10-54-08"></p>
+<p>这个 Bit 可控制 Router 要不要跳过读取 Startup Configuration，预设 0 是不跳过 (即读取)，设成 1 则是跳过 (即不读取)。但开机时是看不到 Configuration Register 的值，只有在开机後用 Show Version 才可看到。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-56-05.jpg" alt="Snipaste_2020-05-04_10-56-05"></p>
+<p><strong>载入 IOS</strong> - 依 Flash丶TFTP 和 ROM 的次序载入 IOS，即是我们常常看见很多 # 号那个时刻</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-57-34.jpg" alt="Snipaste_2020-05-04_10-57-34"></p>
+<p><strong>载入 Startup Configuration</strong></p>
+<p>跟据 Configuration Register 的值决定是否载入 Startup Configuration。如果没有载入或 Startup Configuration 不存在，就会询问是否进行 Initial Configuration，就像打开一台新机一样。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-58-34.jpg" alt="Snipaste_2020-05-04_10-58-34"></p>
+<p>无论是 Console 密码丶Enable 密码都是储存在 Startup Configuration 之中，然後被载入至 Running Configuration。然而修改 Configuration 需要 Enable 密码，重设密码的哲学在於「如何在不用密码的情况下进入 Enable Mode (或称 Privilege Mode)</p>
+<h3 id="忘记登陆密码如何进入系统"><a href="#忘记登陆密码如何进入系统" class="headerlink" title="忘记登陆密码如何进入系统"></a>忘记登陆密码如何进入系统</h3><h4 id="配置寄存器"><a href="#配置寄存器" class="headerlink" title="配置寄存器"></a>配置寄存器</h4><p>配置寄存器（Configuration Register）是一个16位的虚拟寄存器，用于指定路由器启动的次序、中断参数和设置控制台波特率等，不同的配置寄存器数值决定了路由器的启动顺序（比如是从ROM中寻找IOS系统还是直接进入ROMMON模式）以及启动时的一些选项。该寄存器的值通常是以十六进制来表示的。Cisco路由器默认的配置设置是0x2102，这意味着第13位、第8位和第1位是开启的(值为1)。在特权模式下用命令“show version”查看当前配置寄存器的数值为多少。<strong>通过修改该数值可以决定路由器如何启动和运行。</strong></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-30-08.jpg" alt="Snipaste_2020-04-27_10-30-08"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-33-04.jpg" alt="Snipaste_2020-04-27_10-33-04"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-31-47.jpg" alt="Snipaste_2020-04-27_10-31-47"></p>
+<p>配置寄存器的默认设置是0x2102。这表明路由器应该尝试从闪存装载Cisco IOS软件镜像和用9600波特的控制台速率装载启动配置。注意，show version命令显示当前配置寄存器的值，也显示路由器重载后配置寄存器新的值。对配置寄存器进行的任何修改在重载之前不会起作用。</p>
+<h4 id="口令恢复"><a href="#口令恢复" class="headerlink" title="口令恢复"></a>口令恢复</h4><p>总体思路是，在开机时需跳过载入 Startup Configuration，在没有任何密码的情况下进入 Enable Mode，然後手动载入 Configuration 并修改密码。正如前面介绍过的，配置寄存器的第6位用于告诉路由器是否使用NVRAM中的内容来加载路由器的配置。默认的配置寄存器值是0x2102，即第6位是关闭的(值为0)。默认情况下，路由器会查找并加载存储在NVRAM(startup-config文件)中的路由器配置。若要恢复口令，需要开启第6位，告诉路由器忽略NVRAM的内容。开启了第6位的配置寄存器值是0x2142。</p>
+<p><strong>1.启动路由器</strong></p>
+<p>在IOS系统被载入时按键盘的Ctrl 和 Break键， (如 Mac 可按 Ctrl-Delete) 中断载入，并进入 rommon 模式。</p>
+<p><img src="/2020/04/14/10-cisco-ios/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200504110154.jpg" alt="微信图片编辑_20200504110154"></p>
+<p>如果用笔记本的话没有小键盘的Break键，可以试试如下方法：</p>
+<p><img src="/2020/04/14/10-cisco-ios/721cbdd9882df4399175d0c93f7577218c8d74c28dcb01a7cecf1411683e66d5.jpg" alt="721cbdd9882df4399175d0c93f7577218c8d74c28dcb01a7cecf1411683e66d5"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-04-56.jpg" alt="Snipaste_2020-05-04_11-04-56"></p>
+<p><strong>2.修改配置寄存器，开启第6位，值为0x2142</strong></p>
+<p>按 ? 再按 <ENTER> 可以看到可用的指令。而我们想要做的是修改 Configuration Register，由 0x2102 改成 0x2142，指令是 <strong>confreg 2142</strong>，然後用指令 <strong>reset</strong> 重新开机。</ENTER></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-05-46.jpg" alt="Snipaste_2020-05-04_11-05-46"></p>
+<p><strong>3.重载路由器</strong></p>
+<p> rommon 2 &gt;reset    //Cisco 2600系列路由器</p>
+<p> &gt;I    //初始化，Cisco 2500系列路由器</p>
+<p><strong>4.进入特权模式将开机启动配置加载到内存</strong></p>
+<p>这次开机让它载入 IOS，最後因为没有载入 Startup Configuration 而出现 Initial Configuration Dialog 模式，输入 no 跳过，这时不用密码也可进入 Enable Mode 了</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-08-36.jpg" alt="Snipaste_2020-05-04_11-08-36"></p>
+<p><strong>4.查看明文口令、重设口令</strong></p>
+<p> 由於刚才跳过了载入 Startup Configuration，现在手动把 Startup Configuration 抄写至 Running Configuration，现在可以修改密码了，最後别忘记 <strong>write memory</strong> 把 Configuration 储存至 Startup Configuration。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-10-40-1588561857223.jpg" alt="Snipaste_2020-05-04_11-10-40"></p>
+<p><strong>5.设置配置寄存器值为默认值</strong></p>
+<p>重新开机，再次按键盘 Ctrl-Break (如 Mac 可按 Ctrl-Delete) 进入 rommon 模式，把 Configuration Register 回复至 0x2102 并重新开机，重设密码的步骤便完成了。</p>
+<p> <img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-11-43.jpg" alt="Snipaste_2020-05-04_11-11-43"></p>
+<h2 id="Cisco-交换机"><a href="#Cisco-交换机" class="headerlink" title="Cisco 交换机"></a>Cisco 交换机</h2><h3 id="交换机启动过程"><a href="#交换机启动过程" class="headerlink" title="交换机启动过程"></a>交换机启动过程</h3><p><strong>POST</strong> (Power On Self Test) - 进行开机硬件自检</p>
+<p><strong>flash_init</strong> - 载入 flash_init 的小程式，用作读取 flash 里的档案。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-16-25.jpg" alt="Snipaste_2020-05-04_12-16-25"></p>
+<p><strong>载入 IOS</strong> - 依 Flash丶TFTP 和 ROM 的顺序搜索并载入 IOS。</p>
+<p><strong>载入 Startup Configuration</strong> - 如 Flash 中有 config.text 这个档案则载入，否则进入 System Configuration Dialog 模式。思科2900及3500系列的交换机并没有Configuration Register，要跳过载入 Startup Configuration 只需在 flash 把 config.text 档名改掉便可。</p>
+<h3 id="Switch密码重置步骤"><a href="#Switch密码重置步骤" class="headerlink" title="Switch密码重置步骤"></a>Switch密码重置步骤</h3><h4 id="2950-2960-3550-3560系列"><a href="#2950-2960-3550-3560系列" class="headerlink" title="2950/2960/3550/3560系列"></a>2950/2960/3550/3560系列</h4><p><strong>进入Password-recovery 模式</strong></p>
+<p>Switch 没有开关按钮，一插电制便开机了，在插电制的同时按着面版上的 Mode 按钮，直至 Switch 进入 Password-recovery 模式。</p>
+<p><img src="/2020/04/14/10-cisco-ios/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200504122312.jpg" alt="微信图片编辑_20200504122312"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-23-50.jpg" alt="Snipaste_2020-05-04_12-23-50"></p>
+<p><strong>更改启动配置文件名称</strong></p>
+<p>输入 <strong>flash_init</strong> 挂载 flash 档案系统，然後输入 <strong>dir flash:</strong> 应可看到 flash 里面的档案列表，这里我们的启动配置文件的名称是：config.text，将该文件改名为 config.bak，rename flash:config.text flash:config.bak，然後用指令 <strong>boot</strong> 开始载入 IOS。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-24-44.jpg" alt="Snipaste_2020-05-04_12-24-44"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-29-24.jpg" alt="Snipaste_2020-05-04_12-29-24"></p>
+<p>由於系统找不到 config.text，因而没法载入 Startup Configuration 而出现 Initial Configuration Dialog 模式，输入 no 跳过，这时不用密码也可进入 Enable Mode 了。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-30-18.jpg" alt="Snipaste_2020-05-04_12-30-18"></p>
+<p>把 flash:config.bak 改回 flash:config.text，然後把 startup-config 抄至 running-config，现在可以修改密码了，最後别忘记 <strong>write memory</strong> 把 Configuration 储存至 Startup Configuration。重设密码步骤完成。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-31-18.jpg" alt="Snipaste_2020-05-04_12-31-18"></p>
+<h4 id="3650-3850"><a href="#3650-3850" class="headerlink" title="3650/3850"></a><strong>3650/3850</strong></h4><p>从 3650 开始，Switch 的 IOS 改用 Linux Base，重设密码方法又有点不同，步骤如下：</p>
+<p>1、在插电制时先按着面版上的 Mode 去中断正常开机程序。</p>
+<p>2、输入指令 SWITCH_IGNORE_STARTUP_CFG=1 (全大写)，这样就会跳过载入 Startup Configuration。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-33-48.jpg" alt="Snipaste_2020-05-04_12-33-48"></p>
+<p>3、输入指令 <strong>flash_init</strong> 和 <strong>boot</strong> 把 IOS 载入。</p>
+<p>4、系统进入 Initial Configuration Dialog 模式，输入 no 跳过，这时不用密码也可进入 Enable Mode 了。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-35-10.jpg" alt="Snipaste_2020-05-04_12-35-10"></p>
+<p>5、由於刚才跳过了载入 Startup Configuration，所以手动把 Startup Configuration 抄写至 Running Configuration，现在可以修改密码了，最後别忘记 <strong>write memory</strong> 把 Configuration 储存至 Startup Configuration</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-35-45.jpg" alt="Snipaste_2020-05-04_12-35-45"></p>
+<p>6、重新开机，再次按住 mode 按钮去中断正常开机程序，把 SWITCH_IGNORE_STARTUP_CFG 的值改回 0，然後输入指令 <strong>flash_init</strong> 和 <strong>boot</strong> 继续开机程序。重设密码步骤完成。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-36-13.jpg" alt="Snipaste_2020-05-04_12-36-13"></p>
+<h2 id="设备管理及CISCO-IOS介绍"><a href="#设备管理及CISCO-IOS介绍" class="headerlink" title="设备管理及CISCO IOS介绍"></a>设备管理及CISCO IOS介绍</h2><h3 id="CISCO-IOS概述"><a href="#CISCO-IOS概述" class="headerlink" title="CISCO IOS概述"></a>CISCO IOS概述</h3><p>Cisco互联网络操作系统，Cisco私有的网络设备操作系统。它是Cisco 的一项核心技术，该操作系统应用于Cisco路由器、局域网交换机、小型无线接入点等设备。</p>
+<p>cisco IOS 可为设备提供下列网络服务：</p>
+<ul>
+<li>基本的路由和交换功能 </li>
+<li>安全可靠地访问网络资源 </li>
+<li>网络可伸缩性</li>
+</ul>
+<h3 id="设备管理方法"><a href="#设备管理方法" class="headerlink" title="设备管理方法"></a>设备管理方法</h3><p>可以通过多种方法访问CLI（Command Line Interface，命令行界面） 环境，CLI是一种基于字符（文本）的界面，要与CLI交互，只需要输入命令，就像在文本编辑器中输入文章那样，在CLI中也可以使用复制黏贴等功能，。最常用的方法有：</p>
+<ul>
+<li>通过Console接口管理设备 </li>
+<li>通过Telnet或SSH远程管理设备 </li>
+<li>辅助端口 </li>
+</ul>
+<h4 id="通过Console接口管理网络设备"><a href="#通过Console接口管理网络设备" class="headerlink" title="通过Console接口管理网络设备"></a>通过Console接口管理网络设备</h4><p><img src="/2020/04/14/10-cisco-ios/Cisco+console+port.jpg" alt="Cisco+console+port"></p>
+<p><img src="/2020/04/14/10-cisco-ios/console.jpg" alt="console"></p>
+<p>Console，翻译成中文就是控制台，Console口就是专门用来配置设备的接口，用Console线和电脑连接，常见的Console线有以下几种：</p>
+<p>一种是RJ-45（连接设备的Console口） —— DB-9（连接计算机）线，但由于现在很多电脑已经没有了DB-9接口，所以大多情况下需要额外的转接口才能和电脑连接：</p>
+<p><img src="/2020/04/14/10-cisco-ios/usb-to-serial-adapter-with-console-cable.jpg" alt="usb-to-serial-adapter-with-console-cable"></p>
+<p>另一种是RJ-45（连接设备的Console口） —— USB（连接计算机）线，所有电脑上都有USB接口，所以不用额外的设备即可连接计算机，比较方便，更推荐使用这种线连接设备：</p>
+<p><img src="/2020/04/14/10-cisco-ios/AJV5_131962502847611197bIdYqdnY8K.jpg" alt="AJV5_131962502847611197bIdYqdnY8K"></p>
+<p>还有一种蓝牙Console线，不受线长约束，非常方便：</p>
+<p><img src="/2020/04/14/10-cisco-ios/O1CN011d84wI1b0cM5C4Gqs_!!52403403.jpg" alt="O1CN011d84wI1b0cM5C4Gqs_!!52403403"></p>
+<p>用Console先连接好设备与计算机后，可以用超级终端或Secure CRT连接设备</p>
+<h5 id="超级终端（HyperTerminal）"><a href="#超级终端（HyperTerminal）" class="headerlink" title="超级终端（HyperTerminal）"></a>超级终端（HyperTerminal）</h5><p>连接上Console线并装好驱动后，设备管理器中的端口选项中会多出一个设备，记住连接的是哪个COM口</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_13-52-21.jpg" alt="Snipaste_2020-04-16_13-52-21"></p>
+<p>Win XP系统自带超级终端，可以再附件中找到该工具，其他系统的话需要自行下载。打开超级终端后，有个对话框提示要填写位置电话号码，点击取消关闭该对话框，然后进入连接配置界面，名称随便输入即可。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_13-55-22.jpg" alt="Snipaste_2020-04-16_13-55-22"></p>
+<p>确定使用端口为上面设备管理器中的设备后，点击确定。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-40-15.jpg" alt="Snipaste_2020-04-16_14-40-15"></p>
+<p>参数建议直接选择还原默认值，注意核对“位/秒”一项的值为9600即可点击确定，成功通过Console口登入设备。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-42-16.jpg" alt="Snipaste_2020-04-16_14-42-16"></p>
+<h5 id="Secure-CRT"><a href="#Secure-CRT" class="headerlink" title="Secure CRT"></a>Secure CRT</h5><p>Secure CRT是网工常用的登录并对设备进行配置的强大工具，它支持SSH、Telnet和rlogin等协议，也可运行VBScript 和 JScript 脚本。该软件是一款商业软件，可以免费试用30天。安装好软件后，点击“New Session”新建连接。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-48-36.jpg" alt="Snipaste_2020-04-16_14-48-36"></p>
+<p>协议（Protocol）使用Serial，端口（Port）使用设备管理器中显示的COM口号码，波特率（Baud rate）选择9600，其他用默认选项即可，连接名称可以自定义，此处用 “Cisco serial Console”，设置完毕后即可用Secure CRT通过Console口连接到设备。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-48-59.jpg" alt="Snipaste_2020-04-16_14-48-59"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-51-54.jpg" alt="Snipaste_2020-04-16_14-51-54"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-53-48.jpg" alt="Snipaste_2020-04-16_14-53-48"></p>
+<p>下次使用时，该连接在Connect标签中会有保存，可直接点击Connect使用进行连接，不用重新配置参数。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-54-08.jpg" alt="Snipaste_2020-04-16_14-54-08"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-55-10.jpg" alt="Snipaste_2020-04-16_14-55-10"></p>
+<h3 id="IOS系统的备份与升级"><a href="#IOS系统的备份与升级" class="headerlink" title="IOS系统的备份与升级"></a>IOS系统的备份与升级</h3><h4 id="IOS系统备份"><a href="#IOS系统备份" class="headerlink" title="IOS系统备份"></a>IOS系统备份</h4><p>1、设置TFTP服务器，记住该服务器的IP地址。</p>
+<p>2、连接需要备份系统的设备，并登陆到特权模式，然后用show Flash命令查看Flash中有哪些文件：</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_14-01-01.jpg" alt="Snipaste_2020-05-04_14-01-01"></p>
+<p>上面这个.bin后缀的文件就是我们要备份的IOS，根据你选择的路由器的不同，这个文件名称也会有所不同，复制这个名称，等会要用到。</p>
+<p>3、使用<code>copy</code>命令将flash中的文件备份到tftp服务器。copy<code></code>flash tftp，然后输入之前记住的TFTP服务器的IP地址，确保服务器与本设备可以正常通信，备份文件名可以进行更改也可以直接回车用IOS的原名称：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Address or name of remote host []? 192.168.1.100</span><br><span class="line">Destination filename [c2800nm-advipservicesk9-mz.124-15.T1.bin]?</span><br><span class="line">Writing c2800nm-advipservicesk9-mz.124-15.T1.bin...</span><br><span class="line">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><br><span class="line">[OK - 50938004 bytes]</span><br><span class="line">50938004 bytes copied in 30.561 secs (1666000 bytes/sec)</span><br></pre></td></tr></table></figure>
+
+<h4 id="IOS系统升级"><a href="#IOS系统升级" class="headerlink" title="IOS系统升级"></a>IOS系统升级</h4><p>当路由器的IOS有了新的版本，可以通过下面的命令来升级，升级前可以使用show flash来查看一下flash空间大小，看看是否可容纳新的IOS文件。</p>
+<p>1、从TFTP服务器上拷贝需要升级的IOS文件到Flash上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R1#copy tftp flash</span><br><span class="line">Address or name of remote host []? 192.168.1.100</span><br><span class="line">Source filename []? c2800nm-advipservicesk9-mz.124-15.T1.bin             /输入TFTP上的新IOS文件名    </span><br><span class="line">Destination filename [c2800nm-advipservicesk9-mz.124-15.T1.bin]?         /输入存放到Flash中的名称</span><br></pre></td></tr></table></figure>
+
+<p>2、路由器询问是否在拷贝新的IOS前删除旧的IOS系统，如果按回车则会删除旧的IOS系统</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Erase flash: before copying? [confirm]</span><br><span class="line">Erasing the flash filesystem will remove all files! Continue? [confirm]</span><br><span class="line">Erasing device... eee ...erased                                                /删除旧IOS系统中</span><br><span class="line">Erase of flash: complete                                                       /旧IOS系统删除成功</span><br></pre></td></tr></table></figure>
+
+<p>3、删除旧IOS系统后开始拷贝新IOS系统</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Accessing tftp://192.168.1.100/c2800nm-advipservicesk9-mz.124-15.T1.bin...</span><br><span class="line">Loading c2800nm-advipservicesk9-mz.124-15.T1.bin from 192.168.1.100:</span><br><span class="line">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><br><span class="line">[OK - 50938004 bytes]</span><br></pre></td></tr></table></figure>
+
+<p>4、如果Flash中有多个IOS系统，可以使用下面的命令让这个新的IOS作为默认系统使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#boot system flash flash:c2800nm-advipservicesk9-mz.124-15.T1.bin</span><br></pre></td></tr></table></figure>
+
+<h4 id="IOS系统恢复"><a href="#IOS系统恢复" class="headerlink" title="IOS系统恢复"></a>IOS系统恢复</h4><p>如果IOS文件被不小心删除，或者在升级IOS的过程中突然断电，则可能造成路由器IOS文件的丢失，路由不能正常启动，假设服务器上备份好了路由器的IOS文件，这里手动删除路由器的IOS来模拟IOS丢失的情况，因为IOS文件被删除，重启以后路由器进入了ROM monitor模式，在这个模式下配置下面的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">rommon 1 &gt;</span><br><span class="line">rommon 1 &gt; IP_ADDRESS=192.168.1.1               /设置路由器的临时IP，只要和TFTP服务器在同一网段就可以了</span><br><span class="line">rommon 2 &gt; IP_SUBNET_MASK=255.255.255.0         /设置路由器的子网掩码</span><br><span class="line">rommon 3 &gt; DEFAULT_GATEWAY=192.168.1.1          /设置网关，由此可见IOS文件的恢复支持跨网段进行</span><br><span class="line">rommon 4 &gt; TFTP_SERVER=192.168.1.100            /设置TFTP服务器的IP地址</span><br><span class="line">rommon 5 &gt; TFTP_FILE=c2800nm-advipservicesk9-mz.124-15.T1.bin               /设置服务器上IOS的文件名</span><br><span class="line">rommon 6 &gt; tftpdnld                             /开始下载TFTP服务器上指定的IOS文件</span><br><span class="line">Do you wish to continue? y/n [n]: y</span><br><span class="line">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><br><span class="line">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><br><span class="line">rommon 7 &gt; reset                                /传输完成后使用reset重启路由</span><br></pre></td></tr></table></figure>
+
+<p><span style="color:red">注意：使用这种方法时，必须连接路由器接口号最小的那个以太网接口</span></p>
+<h3 id="CISCO-IOS配置模式"><a href="#CISCO-IOS配置模式" class="headerlink" title="CISCO IOS配置模式"></a>CISCO IOS配置模式</h3><p><strong>用户模式</strong>（User Mode），显示为：cisco&gt; </p>
+<p>– 正常登陆设备CLI后的第一个配置模式，只具备最基本的查看权限，输入“？”查询能使用的命令后发现可用命令十分有限。 </p>
+<p><img src="/2020/04/14/10-cisco-ios/cisco_cli.png" alt="cisco_cli"></p>
+<p>输入命令：enable后即可进入特权模式。</p>
+<p><strong>特权模式</strong>（Privilege execute mode），显示为：cisco#</p>
+<p>– 从用户模式通过认证（如果设置了密码）后即可进入特权模式，从截图中可以看到，输入“？”查询能使用的命令后发现可用命令相比用户模式多了很多。 </p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-04-54.jpg" alt="Snipaste_2020-04-16_15-04-54"></p>
+<p><strong>全局配置模式</strong>（Global Configuration mode），在特权模式中输入config terminal 命令后即可进入全局模式，这个模式主要是针对网络整体参数进行的设置，例如DNS地址或接口IP地址等。从截图中可以看到，输入“？”查询能使用的命令后发现，命令相比前两个模式并不相同。</p>
+<p>– 可配置设备全局参数，开启或关闭设备全局特性或功能； </p>
+<p>– 从全局配置模式可进入多种不同的其他子配置模式。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-09-46.jpg" alt="Snipaste_2020-04-16_15-09-46"></p>
+<h3 id="CISCO-IOS命令"><a href="#CISCO-IOS命令" class="headerlink" title="CISCO IOS命令"></a>CISCO IOS命令</h3><h4 id="IOS命令结构"><a href="#IOS命令结构" class="headerlink" title="IOS命令结构"></a>IOS命令结构</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-31-37.jpg" alt="Snipaste_2020-04-16_15-31-37"></p>
+<ul>
+<li>每个IOS 命令都具有特定的格式或语法，并在相应的提示符下执行。 </li>
+<li>常规命令语法为命令后接相应的关键字和参数。 </li>
+<li>某些命令包含一个关键字和参数子集，此子集可提供额外功能。 </li>
+</ul>
+<h4 id="CLI的帮助"><a href="#CLI的帮助" class="headerlink" title="CLI的帮助"></a>CLI的帮助</h4><h5 id="命令提示及补全"><a href="#命令提示及补全" class="headerlink" title="命令提示及补全"></a>命令提示及补全</h5><p><strong>命令提示</strong>：输入一半或未输入命令时，在命令行中输入“？”后系统会提示接下来可能存在的补全命令，例如输入rout 然后输入？ 后，系统会告诉用户所有以“ rout ”开头的命令，在本例中有两个，一个是route-map，一个是router，如果没有任何以这个开头的命令则系统会提示用户知道。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-32-57.jpg" alt="Snipaste_2020-04-16_15-32-57"></p>
+<p>如果在命令行中不输入任何命令直接输入“？”，则系统会将所有可能运行的命令告知用户。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-04-54-1587022600316.jpg" alt="Snipaste_2020-04-16_15-04-54"></p>
+<p><strong>命令补全：</strong>在输入部分命令后，直接按键盘上的TAB键，如果此时用户输入的命令只存在一种可能，则按完TAB键后该命令会自动补全。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-38-17.jpg" alt="Snipaste_2020-04-16_15-38-17"></p>
+<h5 id="命令语法检查"><a href="#命令语法检查" class="headerlink" title="命令语法检查"></a>命令语法检查</h5><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-39-40.jpg" alt="Snipaste_2020-04-16_15-39-40"></p>
+<h5 id="热键和快捷方式"><a href="#热键和快捷方式" class="headerlink" title="热键和快捷方式"></a>热键和快捷方式</h5><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-40-11.jpg" alt="Snipaste_2020-04-16_15-40-11"></p>
+<h4 id="cisco-IOS-基础配置"><a href="#cisco-IOS-基础配置" class="headerlink" title="cisco IOS 基础配置"></a>cisco IOS 基础配置</h4><h5 id="修改设备名称"><a href="#修改设备名称" class="headerlink" title="修改设备名称"></a><strong>修改设备名称</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Router(config)# hostname AS_SSL_1F_S3640 </span><br><span class="line"></span><br><span class="line">AS_SSL_1F_S3640(config)#</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置用户登录密码："><a href="#配置用户登录密码：" class="headerlink" title="配置用户登录密码："></a><strong>配置用户登录密码</strong>：</h5><p>Console Password</p>
+<p>用于限制人员通过控制台（Console）连接访问设备 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#line console 0                                在全局配置模式下进入console口</span><br><span class="line"></span><br><span class="line">R1(config-line)#password  cisco                          将console口登录密码设置成&quot;cisco&quot;</span><br><span class="line"></span><br><span class="line">R1(config-line)#login                                    确认启用该密码</span><br></pre></td></tr></table></figure>
+
+<h5 id="特权模式密码"><a href="#特权模式密码" class="headerlink" title="特权模式密码"></a><strong>特权模式密码</strong></h5><p>限制人员使用特权模式配置设备</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#enable password cisco          设置非加密的特权模式密码，在查看命令时会显示密码，不安全</span><br><span class="line"></span><br><span class="line">Router(config)#enable secret cisco            设置经过加密的特权模式密码，在查看命令时不会显示密码</span><br></pre></td></tr></table></figure>
+
+<h5 id="VTY-口令"><a href="#VTY-口令" class="headerlink" title="VTY 口令"></a><strong>VTY 口令</strong></h5><p>用于限制人员通过Telnet 远程访问设备</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#line vty0 4                                   进入编号为0-4的这5条VTY线路中</span><br><span class="line"></span><br><span class="line">Router(config-line)#password cisco                           将VTY远程Telnet登录的密码设置为cisco                    </span><br><span class="line">Router(config-line)#login                                    确认启用该密码</span><br></pre></td></tr></table></figure>
+
+<h5 id="管理配置文件"><a href="#管理配置文件" class="headerlink" title="管理配置文件"></a>管理配置文件</h5><p>将当前配置写入启动配置文件，这样当前运行的配置（running-config）会保存在NVRAM中变成开机配置（startup-config），即使重启或断电后开机后依然会是该配置，下面两条命令均可实现此功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1# write                                                    也可简写做wr</span><br><span class="line"></span><br><span class="line">R1# copy running-config startup-config                       将运行配置保存为开机配置</span><br></pre></td></tr></table></figure>
+
+<p>删除启动配置文件，删除开机启动的所有配置，务必谨慎使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1# erase startup-config                                     删除</span><br><span class="line"></span><br><span class="line">R1# delete flash:config.text</span><br></pre></td></tr></table></figure>
+
+<h5 id="备份配置文件"><a href="#备份配置文件" class="headerlink" title="备份配置文件"></a>备份配置文件</h5><p><strong>TFTP备份</strong></p>
+<p>1、通过TFTP软件工具备份公司Cisco2960交换机的配置，用软件建立TFTP服务器，Server interfaces填入启动软件的电脑IP：172.18.1.88，备份文件存放地址E:\Cisco_bak</p>
+<p><img src="/2020/04/14/10-cisco-ios/wKioL1i49degZT-jAAA7S9-CkBA600.png-wh_500x0-wm_3-wmp_4-s_13402697.png" alt="wKioL1i49degZT-jAAA7S9-CkBA600.png-wh_500x0-wm_3-wmp_4-s_13402697"></p>
+<p>2、用Secure CRT 通过telnet登录2960交换机，使用命令，copy running-config tftp ，然后输入TFTP的IP地址，172.18.1.88，输入备份的文件名为：djjs-as-c2960x-2-config</p>
+<p><img src="/2020/04/14/10-cisco-ios/wKiom1i49dex1enpAAAk-J4bNxI721.png-wh_500x0-wm_3-wmp_4-s_1645361981.png" alt="wKiom1i49dex1enpAAAk-J4bNxI721.png-wh_500x0-wm_3-wmp_4-s_1645361981"></p>
+<p>3、在E:\Cisco_bak下查看备份的配置文件，确认备份成功。</p>
+<p><strong>复制黏贴备份</strong></p>
+<p>在全局配置模式下，输入show run，然后将输出的命令行复制黏贴到文本文档中保存起来。</p>
+<h5 id="接口相关配置"><a href="#接口相关配置" class="headerlink" title="接口相关配置"></a>接口相关配置</h5><h6 id="进入接口"><a href="#进入接口" class="headerlink" title="进入接口"></a>进入接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1(config)# interface ethernet 0/0             进入Ethernet 0/0接口</span><br><span class="line"></span><br><span class="line">R1(config-if)#</span><br></pre></td></tr></table></figure>
+
+<p>Ethernet是一种接口类型，全称是Fast Ethernet，速率为100M，除此之外还有Gigabit Ethernet，千兆接口。</p>
+<p>Ethernet 后面这个0/0，一般命名规则是：模块号/接口序号，0/0就是第0个模块板的第0个编号的接口</p>
+<h6 id="设备接口规则："><a href="#设备接口规则：" class="headerlink" title="设备接口规则："></a>设备接口规则：</h6><ul>
+<li>固定配置或者低端路由器。其接口编号使用单个数字，如1600路由器的接口编号可以是e0（以太网接口），s0(串行接口0)</li>
+<li>中低端模块化路由器，其接口编号使用两个数字，中间用“1”格开，斜杠前面的是模块号，后面是模块接口编号，如2600路由器上的fa0/1表示第1个槽位的第2个接口，该接口是快速以太网接口。</li>
+<li>高端模块化路由器，其接口编号有时是三个数字，中间用“/”格开，第一个数字是模块号，第二个数字是该模块上的子卡号，第三个数字是该子卡上的接口模块号。如2800路由器上的G0/0/0表示0槽位第1个子模块上的第一个接口，该接口是 千兆位以太网口。</li>
+</ul>
+<h6 id="为接口配置IP地址"><a href="#为接口配置IP地址" class="headerlink" title="为接口配置IP地址"></a>为接口配置IP地址</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R1(config-if)# ip address 192.168.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<h6 id="激活接口"><a href="#激活接口" class="headerlink" title="激活接口"></a>激活接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R1(config-if)# no shutdown                   CISCO设备接口默认shutdown状态，必须将接口开启才能使用</span><br></pre></td></tr></table></figure>
+
+<h6 id="配置serial接口"><a href="#配置serial接口" class="headerlink" title="配置serial接口"></a>配置serial接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R1(config)# interface serial 0/0                            进入serial 0/0接口</span><br><span class="line">R1(config-if)# ipaddress 192.168.1.1 255.255.255.0          为接口配置IP地址和子网掩码</span><br><span class="line">R1(config-if)# no shutdown                                  将默认为关闭的接口开启</span><br><span class="line">R1(config-if)# clock rate 64000                             在DCE端配置serial接口的时钟信号</span><br></pre></td></tr></table></figure>
+
+<h5 id="show命令"><a href="#show命令" class="headerlink" title="show命令"></a>show命令</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">show ? </span><br><span class="line">show version                                                 查看当前操作系统版本 </span><br><span class="line">show running-config                                          查看运行配置 </span><br><span class="line">show startup-config                                          查看启动配置 </span><br><span class="line">show flash                                                   查看FLASH </span><br><span class="line">show cpu                                                     查看CPU利用率 </span><br><span class="line">show memory                                                  查看内存使用情况 </span><br><span class="line">show interface                                               查看端口</span><br><span class="line">show ip interface brief                                      查看所有端口简要情况</span><br></pre></td></tr></table></figure>
+
+<h5 id="设置命令输入同步模式"><a href="#设置命令输入同步模式" class="headerlink" title="设置命令输入同步模式"></a>设置命令输入同步模式</h5><p>输入命令的时候，经常会有路由返回的各种消息打断了你的输入，虽然可以使用”Ctrl+R”来将当前输入转移到新行继续输入，但是这样非常不方便，可以通过下面的命令来让路由返回的消息不影响你的输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#line console 0              /进入console线路，</span><br><span class="line">R1(config-line)#logging synchronous   /设置console线路同步模式，返回的消息就不会打断输出了</span><br><span class="line">R1(config-line)#exec-timeout 0 0     /设置console线路命令输入永不超时，一段时间没有输入以后也不断开连接</span><br></pre></td></tr></table></figure>
+
+<h5 id="返回上级命令"><a href="#返回上级命令" class="headerlink" title="返回上级命令"></a>返回上级命令</h5><p>exit命令是一次退一级的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">R1(config-line)#exit</span><br><span class="line">R1(config)#</span><br></pre></td></tr></table></figure>
+
+<p>end命令是一次性退到特权模式最外层</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">R1(config-line)#end</span><br><span class="line">R1#</span><br></pre></td></tr></table></figure>
+
+<h4 id="Running-config-VS-Startup-config"><a href="#Running-config-VS-Startup-config" class="headerlink" title="Running-config VS Startup-config"></a>Running-config VS Startup-config</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-26-51.jpg" alt="Snipaste_2020-04-23_16-26-51"></p>
+<h4 id="基础实验"><a href="#基础实验" class="headerlink" title="基础实验"></a>基础实验</h4><p>实验1：</p>
+<p>结果使R1和R2之间可以连通</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-28-02.jpg" alt="Snipaste_2020-04-23_16-28-02"></p>
+<p>拓扑如上图所示，为两台直连路由器配置直连接口参数，使二者能够通信。</p>
+<p>R1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Router# configure terminal                                            进入全局配置模式</span><br><span class="line">Router(config)# hostname R1                                           将路由器名字改为R1</span><br><span class="line">R1(config)#enable secret 123456                                       为特权模式设置密码</span><br><span class="line">R1(config)#line console 0                                             进入console线路</span><br><span class="line">R1(config-line)#logg synchronous </span><br><span class="line">                设置console线路同步模式，返回的消息就不会打断输出了               </span><br><span class="line">R1(config-line)#exec-timeout 0 0     </span><br><span class="line">                设置console线路命令输入永不超时不断开连接   </span><br><span class="line">R1(config-line)#password test                                         设置console线路密码</span><br><span class="line">R1(config)# interface fastethernet 0/0                                进入E0/0接口</span><br><span class="line">R1(config-if)# ip address 192.168.12.1 255.255.255.0                  为E0/0接口配置IP地址</span><br><span class="line">R1(config-if)# no shutdown                                            激活E0/0接口</span><br></pre></td></tr></table></figure>
+
+<p>R2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Router# configure terminal </span><br><span class="line">Router(config)# hostname R2 </span><br><span class="line">R2(config)# interface fastethernet 0/0 </span><br><span class="line">R2(config-if)# ip address 192.168.12.2 255.255.255.0 </span><br><span class="line">R2(config-if)# no shutdown</span><br></pre></td></tr></table></figure>
+
+<p>验证配置：</p>
+<p>ping 命令，看两者之间通信是否畅通</p>
+<p>ping 192.168.12.2</p>
+<p>traceroute 命令，追踪两个IP之间的通信路径</p>
+<p>traceroute 192.168.12.2</p>
+<p>R2telnet 远程连接R1，看设置是否正确</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">R2#telnet 192.168.12.1</span><br><span class="line">Trying 192.168.12.1 ... Open</span><br><span class="line">User Access Verification</span><br><span class="line">Password: /*输入远程访问密码123456*/</span><br><span class="line">R1&gt;en</span><br><span class="line">Password: /*输入R1上的特权密码test*/</span><br><span class="line">R2# /*这样就进入了R2的特权模式了*/</span><br></pre></td></tr></table></figure>
+
+<h2 id="CRT软件使用简介"><a href="#CRT软件使用简介" class="headerlink" title="CRT软件使用简介"></a>CRT软件使用简介</h2><p><a href="http://vmnf.no-ip.org/itblog/how-to-setup-a-serial-console-connection/" target="_blank" rel="noopener">How to Setup a serial Console connection</a></p>
+<p><a href="http://blog.sina.com.cn/s/blog_635e1a9e0101172t.html" target="_blank" rel="noopener">管理配置寄存器和路由器口令恢复</a></p>
+<p><a href="https://www.jannet.hk/zh-Hans/post/password-recovery/" target="_blank" rel="noopener">Password Recovery 重设密码</a></p>
+<p><a href="https://www.qingsword.com/qing/707.html#CCNA-ios-manager-6" target="_blank" rel="noopener">[CCNA图文笔记]-27-Cisco设备文件管理与密码恢复</a></p>
+<p><a href="https://www.qingsword.com/qing/490.html" target="_blank" rel="noopener">[CCNA图文笔记]-8-Cisco路由CLI基础命令</a></p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/05/04/11-route-basic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rookie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rookie's Notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/04/11-route-basic/" class="post-title-link" itemprop="url">CCNA笔记——11、路由基础及静态路由</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-04 10:25:00 / 修改时间：20:32:33" itemprop="dateCreated datePublished" datetime="2020-05-04T10:25:00+08:00">2020-05-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="路由的基本概念"><a href="#路由的基本概念" class="headerlink" title="路由的基本概念"></a>路由的基本概念</h2><h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><blockquote>
+<p>Routing is the process of selecting a path for traffic in a network or between or across multiple networks.</p>
+<p>In packet switching networks, routing is the higher-level decision making that directs network packets from their source toward their destination through intermediate network nodes by specific packet forwarding mechanisms.</p>
+</blockquote>
+<p>路由是指在一个网络中或多个网络之间或跨多个网络的流量选择路径的过程。路由是指通过特定的数据包转发机制，将网络数据包从源头通过中间网络节点向目的地方向引导网络数据包的高级决策。路由过程通常根据路由表指导转发。</p>
+<h3 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h3><h4 id="路由表的概念"><a href="#路由表的概念" class="headerlink" title="路由表的概念"></a>路由表的概念</h4><blockquote>
+<p>In computer networking a routing table, or routing information base (RIB), is a data table stored in a router or a network host that lists the routes to particular network destinations, and in some cases, metrics (distances) associated with those routes. The routing table contains information about the topology of the network immediately around it.</p>
+</blockquote>
+<p>在计算机网络世界中，路由表，或者路由信息表（RIB），是存储在路由器或网络主机上的数据表，数据表中列出了去往特定网络目的地的路由，在某些情况下，还列出了与这些路由相关的度量值（距离）。路由表包含有关其周围网络拓扑的信息。</p>
+<ul>
+<li>每一台路由器都会维护一个路由表，在路由表中包含着路由器发现的路由（路由条目、路由表项）； </li>
+<li>路由表相当于路由器的地图，路由器能够正确转发IP报文的前提是在其路由表中存在匹配该数据包目的IP地址的路由条目； </li>
+<li>路由表中的路由条目获取来源有多种：直连路由、静态路由及动态路由协议。</li>
+</ul>
+<h4 id="如何查看路由表"><a href="#如何查看路由表" class="headerlink" title="如何查看路由表"></a>如何查看路由表</h4><p>查看路由表的命令为：show ip route</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-50-46.jpg" alt="Snipaste_2020-05-04_19-50-46"></p>
+<p>上图中的C表示直连路由，S表示静态路由。其他常用的路由获取来源还有O，也就是通过OSPF协议获得的，以及D，通过EIGRP协议获得。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-57-10.jpg" alt="Snipaste_2020-05-04_19-57-10"></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-58-52-1588593580832.jpg" alt="Snipaste_2020-05-04_19-58-52"></p>
+<p>思科路由器接口开机以后默认是关闭状态，必须到接口中使用“no shutdown”命令将接口开启，路由表才能更新该路由。</p>
+<h3 id="路由条目获取的来源"><a href="#路由条目获取的来源" class="headerlink" title="路由条目获取的来源"></a>路由条目获取的来源</h3><h4 id="直连路由"><a href="#直连路由" class="headerlink" title="直连路由"></a>直连路由</h4><p>定义：路由器的直连接口所在网络的信息。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-26-25.jpg" alt="Snipaste_2020-05-04_20-26-25"></p>
+<p>路由器R2有两个直连接口，两个直连接口分别对应192.168.12.0网段和192.168.23.0网段，所以在路由表中这两个网段信息前面的标识为C ，也就是connected，是直连路由。如果其中一个接口和对端的连通性出了问题，比如S0/1或对端对应的接口如果被shutdown或中间网线断开连接，则192.168.23.0这条路由会在路由表中消失。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-29-50.jpg" alt="Snipaste_2020-05-04_20-29-50"></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-32-23.jpg" alt="Snipaste_2020-05-04_20-32-23"></p>
+<h4 id="静态路由"><a href="#静态路由" class="headerlink" title="静态路由"></a>静态路由</h4><h4 id="动态路由协议"><a href="#动态路由协议" class="headerlink" title="动态路由协议"></a>动态路由协议</h4><h2 id="最长匹配原则"><a href="#最长匹配原则" class="headerlink" title="最长匹配原则"></a>最长匹配原则</h2><h2 id="路由汇总"><a href="#路由汇总" class="headerlink" title="路由汇总"></a>路由汇总</h2><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -622,7 +1053,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-29 15:53:38" itemprop="dateModified" datetime="2020-03-29T15:53:38+08:00">2020-03-29</time>
+                <time title="修改时间：2020-04-29 16:37:35" itemprop="dateModified" datetime="2020-04-29T16:37:35+08:00">2020-04-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -712,7 +1143,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-23 14:45:38" itemprop="dateModified" datetime="2020-04-23T14:45:38+08:00">2020-04-23</time>
+                <time title="修改时间：2020-05-04 12:47:56" itemprop="dateModified" datetime="2020-05-04T12:47:56+08:00">2020-05-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -988,312 +1419,12 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/04/14/10-cisco-ios/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rookie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rookie's Notebook">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/14/10-cisco-ios/" class="post-title-link" itemprop="url">CCNA笔记——10、设备管理及cisco IOS基础配置</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-14 11:42:18" itemprop="dateCreated datePublished" datetime="2020-04-14T11:42:18+08:00">2020-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-23 16:32:04" itemprop="dateModified" datetime="2020-04-23T16:32:04+08:00">2020-04-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="CISCO路由器及启动过程"><a href="#CISCO路由器及启动过程" class="headerlink" title="CISCO路由器及启动过程"></a>CISCO路由器及启动过程</h2><h3 id="路由器组件"><a href="#路由器组件" class="headerlink" title="路由器组件"></a>路由器组件</h3><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-14_16-22-14.jpg" alt="Snipaste_2020-04-14_16-22-14"></p>
-<p>CPU：中央处理器，CPU执行操作系统的指令，例如启动，路由功能和交换功能。</p>
-<p>RAM（random access memory）：随机访问存储器，RAM是一种易失性内存，需要持续供电才能保留其内容，如果重启或电源断电的话，该存储器上的内容会全部丢失。RAM上存储那些需要被运行的数据，比如路由器的操作系统、目前正在运行的配置文件（Running Configuration File）、路由表（IP Routing Table）、ARP缓存表（ARP Cache）、缓存数据（Packet Buffer）等。思科设备上运行的操作系统叫做“Cisco IOS”，IOS是Internetwork Operating System的简写，和苹果运行的IOS系统简写一样，话说貌似苹果给了思科授权费才能也用这个简写；Running Configuration File，它是存储了路由器IOS系统目前运行的配置命令，路由器上几乎所有配置命令都存储在running configuration file中，一般叫做running configuration；ARP缓存表（ARP Cache），缓存表中包含了IPV4地址和MAC地址对应的表项，当路由器上有以太网接口时才会有ARP缓存表；缓存数据（Packet Buffer），当接口收到或发出数据前会暂时存储在缓存中，这些暂时存储的数据叫做数据缓存。</p>
-<p>ROM（read-only memory），ROM是一种永久性存储，即使断电重启，其中的数据也不会丢失。思科设备中的ROM存储的是，POST，bootstrap，ROMMON，mini-IOS。</p>
-<ul>
-<li>POST：Power on self test，开机自检程序，用来确定所有必备开机的组建都能正常运行；</li>
-<li>bootstrap：开机指令，负责启动路由器并找到IOS系统的位置将其加载到RAM中；</li>
-<li>ROMMON：ROMMON是一个精简版IOS程序，在ROMMON上可以进行各种系统检测和进行密码恢复，如果bootstrap成功找到IOS系统则不会进入ROMMON模式，如果bootstrap找不到系统则会进入ROMMON模式；</li>
-<li>mini-IOS：Mini-IOS是一个备用工具，它包含了一个剥离版的IOS。它适用于找不到IOS映像的关键情况。Mini-IOS只包含IP代码，允许你从其他资源（如TFTP Server）加载IOS。</li>
-</ul>
-<p>Flash Memory，Flash Memory是一种非易失性存储，可以通过电子方式进行存储和擦除数据，主要用来存放IOS操作系统。</p>
-<p>NVRAM，NVRAM是Nonvolatile RAM的简写，中文是非易失性RAM存储，这种存储在断电或重启时也不会丢失其中的数据，主要用来存放startup configuration，也就是设备的启动配置。</p>
-<h3 id="路由器启动过程"><a href="#路由器启动过程" class="headerlink" title="路由器启动过程"></a>路由器启动过程</h3><p><img src="/2020/04/14/10-cisco-ios/router-booting-process.jpg" alt="router-booting-process"></p>
-<p><img src="/2020/04/14/10-cisco-ios/071613_2203_CCNAPrepInt4.png" alt="071613_2203_CCNAPrepInt4"></p>
-<p>路由器开机后，先运行ROM中的POST，也就是进行硬件自检，看必备的开机部件（CPU, RAM和NVRAM）是否都工作正常，如果正常的话，将ROM中的Bootstrap程序拷贝到RAM中运行，当拷贝完毕且在RAM运行后，CPU执行bootstrap程序搜寻IOS操作系统的位置，搜索的过程依次为Flash — TFTP Server — ROM，如果都没有的话则进入ROMMON模式，如果找到操作系统则操作系统会加载到RAM中运行，并加载存储在NVRAM中的开机启动配置，当所有程序都在RAM中成功加载后，开机过程运行完毕。</p>
-<h2 id="设备管理及CISCO-IOS介绍"><a href="#设备管理及CISCO-IOS介绍" class="headerlink" title="设备管理及CISCO IOS介绍"></a>设备管理及CISCO IOS介绍</h2><h3 id="CISCO-IOS概述"><a href="#CISCO-IOS概述" class="headerlink" title="CISCO IOS概述"></a>CISCO IOS概述</h3><p>Cisco互联网络操作系统，Cisco私有的网络设备操作系统。它是Cisco 的一项核心技术，该操作系统应用于Cisco路由器、局域网交换机、小型无线接入点等设备。</p>
-<p>cisco IOS 可为设备提供下列网络服务：</p>
-<ul>
-<li>基本的路由和交换功能 </li>
-<li>安全可靠地访问网络资源 </li>
-<li>网络可伸缩性</li>
-</ul>
-<h3 id="设备管理方法"><a href="#设备管理方法" class="headerlink" title="设备管理方法"></a>设备管理方法</h3><p>可以通过多种方法访问CLI（Command Line Interface，命令行界面） 环境，CLI是一种基于字符（文本）的界面，要与CLI交互，只需要输入命令，就像在文本编辑器中输入文章那样，在CLI中也可以使用复制黏贴等功能，。最常用的方法有：</p>
-<ul>
-<li>通过Console接口管理设备 </li>
-<li>通过Telnet或SSH远程管理设备 </li>
-<li>辅助端口 </li>
-</ul>
-<h4 id="通过Console接口管理网络设备"><a href="#通过Console接口管理网络设备" class="headerlink" title="通过Console接口管理网络设备"></a>通过Console接口管理网络设备</h4><p><img src="/2020/04/14/10-cisco-ios/Cisco+console+port.jpg" alt="Cisco+console+port"></p>
-<p><img src="/2020/04/14/10-cisco-ios/console.jpg" alt="console"></p>
-<p>Console，翻译成中文就是控制台，Console口就是专门用来配置设备的接口，用Console线和电脑连接，常见的Console线有以下几种：</p>
-<p>一种是RJ-45（连接设备的Console口） —— DB-9（连接计算机）线，但由于现在很多电脑已经没有了DB-9接口，所以大多情况下需要额外的转接口才能和电脑连接：</p>
-<p><img src="/2020/04/14/10-cisco-ios/usb-to-serial-adapter-with-console-cable.jpg" alt="usb-to-serial-adapter-with-console-cable"></p>
-<p>另一种是RJ-45（连接设备的Console口） —— USB（连接计算机）线，所有电脑上都有USB接口，所以不用额外的设备即可连接计算机，比较方便，更推荐使用这种线连接设备：</p>
-<p><img src="/2020/04/14/10-cisco-ios/AJV5_131962502847611197bIdYqdnY8K.jpg" alt="AJV5_131962502847611197bIdYqdnY8K"></p>
-<p>还有一种蓝牙Console线，不受线长约束，非常方便：</p>
-<p><img src="/2020/04/14/10-cisco-ios/O1CN011d84wI1b0cM5C4Gqs_!!52403403.jpg" alt="O1CN011d84wI1b0cM5C4Gqs_!!52403403"></p>
-<p>用Console先连接好设备与计算机后，可以用超级终端或Secure CRT连接设备</p>
-<h5 id="超级终端（HyperTerminal）"><a href="#超级终端（HyperTerminal）" class="headerlink" title="超级终端（HyperTerminal）"></a>超级终端（HyperTerminal）</h5><p>连接上Console线并装好驱动后，设备管理器中的端口选项中会多出一个设备，记住连接的是哪个COM口</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_13-52-21.jpg" alt="Snipaste_2020-04-16_13-52-21"></p>
-<p>Win XP系统自带超级终端，可以再附件中找到该工具，其他系统的话需要自行下载。打开超级终端后，有个对话框提示要填写位置电话号码，点击取消关闭该对话框，然后进入连接配置界面，名称随便输入即可。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_13-55-22.jpg" alt="Snipaste_2020-04-16_13-55-22"></p>
-<p>确定使用端口为上面设备管理器中的设备后，点击确定。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-40-15.jpg" alt="Snipaste_2020-04-16_14-40-15"></p>
-<p>参数建议直接选择还原默认值，注意核对“位/秒”一项的值为9600即可点击确定，成功通过Console口登入设备。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-42-16.jpg" alt="Snipaste_2020-04-16_14-42-16"></p>
-<h5 id="Secure-CRT"><a href="#Secure-CRT" class="headerlink" title="Secure CRT"></a>Secure CRT</h5><p>Secure CRT是网工常用的登录并对设备进行配置的强大工具，它支持SSH、Telnet和rlogin等协议，也可运行VBScript 和 JScript 脚本。该软件是一款商业软件，可以免费试用30天。安装好软件后，点击“New Session”新建连接。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-48-36.jpg" alt="Snipaste_2020-04-16_14-48-36"></p>
-<p>协议（Protocol）使用Serial，端口（Port）使用设备管理器中显示的COM口号码，波特率（Baud rate）选择9600，其他用默认选项即可，连接名称可以自定义，此处用 “Cisco serial Console”，设置完毕后即可用Secure CRT通过Console口连接到设备。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-48-59.jpg" alt="Snipaste_2020-04-16_14-48-59"></p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-51-54.jpg" alt="Snipaste_2020-04-16_14-51-54"></p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-53-48.jpg" alt="Snipaste_2020-04-16_14-53-48"></p>
-<p>下次使用时，该连接在Connect标签中会有保存，可直接点击Connect使用进行连接，不用重新配置参数。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-54-08.jpg" alt="Snipaste_2020-04-16_14-54-08"></p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-55-10.jpg" alt="Snipaste_2020-04-16_14-55-10"></p>
-<h3 id="CISCO-IOS配置模式"><a href="#CISCO-IOS配置模式" class="headerlink" title="CISCO IOS配置模式"></a>CISCO IOS配置模式</h3><p><strong>用户模式</strong>（User Mode），显示为：cisco&gt; </p>
-<p>– 正常登陆设备CLI后的第一个配置模式，只具备最基本的查看权限，输入“？”查询能使用的命令后发现可用命令十分有限。 </p>
-<p><img src="/2020/04/14/10-cisco-ios/cisco_cli.png" alt="cisco_cli"></p>
-<p>输入命令：enable后即可进入特权模式。</p>
-<p><strong>特权模式</strong>（Privilege execute mode），显示为：cisco#</p>
-<p>– 从用户模式通过认证（如果设置了密码）后即可进入特权模式，从截图中可以看到，输入“？”查询能使用的命令后发现可用命令相比用户模式多了很多。 </p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-04-54.jpg" alt="Snipaste_2020-04-16_15-04-54"></p>
-<p><strong>全局配置模式</strong>（Global Configuration mode），在特权模式中输入config terminal 命令后即可进入全局模式，这个模式主要是针对网络整体参数进行的设置，例如DNS地址或接口IP地址等。从截图中可以看到，输入“？”查询能使用的命令后发现，命令相比前两个模式并不相同。</p>
-<p>– 可配置设备全局参数，开启或关闭设备全局特性或功能； </p>
-<p>– 从全局配置模式可进入多种不同的其他子配置模式。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-09-46.jpg" alt="Snipaste_2020-04-16_15-09-46"></p>
-<h3 id="CISCO-IOS命令"><a href="#CISCO-IOS命令" class="headerlink" title="CISCO IOS命令"></a>CISCO IOS命令</h3><h4 id="IOS命令结构"><a href="#IOS命令结构" class="headerlink" title="IOS命令结构"></a>IOS命令结构</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-31-37.jpg" alt="Snipaste_2020-04-16_15-31-37"></p>
-<ul>
-<li>每个IOS 命令都具有特定的格式或语法，并在相应的提示符下执行。 </li>
-<li>常规命令语法为命令后接相应的关键字和参数。 </li>
-<li>某些命令包含一个关键字和参数子集，此子集可提供额外功能。 </li>
-</ul>
-<h4 id="CLI的帮助"><a href="#CLI的帮助" class="headerlink" title="CLI的帮助"></a>CLI的帮助</h4><h5 id="命令提示及补全"><a href="#命令提示及补全" class="headerlink" title="命令提示及补全"></a>命令提示及补全</h5><p><strong>命令提示</strong>：输入一半或未输入命令时，在命令行中输入“？”后系统会提示接下来可能存在的补全命令，例如输入rout 然后输入？ 后，系统会告诉用户所有以“ rout ”开头的命令，在本例中有两个，一个是route-map，一个是router，如果没有任何以这个开头的命令则系统会提示用户知道。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-32-57.jpg" alt="Snipaste_2020-04-16_15-32-57"></p>
-<p>如果在命令行中不输入任何命令直接输入“？”，则系统会将所有可能运行的命令告知用户。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-04-54-1587022600316.jpg" alt="Snipaste_2020-04-16_15-04-54"></p>
-<p><strong>命令补全：</strong>在输入部分命令后，直接按键盘上的TAB键，如果此时用户输入的命令只存在一种可能，则按完TAB键后该命令会自动补全。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-38-17.jpg" alt="Snipaste_2020-04-16_15-38-17"></p>
-<h5 id="命令语法检查"><a href="#命令语法检查" class="headerlink" title="命令语法检查"></a>命令语法检查</h5><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-39-40.jpg" alt="Snipaste_2020-04-16_15-39-40"></p>
-<h5 id="热键和快捷方式"><a href="#热键和快捷方式" class="headerlink" title="热键和快捷方式"></a>热键和快捷方式</h5><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-40-11.jpg" alt="Snipaste_2020-04-16_15-40-11"></p>
-<h4 id="cisco-IOS-基础配置"><a href="#cisco-IOS-基础配置" class="headerlink" title="cisco IOS 基础配置"></a>cisco IOS 基础配置</h4><h5 id="修改设备名称"><a href="#修改设备名称" class="headerlink" title="修改设备名称"></a><strong>修改设备名称</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Router(config)# hostname AS_SSL_1F_S3640 </span><br><span class="line"></span><br><span class="line">AS_SSL_1F_S3640(config)#</span><br></pre></td></tr></table></figure>
-
-<h5 id="配置用户登录密码："><a href="#配置用户登录密码：" class="headerlink" title="配置用户登录密码："></a><strong>配置用户登录密码</strong>：</h5><p>Console Password</p>
-<p>用于限制人员通过控制台（Console）连接访问设备 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#line console 0                                在全局配置模式下进入console口</span><br><span class="line"></span><br><span class="line">R1(config-line)#password  cisco                          将console口登录密码设置成&quot;cisco&quot;</span><br><span class="line"></span><br><span class="line">R1(config-line)#login                                    确认启用该密码</span><br></pre></td></tr></table></figure>
-
-<h5 id="特权模式密码"><a href="#特权模式密码" class="headerlink" title="特权模式密码"></a><strong>特权模式密码</strong></h5><p>限制人员使用特权模式配置设备</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#enable password cisco          设置非加密的特权模式密码，在查看命令时会显示密码，不安全</span><br><span class="line"></span><br><span class="line">Router(config)#enable secret cisco            设置经过加密的特权模式密码，在查看命令时不会显示密码</span><br></pre></td></tr></table></figure>
-
-<h5 id="VTY-口令"><a href="#VTY-口令" class="headerlink" title="VTY 口令"></a><strong>VTY 口令</strong></h5><p>用于限制人员通过Telnet 远程访问设备</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#line vty0 4                                   进入编号为0-4的这5条VTY线路中</span><br><span class="line"></span><br><span class="line">Router(config-line)#password cisco                           将VTY远程Telnet登录的密码设置为cisco                    </span><br><span class="line">Router(config-line)#login                                    确认启用该密码</span><br></pre></td></tr></table></figure>
-
-<h5 id="管理配置文件"><a href="#管理配置文件" class="headerlink" title="管理配置文件"></a>管理配置文件</h5><p>将当前配置写入启动配置文件，这样当前运行的配置（running-config）会保存在NVRAM中变成开机配置（startup-config），即使重启或断电后开机后依然会是该配置，下面两条命令均可实现此功能。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1# write                                                    也可简写做wr</span><br><span class="line"></span><br><span class="line">R1# copy running-config startup-config                       将运行配置保存为开机配置</span><br></pre></td></tr></table></figure>
-
-<p>删除启动配置文件，删除开机启动的所有配置，务必谨慎使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1# erase startup-config                                     删除</span><br><span class="line"></span><br><span class="line">R1# delete flash:config.text</span><br></pre></td></tr></table></figure>
-
-<h5 id="接口相关配置"><a href="#接口相关配置" class="headerlink" title="接口相关配置"></a>接口相关配置</h5><h6 id="进入接口"><a href="#进入接口" class="headerlink" title="进入接口"></a>进入接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1(config)# interface ethernet 0/0             进入Ethernet 0/0接口</span><br><span class="line"></span><br><span class="line">R1(config-if)#</span><br></pre></td></tr></table></figure>
-
-<p>Ethernet是一种接口类型，全称是Fast Ethernet，速率为100M，除此之外还有Gigabit Ethernet，千兆接口。</p>
-<p>Ethernet 后面这个0/0，一般命名规则是：模块号/接口序号，0/0就是第0个模块板的第0个编号的接口</p>
-<h6 id="设备接口规则："><a href="#设备接口规则：" class="headerlink" title="设备接口规则："></a>设备接口规则：</h6><ul>
-<li>固定配置或者低端路由器。其接口编号使用单个数字，如1600路由器的接口编号可以是e0（以太网接口），s0(串行接口0)</li>
-<li>中低端模块化路由器，其接口编号使用两个数字，中间用“1”格开，斜杠前面的是模块号，后面是模块接口编号，如2600路由器上的fa0/1表示第1个槽位的第2个接口，该接口是快速以太网接口。</li>
-<li>高端模块化路由器，其接口编号有时是三个数字，中间用“/”格开，第一个数字是模块号，第二个数字是该模块上的子卡号，第三个数字是该子卡上的接口模块号。如2800路由器上的G0/0/0表示0槽位第1个子模块上的第一个接口，该接口是 千兆位以太网口。</li>
-</ul>
-<h6 id="为接口配置IP地址"><a href="#为接口配置IP地址" class="headerlink" title="为接口配置IP地址"></a>为接口配置IP地址</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R1(config-if)# ip address 192.168.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
-
-<h6 id="激活接口"><a href="#激活接口" class="headerlink" title="激活接口"></a>激活接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R1(config-if)# no shutdown                   CISCO设备接口默认shutdown状态，必须将接口开启才能使用</span><br></pre></td></tr></table></figure>
-
-<h6 id="配置serial接口"><a href="#配置serial接口" class="headerlink" title="配置serial接口"></a>配置serial接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R1(config)# interface serial 0/0                            进入serial 0/0接口</span><br><span class="line">R1(config-if)# ipaddress 192.168.1.1 255.255.255.0          为接口配置IP地址和子网掩码</span><br><span class="line">R1(config-if)# no shutdown                                  将默认为关闭的接口开启</span><br><span class="line">R1(config-if)# clock rate 64000                             在DCE端配置serial接口的时钟信号</span><br></pre></td></tr></table></figure>
-
-<h5 id="show命令"><a href="#show命令" class="headerlink" title="show命令"></a>show命令</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">show ? </span><br><span class="line">show version                                                 查看当前操作系统版本 </span><br><span class="line">show running-config                                          查看运行配置 </span><br><span class="line">show startup-config                                          查看启动配置 </span><br><span class="line">show flash                                                   查看FLASH </span><br><span class="line">show cpu                                                     查看CPU利用率 </span><br><span class="line">show memory                                                  查看内存使用情况 </span><br><span class="line">show interface                                               查看端口</span><br></pre></td></tr></table></figure>
-
-<h4 id="Running-config-VS-Startup-config"><a href="#Running-config-VS-Startup-config" class="headerlink" title="Running-config VS Startup-config"></a>Running-config VS Startup-config</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-26-51.jpg" alt="Snipaste_2020-04-23_16-26-51"></p>
-<h4 id="基础实验"><a href="#基础实验" class="headerlink" title="基础实验"></a>基础实验</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-28-02.jpg" alt="Snipaste_2020-04-23_16-28-02"></p>
-<p>拓扑如上图所示，为两台直连路由器配置直连接口参数，使二者能够通信。</p>
-<p>R1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Router# configure terminal                                            进入全局配置模式</span><br><span class="line">Router(config)# hostname R1                                           将路由器名字改为R1</span><br><span class="line">R1(config)# interface fastethernet 0/0                                进入E0/0接口</span><br><span class="line">R1(config-if)# ip address 192.168.12.1 255.255.255.0                  为E0/0接口配置IP地址</span><br><span class="line">R1(config-if)# no shutdown                                            激活E0/0接口</span><br></pre></td></tr></table></figure>
-
-<p>R2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Router# configure terminal </span><br><span class="line">Router(config)# hostname R2 </span><br><span class="line">R2(config)# interface fastethernet 0/0 </span><br><span class="line">R2(config-if)# ip address 192.168.12.2 255.255.255.0 </span><br><span class="line">R2(config-if)# no shutdown</span><br></pre></td></tr></table></figure>
-
-<p>验证配置：</p>
-<p>ping 命令，看两者之间通信是否畅通</p>
-<p>ping 192.168.12.2</p>
-<p>traceroute 命令，追踪两个IP之间的通信路径</p>
-<p>traceroute 192.168.12.2</p>
-<h2 id="CRT软件使用简介"><a href="#CRT软件使用简介" class="headerlink" title="CRT软件使用简介"></a>CRT软件使用简介</h2><p><a href="http://vmnf.no-ip.org/itblog/how-to-setup-a-serial-console-connection/" target="_blank" rel="noopener">How to Setup a serial Console connection</a></p>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/02/19/8-subnet/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rookie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rookie's Notebook">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/19/8-subnet/" class="post-title-link" itemprop="url">CCNA笔记——8、子网划分</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-02-19 11:42:18" itemprop="dateCreated datePublished" datetime="2020-02-19T11:42:18+08:00">2020-02-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-19 13:25:01" itemprop="dateModified" datetime="2020-03-19T13:25:01+08:00">2020-03-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>此篇笔记是在<a href="https://blog.51cto.com/6930123/2113151" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《子网划分详解》</a>以及<a href="https://blog.51cto.com/6930123/2115072" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《超网合并详解》</a>两篇笔记的基础上进行了部分改动。</p>
-<h2 id="子网划分"><a href="#子网划分" class="headerlink" title="子网划分"></a>子网划分</h2><h3 id="子网划分的定义"><a href="#子网划分的定义" class="headerlink" title="子网划分的定义"></a>子网划分的定义</h3><p>可以自由的加减子网掩码长度，也就是不限制于A/B/C类默认的掩码长度，A类地址不必须使用8/位的掩码，也可以用诸如：10/位掩码或者7/位掩码。</p>
-<h3 id="子网划分的原因"><a href="#子网划分的原因" class="headerlink" title="子网划分的原因"></a>子网划分的原因</h3><p>子网就是把一个大网划分为几个小网，而如果按照默认的A\B\C类默认使用的话，比如一个B类地址，默认掩码为255.255.0.0，意味着这个地址空间里有2的16次方个IP，并且该网络号只能用于一个广播域，造成了IP地址的极大浪费，如果一个广播域中的PC数量过于庞大，网络可能被广播报文消耗大量资源。把一个大网络划分成几个不同的小网络以后，他们之间的网络号和广播地址各不相同，可以尽可能多的使用IP地址避免浪费，一个网段中的主机数量相对少一些的话，广播报文消耗的资源也会少很多，使得网络更有层次性。</p>
-<p>为了解决IPv4的不足，提高网络划分的灵活性，诞生了两种非常重要的技术，那就是<strong>VLSM（可变长子网掩码）</strong>和<strong>CIDR（无类别域间路由）</strong>，把传统标准的IPv4有类网络演变成一个更为高效，更为实用的无类网络。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/19/8-subnet/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 
 
@@ -1338,7 +1469,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

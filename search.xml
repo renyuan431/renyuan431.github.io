@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CCNA笔记——11、路由基础及静态路由</title>
+    <url>/2020/05/04/11-route-basic/</url>
+    <content><![CDATA[<h2 id="路由的基本概念"><a href="#路由的基本概念" class="headerlink" title="路由的基本概念"></a>路由的基本概念</h2><h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><blockquote>
+<p>Routing is the process of selecting a path for traffic in a network or between or across multiple networks.</p>
+<p>In packet switching networks, routing is the higher-level decision making that directs network packets from their source toward their destination through intermediate network nodes by specific packet forwarding mechanisms.</p>
+</blockquote>
+<p>路由是指在一个网络中或多个网络之间或跨多个网络的流量选择路径的过程。路由是指通过特定的数据包转发机制，将网络数据包从源头通过中间网络节点向目的地方向引导网络数据包的高级决策。路由过程通常根据路由表指导转发。</p>
+<h3 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h3><h4 id="路由表的概念"><a href="#路由表的概念" class="headerlink" title="路由表的概念"></a>路由表的概念</h4><blockquote>
+<p>In computer networking a routing table, or routing information base (RIB), is a data table stored in a router or a network host that lists the routes to particular network destinations, and in some cases, metrics (distances) associated with those routes. The routing table contains information about the topology of the network immediately around it.</p>
+</blockquote>
+<p>在计算机网络世界中，路由表，或者路由信息表（RIB），是存储在路由器或网络主机上的数据表，数据表中列出了去往特定网络目的地的路由，在某些情况下，还列出了与这些路由相关的度量值（距离）。路由表包含有关其周围网络拓扑的信息。</p>
+<ul>
+<li>每一台路由器都会维护一个路由表，在路由表中包含着路由器发现的路由（路由条目、路由表项）； </li>
+<li>路由表相当于路由器的地图，路由器能够正确转发IP报文的前提是在其路由表中存在匹配该数据包目的IP地址的路由条目； </li>
+<li>路由表中的路由条目获取来源有多种：直连路由、静态路由及动态路由协议。</li>
+</ul>
+<h4 id="如何查看路由表"><a href="#如何查看路由表" class="headerlink" title="如何查看路由表"></a>如何查看路由表</h4><p>查看路由表的命令为：show ip route</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-50-46.jpg" alt="Snipaste_2020-05-04_19-50-46"></p>
+<p>上图中的C表示直连路由，S表示静态路由。其他常用的路由获取来源还有O，也就是通过OSPF协议获得的，以及D，通过EIGRP协议获得。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-57-10.jpg" alt="Snipaste_2020-05-04_19-57-10"></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-58-52-1588593580832.jpg" alt="Snipaste_2020-05-04_19-58-52"></p>
+<p>思科路由器接口开机以后默认是关闭状态，必须到接口中使用“no shutdown”命令将接口开启，路由表才能更新该路由。</p>
+<h3 id="路由条目获取的来源"><a href="#路由条目获取的来源" class="headerlink" title="路由条目获取的来源"></a>路由条目获取的来源</h3><h4 id="直连路由"><a href="#直连路由" class="headerlink" title="直连路由"></a>直连路由</h4><p>定义：路由器的直连接口所在网络的信息。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-26-25.jpg" alt="Snipaste_2020-05-04_20-26-25"></p>
+<p>路由器R2有两个直连接口，两个直连接口分别对应192.168.12.0网段和192.168.23.0网段，所以在路由表中这两个网段信息前面的标识为C ，也就是connected，是直连路由。如果其中一个接口和对端的连通性出了问题，比如S0/1或对端对应的接口如果被shutdown或中间网线断开连接，则192.168.23.0这条路由会在路由表中消失。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-29-50.jpg" alt="Snipaste_2020-05-04_20-29-50"></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-32-23.jpg" alt="Snipaste_2020-05-04_20-32-23"></p>
+<h4 id="静态路由"><a href="#静态路由" class="headerlink" title="静态路由"></a>静态路由</h4><h4 id="动态路由协议"><a href="#动态路由协议" class="headerlink" title="动态路由协议"></a>动态路由协议</h4><h2 id="最长匹配原则"><a href="#最长匹配原则" class="headerlink" title="最长匹配原则"></a>最长匹配原则</h2><h2 id="路由汇总"><a href="#路由汇总" class="headerlink" title="路由汇总"></a>路由汇总</h2><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+      <categories>
+        <category>路由交换方向</category>
+        <category>CCNA</category>
+      </categories>
+  </entry>
+  <entry>
     <title>CCNA笔记——10、设备管理及cisco IOS基础配置</title>
     <url>/2020/04/14/10-cisco-ios/</url>
     <content><![CDATA[<h2 id="CISCO路由器及启动过程"><a href="#CISCO路由器及启动过程" class="headerlink" title="CISCO路由器及启动过程"></a>CISCO路由器及启动过程</h2><h3 id="路由器组件"><a href="#路由器组件" class="headerlink" title="路由器组件"></a>路由器组件</h3><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-14_16-22-14.jpg" alt="Snipaste_2020-04-14_16-22-14"></p>
@@ -15,9 +49,79 @@
 </ul>
 <p>Flash Memory，Flash Memory是一种非易失性存储，可以通过电子方式进行存储和擦除数据，主要用来存放IOS操作系统。</p>
 <p>NVRAM，NVRAM是Nonvolatile RAM的简写，中文是非易失性RAM存储，这种存储在断电或重启时也不会丢失其中的数据，主要用来存放startup configuration，也就是设备的启动配置。</p>
-<h3 id="路由器启动过程"><a href="#路由器启动过程" class="headerlink" title="路由器启动过程"></a>路由器启动过程</h3><p><img src="/2020/04/14/10-cisco-ios/router-booting-process.jpg" alt="router-booting-process"></p>
+<h3 id="路由器启动过程"><a href="#路由器启动过程" class="headerlink" title="路由器启动过程"></a>路由器启动过程</h3><h4 id="理论步骤"><a href="#理论步骤" class="headerlink" title="理论步骤"></a>理论步骤</h4><p><img src="/2020/04/14/10-cisco-ios/router-booting-process.jpg" alt="router-booting-process"></p>
 <p><img src="/2020/04/14/10-cisco-ios/071613_2203_CCNAPrepInt4.png" alt="071613_2203_CCNAPrepInt4"></p>
 <p>路由器开机后，先运行ROM中的POST，也就是进行硬件自检，看必备的开机部件（CPU, RAM和NVRAM）是否都工作正常，如果正常的话，将ROM中的Bootstrap程序拷贝到RAM中运行，当拷贝完毕且在RAM运行后，CPU执行bootstrap程序搜寻IOS操作系统的位置，搜索的过程依次为Flash — TFTP Server — ROM，如果都没有的话则进入ROMMON模式，如果找到操作系统则操作系统会加载到RAM中运行，并加载存储在NVRAM中的开机启动配置，当所有程序都在RAM中成功加载后，开机过程运行完毕。</p>
+<h4 id="实际分析"><a href="#实际分析" class="headerlink" title="实际分析"></a>实际分析</h4><p><strong>POST</strong> (Power On Self Test) - 首先 Router 会自我检查一下</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-41-19.jpg" alt="Snipaste_2020-05-04_10-41-19"></p>
+<p><strong>载入Bootstrap</strong> - 然后会加载Bootstrap这个应用程序，功能是后面加载IOS操作系统。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-43-54.jpg" alt="Snipaste_2020-05-04_10-43-54"></p>
+<p><strong>读取Configuration Register</strong> </p>
+<p>接下来会读取配置寄存器的数值，预设为0X2102，换算成二进制就是0010 0001 0000 0010 ， 每位都有不同的作用，一般情况下不会改变这个数值，但如果要冲重新设置密码，需要看第六位，也就是从右往左数第七个数字，之所以是第七个数字，是因为右起第一个数字是第零位，右起第二个数字是第一位，以此类推第六位也就是尤其第七个数字：</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-54-08.jpg" alt="Snipaste_2020-05-04_10-54-08"></p>
+<p>这个 Bit 可控制 Router 要不要跳过读取 Startup Configuration，预设 0 是不跳过 (即读取)，设成 1 则是跳过 (即不读取)。但开机时是看不到 Configuration Register 的值，只有在开机後用 Show Version 才可看到。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-56-05.jpg" alt="Snipaste_2020-05-04_10-56-05"></p>
+<p><strong>载入 IOS</strong> - 依 Flash丶TFTP 和 ROM 的次序载入 IOS，即是我们常常看见很多 # 号那个时刻</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-57-34.jpg" alt="Snipaste_2020-05-04_10-57-34"></p>
+<p><strong>载入 Startup Configuration</strong></p>
+<p>跟据 Configuration Register 的值决定是否载入 Startup Configuration。如果没有载入或 Startup Configuration 不存在，就会询问是否进行 Initial Configuration，就像打开一台新机一样。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-58-34.jpg" alt="Snipaste_2020-05-04_10-58-34"></p>
+<p>无论是 Console 密码丶Enable 密码都是储存在 Startup Configuration 之中，然後被载入至 Running Configuration。然而修改 Configuration 需要 Enable 密码，重设密码的哲学在於「如何在不用密码的情况下进入 Enable Mode (或称 Privilege Mode)</p>
+<h3 id="忘记登陆密码如何进入系统"><a href="#忘记登陆密码如何进入系统" class="headerlink" title="忘记登陆密码如何进入系统"></a>忘记登陆密码如何进入系统</h3><h4 id="配置寄存器"><a href="#配置寄存器" class="headerlink" title="配置寄存器"></a>配置寄存器</h4><p>配置寄存器（Configuration Register）是一个16位的虚拟寄存器，用于指定路由器启动的次序、中断参数和设置控制台波特率等，不同的配置寄存器数值决定了路由器的启动顺序（比如是从ROM中寻找IOS系统还是直接进入ROMMON模式）以及启动时的一些选项。该寄存器的值通常是以十六进制来表示的。Cisco路由器默认的配置设置是0x2102，这意味着第13位、第8位和第1位是开启的(值为1)。在特权模式下用命令“show version”查看当前配置寄存器的数值为多少。<strong>通过修改该数值可以决定路由器如何启动和运行。</strong></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-30-08.jpg" alt="Snipaste_2020-04-27_10-30-08"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-33-04.jpg" alt="Snipaste_2020-04-27_10-33-04"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-31-47.jpg" alt="Snipaste_2020-04-27_10-31-47"></p>
+<p>配置寄存器的默认设置是0x2102。这表明路由器应该尝试从闪存装载Cisco IOS软件镜像和用9600波特的控制台速率装载启动配置。注意，show version命令显示当前配置寄存器的值，也显示路由器重载后配置寄存器新的值。对配置寄存器进行的任何修改在重载之前不会起作用。</p>
+<h4 id="口令恢复"><a href="#口令恢复" class="headerlink" title="口令恢复"></a>口令恢复</h4><p>总体思路是，在开机时需跳过载入 Startup Configuration，在没有任何密码的情况下进入 Enable Mode，然後手动载入 Configuration 并修改密码。正如前面介绍过的，配置寄存器的第6位用于告诉路由器是否使用NVRAM中的内容来加载路由器的配置。默认的配置寄存器值是0x2102，即第6位是关闭的(值为0)。默认情况下，路由器会查找并加载存储在NVRAM(startup-config文件)中的路由器配置。若要恢复口令，需要开启第6位，告诉路由器忽略NVRAM的内容。开启了第6位的配置寄存器值是0x2142。</p>
+<p><strong>1.启动路由器</strong></p>
+<p>在IOS系统被载入时按键盘的Ctrl 和 Break键， (如 Mac 可按 Ctrl-Delete) 中断载入，并进入 rommon 模式。</p>
+<p><img src="/2020/04/14/10-cisco-ios/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200504110154.jpg" alt="微信图片编辑_20200504110154"></p>
+<p>如果用笔记本的话没有小键盘的Break键，可以试试如下方法：</p>
+<p><img src="/2020/04/14/10-cisco-ios/721cbdd9882df4399175d0c93f7577218c8d74c28dcb01a7cecf1411683e66d5.jpg" alt="721cbdd9882df4399175d0c93f7577218c8d74c28dcb01a7cecf1411683e66d5"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-04-56.jpg" alt="Snipaste_2020-05-04_11-04-56"></p>
+<p><strong>2.修改配置寄存器，开启第6位，值为0x2142</strong></p>
+<p>按 ? 再按 <ENTER> 可以看到可用的指令。而我们想要做的是修改 Configuration Register，由 0x2102 改成 0x2142，指令是 <strong>confreg 2142</strong>，然後用指令 <strong>reset</strong> 重新开机。</ENTER></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-05-46.jpg" alt="Snipaste_2020-05-04_11-05-46"></p>
+<p><strong>3.重载路由器</strong></p>
+<p> rommon 2 &gt;reset    //Cisco 2600系列路由器</p>
+<p> &gt;I    //初始化，Cisco 2500系列路由器</p>
+<p><strong>4.进入特权模式将开机启动配置加载到内存</strong></p>
+<p>这次开机让它载入 IOS，最後因为没有载入 Startup Configuration 而出现 Initial Configuration Dialog 模式，输入 no 跳过，这时不用密码也可进入 Enable Mode 了</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-08-36.jpg" alt="Snipaste_2020-05-04_11-08-36"></p>
+<p><strong>4.查看明文口令、重设口令</strong></p>
+<p> 由於刚才跳过了载入 Startup Configuration，现在手动把 Startup Configuration 抄写至 Running Configuration，现在可以修改密码了，最後别忘记 <strong>write memory</strong> 把 Configuration 储存至 Startup Configuration。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-10-40-1588561857223.jpg" alt="Snipaste_2020-05-04_11-10-40"></p>
+<p><strong>5.设置配置寄存器值为默认值</strong></p>
+<p>重新开机，再次按键盘 Ctrl-Break (如 Mac 可按 Ctrl-Delete) 进入 rommon 模式，把 Configuration Register 回复至 0x2102 并重新开机，重设密码的步骤便完成了。</p>
+<p> <img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-11-43.jpg" alt="Snipaste_2020-05-04_11-11-43"></p>
+<h2 id="Cisco-交换机"><a href="#Cisco-交换机" class="headerlink" title="Cisco 交换机"></a>Cisco 交换机</h2><h3 id="交换机启动过程"><a href="#交换机启动过程" class="headerlink" title="交换机启动过程"></a>交换机启动过程</h3><p><strong>POST</strong> (Power On Self Test) - 进行开机硬件自检</p>
+<p><strong>flash_init</strong> - 载入 flash_init 的小程式，用作读取 flash 里的档案。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-16-25.jpg" alt="Snipaste_2020-05-04_12-16-25"></p>
+<p><strong>载入 IOS</strong> - 依 Flash丶TFTP 和 ROM 的顺序搜索并载入 IOS。</p>
+<p><strong>载入 Startup Configuration</strong> - 如 Flash 中有 config.text 这个档案则载入，否则进入 System Configuration Dialog 模式。思科2900及3500系列的交换机并没有Configuration Register，要跳过载入 Startup Configuration 只需在 flash 把 config.text 档名改掉便可。</p>
+<h3 id="Switch密码重置步骤"><a href="#Switch密码重置步骤" class="headerlink" title="Switch密码重置步骤"></a>Switch密码重置步骤</h3><h4 id="2950-2960-3550-3560系列"><a href="#2950-2960-3550-3560系列" class="headerlink" title="2950/2960/3550/3560系列"></a>2950/2960/3550/3560系列</h4><p><strong>进入Password-recovery 模式</strong></p>
+<p>Switch 没有开关按钮，一插电制便开机了，在插电制的同时按着面版上的 Mode 按钮，直至 Switch 进入 Password-recovery 模式。</p>
+<p><img src="/2020/04/14/10-cisco-ios/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200504122312.jpg" alt="微信图片编辑_20200504122312"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-23-50.jpg" alt="Snipaste_2020-05-04_12-23-50"></p>
+<p><strong>更改启动配置文件名称</strong></p>
+<p>输入 <strong>flash_init</strong> 挂载 flash 档案系统，然後输入 <strong>dir flash:</strong> 应可看到 flash 里面的档案列表，这里我们的启动配置文件的名称是：config.text，将该文件改名为 config.bak，rename flash:config.text flash:config.bak，然後用指令 <strong>boot</strong> 开始载入 IOS。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-24-44.jpg" alt="Snipaste_2020-05-04_12-24-44"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-29-24.jpg" alt="Snipaste_2020-05-04_12-29-24"></p>
+<p>由於系统找不到 config.text，因而没法载入 Startup Configuration 而出现 Initial Configuration Dialog 模式，输入 no 跳过，这时不用密码也可进入 Enable Mode 了。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-30-18.jpg" alt="Snipaste_2020-05-04_12-30-18"></p>
+<p>把 flash:config.bak 改回 flash:config.text，然後把 startup-config 抄至 running-config，现在可以修改密码了，最後别忘记 <strong>write memory</strong> 把 Configuration 储存至 Startup Configuration。重设密码步骤完成。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-31-18.jpg" alt="Snipaste_2020-05-04_12-31-18"></p>
+<h4 id="3650-3850"><a href="#3650-3850" class="headerlink" title="3650/3850"></a><strong>3650/3850</strong></h4><p>从 3650 开始，Switch 的 IOS 改用 Linux Base，重设密码方法又有点不同，步骤如下：</p>
+<p>1、在插电制时先按着面版上的 Mode 去中断正常开机程序。</p>
+<p>2、输入指令 SWITCH_IGNORE_STARTUP_CFG=1 (全大写)，这样就会跳过载入 Startup Configuration。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-33-48.jpg" alt="Snipaste_2020-05-04_12-33-48"></p>
+<p>3、输入指令 <strong>flash_init</strong> 和 <strong>boot</strong> 把 IOS 载入。</p>
+<p>4、系统进入 Initial Configuration Dialog 模式，输入 no 跳过，这时不用密码也可进入 Enable Mode 了。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-35-10.jpg" alt="Snipaste_2020-05-04_12-35-10"></p>
+<p>5、由於刚才跳过了载入 Startup Configuration，所以手动把 Startup Configuration 抄写至 Running Configuration，现在可以修改密码了，最後别忘记 <strong>write memory</strong> 把 Configuration 储存至 Startup Configuration</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-35-45.jpg" alt="Snipaste_2020-05-04_12-35-45"></p>
+<p>6、重新开机，再次按住 mode 按钮去中断正常开机程序，把 SWITCH_IGNORE_STARTUP_CFG 的值改回 0，然後输入指令 <strong>flash_init</strong> 和 <strong>boot</strong> 继续开机程序。重设密码步骤完成。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-36-13.jpg" alt="Snipaste_2020-05-04_12-36-13"></p>
 <h2 id="设备管理及CISCO-IOS介绍"><a href="#设备管理及CISCO-IOS介绍" class="headerlink" title="设备管理及CISCO IOS介绍"></a>设备管理及CISCO IOS介绍</h2><h3 id="CISCO-IOS概述"><a href="#CISCO-IOS概述" class="headerlink" title="CISCO IOS概述"></a>CISCO IOS概述</h3><p>Cisco互联网络操作系统，Cisco私有的网络设备操作系统。它是Cisco 的一项核心技术，该操作系统应用于Cisco路由器、局域网交换机、小型无线接入点等设备。</p>
 <p>cisco IOS 可为设备提供下列网络服务：</p>
 <ul>
@@ -58,6 +162,30 @@
 <p>下次使用时，该连接在Connect标签中会有保存，可直接点击Connect使用进行连接，不用重新配置参数。</p>
 <p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-54-08.jpg" alt="Snipaste_2020-04-16_14-54-08"></p>
 <p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-55-10.jpg" alt="Snipaste_2020-04-16_14-55-10"></p>
+<h3 id="IOS系统的备份与升级"><a href="#IOS系统的备份与升级" class="headerlink" title="IOS系统的备份与升级"></a>IOS系统的备份与升级</h3><h4 id="IOS系统备份"><a href="#IOS系统备份" class="headerlink" title="IOS系统备份"></a>IOS系统备份</h4><p>1、设置TFTP服务器，记住该服务器的IP地址。</p>
+<p>2、连接需要备份系统的设备，并登陆到特权模式，然后用show Flash命令查看Flash中有哪些文件：</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_14-01-01.jpg" alt="Snipaste_2020-05-04_14-01-01"></p>
+<p>上面这个.bin后缀的文件就是我们要备份的IOS，根据你选择的路由器的不同，这个文件名称也会有所不同，复制这个名称，等会要用到。</p>
+<p>3、使用<code>copy</code>命令将flash中的文件备份到tftp服务器。copy<code></code>flash tftp，然后输入之前记住的TFTP服务器的IP地址，确保服务器与本设备可以正常通信，备份文件名可以进行更改也可以直接回车用IOS的原名称：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Address or name of remote host []? 192.168.1.100</span><br><span class="line">Destination filename [c2800nm-advipservicesk9-mz.124-15.T1.bin]?</span><br><span class="line">Writing c2800nm-advipservicesk9-mz.124-15.T1.bin...</span><br><span class="line">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><br><span class="line">[OK - 50938004 bytes]</span><br><span class="line">50938004 bytes copied in 30.561 secs (1666000 bytes/sec)</span><br></pre></td></tr></table></figure>
+
+<h4 id="IOS系统升级"><a href="#IOS系统升级" class="headerlink" title="IOS系统升级"></a>IOS系统升级</h4><p>当路由器的IOS有了新的版本，可以通过下面的命令来升级，升级前可以使用show flash来查看一下flash空间大小，看看是否可容纳新的IOS文件。</p>
+<p>1、从TFTP服务器上拷贝需要升级的IOS文件到Flash上</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1#copy tftp flash</span><br><span class="line">Address or name of remote host []? 192.168.1.100</span><br><span class="line">Source filename []? c2800nm-advipservicesk9-mz.124-15.T1.bin             /输入TFTP上的新IOS文件名    </span><br><span class="line">Destination filename [c2800nm-advipservicesk9-mz.124-15.T1.bin]?         /输入存放到Flash中的名称</span><br></pre></td></tr></table></figure>
+
+<p>2、路由器询问是否在拷贝新的IOS前删除旧的IOS系统，如果按回车则会删除旧的IOS系统</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Erase flash: before copying? [confirm]</span><br><span class="line">Erasing the flash filesystem will remove all files! Continue? [confirm]</span><br><span class="line">Erasing device... eee ...erased                                                /删除旧IOS系统中</span><br><span class="line">Erase of flash: complete                                                       /旧IOS系统删除成功</span><br></pre></td></tr></table></figure>
+
+<p>3、删除旧IOS系统后开始拷贝新IOS系统</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Accessing tftp://192.168.1.100/c2800nm-advipservicesk9-mz.124-15.T1.bin...</span><br><span class="line">Loading c2800nm-advipservicesk9-mz.124-15.T1.bin from 192.168.1.100:</span><br><span class="line">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><br><span class="line">[OK - 50938004 bytes]</span><br></pre></td></tr></table></figure>
+
+<p>4、如果Flash中有多个IOS系统，可以使用下面的命令让这个新的IOS作为默认系统使用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1(config)#boot system flash flash:c2800nm-advipservicesk9-mz.124-15.T1.bin</span><br></pre></td></tr></table></figure>
+
+<h4 id="IOS系统恢复"><a href="#IOS系统恢复" class="headerlink" title="IOS系统恢复"></a>IOS系统恢复</h4><p>如果IOS文件被不小心删除，或者在升级IOS的过程中突然断电，则可能造成路由器IOS文件的丢失，路由不能正常启动，假设服务器上备份好了路由器的IOS文件，这里手动删除路由器的IOS来模拟IOS丢失的情况，因为IOS文件被删除，重启以后路由器进入了ROM monitor模式，在这个模式下配置下面的信息：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rommon 1 &gt;</span><br><span class="line">rommon 1 &gt; IP_ADDRESS=192.168.1.1               /设置路由器的临时IP，只要和TFTP服务器在同一网段就可以了</span><br><span class="line">rommon 2 &gt; IP_SUBNET_MASK=255.255.255.0         /设置路由器的子网掩码</span><br><span class="line">rommon 3 &gt; DEFAULT_GATEWAY=192.168.1.1          /设置网关，由此可见IOS文件的恢复支持跨网段进行</span><br><span class="line">rommon 4 &gt; TFTP_SERVER=192.168.1.100            /设置TFTP服务器的IP地址</span><br><span class="line">rommon 5 &gt; TFTP_FILE=c2800nm-advipservicesk9-mz.124-15.T1.bin               /设置服务器上IOS的文件名</span><br><span class="line">rommon 6 &gt; tftpdnld                             /开始下载TFTP服务器上指定的IOS文件</span><br><span class="line">Do you wish to continue? y/n [n]: y</span><br><span class="line">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><br><span class="line">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><br><span class="line">rommon 7 &gt; reset                                /传输完成后使用reset重启路由</span><br></pre></td></tr></table></figure>
+
+<p><span style="color:red">注意：使用这种方法时，必须连接路由器接口号最小的那个以太网接口</span></p>
 <h3 id="CISCO-IOS配置模式"><a href="#CISCO-IOS配置模式" class="headerlink" title="CISCO IOS配置模式"></a>CISCO IOS配置模式</h3><p><strong>用户模式</strong>（User Mode），显示为：cisco&gt; </p>
 <p>– 正常登陆设备CLI后的第一个配置模式，只具备最基本的查看权限，输入“？”查询能使用的命令后发现可用命令十分有限。 </p>
 <p><img src="/2020/04/14/10-cisco-ios/cisco_cli.png" alt="cisco_cli"></p>
@@ -101,6 +229,14 @@
 <p>删除启动配置文件，删除开机启动的所有配置，务必谨慎使用</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1# erase startup-config                                     删除</span><br><span class="line"></span><br><span class="line">R1# delete flash:config.text</span><br></pre></td></tr></table></figure>
 
+<h5 id="备份配置文件"><a href="#备份配置文件" class="headerlink" title="备份配置文件"></a>备份配置文件</h5><p><strong>TFTP备份</strong></p>
+<p>1、通过TFTP软件工具备份公司Cisco2960交换机的配置，用软件建立TFTP服务器，Server interfaces填入启动软件的电脑IP：172.18.1.88，备份文件存放地址E:\Cisco_bak</p>
+<p><img src="/2020/04/14/10-cisco-ios/wKioL1i49degZT-jAAA7S9-CkBA600.png-wh_500x0-wm_3-wmp_4-s_13402697.png" alt="wKioL1i49degZT-jAAA7S9-CkBA600.png-wh_500x0-wm_3-wmp_4-s_13402697"></p>
+<p>2、用Secure CRT 通过telnet登录2960交换机，使用命令，copy running-config tftp ，然后输入TFTP的IP地址，172.18.1.88，输入备份的文件名为：djjs-as-c2960x-2-config</p>
+<p><img src="/2020/04/14/10-cisco-ios/wKiom1i49dex1enpAAAk-J4bNxI721.png-wh_500x0-wm_3-wmp_4-s_1645361981.png" alt="wKiom1i49dex1enpAAAk-J4bNxI721.png-wh_500x0-wm_3-wmp_4-s_1645361981"></p>
+<p>3、在E:\Cisco_bak下查看备份的配置文件，确认备份成功。</p>
+<p><strong>复制黏贴备份</strong></p>
+<p>在全局配置模式下，输入show run，然后将输出的命令行复制黏贴到文本文档中保存起来。</p>
 <h5 id="接口相关配置"><a href="#接口相关配置" class="headerlink" title="接口相关配置"></a>接口相关配置</h5><h6 id="进入接口"><a href="#进入接口" class="headerlink" title="进入接口"></a>进入接口</h6><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1(config)# interface ethernet 0/0             进入Ethernet 0/0接口</span><br><span class="line"></span><br><span class="line">R1(config-if)#</span><br></pre></td></tr></table></figure>
 
 <p>Ethernet是一种接口类型，全称是Fast Ethernet，速率为100M，除此之外还有Gigabit Ethernet，千兆接口。</p>
@@ -116,13 +252,24 @@
 
 <h6 id="配置serial接口"><a href="#配置serial接口" class="headerlink" title="配置serial接口"></a>配置serial接口</h6><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1(config)# interface serial 0/0                            进入serial 0/0接口</span><br><span class="line">R1(config-if)# ipaddress 192.168.1.1 255.255.255.0          为接口配置IP地址和子网掩码</span><br><span class="line">R1(config-if)# no shutdown                                  将默认为关闭的接口开启</span><br><span class="line">R1(config-if)# clock rate 64000                             在DCE端配置serial接口的时钟信号</span><br></pre></td></tr></table></figure>
 
-<h5 id="show命令"><a href="#show命令" class="headerlink" title="show命令"></a>show命令</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show ? </span><br><span class="line">show version                                                 查看当前操作系统版本 </span><br><span class="line">show running-config                                          查看运行配置 </span><br><span class="line">show startup-config                                          查看启动配置 </span><br><span class="line">show flash                                                   查看FLASH </span><br><span class="line">show cpu                                                     查看CPU利用率 </span><br><span class="line">show memory                                                  查看内存使用情况 </span><br><span class="line">show interface                                               查看端口</span><br></pre></td></tr></table></figure>
+<h5 id="show命令"><a href="#show命令" class="headerlink" title="show命令"></a>show命令</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show ? </span><br><span class="line">show version                                                 查看当前操作系统版本 </span><br><span class="line">show running-config                                          查看运行配置 </span><br><span class="line">show startup-config                                          查看启动配置 </span><br><span class="line">show flash                                                   查看FLASH </span><br><span class="line">show cpu                                                     查看CPU利用率 </span><br><span class="line">show memory                                                  查看内存使用情况 </span><br><span class="line">show interface                                               查看端口</span><br><span class="line">show ip interface brief                                      查看所有端口简要情况</span><br></pre></td></tr></table></figure>
+
+<h5 id="设置命令输入同步模式"><a href="#设置命令输入同步模式" class="headerlink" title="设置命令输入同步模式"></a>设置命令输入同步模式</h5><p>输入命令的时候，经常会有路由返回的各种消息打断了你的输入，虽然可以使用”Ctrl+R”来将当前输入转移到新行继续输入，但是这样非常不方便，可以通过下面的命令来让路由返回的消息不影响你的输入：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1(config)#line console 0              /进入console线路，</span><br><span class="line">R1(config-line)#logging synchronous   /设置console线路同步模式，返回的消息就不会打断输出了</span><br><span class="line">R1(config-line)#exec-timeout 0 0     /设置console线路命令输入永不超时，一段时间没有输入以后也不断开连接</span><br></pre></td></tr></table></figure>
+
+<h5 id="返回上级命令"><a href="#返回上级命令" class="headerlink" title="返回上级命令"></a>返回上级命令</h5><p>exit命令是一次退一级的命令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1(config-line)#exit</span><br><span class="line">R1(config)#</span><br></pre></td></tr></table></figure>
+
+<p>end命令是一次性退到特权模式最外层</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1(config-line)#end</span><br><span class="line">R1#</span><br></pre></td></tr></table></figure>
 
 <h4 id="Running-config-VS-Startup-config"><a href="#Running-config-VS-Startup-config" class="headerlink" title="Running-config VS Startup-config"></a>Running-config VS Startup-config</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-26-51.jpg" alt="Snipaste_2020-04-23_16-26-51"></p>
-<h4 id="基础实验"><a href="#基础实验" class="headerlink" title="基础实验"></a>基础实验</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-28-02.jpg" alt="Snipaste_2020-04-23_16-28-02"></p>
+<h4 id="基础实验"><a href="#基础实验" class="headerlink" title="基础实验"></a>基础实验</h4><p>实验1：</p>
+<p>结果使R1和R2之间可以连通</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-28-02.jpg" alt="Snipaste_2020-04-23_16-28-02"></p>
 <p>拓扑如上图所示，为两台直连路由器配置直连接口参数，使二者能够通信。</p>
 <p>R1：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Router# configure terminal                                            进入全局配置模式</span><br><span class="line">Router(config)# hostname R1                                           将路由器名字改为R1</span><br><span class="line">R1(config)# interface fastethernet 0/0                                进入E0/0接口</span><br><span class="line">R1(config-if)# ip address 192.168.12.1 255.255.255.0                  为E0/0接口配置IP地址</span><br><span class="line">R1(config-if)# no shutdown                                            激活E0/0接口</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Router# configure terminal                                            进入全局配置模式</span><br><span class="line">Router(config)# hostname R1                                           将路由器名字改为R1</span><br><span class="line">R1(config)#enable secret 123456                                       为特权模式设置密码</span><br><span class="line">R1(config)#line console 0                                             进入console线路</span><br><span class="line">R1(config-line)#logg synchronous </span><br><span class="line">                设置console线路同步模式，返回的消息就不会打断输出了               </span><br><span class="line">R1(config-line)#exec-timeout 0 0     </span><br><span class="line">                设置console线路命令输入永不超时不断开连接   </span><br><span class="line">R1(config-line)#password test                                         设置console线路密码</span><br><span class="line">R1(config)# interface fastethernet 0/0                                进入E0/0接口</span><br><span class="line">R1(config-if)# ip address 192.168.12.1 255.255.255.0                  为E0/0接口配置IP地址</span><br><span class="line">R1(config-if)# no shutdown                                            激活E0/0接口</span><br></pre></td></tr></table></figure>
 
 <p>R2：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Router# configure terminal </span><br><span class="line">Router(config)# hostname R2 </span><br><span class="line">R2(config)# interface fastethernet 0/0 </span><br><span class="line">R2(config-if)# ip address 192.168.12.2 255.255.255.0 </span><br><span class="line">R2(config-if)# no shutdown</span><br></pre></td></tr></table></figure>
@@ -132,7 +279,14 @@
 <p>ping 192.168.12.2</p>
 <p>traceroute 命令，追踪两个IP之间的通信路径</p>
 <p>traceroute 192.168.12.2</p>
+<p>R2telnet 远程连接R1，看设置是否正确</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R2#telnet 192.168.12.1</span><br><span class="line">Trying 192.168.12.1 ... Open</span><br><span class="line">User Access Verification</span><br><span class="line">Password: /*输入远程访问密码123456*/</span><br><span class="line">R1&gt;en</span><br><span class="line">Password: /*输入R1上的特权密码test*/</span><br><span class="line">R2# /*这样就进入了R2的特权模式了*/</span><br></pre></td></tr></table></figure>
+
 <h2 id="CRT软件使用简介"><a href="#CRT软件使用简介" class="headerlink" title="CRT软件使用简介"></a>CRT软件使用简介</h2><p><a href="http://vmnf.no-ip.org/itblog/how-to-setup-a-serial-console-connection/" target="_blank" rel="noopener">How to Setup a serial Console connection</a></p>
+<p><a href="http://blog.sina.com.cn/s/blog_635e1a9e0101172t.html" target="_blank" rel="noopener">管理配置寄存器和路由器口令恢复</a></p>
+<p><a href="https://www.jannet.hk/zh-Hans/post/password-recovery/" target="_blank" rel="noopener">Password Recovery 重设密码</a></p>
+<p><a href="https://www.qingsword.com/qing/707.html#CCNA-ios-manager-6" target="_blank" rel="noopener">[CCNA图文笔记]-27-Cisco设备文件管理与密码恢复</a></p>
+<p><a href="https://www.qingsword.com/qing/490.html" target="_blank" rel="noopener">[CCNA图文笔记]-8-Cisco路由CLI基础命令</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
@@ -197,6 +351,51 @@
 <p>网络层收到下层的数据后继续解封装，发现目的IP地址不是自己的，然后根据目的IP地址，按照最长匹配原则查询是否有对应路由条目，查询后发现应将该数据从F1/0端口发出。在网络层将三层按原报头重新打包好然后发给数据链路层。</p>
 <h4 id="数据链路层第二次：-1"><a href="#数据链路层第二次：-1" class="headerlink" title="数据链路层第二次："></a>数据链路层第二次：</h4><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-29_18-19-59.jpg" alt="Snipaste_2020-03-29_18-19-59"></p>
 <p>数据链路层收到上层发来的数据后，因为该数据是要从F1/0口发送给WebServer，所以以太网2封装的源MAC地址是R2的F1/0口的MAC地址，目的MAC地址是WebServer的MAC地址，由于上层采用IPV4封装，所以EtherType依旧是0X0800。然后发送给数据链路层转换成电磁信号发送给WebServer。物理层将数据帧转换为物理层能识别的电磁信号然后通过物理介质传输给最终目的设备，WebServer，数据传输结束。</p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+      <categories>
+        <category>路由交换方向</category>
+        <category>CCNA</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>CCNA笔记——7、为什么要建立TCP/IP通信模型</title>
+    <url>/2020/02/19/layer-mind/</url>
+    <content><![CDATA[<p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，可能这个概念要真正掌握并且固话还需要一次次的反复，每次当发现认知有问题的时候，会对此篇笔记进行更新。</p>
+ <a id="more"></a>  
+
+<h2 id="2020年"><a href="#2020年" class="headerlink" title="2020年"></a>2020年</h2><h3 id="2月17日事件"><a href="#2月17日事件" class="headerlink" title="2月17日事件"></a>2月17日事件</h3><p>起因是看到TCP的RFC文档的2.6 Reliable Communication里有这么一段话：</p>
+<blockquote>
+<p>An acknowledgment by TCP does not guarantee that the data has been delivered to the end user, but only that the receiving TCP has taken the responsibility to do so.</p>
+</blockquote>
+<p>一开始觉得这段话的意思是说，对一个数据进行ACK了也不能确保整个数据肯定传到“用户”（user）了，发送ACK的这个设备（也就是其他路由器或网络设备）需要完成接下来的步骤，因为可能收到这个数据并发送ACK的设备给丢弃了，例如它这没有路由表或者说它down了。但因为知道自己很渣，所以到思科论坛发了<a href="https://community.cisco.com/t5/routing/what-s-the-meaning-of-an-acknowledgment-by-tcp-does-not/m-p/4030767#M329627" target="_blank" rel="noopener">求助帖</a>，想验证一下自己的想法是否正确，有个哥们回复我说，他认为：</p>
+<blockquote>
+<p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
+</blockquote>
+<p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
+<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，也就是数据从发送端的传输层——网络层——数据链路层——物理层——接收端的物理层——传输层——网络层——传输层的这个过程都是没问题的，当然按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，会出现发送端已收到TCP-ACK，但在接收端，“user”也就是应用层的程序，尚未收到该消息。</p>
+<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
+<p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
+<blockquote>
+<p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
+</blockquote>
+<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC的人，是看不到这段话的。</p>
+<p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
+<p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
+<h3 id="3月12日事件"><a href="#3月12日事件" class="headerlink" title="3月12日事件"></a>3月12日事件</h3><p>起因是因为感觉对RTO（retransmission timeout）还是理解的有问题，所以去网上看了<a href="https://www.extrahop.com/company/blog/2011/retransmission-timeouts-rtos-application-performance-degradation/" target="_blank" rel="noopener">一篇文章</a>，发现文章里有这么一句话：TCP starts a retransmission timer when an outbound segment is handed down to IP。看完这句话，感觉又被教育了一次什么叫分层。</p>
+<p>TCP是一个可靠的协议，里面的重传机制也是仅仅工作在本层的，和其他层没关系，之前看到一句话说：When the TCP transmits a segment containing data, it puts a copy on a retransmission queue and starts a timer，结合上面的那句话就是说，当TCP传输包含数据的段时，也就是说当TCP将数据段传送给下层的网络层时，它将该数据段的副本放在重传队列上并启动计时器。而并不是之前我所感觉的数据发出本设备时，计时器开始计时，而是当数据发出本层时计时器就开始计时了，因为TCP是传输层的协议，仅对自己传输层的东西负责和影响。</p>
+<h2 id="关于分层概念的浅见"><a href="#关于分层概念的浅见" class="headerlink" title="关于分层概念的浅见"></a>关于分层概念的浅见</h2><p>最后再针对一张很好的图说两句自己对于分层概念以及模型的理解：</p>
+<p>1、标准化</p>
+<p>2、彼此独立</p>
+<p>3、相互联系</p>
+<p>4、便于实现</p>
+<h3 id="便于网络通信的实现"><a href="#便于网络通信的实现" class="headerlink" title="便于网络通信的实现"></a>便于网络通信的实现</h3><p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。类似于汽车上的流水线分工，一开始是一个工人生产一辆汽车，但随着汽车需求原来越大，汽车生产过程的越来越复杂，这种模式已经不适合大规模生产的要求了，首先是一个人很难掌握如此多的工序，其次是即使掌握了也不便于汽车的大规模生产，第三是由于一个人要做很多道工序，很难精通所有的工序，无法加快汽车生产速度也无法提高优化每一步的生产精度，无法提高产品质量。</p>
+<p>网络传输也是同样的道理，一开始的时候协议是不分层的，实现所有的功能，但随着通信量的上升，如果要一种协议规定所有的功能和作用，那么该协议的具体实施和编程就会变得非常复杂，无法轻易实现。相比之下，按照网络分层，明确定义每层协议的作用和责任以后，针对每层具体的协议进行编程会更加有利于该协议的实现，使得网络易于实现和维护，便于调试。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。</p>
+<h3 id="标准化"><a href="#标准化" class="headerlink" title="标准化"></a>标准化</h3><p>生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，依旧用汽车这货来举个贴近生活的例子方便理解，在网络通信中，如果没有统一的规则，自己按照自己的规则开发导致协议、设备相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态，类推到汽车行业就是，生产汽车零件的厂家有很多，比如轮胎有普利司通的，有马牌的也有韩泰的，品牌不同但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用，才能像汽车一样，如果轮胎坏了（类推到网络中就是其中某些层的某些协议或功能出了问题），只需要更换一个同型号的换轮胎即可上路飞驰，汽车的其他零件不受影响也不用变动（对相应出问题层级进行排错，出问题的特定层级排除错误通信即可恢复）。</p>
+<h3 id="彼此独立又相互依靠"><a href="#彼此独立又相互依靠" class="headerlink" title="彼此独立又相互依靠"></a>彼此独立又相互依靠</h3><p>？？？？？？？？？？？？？？？</p>
+<h3 id="上层依赖于下层，下层为上层提供服务"><a href="#上层依赖于下层，下层为上层提供服务" class="headerlink" title="上层依赖于下层，下层为上层提供服务"></a>上层依赖于下层，下层为上层提供服务</h3><p>？？？？？？？？？？？？？？</p>
+<p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
+<p>当然仅仅分层也是不够的，还必须对每一层进行标准化，而生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，否则如果没有统一的规则，自己按照自己的规则开发导致相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态。标准化就类似于生产汽车零件的厂家有很多，但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用。</p>
+<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
@@ -430,51 +629,6 @@
       </categories>
   </entry>
   <entry>
-    <title>CCNA笔记——7、为什么要建立TCP/IP通信模型</title>
-    <url>/2020/02/19/layer-mind/</url>
-    <content><![CDATA[<p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，可能这个概念要真正掌握并且固话还需要一次次的反复，每次当发现认知有问题的时候，会对此篇笔记进行更新。</p>
- <a id="more"></a>  
-
-<h2 id="2020年"><a href="#2020年" class="headerlink" title="2020年"></a>2020年</h2><h3 id="2月17日事件"><a href="#2月17日事件" class="headerlink" title="2月17日事件"></a>2月17日事件</h3><p>起因是看到TCP的RFC文档的2.6 Reliable Communication里有这么一段话：</p>
-<blockquote>
-<p>An acknowledgment by TCP does not guarantee that the data has been delivered to the end user, but only that the receiving TCP has taken the responsibility to do so.</p>
-</blockquote>
-<p>一开始觉得这段话的意思是说，对一个数据进行ACK了也不能确保整个数据肯定传到“用户”（user）了，发送ACK的这个设备（也就是其他路由器或网络设备）需要完成接下来的步骤，因为可能收到这个数据并发送ACK的设备给丢弃了，例如它这没有路由表或者说它down了。但因为知道自己很渣，所以到思科论坛发了<a href="https://community.cisco.com/t5/routing/what-s-the-meaning-of-an-acknowledgment-by-tcp-does-not/m-p/4030767#M329627" target="_blank" rel="noopener">求助帖</a>，想验证一下自己的想法是否正确，有个哥们回复我说，他认为：</p>
-<blockquote>
-<p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
-</blockquote>
-<p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
-<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，也就是数据从发送端的传输层——网络层——数据链路层——物理层——接收端的物理层——传输层——网络层——传输层的这个过程都是没问题的，当然按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，会出现发送端已收到TCP-ACK，但在接收端，“user”也就是应用层的程序，尚未收到该消息。</p>
-<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
-<p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
-<blockquote>
-<p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
-</blockquote>
-<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC的人，是看不到这段话的。</p>
-<p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
-<p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
-<h3 id="3月12日事件"><a href="#3月12日事件" class="headerlink" title="3月12日事件"></a>3月12日事件</h3><p>起因是因为感觉对RTO（retransmission timeout）还是理解的有问题，所以去网上看了<a href="https://www.extrahop.com/company/blog/2011/retransmission-timeouts-rtos-application-performance-degradation/" target="_blank" rel="noopener">一篇文章</a>，发现文章里有这么一句话：TCP starts a retransmission timer when an outbound segment is handed down to IP。看完这句话，感觉又被教育了一次什么叫分层。</p>
-<p>TCP是一个可靠的协议，里面的重传机制也是仅仅工作在本层的，和其他层没关系，之前看到一句话说：When the TCP transmits a segment containing data, it puts a copy on a retransmission queue and starts a timer，结合上面的那句话就是说，当TCP传输包含数据的段时，也就是说当TCP将数据段传送给下层的网络层时，它将该数据段的副本放在重传队列上并启动计时器。而并不是之前我所感觉的数据发出本设备时，计时器开始计时，而是当数据发出本层时计时器就开始计时了，因为TCP是传输层的协议，仅对自己传输层的东西负责和影响。</p>
-<h2 id="关于分层概念的浅见"><a href="#关于分层概念的浅见" class="headerlink" title="关于分层概念的浅见"></a>关于分层概念的浅见</h2><p>最后再针对一张很好的图说两句自己对于分层概念以及模型的理解：</p>
-<p>1、标准化</p>
-<p>2、彼此独立</p>
-<p>3、相互联系</p>
-<p>4、便于实现</p>
-<h3 id="便于网络通信的实现"><a href="#便于网络通信的实现" class="headerlink" title="便于网络通信的实现"></a>便于网络通信的实现</h3><p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。类似于汽车上的流水线分工，一开始是一个工人生产一辆汽车，但随着汽车需求原来越大，汽车生产过程的越来越复杂，这种模式已经不适合大规模生产的要求了，首先是一个人很难掌握如此多的工序，其次是即使掌握了也不便于汽车的大规模生产，第三是由于一个人要做很多道工序，很难精通所有的工序，无法加快汽车生产速度也无法提高优化每一步的生产精度，无法提高产品质量。</p>
-<p>网络传输也是同样的道理，一开始的时候协议是不分层的，实现所有的功能，但随着通信量的上升，如果要一种协议规定所有的功能和作用，那么该协议的具体实施和编程就会变得非常复杂，无法轻易实现。相比之下，按照网络分层，明确定义每层协议的作用和责任以后，针对每层具体的协议进行编程会更加有利于该协议的实现，使得网络易于实现和维护，便于调试。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。</p>
-<h3 id="标准化"><a href="#标准化" class="headerlink" title="标准化"></a>标准化</h3><p>生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，依旧用汽车这货来举个贴近生活的例子方便理解，在网络通信中，如果没有统一的规则，自己按照自己的规则开发导致协议、设备相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态，类推到汽车行业就是，生产汽车零件的厂家有很多，比如轮胎有普利司通的，有马牌的也有韩泰的，品牌不同但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用，才能像汽车一样，如果轮胎坏了（类推到网络中就是其中某些层的某些协议或功能出了问题），只需要更换一个同型号的换轮胎即可上路飞驰，汽车的其他零件不受影响也不用变动（对相应出问题层级进行排错，出问题的特定层级排除错误通信即可恢复）。</p>
-<h3 id="彼此独立又相互依靠"><a href="#彼此独立又相互依靠" class="headerlink" title="彼此独立又相互依靠"></a>彼此独立又相互依靠</h3><p>？？？？？？？？？？？？？？？</p>
-<h3 id="上层依赖于下层，下层为上层提供服务"><a href="#上层依赖于下层，下层为上层提供服务" class="headerlink" title="上层依赖于下层，下层为上层提供服务"></a>上层依赖于下层，下层为上层提供服务</h3><p>？？？？？？？？？？？？？？</p>
-<p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
-<p>当然仅仅分层也是不够的，还必须对每一层进行标准化，而生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，否则如果没有统一的规则，自己按照自己的规则开发导致相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态。标准化就类似于生产汽车零件的厂家有很多，但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用。</p>
-<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
-      <categories>
-        <category>路由交换方向</category>
-        <category>CCNA</category>
-      </categories>
-  </entry>
-  <entry>
     <title>CCNA笔记——6、tcp/ip参考模型</title>
     <url>/2019/11/23/6-tcp-ip/</url>
     <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><img src="/2019/11/23/6-tcp-ip/TCP-IP%E6%A8%A1%E5%9E%8B%20(2)%20(1).jpg" alt="TCP-IP模型 (2) (1)" style="zoom: 67%;">
@@ -499,6 +653,12 @@
 <h2 id="TCP-IP相关概念"><a href="#TCP-IP相关概念" class="headerlink" title="TCP\IP相关概念"></a>TCP\IP相关概念</h2><h3 id="TCP-IP-的具体含义"><a href="#TCP-IP-的具体含义" class="headerlink" title="TCP/IP 的具体含义"></a>TCP/IP 的具体含义</h3><p>TCP/IP（Transmission Control Protocol/Internet Protocol，传输控制协议/网际协议）是指能够在多个不同网络间实现信息传输的协议簇。TCP/IP协议不仅仅指的是TCP 和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇， 只是因为在TCP/IP协议中TCP协议和IP协议最具代表性，所以被称为TCP/IP协议。</p>
 <p>互联网进行通信时，需要相应的网络协议，TCP/IP 原本就是为使用互联网而开发制定的协议族。因此，互联网的协议就是 TCP/IP，TCP/IP 就是互联网的协议。</p>
 <p><img src="/2019/11/23/6-tcp-ip/tcpip.jpg" alt="tcpip"></p>
+<h3 id="数据的格式"><a href="#数据的格式" class="headerlink" title="数据的格式"></a>数据的格式</h3><p>一般而言，数据包含报文头部（报头、header）、数据（Data、载荷、Payload）、报文尾部（Footer、Trailer）。</p>
+<p><strong>报文头部</strong>：在实际数据部分之前的信息，一般包含少量的控制信息，这些控制信息用于传达有关报文所包含的数据以及如何使用这些数据的信息。例如四层的数据段（Segment）的TCP报头中包含了源目地端口号（用来定位数据交给上层的哪个程序处理）等信息；三层的数据包（Packet）的IP报头中包含了源目地IP地址（用来在互联网上找到通信双方的位置）等信息。</p>
+<p><strong>数据</strong>：真正需要传递的数据，一般也叫做载荷。有些消息承载了各种各样的数据，有些消息并没有承载任何数据，这种没有承载任何数据的消息是用作控制在和沟通目的的，比如TCP的三次握手和四次分手的过程中的消息是没有承载任何数据的。</p>
+<p><strong>报文尾部</strong>：哪些在数据后面的信息，报文头部的信息和报文尾部的信息没有真正的区别，他们都包含了特定的控制信息。只在某些情况下使用报文尾部，特别是在字段中的数据是基于要传输的数据的值来计算的情况下。</p>
+<p>看完上面你可能会有疑问，为什么要区别出来报文头部和报文尾部呢？两者看上去功能完全相同，为什么不合二为一，非要分个头尾不同的部分？是因为有些类型的控制信息（例如FCS，详见<a href="https://renyuan431.github.io/2019/11/23/6-tcp-ip/#%E4%BB%A5%E5%A4%AA%E7%BD%912%E5%B8%A7%E5%A4%B4%E5%88%86%E6%9E%90">二层部分</a>）是利用数据本身的值来计算的。在某些情况下，在发送数据有效载荷的同时进行这种计算，然后在有效载荷后以页脚的形式传输结果，这样做更有效率。</p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-05-01_16-54-42.jpg" alt="Snipaste_2020-05-01_16-54-42"></p>
 <h3 id="数据段、数据包、数据帧、比特、PDU"><a href="#数据段、数据包、数据帧、比特、PDU" class="headerlink" title="数据段、数据包、数据帧、比特、PDU"></a>数据段、数据包、数据帧、比特、PDU</h3><p><img src="/2019/11/23/6-tcp-ip/featured-4.jpg" alt="featured-4"></p>
 <p><img src="/2019/11/23/6-tcp-ip/tcp_pdus.png" alt="tcp_pdus"></p>
 <p>协议数据单元PDU（Protocol Data Unit）是指对等层次之间传递的数据单位。</p>
@@ -509,11 +669,16 @@
 <li>物理层传输的PDU叫Bit(比特)</li>
 </ul>
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2019-12-13_14-10-29.jpg" alt="Snipaste_2019-12-13_14-10-29"></p>
+<p>为什么每层的PDU要有不同的命名呢？</p>
+<blockquote>
+<p>In some cases, the different terms can be very useful, because the name used to refer to a particular message can tell you something about what the message contains, as you will see shortly. In particular, different message names are usually associated with protocols and technologies operating at specific layers of the OSI Reference Model. Thus, the use of these different names can help clarify discussions that involve multiple protocols operating at different layers. </p>
+</blockquote>
+<p>因为在某些情况下，不同的术语可能非常有用，因为用来指代一个特定报文的名称可以告诉你一些关于该报文包含的内容，特别是，不同的报文名称通常与在OSI参考模型的特定层中运行的协议和技术有关。因此，使用这些不同的名称可以帮助澄清涉及在不同层操作的多个协议的讨论。举个例子就是，如果严谨的使用这些术语，一说数据帧，我们就能知道这是封装到二层，数据链路层，的数据，报头中封装的是数据链路层的报头，源、目的MAC地址。但如果不严格使用这些属于就可能传达混淆的信息，当然有些人混用以上这几个术语，有些人则逻辑严谨的使用，必须在与他人交流或学习网络知识的时候注意这些。</p>
 <h3 id="什么是TCP的连接"><a href="#什么是TCP的连接" class="headerlink" title="什么是TCP的连接"></a>什么是TCP的连接</h3><blockquote>
 <p>The reliability and flow control mechanisms described above requirethat TCPs initialize and maintain certain status information foreach data stream.  The combination of this information, including sockets, sequence numbers, and window sizes, is called a connection.</p>
 </blockquote>
 <p>上面提到的TCP的可靠和流量控制机制，需要TCP为每个信息流数据初始化并维持特定的状态信息。包括sockets、序列号和窗口大小在内的这些信息的集合，叫做连接。</p>
-<h3 id="面向连接协议与无连接协议"><a href="#面向连接协议与无连接协议" class="headerlink" title="面向连接协议与无连接协议"></a>面向连接协议与无连接协议</h3><p>面向连接（Connection-Oriented）：是指发送数据之前必须在两端建立连接。TCP建立连接的方法是“三次握手”，这样能建立可靠的连接。</p>
+<h3 id="面向连接协议与无连接协议"><a href="#面向连接协议与无连接协议" class="headerlink" title="面向连接协议与无连接协议"></a>面向连接协议与无连接协议</h3><p>面向连接（Connection-Oriented）：是指发送数据之前必须在两端建立逻辑连接（logical connection）。通常建立连接的方式是通过遵循一系列规则来完成的，这些规则指定了应如何发起，协商，管理以及最终终止连接的方式。 通常，一台设备首先发送打开连接的请求，而另一台则响应。 设备传递控制信息，以确定是否以及如何建立连接。 如果成功，则在设备之间发送数据。 完成后，连接断开。TCP建立逻辑连接的方法是“三次握手”，这样能建立可靠的连接。</p>
 <p>无连接（Connection-less）：是指发送数据之前不在两端建立连接。即使对端主机关机或不存在，数据包还是会被发送出去。反之，对于一台主机来说，它会何时从哪里收到数据也是不得而知的。通常应该进行网络监控，让主机只接收发给自己的数据包。若没有做好准备很有可能会错过一些该收的包。因此，在面向无连接的方式下可能会有很多冗余的通信。</p>
 <h3 id="可靠传输与不可靠传输"><a href="#可靠传输与不可靠传输" class="headerlink" title="可靠传输与不可靠传输"></a>可靠传输与不可靠传输</h3><blockquote>
 <p>Thus, to support these applications, something has to be done to <strong>guarantee</strong> that the data sent by one end of the application is delivered <strong>correctly</strong> and <strong>completely</strong> to the other end of the application. If a protocol provides such a guaranteed data delivery service, it is said to provide reliable data transfer.</p>
@@ -786,13 +951,14 @@
 <p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-01-05_18-58-43.jpg" alt="Snipaste_2020-01-05_18-58-43"></p>
 <p><img src="/2019/11/23/6-tcp-ip/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200113134609.jpg" alt="微信图片编辑_20200113134609"></p>
 <p>设备1（IP地址为192.168.1.2）收到确认后，检查ack是否为J+1，之前J=0，所以检查ACK是否为1，如果正确则将标志位ACK置为1，ack=K+1，前面的K=0，并将该数据包发送给设备2（IP地址为174.143.213.184），设备2检查ack是否为K+1，ACK是否为1，如果正确则连接建立成功，两个设备均进入了ESTABLISHED状态，完成三次握手，随后客户端与服务器端之间可以开始传输数据了。</p>
-<h5 id="TCP三次握手的漏洞："><a href="#TCP三次握手的漏洞：" class="headerlink" title="TCP三次握手的漏洞："></a>TCP三次握手的漏洞：</h5><p><strong>漏洞：☛ SYN洪泛攻击</strong></p>
-<p><strong>☛ 定义：</strong></p>
+<h5 id="TCP三次握手的漏洞："><a href="#TCP三次握手的漏洞：" class="headerlink" title="TCP三次握手的漏洞："></a>TCP三次握手的漏洞：</h5><p><strong>漏洞：SYN洪泛攻击</strong></p>
+<p><strong>定义：</strong></p>
 <p>通过网络服务所在的端口发送大量伪造原地址的攻击报文，发送到服务端，造成服务端上的半开连接队列被占满，从而阻止其他用户进行访问。</p>
-<p><strong>☛ 原理：</strong></p>
+<p><img src="/2019/11/23/6-tcp-ip/Snipaste_2020-05-04_12-47-46.jpg" alt="Snipaste_2020-05-04_12-47-46"></p>
+<p><strong>原理：</strong></p>
 <p>当开放了一个TCP端口后，该端口就处于Listening状态，不停地监视发到该端口的SYN报文，一旦接收到Client发来的SYN报文，就需要为该请求分配一个TCB（Transmission Control Block），通常一个TCB至少需要280个字节，在某些操作系统中TCB甚至需要1300个字节，并返回一个SYNACK报文，立即转为SYN-RECEIVED即半开连接状态，而某些操作系统在SOCKT的实现上最多可开启512个半开连接（如Linux2.4.20 内核）。</p>
 <p>如果恶意的向某个服务器端口发送大量的SYN包(第一次握手)，而服务端的响应(第二次握手)的报文将永远发送不到真实的客户端，服务端在等待客户端的第三次握手(永远都不会有的)，则可以使服务器打开大量的半开连接，分配TCB，从而消耗大量的服务器资源，同时也使得正常的连接请求无法被相应。而攻击发起方的资源消耗相比较可忽略不计。</p>
-<p><strong>☛ 解决方案：</strong></p>
+<p><strong>解决方案：</strong></p>
 <p>无效连接监控释放：</p>
 <p>不停的<strong>监视系统的半开连接和不活动连接，当达到一定阈值时拆除这些连接，从而释放系统资源。</strong>这种方法对于所有的连接一视同仁，而且由于SYN Flood造成的半开连接数量很大，正常连接请求也被淹没在其中被这种方式误释放掉。</p>
 <p>延缓TCB分配方法：</p>
@@ -1487,6 +1653,9 @@
 <p>是指通信双方对数据传送控制的一种约定。约定中包括对数据格式，同步方式，传送速度，传送步骤，检纠错方式以及控制字符定义等问题做出统一规定，通信双方必须共同遵守，它也叫做链路控制规程。</p>
 <p><strong>通俗的来讲，协议是一种双方都明白或者必须遵守的事先约定</strong>，比如说长城上放狼烟，是因为人们已经预先设定好狼烟这个物理信号代表了“敌人入侵”这一抽象信号。这样一个“狼烟=敌人入侵”就是一个简单的协议。协议可以更复杂，比如摩尔斯码(Morse Code)，使用短信号和长信号的组合，来代表不同的英文字母。当然，通信的双方必须遵从同样的协议才能够完成通信，比如你这里的协议规定的是“长城上放狼烟代表敌人入侵”，而你通信对端的协议规定是“长城上放狼烟代表打开城门”，那就出大事儿了，这样是没法交流的，所以通信双方必须遵从相同的协议才能通信。</p>
 <p>网络协议其实也是按照人的思维方式在工作，但是网络设备不会像人一样思考，所以我们当初给它设计各种协议的时候就要尽可能地为它想到这些协议所要应对的场景。</p>
+<blockquote>
+<p>a protocol is formally defined as a set of rules governing communication between entities at the same layer. </p>
+</blockquote>
 <h3 id="（三）X层设备"><a href="#（三）X层设备" class="headerlink" title="（三）X层设备"></a>（三）X层设备</h3><p>经常会听到三层交换机、二层交换机以及路由器是三层设备这种叫法。</p>
 <p>工作在三层（网络层）的设备，例如路由器，指的是这台设备同时具备1-3层的功能，也就是可以支持物理层、数据链路层和网络层的所有协议；如果是一台二层（数据链路层）设备，比如二层交换机，指的是这台二层交换机同时具备1-2层的功能，也就是可以支持物理层和数据链路层的所有协议。</p>
 <p>二层设备以三层设备的区别是看能不能识别三层的东西，能不能完整的运行三层协议，比如IP地址、路由等三层的东西。能识别能完整支持的就为三层设备。三层设备常用于多网段，隔离广播域。</p>
