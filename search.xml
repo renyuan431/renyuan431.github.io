@@ -3,12 +3,15 @@
   <entry>
     <title>CCNA笔记——11、路由基础及静态路由</title>
     <url>/2020/05/04/11-route-basic/</url>
-    <content><![CDATA[<h2 id="路由的基本概念"><a href="#路由的基本概念" class="headerlink" title="路由的基本概念"></a>路由的基本概念</h2><h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><blockquote>
+    <content><![CDATA[<h1 id="路由的基本概念"><a href="#路由的基本概念" class="headerlink" title="路由的基本概念"></a>路由的基本概念</h1><h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><blockquote>
 <p>Routing is the process of selecting a path for traffic in a network or between or across multiple networks.</p>
 <p>In packet switching networks, routing is the higher-level decision making that directs network packets from their source toward their destination through intermediate network nodes by specific packet forwarding mechanisms.</p>
 </blockquote>
-<p>路由是指在一个网络中或多个网络之间或跨多个网络的流量选择路径的过程。路由是指通过特定的数据包转发机制，将网络数据包从源头通过中间网络节点向目的地方向引导网络数据包的高级决策。路由过程通常根据路由表指导转发。</p>
-<h3 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h3><h4 id="路由表的概念"><a href="#路由表的概念" class="headerlink" title="路由表的概念"></a>路由表的概念</h4><blockquote>
+<p>路由是指在一个网络中或多个网络之间或跨多个网络的流量选择路径的过程。路由是指通过特定的数据包转发机制，将网络数据包从源头通过中间网络节点向目的地方向引导网络数据包的高级决策。路由过程通常根据路由表指导转发。<strong>路由是一个三层（网络层）的概念</strong>。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_12-17-05.jpg" alt="Snipaste_2020-05-05_12-17-05"></p>
+<p>具体到这张图上来说，PC1要和PC2进行通信，路由“指挥”着数据沿着红色箭头的路径一路传到了PC2。但路由器如何知道该如何传递数据呢？是因为路由器在收到数据以后查询了本机的路由表。路由的转发是基于目标的网络地址（网络号）的，路由表上的条目一般也是基于网络地址（网络号），而不是目标的IP地址，也就是说，如果数据的目标IP地址是192.168.1.5/24的话，路由器会看这个目标IP地址的网段，192.168.1.0，在路由表中是否存在，路由表中一般是没有一个单独IP地址的路由信息的，因为路由器中存储路由信息的空间是有限的，没有足够的空间为每个IP都存储一个路由条目。</p>
+<h3 id="路由分类"><a href="#路由分类" class="headerlink" title="路由分类"></a>路由分类</h3><p><img src="/2020/05/04/11-route-basic/Cisco-CCNA-static-routing-2.jpg" alt="Cisco-CCNA-static-routing-2"></p>
+<h2 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h2><h3 id="路由表的概念"><a href="#路由表的概念" class="headerlink" title="路由表的概念"></a>路由表的概念</h3><blockquote>
 <p>In computer networking a routing table, or routing information base (RIB), is a data table stored in a router or a network host that lists the routes to particular network destinations, and in some cases, metrics (distances) associated with those routes. The routing table contains information about the topology of the network immediately around it.</p>
 </blockquote>
 <p>在计算机网络世界中，路由表，或者路由信息表（RIB），是存储在路由器或网络主机上的数据表，数据表中列出了去往特定网络目的地的路由，在某些情况下，还列出了与这些路由相关的度量值（距离）。路由表包含有关其周围网络拓扑的信息。</p>
@@ -17,25 +20,62 @@
 <li>路由表相当于路由器的地图，路由器能够正确转发IP报文的前提是在其路由表中存在匹配该数据包目的IP地址的路由条目； </li>
 <li>路由表中的路由条目获取来源有多种：直连路由、静态路由及动态路由协议。</li>
 </ul>
-<h4 id="如何查看路由表"><a href="#如何查看路由表" class="headerlink" title="如何查看路由表"></a>如何查看路由表</h4><p>查看路由表的命令为：show ip route</p>
+<p>举一个不太严谨的例子，路由表有点像我们去一个不认识地方时候问那附近的人路该怎么走，知道下一步如何走的这个人的功能类似于路由表。</p>
+<h3 id="如何查看路由表"><a href="#如何查看路由表" class="headerlink" title="如何查看路由表"></a>如何查看路由表</h3><p>查看路由表的命令为：show ip route</p>
 <p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-50-46.jpg" alt="Snipaste_2020-05-04_19-50-46"></p>
 <p>上图中的C表示直连路由，S表示静态路由。其他常用的路由获取来源还有O，也就是通过OSPF协议获得的，以及D，通过EIGRP协议获得。</p>
 <p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-57-10.jpg" alt="Snipaste_2020-05-04_19-57-10"></p>
 <p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-58-52-1588593580832.jpg" alt="Snipaste_2020-05-04_19-58-52"></p>
 <p>思科路由器接口开机以后默认是关闭状态，必须到接口中使用“no shutdown”命令将接口开启，路由表才能更新该路由。</p>
-<h3 id="路由条目获取的来源"><a href="#路由条目获取的来源" class="headerlink" title="路由条目获取的来源"></a>路由条目获取的来源</h3><h4 id="直连路由"><a href="#直连路由" class="headerlink" title="直连路由"></a>直连路由</h4><p>定义：路由器的直连接口所在网络的信息。</p>
-<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-26-25.jpg" alt="Snipaste_2020-05-04_20-26-25"></p>
-<p>路由器R2有两个直连接口，两个直连接口分别对应192.168.12.0网段和192.168.23.0网段，所以在路由表中这两个网段信息前面的标识为C ，也就是connected，是直连路由。如果其中一个接口和对端的连通性出了问题，比如S0/1或对端对应的接口如果被shutdown或中间网线断开连接，则192.168.23.0这条路由会在路由表中消失。</p>
-<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-29-50.jpg" alt="Snipaste_2020-05-04_20-29-50"></p>
+<h2 id="路由条目获取的来源"><a href="#路由条目获取的来源" class="headerlink" title="路由条目获取的来源"></a>路由条目获取的来源</h2><h3 id="直连路由"><a href="#直连路由" class="headerlink" title="直连路由"></a>直连路由</h3><p>定义：路由器的直连接口所在网络的信息。这种路由不需要手工进行添加，只要端口连通信正常即可自动加入路由表。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-02-48.jpg" alt="Snipaste_2020-05-05_13-02-48"></p>
+<p>R1的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-04-11.jpg" alt="Snipaste_2020-05-05_13-04-11"></p>
+<p>R1的路由表中有两条路由，一条前缀为C的路由表示这条路由的性质是connect，也就是靠直连获得的，这条路由是通往192.168.12.0/24这个网段的，出口是G0/0，也就是说如果收到一个目标IP地址是属于192.168.12.0网段的消息，将它从G0/0接口发出即可，这条直连路由是由R2的G0/1接口提供的，图中R1的G0/0接口和R2的G0/1接口直接连接；另一条前缀为L表示这条路由的性质为local，也就是本地路由，这条路由目的地址是192.168.12.1/32这个IP地址，连接到G0/0接口，这条路由是由本地的G0/0接口提供的。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_14-13-09.jpg" alt="Snipaste_2020-05-05_14-13-09"></p>
+<p>要注意的是，R2的G0/1接口和R1的G0/0接口直接连接，所以R1只有R2的G0/1这个直连接口，也就是192.168.12.0/24这个网段的路由，但并没有R2的G0/0，192.168.23.0/24这个网段的路由，因为R2的G0/0接口和R1不直接连接。</p>
+<p>R2的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-06-22.jpg" alt="Snipaste_2020-05-05_13-06-22"></p>
+<p>R2的路由表中有四条路有，两条本地路由两条直连路由。两条本地路由分别由G0/1和G0/0提供，目的地址分别是192.168.12.2/32以及192.168.23.2/32这两个IP地址。两条直连路由其中一条是由R1的G0/0提供的192.168.12.0/24网段的路由，因为R1的G0/0和R2的G0/1直连；另一条直连路由是由R3的G0/0提供的192.168.23.0/24网段的路由，因为R3的G0/0接口和R2的G0/0接口直连。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_14-14-58.jpg" alt="Snipaste_2020-05-05_14-14-58"></p>
+<p>R3的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-07-45.jpg" alt="Snipaste_2020-05-05_13-07-45"></p>
+<p>R3的路由表中有两条路由，一条本地路由一条直连路由，本地路由是到192.168.23.3/32这个IP地址的，由G0/0接口提供；直连路由时由R2的G0/0接口提供的到192.168.23.0/24这个网段的路由，因为R2的G0/0和R3的G0/0直连。</p>
+<p>这里也要注意，R3只有R2的G0/0这个接口IP地址所处的网段，192.168.23.0/24的路由因为两者直连，但并没有R2的G0/1接口IP地址所处网段192.168.12.0/24的路由，因为R2的G0/1接口不和R3直连。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_14-24-19.jpg" alt="Snipaste_2020-05-05_14-24-19"></p>
+<p>如果其中一个接口和对端的连通性出了问题，比如R2的G0/0或对端对应的接口（R3的G0/0）如果被shutdown或中间网线断开连接，则192.168.23.0这条路由会在R2的路由表中消失。直连的网络是指R1和R2之间，R2和R3之间这种中间没有其他三层设备的情况，R1和R3之间因为有R2路由器隔离了三层，不处于相同的广播域所以不算直连。</p>
 <p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-32-23.jpg" alt="Snipaste_2020-05-04_20-32-23"></p>
-<h4 id="静态路由"><a href="#静态路由" class="headerlink" title="静态路由"></a>静态路由</h4><h4 id="动态路由协议"><a href="#动态路由协议" class="headerlink" title="动态路由协议"></a>动态路由协议</h4><h2 id="最长匹配原则"><a href="#最长匹配原则" class="headerlink" title="最长匹配原则"></a>最长匹配原则</h2><h2 id="路由汇总"><a href="#路由汇总" class="headerlink" title="路由汇总"></a>路由汇总</h2><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+<p> <a href="/download/static-route.zip">实验文件下载</a></p>
+<p>此文件在EVE模拟器中使用，IOS如下图，我这个实验用的是VIOS，如果你的EVE里没有这个IOS记得在设备开机前对设备点击右键将设备的IOS换成其他的。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-08-48.jpg" alt="Snipaste_2020-05-05_13-08-48"></p>
+<h3 id="静态路由"><a href="#静态路由" class="headerlink" title="静态路由"></a>静态路由</h3><p>静态路由就是手工为路由器添加的路由条目。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_12-41-09.jpg" alt="Snipaste_2020-05-05_12-41-09"></p>
+<p>从前一节的知识可知，R1和R2之间是直连的，因为中间没有其他三层设备，所以R1只知道和它直连的R2的路由信息，192.168.12.0网段如何去，但由于R2的另一个接口2.2.2.0/24并未和R1直连，所以R1的路由表中并没有该网段的信息，R1即使收到去往2.2.2.0/24网段的数据也不知道如何处理只能丢弃，这时候为了让数据在R1上被正确发送，我们可以手工添加一条静态路由到路由表中，让路由器知道如何处理，添加完静态路由后，路由表中即会出现2.2.2.0/24这个网段的路由条目。</p>
+<h3 id="动态路由协议"><a href="#动态路由协议" class="headerlink" title="动态路由协议"></a>动态路由协议</h3><p>由于静态路由协议需要手工配置每一条路由条目，使得静态路由协议在大规模的网络中（例如跨国企业的网络、ISP运行商网络）使用起来十分困难，为了解决这个问题动态路由协议应运而生，动态路由协议可以让路由器自动学习到其他路由器的网络，并且网络拓扑发生改变后自动更新路由表。网络管理员只需要配置动态路由协议即可，相比人工指定转发策略，工作量大大减少。</p>
+<p>在动态路由中，管理员不再需要与静态路由一样，手工对路由器上的路由表进行维护，而是在每台路由器上运行一个路由协议。这个路由协议会根据路由器上的接口的配置（如IP地址的配置）及所连接的链路的状态，生成路由表中的路由表项。当网络拓扑结构改变时动态路由协议可以自动更新路由表，并负责决定数据传输最佳路径。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_15-37-51.jpg" alt="Snipaste_2020-05-05_15-37-51"></p>
+<p>当R1和R2的所有接口都运行了动态路由协议时，R1和R2就能互相交互路由信息，使得路由器动态的“学习”到网络中其他运行了相同动态路由协议设备上的路由信息，并更新自己的路由表。上图中的R1和R2在运行相同动态路由协议的情况下，R1就能“学习”到R2上2.2.2.0/24的路由信息并将该路由信息添加到自身的路由表中以便以后使用。</p>
+<h2 id="管理距离（Administrative-Distance-）"><a href="#管理距离（Administrative-Distance-）" class="headerlink" title="管理距离（Administrative Distance ）"></a>管理距离（Administrative Distance ）</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>管理距离（Administrative Distance，AD）是指一种路由协议的路由可信度。每一种路由协议按可靠性从高到低，依次分配一个信任等级，这个信任等级就叫管理距离。<strong>管理距离仅在本地具有重要意义，因此不会在路由更新中进行通告。</strong></p>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>管理距离是用来在有使用两个不同路由协议的两个或多个不同的路由通往同一目标时，路由器用来选择最佳路径的。正常情况下，管理距离越小，它的优先级就越高，也就是可信度越高。对于两种不同的路由协议到一个目的地的路由信息，路由器首先根据管理距离决定相信哪一个协议。</p>
+<h3 id="理论分析"><a href="#理论分析" class="headerlink" title="理论分析"></a>理论分析</h3><p>如果路由器分别收到使用开放最短路径优先 (OSPF)（默认管理距离为110）和 Interior Gateway Routing Protocol (IGRP)（默认管理距离为100）通往特定网络的路由，则路由器将选择 IGRP，因为 IGRP 更可靠。这意味着路由器将路由的 IGRP 版本添加到路由表。</p>
+<p>如果丢失了 IGRP 协议的设备信息（例如，由于电源关闭），则会使用 OSPF 协议的路由表进行数据转发，一直到 IGRP 的路由信息再次出现。</p>
+<h3 id="设备默认AD值"><a href="#设备默认AD值" class="headerlink" title="设备默认AD值"></a>设备默认AD值</h3><p>不同厂家对于设备的默认AD值规定不相同，</p>
+<h4 id="思科设备默认AD值"><a href="#思科设备默认AD值" class="headerlink" title="思科设备默认AD值"></a>思科设备默认AD值</h4><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_15-51-14.jpg" alt="Snipaste_2020-05-05_15-51-14"></p>
+<h4 id="juniper设备默认AD值"><a href="#juniper设备默认AD值" class="headerlink" title="juniper设备默认AD值"></a>juniper设备默认AD值</h4><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_16-01-24.jpg" alt="Snipaste_2020-05-05_16-01-24"></p>
+<h4 id="华为设备默认AD值"><a href="#华为设备默认AD值" class="headerlink" title="华为设备默认AD值"></a>华为设备默认AD值</h4><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_16-14-46.jpg" alt="Snipaste_2020-05-05_16-14-46"></p>
+<h1 id="静态路由-1"><a href="#静态路由-1" class="headerlink" title="静态路由"></a>静态路由</h1><h2 id="静态路由的概念"><a href="#静态路由的概念" class="headerlink" title="静态路由的概念"></a>静态路由的概念</h2><h2 id="静态路由的配置"><a href="#静态路由的配置" class="headerlink" title="静态路由的配置"></a>静态路由的配置</h2><h2 id="静态路由的下一跳"><a href="#静态路由的下一跳" class="headerlink" title="静态路由的下一跳"></a>静态路由的下一跳</h2><h2 id="缺省（默认）路由"><a href="#缺省（默认）路由" class="headerlink" title="缺省（默认）路由"></a>缺省（默认）路由</h2><h2 id="静态路由配置示例及解析"><a href="#静态路由配置示例及解析" class="headerlink" title="静态路由配置示例及解析"></a>静态路由配置示例及解析</h2><h1 id="最长匹配原则"><a href="#最长匹配原则" class="headerlink" title="最长匹配原则"></a>最长匹配原则</h1><h1 id="路由汇总"><a href="#路由汇总" class="headerlink" title="路由汇总"></a>路由汇总</h1><h1 id="路由选择过程"><a href="#路由选择过程" class="headerlink" title="路由选择过程"></a>路由选择过程</h1><h2 id="需要路由选择的情况"><a href="#需要路由选择的情况" class="headerlink" title="需要路由选择的情况"></a>需要路由选择的情况</h2><p>当遇到类似于下图的情况，R2从两个不同的路由协议，OSPF和RIP同时获得了10.1.1.0/24的路由信息，或</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_16-33-58.jpg" alt="Snipaste_2020-05-05_16-33-58"></p>
+<h2 id="选择最佳路由的步骤"><a href="#选择最佳路由的步骤" class="headerlink" title="选择最佳路由的步骤"></a>选择最佳路由的步骤</h2><p>1、比管理距离AD（可以是多种路由协议的比较；也可以是同种路由协议的比较，比如双线出口所配置的两条默认浮动路由比较）</p>
+<p>2、比度量值metric（路由协议不同则度量值不能做比较，比如rip度量值为跳数；ospf度量值为带宽；eigrp度量值为带宽+延迟等。所以在不同种协议之间先比较管理距离）</p>
+<h1 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h1><p><a href="https://blog.csdn.net/chiyuwei1766/article/details/47334125" target="_blank" rel="noopener">最佳路由选择的原则与步骤————管理距离和度量值</a></p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
         <category>CCNA</category>
       </categories>
   </entry>
   <entry>
-    <title>CCNA笔记——10、设备管理及cisco IOS基础配置</title>
+    <title>10-cisco-ios</title>
     <url>/2020/04/14/10-cisco-ios/</url>
     <content><![CDATA[<h2 id="CISCO路由器及启动过程"><a href="#CISCO路由器及启动过程" class="headerlink" title="CISCO路由器及启动过程"></a>CISCO路由器及启动过程</h2><h3 id="路由器组件"><a href="#路由器组件" class="headerlink" title="路由器组件"></a>路由器组件</h3><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-14_16-22-14.jpg" alt="Snipaste_2020-04-14_16-22-14"></p>
 <p>CPU：中央处理器，CPU执行操作系统的指令，例如启动，路由功能和交换功能。</p>
@@ -263,6 +303,10 @@
 <p>end命令是一次性退到特权模式最外层</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1(config-line)#end</span><br><span class="line">R1#</span><br></pre></td></tr></table></figure>
 
+<h5 id="命令缩写"><a href="#命令缩写" class="headerlink" title="命令缩写"></a>命令缩写</h5><p>命令可以缩写，缩写从要求是设备必须能够将缩写命令与其他命令区分开，比如在用户模式下要进入特权模式的命令enable可以缩写成en，因为以en开头的命令只有enable，设备不会将缩写的en错认为是其他命令。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-05_16-22-06.jpg" alt="Snipaste_2020-05-05_16-22-06"></p>
+<p>但当缩写的命令有两种及两种以上可能时，缩写则不能使用，如下图中，interface 后面以v开头的命令有多个，这时如果直接回车输入的话，设备并不知道用户要输入具体哪个命令，所以返回一个“命令不完整”的信息。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-05_16-23-54.jpg" alt="Snipaste_2020-05-05_16-23-54"></p>
 <h4 id="Running-config-VS-Startup-config"><a href="#Running-config-VS-Startup-config" class="headerlink" title="Running-config VS Startup-config"></a>Running-config VS Startup-config</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-26-51.jpg" alt="Snipaste_2020-04-23_16-26-51"></p>
 <h4 id="基础实验"><a href="#基础实验" class="headerlink" title="基础实验"></a>基础实验</h4><p>实验1：</p>
 <p>结果使R1和R2之间可以连通</p>
@@ -351,51 +395,6 @@
 <p>网络层收到下层的数据后继续解封装，发现目的IP地址不是自己的，然后根据目的IP地址，按照最长匹配原则查询是否有对应路由条目，查询后发现应将该数据从F1/0端口发出。在网络层将三层按原报头重新打包好然后发给数据链路层。</p>
 <h4 id="数据链路层第二次：-1"><a href="#数据链路层第二次：-1" class="headerlink" title="数据链路层第二次："></a>数据链路层第二次：</h4><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-29_18-19-59.jpg" alt="Snipaste_2020-03-29_18-19-59"></p>
 <p>数据链路层收到上层发来的数据后，因为该数据是要从F1/0口发送给WebServer，所以以太网2封装的源MAC地址是R2的F1/0口的MAC地址，目的MAC地址是WebServer的MAC地址，由于上层采用IPV4封装，所以EtherType依旧是0X0800。然后发送给数据链路层转换成电磁信号发送给WebServer。物理层将数据帧转换为物理层能识别的电磁信号然后通过物理介质传输给最终目的设备，WebServer，数据传输结束。</p>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
-      <categories>
-        <category>路由交换方向</category>
-        <category>CCNA</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>CCNA笔记——7、为什么要建立TCP/IP通信模型</title>
-    <url>/2020/02/19/layer-mind/</url>
-    <content><![CDATA[<p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，可能这个概念要真正掌握并且固话还需要一次次的反复，每次当发现认知有问题的时候，会对此篇笔记进行更新。</p>
- <a id="more"></a>  
-
-<h2 id="2020年"><a href="#2020年" class="headerlink" title="2020年"></a>2020年</h2><h3 id="2月17日事件"><a href="#2月17日事件" class="headerlink" title="2月17日事件"></a>2月17日事件</h3><p>起因是看到TCP的RFC文档的2.6 Reliable Communication里有这么一段话：</p>
-<blockquote>
-<p>An acknowledgment by TCP does not guarantee that the data has been delivered to the end user, but only that the receiving TCP has taken the responsibility to do so.</p>
-</blockquote>
-<p>一开始觉得这段话的意思是说，对一个数据进行ACK了也不能确保整个数据肯定传到“用户”（user）了，发送ACK的这个设备（也就是其他路由器或网络设备）需要完成接下来的步骤，因为可能收到这个数据并发送ACK的设备给丢弃了，例如它这没有路由表或者说它down了。但因为知道自己很渣，所以到思科论坛发了<a href="https://community.cisco.com/t5/routing/what-s-the-meaning-of-an-acknowledgment-by-tcp-does-not/m-p/4030767#M329627" target="_blank" rel="noopener">求助帖</a>，想验证一下自己的想法是否正确，有个哥们回复我说，他认为：</p>
-<blockquote>
-<p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
-</blockquote>
-<p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
-<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，也就是数据从发送端的传输层——网络层——数据链路层——物理层——接收端的物理层——传输层——网络层——传输层的这个过程都是没问题的，当然按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，会出现发送端已收到TCP-ACK，但在接收端，“user”也就是应用层的程序，尚未收到该消息。</p>
-<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
-<p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
-<blockquote>
-<p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
-</blockquote>
-<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC的人，是看不到这段话的。</p>
-<p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
-<p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
-<h3 id="3月12日事件"><a href="#3月12日事件" class="headerlink" title="3月12日事件"></a>3月12日事件</h3><p>起因是因为感觉对RTO（retransmission timeout）还是理解的有问题，所以去网上看了<a href="https://www.extrahop.com/company/blog/2011/retransmission-timeouts-rtos-application-performance-degradation/" target="_blank" rel="noopener">一篇文章</a>，发现文章里有这么一句话：TCP starts a retransmission timer when an outbound segment is handed down to IP。看完这句话，感觉又被教育了一次什么叫分层。</p>
-<p>TCP是一个可靠的协议，里面的重传机制也是仅仅工作在本层的，和其他层没关系，之前看到一句话说：When the TCP transmits a segment containing data, it puts a copy on a retransmission queue and starts a timer，结合上面的那句话就是说，当TCP传输包含数据的段时，也就是说当TCP将数据段传送给下层的网络层时，它将该数据段的副本放在重传队列上并启动计时器。而并不是之前我所感觉的数据发出本设备时，计时器开始计时，而是当数据发出本层时计时器就开始计时了，因为TCP是传输层的协议，仅对自己传输层的东西负责和影响。</p>
-<h2 id="关于分层概念的浅见"><a href="#关于分层概念的浅见" class="headerlink" title="关于分层概念的浅见"></a>关于分层概念的浅见</h2><p>最后再针对一张很好的图说两句自己对于分层概念以及模型的理解：</p>
-<p>1、标准化</p>
-<p>2、彼此独立</p>
-<p>3、相互联系</p>
-<p>4、便于实现</p>
-<h3 id="便于网络通信的实现"><a href="#便于网络通信的实现" class="headerlink" title="便于网络通信的实现"></a>便于网络通信的实现</h3><p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。类似于汽车上的流水线分工，一开始是一个工人生产一辆汽车，但随着汽车需求原来越大，汽车生产过程的越来越复杂，这种模式已经不适合大规模生产的要求了，首先是一个人很难掌握如此多的工序，其次是即使掌握了也不便于汽车的大规模生产，第三是由于一个人要做很多道工序，很难精通所有的工序，无法加快汽车生产速度也无法提高优化每一步的生产精度，无法提高产品质量。</p>
-<p>网络传输也是同样的道理，一开始的时候协议是不分层的，实现所有的功能，但随着通信量的上升，如果要一种协议规定所有的功能和作用，那么该协议的具体实施和编程就会变得非常复杂，无法轻易实现。相比之下，按照网络分层，明确定义每层协议的作用和责任以后，针对每层具体的协议进行编程会更加有利于该协议的实现，使得网络易于实现和维护，便于调试。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。</p>
-<h3 id="标准化"><a href="#标准化" class="headerlink" title="标准化"></a>标准化</h3><p>生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，依旧用汽车这货来举个贴近生活的例子方便理解，在网络通信中，如果没有统一的规则，自己按照自己的规则开发导致协议、设备相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态，类推到汽车行业就是，生产汽车零件的厂家有很多，比如轮胎有普利司通的，有马牌的也有韩泰的，品牌不同但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用，才能像汽车一样，如果轮胎坏了（类推到网络中就是其中某些层的某些协议或功能出了问题），只需要更换一个同型号的换轮胎即可上路飞驰，汽车的其他零件不受影响也不用变动（对相应出问题层级进行排错，出问题的特定层级排除错误通信即可恢复）。</p>
-<h3 id="彼此独立又相互依靠"><a href="#彼此独立又相互依靠" class="headerlink" title="彼此独立又相互依靠"></a>彼此独立又相互依靠</h3><p>？？？？？？？？？？？？？？？</p>
-<h3 id="上层依赖于下层，下层为上层提供服务"><a href="#上层依赖于下层，下层为上层提供服务" class="headerlink" title="上层依赖于下层，下层为上层提供服务"></a>上层依赖于下层，下层为上层提供服务</h3><p>？？？？？？？？？？？？？？</p>
-<p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
-<p>当然仅仅分层也是不够的，还必须对每一层进行标准化，而生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，否则如果没有统一的规则，自己按照自己的规则开发导致相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态。标准化就类似于生产汽车零件的厂家有很多，但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用。</p>
-<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
@@ -622,6 +621,51 @@
 </ol>
 <p>引用文章：</p>
 <p><a href="https://blog.csdn.net/lemontree1945/article/details/79553187" target="_blank" rel="noopener">划分子网例题详解</a></p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+      <categories>
+        <category>路由交换方向</category>
+        <category>CCNA</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>CCNA笔记——7、为什么要建立TCP/IP通信模型</title>
+    <url>/2020/02/19/layer-mind/</url>
+    <content><![CDATA[<p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，可能这个概念要真正掌握并且固话还需要一次次的反复，每次当发现认知有问题的时候，会对此篇笔记进行更新。</p>
+ <a id="more"></a>  
+
+<h2 id="2020年"><a href="#2020年" class="headerlink" title="2020年"></a>2020年</h2><h3 id="2月17日事件"><a href="#2月17日事件" class="headerlink" title="2月17日事件"></a>2月17日事件</h3><p>起因是看到TCP的RFC文档的2.6 Reliable Communication里有这么一段话：</p>
+<blockquote>
+<p>An acknowledgment by TCP does not guarantee that the data has been delivered to the end user, but only that the receiving TCP has taken the responsibility to do so.</p>
+</blockquote>
+<p>一开始觉得这段话的意思是说，对一个数据进行ACK了也不能确保整个数据肯定传到“用户”（user）了，发送ACK的这个设备（也就是其他路由器或网络设备）需要完成接下来的步骤，因为可能收到这个数据并发送ACK的设备给丢弃了，例如它这没有路由表或者说它down了。但因为知道自己很渣，所以到思科论坛发了<a href="https://community.cisco.com/t5/routing/what-s-the-meaning-of-an-acknowledgment-by-tcp-does-not/m-p/4030767#M329627" target="_blank" rel="noopener">求助帖</a>，想验证一下自己的想法是否正确，有个哥们回复我说，他认为：</p>
+<blockquote>
+<p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
+</blockquote>
+<p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
+<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，也就是数据从发送端的传输层——网络层——数据链路层——物理层——接收端的物理层——传输层——网络层——传输层的这个过程都是没问题的，当然按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，会出现发送端已收到TCP-ACK，但在接收端，“user”也就是应用层的程序，尚未收到该消息。</p>
+<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
+<p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
+<blockquote>
+<p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
+</blockquote>
+<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC的人，是看不到这段话的。</p>
+<p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
+<p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
+<h3 id="3月12日事件"><a href="#3月12日事件" class="headerlink" title="3月12日事件"></a>3月12日事件</h3><p>起因是因为感觉对RTO（retransmission timeout）还是理解的有问题，所以去网上看了<a href="https://www.extrahop.com/company/blog/2011/retransmission-timeouts-rtos-application-performance-degradation/" target="_blank" rel="noopener">一篇文章</a>，发现文章里有这么一句话：TCP starts a retransmission timer when an outbound segment is handed down to IP。看完这句话，感觉又被教育了一次什么叫分层。</p>
+<p>TCP是一个可靠的协议，里面的重传机制也是仅仅工作在本层的，和其他层没关系，之前看到一句话说：When the TCP transmits a segment containing data, it puts a copy on a retransmission queue and starts a timer，结合上面的那句话就是说，当TCP传输包含数据的段时，也就是说当TCP将数据段传送给下层的网络层时，它将该数据段的副本放在重传队列上并启动计时器。而并不是之前我所感觉的数据发出本设备时，计时器开始计时，而是当数据发出本层时计时器就开始计时了，因为TCP是传输层的协议，仅对自己传输层的东西负责和影响。</p>
+<h2 id="关于分层概念的浅见"><a href="#关于分层概念的浅见" class="headerlink" title="关于分层概念的浅见"></a>关于分层概念的浅见</h2><p>最后再针对一张很好的图说两句自己对于分层概念以及模型的理解：</p>
+<p>1、标准化</p>
+<p>2、彼此独立</p>
+<p>3、相互联系</p>
+<p>4、便于实现</p>
+<h3 id="便于网络通信的实现"><a href="#便于网络通信的实现" class="headerlink" title="便于网络通信的实现"></a>便于网络通信的实现</h3><p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。类似于汽车上的流水线分工，一开始是一个工人生产一辆汽车，但随着汽车需求原来越大，汽车生产过程的越来越复杂，这种模式已经不适合大规模生产的要求了，首先是一个人很难掌握如此多的工序，其次是即使掌握了也不便于汽车的大规模生产，第三是由于一个人要做很多道工序，很难精通所有的工序，无法加快汽车生产速度也无法提高优化每一步的生产精度，无法提高产品质量。</p>
+<p>网络传输也是同样的道理，一开始的时候协议是不分层的，实现所有的功能，但随着通信量的上升，如果要一种协议规定所有的功能和作用，那么该协议的具体实施和编程就会变得非常复杂，无法轻易实现。相比之下，按照网络分层，明确定义每层协议的作用和责任以后，针对每层具体的协议进行编程会更加有利于该协议的实现，使得网络易于实现和维护，便于调试。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。</p>
+<h3 id="标准化"><a href="#标准化" class="headerlink" title="标准化"></a>标准化</h3><p>生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，依旧用汽车这货来举个贴近生活的例子方便理解，在网络通信中，如果没有统一的规则，自己按照自己的规则开发导致协议、设备相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态，类推到汽车行业就是，生产汽车零件的厂家有很多，比如轮胎有普利司通的，有马牌的也有韩泰的，品牌不同但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用，才能像汽车一样，如果轮胎坏了（类推到网络中就是其中某些层的某些协议或功能出了问题），只需要更换一个同型号的换轮胎即可上路飞驰，汽车的其他零件不受影响也不用变动（对相应出问题层级进行排错，出问题的特定层级排除错误通信即可恢复）。</p>
+<h3 id="彼此独立又相互依靠"><a href="#彼此独立又相互依靠" class="headerlink" title="彼此独立又相互依靠"></a>彼此独立又相互依靠</h3><p>？？？？？？？？？？？？？？？</p>
+<h3 id="上层依赖于下层，下层为上层提供服务"><a href="#上层依赖于下层，下层为上层提供服务" class="headerlink" title="上层依赖于下层，下层为上层提供服务"></a>上层依赖于下层，下层为上层提供服务</h3><p>？？？？？？？？？？？？？？</p>
+<p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
+<p>当然仅仅分层也是不够的，还必须对每一层进行标准化，而生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，否则如果没有统一的规则，自己按照自己的规则开发导致相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态。标准化就类似于生产汽车零件的厂家有很多，但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用。</p>
+<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>

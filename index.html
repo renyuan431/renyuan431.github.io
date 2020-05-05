@@ -225,6 +225,152 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/05/04/11-route-basic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rookie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rookie's Notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/04/11-route-basic/" class="post-title-link" itemprop="url">CCNA笔记——11、路由基础及静态路由</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-04 10:25:00" itemprop="dateCreated datePublished" datetime="2020-05-04T10:25:00+08:00">2020-05-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-05 19:43:45" itemprop="dateModified" datetime="2020-05-05T19:43:45+08:00">2020-05-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="路由的基本概念"><a href="#路由的基本概念" class="headerlink" title="路由的基本概念"></a>路由的基本概念</h1><h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><blockquote>
+<p>Routing is the process of selecting a path for traffic in a network or between or across multiple networks.</p>
+<p>In packet switching networks, routing is the higher-level decision making that directs network packets from their source toward their destination through intermediate network nodes by specific packet forwarding mechanisms.</p>
+</blockquote>
+<p>路由是指在一个网络中或多个网络之间或跨多个网络的流量选择路径的过程。路由是指通过特定的数据包转发机制，将网络数据包从源头通过中间网络节点向目的地方向引导网络数据包的高级决策。路由过程通常根据路由表指导转发。<strong>路由是一个三层（网络层）的概念</strong>。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_12-17-05.jpg" alt="Snipaste_2020-05-05_12-17-05"></p>
+<p>具体到这张图上来说，PC1要和PC2进行通信，路由“指挥”着数据沿着红色箭头的路径一路传到了PC2。但路由器如何知道该如何传递数据呢？是因为路由器在收到数据以后查询了本机的路由表。路由的转发是基于目标的网络地址（网络号）的，路由表上的条目一般也是基于网络地址（网络号），而不是目标的IP地址，也就是说，如果数据的目标IP地址是192.168.1.5/24的话，路由器会看这个目标IP地址的网段，192.168.1.0，在路由表中是否存在，路由表中一般是没有一个单独IP地址的路由信息的，因为路由器中存储路由信息的空间是有限的，没有足够的空间为每个IP都存储一个路由条目。</p>
+<h3 id="路由分类"><a href="#路由分类" class="headerlink" title="路由分类"></a>路由分类</h3><p><img src="/2020/05/04/11-route-basic/Cisco-CCNA-static-routing-2.jpg" alt="Cisco-CCNA-static-routing-2"></p>
+<h2 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h2><h3 id="路由表的概念"><a href="#路由表的概念" class="headerlink" title="路由表的概念"></a>路由表的概念</h3><blockquote>
+<p>In computer networking a routing table, or routing information base (RIB), is a data table stored in a router or a network host that lists the routes to particular network destinations, and in some cases, metrics (distances) associated with those routes. The routing table contains information about the topology of the network immediately around it.</p>
+</blockquote>
+<p>在计算机网络世界中，路由表，或者路由信息表（RIB），是存储在路由器或网络主机上的数据表，数据表中列出了去往特定网络目的地的路由，在某些情况下，还列出了与这些路由相关的度量值（距离）。路由表包含有关其周围网络拓扑的信息。</p>
+<ul>
+<li>每一台路由器都会维护一个路由表，在路由表中包含着路由器发现的路由（路由条目、路由表项）； </li>
+<li>路由表相当于路由器的地图，路由器能够正确转发IP报文的前提是在其路由表中存在匹配该数据包目的IP地址的路由条目； </li>
+<li>路由表中的路由条目获取来源有多种：直连路由、静态路由及动态路由协议。</li>
+</ul>
+<p>举一个不太严谨的例子，路由表有点像我们去一个不认识地方时候问那附近的人路该怎么走，知道下一步如何走的这个人的功能类似于路由表。</p>
+<h3 id="如何查看路由表"><a href="#如何查看路由表" class="headerlink" title="如何查看路由表"></a>如何查看路由表</h3><p>查看路由表的命令为：show ip route</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-50-46.jpg" alt="Snipaste_2020-05-04_19-50-46"></p>
+<p>上图中的C表示直连路由，S表示静态路由。其他常用的路由获取来源还有O，也就是通过OSPF协议获得的，以及D，通过EIGRP协议获得。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-57-10.jpg" alt="Snipaste_2020-05-04_19-57-10"></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-58-52-1588593580832.jpg" alt="Snipaste_2020-05-04_19-58-52"></p>
+<p>思科路由器接口开机以后默认是关闭状态，必须到接口中使用“no shutdown”命令将接口开启，路由表才能更新该路由。</p>
+<h2 id="路由条目获取的来源"><a href="#路由条目获取的来源" class="headerlink" title="路由条目获取的来源"></a>路由条目获取的来源</h2><h3 id="直连路由"><a href="#直连路由" class="headerlink" title="直连路由"></a>直连路由</h3><p>定义：路由器的直连接口所在网络的信息。这种路由不需要手工进行添加，只要端口连通信正常即可自动加入路由表。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-02-48.jpg" alt="Snipaste_2020-05-05_13-02-48"></p>
+<p>R1的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-04-11.jpg" alt="Snipaste_2020-05-05_13-04-11"></p>
+<p>R1的路由表中有两条路由，一条前缀为C的路由表示这条路由的性质是connect，也就是靠直连获得的，这条路由是通往192.168.12.0/24这个网段的，出口是G0/0，也就是说如果收到一个目标IP地址是属于192.168.12.0网段的消息，将它从G0/0接口发出即可，这条直连路由是由R2的G0/1接口提供的，图中R1的G0/0接口和R2的G0/1接口直接连接；另一条前缀为L表示这条路由的性质为local，也就是本地路由，这条路由目的地址是192.168.12.1/32这个IP地址，连接到G0/0接口，这条路由是由本地的G0/0接口提供的。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_14-13-09.jpg" alt="Snipaste_2020-05-05_14-13-09"></p>
+<p>要注意的是，R2的G0/1接口和R1的G0/0接口直接连接，所以R1只有R2的G0/1这个直连接口，也就是192.168.12.0/24这个网段的路由，但并没有R2的G0/0，192.168.23.0/24这个网段的路由，因为R2的G0/0接口和R1不直接连接。</p>
+<p>R2的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-06-22.jpg" alt="Snipaste_2020-05-05_13-06-22"></p>
+<p>R2的路由表中有四条路有，两条本地路由两条直连路由。两条本地路由分别由G0/1和G0/0提供，目的地址分别是192.168.12.2/32以及192.168.23.2/32这两个IP地址。两条直连路由其中一条是由R1的G0/0提供的192.168.12.0/24网段的路由，因为R1的G0/0和R2的G0/1直连；另一条直连路由是由R3的G0/0提供的192.168.23.0/24网段的路由，因为R3的G0/0接口和R2的G0/0接口直连。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_14-14-58.jpg" alt="Snipaste_2020-05-05_14-14-58"></p>
+<p>R3的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-07-45.jpg" alt="Snipaste_2020-05-05_13-07-45"></p>
+<p>R3的路由表中有两条路由，一条本地路由一条直连路由，本地路由是到192.168.23.3/32这个IP地址的，由G0/0接口提供；直连路由时由R2的G0/0接口提供的到192.168.23.0/24这个网段的路由，因为R2的G0/0和R3的G0/0直连。</p>
+<p>这里也要注意，R3只有R2的G0/0这个接口IP地址所处的网段，192.168.23.0/24的路由因为两者直连，但并没有R2的G0/1接口IP地址所处网段192.168.12.0/24的路由，因为R2的G0/1接口不和R3直连。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_14-24-19.jpg" alt="Snipaste_2020-05-05_14-24-19"></p>
+<p>如果其中一个接口和对端的连通性出了问题，比如R2的G0/0或对端对应的接口（R3的G0/0）如果被shutdown或中间网线断开连接，则192.168.23.0这条路由会在R2的路由表中消失。直连的网络是指R1和R2之间，R2和R3之间这种中间没有其他三层设备的情况，R1和R3之间因为有R2路由器隔离了三层，不处于相同的广播域所以不算直连。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-32-23.jpg" alt="Snipaste_2020-05-04_20-32-23"></p>
+<p> <a href="/download/static-route.zip">实验文件下载</a></p>
+<p>此文件在EVE模拟器中使用，IOS如下图，我这个实验用的是VIOS，如果你的EVE里没有这个IOS记得在设备开机前对设备点击右键将设备的IOS换成其他的。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-08-48.jpg" alt="Snipaste_2020-05-05_13-08-48"></p>
+<h3 id="静态路由"><a href="#静态路由" class="headerlink" title="静态路由"></a>静态路由</h3><p>静态路由就是手工为路由器添加的路由条目。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_12-41-09.jpg" alt="Snipaste_2020-05-05_12-41-09"></p>
+<p>从前一节的知识可知，R1和R2之间是直连的，因为中间没有其他三层设备，所以R1只知道和它直连的R2的路由信息，192.168.12.0网段如何去，但由于R2的另一个接口2.2.2.0/24并未和R1直连，所以R1的路由表中并没有该网段的信息，R1即使收到去往2.2.2.0/24网段的数据也不知道如何处理只能丢弃，这时候为了让数据在R1上被正确发送，我们可以手工添加一条静态路由到路由表中，让路由器知道如何处理，添加完静态路由后，路由表中即会出现2.2.2.0/24这个网段的路由条目。</p>
+<h3 id="动态路由协议"><a href="#动态路由协议" class="headerlink" title="动态路由协议"></a>动态路由协议</h3><p>由于静态路由协议需要手工配置每一条路由条目，使得静态路由协议在大规模的网络中（例如跨国企业的网络、ISP运行商网络）使用起来十分困难，为了解决这个问题动态路由协议应运而生，动态路由协议可以让路由器自动学习到其他路由器的网络，并且网络拓扑发生改变后自动更新路由表。网络管理员只需要配置动态路由协议即可，相比人工指定转发策略，工作量大大减少。</p>
+<p>在动态路由中，管理员不再需要与静态路由一样，手工对路由器上的路由表进行维护，而是在每台路由器上运行一个路由协议。这个路由协议会根据路由器上的接口的配置（如IP地址的配置）及所连接的链路的状态，生成路由表中的路由表项。当网络拓扑结构改变时动态路由协议可以自动更新路由表，并负责决定数据传输最佳路径。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_15-37-51.jpg" alt="Snipaste_2020-05-05_15-37-51"></p>
+<p>当R1和R2的所有接口都运行了动态路由协议时，R1和R2就能互相交互路由信息，使得路由器动态的“学习”到网络中其他运行了相同动态路由协议设备上的路由信息，并更新自己的路由表。上图中的R1和R2在运行相同动态路由协议的情况下，R1就能“学习”到R2上2.2.2.0/24的路由信息并将该路由信息添加到自身的路由表中以便以后使用。</p>
+<h2 id="管理距离（Administrative-Distance-）"><a href="#管理距离（Administrative-Distance-）" class="headerlink" title="管理距离（Administrative Distance ）"></a>管理距离（Administrative Distance ）</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>管理距离（Administrative Distance，AD）是指一种路由协议的路由可信度。每一种路由协议按可靠性从高到低，依次分配一个信任等级，这个信任等级就叫管理距离。<strong>管理距离仅在本地具有重要意义，因此不会在路由更新中进行通告。</strong></p>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>管理距离是用来在有使用两个不同路由协议的两个或多个不同的路由通往同一目标时，路由器用来选择最佳路径的。正常情况下，管理距离越小，它的优先级就越高，也就是可信度越高。对于两种不同的路由协议到一个目的地的路由信息，路由器首先根据管理距离决定相信哪一个协议。</p>
+<h3 id="理论分析"><a href="#理论分析" class="headerlink" title="理论分析"></a>理论分析</h3><p>如果路由器分别收到使用开放最短路径优先 (OSPF)（默认管理距离为110）和 Interior Gateway Routing Protocol (IGRP)（默认管理距离为100）通往特定网络的路由，则路由器将选择 IGRP，因为 IGRP 更可靠。这意味着路由器将路由的 IGRP 版本添加到路由表。</p>
+<p>如果丢失了 IGRP 协议的设备信息（例如，由于电源关闭），则会使用 OSPF 协议的路由表进行数据转发，一直到 IGRP 的路由信息再次出现。</p>
+<h3 id="设备默认AD值"><a href="#设备默认AD值" class="headerlink" title="设备默认AD值"></a>设备默认AD值</h3><p>不同厂家对于设备的默认AD值规定不相同，</p>
+<h4 id="思科设备默认AD值"><a href="#思科设备默认AD值" class="headerlink" title="思科设备默认AD值"></a>思科设备默认AD值</h4><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_15-51-14.jpg" alt="Snipaste_2020-05-05_15-51-14"></p>
+<h4 id="juniper设备默认AD值"><a href="#juniper设备默认AD值" class="headerlink" title="juniper设备默认AD值"></a>juniper设备默认AD值</h4><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_16-01-24.jpg" alt="Snipaste_2020-05-05_16-01-24"></p>
+<h4 id="华为设备默认AD值"><a href="#华为设备默认AD值" class="headerlink" title="华为设备默认AD值"></a>华为设备默认AD值</h4><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_16-14-46.jpg" alt="Snipaste_2020-05-05_16-14-46"></p>
+<h1 id="静态路由-1"><a href="#静态路由-1" class="headerlink" title="静态路由"></a>静态路由</h1><h2 id="静态路由的概念"><a href="#静态路由的概念" class="headerlink" title="静态路由的概念"></a>静态路由的概念</h2><h2 id="静态路由的配置"><a href="#静态路由的配置" class="headerlink" title="静态路由的配置"></a>静态路由的配置</h2><h2 id="静态路由的下一跳"><a href="#静态路由的下一跳" class="headerlink" title="静态路由的下一跳"></a>静态路由的下一跳</h2><h2 id="缺省（默认）路由"><a href="#缺省（默认）路由" class="headerlink" title="缺省（默认）路由"></a>缺省（默认）路由</h2><h2 id="静态路由配置示例及解析"><a href="#静态路由配置示例及解析" class="headerlink" title="静态路由配置示例及解析"></a>静态路由配置示例及解析</h2><h1 id="最长匹配原则"><a href="#最长匹配原则" class="headerlink" title="最长匹配原则"></a>最长匹配原则</h1><h1 id="路由汇总"><a href="#路由汇总" class="headerlink" title="路由汇总"></a>路由汇总</h1><h1 id="路由选择过程"><a href="#路由选择过程" class="headerlink" title="路由选择过程"></a>路由选择过程</h1><h2 id="需要路由选择的情况"><a href="#需要路由选择的情况" class="headerlink" title="需要路由选择的情况"></a>需要路由选择的情况</h2><p>当遇到类似于下图的情况，R2从两个不同的路由协议，OSPF和RIP同时获得了10.1.1.0/24的路由信息，或</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_16-33-58.jpg" alt="Snipaste_2020-05-05_16-33-58"></p>
+<h2 id="选择最佳路由的步骤"><a href="#选择最佳路由的步骤" class="headerlink" title="选择最佳路由的步骤"></a>选择最佳路由的步骤</h2><p>1、比管理距离AD（可以是多种路由协议的比较；也可以是同种路由协议的比较，比如双线出口所配置的两条默认浮动路由比较）</p>
+<p>2、比度量值metric（路由协议不同则度量值不能做比较，比如rip度量值为跳数；ospf度量值为带宽；eigrp度量值为带宽+延迟等。所以在不同种协议之间先比较管理距离）</p>
+<h1 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h1><p><a href="https://blog.csdn.net/chiyuwei1766/article/details/47334125" target="_blank" rel="noopener">最佳路由选择的原则与步骤————管理距离和度量值</a></p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/04/14/10-cisco-ios/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -239,7 +385,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/04/14/10-cisco-ios/" class="post-title-link" itemprop="url">CCNA笔记——10、设备管理及cisco IOS基础配置</a>
+            <a href="/2020/04/14/10-cisco-ios/" class="post-title-link" itemprop="url">10-cisco-ios</a>
         </h1>
 
         <div class="post-meta">
@@ -256,7 +402,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-04 18:23:28" itemprop="dateModified" datetime="2020-05-04T18:23:28+08:00">2020-05-04</time>
+                <time title="修改时间：2020-05-05 16:25:38" itemprop="dateModified" datetime="2020-05-05T16:25:38+08:00">2020-05-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -513,6 +659,10 @@
 <p>end命令是一次性退到特权模式最外层</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">R1(config-line)#end</span><br><span class="line">R1#</span><br></pre></td></tr></table></figure>
 
+<h5 id="命令缩写"><a href="#命令缩写" class="headerlink" title="命令缩写"></a>命令缩写</h5><p>命令可以缩写，缩写从要求是设备必须能够将缩写命令与其他命令区分开，比如在用户模式下要进入特权模式的命令enable可以缩写成en，因为以en开头的命令只有enable，设备不会将缩写的en错认为是其他命令。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-05_16-22-06.jpg" alt="Snipaste_2020-05-05_16-22-06"></p>
+<p>但当缩写的命令有两种及两种以上可能时，缩写则不能使用，如下图中，interface 后面以v开头的命令有多个，这时如果直接回车输入的话，设备并不知道用户要输入具体哪个命令，所以返回一个“命令不完整”的信息。</p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-05_16-23-54.jpg" alt="Snipaste_2020-05-05_16-23-54"></p>
 <h4 id="Running-config-VS-Startup-config"><a href="#Running-config-VS-Startup-config" class="headerlink" title="Running-config VS Startup-config"></a>Running-config VS Startup-config</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-26-51.jpg" alt="Snipaste_2020-04-23_16-26-51"></p>
 <h4 id="基础实验"><a href="#基础实验" class="headerlink" title="基础实验"></a>基础实验</h4><p>实验1：</p>
 <p>结果使R1和R2之间可以连通</p>
@@ -538,654 +688,6 @@
 <p><a href="https://www.qingsword.com/qing/707.html#CCNA-ios-manager-6" target="_blank" rel="noopener">[CCNA图文笔记]-27-Cisco设备文件管理与密码恢复</a></p>
 <p><a href="https://www.qingsword.com/qing/490.html" target="_blank" rel="noopener">[CCNA图文笔记]-8-Cisco路由CLI基础命令</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/05/04/11-route-basic/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rookie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rookie's Notebook">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/04/11-route-basic/" class="post-title-link" itemprop="url">CCNA笔记——11、路由基础及静态路由</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-04 10:25:00 / 修改时间：20:32:33" itemprop="dateCreated datePublished" datetime="2020-05-04T10:25:00+08:00">2020-05-04</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="路由的基本概念"><a href="#路由的基本概念" class="headerlink" title="路由的基本概念"></a>路由的基本概念</h2><h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><blockquote>
-<p>Routing is the process of selecting a path for traffic in a network or between or across multiple networks.</p>
-<p>In packet switching networks, routing is the higher-level decision making that directs network packets from their source toward their destination through intermediate network nodes by specific packet forwarding mechanisms.</p>
-</blockquote>
-<p>路由是指在一个网络中或多个网络之间或跨多个网络的流量选择路径的过程。路由是指通过特定的数据包转发机制，将网络数据包从源头通过中间网络节点向目的地方向引导网络数据包的高级决策。路由过程通常根据路由表指导转发。</p>
-<h3 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h3><h4 id="路由表的概念"><a href="#路由表的概念" class="headerlink" title="路由表的概念"></a>路由表的概念</h4><blockquote>
-<p>In computer networking a routing table, or routing information base (RIB), is a data table stored in a router or a network host that lists the routes to particular network destinations, and in some cases, metrics (distances) associated with those routes. The routing table contains information about the topology of the network immediately around it.</p>
-</blockquote>
-<p>在计算机网络世界中，路由表，或者路由信息表（RIB），是存储在路由器或网络主机上的数据表，数据表中列出了去往特定网络目的地的路由，在某些情况下，还列出了与这些路由相关的度量值（距离）。路由表包含有关其周围网络拓扑的信息。</p>
-<ul>
-<li>每一台路由器都会维护一个路由表，在路由表中包含着路由器发现的路由（路由条目、路由表项）； </li>
-<li>路由表相当于路由器的地图，路由器能够正确转发IP报文的前提是在其路由表中存在匹配该数据包目的IP地址的路由条目； </li>
-<li>路由表中的路由条目获取来源有多种：直连路由、静态路由及动态路由协议。</li>
-</ul>
-<h4 id="如何查看路由表"><a href="#如何查看路由表" class="headerlink" title="如何查看路由表"></a>如何查看路由表</h4><p>查看路由表的命令为：show ip route</p>
-<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-50-46.jpg" alt="Snipaste_2020-05-04_19-50-46"></p>
-<p>上图中的C表示直连路由，S表示静态路由。其他常用的路由获取来源还有O，也就是通过OSPF协议获得的，以及D，通过EIGRP协议获得。</p>
-<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-57-10.jpg" alt="Snipaste_2020-05-04_19-57-10"></p>
-<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-58-52-1588593580832.jpg" alt="Snipaste_2020-05-04_19-58-52"></p>
-<p>思科路由器接口开机以后默认是关闭状态，必须到接口中使用“no shutdown”命令将接口开启，路由表才能更新该路由。</p>
-<h3 id="路由条目获取的来源"><a href="#路由条目获取的来源" class="headerlink" title="路由条目获取的来源"></a>路由条目获取的来源</h3><h4 id="直连路由"><a href="#直连路由" class="headerlink" title="直连路由"></a>直连路由</h4><p>定义：路由器的直连接口所在网络的信息。</p>
-<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-26-25.jpg" alt="Snipaste_2020-05-04_20-26-25"></p>
-<p>路由器R2有两个直连接口，两个直连接口分别对应192.168.12.0网段和192.168.23.0网段，所以在路由表中这两个网段信息前面的标识为C ，也就是connected，是直连路由。如果其中一个接口和对端的连通性出了问题，比如S0/1或对端对应的接口如果被shutdown或中间网线断开连接，则192.168.23.0这条路由会在路由表中消失。</p>
-<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-29-50.jpg" alt="Snipaste_2020-05-04_20-29-50"></p>
-<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-32-23.jpg" alt="Snipaste_2020-05-04_20-32-23"></p>
-<h4 id="静态路由"><a href="#静态路由" class="headerlink" title="静态路由"></a>静态路由</h4><h4 id="动态路由协议"><a href="#动态路由协议" class="headerlink" title="动态路由协议"></a>动态路由协议</h4><h2 id="最长匹配原则"><a href="#最长匹配原则" class="headerlink" title="最长匹配原则"></a>最长匹配原则</h2><h2 id="路由汇总"><a href="#路由汇总" class="headerlink" title="路由汇总"></a>路由汇总</h2><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2019/11/16/how-to-learn-network-knowledge/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rookie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rookie's Notebook">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/16/how-to-learn-network-knowledge/" class="post-title-link" itemprop="url">CCNA笔记——1、学习方法</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-11-16 16:54:01" itemprop="dateCreated datePublished" datetime="2019-11-16T16:54:01+08:00">2019-11-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-07 16:27:31" itemprop="dateModified" datetime="2020-03-07T16:27:31+08:00">2020-03-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="一、学习网络知识的四个阶段"><a href="#一、学习网络知识的四个阶段" class="headerlink" title="一、学习网络知识的四个阶段"></a>一、学习网络知识的四个阶段</h2><p>（一）掌握协议的概念。这个协议的概念是什么，是在什么地方应用的，例如什么是路由，什么是交换。</p>
-<p>（二）掌握如何使用。例如OSPF、EIGRP在现网中如何配置，如何查看，如何使用。</p>
-<p>（三）掌握协议是如何工作的。协议的标准是什么，工作的机制是什么，例如EIGRP的DUAL算法是如何规定且工作的，OSPF的SPF算法是如何规定且工作的。</p>
-<p>（四）掌握协议底层的工作机制和报文。例如OSPF协议中，两个路由器之间建立邻居的过程，反应在底层是什么样的，也就是报文是如何传输的，报文的格式是什么，每个报文中重要字段有什么，这些字段的含义是什么。</p>
-<p>以上总结出自红茶三杯CCNP课程的路由选择原理。</p>
-<p>对于计算机网络初学者来说，知道“为什么这么做”比“知道怎么做”更重要，虽然经历知道“为什么这么做？”的过程很痛苦，但一旦过了这个阶段，“知道怎么做”也就水到渠成了。但是对于初学者来说，真没必要那么深入地学习网络协议的细节，你只需要理解常见协议（例如HTTP、FTP、DHCP、DNS、ARP等常见协议）的工作过程，你理解了这些协议，理解其他的协议就是依葫芦画瓢，虽然计算机网络很讲究知识的积累，但如果你一开始把太多的精力放在了解细节上就会陷进只见树木不进森林的境地。</p>
-<p>例如，数据包的结构，浏览一下各字段的作用就可以了，能记住就记住，记不住也没关系，你只需要先重点理解IP头部里的目的地址、源地址和TCP头部里的目的端口号、源端口号，这些比较简单且重要的字段的含义就行了，至于其他用的比较少的字段的含义以及每个位置为1或者0的含义这种相对难一些的概念，建议等对网络有一定的了解以后再进行学习；TCP/IP和OSI两个模型，只要先大概知道为什么要建立参考模型、每一层大概的作用及常见协议即可，我当时在入门的时候希望能把基础砸瓷实一些但事与愿违，在这两个章节纠结了很久，结果既没有弄明白每个细节，又耽误了学习进程，差点“从入门到放弃”。当然我的笔记中试图尽可能多的涵盖一些知识点，会将每一个字段的定义都写上，请参照每一篇笔记的新人学习建议进行选择性学习。</p>
-<p><strong>强烈建议听懂一个知识点以后总结一份自己的笔记，因为很多东西听懂的和自己能总结完全不是一个层次，笔记是一个对知识消化并进一步总结归纳的过程，比简单的听懂视频看懂书籍要高了一个档次，虽然耗时更长，但对知识会有更深层次的理解并且记得更牢固。过一段时间回看自己的笔记，会发现自己相对之前有哪些提高。</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/16/how-to-learn-network-knowledge/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2019/11/16/network-simulator/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rookie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rookie's Notebook">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/16/network-simulator/" class="post-title-link" itemprop="url">CCNA笔记——2、模拟器</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-11-16 17:28:58" itemprop="dateCreated datePublished" datetime="2019-11-16T17:28:58+08:00">2019-11-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-19 16:37:20" itemprop="dateModified" datetime="2019-11-19T16:37:20+08:00">2019-11-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="一、用什么模拟器"><a href="#一、用什么模拟器" class="headerlink" title="一、用什么模拟器"></a>一、用什么模拟器</h2><h3 id="（一）cisco-packet-tracer"><a href="#（一）cisco-packet-tracer" class="headerlink" title="（一）cisco packet tracer"></a>（一）cisco packet tracer</h3><p>cisco packet tracer 是思科出品的模拟器，界面、功能和使用都非常简单，对新手十分友好，基本上一学就会。不足是这个模拟器相对简单，一些命令无法运行，不过基本能满足NA阶段的学习。</p>
-<h3 id="（二）EVE-NG"><a href="#（二）EVE-NG" class="headerlink" title="（二）EVE-NG"></a>（二）EVE-NG</h3><p>个人推荐使用EVE，因为EVE不仅可以模拟网络设备，也可以运行一切虚拟机，可以算得上是仿真虚拟环境，给用户最接近真实网络设备的体验；它是深度定制的Ubuntu操作系统，可以直接把它安装在x86架构的物理主机上。它也有ova版本，可以导入到VMware等虚拟机软件中运行。EVE-NG在交互模式上更加具有优势，与GNS3截然不同。GNS3更像是用户使用的软件，只有GNS3支持的 OS才能使用；而EVE-NG更像是CS模型，EVE-NG是服务端，用户端可以是支持http/https的任意OS。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/16/network-simulator/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2019/11/16/lan-and-fiber/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rookie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rookie's Notebook">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/16/lan-and-fiber/" class="post-title-link" itemprop="url">CCNA笔记——3、网线和光纤</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-11-16 15:06:16" itemprop="dateCreated datePublished" datetime="2019-11-16T15:06:16+08:00">2019-11-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-24 13:04:21" itemprop="dateModified" datetime="2019-11-24T13:04:21+08:00">2019-11-24</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="一、网线"><a href="#一、网线" class="headerlink" title="一、网线"></a>一、网线</h2><h3 id="（一）网线简介"><a href="#（一）网线简介" class="headerlink" title="（一）网线简介"></a>（一）网线简介</h3><p><strong>双绞线</strong>（twisted pair，TP）是一种综合布线工程中最常用的传输介质，是由两根具有绝缘保护层的铜导线组成的。 把两根绝缘的铜导线按一定密度互相绞在一起，每一根导线在传输中辐射出来的电波会被另一根线上发出的电波抵消，有效降低信号干扰的程度。</p>
-<img src="/2019/11/16/lan-and-fiber/UTP_cable.jpg" alt="UTP_cable" style="zoom: 67%;">
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/16/lan-and-fiber/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2019/11/18/basic-knowledge/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rookie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rookie's Notebook">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/18/basic-knowledge/" class="post-title-link" itemprop="url">CCNA笔记——4、基础知识</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-11-18 18:43:45" itemprop="dateCreated datePublished" datetime="2019-11-18T18:43:45+08:00">2019-11-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-02 16:56:37" itemprop="dateModified" datetime="2020-02-02T16:56:37+08:00">2020-02-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="一、位（bit）与字节（byte）"><a href="#一、位（bit）与字节（byte）" class="headerlink" title="一、位（bit）与字节（byte）"></a>一、位（bit）与字节（byte）</h2><h3 id="（一）位（bit）"><a href="#（一）位（bit）" class="headerlink" title="（一）位（bit）"></a>（一）位（bit）</h3><p>来自英文bit，音译为“比特”，表示一个二进制位（0或者1）。位是计算机内部数据储存的最小单位，11010100是一个8位二进制数。一个二进制位只可以表示0和1两种状态（21）；两个二进制位可以表示00、01、10、11四种（22）状态。</p>
-<h3 id="（二）字节（byte）"><a href="#（二）字节（byte）" class="headerlink" title="（二）字节（byte）"></a>（二）字节（byte）</h3><p>字节来自英文Byte，音译为“拜特”，习惯上用大写的“B”表示。字节是计算机中数据处理的基本单位。计算机中以字节为单位存储和解释信息，规定一个字节（Byte）由连续八个二进制位（bit）构成，即1个字节等于8个比特（1Byte=8bit）。八位二进制数最小为00000000，最大为11111111；通常1个字节可以存入一个ASCII码，2个字节可以存放一个汉字国标码。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/18/basic-knowledge/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2019/11/18/OSI-7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rookie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rookie's Notebook">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/18/OSI-7/" class="post-title-link" itemprop="url">CCNA笔记——5、OSI七层模型</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-11-18 19:55:43" itemprop="dateCreated datePublished" datetime="2019-11-18T19:55:43+08:00">2019-11-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-29 16:37:35" itemprop="dateModified" datetime="2020-04-29T16:37:35+08:00">2020-04-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h2><p><strong>开放式系统互联通信参考模型</strong>（英语：Open System Interconnection Reference Model，缩写为 OSI），简称为<strong>OSI模型</strong>（OSI model），一种概念模型，由国际标准化组织提出，一个试图使各种计算机在世界范围内互连为网络的标准框架。定义于ISO/IEC 7498-1。</p>
-<h2 id="二、OSI模型解决什么问题"><a href="#二、OSI模型解决什么问题" class="headerlink" title="二、OSI模型解决什么问题"></a>二、OSI模型解决什么问题</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/18/OSI-7/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2019/11/23/6-tcp-ip/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rookie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rookie's Notebook">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/23/6-tcp-ip/" class="post-title-link" itemprop="url">CCNA笔记——6、tcp/ip参考模型</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-11-23 11:42:18" itemprop="dateCreated datePublished" datetime="2019-11-23T11:42:18+08:00">2019-11-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-04 12:47:56" itemprop="dateModified" datetime="2020-05-04T12:47:56+08:00">2020-05-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><img src="/2019/11/23/6-tcp-ip/TCP-IP%E6%A8%A1%E5%9E%8B%20(2)%20(1).jpg" alt="TCP-IP模型 (2) (1)" style="zoom: 67%;">
-
-<p><img src="/2019/11/23/6-tcp-ip/tcpipprotocols.png" alt="tcpipprotocols"></p>
-<p>互联网协议套件（英语：Internet Protocol Suite，缩写IPS）是一个网络通信模型，以及一整个网络传输协议家族，为网际网络的基础通信架构。它常被通称为TCP/IP协议族（英语：TCP/IP Protocol Suite，或TCP/IP Protocols），简称TCP/IP。因为该协议家族的两个核心协议：TCP（传输控制协议）和IP（网际协议），为该家族中最早通过的标准。由于在网络通讯协议普遍采用分层的结构，当多个层次的协议共同工作时，类似计算机科学中的堆栈，因此又被称为TCP/IP协议栈（英语：TCP/IP Protocol Stack）。这些协议最早发源于美国国防部（缩写为DoD）的ARPA网&lt;高级研究计划局网络（英语：Advanced Research Projects Agency Network），通称阿帕网（英语：ARPANET）是美国国防高级研究计划局开发的世界上第一个运营的数据包交换网络，是全球互联网的鼻祖。&gt;项目，因此也被称作DoD模型（DoD Model）。这个协议族由互联网工程任务组负责维护。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/23/6-tcp-ip/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -1400,6 +902,556 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/02/19/layer-mind/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/02/19/8-subnet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rookie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rookie's Notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/02/19/8-subnet/" class="post-title-link" itemprop="url">CCNA笔记——8、子网划分</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-19 11:42:18" itemprop="dateCreated datePublished" datetime="2020-02-19T11:42:18+08:00">2020-02-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-19 13:25:01" itemprop="dateModified" datetime="2020-03-19T13:25:01+08:00">2020-03-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>此篇笔记是在<a href="https://blog.51cto.com/6930123/2113151" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《子网划分详解》</a>以及<a href="https://blog.51cto.com/6930123/2115072" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《超网合并详解》</a>两篇笔记的基础上进行了部分改动。</p>
+<h2 id="子网划分"><a href="#子网划分" class="headerlink" title="子网划分"></a>子网划分</h2><h3 id="子网划分的定义"><a href="#子网划分的定义" class="headerlink" title="子网划分的定义"></a>子网划分的定义</h3><p>可以自由的加减子网掩码长度，也就是不限制于A/B/C类默认的掩码长度，A类地址不必须使用8/位的掩码，也可以用诸如：10/位掩码或者7/位掩码。</p>
+<h3 id="子网划分的原因"><a href="#子网划分的原因" class="headerlink" title="子网划分的原因"></a>子网划分的原因</h3><p>子网就是把一个大网划分为几个小网，而如果按照默认的A\B\C类默认使用的话，比如一个B类地址，默认掩码为255.255.0.0，意味着这个地址空间里有2的16次方个IP，并且该网络号只能用于一个广播域，造成了IP地址的极大浪费，如果一个广播域中的PC数量过于庞大，网络可能被广播报文消耗大量资源。把一个大网络划分成几个不同的小网络以后，他们之间的网络号和广播地址各不相同，可以尽可能多的使用IP地址避免浪费，一个网段中的主机数量相对少一些的话，广播报文消耗的资源也会少很多，使得网络更有层次性。</p>
+<p>为了解决IPv4的不足，提高网络划分的灵活性，诞生了两种非常重要的技术，那就是<strong>VLSM（可变长子网掩码）</strong>和<strong>CIDR（无类别域间路由）</strong>，把传统标准的IPv4有类网络演变成一个更为高效，更为实用的无类网络。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/02/19/8-subnet/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2019/11/23/6-tcp-ip/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rookie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rookie's Notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/23/6-tcp-ip/" class="post-title-link" itemprop="url">CCNA笔记——6、tcp/ip参考模型</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-23 11:42:18" itemprop="dateCreated datePublished" datetime="2019-11-23T11:42:18+08:00">2019-11-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-04 12:47:56" itemprop="dateModified" datetime="2020-05-04T12:47:56+08:00">2020-05-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><img src="/2019/11/23/6-tcp-ip/TCP-IP%E6%A8%A1%E5%9E%8B%20(2)%20(1).jpg" alt="TCP-IP模型 (2) (1)" style="zoom: 67%;">
+
+<p><img src="/2019/11/23/6-tcp-ip/tcpipprotocols.png" alt="tcpipprotocols"></p>
+<p>互联网协议套件（英语：Internet Protocol Suite，缩写IPS）是一个网络通信模型，以及一整个网络传输协议家族，为网际网络的基础通信架构。它常被通称为TCP/IP协议族（英语：TCP/IP Protocol Suite，或TCP/IP Protocols），简称TCP/IP。因为该协议家族的两个核心协议：TCP（传输控制协议）和IP（网际协议），为该家族中最早通过的标准。由于在网络通讯协议普遍采用分层的结构，当多个层次的协议共同工作时，类似计算机科学中的堆栈，因此又被称为TCP/IP协议栈（英语：TCP/IP Protocol Stack）。这些协议最早发源于美国国防部（缩写为DoD）的ARPA网&lt;高级研究计划局网络（英语：Advanced Research Projects Agency Network），通称阿帕网（英语：ARPANET）是美国国防高级研究计划局开发的世界上第一个运营的数据包交换网络，是全球互联网的鼻祖。&gt;项目，因此也被称作DoD模型（DoD Model）。这个协议族由互联网工程任务组负责维护。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/23/6-tcp-ip/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2019/11/18/OSI-7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rookie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rookie's Notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/18/OSI-7/" class="post-title-link" itemprop="url">CCNA笔记——5、OSI七层模型</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-18 19:55:43" itemprop="dateCreated datePublished" datetime="2019-11-18T19:55:43+08:00">2019-11-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-29 16:37:35" itemprop="dateModified" datetime="2020-04-29T16:37:35+08:00">2020-04-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h2><p><strong>开放式系统互联通信参考模型</strong>（英语：Open System Interconnection Reference Model，缩写为 OSI），简称为<strong>OSI模型</strong>（OSI model），一种概念模型，由国际标准化组织提出，一个试图使各种计算机在世界范围内互连为网络的标准框架。定义于ISO/IEC 7498-1。</p>
+<h2 id="二、OSI模型解决什么问题"><a href="#二、OSI模型解决什么问题" class="headerlink" title="二、OSI模型解决什么问题"></a>二、OSI模型解决什么问题</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/18/OSI-7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2019/11/18/basic-knowledge/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rookie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rookie's Notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/18/basic-knowledge/" class="post-title-link" itemprop="url">CCNA笔记——4、基础知识</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-18 18:43:45" itemprop="dateCreated datePublished" datetime="2019-11-18T18:43:45+08:00">2019-11-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-02 16:56:37" itemprop="dateModified" datetime="2020-02-02T16:56:37+08:00">2020-02-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="一、位（bit）与字节（byte）"><a href="#一、位（bit）与字节（byte）" class="headerlink" title="一、位（bit）与字节（byte）"></a>一、位（bit）与字节（byte）</h2><h3 id="（一）位（bit）"><a href="#（一）位（bit）" class="headerlink" title="（一）位（bit）"></a>（一）位（bit）</h3><p>来自英文bit，音译为“比特”，表示一个二进制位（0或者1）。位是计算机内部数据储存的最小单位，11010100是一个8位二进制数。一个二进制位只可以表示0和1两种状态（21）；两个二进制位可以表示00、01、10、11四种（22）状态。</p>
+<h3 id="（二）字节（byte）"><a href="#（二）字节（byte）" class="headerlink" title="（二）字节（byte）"></a>（二）字节（byte）</h3><p>字节来自英文Byte，音译为“拜特”，习惯上用大写的“B”表示。字节是计算机中数据处理的基本单位。计算机中以字节为单位存储和解释信息，规定一个字节（Byte）由连续八个二进制位（bit）构成，即1个字节等于8个比特（1Byte=8bit）。八位二进制数最小为00000000，最大为11111111；通常1个字节可以存入一个ASCII码，2个字节可以存放一个汉字国标码。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/18/basic-knowledge/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2019/11/16/network-simulator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rookie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rookie's Notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/16/network-simulator/" class="post-title-link" itemprop="url">CCNA笔记——2、模拟器</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-16 17:28:58" itemprop="dateCreated datePublished" datetime="2019-11-16T17:28:58+08:00">2019-11-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-19 16:37:20" itemprop="dateModified" datetime="2019-11-19T16:37:20+08:00">2019-11-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="一、用什么模拟器"><a href="#一、用什么模拟器" class="headerlink" title="一、用什么模拟器"></a>一、用什么模拟器</h2><h3 id="（一）cisco-packet-tracer"><a href="#（一）cisco-packet-tracer" class="headerlink" title="（一）cisco packet tracer"></a>（一）cisco packet tracer</h3><p>cisco packet tracer 是思科出品的模拟器，界面、功能和使用都非常简单，对新手十分友好，基本上一学就会。不足是这个模拟器相对简单，一些命令无法运行，不过基本能满足NA阶段的学习。</p>
+<h3 id="（二）EVE-NG"><a href="#（二）EVE-NG" class="headerlink" title="（二）EVE-NG"></a>（二）EVE-NG</h3><p>个人推荐使用EVE，因为EVE不仅可以模拟网络设备，也可以运行一切虚拟机，可以算得上是仿真虚拟环境，给用户最接近真实网络设备的体验；它是深度定制的Ubuntu操作系统，可以直接把它安装在x86架构的物理主机上。它也有ova版本，可以导入到VMware等虚拟机软件中运行。EVE-NG在交互模式上更加具有优势，与GNS3截然不同。GNS3更像是用户使用的软件，只有GNS3支持的 OS才能使用；而EVE-NG更像是CS模型，EVE-NG是服务端，用户端可以是支持http/https的任意OS。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/16/network-simulator/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2019/11/16/how-to-learn-network-knowledge/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rookie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rookie's Notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/16/how-to-learn-network-knowledge/" class="post-title-link" itemprop="url">CCNA笔记——1、学习方法</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-16 16:54:01" itemprop="dateCreated datePublished" datetime="2019-11-16T16:54:01+08:00">2019-11-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-07 16:27:31" itemprop="dateModified" datetime="2020-03-07T16:27:31+08:00">2020-03-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="一、学习网络知识的四个阶段"><a href="#一、学习网络知识的四个阶段" class="headerlink" title="一、学习网络知识的四个阶段"></a>一、学习网络知识的四个阶段</h2><p>（一）掌握协议的概念。这个协议的概念是什么，是在什么地方应用的，例如什么是路由，什么是交换。</p>
+<p>（二）掌握如何使用。例如OSPF、EIGRP在现网中如何配置，如何查看，如何使用。</p>
+<p>（三）掌握协议是如何工作的。协议的标准是什么，工作的机制是什么，例如EIGRP的DUAL算法是如何规定且工作的，OSPF的SPF算法是如何规定且工作的。</p>
+<p>（四）掌握协议底层的工作机制和报文。例如OSPF协议中，两个路由器之间建立邻居的过程，反应在底层是什么样的，也就是报文是如何传输的，报文的格式是什么，每个报文中重要字段有什么，这些字段的含义是什么。</p>
+<p>以上总结出自红茶三杯CCNP课程的路由选择原理。</p>
+<p>对于计算机网络初学者来说，知道“为什么这么做”比“知道怎么做”更重要，虽然经历知道“为什么这么做？”的过程很痛苦，但一旦过了这个阶段，“知道怎么做”也就水到渠成了。但是对于初学者来说，真没必要那么深入地学习网络协议的细节，你只需要理解常见协议（例如HTTP、FTP、DHCP、DNS、ARP等常见协议）的工作过程，你理解了这些协议，理解其他的协议就是依葫芦画瓢，虽然计算机网络很讲究知识的积累，但如果你一开始把太多的精力放在了解细节上就会陷进只见树木不进森林的境地。</p>
+<p>例如，数据包的结构，浏览一下各字段的作用就可以了，能记住就记住，记不住也没关系，你只需要先重点理解IP头部里的目的地址、源地址和TCP头部里的目的端口号、源端口号，这些比较简单且重要的字段的含义就行了，至于其他用的比较少的字段的含义以及每个位置为1或者0的含义这种相对难一些的概念，建议等对网络有一定的了解以后再进行学习；TCP/IP和OSI两个模型，只要先大概知道为什么要建立参考模型、每一层大概的作用及常见协议即可，我当时在入门的时候希望能把基础砸瓷实一些但事与愿违，在这两个章节纠结了很久，结果既没有弄明白每个细节，又耽误了学习进程，差点“从入门到放弃”。当然我的笔记中试图尽可能多的涵盖一些知识点，会将每一个字段的定义都写上，请参照每一篇笔记的新人学习建议进行选择性学习。</p>
+<p><strong>强烈建议听懂一个知识点以后总结一份自己的笔记，因为很多东西听懂的和自己能总结完全不是一个层次，笔记是一个对知识消化并进一步总结归纳的过程，比简单的听懂视频看懂书籍要高了一个档次，虽然耗时更长，但对知识会有更深层次的理解并且记得更牢固。过一段时间回看自己的笔记，会发现自己相对之前有哪些提高。</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/16/how-to-learn-network-knowledge/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

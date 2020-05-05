@@ -225,7 +225,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/02/19/8-subnet/">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2019/11/16/lan-and-fiber/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -239,7 +239,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/02/19/8-subnet/" class="post-title-link" itemprop="url">CCNA笔记——8、子网划分</a>
+            <a href="/2019/11/16/lan-and-fiber/" class="post-title-link" itemprop="url">CCNA笔记——3、网线和光纤</a>
         </h1>
 
         <div class="post-meta">
@@ -249,14 +249,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-02-19 11:42:18" itemprop="dateCreated datePublished" datetime="2020-02-19T11:42:18+08:00">2020-02-19</time>
+              <time title="创建时间：2019-11-16 15:06:16" itemprop="dateCreated datePublished" datetime="2019-11-16T15:06:16+08:00">2019-11-16</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-19 13:25:01" itemprop="dateModified" datetime="2020-03-19T13:25:01+08:00">2020-03-19</time>
+                <time title="修改时间：2019-11-24 13:04:21" itemprop="dateModified" datetime="2019-11-24T13:04:21+08:00">2019-11-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -287,13 +287,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>此篇笔记是在<a href="https://blog.51cto.com/6930123/2113151" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《子网划分详解》</a>以及<a href="https://blog.51cto.com/6930123/2115072" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《超网合并详解》</a>两篇笔记的基础上进行了部分改动。</p>
-<h2 id="子网划分"><a href="#子网划分" class="headerlink" title="子网划分"></a>子网划分</h2><h3 id="子网划分的定义"><a href="#子网划分的定义" class="headerlink" title="子网划分的定义"></a>子网划分的定义</h3><p>可以自由的加减子网掩码长度，也就是不限制于A/B/C类默认的掩码长度，A类地址不必须使用8/位的掩码，也可以用诸如：10/位掩码或者7/位掩码。</p>
-<h3 id="子网划分的原因"><a href="#子网划分的原因" class="headerlink" title="子网划分的原因"></a>子网划分的原因</h3><p>子网就是把一个大网划分为几个小网，而如果按照默认的A\B\C类默认使用的话，比如一个B类地址，默认掩码为255.255.0.0，意味着这个地址空间里有2的16次方个IP，并且该网络号只能用于一个广播域，造成了IP地址的极大浪费，如果一个广播域中的PC数量过于庞大，网络可能被广播报文消耗大量资源。把一个大网络划分成几个不同的小网络以后，他们之间的网络号和广播地址各不相同，可以尽可能多的使用IP地址避免浪费，一个网段中的主机数量相对少一些的话，广播报文消耗的资源也会少很多，使得网络更有层次性。</p>
-<p>为了解决IPv4的不足，提高网络划分的灵活性，诞生了两种非常重要的技术，那就是<strong>VLSM（可变长子网掩码）</strong>和<strong>CIDR（无类别域间路由）</strong>，把传统标准的IPv4有类网络演变成一个更为高效，更为实用的无类网络。</p>
+          <h2 id="一、网线"><a href="#一、网线" class="headerlink" title="一、网线"></a>一、网线</h2><h3 id="（一）网线简介"><a href="#（一）网线简介" class="headerlink" title="（一）网线简介"></a>（一）网线简介</h3><p><strong>双绞线</strong>（twisted pair，TP）是一种综合布线工程中最常用的传输介质，是由两根具有绝缘保护层的铜导线组成的。 把两根绝缘的铜导线按一定密度互相绞在一起，每一根导线在传输中辐射出来的电波会被另一根线上发出的电波抵消，有效降低信号干扰的程度。</p>
+<img src="/2019/11/16/lan-and-fiber/UTP_cable.jpg" alt="UTP_cable" style="zoom: 67%;">
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/02/19/8-subnet/#more" rel="contents">
+              <a class="btn" href="/2019/11/16/lan-and-fiber/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
