@@ -77,7 +77,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;Snipaste_2020-05-05_16-01-24.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;Snipaste_2020-05-05_16-14-46.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;Snipaste_2020-05-05_16-33-58.jpg">
-<meta property="og:updated_time" content="2020-05-05T11:43:45.721Z">
+<meta property="og:updated_time" content="2020-05-05T13:16:25.864Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;Snipaste_2020-05-05_12-17-05.jpg">
 
@@ -279,7 +279,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-05 19:43:45" itemprop="dateModified" datetime="2020-05-05T19:43:45+08:00">2020-05-05</time>
+                <time title="修改时间：2020-05-05 21:16:25" itemprop="dateModified" datetime="2020-05-05T21:16:25+08:00">2020-05-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -322,6 +322,8 @@
 <p>In packet switching networks, routing is the higher-level decision making that directs network packets from their source toward their destination through intermediate network nodes by specific packet forwarding mechanisms.</p>
 </blockquote>
 <p>路由是指在一个网络中或多个网络之间或跨多个网络的流量选择路径的过程。路由是指通过特定的数据包转发机制，将网络数据包从源头通过中间网络节点向目的地方向引导网络数据包的高级决策。路由过程通常根据路由表指导转发。<strong>路由是一个三层（网络层）的概念</strong>。</p>
+ <a id="more"></a>  
+
 <p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_12-17-05.jpg" alt="Snipaste_2020-05-05_12-17-05"></p>
 <p>具体到这张图上来说，PC1要和PC2进行通信，路由“指挥”着数据沿着红色箭头的路径一路传到了PC2。但路由器如何知道该如何传递数据呢？是因为路由器在收到数据以后查询了本机的路由表。路由的转发是基于目标的网络地址（网络号）的，路由表上的条目一般也是基于网络地址（网络号），而不是目标的IP地址，也就是说，如果数据的目标IP地址是192.168.1.5/24的话，路由器会看这个目标IP地址的网段，192.168.1.0，在路由表中是否存在，路由表中一般是没有一个单独IP地址的路由信息的，因为路由器中存储路由信息的空间是有限的，没有足够的空间为每个IP都存储一个路由条目。</p>
 <h3 id="路由分类"><a href="#路由分类" class="headerlink" title="路由分类"></a>路由分类</h3><p><img src="/2020/05/04/11-route-basic/Cisco-CCNA-static-routing-2.jpg" alt="Cisco-CCNA-static-routing-2"></p>
