@@ -166,7 +166,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">11</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">10</span></a>
 
   </li>
         <li class="menu-item menu-item-commonweal">
@@ -773,136 +773,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/04/02/9-communication-process/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rookie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rookie's Notebook">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/02/9-communication-process/" class="post-title-link" itemprop="url">CCNA笔记——9、通信过程分析</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-04-02 11:42:18 / 修改时间：23:44:52" itemprop="dateCreated datePublished" datetime="2020-04-02T11:42:18+08:00">2020-04-02</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这一部分开始把前面那堆枯燥乏味的理论联系到实际数据传输的过程了，阅读这部分建议结合OSI模型以及TCP/IP模型中的“相关概念”部分一起看，实际通信过程结合理论分析，有助于真正掌握通信的过程和概念。</p>
-<h2 id="数据总体通讯过程"><a href="#数据总体通讯过程" class="headerlink" title="数据总体通讯过程"></a>数据总体通讯过程</h2><p><img src="/2020/04/02/9-communication-process/Snipaste_2019-12-10_16-36-13.jpg" alt="Snipaste_2019-12-10_16-36-13"></p>
-<p><img src="/2020/04/02/9-communication-process/TCPIP%20ENCAPSULATION.png" alt="TCPIP ENCAPSULATION"></p>
-<p><img src="/2020/04/02/9-communication-process/Data_Flow_of_the_Internet_Protocol_Suite.png" alt="Data_Flow_of_the_Internet_Protocol_Suite"></p>
-<h3 id="路由器的通信过程"><a href="#路由器的通信过程" class="headerlink" title="路由器的通信过程"></a>路由器的通信过程</h3><p>路由器（Router）是一种负责寻径的网络设备，连接不同网段，负责不同网段之间的数据转发，例如192.168.1.0/24和192.168.2.0/24之间通信，由于他们分别属于192.168.1.0和192.168.2.0这两个不同的网段，所以他们之间的通信需要三层设备也就是路由器来连同，它在互连网络中从多条路径中寻找通讯量最少的一条网络路径提供给用户通信，它对数据的处理过程如下：</p>
-<p>Router 的责任是记录相应路由信息应该从哪个接口发出，并形成一张路由表，当收到数据时，根据网络层报头的目的地址去查询路由表中是否有相对应的条目，如果有就从该路由条目的出接口发出数据，如果没有就将数据丢弃。</p>
-<h3 id="LAN内交换机的通信原则和过程"><a href="#LAN内交换机的通信原则和过程" class="headerlink" title="LAN内交换机的通信原则和过程"></a>LAN内交换机的通信原则和过程</h3><p>交换机（Switch）对数据的处理过程：</p>
-<p><img src="/2020/04/02/9-communication-process/switch.jpg" alt="switch"></p>
-<ul>
-<li><p>交换机如果刚刚加电启动，它的MAC地址缓存为空，此时假设PC1要发送数据给PC3，假设这里是PC1要ping PC3的IP地址而且在同一网段，根据TCP/IP模型我们知道，由于在同一网段所以只需要二层交换机即可通信，封装数据时，下四层每一层需要封装本层的报头，三层网络层封装的时候需要源目的IP地址，二层数据链路层封装的时候需要原目的MAC地址，这里PC1只知道PC3的IP地址和自己的IP地址，所以三层需要封装的参数已经知道了，但在开始通信的时候，二层封装的目的MAC地址还不知道，所以需要获得MAC地址才能完成二层数据链路层的封装，PC1会使用ARP协议去获取目的MAC地址用来完成二层封装，PC1获取PC3 MAC地址的过程，请结合<a href="https://renyuan431.github.io/2019/11/23/6-tcp-ip/#ARP%EF%BC%88Address-Resolution-Protocol-%EF%BC%89">ARP</a>的部分学习。</p>
-</li>
-<li><p>假设PC1已经知道了PC3的MAC地址，而Switch的MAC地址表项为空，PC1将源IP、MAC地址为自身，目标IP、MAC地址为PC3相应地址的数据封装好发送给Switch，Switch从接口G0/1接收到PC1发过来的数据后，首先对数据进行解封装，将物理层0101的比特流还原成数据帧后对二层进行解封装，知道了该数据帧的源、目的MAC地址，将这个数据帧的源MAC地址，既PC1的MAC地址（AAAAAAAAAA）和对应的端口G0/1添加到自己的MAC地址表中方便以后再进行数据传输时使用，然后从自己的MAC地址表中去查找这个数据帧目的地PC3（CCCCCCCCCC）的MAC地址，但是此时由于MAC地址表项为空所以找不到对应的MAC地址，这时Switch将这个数据封装上初始的源、目的MAC地址作为二层帧头，从除了收到这个数据的G0/1以外的其他接口（G0/2、G0/3、G0/0）泛洪出去；</p>
-</li>
-<li><p>PC2和PC4都接收到了这个数据帧，这两台设备将比特流还原成帧后对数据帧进行解封装，查看该数据帧的目的MAC地址，发现目的MAC地址与自己的网卡MAC地址不相同，PC2和PC4丢弃这个数据帧；</p>
-</li>
-<li><p>在上一步中PC3也同时收到了这个数据帧，PC3对数据进行解封装后，检查目的MAC地址的时候发现，与本机相同，PC3接收这个数据包，并回发数据包对PC1进行确认，PC3封装一个源地址为自己MAC地址，目的地址是A的MAC地址，源IP为自己IP，目的IP为PC1的IP地址的数据发送给Switch；</p>
-</li>
-<li><p>Switch接收到这个数据，它首先添加PC3的MAC和对应的接口G0/3到自己的MAC地址表中，然后查询源MA地址表时候发现PC1的MAC地址在MAC地址表项中可以查到，此MAC地址对应端口为G0/1，Switch将这个数据帧发给接口G0/1的PC1；</p>
-</li>
-<li><p>PC1收到PC3发回的确认，通信成功；</p>
-</li>
-<li><p>通过这种形式，Switch学习到的MAC地址以及所在接口。如下：</p>
-</li>
-</ul>
-<p><img src="/2020/04/02/9-communication-process/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191124185137.jpg" alt="微信截图_20191124185137"></p>
-<p>通过不停的通信，最终Switch能够获得所有端口对应的MAC地址，但需注意，MAC地址表项的老化时间为300秒，如果超过老化时间，表项会被删除，Switch需重新泛洪以获取目的MAC地址对应的表项。思科交换机查看MAC地址表的命令为：<strong>show mac-address</strong> </p>
-<h2 id="通信示例分析"><a href="#通信示例分析" class="headerlink" title="通信示例分析"></a>通信示例分析</h2><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-28_16-19-21.jpg" alt="Snipaste_2020-03-28_16-19-21"></p>
-<p>网络上各设备的接口、IP和MAC地址如图所示，PC1要访问WebServer上的网页服务（HTTP、80端口），用这个例子分析数据在TCP/IP每层经历的过程。</p>
-<h3 id="PC封装过程"><a href="#PC封装过程" class="headerlink" title="PC封装过程"></a>PC封装过程</h3><h4 id="应用层："><a href="#应用层：" class="headerlink" title="应用层："></a>应用层：</h4><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-28_16-21-37.jpg" alt="Snipaste_2020-03-28_16-21-37"></p>
-<p><strong>应用层</strong>中的相关程序生成一个应用层的数据，也就是图中的DATA部分，然后交给下一层，传输层。</p>
-<h4 id="传输层："><a href="#传输层：" class="headerlink" title="传输层："></a>传输层：</h4><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-28_17-38-46.jpg" alt="Snipaste_2020-03-28_17-38-46"></p>
-<p><img src="/2020/04/02/9-communication-process/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200113145310-1585388711315.jpg" alt="微信图片编辑_20200113145310"></p>
-<p>上层的DATA到达传输层后，首先查看数据类型，由于这是一个要发送给web服务器的HTTP数据，而HTTP是一种尽力而为的协议，本身没有纠错功能，所以选择能保证数据传输完整性的TCP协议去封装，而TCP报头中需要的两个重要参数就是源、目的端口地址。HTTP固定的端口是80，所以目的端口号为80，客户端使用的源端口号一般为系统中未使用的且大于1023的数字，在这我们用1026作为源端口号。封装完TCP报头，形成了数据段后，交给下一层，网络层。</p>
-<h4 id="网络层："><a href="#网络层：" class="headerlink" title="网络层："></a>网络层：</h4><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-28_17-53-44.jpg" alt="Snipaste_2020-03-28_17-53-44"></p>
-<p><img src="/2020/04/02/9-communication-process/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200328175537.jpg" alt="微信图片编辑_20200328175537"></p>
-<p>上层数据到达网络层后，要加上网络层的IPV4报头，等以后如果IPV6普及了会加IPV6报头，IPV4报头封装所需的三个重要的参数就是源IP地址、目的IP地址和协议号。由于上层用的是TCP协议，TCP协议对应的协议号为6，所以在Protocol部分为6；源IP地址为自身的IP地址，目的IP地址为WebServer的IP地址。</p>
-<h4 id="数据链路层："><a href="#数据链路层：" class="headerlink" title="数据链路层："></a>数据链路层：</h4><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-28_18-09-31.jpg" alt="Snipaste_2020-03-28_18-09-31"></p>
-<p><img src="/2020/04/02/9-communication-process/1920px-Ethernet_Type_II_Frame_format.svg.png" alt="1920px-Ethernet_Type_II_Frame_format.svg"></p>
-<p>上层数据到数据链路层后，需要封装以太网2的报头，因为TCP/IP在二层采用的是这种封装格式，以太网2报头中三个需要获知的重要参数为源MAC地址、目的MAC地址和以类型，源MAC地址为PC自身的MAC地址，由于PC和WebServer在不同网段，所以该数据先要发给网关R1的F0/0接口，由于PC和R1的F0/0接口相连，所以F0/0接口的MAC地址为目的MAC地址；由于三层采用的封装为IPV4，所以EtherType中类型字段的值为0x0800。数据链路层封装好本层报头以后，将数据传给下一层，物理层。</p>
-<h4 id="物理层："><a href="#物理层：" class="headerlink" title="物理层："></a>物理层：</h4><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-28_18-21-07.jpg" alt="Snipaste_2020-03-28_18-21-07"></p>
-<p>物理层收到上层的数据帧后，将数据帧转换为物理层能识别的电磁信号然后通过物理介质传输给网关R1。</p>
-<h3 id="R1处理过程"><a href="#R1处理过程" class="headerlink" title="R1处理过程"></a>R1处理过程</h3><h4 id="物理层第一次："><a href="#物理层第一次：" class="headerlink" title="物理层第一次："></a>物理层第一次：</h4><p>R1收到物理介质传输的数据后，在物理层将电磁信号还原成数据帧，然后交给数据链路层。</p>
-<h4 id="数据链路层第一次："><a href="#数据链路层第一次：" class="headerlink" title="数据链路层第一次："></a>数据链路层第一次：</h4><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-29_16-16-47.jpg" alt="Snipaste_2020-03-29_16-16-47"></p>
-<p>R1收到物理层发来的数据帧，对二层进行解封装，发现目标MAC地址为自己的F0/0接口，说明这个数据是发给自己的，然后讲数据交给上层继处理。</p>
-<p>类型0X0800表示上层网络层用的是IPV4协议封装，这个字段是用来告诉上层，这个数据的三层用的是IPV4封装方式，以便上层解封装的时候使用正确的方式解封装，提高数据处理效率。</p>
-<h4 id="网络层：-1"><a href="#网络层：-1" class="headerlink" title="网络层："></a>网络层：</h4><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-29_16-32-16.jpg" alt="Snipaste_2020-03-29_16-32-16"></p>
-<p>网络层收到数据后，继续对IP报头进行解封装，发现目的IP地址不是本机，网关R1根据目的IP地址，按照最长匹配原则查询是否有对应路由条目，查询后发现应将该数据从F1/0端口发出。在网络层将三层按原报头重新打包好然后发给数据链路层。</p>
-<h4 id="数据链路层第二次："><a href="#数据链路层第二次：" class="headerlink" title="数据链路层第二次："></a>数据链路层第二次：</h4><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-29_17-21-02.jpg" alt="Snipaste_2020-03-29_17-21-02"></p>
-<p>数据链路层收到上层发来的数据后，因为该数据是要从F1/0口发送给R2的F0/0口，所以以太网2封装的源MAC地址是R1的F1/0口的MAC地址，目的MAC地址是R2的F0/0接口的MAC地址，由于上层采用IPV4封装，所以EtherType依旧是0X0800。然后发送给数据链路层转换成电磁信号发送给R2。</p>
-<h3 id="R2处理过程："><a href="#R2处理过程：" class="headerlink" title="R2处理过程："></a>R2处理过程：</h3><h4 id="数据链路层第一次：-1"><a href="#数据链路层第一次：-1" class="headerlink" title="数据链路层第一次："></a>数据链路层第一次：</h4><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-29_18-14-54.jpg" alt="Snipaste_2020-03-29_18-14-54"></p>
-<p>R2的物理层将收到的电磁信号恢复成数据帧后交给数据链路层，数据链路层对二层报头进行解封装，发现目的MAC地址和自己的F0/0接口的MAC地址相同，所以将该数据交给网络层继续处理。</p>
-<h4 id="网络层第一次："><a href="#网络层第一次：" class="headerlink" title="网络层第一次："></a>网络层第一次：</h4><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-29_18-17-22.jpg" alt="Snipaste_2020-03-29_18-17-22"></p>
-<p>网络层收到下层的数据后继续解封装，发现目的IP地址不是自己的，然后根据目的IP地址，按照最长匹配原则查询是否有对应路由条目，查询后发现应将该数据从F1/0端口发出。在网络层将三层按原报头重新打包好然后发给数据链路层。</p>
-<h4 id="数据链路层第二次：-1"><a href="#数据链路层第二次：-1" class="headerlink" title="数据链路层第二次："></a>数据链路层第二次：</h4><p><img src="/2020/04/02/9-communication-process/Snipaste_2020-03-29_18-19-59.jpg" alt="Snipaste_2020-03-29_18-19-59"></p>
-<p>数据链路层收到上层发来的数据后，因为该数据是要从F1/0口发送给WebServer，所以以太网2封装的源MAC地址是R2的F1/0口的MAC地址，目的MAC地址是WebServer的MAC地址，由于上层采用IPV4封装，所以EtherType依旧是0X0800。然后发送给数据链路层转换成电磁信号发送给WebServer。物理层将数据帧转换为物理层能识别的电磁信号然后通过物理介质传输给最终目的设备，WebServer，数据传输结束。</p>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/02/19/layer-mind/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1170,12 +1040,102 @@
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/05/04/11-route-basic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rookie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rookie's Notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/04/11-route-basic/" class="post-title-link" itemprop="url">CCNA笔记——11、路由基础及静态路由</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-04 10:25:00" itemprop="dateCreated datePublished" datetime="2020-05-04T10:25:00+08:00">2020-05-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-05 21:16:25" itemprop="dateModified" datetime="2020-05-05T21:16:25+08:00">2020-05-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="路由的基本概念"><a href="#路由的基本概念" class="headerlink" title="路由的基本概念"></a>路由的基本概念</h1><h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><blockquote>
+<p>Routing is the process of selecting a path for traffic in a network or between or across multiple networks.</p>
+<p>In packet switching networks, routing is the higher-level decision making that directs network packets from their source toward their destination through intermediate network nodes by specific packet forwarding mechanisms.</p>
+</blockquote>
+<p>路由是指在一个网络中或多个网络之间或跨多个网络的流量选择路径的过程。路由是指通过特定的数据包转发机制，将网络数据包从源头通过中间网络节点向目的地方向引导网络数据包的高级决策。路由过程通常根据路由表指导转发。<strong>路由是一个三层（网络层）的概念</strong>。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/04/11-route-basic/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
 
 
 
@@ -1220,7 +1180,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
