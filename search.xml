@@ -21,6 +21,7 @@
 <li>每一台路由器都会维护一个路由表，在路由表中包含着路由器发现的路由（路由条目、路由表项）； </li>
 <li>路由表相当于路由器的地图，路由器能够正确转发IP报文的前提是在其路由表中存在匹配该数据包目的IP地址的路由条目； </li>
 <li>路由表中的路由条目获取来源有多种：直连路由、静态路由及动态路由协议。</li>
+<li>路由表储存在RAM中，一般包括–源信息, 网络地址和子网掩码, 下一跳路由的IP地址</li>
 </ul>
 <p>举一个不太严谨的例子，路由表有点像我们去一个不认识地方时候问那附近的人路该怎么走，知道下一步如何走的这个人的功能类似于路由表。</p>
 <h3 id="如何查看路由表"><a href="#如何查看路由表" class="headerlink" title="如何查看路由表"></a>如何查看路由表</h3><p>查看路由表的命令为：show ip route</p>
@@ -29,8 +30,13 @@
 <p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-57-10.jpg" alt="Snipaste_2020-05-04_19-57-10"></p>
 <p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-58-52-1588593580832.jpg" alt="Snipaste_2020-05-04_19-58-52"></p>
 <p>思科路由器接口开机以后默认是关闭状态，必须到接口中使用“no shutdown”命令将接口开启，路由表才能更新该路由。</p>
-<h2 id="路由条目获取的来源"><a href="#路由条目获取的来源" class="headerlink" title="路由条目获取的来源"></a>路由条目获取的来源</h2><h3 id="直连路由"><a href="#直连路由" class="headerlink" title="直连路由"></a>直连路由</h3><p>定义：路由器的直连接口所在网络的信息。这种路由不需要手工进行添加，只要端口连通信正常即可自动加入路由表。</p>
-<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-02-48.jpg" alt="Snipaste_2020-05-05_13-02-48"></p>
+<h2 id="路由条目获取的来源"><a href="#路由条目获取的来源" class="headerlink" title="路由条目获取的来源"></a>路由条目获取的来源</h2><h3 id="直连路由"><a href="#直连路由" class="headerlink" title="直连路由"></a>直连路由</h3><h4 id="直连路由定义"><a href="#直连路由定义" class="headerlink" title="直连路由定义"></a>直连路由定义</h4><p>路由器的直连接口所在网络的信息。这种路由不需要手工进行添加，只要端口连通信正常即可自动加入路由表。</p>
+<h4 id="直连路由产生条件"><a href="#直连路由产生条件" class="headerlink" title="直连路由产生条件"></a>直连路由产生条件</h4><ol>
+<li>接口配置IP地址</li>
+<li>接口状态是UP</li>
+</ol>
+<p><strong>在满足以上两个条件时，直连路由自动产生，自动填充到路由表中。</strong></p>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-02-48.jpg" alt="Snipaste_2020-05-05_13-02-48"></p>
 <p>R1的路由表：</p>
 <p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-04-11.jpg" alt="Snipaste_2020-05-05_13-04-11"></p>
 <p>R1的路由表中有两条路由，一条前缀为C的路由表示这条路由的性质是connect，也就是靠直连获得的，这条路由是通往192.168.12.0/24这个网段的，出口是G0/0，也就是说如果收到一个目标IP地址是属于192.168.12.0网段的消息，将它从G0/0接口发出即可，这条直连路由是由R2的G0/1接口提供的，图中R1的G0/0接口和R2的G0/1接口直接连接；另一条前缀为L表示这条路由的性质为local，也就是本地路由，这条路由目的地址是192.168.12.1/32这个IP地址，连接到G0/0接口，这条路由是由本地的G0/0接口提供的。</p>
@@ -57,19 +63,66 @@
 <p>在动态路由中，管理员不再需要与静态路由一样，手工对路由器上的路由表进行维护，而是在每台路由器上运行一个路由协议。这个路由协议会根据路由器上的接口的配置（如IP地址的配置）及所连接的链路的状态，生成路由表中的路由表项。当网络拓扑结构改变时动态路由协议可以自动更新路由表，并负责决定数据传输最佳路径。</p>
 <p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_15-37-51.jpg" alt="Snipaste_2020-05-05_15-37-51"></p>
 <p>当R1和R2的所有接口都运行了动态路由协议时，R1和R2就能互相交互路由信息，使得路由器动态的“学习”到网络中其他运行了相同动态路由协议设备上的路由信息，并更新自己的路由表。上图中的R1和R2在运行相同动态路由协议的情况下，R1就能“学习”到R2上2.2.2.0/24的路由信息并将该路由信息添加到自身的路由表中以便以后使用。</p>
-<h2 id="管理距离（Administrative-Distance-）"><a href="#管理距离（Administrative-Distance-）" class="headerlink" title="管理距离（Administrative Distance ）"></a>管理距离（Administrative Distance ）</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>管理距离（Administrative Distance，AD）是指一种路由协议的路由可信度。每一种路由协议按可靠性从高到低，依次分配一个信任等级，这个信任等级就叫管理距离。<strong>管理距离仅在本地具有重要意义，因此不会在路由更新中进行通告。</strong></p>
+<p>常见的动态路由协议有：OSPF，BGP，IS-IS，RIP，EIGRP等。</p>
+<h2 id="管理距离（Administrative-Distance-）"><a href="#管理距离（Administrative-Distance-）" class="headerlink" title="管理距离（Administrative Distance ）"></a>管理距离（Administrative Distance ）</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>管理距离（Administrative Distance，AD）是指一种路由协议的路由可信度。每一种路由协议按可靠性从高到低，依次分配一个信任等级，这个信任等级就叫管理距离。管理距离是一个从0~255的整数值，0时最可信赖的，而255意味着不会有业务量从这个路由通过。<strong>管理距离仅在本地具有重要意义，因此不会在路由更新中进行通告。</strong></p>
 <h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>管理距离是用来在有使用两个不同路由协议的两个或多个不同的路由通往同一目标时，路由器用来选择最佳路径的。正常情况下，管理距离越小，它的优先级就越高，也就是可信度越高。对于两种不同的路由协议到一个目的地的路由信息，路由器首先根据管理距离决定相信哪一个协议。</p>
 <h3 id="理论分析"><a href="#理论分析" class="headerlink" title="理论分析"></a>理论分析</h3><p>如果路由器分别收到使用开放最短路径优先 (OSPF)（默认管理距离为110）和 Interior Gateway Routing Protocol (IGRP)（默认管理距离为100）通往特定网络的路由，则路由器将选择 IGRP，因为 IGRP 更可靠。这意味着路由器将路由的 IGRP 版本添加到路由表。</p>
 <p>如果丢失了 IGRP 协议的设备信息（例如，由于电源关闭），则会使用 OSPF 协议的路由表进行数据转发，一直到 IGRP 的路由信息再次出现。</p>
-<h3 id="设备默认AD值"><a href="#设备默认AD值" class="headerlink" title="设备默认AD值"></a>设备默认AD值</h3><p>不同厂家对于设备的默认AD值规定不相同，</p>
+<h3 id="设备默认AD值"><a href="#设备默认AD值" class="headerlink" title="设备默认AD值"></a>设备默认AD值</h3><p>不同厂家对于设备的默认AD值规定不相同，具体参见下表。</p>
 <h4 id="思科设备默认AD值"><a href="#思科设备默认AD值" class="headerlink" title="思科设备默认AD值"></a>思科设备默认AD值</h4><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_15-51-14.jpg" alt="Snipaste_2020-05-05_15-51-14"></p>
 <h4 id="juniper设备默认AD值"><a href="#juniper设备默认AD值" class="headerlink" title="juniper设备默认AD值"></a>juniper设备默认AD值</h4><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_16-01-24.jpg" alt="Snipaste_2020-05-05_16-01-24"></p>
 <h4 id="华为设备默认AD值"><a href="#华为设备默认AD值" class="headerlink" title="华为设备默认AD值"></a>华为设备默认AD值</h4><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_16-14-46.jpg" alt="Snipaste_2020-05-05_16-14-46"></p>
-<h1 id="静态路由-1"><a href="#静态路由-1" class="headerlink" title="静态路由"></a>静态路由</h1><h2 id="静态路由的概念"><a href="#静态路由的概念" class="headerlink" title="静态路由的概念"></a>静态路由的概念</h2><h2 id="静态路由的配置"><a href="#静态路由的配置" class="headerlink" title="静态路由的配置"></a>静态路由的配置</h2><h2 id="静态路由的下一跳"><a href="#静态路由的下一跳" class="headerlink" title="静态路由的下一跳"></a>静态路由的下一跳</h2><h2 id="缺省（默认）路由"><a href="#缺省（默认）路由" class="headerlink" title="缺省（默认）路由"></a>缺省（默认）路由</h2><h2 id="静态路由配置示例及解析"><a href="#静态路由配置示例及解析" class="headerlink" title="静态路由配置示例及解析"></a>静态路由配置示例及解析</h2><h1 id="最长匹配原则"><a href="#最长匹配原则" class="headerlink" title="最长匹配原则"></a>最长匹配原则</h1><h1 id="路由汇总"><a href="#路由汇总" class="headerlink" title="路由汇总"></a>路由汇总</h1><h1 id="路由选择过程"><a href="#路由选择过程" class="headerlink" title="路由选择过程"></a>路由选择过程</h1><h2 id="需要路由选择的情况"><a href="#需要路由选择的情况" class="headerlink" title="需要路由选择的情况"></a>需要路由选择的情况</h2><p>当遇到类似于下图的情况，R2从两个不同的路由协议，OSPF和RIP同时获得了10.1.1.0/24的路由信息，或</p>
+<h2 id="度量值"><a href="#度量值" class="headerlink" title="度量值"></a>度量值</h2><h1 id="静态路由-1"><a href="#静态路由-1" class="headerlink" title="静态路由"></a>静态路由</h1><h2 id="静态路由的概念"><a href="#静态路由的概念" class="headerlink" title="静态路由的概念"></a>静态路由的概念</h2><p>静态路由（英语：Static routing），一种路由的方式，路由条目（routing entry）由手动配置，而非动态决定。与动态路由不同，静态路由是固定的，不会改变，即使网络状况已经改变或是重新被组态。一般来说，静态路由是由网络管理员逐项加入路由表。</p>
+<h2 id="静态路由的特点"><a href="#静态路由的特点" class="headerlink" title="静态路由的特点"></a>静态路由的特点</h2><p>需要通过手工的方式进行添加及维护，适用于组网规模较小的场景，如果网络规模较大，配置和维护的成本就会较高，所以一般网络中都采用动态、静态路由相结合的方式进行部署。</p>
+<p>优点：对CPU、内存等硬件的需求不高；不占用带宽，因为静态路由不会产生更新流量。</p>
+<p>不足：必须手动添加配置工作量大且容易出错；适应拓扑变化的能力较差，当网络拓扑发生变化时必须手动对静态路由进行维护。</p>
+<h2 id="静态路由的配置"><a href="#静态路由的配置" class="headerlink" title="静态路由的配置"></a>静态路由的配置</h2><h3 id="配置命令"><a href="#配置命令" class="headerlink" title="配置命令"></a>配置命令</h3><p>R1(config)#ip route   network-address   subnet-mask     { ip-add  |  exit-interface } </p>
+<p>IP route 表示该路由是一条静态路由；network-address   subnet-mask  是目标网络的网络号或IP地址以及对应的子网掩码； { ip-add  |  exit-interface } 是到达前面网络号的出口IP地址或出接口。</p>
+<p>例如，ip route  192.168.1.0   255.255.255.0   192.168.12.2，表示去往网络地址为192.168.1.0/24这个网络号，要将数据交给192.168.12.2发出；ip route 192.168.1.0 255.255.255.0 serial 0，表示去往网络地址为192.168.1.0/24这个网络号，要将数据从Serial 0 接口发出；后面也可以同时配置上出口IP地址和出接口：ip route  192.168.1.0  255.255.255.0  G0/0  192.168.12.2，具体讲解参见后面“静态路由的下一跳”部分。</p>
+<h3 id="实验配置"><a href="#实验配置" class="headerlink" title="实验配置"></a>实验配置</h3><h4 id="实验1"><a href="#实验1" class="headerlink" title="实验1"></a>实验1</h4><h5 id="题干"><a href="#题干" class="headerlink" title="题干"></a>题干</h5><p>共有3台路由器，R1，R2，R3，现在需要让R1和R3之间能够通信，请用静态路由完成此实验。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-07_18-26-28.jpg" alt="Snipaste_2020-05-07_18-26-28"></p>
+<h5 id="实验分析"><a href="#实验分析" class="headerlink" title="实验分析"></a>实验分析</h5><p>如果要从R1发送数据给R3，有几个基本的参数必须有，三层封装中的源、目的IP地址以及二层封装中的源、目的MAC地址。</p>
+<p><img src="/2020/05/04/11-route-basic/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200507184145.jpg" alt="微信图片编辑_20200507184145"></p>
+<p><img src="/2020/05/04/11-route-basic/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200507184549.jpg" alt="微信图片编辑_20200507184549"></p>
+<p>此时R1的路由表为</p>
+<p>？？？？？？？？？？？？？？？？？？</p>
+<p><img src="/2020/05/04/11-route-basic/Users/32759/Downloads/Snipaste_2020-05-07_18-35-15.jpg" alt="Snipaste_2020-05-07_18-35-15"></p>
+<h5 id="实验配置-1"><a href="#实验配置-1" class="headerlink" title="实验配置"></a>实验配置</h5><h2 id="静态路由的下一跳"><a href="#静态路由的下一跳" class="headerlink" title="静态路由的下一跳"></a>静态路由的下一跳</h2><h2 id="缺省（默认）路由"><a href="#缺省（默认）路由" class="headerlink" title="缺省（默认）路由"></a>缺省（默认）路由</h2><h2 id="静态路由配置示例及解析"><a href="#静态路由配置示例及解析" class="headerlink" title="静态路由配置示例及解析"></a>静态路由配置示例及解析</h2><h1 id="路由汇总"><a href="#路由汇总" class="headerlink" title="路由汇总"></a>路由汇总</h1><h1 id="路由器的工作原理"><a href="#路由器的工作原理" class="headerlink" title="路由器的工作原理"></a>路由器的工作原理</h1><h2 id="路由器的基本概念"><a href="#路由器的基本概念" class="headerlink" title="路由器的基本概念"></a>路由器的基本概念</h2><p>路由器工作在OSI参考模型的第三层网络层，利用网络层定义的”逻辑地址”（IPV4或IPV6地址）来区别不同网络，它不转发广播消息，并将广播消息限制在每个网络内部，也就是之前笔记曾经提到的隔绝广播域，每个接口是一个广播域；发往其他网段的数据根据路由表转发。</p>
+<p>目前在Internet网络中采用子网掩码来确定IP地址中的网络号和主机号；并规定，子网掩码（二进制形式）中数字”1”对应的IP地址中的部分为网络号，子网掩码中数字”0”所对应的IP地址中的部分为主机号，相同网络号的主机可以直接通信，不同网络号的主机需要通过网络中某个路由（网关）使他们能够通信。</p>
+<p>路由上不同端口对应不同IP子网，不同端口的网络号必须不同。</p>
+<h3 id><a href="#" class="headerlink" title></a></h3><h2 id="路由器转发原则"><a href="#路由器转发原则" class="headerlink" title="路由器转发原则"></a>路由器转发原则</h2><h3 id="转发IP包的条件"><a href="#转发IP包的条件" class="headerlink" title="转发IP包的条件"></a>转发IP包的条件</h3><ol>
+<li>目的网络可达(路由表中必须存在到达目的网络的路由).</li>
+<li>下一跳的接口地址必须可达.</li>
+<li>重写源MAC地址使得成功到达下一跳.–应该是ARP获得MAC地址更新ARP表然后才可正常转发.</li>
+</ol>
+<h3 id="数据处理步骤"><a href="#数据处理步骤" class="headerlink" title="数据处理步骤"></a>数据处理步骤</h3><p>首先将物理层的比特流还原成帧，然后对数据帧尾部的FCS进行校验看数据是否损坏，如果损坏就丢弃，如果没损坏则进行解封装，检查二层帧头中的目的MAC地址是否是收到此数据接口的MAC地址，如果不是则丢弃，如果目的MAC地址和接口MAC地址相同则交给上层继续处理。</p>
+<p>当数据到了网络层后，继续解三层数据包的封装，然后查看目的IP地址是否是自身的IP地址，这个自身的IP地址不仅是收到数据那个接口的IP地址，而是要看和所有接口及环回接口的IP地址是否相同，如果相同的话将数据传递给上层继续处理，如果IP地址不是自身的IP地址，如果该IP地址的网段在路由表中有相应条目则修改源、目的MAC地址将数据包按路由表转发出去。</p>
+<h2 id="递归查询"><a href="#递归查询" class="headerlink" title="递归查询"></a>递归查询</h2><h2 id="最长匹配原则"><a href="#最长匹配原则" class="headerlink" title="最长匹配原则"></a>最长匹配原则</h2><h2 id="路由所需的元素"><a href="#路由所需的元素" class="headerlink" title="路由所需的元素"></a>路由所需的元素</h2><p>目标网络和前缀、目的网络下一跳和/或出接口、管理距离、度量值和路由类型。其中目标网络和前缀以及下一跳和/或出接口是必须的，否则无法进行转发；管理距离及度量值用于比较路由的优先级，在一个目标网络有多种路由或多条路径时用于比较到底使用哪条路由转发。</p>
+<h2 id="路由器发送数据的方式"><a href="#路由器发送数据的方式" class="headerlink" title="路由器发送数据的方式"></a>路由器发送数据的方式</h2><h3 id="进程交换"><a href="#进程交换" class="headerlink" title="进程交换"></a>进程交换</h3><p>进程交换（process switching），在该模式下，每个数据包都由控制平台中的CPU进行检查，且所有的转发策略都是在软件中进行的。<strong>每个数据包都由CPU独立处理</strong>，当数据包到达入站口时，它会被转发给控制平面，此时CPU会使用路由表中的条目来匹配数据包的目的地址 CPU随后判断数据包的出站口，并转发数据包，进程交换不仅是最古老的转发方式，还是占用CPU最多的方式，也是速度最慢的转发方式。</p>
+<h3 id="快速交换"><a href="#快速交换" class="headerlink" title="快速交换"></a>快速交换</h3><p>进程交换由于CPU占用率高，转发速度慢，已经跟不上互联网发展的需要，于是出现了速度更快的转发技术，快速交换。</p>
+<p>此交换方式比进程交换快，快速转发对流量的初始数据包进行进程转发，这表示数据包会在CPU中进行检查，而如何转发该数据包的策略也会被储存在数据平面的硬件快速转发缓存中，当后续相同的数据到达路由器时，设备可以在硬件的快速转发缓存中找到目的地址进行转发，而不用经过路由器的CPU计算，有效的节约了CPU资源的使用。</p>
+<p>路由缓存的条目（包括目的IP地址，输出接口，MAC地址头信息等）是在第一个数据包到来时，对整个路由表执行最长匹配查找算法获得下一跳IP地址，然后查找ARP缓存获得第二层的MAC地址信息，并写入路由高速缓存，之后的数据包则根据已经生成的高速缓存的条目直接重写MAC头信息完成交换操作。</p>
+<h3 id="思科CEF"><a href="#思科CEF" class="headerlink" title="思科CEF"></a>思科CEF</h3><p>由于快速交换的缓存机制原理问题，路由改变会导致之前的缓存无效，重建缓存的过程开销很大，而互联网中信息的大量增加导致缓存的负担增大，从而导致路由器性能的降低，此时快速交换已经不能适应需求了，所以CEF横空出世。</p>
+<p>Cisco快速转发是最快的交换模式，这种方式比快速转发和进程转发交换使用更少的CPU，对于启用了CEF的路由器，其控制平面CPU会使用路由表和地址解析协议表中的3层和2层信息（IP地址、MAC地址），来创建两个基于硬件的表，这两个表分别是转发信息表（FIB）和邻接表（ADJ），<strong>当网络收敛时，FIB和ADJ表中会包含路由器在转发数据包时会使用的所有信息，两个基于硬件的表会用来转发数据包中的所有数据帧，包括第一个帧，FIB包含预先算出来的逆向查找和下一跳信息（包括2层信息和接口）</strong>。</p>
+<p><img src="/2020/05/04/11-route-basic/CEF.png" alt="CEF"></p>
+<h4 id="FIB表"><a href="#FIB表" class="headerlink" title="FIB表"></a>FIB表</h4><p>FIB是一个动态构建的数据库，位于路由器转发（数据）层面，路由器使用它来做出基于前缀的转发决策，也就说路由器按照FIB表来转发数据，真正指导数据转发的是FIB表。FIB表中数据往往被存储在一个ASIC专用集成电路中，这使得设备在FIB表中进行数据查询时，可以实现相当高的速度。当然，FIB表空间是有限的，因此要注意用各种机制来减小设备路由表的规模，比如上文提到的路由汇总。</p>
+<p>FIB中的信息和IP路由表中的条目之间有一一对应的关系，FIB不仅有路由表的信息还提前对这些信息进行了路径的递归查询，节省了大量时间，提高了转发效率。当网络拓扑或路由表发生变化时，IP路由表被更新，FIB也随之产生变化，重新进行递归等步骤生成FIB表。FIB表中一般包含IP前缀，递归的下一跳，出战接口，其他非转发核心的参数FIB表中并不包含，查看FIB（CEF）表的命令是show ip cef。</p>
+<p>路由器启动时默认使用CEF进行转发，路由表中的所有路由传入FIB的维护进程，该进程根据收到的前缀描述项和路径生成FIB（转发信息库）项目。当主路由表内容改变时，会通知FIB维护进程，根据新路由信息改变收到路由改变影响的FIB条目。</p>
+<p><img src="/2020/05/04/11-route-basic/200807181216359487780.jpg" alt="200807181216359487780"></p>
+<h4 id="邻居表"><a href="#邻居表" class="headerlink" title="邻居表"></a>邻居表</h4><p>邻居表的英文是Adjacency table，当路由器确定了目标网络的可达性及下一跳后，下一步是确定发出接口的二层封装信息（源、目的MAC地址）以及其他传输需要的信息，这些信息都储存在邻居表中。这些二层信息通过ARP、ATM、帧中继的映射状态等方式学习到。</p>
+<p><img src="/2020/05/04/11-route-basic/200807181216359461673.jpg" alt="200807181216359461673"></p>
+<h1 id="路由选择过程"><a href="#路由选择过程" class="headerlink" title="路由选择过程"></a>路由选择过程</h1><h2 id="需要路由选择的情况"><a href="#需要路由选择的情况" class="headerlink" title="需要路由选择的情况"></a>需要路由选择的情况</h2><p>当遇到类似于下图的情况，R2从两个不同的路由协议，OSPF和RIP同时获得了10.1.1.0/24的路由信息，或</p>
 <p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_16-33-58.jpg" alt="Snipaste_2020-05-05_16-33-58"></p>
-<h2 id="选择最佳路由的步骤"><a href="#选择最佳路由的步骤" class="headerlink" title="选择最佳路由的步骤"></a>选择最佳路由的步骤</h2><p>1、比管理距离AD（可以是多种路由协议的比较；也可以是同种路由协议的比较，比如双线出口所配置的两条默认浮动路由比较）</p>
+<h2 id="选择最佳路由的步骤"><a href="#选择最佳路由的步骤" class="headerlink" title="选择最佳路由的步骤"></a>选择最佳路由的步骤</h2><p>根据最长匹配原则，最先使用匹配位数最多的明细路由，然后是汇总路由，最后才是默认路由。</p>
+<p>1、比管理距离AD（可以是多种路由协议的比较；也可以是同种路由协议的比较，比如双线出口所配置的两条默认浮动路由比较）</p>
 <p>2、比度量值metric（路由协议不同则度量值不能做比较，比如rip度量值为跳数；ospf度量值为带宽；eigrp度量值为带宽+延迟等。所以在不同种协议之间先比较管理距离）</p>
-<h1 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h1><p><a href="https://blog.csdn.net/chiyuwei1766/article/details/47334125" target="_blank" rel="noopener">最佳路由选择的原则与步骤————管理距离和度量值</a></p>
+<h2 id="数据包的转发过程"><a href="#数据包的转发过程" class="headerlink" title="数据包的转发过程"></a>数据包的转发过程</h2><h1 id="控制平面和数据平面"><a href="#控制平面和数据平面" class="headerlink" title="控制平面和数据平面"></a>控制平面和数据平面</h1><h1 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h1><p><a href="https://blog.csdn.net/chiyuwei1766/article/details/47334125" target="_blank" rel="noopener">最佳路由选择的原则与步骤————管理距离和度量值</a></p>
+<p><a href="https://blog.csdn.net/szcarewell/article/details/51246271" target="_blank" rel="noopener">路由器数据转发过程</a></p>
+<p><a href="https://www.qingsword.com/qing/520.html" target="_blank" rel="noopener">[CCNA图文笔记]-9-静态路由与默认路由</a></p>
+<p><a href="https://www.bilibili.com/read/cv575583/" target="_blank" rel="noopener">Cisco交换方式理论+实践</a></p>
+<p><a href="https://blog.csdn.net/zdh45222/article/details/3987577" target="_blank" rel="noopener">cisco路由器 CEF,快速，过程交换</a></p>
+<p><a href="https://www.networkurge.com/2020/04/process-switching-vs-fast-switching-vs.html" target="_blank" rel="noopener">Process Switching Vs Fast Switching Vs CEF</a></p>
+<p><a href="https://blog.51cto.com/389333/945282" target="_blank" rel="noopener">进程交换 快速交换 CEF</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
@@ -113,10 +166,11 @@
 <p>无论是 Console 密码丶Enable 密码都是储存在 Startup Configuration 之中，然後被载入至 Running Configuration。然而修改 Configuration 需要 Enable 密码，重设密码的哲学在於「如何在不用密码的情况下进入 Enable Mode (或称 Privilege Mode)</p>
 <h3 id="忘记登陆密码如何进入系统"><a href="#忘记登陆密码如何进入系统" class="headerlink" title="忘记登陆密码如何进入系统"></a>忘记登陆密码如何进入系统</h3><h4 id="配置寄存器"><a href="#配置寄存器" class="headerlink" title="配置寄存器"></a>配置寄存器</h4><p>配置寄存器（Configuration Register）是一个16位的虚拟寄存器，用于指定路由器启动的次序、中断参数和设置控制台波特率等，不同的配置寄存器数值决定了路由器的启动顺序（比如是从ROM中寻找IOS系统还是直接进入ROMMON模式）以及启动时的一些选项。该寄存器的值通常是以十六进制来表示的。Cisco路由器默认的配置设置是0x2102，这意味着第13位、第8位和第1位是开启的(值为1)。在特权模式下用命令“show version”查看当前配置寄存器的数值为多少。<strong>通过修改该数值可以决定路由器如何启动和运行。</strong></p>
 <p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-30-08.jpg" alt="Snipaste_2020-04-27_10-30-08"></p>
+<p>上图中的二进制的0010000100000010，是由0X2102这个16进制的数字换算而来的，换算过程是，分别将2，1，0，2四个16进制换算成2进制然后组合而成。</p>
 <p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-33-04.jpg" alt="Snipaste_2020-04-27_10-33-04"></p>
 <p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-31-47.jpg" alt="Snipaste_2020-04-27_10-31-47"></p>
 <p>配置寄存器的默认设置是0x2102。这表明路由器应该尝试从闪存装载Cisco IOS软件镜像和用9600波特的控制台速率装载启动配置。注意，show version命令显示当前配置寄存器的值，也显示路由器重载后配置寄存器新的值。对配置寄存器进行的任何修改在重载之前不会起作用。</p>
-<h4 id="口令恢复"><a href="#口令恢复" class="headerlink" title="口令恢复"></a>口令恢复</h4><p>总体思路是，在开机时需跳过载入 Startup Configuration，在没有任何密码的情况下进入 Enable Mode，然後手动载入 Configuration 并修改密码。正如前面介绍过的，配置寄存器的第6位用于告诉路由器是否使用NVRAM中的内容来加载路由器的配置。默认的配置寄存器值是0x2102，即第6位是关闭的(值为0)。默认情况下，路由器会查找并加载存储在NVRAM(startup-config文件)中的路由器配置。若要恢复口令，需要开启第6位，告诉路由器忽略NVRAM的内容。开启了第6位的配置寄存器值是0x2142。</p>
+<h4 id="口令恢复"><a href="#口令恢复" class="headerlink" title="口令恢复"></a>口令恢复</h4><p>总体思路是，在开机时需跳过载入 Startup Configuration，在没有任何密码的情况下进入 Enable Mode，然後手动载入 Configuration 并修改密码。正如前面介绍过的，配置寄存器的第6位用于告诉路由器是否使用NVRAM中的内容来加载路由器的配置。默认的配置寄存器值是0x2102，即第6位是关闭的(值为0)。默认情况下，路由器会查找并加载存储在NVRAM(startup-config文件)中的路由器配置。若要恢复口令，需要开启第6位，告诉路由器忽略NVRAM的内容，二进制的话就是0010000101000010，换算成16进制就是0X2142，开启了第6位的配置寄存器值是0x2142，所以在口令回复的时候要将寄存器值从默认的0X2102改成0X2142，葫芦i额NVRAM的内容才能进行密码恢复。</p>
 <p><strong>1.启动路由器</strong></p>
 <p>在IOS系统被载入时按键盘的Ctrl 和 Break键， (如 Mac 可按 Ctrl-Delete) 中断载入，并进入 rommon 模式。</p>
 <p><img src="/2020/04/14/10-cisco-ios/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200504110154.jpg" alt="微信图片编辑_20200504110154"></p>
@@ -330,7 +384,7 @@
 <p>R2telnet 远程连接R1，看设置是否正确</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R2#telnet 192.168.12.1</span><br><span class="line">Trying 192.168.12.1 ... Open</span><br><span class="line">User Access Verification</span><br><span class="line">Password: /*输入远程访问密码123456*/</span><br><span class="line">R1&gt;en</span><br><span class="line">Password: /*输入R1上的特权密码test*/</span><br><span class="line">R2# /*这样就进入了R2的特权模式了*/</span><br></pre></td></tr></table></figure>
 
-<h2 id="CRT软件使用简介"><a href="#CRT软件使用简介" class="headerlink" title="CRT软件使用简介"></a>CRT软件使用简介</h2><p><a href="http://vmnf.no-ip.org/itblog/how-to-setup-a-serial-console-connection/" target="_blank" rel="noopener">How to Setup a serial Console connection</a></p>
+<h2 id="CRT软件使用简介"><a href="#CRT软件使用简介" class="headerlink" title="CRT软件使用简介"></a>CRT软件使用简介</h2><h2 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h2><p><a href="http://vmnf.no-ip.org/itblog/how-to-setup-a-serial-console-connection/" target="_blank" rel="noopener">How to Setup a serial Console connection</a></p>
 <p><a href="http://blog.sina.com.cn/s/blog_635e1a9e0101172t.html" target="_blank" rel="noopener">管理配置寄存器和路由器口令恢复</a></p>
 <p><a href="https://www.jannet.hk/zh-Hans/post/password-recovery/" target="_blank" rel="noopener">Password Recovery 重设密码</a></p>
 <p><a href="https://www.qingsword.com/qing/707.html#CCNA-ios-manager-6" target="_blank" rel="noopener">[CCNA图文笔记]-27-Cisco设备文件管理与密码恢复</a></p>
