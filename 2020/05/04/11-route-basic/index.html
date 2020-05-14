@@ -86,12 +86,15 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;Snipaste_2020-05-10_15-14-05.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200507184145.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200507184549.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;Snipaste_2020-05-10_14-58-07-1589450121599.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;Snipaste_2020-05-14_17-56-56.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;Snipaste_2020-05-14_17-53-53.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;CEF.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;200807181216359487780.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;200807181216359461673.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;Snipaste_2020-05-05_16-33-58.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;Snipaste_2020-05-11_16-19-39.jpg">
-<meta property="og:updated_time" content="2020-05-14T09:33:47.539Z">
+<meta property="og:updated_time" content="2020-05-14T09:59:29.549Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;05&#x2F;04&#x2F;11-route-basic&#x2F;Snipaste_2020-05-05_12-17-05.jpg">
 
@@ -293,7 +296,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-14 17:33:47" itemprop="dateModified" datetime="2020-05-14T17:33:47+08:00">2020-05-14</time>
+                <time title="修改时间：2020-05-14 17:59:29" itemprop="dateModified" datetime="2020-05-14T17:59:29+08:00">2020-05-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -356,7 +359,7 @@
 <h5 id="毒性反转"><a href="#毒性反转" class="headerlink" title="毒性反转"></a>毒性反转</h5><p>毒性反转（Poison Reverse），在基于路由信息协议的网络中，当一条路径信息变为无效之后，路由器并不立即将它从路由表中删除，而是用16（RIP协议中表示该路由无穷大，不可达）这个metric标识该路由，即不可达的度量值将它广播出去，这叫做毒性逆转。这样虽然增加了路由表的大小，但对消除路由循环很有帮助，它可以立即清除相邻路由器之间的任何环路。毒性反转可以看作是水平分割的逆过程。</p>
 <p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-14_16-17-36-1589447716551.jpg" alt="Snipaste_2020-05-14_16-17-36"></p>
 <p>依旧用上面的拓扑来解释毒性反转，三台路由器依旧运行距离矢量路由协议，这里用RIP举例，R1的8.8.8.8的路由是R3发送给R2然后再传递给R1的，如果R3到8.8.8.8的链路中断，那么在下次发送给其他路由器更新RIP的路由表中就不会有8.8.8.8这个网络，而R2和R1由于RIP路由的过期时间为180秒，这两个路由器的路由表中依旧有8.8.8.8这个路由条目因为还没到老化删除该条目的时间所以依旧会存在。但除了R3以外其他路由器不会知道此时R3已经没法去往8.8.8.8了，在R1、R2收到发往8.8.8.8的数据时，还会发给R3，可能会导致环路的产生。毒性反转的做法是，当R3发现前往8.8.8.8的网络中断后，在下次发送路由更新时，依旧会有8.8.8.8这个条目并将其跳数变更为协议跳数最大值+1，在RIP中就是15+1也就是16，因为16超过了跳数的协议最大值15，所以R2收到路由更新时会立刻知道8.8.8.8网络不可达，无需等待180秒RIP条目老化才将其删除，这样会大大加快网络的收敛速度。</p>
-<h5 id="触发更新"><a href="#触发更新" class="headerlink" title="触发更新"></a>触发更新</h5><p>触发更新（trigger update）。当路由表发生变化时，更新报文立即广播给相邻的所有路由器，而不是等待30秒的更新周期。同样，当一个路由器刚启动RIP时，它广播请求报文。收到此广播的相邻路由器立即应答一个更新报文，而不必等到下一个更新周期。这样，网络拓扑的变化会最快地在网络上传播开，减少了路由循环产生的可能性。 </p>
+<h5 id="触发更新"><a href="#触发更新" class="headerlink" title="触发更新"></a>触发更新</h5><p>触发更新（trigger update）。当路由表发生变化时，更新报文立即广播给相邻的所有路由器，而不是等待30秒的更新周期。同样，当一个路由器刚启动RIP时，它广播请求报文。收到此广播的相邻路由器立即应答一个更新报文，而不必等到下一个更新周期。这样，网络拓扑的变化会最快地在网络上传播开，减少了路由循环产生的可能性。</p>
 <h5 id="抑制计时器"><a href="#抑制计时器" class="headerlink" title="抑制计时器"></a>抑制计时器</h5><p>一条路由信息无效之后，一段时间内这条路由都处于抑制状态，即在一定时间内不再接收关于同一目的地址的路由更新。如果，路由器从一个网段上得知一条路径失效，然后，立即在另一个网段上得知这个路由有效。这个有效的信息往往是不正确的，抑制计时避免了这个问题，而且，当一条链路频繁起停时，抑制计时减少了路由的浮动，增加了网络的稳定性。 即便采用了上面的4种方法，路由循环的问题也不能完全解决，只是得到了最大程度的减少。一旦路由循环真的出现，路由项的度量值就会出现计数到无穷大（Count to Infinity）的情况。这是因为路由信息被循环传递，每传过一个路由器，度量值就加1，一直加到16，路径就成为不可达的了。RIP选择16作为不可达的度量值是很巧妙的，它既足够的大，保证了多数网络能够正常运行，又足够小，使得计数到无穷大所花费的时间最短。</p>
 <h4 id="链路状态路由协议"><a href="#链路状态路由协议" class="headerlink" title="链路状态路由协议"></a>链路状态路由协议</h4><p>链路状态路由协议有点像你用导航去迪士尼乐园，导航软件从一开始就知道整个上海的地图以及从你所在的地点到迪士尼乐园有哪些可能存在的路线，然后对这些潜在的路线进行比较，看看哪条路线拥堵哪条路径通畅，最后选择出一条最优的路线告诉你应该怎么走。</p>
 <h2 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h2><h3 id="路由表的概念"><a href="#路由表的概念" class="headerlink" title="路由表的概念"></a>路由表的概念</h3><blockquote>
@@ -443,14 +446,19 @@
 <p><img src="/2020/05/04/11-route-basic/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200507184145.jpg" alt="微信图片编辑_20200507184145"></p>
 <p><img src="/2020/05/04/11-route-basic/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200507184549.jpg" alt="微信图片编辑_20200507184549"></p>
 <h5 id="实验配置"><a href="#实验配置" class="headerlink" title="实验配置"></a>实验配置</h5><p>R1：</p>
+<p><strong>配置前的路由表：</strong></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-10_14-58-07-1589450121599.jpg" alt="Snipaste_2020-05-10_14-58-07"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1#config t                                            进去全局配置模式</span><br><span class="line">R1(config)#ip route 192.168.23.0 255.255.255.0 192.168.12.2</span><br><span class="line">               去往192.168.23.0网段的数据，交给192.168.12.2这个IP地址</span><br></pre></td></tr></table></figure>
 
-<p>R1和R3通信，也就是192.168.12.0网段和192.168.23.0这两个网段通信，在这条静态路由中，配置的是192.168.23.0 255.255.255.0 ，IP地址和子网掩码做与运算以后，得出的是192.168.23.0/24这个网段，也就是只要以后R1发往23.0这个网段的数据都会匹配到这条静态路由，当然也可以配置成  IP  route  192.168.23.3   255.255.255.0 </p>
+<p>R1和R3通信，也就是192.168.12.0网段和192.168.23.0这两个网段通信，但此时路由表中并没有这条路由，这里我们配置上这条静态路由，告诉R1如果想发送数据到192.168.23.0这个网段将数据发送给R2即可，因为R2的路由表中有该条路由。在这条静态路由中，配置的是192.168.23.0 255.255.255.0 ，IP地址和子网掩码做与运算以后，得出的是192.168.23.0/24这个网段，也就是只要以后R1发往23.0这个网段的数据，不管是ping 192.168.23.1 - 192.168.23.254这些地址，都会匹配到这条静态路由，因为他们都属于192.168.23.0/24网段。 在查看路由表时，之所以用do show ip route是因为此时在全局模式下，并没有show ip route这个特权模式下的命令，但前面加上do以后就可以正确运行了，其他命令也是如此，比如后面的do ping 192.168.23.3。</p>
+<p><strong>配置过程及配置后的路由表：</strong></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-14_17-56-56.jpg" alt="Snipaste_2020-05-14_17-56-56"></p>
+<p>S是Static的缩写，表示静态路由，192.168.23.0/24是目标网段，192.168.12.2是下一跳地址，表示如果要发送数据去往192.168.23.0/24网段，需要将数据</p>
 <p>R3：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R3#config t</span><br><span class="line">R3(config)#ip route 192.168.12.0 255.255.255.0 192.168.23.2</span><br><span class="line">               去往192.168.12.0网段的数据，交给192.168.23.2这个IP地址</span><br></pre></td></tr></table></figure>
 
-
-
+<p>因为前面分析过，绝大多数通信都是双向的，所以R3上也要有去往R1的回程路由，配置前</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-14_17-53-53.jpg" alt="Snipaste_2020-05-14_17-53-53"></p>
 <h2 id="静态路由的下一跳"><a href="#静态路由的下一跳" class="headerlink" title="静态路由的下一跳"></a>静态路由的下一跳</h2><h2 id="缺省（默认）路由"><a href="#缺省（默认）路由" class="headerlink" title="缺省（默认）路由"></a>缺省（默认）路由</h2><p>默认路由是最后的选择，根据最长匹配原则，明细路由，汇总路由，最后才是默认路由</p>
 <h3 id="静态路由进阶配置"><a href="#静态路由进阶配置" class="headerlink" title="静态路由进阶配置"></a>静态路由进阶配置</h3><h4 id="浮动静态路由"><a href="#浮动静态路由" class="headerlink" title="浮动静态路由"></a>浮动静态路由</h4><p>可以创建多条前往同一个目标网络的静态路由，分别做主用路径和备份路径，对于主用路径，可以使用默认管理距离，对于备用路径，使用更大的管理距离（管理距离越小路径越优先，越大越不优先），当主用路径的接口或链路出现故障时，主用路径从路由表中消失，路由器使用备用路径进行通信。</p>
 <h4 id="permanent参数"><a href="#permanent参数" class="headerlink" title="permanent参数"></a>permanent参数</h4><p>当静态路由后面使用permanent参数时，即使该静态路由使用的接口出现故障，它也将停留在路由表中，如果不配置permanent参数，则静态路由使用的接口出现故障时，路由器将把该路由条目从路由表中删除，尝试寻找替代路由条目加入路由表。因此如果不希望数据包经其他路径前往目标网络（通常是基于安全考虑），应使用permanent参数。</p>
