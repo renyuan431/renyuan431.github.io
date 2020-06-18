@@ -50,14 +50,17 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Rookie&#39;s Notebook">
-<meta property="og:url" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;archives&#x2F;index.html">
+  <meta name="description" content="RIP V1总览RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。 RIP协议的默认管理距离是120，RIP所接收的路由信息都被封装在UDP协议的数据报中，在UDP的520端口接收来自远程路由的信息，V1使用广播发送、更新路由信息，默认每30">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CCNA笔记——12、RIP">
+<meta property="og:url" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;18&#x2F;12-RIP&#x2F;index.html">
 <meta property="og:site_name" content="Rookie&#39;s Notebook">
+<meta property="og:description" content="RIP V1总览RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。 RIP协议的默认管理距离是120，RIP所接收的路由信息都被封装在UDP协议的数据报中，在UDP的520端口接收来自远程路由的信息，V1使用广播发送、更新路由信息，默认每30">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-06-18T09:28:45.693Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://renyuan431.github.io/archives/">
+<link rel="canonical" href="https://renyuan431.github.io/2020/06/18/12-RIP/">
 
 
 <script id="page-configurations">
@@ -65,13 +68,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
-    isArchive: true
+    isArchive: false
   };
 </script>
 
-  <title>归档 | Rookie's Notebook</title>
+  <title>CCNA笔记——12、RIP | Rookie's Notebook</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-153169643-1"></script>
     <script>
@@ -220,239 +223,142 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 12 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/06/18/12-RIP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rookie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rookie's Notebook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CCNA笔记——12、RIP
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-18 10:25:00 / 修改时间：17:28:45" itemprop="dateCreated datePublished" datetime="2020-06-18T10:25:00+08:00">2020-06-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">路由交换方向</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
+                    <span itemprop="name">CCNA</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
+        <h1 id="RIP-V1"><a href="#RIP-V1" class="headerlink" title="RIP V1"></a>RIP V1</h1><h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。</p>
+<p>RIP协议的默认管理距离是120，RIP所接收的路由信息都被封装在UDP协议的数据报中，在UDP的520端口接收来自远程路由的信息，V1使用广播发送、更新路由信息，默认每30秒发送一次。RIP V1支持最大6条，默认4条等价负载均衡的路由，不支持验证。</p>
+<p>RIP使用Hop Count（跳计数）作为路径选择的度量值。最大跳数是15，如果最大跳数大于15，则认为该网络失效。RIPv1采用广播式更新，RIPv2采用组播更新方式，RIP默认每隔30秒周期性的发送整个路由表给邻路由。</p>
+<p>RIP定义了请求信息和响应消息两种类型。请求信息：可以请求整张路由表，也可以请求具体的路由信息。</p>
+<ul>
+<li>请求整张路由表：请求消息含有一个地址族标识字段为0（地址为0.0.0.0），度量值为16的单条路由，收到这个请求的设备将通过单播方式向发出请求的地址回送它的整个路由表。</li>
+<li>请求具体路由信息：当需要获知某个或某些具体路由的信息时，请求消息将与特定地址的路由条目一起发送。接受到请求的设备将根据请求消息逐个处理这些条目，并构成一个响应消息。</li>
+</ul>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-06-18T10:25:00+08:00"
-              content="2020-06-18">
-          06-18
-        </time>
+    
+    
+    
+      
+        <div class="reward-container">
+  <div></div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Rookie 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Rookie 支付宝">
+        <p>支付宝</p>
       </div>
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/06/18/12-RIP/" itemprop="url">
-            <span itemprop="name">CCNA笔记——12、RIP</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-05-04T10:25:00+08:00"
-              content="2020-05-04">
-          05-04
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/05/04/11-route-basic/" itemprop="url">
-            <span itemprop="name">CCNA笔记——11、路由基础及静态路由</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-14T11:42:18+08:00"
-              content="2020-04-14">
-          04-14
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/04/14/10-cisco-ios/" itemprop="url">
-            <span itemprop="name">CCNA笔记——10、设备管理及cisco IOS基础配置</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-02T11:42:18+08:00"
-              content="2020-04-02">
-          04-02
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/04/02/9-communication-process/" itemprop="url">
-            <span itemprop="name">CCNA笔记——9、通信过程分析</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-02-19T11:42:18+08:00"
-              content="2020-02-19">
-          02-19
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/02/19/8-subnet/" itemprop="url">
-            <span itemprop="name">CCNA笔记——8、子网划分</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-02-19T11:42:18+08:00"
-              content="2020-02-19">
-          02-19
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/02/19/layer-mind/" itemprop="url">
-            <span itemprop="name">CCNA笔记——7、为什么要建立TCP/IP通信模型</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-    <div class="collection-year">
-      <h1 class="collection-header">2019</h1>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-23T11:42:18+08:00"
-              content="2019-11-23">
-          11-23
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/11/23/6-tcp-ip/" itemprop="url">
-            <span itemprop="name">CCNA笔记——6、tcp/ip参考模型</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-18T19:55:43+08:00"
-              content="2019-11-18">
-          11-18
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/11/18/OSI-7/" itemprop="url">
-            <span itemprop="name">CCNA笔记——5、OSI七层模型</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-18T18:43:45+08:00"
-              content="2019-11-18">
-          11-18
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/11/18/basic-knowledge/" itemprop="url">
-            <span itemprop="name">CCNA笔记——4、基础知识</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-16T17:28:58+08:00"
-              content="2019-11-16">
-          11-16
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/11/16/network-simulator/" itemprop="url">
-            <span itemprop="name">CCNA笔记——2、模拟器</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-
-    </div>
   </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/05/04/11-route-basic/" rel="next" title="CCNA笔记——11、路由基础及静态路由">
+                  <i class="fa fa-chevron-left"></i> CCNA笔记——11、路由基础及静态路由
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
   
   
   
 
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
+  </div>
 
 
           </div>
           
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzM4OS8yMzg4OQ=="></div>
+  </div>
+  
 
         </div>
           
@@ -477,6 +383,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RIP-V1"><span class="nav-number">1.</span> <span class="nav-text">RIP V1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总览"><span class="nav-number">1.1.</span> <span class="nav-text">总览</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -607,6 +514,19 @@
 
   
 
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
 
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>
