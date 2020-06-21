@@ -50,15 +50,17 @@
   };
 </script>
 
-  <meta name="description" content="RIP V1总览RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。 RIP协议的默认管理距离是120，RIP所接收的路由信息都被封装在UDP协议的数据报中，在UDP的520端口接收来自远程路由的信息，V1使用广播发送、更新路由信息，默认每30">
+  <meta name="description" content="RIP总览RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。RIP一共有3个版本的协议，分别是RIP V1，RIP V2以及RIPNG。 RIP定义了请求信息和响应消息两种类型。请求信息：可以请求整张路由表，也可以请求具体的路由信息。  请求">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CCNA笔记——12、RIP">
 <meta property="og:url" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;18&#x2F;12-RIP&#x2F;index.html">
 <meta property="og:site_name" content="Rookie&#39;s Notebook">
-<meta property="og:description" content="RIP V1总览RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。 RIP协议的默认管理距离是120，RIP所接收的路由信息都被封装在UDP协议的数据报中，在UDP的520端口接收来自远程路由的信息，V1使用广播发送、更新路由信息，默认每30">
+<meta property="og:description" content="RIP总览RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。RIP一共有3个版本的协议，分别是RIP V1，RIP V2以及RIPNG。 RIP定义了请求信息和响应消息两种类型。请求信息：可以请求整张路由表，也可以请求具体的路由信息。  请求">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-18T09:28:45.693Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;18&#x2F;12-RIP&#x2F;RIP_msgformat.PNG">
+<meta property="og:updated_time" content="2020-06-21T06:56:21.534Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;18&#x2F;12-RIP&#x2F;RIP_msgformat.PNG">
 
 <link rel="canonical" href="https://renyuan431.github.io/2020/06/18/12-RIP/">
 
@@ -250,10 +252,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-18 10:25:00 / 修改时间：17:28:45" itemprop="dateCreated datePublished" datetime="2020-06-18T10:25:00+08:00">2020-06-18</time>
+              <time title="创建时间：2020-06-18 10:25:00" itemprop="dateCreated datePublished" datetime="2020-06-18T10:25:00+08:00">2020-06-18</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-21 14:56:21" itemprop="dateModified" datetime="2020-06-21T14:56:21+08:00">2020-06-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -290,14 +298,36 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="RIP-V1"><a href="#RIP-V1" class="headerlink" title="RIP V1"></a>RIP V1</h1><h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。</p>
-<p>RIP协议的默认管理距离是120，RIP所接收的路由信息都被封装在UDP协议的数据报中，在UDP的520端口接收来自远程路由的信息，V1使用广播发送、更新路由信息，默认每30秒发送一次。RIP V1支持最大6条，默认4条等价负载均衡的路由，不支持验证。</p>
-<p>RIP使用Hop Count（跳计数）作为路径选择的度量值。最大跳数是15，如果最大跳数大于15，则认为该网络失效。RIPv1采用广播式更新，RIPv2采用组播更新方式，RIP默认每隔30秒周期性的发送整个路由表给邻路由。</p>
+        <h1 id="RIP"><a href="#RIP" class="headerlink" title="RIP"></a>RIP</h1><h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。RIP一共有3个版本的协议，分别是RIP V1，RIP V2以及RIPNG。</p>
 <p>RIP定义了请求信息和响应消息两种类型。请求信息：可以请求整张路由表，也可以请求具体的路由信息。</p>
 <ul>
 <li>请求整张路由表：请求消息含有一个地址族标识字段为0（地址为0.0.0.0），度量值为16的单条路由，收到这个请求的设备将通过单播方式向发出请求的地址回送它的整个路由表。</li>
 <li>请求具体路由信息：当需要获知某个或某些具体路由的信息时，请求消息将与特定地址的路由条目一起发送。接受到请求的设备将根据请求消息逐个处理这些条目，并构成一个响应消息。</li>
 </ul>
+<h3 id="V1和V2的相同点"><a href="#V1和V2的相同点" class="headerlink" title="V1和V2的相同点"></a>V1和V2的相同点</h3><ol>
+<li>RIP V1和V2协议的算法均为贝尔曼福特算法。</li>
+<li>采用相同的防环机制，这六大机制为水平分割，路由中毒，毒性反转，触发更新，最大跳数，占用时间Hold Time。</li>
+<li>端口号、协议号、管理距离和度量值相同。UDP端口号520，协议号17，管理距离（AD）是120，度量值均为跳数。</li>
+<li>收敛速度和更新机制相同。更新机制均为周期更新、触发更新或完全更新、增量更新。RIP默认每隔30秒周期性的发送整个路由表给邻路由。</li>
+<li>没有邻居机制，但有数据库。</li>
+</ol>
+<h3 id="V1和V2的不同点"><a href="#V1和V2的不同点" class="headerlink" title="V1和V2的不同点"></a>V1和V2的不同点</h3><ol>
+<li>RIP V1是有类路由协议，发送路由更新<strong>不携带</strong>子网掩码，默认在有类边界自动汇总，不可关闭；RIP V2使用无类路由，发送路由更新要携带子网掩码，默认在有类边界自动汇总，但可以关闭。</li>
+<li>V1不支持认证，V2支持认证。</li>
+<li>V1采用广播更新路由，V2采用组播更新路由，组播地址为224.0.0.9。</li>
+</ol>
+<h3 id="V2的改进"><a href="#V2的改进" class="headerlink" title="V2的改进"></a>V2的改进</h3><ol>
+<li>外部路由标记。通过在RIP中使用路由标记，就能在其他协议中，控制相关路由的重发布，当重发布到其他协议时，RIP路由只需要比较赋予他们的标记而不用比较整个路由。</li>
+<li>VLSM支持</li>
+<li>组播能力。使用224.0.0.9的组播地址发送路由更新。</li>
+<li>支持MD5认证。</li>
+<li>支持连续子网以及不连续子网。</li>
+</ol>
+<h3 id="RIP的计时器"><a href="#RIP的计时器" class="headerlink" title="RIP的计时器"></a>RIP的计时器</h3><p>Update timer更新计时器：RIP默认路由信息交换的时间为30秒一次。</p>
+<p>Invalid timer无效计时器：当一条路由条目被加进路由表后，如果它在路由表中超过180秒未被更新，则路由器认为这条路由无效，在这种情况下，路由器会将该路由的跳数标记为16跳，也就是不可达。</p>
+<p>hold down timer抑制计时器：一条路由信息无效之后，一段时间内这条路由都处于抑制状态，即在一定时间内不再接收关于同一目的地址的路由更新。大概过程是如果一个路由器从邻居路由器收到一条更新，提示以前可达的网络现在不可达了，或有一个更大跳数的路由，则路由器标识该路由为不可达并启动一个抑制计时器，如果在定时器到时之前收到该路由又可达的更新，或者新度量值比之前的度量值更好，则路由器标识这个路由可达并删除定时器。路由器从一个网段上得知一条路径失效，然后，立即在另一个网段上得知这个路由有效。这个有效的信息往往是不正确的，抑制计时避免了这个问题，而且，当一条链路频繁起停时，抑制计时减少了路由的浮动，增加了网络的稳定性。RIP的抑制计时器默认为6个更新的周期，也就是6X30，为180秒。</p>
+<p>Flush time清除计时器：清除计时器的默认时间为240秒，也就是说如果240秒内一条路由如果始终没有相应，则该路由条目被标记为不可达并从路由表中移除。</p>
+<h2 id="RIP-V2"><a href="#RIP-V2" class="headerlink" title="RIP V2"></a>RIP V2</h2><p><img src="/2020/06/18/12-RIP/RIP_msgformat.PNG" alt="RIP_msgformat"></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
     </div>
 
@@ -383,7 +413,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RIP-V1"><span class="nav-number">1.</span> <span class="nav-text">RIP V1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总览"><span class="nav-number">1.1.</span> <span class="nav-text">总览</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RIP"><span class="nav-number">1.</span> <span class="nav-text">RIP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总览"><span class="nav-number">1.1.</span> <span class="nav-text">总览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#V1和V2的相同点"><span class="nav-number">1.1.1.</span> <span class="nav-text">V1和V2的相同点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V1和V2的不同点"><span class="nav-number">1.1.2.</span> <span class="nav-text">V1和V2的不同点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V2的改进"><span class="nav-number">1.1.3.</span> <span class="nav-text">V2的改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RIP的计时器"><span class="nav-number">1.1.4.</span> <span class="nav-text">RIP的计时器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RIP-V2"><span class="nav-number">1.2.</span> <span class="nav-text">RIP V2</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
