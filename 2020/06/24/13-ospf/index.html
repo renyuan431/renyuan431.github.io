@@ -50,28 +50,39 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Rookie&#39;s Notebook">
-<meta property="og:url" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;page&#x2F;2&#x2F;index.html">
+  <meta name="description" content="链路状态路由协议概述链路状态路由协议使用Dijkstra算法，也称SPF（Shortest Path First，最短路径优先）算法。常见的链路状态路由协议有：OSPFv2、OSPFv3等。这篇文章主要针对OSPFv2，OSPFv3是面向IPv6的且不兼容IPv4。 链路状态路由协议的工作流程是，发现其他同样运行了该链路状态路由协议的设备——所有设备交换相关链路信息——每个设备自己形成整体的连接图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CCNA笔记——13、OSPF">
+<meta property="og:url" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;index.html">
 <meta property="og:site_name" content="Rookie&#39;s Notebook">
+<meta property="og:description" content="链路状态路由协议概述链路状态路由协议使用Dijkstra算法，也称SPF（Shortest Path First，最短路径优先）算法。常见的链路状态路由协议有：OSPFv2、OSPFv3等。这篇文章主要针对OSPFv2，OSPFv3是面向IPv6的且不兼容IPv4。 链路状态路由协议的工作流程是，发现其他同样运行了该链路状态路由协议的设备——所有设备交换相关链路信息——每个设备自己形成整体的连接图">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Cisco-CCNA-OSPF-1.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-06-25_16-58-10.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-06-25_11-59-29.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-06-25_18-48-46.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-06-26_16-36-41.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-06-26_11-34-24.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;ospf-if-e-0-0-1593085167925.png">
+<meta property="og:updated_time" content="2020-06-26T10:39:57.534Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Cisco-CCNA-OSPF-1.jpg">
 
-<link rel="canonical" href="https://renyuan431.github.io/page/2/">
+<link rel="canonical" href="https://renyuan431.github.io/2020/06/24/13-ospf/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false,
+    isHome: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>Rookie's Notebook</title>
+  <title>CCNA笔记——13、OSPF | Rookie's Notebook</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-153169643-1"></script>
     <script>
@@ -221,262 +232,10 @@
             
 
   <div class="posts-expand">
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/05/04/11-route-basic/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rookie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rookie's Notebook">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/04/11-route-basic/" class="post-title-link" itemprop="url">CCNA笔记——11、路由基础及静态路由</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-04 10:25:00" itemprop="dateCreated datePublished" datetime="2020-05-04T10:25:00+08:00">2020-05-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-21 10:31:25" itemprop="dateModified" datetime="2020-06-21T10:31:25+08:00">2020-06-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
       
-          <h1 id="路由的基本概念"><a href="#路由的基本概念" class="headerlink" title="路由的基本概念"></a>路由的基本概念</h1><h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><blockquote>
-<p>Routing is the process of selecting a path for traffic in a network or between or across multiple networks.</p>
-<p>In packet switching networks, routing is the higher-level decision making that directs network packets from their source toward their destination through intermediate network nodes by specific packet forwarding mechanisms.</p>
-</blockquote>
-<p>路由是指在一个网络中或多个网络之间或跨多个网络的流量选择路径的过程。路由是指通过特定的数据包转发机制，将网络数据包从源头通过中间网络节点向目的地方向引导网络数据包的高级决策。路由过程通常根据路由表指导转发。<strong>路由是一个三层（网络层）的概念</strong>。</p>
-<p>当路由器（或者其他三层设备）收到一个 IP 数据包，路由器会找出 IP 包三层头中的目的 IP地址，然后拿着目的IP地址到自己的路由表中进行查找，找到“最匹配”的条目后，将数据包根据路由条目所 指示的出接口或下一跳 IP 转发出去，这就是 IP 路由（IP routing） 。而每台路由器都会在本地维护一个路由表 （Routing Table） ，路由表中装载着路由器获知的路由条目（Routes） ，路由条目由路由前缀（路由所关联的目的 地） 、路由信息来源、出接口或下一跳 IP 等元素构成。路由器通过静态的或者动态的方式获取路由条目并维护自 己的路由表。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/04/11-route-basic/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
   
   
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/06/18/12-RIP/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rookie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rookie's Notebook">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/18/12-RIP/" class="post-title-link" itemprop="url">CCNA笔记——12、RIP</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-06-18 10:25:00" itemprop="dateCreated datePublished" datetime="2020-06-18T10:25:00+08:00">2020-06-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-24 15:10:25" itemprop="dateModified" datetime="2020-06-24T15:10:25+08:00">2020-06-24</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">路由交换方向</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/" itemprop="url" rel="index">
-                    <span itemprop="name">CCNA</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="RIP"><a href="#RIP" class="headerlink" title="RIP"></a>RIP</h1><h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。RIP一共有3个版本的协议，分别是RIP V1，RIP V2以及RIPNG。</p>
-<p>RIP定义了请求信息和响应消息两种类型。请求信息：可以请求整张路由表，也可以请求具体的路由信息。</p>
-<ul>
-<li>请求整张路由表：请求消息含有一个地址族标识字段为0（地址为0.0.0.0），度量值为16的单条路由，收到这个请求的设备将通过单播方式向发出请求的地址回送它的整个路由表。</li>
-<li>请求具体路由信息：当需要获知某个或某些具体路由的信息时，请求消息将与特定地址的路由条目一起发送。接受到请求的设备将根据请求消息逐个处理这些条目，并构成一个响应消息。</li>
-</ul>
-<h3 id="V1和V2的相同点"><a href="#V1和V2的相同点" class="headerlink" title="V1和V2的相同点"></a>V1和V2的相同点</h3><ol>
-<li>RIP V1和V2协议的算法均为贝尔曼福特算法。</li>
-<li>采用相同的防环机制，这六大机制为水平分割，路由中毒，毒性反转，触发更新，最大跳数，占用时间Hold Time。</li>
-<li>端口号、协议号、管理距离和度量值相同。UDP端口号520，协议号17，管理距离（AD）是120，度量值均为跳数。</li>
-<li>收敛速度和更新机制相同。更新机制均为周期更新、触发更新或完全更新、增量更新。RIP默认每隔30秒周期性的发送整个路由表给邻路由。</li>
-<li>没有邻居机制，但有数据库。</li>
-</ol>
-<h3 id="V1和V2的不同点"><a href="#V1和V2的不同点" class="headerlink" title="V1和V2的不同点"></a>V1和V2的不同点</h3><ol>
-<li><p>RIP V1是有类路由协议，发送路由更新<strong>不携带</strong>子网掩码，默认在有类边界自动汇总，不可关闭；RIP V2使用无类路由，发送路由更新要携带子网掩码，默认在有类边界自动汇总，但可以关闭。</p>
-</li>
-<li><p>V1不支持认证，V2支持认证。</p>
-</li>
-<li><p>V1采用广播更新路由，V2采用组播更新路由，组播地址为224.0.0.9。</p>
-</li>
-</ol>
-<h3 id="V1的缺陷"><a href="#V1的缺陷" class="headerlink" title="V1的缺陷"></a>V1的缺陷</h3><p>RIPv1是一个有类路由协议，可以支持带子网的网络地址，但是必须是连续的，中间不被其他主类网络分隔，并且子网掩码长度必须相同。所以后面RIP 又推出了V2版本对此进行了一些改进。</p>
-<h3 id="V2的改进"><a href="#V2的改进" class="headerlink" title="V2的改进"></a>V2的改进</h3><ol>
-<li>外部路由标记。通过在RIP中使用路由标记，就能在其他协议中，控制相关路由的重发布，当重发布到其他协议时，RIP路由只需要比较赋予他们的标记而不用比较整个路由。</li>
-<li>在路由更新中携带有子网掩码的路由选择信息，所以支持了VLSM和CIDR。</li>
-<li>组播能力。使用224.0.0.9的组播地址发送路由更新，代替了V1的广播更新。</li>
-<li>提供身份验证功能，支持明文和MD5认证。</li>
-<li>支持连续子网以及不连续子网。</li>
-<li>可以关闭自动汇总，并支持手动汇总。</li>
-</ol>
-<h3 id="V1和V2兼容性"><a href="#V1和V2兼容性" class="headerlink" title="V1和V2兼容性"></a>V1和V2兼容性</h3><p>默认情况下CISCO路由器上运行的 RIP发送v1，接收v1 v2， 如果显示声明为v1（在RIP进程中使用version 1命令）则只发送和接受v1报文，v2默认只发送和接收v2报文。</p>
-<h3 id="RIP的计时器"><a href="#RIP的计时器" class="headerlink" title="RIP的计时器"></a>RIP的计时器</h3><p>Update timer更新计时器：RIP默认路由信息交换的时间为30秒一次。</p>
-<p>Invalid timer无效计时器：当一条路由条目被加进路由表后，如果它在路由表中超过180秒未被更新，则路由器认为这条路由无效，在这种情况下，路由器会将该路由的跳数标记为16跳，也就是不可达。</p>
-<p>hold down timer抑制计时器：一条路由信息无效之后，一段时间内这条路由都处于抑制状态，即在一定时间内不再接收关于同一目的地址的路由更新。大概过程是如果一个路由器从邻居路由器收到一条更新，提示以前可达的网络现在不可达了，或有一个更大跳数的路由，则路由器标识该路由为不可达并启动一个抑制计时器，如果在定时器到时之前收到该路由又可达的更新，或者新度量值比之前的度量值更好，则路由器标识这个路由可达并删除定时器。路由器从一个网段上得知一条路径失效，然后，立即在另一个网段上得知这个路由有效。这个有效的信息往往是不正确的，抑制计时避免了这个问题，而且，当一条链路频繁起停时，抑制计时减少了路由的浮动，增加了网络的稳定性。RIP的抑制计时器默认为6个更新的周期，也就是6X30，为180秒。</p>
-<p>Flush time清除计时器：清除计时器的默认时间为240秒，也就是说如果240秒内一条路由如果始终没有相应，则该路由条目被标记为不可达并从路由表中移除。</p>
-<h2 id="RIP-V2"><a href="#RIP-V2" class="headerlink" title="RIP V2"></a>RIP V2</h2><h3 id="报头"><a href="#报头" class="headerlink" title="报头"></a>报头</h3><p><img src="/2020/06/18/12-RIP/RIP_msgformat.PNG" alt="RIP_msgformat"></p>
-<p><img src="/2020/06/18/12-RIP/Snipaste_2020-06-21_15-54-09.jpg" alt="Snipaste_2020-06-21_15-54-09"></p>
-<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#router rip</span><br><span class="line">/*使用RIPv2，如果不使用这条命令默认是使用RIPv1*/</span><br><span class="line">Router(config-router)#version 2</span><br><span class="line">/*和RIPv1相同，都是宣告主类网络号*/</span><br><span class="line">R1(config-router)#no auto-summary  </span><br><span class="line">/*关闭自动汇总*/</span><br><span class="line">Router(config-router)#network 主类网络号</span><br><span class="line">Router(config-router)#int s0/0</span><br><span class="line">/*关闭自动汇总后，配置手动汇总的话需要在接口上进行配置，汇总是在路由的外出接口上面做的*/</span><br><span class="line">R1(config-if)#ip summary-address rip 汇总网络号  汇总掩码</span><br><span class="line">/*等待路由收敛后，查看路由表，就只能看到汇总路由的条目了*/</span><br></pre></td></tr></table></figure>
-
-<h3 id="被动接口"><a href="#被动接口" class="headerlink" title="被动接口"></a>被动接口</h3><p>当一个运行RIP协议的接口被配置为被动接口后，这个接口不发出路由的更新信息但接受路由的更新信息。</p>
-<p>配置命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#router rip </span><br><span class="line">R1(config-router)#passive-interface s1/1</span><br><span class="line">/*将S 1/1接口配置为被动接口*/</span><br></pre></td></tr></table></figure>
-
-<h2 id="RIP-综合实验"><a href="#RIP-综合实验" class="headerlink" title="RIP 综合实验"></a>RIP 综合实验</h2><p><img src="/2020/06/18/12-RIP/Snipaste_2020-06-21_17-13-05.jpg" alt="Snipaste_2020-06-21_17-13-05"></p>
-<h3 id="实验需求"><a href="#实验需求" class="headerlink" title="实验需求"></a>实验需求</h3><ol>
-<li>网络拓扑如上图所示。 PC1 使用模拟器模拟，R3 下联的网段使用 Loopback 接口来模拟，一共开设三个 Loopback 接口，用于模拟 R3 下联的三个网段；</li>
-<li>要求 R1、R2、R3 运行 RIPv2，并实现全网可达；</li>
-<li>在 R3 上部署 RIP 手工路由汇总，使得 R1、R2 学习到 R3 下联 Loopback 的汇总路由。 </li>
-</ol>
-<h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><p>PC1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Router#config t</span><br><span class="line">Router(config)#hostname PC1</span><br><span class="line">PC1(config)#ip default-gateway 172.16.1.254</span><br><span class="line">/*配置默认网关为172.16.1.254，也就是和本社设备链接的R1的G0/1接口*/</span><br><span class="line">PC1(config)#no ip routing</span><br><span class="line">/*关闭路由功能，当成PC设备使用*/</span><br><span class="line">PC1(config)#int G0/0</span><br><span class="line">PC1(config-if)#no sh</span><br><span class="line">/*路由器接口默认关闭，这里打开该接口*/</span><br><span class="line">PC1(config-if)#ip add 172.16.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
-
-<p>R1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Router&gt;en</span><br><span class="line">Router#config t</span><br><span class="line">Router(config)#hostname R1</span><br><span class="line">R1(config-line)#int g0/1</span><br><span class="line">R1(config-if)#no sh</span><br><span class="line">R1(config-if)#ip add 172.16.1.254 255.255.255.0</span><br><span class="line">R1(config-if)#int g0/0</span><br><span class="line">R1(config-if)#no sh</span><br><span class="line">R1(config-if)#ip add 192.168.12.1 255.255.255.0</span><br></pre></td></tr></table></figure>
-
-<p>R2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Router&gt;en</span><br><span class="line">Router#config t</span><br><span class="line">Router(config)#hostname R2</span><br><span class="line">R2(config)#int g0/0</span><br><span class="line">R2(config-if)#no sh</span><br><span class="line">R2(config-if)#ip add 192.168.12.2 255.255.255.0</span><br><span class="line">R2(config-if)#int g0/1</span><br><span class="line">R2(config-if)#no sh</span><br><span class="line">R2(config-if)#ip add 192.168.23.2 255.255.255.0</span><br></pre></td></tr></table></figure>
-
-<p>R3：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Router&gt;en</span><br><span class="line">Router#config t</span><br><span class="line">Router(config)#hostname R3</span><br><span class="line">R3(config)#int g0/0</span><br><span class="line">R3(config-if)#no sh</span><br><span class="line">R3(config-if)#ip add 192.168.23.3 255.255.255.0</span><br><span class="line">R3(config)#int loop 1</span><br><span class="line">R3(config-if)#ip add 172.16.32.1 255.255.255.0</span><br><span class="line">R3(config-if)#int loop 2</span><br><span class="line">R3(config-if)#ip add 172.16.33.1 255.255.255.0</span><br><span class="line">R3(config-if)#int loop 3</span><br><span class="line">R3(config-if)#ip add 172.16.34.1 255.255.255.0</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置RIP"><a href="#配置RIP" class="headerlink" title="配置RIP"></a>配置RIP</h3><p>R1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R1(config-if)#router rip</span><br><span class="line">R1(config-router)#version 2</span><br><span class="line">R1(config-router)#no auto-summary</span><br><span class="line">R1(config-router)#network 172.16.0.0</span><br><span class="line">R1(config-router)#network 192.168.12.0</span><br></pre></td></tr></table></figure>
-
-<p>R2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R2(config-if)#router rip</span><br><span class="line">R2(config-router)#version 2</span><br><span class="line">R2(config-router)#no auto-summary</span><br><span class="line">R2(config-router)#network 192.168.12.0</span><br><span class="line">R2(config-router)#network 192.168.23.0</span><br></pre></td></tr></table></figure>
-
-<p>R3：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">R3(config-if)#router rip</span><br><span class="line">R3(config-router)#version 2</span><br><span class="line">R3(config-router)#no auto-summary</span><br><span class="line">R3(config-router)#network 172.16.0.0</span><br><span class="line">/*RIP 在使用 network 命令指定网段时，只支持通告主类网络。R3 有三个 Loopback接口，将这三个接口激活RIP时，只需network 172.16.0.0即可，实际上即使你输 入诸如network 172.16.32.0这样的命令， 系统也会按network 172.16.0.0生效*/</span><br><span class="line">R3(config-router)#network 192.168.23.0</span><br></pre></td></tr></table></figure>
-
-<h3 id="优化路由"><a href="#优化路由" class="headerlink" title="优化路由"></a>优化路由</h3><p>R3</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R3(config-router)#int g0/0</span><br><span class="line">R3(config-if)#ip summary-address rip 172.16.32.0 255.255.252.0</span><br><span class="line">/*把三个loopback接口的网段汇总以后是172.16.32.0 255.255.255.252。</span><br><span class="line">RIP 的手工汇总，需要 RIP 版本 2 的支持，另外需要先在 RIP 进程中 no  auto-summary 关闭自动汇总功能，然后再在接口上配置手工汇总命令，注意，该命令配置在汇总 路由欲对外发布的那个接口上。*/</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="http://ccietea.com/" target="_blank" rel="noopener">红茶三杯CCNA实验手册</a></p>
-<p><a href="http://ccietea.com/" target="_blank" rel="noopener">红茶三杯Ip routing</a></p>
-<p><a href="https://www.qingsword.com/qing/570.html#Cisco-CCNA-RIPv1-defect-9" target="_blank" rel="noopener">[CCNA图文笔记]-14-RIPv1协议缺陷详解</a></p>
-<p><a href="https://www.qingsword.com/qing/576.html" target="_blank" rel="noopener">[CCNA图文笔记]-15-RIPv2协议详解</a></p>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://renyuan431.github.io/2020/06/24/13-ospf/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -490,8 +249,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/24/13-ospf/" class="post-title-link" itemprop="url">CCNA笔记——13、OSPF</a>
+          CCNA笔记——13、OSPF
         </h1>
 
         <div class="post-meta">
@@ -529,6 +287,13 @@
             </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -539,7 +304,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="链路状态路由协议概述"><a href="#链路状态路由协议概述" class="headerlink" title="链路状态路由协议概述"></a>链路状态路由协议概述</h1><p>链路状态路由协议使用Dijkstra算法，也称SPF（Shortest Path First，最短路径优先）算法。常见的链路状态路由协议有：OSPFv2、OSPFv3等。这篇文章主要针对OSPFv2，OSPFv3是面向IPv6的且不兼容IPv4。</p>
+        <h1 id="链路状态路由协议概述"><a href="#链路状态路由协议概述" class="headerlink" title="链路状态路由协议概述"></a>链路状态路由协议概述</h1><p>链路状态路由协议使用Dijkstra算法，也称SPF（Shortest Path First，最短路径优先）算法。常见的链路状态路由协议有：OSPFv2、OSPFv3等。这篇文章主要针对OSPFv2，OSPFv3是面向IPv6的且不兼容IPv4。</p>
 <p>链路状态路由协议的工作流程是，发现其他同样运行了该链路状态路由协议的设备——所有设备交换相关链路信息——每个设备自己形成整体的连接图——每个设备独立计算最短路径形成路由表。首先运行了链路状态协议的所有节点共同构建一个连接图，这个连接图显示了网络上设备相互连接的情况。运行了该路由协议的节点会从本设备上所有可能的路径中，计算出本设备上的最佳下一跳是哪条路径，每个设备上最佳的路径构成了每个设备的路由表。</p>
 <p>链路状态路由协议有点像你用导航去迪士尼乐园，导航软件从一开始就知道整个上海的地图以及从你所在的地点到迪士尼乐园有哪些可能存在的路线，然后对这些潜在的路线进行比较，看看哪条路线拥堵哪条路径通畅，最后选择出一条最优的路线告诉你应该怎么走。</p>
 <h2 id="协议优缺点"><a href="#协议优缺点" class="headerlink" title="协议优缺点"></a>协议优缺点</h2><p><strong>优点</strong></p>
@@ -644,15 +409,51 @@
 <p>A new BDR is selected and the new BDR forms full adjacency with all other OSPF routers on that segment.</p>
 <h1 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h1><p><a href="https://community.cisco.com/t5/routing/ospf-bdr-and-dr-other-relations/td-p/3758851" target="_blank" rel="noopener">OSPF BDR and DR-OTHER relations</a></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
-      
     </div>
 
     
     
     
+      
+        <div class="reward-container">
+  <div></div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Rookie 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Rookie 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/06/18/12-RIP/" rel="next" title="CCNA笔记——12、RIP">
+                  <i class="fa fa-chevron-left"></i> CCNA笔记——12、RIP
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
       </footer>
+    
   </article>
   
   
@@ -660,15 +461,14 @@
 
   </div>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-  </nav>
-
-
 
           </div>
           
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzM4OS8yMzg4OQ=="></div>
+  </div>
+  
 
         </div>
           
@@ -693,6 +493,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#链路状态路由协议概述"><span class="nav-number">1.</span> <span class="nav-text">链路状态路由协议概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#协议优缺点"><span class="nav-number">1.1.</span> <span class="nav-text">协议优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#协议工作流程"><span class="nav-number">1.2.</span> <span class="nav-text">协议工作流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OSPF协议"><span class="nav-number">2.</span> <span class="nav-text">OSPF协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述及基本配置"><span class="nav-number">2.1.</span> <span class="nav-text">概述及基本配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础概念"><span class="nav-number">2.2.</span> <span class="nav-text">基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自治系统（AS）"><span class="nav-number">2.2.1.</span> <span class="nav-text">自治系统（AS）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链路（Link）"><span class="nav-number">2.2.2.</span> <span class="nav-text">链路（Link）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链路状态（Link-State）"><span class="nav-number">2.2.3.</span> <span class="nav-text">链路状态（Link-State）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链路状态通告（LSA）"><span class="nav-number">2.2.4.</span> <span class="nav-text">链路状态通告（LSA）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由器ID（Router-ID，简称RID）"><span class="nav-number">2.2.5.</span> <span class="nav-text">路由器ID（Router ID，简称RID）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#邻居（Neighbor）"><span class="nav-number">2.2.6.</span> <span class="nav-text">邻居（Neighbor）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#邻接关系"><span class="nav-number">2.2.7.</span> <span class="nav-text">邻接关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#邻居VS邻接"><span class="nav-number">2.2.8.</span> <span class="nav-text">邻居VS邻接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区域（Area）"><span class="nav-number">2.2.9.</span> <span class="nav-text">区域（Area）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多路访问（MA）"><span class="nav-number">2.2.10.</span> <span class="nav-text">多路访问（MA）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定路由器（DR）"><span class="nav-number">2.2.11.</span> <span class="nav-text">指定路由器（DR）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组播地址"><span class="nav-number">2.2.12.</span> <span class="nav-text">组播地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cost"><span class="nav-number">2.2.13.</span> <span class="nav-text">Cost</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ospf数据包类型"><span class="nav-number">2.2.14.</span> <span class="nav-text">ospf数据包类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协议的三张表"><span class="nav-number">2.2.15.</span> <span class="nav-text">协议的三张表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础命令"><span class="nav-number">2.3.</span> <span class="nav-text">基础命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OSPF计时器"><span class="nav-number">2.4.</span> <span class="nav-text">OSPF计时器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#邻居建立"><span class="nav-number">2.5.</span> <span class="nav-text">邻居建立</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章："><span class="nav-number">3.</span> <span class="nav-text">参考文章：</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -823,6 +624,19 @@
 
   
 
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
 
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

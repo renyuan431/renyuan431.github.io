@@ -1,6 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CCNA笔记——13、OSPF</title>
+    <url>/2020/06/24/13-ospf/</url>
+    <content><![CDATA[<h1 id="链路状态路由协议概述"><a href="#链路状态路由协议概述" class="headerlink" title="链路状态路由协议概述"></a>链路状态路由协议概述</h1><p>链路状态路由协议使用Dijkstra算法，也称SPF（Shortest Path First，最短路径优先）算法。常见的链路状态路由协议有：OSPFv2、OSPFv3等。这篇文章主要针对OSPFv2，OSPFv3是面向IPv6的且不兼容IPv4。</p>
+<p>链路状态路由协议的工作流程是，发现其他同样运行了该链路状态路由协议的设备——所有设备交换相关链路信息——每个设备自己形成整体的连接图——每个设备独立计算最短路径形成路由表。首先运行了链路状态协议的所有节点共同构建一个连接图，这个连接图显示了网络上设备相互连接的情况。运行了该路由协议的节点会从本设备上所有可能的路径中，计算出本设备上的最佳下一跳是哪条路径，每个设备上最佳的路径构成了每个设备的路由表。</p>
+<p>链路状态路由协议有点像你用导航去迪士尼乐园，导航软件从一开始就知道整个上海的地图以及从你所在的地点到迪士尼乐园有哪些可能存在的路线，然后对这些潜在的路线进行比较，看看哪条路线拥堵哪条路径通畅，最后选择出一条最优的路线告诉你应该怎么走。</p>
+<h2 id="协议优缺点"><a href="#协议优缺点" class="headerlink" title="协议优缺点"></a>协议优缺点</h2><p><strong>优点</strong></p>
+<ol>
+<li>形成的路由表更加精确。链路状态路由协议是根究互相交换的LSA构成LSDB，在构成路由表，且路由表是在充分了解全网状况的条件下形成的，而距离矢量路由协议仅根据邻居路由宣告的信息生成自己的路由表。</li>
+<li>触发更新，收敛更快。链路状态路由协议采用触发更新机制，当网络发生变化时，路由器收到LSA后，立刻向除了接收到此LAS接口的其他接口泛洪出去，然后执行算法更新路由表，而距离矢量路由表采用周期性更新路由表。</li>
+<li>分层设计。链路状态路由协议都采取了区域设计，为链路状态更新范围设定了边界。LSA的传播和SPF的计算被限制在一个区域内，同一区域内路由器具有相同的LSDB，区域间路由信息的交换由区域边界路由器完成，因此路由表更小，并降低了链路状态更新的开销。</li>
+</ol>
+<p><strong>缺点</strong></p>
+<p>内存需求更大，处理器要求更高，在网络初始化时，大量链路状态包泛洪，会影响网络的可用带宽，对带宽需求更大。</p>
+<h2 id="协议工作流程"><a href="#协议工作流程" class="headerlink" title="协议工作流程"></a>协议工作流程</h2><ul>
+<li>每台路由器学习激活链路状态路由协议的直接相连的网络。</li>
+<li>每台路由器和直接相连的路由器交互，发送Hello报文，建立邻居关系。</li>
+<li>每天路由器构建包含直接相连的链路状态的LSA（Link-State Advertisement，链路状态通告）。链路状态通告（LSA）中记录了所有相关的路由器，包括相邻路由器的标识、链路类型、带宽等。</li>
+<li>每台路由器泛洪链路状态通告（LSA）给所有的邻居路由器，并且自己也在本地存储邻居路由器发过来的LSA，然后再将收到的LSA泛洪给自己的所有邻居，直到在同一区域中的所有路由器收到了所有的LSA。每台路由器在本地数据库中保存所有收到的LSA副本，这个数据库被称作“链路状态数据库（LSDB）”</li>
+<li>每台路由器基于本地的“链路状态数据库（LSDB）”，执行最短路径优先（SPF）算法，并以被路由器为根，生成一个SPF树，居于这个SPF树计算去往每个网络的最短路径，得到最终的路由表。</li>
+</ul>
+<p><img src="/2020/06/24/13-ospf/Cisco-CCNA-OSPF-1.jpg" alt="Cisco-CCNA-OSPF-1"></p>
+<h1 id="OSPF协议"><a href="#OSPF协议" class="headerlink" title="OSPF协议"></a>OSPF协议</h1><h2 id="概述及基本配置"><a href="#概述及基本配置" class="headerlink" title="概述及基本配置"></a>概述及基本配置</h2><p>OSPF（Open Shortest Path First，开放最短路径优先）是一个被各厂商设备广泛支持的链路状态路由协议，也是现网中采用最多的路由协议。</p>
+<p>OSPF采用SPF算法，不会产生环路；支持VLSM和CIDR；可以用于大型网络；采用层次化设计，容易扩展；区域化设计，减小路由更新给设备带来的负担；路由快速收敛，采用出发时更新；支持针对区域和链路的验证。执行OSPF的路由默认每隔30分钟会泛洪一次链路状态通告（LSA），成为链路状态刷新（并非周期性更新）；当一条LSA被接收并存储到链路状态数据库后，路由器会给这条记录增加一个老化时间标识，默认是一小时，所以为了防止一些正常的LSA被清除，这条LSA的路由会每隔30分钟泛洪一次这条LSA的一个新拷贝。</p>
+<p>OSPF路由协议的管理距离为110，使用IP协议号89，采用COST作为度量标准（Metric），OSPF维护邻居表、拓扑表和路由表三张表项；OSPF的消息有Hello，DBD（Database Description），LSR（Link State Request），LSU（Link State Update），LSAck（Link State Acknowledge）；OSPF的网络类型有广播多路访问（BMA，Broadcast Multi Access），非广播多路访问（NBMA，None Broadcast Multi Access），</p>
+<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="自治系统（AS）"><a href="#自治系统（AS）" class="headerlink" title="自治系统（AS）"></a>自治系统（AS）</h3><p>自治系统（Autonomous system），采用同一种路由协议交换信息的路由器及其网络构成一个自治系统。具体到OSPF协议中，简单来说就是所有运行OSPF的路由器所组成的网络是同一自治系统。</p>
+<h3 id="链路（Link）"><a href="#链路（Link）" class="headerlink" title="链路（Link）"></a>链路（Link）</h3><p>相当于一个接口加入OSPF进程，就被当做是OSPF的一条链路。</p>
+<h3 id="链路状态（Link-State）"><a href="#链路状态（Link-State）" class="headerlink" title="链路状态（Link-State）"></a>链路状态（Link-State）</h3><p>包括接口的IP、子网、网络类型、链路话费、链路上的邻居等。</p>
+<h3 id="链路状态通告（LSA）"><a href="#链路状态通告（LSA）" class="headerlink" title="链路状态通告（LSA）"></a>链路状态通告（LSA）</h3><p>链路状态通告（LSA）是OSPF协议的一种基本通信手段，它将路由器的本地拓扑发送给同区域（Area）的其他路由器。OSPF协议设计之初考虑了可扩展性，所以有些LSA不会在所有接口上泛洪而是只在相应区域的接口上泛洪。LSA用来描述路由器的本地状态，LSA包括的信息有路由器接口的状态和所形成的邻接状态。</p>
+<h3 id="路由器ID（Router-ID，简称RID）"><a href="#路由器ID（Router-ID，简称RID）" class="headerlink" title="路由器ID（Router ID，简称RID）"></a>路由器ID（Router ID，简称RID）</h3><p>RID是一个用来标识路由器的IP地址，在一个OSPF域中唯一地标识一台路由器，不能和其他路由器的Router ID重复，可以在OSPF路由进程中手工指定，如果没有指定，路由器默认选择环回接口（Loopback接口）中最高的IP作为RID；如果没有环回地址，路由器使用所有激活的物理接口中最高的IP作为RID。</p>
+<h3 id="邻居（Neighbor）"><a href="#邻居（Neighbor）" class="headerlink" title="邻居（Neighbor）"></a>邻居（Neighbor）</h3><p>运行OSPF协议的路由器在相互交换LSA之前需要先建立邻居。邻居通过相互交互Hello数据包的方式自动发现并建立的，Hello包通过组播地址224.0.0.5进行发送。如果两个路由器交互的hello包中的各项参数相互匹配，则二者的邻居关系将被自动建立。这些参数包括：子网、区域ID（Area ID）、OSPF相关计时器、认证、Area Stub 标识和MTU。两台路由器必须直连才能建立邻居。OSPF只与建立了邻接关系的邻居共享路由信息。</p>
+<h3 id="邻接关系"><a href="#邻接关系" class="headerlink" title="邻接关系"></a>邻接关系</h3><p><a href="https://community.cisco.com/t5/switching/ospf-neighbor-v-ospf-adjacency/td-p/1576785" target="_blank" rel="noopener">https://community.cisco.com/t5/switching/ospf-neighbor-v-ospf-adjacency/td-p/1576785</a></p>
+<h3 id="邻居VS邻接"><a href="#邻居VS邻接" class="headerlink" title="邻居VS邻接"></a>邻居VS邻接</h3><p>是邻居关系不一定是邻接关系，但是邻接一定是已经建立起了邻居关系。</p>
+<h3 id="区域（Area）"><a href="#区域（Area）" class="headerlink" title="区域（Area）"></a>区域（Area）</h3><p>OSPF通过划分区域来实现分层设计，跨越两个或两个以上区域的路由被称作ABR（Area Border Router，区域边界路由）。所有的区域都和“Area 0”相连，“Area 0”被称作骨干区域（Backbone），骨干区域路由器具有整个自治系统用中所有路由条目，LSA的扩散进限制在本区域内，可以通过划分多个区域以减小LSA扩散过程中对硬件的负担。作为骨干区域的Area 0的存在是为了快速高效的传输数据包，通常不接用户，主要负责多个常规区域的流量传输。Area 0 之外的区域叫做Regular area普通区域或nonbackbone area非骨干区域，主要为了连接用户，且所有数据交互都要通过Area 0中转，所以常规区域必须和骨干区域连接。一般一个区域内的路由器数量是30-200台。</p>
+<p>这种层次设计的好处有：</p>
+<ol>
+<li>减少了路由表的条目。</li>
+<li>LSA的泛洪在网络边界停止，能加速汇聚速度。</li>
+<li>缩小网络的不稳定性，一个区域的问题不会影响到其他区域。</li>
+</ol>
+<h3 id="多路访问（MA）"><a href="#多路访问（MA）" class="headerlink" title="多路访问（MA）"></a>多路访问（MA）</h3><blockquote>
+<p>A <strong>multi access network</strong> is a <strong>network</strong> which can have <strong>multiple</strong> (more than 2) machines participating in the <strong>network</strong>. A point to point <strong>network</strong> can have only 2 and a <strong>multi access network</strong> can have more than 2. The most common example of a <strong>multi access network</strong> is Ethernet (and FastEthernet etc).</p>
+</blockquote>
+<p>多路访问网络是有多个（超过两个）设备参与通信的网络。点对点（P2P）网络有且只有2个设备，多路访问网络可以有超过2个设备。最典型的多路访问网络就是日常生活中最常见的以太网。OSPF在点到点网络上是不选取DR的，正常情况下，DR只在多路访问时选取。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-25_16-58-10.jpg" alt="Snipaste_2020-06-25_16-58-10"></p>
+<p>多路访问网络有两种类型：广播型多路访问网络（BMA）及非广播型多路访问网络（NBMA）。以太网是一种典型的广播型多路访问网络。</p>
+<h3 id="指定路由器（DR）"><a href="#指定路由器（DR）" class="headerlink" title="指定路由器（DR）"></a>指定路由器（DR）</h3><p>指定路由器（Designated Router），当OSPF链路被连接到多路访问的网络时，需要选择一台指定路由器，每台路由器都把拓扑变化发给DR和BDR，然后由DR通知多路访问网络中的其他路由器。在OSPF网络中，既不是DR也不是BDR的路由器，它的角色是DR Other。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-25_11-59-29.jpg" alt="Snipaste_2020-06-25_11-59-29"></p>
+<p>如上图中的四台路由器，R1、R2、R3、R4，运行OSPF协议且已经建立起了邻居且选举完DR\BDR，R1为DR，R3为BDR，R2和R4为DR Other，此时，这四台设备并不是相互之间两两交互LSA，而是R2、R3、R4分别和R1交换LSA，然后由R1将其他路由器没有的LSA传送给它们。DR Other 路由器只于DR和BDR建立完全邻接关系，其它路由器处于two-way状态。</p>
+<p>之所以要选举DR是为了避免路由器之间建立完全邻接关系而引起的大量开销，OSPF要求在多路访问的网络中选举出一个DR，每个路由器都与DR建立邻接关系。选举出DR的同时也选举出一个BDR（Backup Designated Router），BDR也就是备份DR路由器，BDR在DR失效时承担起DR的职责，DR Other路由器只与DR和BDR建立邻接关系。DR和BDR通信的组播地址为224.0.0.6，<strong>DR的选举是一个路由器的接口特性而不是整个路由器的特性</strong>，也就是说，一个路由器如果有3个接口，G0/0、G0/1和G0/2，G0/0是DR，G0/1是BDR，G0/2是DR Other也是没问题的。比如下图的R3，两个接口分别是BDR和DR Other。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-25_18-48-46.jpg" alt="Snipaste_2020-06-25_18-48-46"></p>
+<h3 id="组播地址"><a href="#组播地址" class="headerlink" title="组播地址"></a><a href="https://community.cisco.com/t5/routing/dr-bdr-communication/td-p/1142718" target="_blank" rel="noopener">组播地址</a></h3><blockquote>
+<p>All OSPF routers continue to <strong>multicast HELLOS</strong> to 224.0.0.5, so they can keep track of their neighbors.</p>
+<p>DROTHERs will send <strong>multicast updates</strong> to 224.0.0.6 (DR/BDR listen). DR will flood <strong>multicast updates</strong> to DROthers on 224.0.0.5.</p>
+<p>DR and BDR can listen 224.0.0.5 not only to 244.0.0.6. DR Other listen 224.0.0.5 but not 224.0.0.6.</p>
+<p>Summary:</p>
+<p>* All OSPF enabled routers listen to/send LSA’s on multicast address 224.0.0.5</p>
+<p>* DR/BDR listens on multicast-address 224.0.0.6 in addition to 224.0.0.5. This allows DR/BDR in a particular segment to figure out status updates.</p>
+</blockquote>
+<p>OSPF通过发送Hello包到组播地址224.0.0.5来建立邻居，所以只要是运行了OSPF协议的路由器，不管是DR 、BDR还是DR Other都会监听这个地址用来建立邻居。DR Other使用224.0.0.6的组播地址，将LSU发送给DR和BDR，所以DR和BDR会监听224.0.0.6的组播地址。DR使用224.0.0.5的组播地址将LSU发送给DR Other路由器。综上所述，所有运行了OSPF的路由器都会监听224.0.0.5的组播地址，但只有DR和BDR在监听224.0.0.5地址的同时额外监听224.0.0.6的组播地址。</p>
+<h3 id="Cost"><a href="#Cost" class="headerlink" title="Cost"></a>Cost</h3><p>OSPF协议使用Cost值当作Metric去衡量到达目标网络的远近，Cost值越小越优。在每一个运行OSPF协议的接口上，都维护着一个接口的Cost值，接口的Cost值=100M / 接口带宽，也就是：10的8次方/BW（bit），这个100M（10的8次方）指的是参考带宽。一条路由的Cost值，是该路由从来源一路过来的所有入口方向的接口Cost值的总和，也就是这条路由经过接口的Cost值的综合。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-26_16-36-41.jpg" alt="Snipaste_2020-06-26_16-36-41"></p>
+<p>例如1.1.1.0/24的路由，由于是loop back接口，所以相对于Router A来说，Cost值为1，对于Router B来说，B与A相连接的接口Cost值为64，所以1.1.1.0/24的路由相对B来说，Cost值就是1+64，也就是65。</p>
+<p>修改Cost的方法：</p>
+<ol>
+<li>修改参考带宽，也就是修改10的8次方这个数值，因为计算Cost的公式是10的8次方/BW（bit），通过修改参考带宽也可以修改Cost值。</li>
+<li>修改接口带宽，带宽和Cost值成反比，带宽越大，cost值越小，通过修改带宽也可以达到修改Cost值的目的。</li>
+<li>直接修改Cost值，在接口上使用ip ospf cost  XX，可以直接修改Cost值。</li>
+</ol>
+<h3 id="ospf数据包类型"><a href="#ospf数据包类型" class="headerlink" title="ospf数据包类型"></a>ospf数据包类型</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-26_11-34-24.jpg" alt="Snipaste_2020-06-26_11-34-24"></p>
+<ul>
+<li>Hello：发现直连链路上的OSPF邻居、维护邻居关系。</li>
+<li>DBD：Database Description，数据库描述包，DBD一共有两种类型，一种是空的DBD，用于协商Master/Slave，另一种则包含LSA的头部信息（不是全部的LSA信息，相当于一个LSA的目录），用于描述LSDB的摘要。 </li>
+<li>LSR：Link State Request，链路状态请求报文，用于向OSPF邻居请求链路状态信息。</li>
+<li>LSU：Link State Update，链路状态更新报文，在LSU报文中包含完整的链路状态信息，也就是完整的LSA。</li>
+<li>LSACK：Link State Acknowledge，链路状态确认报文，OSPF协议规定收到每个LSA后要进行确认，LSACK就是确认收到LSA的报文。</li>
+</ul>
+<h3 id="协议的三张表"><a href="#协议的三张表" class="headerlink" title="协议的三张表"></a>协议的三张表</h3><p>邻居表（Neighbor Table）：两台路由器的OSPF要协同工作，最基本的要求是两者要形成邻接关系，邻居表储存了OSPF路由器邻居状态以及关于该邻居的其他数据。</p>
+<p>拓扑数据库（Link-State Database，LSDB）：OSPF用LSA（Link State Advertisement，链路状态通告）来描述网络拓扑信息，LSDB中存储着路由器产生或收到的LSA。路由收敛后，每个区域内路由器的LSDB完全一致。</p>
+<p>OSPF路由表（OSPF Routing Table）：基于LSDB进行SPF算法计算，得出的路由被加载到路由表中。</p>
+<h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Router(config)# router ospf process-id </span><br><span class="line">/*创建OSPF进程并进入OSPF进程配置模式，Process-id为OSPF进程号，范围必须在1-65535之间，进程号只具有本地意义，不同路由器之间的OSPF进程号可以相同也可以不同，互相之间不影响*/</span><br><span class="line">Router(config-router)# network  address  wildcard-mask  areaarea-id</span><br><span class="line">/*在特定网段上激活OSPF*/</span><br><span class="line">Router# show ip ospf neighbor </span><br><span class="line">/*查看OSPF邻居表*/</span><br><span class="line">Router# show ip ospf database</span><br><span class="line">/*查看OSPF的LSDB*/</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/06/24/13-ospf/ospf-if-e-0-0-1593085167925.png" alt="ospf-if-e-0-0"></p>
+<ul>
+<li>show ip ospf interface E0/0，就是查看E0/0接口上关于OSPF的配置情况。</li>
+<li>Process ID 1，也就是之前配置的router ospf 后面的process-id，这里可以看到该OSPF进程号为1。</li>
+<li>Router ID 0.0.0.2，就是该路由器的ID。</li>
+<li>Network Type BROADCAST，表示E0/0接口的OSPF网络类型为广播。</li>
+<li>Cost ：10，表示</li>
+</ul>
+<h2 id="OSPF计时器"><a href="#OSPF计时器" class="headerlink" title="OSPF计时器"></a>OSPF计时器</h2><h2 id="邻居建立"><a href="#邻居建立" class="headerlink" title="邻居建立"></a>邻居建立</h2><div class="pdf" target="http://www.eventhelix.com/RealtimeMantra/Networking/ospf-router-startup/ospf-router-startup-and-link-state-update.pdf" height></div>
+
+
+
+
+
+
+
+
+
+<p>DR选举</p>
+<p>DR always forms full adjacency with all other OSPF routers on that segment (BDR and DR-other).</p>
+<p>BDR always forms full adjacency with all other OSPF routers on that segment (DR and DR-other).</p>
+<p>DR-other forms full adjacency with DR and BDR and 2 way with other DR-other.</p>
+<p>If DR fails then BDR becomes new DR and already has full adjacency with all other OSPF routers on that segment.</p>
+<p>A new BDR is selected and the new BDR forms full adjacency with all other OSPF routers on that segment.</p>
+<h1 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h1><p><a href="https://community.cisco.com/t5/routing/ospf-bdr-and-dr-other-relations/td-p/3758851" target="_blank" rel="noopener">OSPF BDR and DR-OTHER relations</a></p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+      <categories>
+        <category>路由交换方向</category>
+        <category>CCNA</category>
+      </categories>
+  </entry>
+  <entry>
     <title>CCNA笔记——12、RIP</title>
     <url>/2020/06/18/12-RIP/</url>
     <content><![CDATA[<h1 id="RIP"><a href="#RIP" class="headerlink" title="RIP"></a>RIP</h1><h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。RIP一共有3个版本的协议，分别是RIP V1，RIP V2以及RIPNG。</p>
@@ -33,6 +146,7 @@
 <li>支持连续子网以及不连续子网。</li>
 <li>可以关闭自动汇总，并支持手动汇总。</li>
 </ol>
+<h3 id="V1和V2兼容性"><a href="#V1和V2兼容性" class="headerlink" title="V1和V2兼容性"></a>V1和V2兼容性</h3><p>默认情况下CISCO路由器上运行的 RIP发送v1，接收v1 v2， 如果显示声明为v1（在RIP进程中使用version 1命令）则只发送和接受v1报文，v2默认只发送和接收v2报文。</p>
 <h3 id="RIP的计时器"><a href="#RIP的计时器" class="headerlink" title="RIP的计时器"></a>RIP的计时器</h3><p>Update timer更新计时器：RIP默认路由信息交换的时间为30秒一次。</p>
 <p>Invalid timer无效计时器：当一条路由条目被加进路由表后，如果它在路由表中超过180秒未被更新，则路由器认为这条路由无效，在这种情况下，路由器会将该路由的跳数标记为16跳，也就是不可达。</p>
 <p>hold down timer抑制计时器：一条路由信息无效之后，一段时间内这条路由都处于抑制状态，即在一定时间内不再接收关于同一目的地址的路由更新。大概过程是如果一个路由器从邻居路由器收到一条更新，提示以前可达的网络现在不可达了，或有一个更大跳数的路由，则路由器标识该路由为不可达并启动一个抑制计时器，如果在定时器到时之前收到该路由又可达的更新，或者新度量值比之前的度量值更好，则路由器标识这个路由可达并删除定时器。路由器从一个网段上得知一条路径失效，然后，立即在另一个网段上得知这个路由有效。这个有效的信息往往是不正确的，抑制计时避免了这个问题，而且，当一条链路频繁起停时，抑制计时减少了路由的浮动，增加了网络的稳定性。RIP的抑制计时器默认为6个更新的周期，也就是6X30，为180秒。</p>

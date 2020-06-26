@@ -60,7 +60,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;18&#x2F;12-RIP&#x2F;RIP_msgformat.PNG">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;18&#x2F;12-RIP&#x2F;Snipaste_2020-06-21_15-54-09.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;18&#x2F;12-RIP&#x2F;Snipaste_2020-06-21_17-13-05.jpg">
-<meta property="og:updated_time" content="2020-06-21T10:10:13.709Z">
+<meta property="og:updated_time" content="2020-06-24T07:10:25.239Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;18&#x2F;12-RIP&#x2F;RIP_msgformat.PNG">
 
@@ -173,7 +173,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">12</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">13</span></a>
 
   </li>
         <li class="menu-item menu-item-commonweal">
@@ -262,7 +262,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-21 18:10:13" itemprop="dateModified" datetime="2020-06-21T18:10:13+08:00">2020-06-21</time>
+                <time title="修改时间：2020-06-24 15:10:25" itemprop="dateModified" datetime="2020-06-24T15:10:25+08:00">2020-06-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -330,6 +330,7 @@
 <li>支持连续子网以及不连续子网。</li>
 <li>可以关闭自动汇总，并支持手动汇总。</li>
 </ol>
+<h3 id="V1和V2兼容性"><a href="#V1和V2兼容性" class="headerlink" title="V1和V2兼容性"></a>V1和V2兼容性</h3><p>默认情况下CISCO路由器上运行的 RIP发送v1，接收v1 v2， 如果显示声明为v1（在RIP进程中使用version 1命令）则只发送和接受v1报文，v2默认只发送和接收v2报文。</p>
 <h3 id="RIP的计时器"><a href="#RIP的计时器" class="headerlink" title="RIP的计时器"></a>RIP的计时器</h3><p>Update timer更新计时器：RIP默认路由信息交换的时间为30秒一次。</p>
 <p>Invalid timer无效计时器：当一条路由条目被加进路由表后，如果它在路由表中超过180秒未被更新，则路由器认为这条路由无效，在这种情况下，路由器会将该路由的跳数标记为16跳，也就是不可达。</p>
 <p>hold down timer抑制计时器：一条路由信息无效之后，一段时间内这条路由都处于抑制状态，即在一定时间内不再接收关于同一目的地址的路由更新。大概过程是如果一个路由器从邻居路由器收到一条更新，提示以前可达的网络现在不可达了，或有一个更大跳数的路由，则路由器标识该路由为不可达并启动一个抑制计时器，如果在定时器到时之前收到该路由又可达的更新，或者新度量值比之前的度量值更好，则路由器标识这个路由可达并删除定时器。路由器从一个网段上得知一条路径失效，然后，立即在另一个网段上得知这个路由有效。这个有效的信息往往是不正确的，抑制计时避免了这个问题，而且，当一条链路频繁起停时，抑制计时减少了路由的浮动，增加了网络的稳定性。RIP的抑制计时器默认为6个更新的周期，也就是6X30，为180秒。</p>
@@ -418,6 +419,9 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
+                <a href="/2020/06/24/13-ospf/" rel="prev" title="CCNA笔记——13、OSPF">
+                  CCNA笔记——13、OSPF <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
       </footer>
@@ -461,7 +465,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RIP"><span class="nav-number">1.</span> <span class="nav-text">RIP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总览"><span class="nav-number">1.1.</span> <span class="nav-text">总览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#V1和V2的相同点"><span class="nav-number">1.1.1.</span> <span class="nav-text">V1和V2的相同点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V1和V2的不同点"><span class="nav-number">1.1.2.</span> <span class="nav-text">V1和V2的不同点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V1的缺陷"><span class="nav-number">1.1.3.</span> <span class="nav-text">V1的缺陷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V2的改进"><span class="nav-number">1.1.4.</span> <span class="nav-text">V2的改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RIP的计时器"><span class="nav-number">1.1.5.</span> <span class="nav-text">RIP的计时器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RIP-V2"><span class="nav-number">1.2.</span> <span class="nav-text">RIP V2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#报头"><span class="nav-number">1.2.1.</span> <span class="nav-text">报头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本配置"><span class="nav-number">1.2.2.</span> <span class="nav-text">基本配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#被动接口"><span class="nav-number">1.2.3.</span> <span class="nav-text">被动接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RIP-综合实验"><span class="nav-number">1.3.</span> <span class="nav-text">RIP 综合实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验需求"><span class="nav-number">1.3.1.</span> <span class="nav-text">实验需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础配置"><span class="nav-number">1.3.2.</span> <span class="nav-text">基础配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置RIP"><span class="nav-number">1.3.3.</span> <span class="nav-text">配置RIP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化路由"><span class="nav-number">1.3.4.</span> <span class="nav-text">优化路由</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">2.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RIP"><span class="nav-number">1.</span> <span class="nav-text">RIP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总览"><span class="nav-number">1.1.</span> <span class="nav-text">总览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#V1和V2的相同点"><span class="nav-number">1.1.1.</span> <span class="nav-text">V1和V2的相同点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V1和V2的不同点"><span class="nav-number">1.1.2.</span> <span class="nav-text">V1和V2的不同点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V1的缺陷"><span class="nav-number">1.1.3.</span> <span class="nav-text">V1的缺陷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V2的改进"><span class="nav-number">1.1.4.</span> <span class="nav-text">V2的改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V1和V2兼容性"><span class="nav-number">1.1.5.</span> <span class="nav-text">V1和V2兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RIP的计时器"><span class="nav-number">1.1.6.</span> <span class="nav-text">RIP的计时器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RIP-V2"><span class="nav-number">1.2.</span> <span class="nav-text">RIP V2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#报头"><span class="nav-number">1.2.1.</span> <span class="nav-text">报头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本配置"><span class="nav-number">1.2.2.</span> <span class="nav-text">基本配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#被动接口"><span class="nav-number">1.2.3.</span> <span class="nav-text">被动接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RIP-综合实验"><span class="nav-number">1.3.</span> <span class="nav-text">RIP 综合实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验需求"><span class="nav-number">1.3.1.</span> <span class="nav-text">实验需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础配置"><span class="nav-number">1.3.2.</span> <span class="nav-text">基础配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置RIP"><span class="nav-number">1.3.3.</span> <span class="nav-text">配置RIP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化路由"><span class="nav-number">1.3.4.</span> <span class="nav-text">优化路由</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">2.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -477,7 +481,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
