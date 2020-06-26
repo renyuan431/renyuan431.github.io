@@ -508,7 +508,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-26 18:49:58" itemprop="dateModified" datetime="2020-06-26T18:49:58+08:00">2020-06-26</time>
+                <time title="修改时间：2020-06-26 18:51:55" itemprop="dateModified" datetime="2020-06-26T18:51:55+08:00">2020-06-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -616,7 +616,7 @@
 <h3 id="协议的三张表"><a href="#协议的三张表" class="headerlink" title="协议的三张表"></a>协议的三张表</h3><p>邻居表（Neighbor Table）：两台路由器的OSPF要协同工作，最基本的要求是两者要形成邻接关系，邻居表储存了OSPF路由器邻居状态以及关于该邻居的其他数据。</p>
 <p>拓扑数据库（Link-State Database，LSDB）：OSPF用LSA（Link State Advertisement，链路状态通告）来描述网络拓扑信息，LSDB中存储着路由器产生或收到的LSA。路由收敛后，每个区域内路由器的LSDB完全一致。</p>
 <p>OSPF路由表（OSPF Routing Table）：基于LSDB进行SPF算法计算，得出的路由被加载到路由表中。</p>
-<h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Router(config)# router ospf process-id </span><br><span class="line">/*创建OSPF进程并进入OSPF进程配置模式，Process-id为OSPF进程号，范围必须在1-65535之间，进程号只具有本地意义，不同路由器之间的OSPF进程号可以相同也可以不同，互相之间不影响*/</span><br><span class="line">Router(config-router)# network  address  wildcard-mask  areaarea-id</span><br><span class="line">/*在特定网段上激活OSPF*/</span><br><span class="line">Router# show ip ospf neighbor </span><br><span class="line">/*查看OSPF邻居表*/</span><br><span class="line">Router# show ip ospf database</span><br><span class="line">/*查看OSPF的LSDB*/</span><br></pre></td></tr></table></figure>
+<h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Router(config)# router ospf process-id </span><br><span class="line">/*创建OSPF进程并进入OSPF进程配置模式，Process-id为OSPF进程号，</span><br><span class="line">范围必须在1-65535之间，进程号只具有本地意义，不同路由器之间的OSPF进程号可以相同也可以不同，</span><br><span class="line">互相之间不影响*/</span><br><span class="line">Router(config-router)# network  address  wildcard-mask  areaarea-id</span><br><span class="line">/*在特定网段上激活OSPF*/</span><br><span class="line">Router# show ip ospf neighbor </span><br><span class="line">/*查看OSPF邻居表*/</span><br><span class="line">Router# show ip ospf database</span><br><span class="line">/*查看OSPF的LSDB*/</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2020/06/24/13-ospf/ospf-if-e-0-0-1593085167925.png" alt="ospf-if-e-0-0"></p>
 <ul>
@@ -628,14 +628,7 @@
 </ul>
 <h2 id="OSPF计时器"><a href="#OSPF计时器" class="headerlink" title="OSPF计时器"></a>OSPF计时器</h2><h2 id="邻居建立"><a href="#邻居建立" class="headerlink" title="邻居建立"></a>邻居建立</h2><div class="pdf" target="http://www.eventhelix.com/RealtimeMantra/Networking/ospf-router-startup/ospf-router-startup-and-link-state-update.pdf" height></div>
 
-
-
-
-
-
-
-
-
+<p> <a href="13-ospf\ospf-router-startup-and-link-state-update.pdf">ospf-router-startup-and-link-state-update.pdf</a> </p>
 <p>DR选举</p>
 <p>DR always forms full adjacency with all other OSPF routers on that segment (BDR and DR-other).</p>
 <p>BDR always forms full adjacency with all other OSPF routers on that segment (DR and DR-other).</p>
