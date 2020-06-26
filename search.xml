@@ -107,7 +107,26 @@
 <p>If DR fails then BDR becomes new DR and already has full adjacency with all other OSPF routers on that segment.</p>
 <p>A new BDR is selected and the new BDR forms full adjacency with all other OSPF routers on that segment.</p>
 <h1 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h1><p><a href="https://community.cisco.com/t5/routing/ospf-bdr-and-dr-other-relations/td-p/3758851" target="_blank" rel="noopener">OSPF BDR and DR-OTHER relations</a></p>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+<object data="./13-ospf/ospf-router-startup-and-link-state-update.pdf" type="application/pdf" width="100%" height="877px">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</object><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
         <category>CCNA</category>
