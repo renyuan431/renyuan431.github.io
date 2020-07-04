@@ -508,7 +508,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-26 18:51:55" itemprop="dateModified" datetime="2020-06-26T18:51:55+08:00">2020-06-26</time>
+                <time title="修改时间：2020-07-04 21:06:55" itemprop="dateModified" datetime="2020-07-04T21:06:55+08:00">2020-07-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -581,12 +581,34 @@
 </blockquote>
 <p>多路访问网络是有多个（超过两个）设备参与通信的网络。点对点（P2P）网络有且只有2个设备，多路访问网络可以有超过2个设备。最典型的多路访问网络就是日常生活中最常见的以太网。OSPF在点到点网络上是不选取DR的，正常情况下，DR只在多路访问时选取。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-25_16-58-10.jpg" alt="Snipaste_2020-06-25_16-58-10"></p>
-<p>多路访问网络有两种类型：广播型多路访问网络（BMA）及非广播型多路访问网络（NBMA）。以太网是一种典型的广播型多路访问网络。</p>
-<h3 id="指定路由器（DR）"><a href="#指定路由器（DR）" class="headerlink" title="指定路由器（DR）"></a>指定路由器（DR）</h3><p>指定路由器（Designated Router），当OSPF链路被连接到多路访问的网络时，需要选择一台指定路由器，每台路由器都把拓扑变化发给DR和BDR，然后由DR通知多路访问网络中的其他路由器。在OSPF网络中，既不是DR也不是BDR的路由器，它的角色是DR Other。</p>
+<p>多路访问网络有两种类型：广播型多路访问网络（BMA）及非广播型多路访问网络（NBMA）。以太网是一种典型的广播型多路访问网络。在OSPF中使用show ip ospf interface查看接口类型。</p>
+<h3 id="指定路由器（DR）"><a href="#指定路由器（DR）" class="headerlink" title="指定路由器（DR）"></a>指定路由器（DR）</h3><p>指定路由器（Designated Router），当OSPF链路被连接到多路访问的网络时，需要选择一个接口作为指定路由器，每台路由器都把拓扑变化发给DR和BDR，然后由DR通知多路访问网络中的其他路由器。在OSPF网络中，既不是DR也不是BDR的路由器，它的角色是DR Other。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-25_11-59-29.jpg" alt="Snipaste_2020-06-25_11-59-29"></p>
 <p>如上图中的四台路由器，R1、R2、R3、R4，运行OSPF协议且已经建立起了邻居且选举完DR\BDR，R1为DR，R3为BDR，R2和R4为DR Other，此时，这四台设备并不是相互之间两两交互LSA，而是R2、R3、R4分别和R1交换LSA，然后由R1将其他路由器没有的LSA传送给它们。DR Other 路由器只于DR和BDR建立完全邻接关系，其它路由器处于two-way状态。</p>
-<p>之所以要选举DR是为了避免路由器之间建立完全邻接关系而引起的大量开销，OSPF要求在多路访问的网络中选举出一个DR，每个路由器都与DR建立邻接关系。选举出DR的同时也选举出一个BDR（Backup Designated Router），BDR也就是备份DR路由器，BDR在DR失效时承担起DR的职责，DR Other路由器只与DR和BDR建立邻接关系。DR和BDR通信的组播地址为224.0.0.6，<strong>DR的选举是一个路由器的接口特性而不是整个路由器的特性</strong>，也就是说，一个路由器如果有3个接口，G0/0、G0/1和G0/2，G0/0是DR，G0/1是BDR，G0/2是DR Other也是没问题的。比如下图的R3，两个接口分别是BDR和DR Other。</p>
+<p>之所以要选举DR是为了避免路由器之间建立完全邻接关系而引起的大量开销，OSPF要求在多路访问的网络中选举出一个DR，每个路由器都与DR建立邻接关系。选举出DR的同时也选举出一个BDR（Backup Designated Router），BDR也就是备份DR路由器，BDR在DR失效时承担起DR的职责，DR Other路由器只与DR和BDR建立邻接关系。DR和BDR通信的组播地址为224.0.0.6，<strong>DR的选举是一个路由器的接口特性而不是整个路由器的特性</strong>，也就是说，一个路由器如果有3个接口，G0/0、G0/1和G0/2，G0/0是DR，G0/1是BDR，G0/2是DR Other也是没问题的，可能在一个MA网络种存在多个DR。比如下图的R3，两个接口分别是BDR和DR Other。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-25_18-48-46.jpg" alt="Snipaste_2020-06-25_18-48-46"></p>
+<h3 id="DR-BDR选举"><a href="#DR-BDR选举" class="headerlink" title="DR\BDR选举"></a>DR\BDR选举</h3><p>如果想了解完全版的具体过程请参见<a href="https://tools.ietf.org/html/rfc2328#page-75" target="_blank" rel="noopener">RFC</a>，但因为我看了两边也没搞明白所以然，故这里采用红茶三杯总结的方式加上一点自己的理解，如果哪天突然开窍了看明白了RFC再回来补上这部分的笔记。</p>
+<h4 id="选举的前提"><a href="#选举的前提" class="headerlink" title="选举的前提"></a>选举的前提</h4><ul>
+<li>DR和BDR的选举发生在每个网段上，也就是说，如果有4个网段运行了OSPF，那么这4个网段都要选举DR和BDR，最后会选举出4个DR和4个BDR。</li>
+<li>参与选举并和选举出的DR\BDR建立邻接关系需要Hello包种的参数相一致（Hello\Dead 时间，Area ID也是同一区域，认证通过，Router ID具有唯一性不与其他路由器相同）。</li>
+</ul>
+<h4 id="选举的过程"><a href="#选举的过程" class="headerlink" title="选举的过程"></a>选举的过程</h4><p>当一台OSPF路由器有效（Active）并去发现它的邻居路由器时，它将去检查有效的DR和BDR路由器（如果路由器的Priority为0那么就意味着它是无效的，不能参与选举DR和BDR），如果DR和BDR路由器存在的话，这台路由器将接受已经存在的DR和BDR（为什么要接受已经存在的DR和BDR呢，是因为DR具有非抢占性的，也就是说已经有了DR了，新加入的路由器接口的Priority再低也不会重新选举DR了，如果没有非抢占性，新加入一个Priority 更大的就被选举成新的DR，所有DR Other都和这个新DR再建立邻接关系达到Full状态，太消耗系统资源，所以当一台路由器发现已经存在DR和BDR时就会接受已经存在的DR和BDR），如果BDR和DR路由器都不存在（也就是Hello包种的DR以及BDR字段都为0.0.0.0），将执行一个选举<strong>BDR</strong>的过程，选举出具有最高优先级的路由器作为BDR路由器，选举中如果存在多台路由器具有相同的优先级（Priority），那么在数值上具有最高路由器ID的路由器将被选举成<strong>BDR</strong>（如果两台运行OSPF路由器路由器的接口的Priority都是1，那么此时一台路由器的Router-ID为1.1.1.1，另一台的Router-ID为2.2.2.2，Router-ID为2.2.2.2的显然比1.1.1.1更大，这台Router-ID为2.2.2.2的路由器的接口将被选举成BDR）。<strong>如果没有有效的DR路由器存在，那么之前选举出的BDR路由器将被选举成（或者说成提升）DR路由器，然后再选举出来BDR路由器。</strong>至此BDR和DR选举完毕。</p>
+<h4 id="选举的补充说明"><a href="#选举的补充说明" class="headerlink" title="选举的补充说明"></a>选举的补充说明</h4><h5 id="什么情况选举BDR-DR"><a href="#什么情况选举BDR-DR" class="headerlink" title="什么情况选举BDR\DR"></a>什么情况选举BDR\DR</h5><p><img src="/2020/06/24/13-ospf/123456.png" alt="123456"></p>
+<h5 id="BDR晋升成DR"><a href="#BDR晋升成DR" class="headerlink" title="BDR晋升成DR"></a>BDR晋升成DR</h5><p>选举BDR\DR的场景中，绝大多数情况下，选举出的BDR都能顺利晋升成DR，也有极端场景比如俩OSPF路由器R1 R2在2-way刚选出BDR，另一台OSPF路由器R3接入进来发的hello里 DR是自己，这样R1 R2不知道会咋办。</p>
+<h5 id="已有DR-BDR"><a href="#已有DR-BDR" class="headerlink" title="已有DR\BDR"></a>已有DR\BDR</h5><p>什么情况下，一个路由器会发现链路中已经有DR或BDR出现呢，常见的一种情况是，一个路由器新加入已经运行了一段时间OSPF协议的网络，常见的另一种情况是，只有两台路由器相连，R1——R2，其中一台已经先行运行了OSPF协议而且在DR选举计时器结束前没有其他OSPF的Hello包出现，这时这台路由器会把接口设定为DR。当路由器的接口运行OSPF协议时，已经启动了一个DR选举的计时器，这个计时器时4倍的Hello时间，在以太网这个MA网络中也就是和Dead时间一样的40秒，RFC上对这个计时器的描述是“A single shot timer that causes the interface to exit the Waiting state, and as a consequence select a Designated Router on the network. The length of the timer is RouterDeadInterval seconds.”，可以用命令 show ip ospf interface XX | incl timer   查看，默认的计时器是：Timer intervals configured, Hello 10, Dead 40, <strong>Wait 40</strong>, Retransmit 5。这个Wait就是DR选举的计时器。当这个计时器到时的时候，也就是OSPF启动了40秒以后依旧没其他路由器发来Hello包进行选举时，这个路由器就会把自身这个接口设置为DR，因为思科规定即使MA网络中只有一台路由器运行OSPF协议也要选举DR。</p>
+<h5 id="BDR-DR的抢占性"><a href="#BDR-DR的抢占性" class="headerlink" title="BDR\DR的抢占性"></a>BDR\DR的抢占性</h5><p>DR和BDR具有非抢占性，也就是说当DR\BDR选举完成后，新加入的路由器即使Priority再小，DR\BDR也不会发生变化，为的是维持网络的稳定性。当DR失效后，BDR会成为DR，同时产生新的BDR。DR与BDR，DR与DR Other，BDR与DR Other之间都是Full状态，DR Other相互之间是2-way状态。所有的DR Other都只和DR以及BDR建立全毗邻关系。</p>
+<h5 id="其他总结"><a href="#其他总结" class="headerlink" title="其他总结"></a>其他总结</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-02_15-30-35.jpg" alt="Snipaste_2020-07-02_15-30-35"></p>
+<ul>
+<li>R1、R2接口的Priority值均为0，则R1和R2之间不能建立邻居，因为在MA网络下必须选举出DR，而R1、R2相连接口的Priority值均为0，失去了选举资格，所以两者无法建立邻居。</li>
+<li>R1接口优先级为0，R2接口优先级为1，则R2成为DR，且该多路访问网络中没有BDR。</li>
+<li>在上一步已经选出DR的基础上，R1接口优先级改为100，对网络没有影响，因为DR的非抢占性。</li>
+<li>在上一步已经选出DR且R1接口优先级改为100的基础上，如果身为DR的R2重启了OSPF进程（clear IP ospf process X，X为该OSPF进程号），则R1成为DR，R2成为BDR。因为R2重启进程后会重新建立邻居重新选举DR。</li>
+<li>如果R1和R2接口优先等级相同，但R2的Router ID大，一般情况下，R2应成为DR，但如果R1已经先配置了OSPF，且R2在R1配置之后40秒菜配置，那么这时候即使R2的Router-ID更大，R1已经成为了DR，原因在于Wait timer 等待计时器，这个计时器是在开始选举DR\BDR之前，路由器等待邻居路由器Hello包通告DR\BDR的时长（收集所有候选人的信息），等待计时器的长度就是Router Dead Interval的时间，因此只要R2在40秒之后才配置的，那么R1就会认为自己是DR，并且在Hello包的Designated Router部分写上自己的地址。</li>
+</ul>
+<h4 id="选举的几个为什么"><a href="#选举的几个为什么" class="headerlink" title="选举的几个为什么"></a>选举的几个为什么</h4><h5 id="为什么选举DR-BDR"><a href="#为什么选举DR-BDR" class="headerlink" title="为什么选举DR\BDR"></a>为什么选举DR\BDR</h5><p>之所以选举DR\BDR是因为如果运行OSPF协议的路由器两两之间建立完全邻接关系会引起大量的开销，消耗大量资源，OSPF采取了每个DR Other路由器和DR以及BDR建立邻接关系的方法，来减少资源消耗。</p>
+<h5 id="为什么除了DR也要有BDR"><a href="#为什么除了DR也要有BDR" class="headerlink" title="为什么除了DR也要有BDR"></a>为什么除了DR也要有BDR</h5><p>之所以除了选举DR以外还要选举出一个BDR是因为，DR Other要和DR以及BDR形成邻接关系，然后DR和BDR这两者也要形成邻接关系，如果DR由于某种情况挂掉，那么BDR就能接替DR的位置，因为所有DR Other和BDR也形成了邻接关系，DR掌握的关于网络的信息和BDR是一样的，所以BDR可以顺利完美接替DR，这样可以把DR挂掉对网络的影响降到最低。</p>
+<h5 id="为什么先选举BDR"><a href="#为什么先选举BDR" class="headerlink" title="为什么先选举BDR"></a>为什么先选举BDR</h5><p>之所以先选举BDR再选举DR是因为：”The reason behind the election algorithm’s complexity is the desire for an orderly transition from Backup Designated Router to Designated Router, when the current Designated Router fails. This orderly transition is ensured through the introduction of hysteresis: no new Backup Designated Router can be chosen until the old Backup accepts its new Designated Router responsibilities.”——RFC 2328 - OSPF Version 2，section 9.4 - Electing the Designated Router。先选取BDR的原因是，如果DR发生故障，需要BDR来接替DR的位置和作用，如果先选举DR，则可能会在BDR接替之前挂掉的DR前，选举出一个不是之前BDR的新DR，这个新DR还得重新从224.0.0.6上学习信息才能执行DR的角色，重新学习信息可能使得网络无法顺利转发数据。而先选举BDR则不会出现上面的问题，BDR接替完DR，因为空出来BDR的角色以后再选取DR，不会对网络有影响。</p>
+<h4 id="选举的优化"><a href="#选举的优化" class="headerlink" title="选举的优化"></a>选举的优化</h4><p>由于所有DR Other要与DR\BDR交互LSA信息，会消耗一定系统资源，所以建议在接口上灵活使用ip ospf priority 避免一个路由器的多个接口成为DR，降低硬件开销，减小网络变化时产生的影响。因为如果不在接口上进行灵活配置，选举过程是先看Priority再看Router ID，默认情况下所有接口的Priority都为1，此时Router ID为最大的路由器上的所有接口都将为DR，不仅会使得路由器开销变大，也会使得万一Router ID最大的路由器一旦挂掉，会对网络造成比较大的影响，因为各网段都要重新选举BDR\DR。</p>
 <h3 id="组播地址"><a href="#组播地址" class="headerlink" title="组播地址"></a><a href="https://community.cisco.com/t5/routing/dr-bdr-communication/td-p/1142718" target="_blank" rel="noopener">组播地址</a></h3><blockquote>
 <p>All OSPF routers continue to <strong>multicast HELLOS</strong> to 224.0.0.5, so they can keep track of their neighbors.</p>
 <p>DROTHERs will send <strong>multicast updates</strong> to 224.0.0.6 (DR/BDR listen). DR will flood <strong>multicast updates</strong> to DROthers on 224.0.0.5.</p>
@@ -601,8 +623,8 @@
 <p>例如1.1.1.0/24的路由，由于是loop back接口，所以相对于Router A来说，Cost值为1，对于Router B来说，B与A相连接的接口Cost值为64，所以1.1.1.0/24的路由相对B来说，Cost值就是1+64，也就是65。</p>
 <p>修改Cost的方法：</p>
 <ol>
-<li>修改参考带宽，也就是修改10的8次方这个数值，因为计算Cost的公式是10的8次方/BW（bit），通过修改参考带宽也可以修改Cost值。</li>
-<li>修改接口带宽，带宽和Cost值成反比，带宽越大，cost值越小，通过修改带宽也可以达到修改Cost值的目的。</li>
+<li>修改参考带宽，也就是修改10的8次方这个数值，因为计算Cost的公式是10的8次方/BW（bit），通过修改参考带宽也可以修改Cost值。命令在ospf进程下配置：auto-cost reference-bandwidth XXX ，该数值的设置范围是1-4294967。</li>
+<li>修改接口带宽，带宽和Cost值成反比，带宽越大，cost值越小，通过修改带宽也可以达到修改Cost值的目的。修改接口带宽的命令是在接口下配置：bandwidth XXX。该数值设置的范围是1-10000000。</li>
 <li>直接修改Cost值，在接口上使用ip ospf cost  XX，可以直接修改Cost值。</li>
 </ol>
 <h3 id="ospf数据包类型"><a href="#ospf数据包类型" class="headerlink" title="ospf数据包类型"></a>ospf数据包类型</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-26_11-34-24.jpg" alt="Snipaste_2020-06-26_11-34-24"></p>
@@ -624,11 +646,73 @@
 <li>Process ID 1，也就是之前配置的router ospf 后面的process-id，这里可以看到该OSPF进程号为1。</li>
 <li>Router ID 0.0.0.2，就是该路由器的ID。</li>
 <li>Network Type BROADCAST，表示E0/0接口的OSPF网络类型为广播。</li>
-<li>Cost ：10，表示</li>
+<li>Cost ：10，OSPF使用开销来作为路由的度量值，一条路由的Cost值越小越优，可以在接口下使用ip ospf cost  XX命令来修改cost值。</li>
+<li>State BDR，表示该E0/0接口的角色为BDR，也就是Backup Designated Router，备份指定路由器。</li>
+<li>Priority 1，表示该接口的OSPF Priority值为1，这个值在决定接口性质，也就是链路在决定一个接口的DR、BDR或DR Other时使用。Priority 最高的为DR。</li>
 </ul>
-<h2 id="OSPF计时器"><a href="#OSPF计时器" class="headerlink" title="OSPF计时器"></a>OSPF计时器</h2><h2 id="邻居建立"><a href="#邻居建立" class="headerlink" title="邻居建立"></a>邻居建立</h2><div class="pdf" target="http://www.eventhelix.com/RealtimeMantra/Networking/ospf-router-startup/ospf-router-startup-and-link-state-update.pdf" height></div>
+<h2 id="OSPF计时器"><a href="#OSPF计时器" class="headerlink" title="OSPF计时器"></a>OSPF计时器</h2><p>OSPF协议根据接口的网络类型不同，Hello Interval、Dead Interval时间也不同，Hello Interval表示路由器多久向外发送一次Hello包，Dead Interval表示多久没收到邻居的Hello包就会认为邻居挂掉了。具体Hello、Dead时间如下表所示：</p>
+<p><img src="/2020/06/24/13-ospf/OSPF-Network-Interface-types.png" alt="OSPF-Network-Interface-types"></p>
+<h2 id="邻居建立"><a href="#邻居建立" class="headerlink" title="邻居建立"></a>邻居建立</h2><h3 id="邻居状态机"><a href="#邻居状态机" class="headerlink" title="邻居状态机"></a>邻居状态机</h3><h4 id="Down"><a href="#Down" class="headerlink" title="Down"></a>Down</h4><p>初始化状态，这是OSPF邻居状态机的第一个状态，在Down状态下，意味着没从其他路由器收到OSPF的Hello包，运行OSPF协议的接口仍然有尝试发现邻居的意愿，因此会不断的发送组播Hello包。</p>
+<h4 id="Attempt"><a href="#Attempt" class="headerlink" title="Attempt"></a>Attempt</h4><p>仅在NBMA网络类型上存在，如果一个路由器，它邻居处于Attempt状态，表示它从邻居没有收到任何信息，但做了努力来与邻居联系。在NBMA网络上具有DR选取资格的路由器与其邻居路由器相连的接口开始变为有效（Active）时，或当这台路由器成为DR或BDR时，这台具有DR选举资格的路由器会把邻居路由器的状态转换到Attempt状态，在Attempt状态下，路由器将在指定的hello间隔时间内向该邻居发送单播hello包。</p>
+<h4 id="init"><a href="#init" class="headerlink" title="init"></a>init</h4><p>当OSPF接口收到链路上某个邻居发来的第一个Hello包时，它会在接口上将该邻居状态设置为init，注意这个Hello包种可能并未包含任何的邻居信息，也就是hello包中没有active neighbor这个字段，但这个Hello包至少证明，在运行了OSPF协议的这个接口的链路上，至少有个活着的邻居。当路由器收到邻居发来的Hello包以后，它应该将邻居Hello包中的Router-ID放入它自己的Hello包中的Active Neighbor字段，用来确认它收到了一个有效的Hello数据包。</p>
+<p>没有active neighbor的hello包：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-30_17-33-46.jpg" alt="Snipaste_2020-06-30_17-33-46"></p>
+<p>有active neighbor的hello包：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-30_17-34-52.jpg" alt="Snipaste_2020-06-30_17-34-52"></p>
+<h4 id="2-—-Way"><a href="#2-—-Way" class="headerlink" title="2 — Way"></a>2 — Way</h4><p>当两个路由器之间建立起了双向通信时，进入2-Way状态，双向通信意味着两个路由器都收到了对方的Hello包，而Hello包中的Active Neighbor字段中是对方的Router-ID。当OSPF路由器在某个链路上发现了邻居后，它自己发送的Hello包里就会增加一个叫“Active Neighbor”的字段，用于存储在该链路上发现的OSPF邻居。当一台OSPF Router看到自己的Router ID出现在邻居发过来的Hello包中，它就会将该邻居置为Two-Way，该状态是OSPF邻居之间可以具有的最基本的关系，也是第一个稳定状态，但此时两者还不能共享路由信息。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-03_17-29-25.jpg" alt="Snipaste_2020-07-03_17-29-25"></p>
+<p>在2-way状态下，路由器决定是否和邻居形成邻接状态。在类型为广播（MA）或非广播多路访问的情况下，路由器只和DR以及BDR形成FULL的关系，和其他的DR Other形成2-way的关系；在点对点和点对多点的网络中，路由器和所有其他链接的路由器形成FULL关系。在2-way的时候还要选举BDR和DR，<strong>注意是先选举BDR然后再选举DR，DR/BDR具体选举步骤上文写过，这里再简单写一下重点：</strong></p>
+<p>当一台OSPF路由器有效（Active）并去发现它的邻居路由器时，它将去检查有效的DR和BDR路由器（如果路由器的Priority为0那么就意味着它是无效的，不能参与选举DR和BDR），如果DR和BDR路由器存在的话，这台路由器将接受已经存在的DR和BDR（为什么要接受已经存在的DR和BDR呢，是因为DR具有非抢占性的，也就是说已经有了DR了，新加入的路由器接口的Priority再低也不会重新选举DR了，如果没有非抢占性，新加入一个Priority 更大的就被选举成新的DR，所有DR Other都和这个新DR再建立邻接关系达到Full状态，太消耗系统资源，所以当一台路由器发现已经存在DR和BDR时就会接受已经存在的DR和BDR），如果BDR和DR路由器都不存在（也就是Hello包种的DR以及BDR字段都为0.0.0.0），将执行一个选举<strong>BDR</strong>的过程，选举出具有最高优先级的路由器作为BDR路由器，选举中如果存在多台路由器具有相同的优先级（Priority），那么在数值上具有最高路由器ID的路由器将被选举成<strong>BDR</strong>（如果两台运行OSPF路由器路由器的接口的Priority都是1，那么此时一台路由器的Router-ID为1.1.1.1，另一台的Router-ID为2.2.2.2，Router-ID为2.2.2.2的显然比1.1.1.1更大，这台Router-ID为2.2.2.2的路由器的接口将被选举成BDR）。<strong>如果没有有效的DR路由器存在，那么之前选举出的BDR路由器将被选举成（或者说成提升）DR路由器，然后再选举出来BDR路由器。</strong>至此BDR和DR选举完毕。</p>
+<h4 id="ExStart-amp-Exchange"><a href="#ExStart-amp-Exchange" class="headerlink" title="ExStart &amp; Exchange"></a>ExStart &amp; Exchange</h4><p>一台OSPF路由器在某个邻居置为2-way状态后，就开始发送<strong>空的DBD包</strong>用于协商确定两者之间的 master/slave关系，协商M/S关系是为了决定后续谁来决定DBD的序列号，注意这个和DR\BDR不是一个概念。在DBD包中有3个标记为用来管理邻居关系的建立过程：</p>
+<ul>
+<li>I 位，Initial bit，中文翻译成初始位，当该位置位为1时，表示这是第一个用于ExStart协商主从关系的初始化协商的DBD包。当两个路由已经选举完Master、Slave时，I位置0。</li>
+<li>M位，More bit，中文翻译为后继位，当该位置位为1时，表示后续还有其他DBD报文需要交互，当该位置0时表示没有其他DBD报文需要交互，表示从ExStart到<strong>Exchange</strong>的整个过程结束。</li>
+<li>MS位，Master/Slave bit，中文翻译为主/从位，当该位置位为1时，表示自己时Master，Router ID大的一方为Master，大多数情况下DR会成为Master。当两个路由器给对方发送第一个DBD报文时，双方都会将自己的MS位置位为1，然后相互比较Router ID决定主从关系。当决出主从关系时，Master的MS位不变依旧为1而Slave的MS位会置0表示自己为Slave。</li>
+</ul>
+<p>双方发送的第一个DBD包都会随机产生一个Sequence Number序列号，交互以后，Router ID大的一方成为Master，小的为Slave，第三个包由Slave发出，只有M位置1，说明后面还有DBD，I位为0因为已经不是初始化的DBD了，MS为0说明认为对方是Master。</p>
+<p>如果某台OSPF Router收到邻居发来的DBD，I位置0，也就意味着ExStart状态结束且Master/Slave已经选举完毕，那么该路由器就会将邻居置为Exchange过程，在此过程，双方使用包含自己LSA头部的DBD报文进行交互，并且将对方发过来的LSA头部、自己感兴趣的LSA或自己没有的LSA存储在一个本地的OSPF接口的队列里，以便在下一个阶段进行LSA详细请求。当某个接口收到邻居发来的DBD中的M位置0，说明对方已经发完DBD了，与此同时，如果该路由器的这个OSPF接口上存在待请求的LSA，那么它会将这个邻居置为loading状态。在Exchange状态也有可能发送LSR去请求对方发送LSU。</p>
+<h5 id="抓包说明"><a href="#抓包说明" class="headerlink" title="抓包说明"></a>抓包说明</h5><h6 id="空DBD包"><a href="#空DBD包" class="headerlink" title="空DBD包"></a>空DBD包</h6><p>空DBD包中只有</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_17-29-34.jpg" alt="Snipaste_2020-07-04_17-29-34"></p>
+<h6 id="初始化协商的DBD消息"><a href="#初始化协商的DBD消息" class="headerlink" title="初始化协商的DBD消息"></a>初始化协商的DBD消息</h6><p>初始化协商的DBD消息中的I、M以及MS位均为1。I位置1，因为这是第一个用于ExStart协商主从关系的初始化协商的DBD包；M位为1，因为这不是Router发送的最后一个DBD包，因为还没开始交换DBD，所以这位肯定为1；MS也为1，因为这时Master/Slave选举还没得出结论，得出结论前两个协商的路由器都会认为自己是Master，所以都会把MS位置位为1。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_19-09-31.jpg" alt="Snipaste_2020-07-04_19-09-31"></p>
+<p>我是10.0.0.1，Router ID为1.1.1.1，这是我协商主从关系的第一个DBD包（I位为1），我还有更多的DBD包要发送（M位为1），我是Master（MS位为1），我的DBD的序列号是3138。该DBD包中不包含LSA的信息。接下来我们看对方（10.0.0.3）发送的DBD初始消息。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_19-10-48.jpg" alt="Snipaste_2020-07-04_19-10-48"></p>
+<p>我是10.0.0.3，Router ID为3.3.3.3，这是我协商主从关系的第一个DBD包（I位为1），我还有更多的DBD包要发送（M位为1），我是Master（MS位为1），我的DBD的序列号是2989。该DBD包中不包含LSA的信息。</p>
+<p>交互完DBD包以后，Router ID大的一方也就是ID为3.3.3.3的10.0.0.3成为Master，Router ID小的10.0.0.1成为Slave。</p>
+<h6 id="交互LSDB目录的过程"><a href="#交互LSDB目录的过程" class="headerlink" title="交互LSDB目录的过程"></a>交互LSDB目录的过程</h6><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_19-25-33-1593861960005.jpg" alt="Snipaste_2020-07-04_19-25-33"></p>
+<p>第三个DBD由Slave（10.0.0.1）发给Master（10.0.0.3），序列号采用Master发送初始DBD中的序列号，I位置0因为已经不是初始化的DBD包了，也意味着此时进入了Exchange状态；M位置1表示还有后续的DBD包，不过一般实验中LSU较少所以这位为0也是正常的，因为一个DBD就交互完事儿了；MS位为0表示我是Slave。同时DBD包中也有LSA的摘要信息，但并没有LSA的具体信息，主要是交换了LSA的Router ID，表明自己有哪些路由器的信息。Master（10.0.0.3）收到这个DBD包以后，发现I位为0，于是将对方的状态改为Exchange，再查看Sequence号发现这个序号是自己这个Master产生的，于是在这个序列号的基础上+1生成新的序列号，这么做是隐式确认告诉对方之前你发的这个DBD我收到了，然后带上了自己的LSA摘要信息，发送给对方开始交互LSDB的摘要目录。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_19-28-29.jpg" alt="Snipaste_2020-07-04_19-28-29"></p>
+<p>第四个DBD由Master发给Slave，序列号在之前的基础上+1，也就是2990，用以隐式确认之前收到的序列号为2899的DBD。I位为0，因为已经不是初始化的DBD包了；M位为1，表示还有后续的DBD包；MS位为1，因为自身是Master。后面带上了自己的LSA摘要信息。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_20-59-33.jpg" alt="Snipaste_2020-07-04_20-59-33"></p>
+<p>第五个DBD由Slave（10.0.01）发送给Master（10.0.0.3），序列号和之前Master发给它的序列号相同，且M位置0，说明Slave没有需要发送给Master的其他LSDB目录了，这个DBD完全是用来确认之前Master的那个序列号为2990的DBD。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_21-03-53.jpg" alt="Snipaste_2020-07-04_21-03-53"></p>
+<p>第六个DBD由Master（10.0.0.3）发送给Slave（10.0.0.1），序列号为之前Slave确认DBD的序列号+1，也就是2991，这时M位置0，说明Master（MS位置1）没有更多的DBD要发送了。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_21-05-19.jpg" alt="Snipaste_2020-07-04_21-05-19"></p>
+<p>最后一个DBD由Slave（10.0.0.1）发送给Master（10.0.0.3），序列号和刚才Master发送的序列号一致，也是个用来确认的DBD。至此两方都没有DBD信息要交换了，Exchange阶段结束。</p>
+<h5 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h5><h6 id="为什么用空DBD包？"><a href="#为什么用空DBD包？" class="headerlink" title="为什么用空DBD包？"></a>为什么用空DBD包？</h6><p>当两个路由器决定建立完全邻接关系时（Full adjacent），二者必须同步彼此的LSDB（Link State DataBase，链路状态信息数据库），因为OSPF是一个链路状态路由协议，每台设备都要知道网络的整体信息（在OSPF中就是了解全网的LSA）所以邻居的LSDB自己也必须掌握，掌握清楚全网的信息以后，再根据自己掌握的信息计算出路由。为了优化LSDB数据库同步过程，两台路由器会先比较它们LSDB的条目列表，这样就不用交换整个LSDB数据库了，再根据LSDB条目列表比较的情况决定去交互哪些LSA，发送空DBD包就是LSDB的条目列表，空DBD是并不包含LSA头部的DBD包，既能达到比较两台设备LSDB的目的，又减小网络及系统的开销。</p>
+<h6 id="如何确定对方收到DBD？"><a href="#如何确定对方收到DBD？" class="headerlink" title="如何确定对方收到DBD？"></a>如何确定对方收到DBD？</h6><p>由于链路状态路由协议要获知全网的网络信息，所以必须知道和邻居之间LSDB中的LSA差别在哪，这时候需要交换空DBD以交换彼此掌握的LSA目录，但由于OSPF协议中并没给DBD包设计专门的DBD确认，这时如何确定对方收到了DBD包呢？<strong>用DBD包中的序列号做隐式确认。</strong></p>
+<p>在这里用一个有两台路由器的实验做抓包分析说明，区分了两种情况，一种是两台路由器都刚配置OSPF的情况，另一种是其中一台路由器早已配置完OSPF的情况，至于为什么要区分这两种情况，我们后面总结的时候再具体说。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-30_16-25-57.jpg" alt="Snipaste_2020-06-30_16-25-57"></p>
+<h3 id="刚配置完情况"><a href="#刚配置完情况" class="headerlink" title="刚配置完情况"></a>刚配置完情况</h3><p>两台路由器都刚开机不久的情况下，先看R1和R2的配置：</p>
+<p>R1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#router ospf 1</span><br><span class="line">router-id 1.1.1.1</span><br><span class="line">network 192.168.12.1 255.255.255.255</span><br></pre></td></tr></table></figure>
 
-<p> <a href="13-ospf\ospf-router-startup-and-link-state-update.pdf">ospf-router-startup-and-link-state-update.pdf</a> </p>
+<p>R2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line">router-id 2.2.2.2</span><br><span class="line">network 192.168.12.2 255.255.255.255</span><br></pre></td></tr></table></figure>
+
+<p>现在来看具体邻居建立过程：</p>
+<p>R1和R2都刚配置完OSPF，前面讲过，OSPF通过发送Hello包到组播地址224.0.0.5来建立邻居，所以只要是运行了OSPF协议的路由器，不管是DR 、BDR还是DR Other都会监听这个地址用来建立邻居，所以配置完OSPF后，两台路由器开始监听224.0.0.5这个组播地址，看是否有hello包能否建立邻居。在两台路由器都没收到其他的hello包的情况下，两台路由器的状态</p>
+<h3 id="配置很久情况"><a href="#配置很久情况" class="headerlink" title="配置很久情况"></a>配置很久情况</h3><h3 id="邻居建立总结"><a href="#邻居建立总结" class="headerlink" title="邻居建立总结"></a>邻居建立总结</h3><p> <a href="13-ospf\ospf-router-startup-and-link-state-update.pdf">ospf-router-startup-and-link-state-update.pdf</a> </p>
+<h3 id="邻居无法建立常见原因"><a href="#邻居无法建立常见原因" class="headerlink" title="邻居无法建立常见原因"></a>邻居无法建立常见原因</h3><ol>
+<li>Hello间隔和Dead间隔不同。默认情况下，Dead间隔是Hello间隔的4倍，可以在接口下通过“ip ospf hello-interval”和“ip ospf dead-interval”命令来调整。</li>
+<li>区域号不一致（Area号不同）。</li>
+<li>特殊区域（Stub区域和Nssa区域等）区域类型不匹配。</li>
+<li>认证类型或密码不一致。</li>
+<li>路由器ID相同。</li>
+<li>Hello包被ACL给Deny掉。</li>
+<li>链路上的MTU不匹配。</li>
+<li>接口下的OSPF网络类型不匹配。</li>
+</ol>
 <p>DR选举</p>
 <p>DR always forms full adjacency with all other OSPF routers on that segment (BDR and DR-other).</p>
 <p>BDR always forms full adjacency with all other OSPF routers on that segment (DR and DR-other).</p>
@@ -636,6 +720,8 @@
 <p>If DR fails then BDR becomes new DR and already has full adjacency with all other OSPF routers on that segment.</p>
 <p>A new BDR is selected and the new BDR forms full adjacency with all other OSPF routers on that segment.</p>
 <h1 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h1><p><a href="https://community.cisco.com/t5/routing/ospf-bdr-and-dr-other-relations/td-p/3758851" target="_blank" rel="noopener">OSPF BDR and DR-OTHER relations</a></p>
+<p><a href="https://community.cisco.com/t5/routing/why-bdr-is-elected-first/td-p/3207520" target="_blank" rel="noopener">Why BDR is elected first?</a></p>
+<p><a href="https://community.cisco.com/t5/switching/master-and-slave-concept/m-p/2411039#M285022" target="_blank" rel="noopener">Master and Slave concept</a></p>
 <object data="./13-ospf/ospf-router-startup-and-link-state-update.pdf" type="application/pdf" width="100%" height="877px">
 
 
