@@ -508,7 +508,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-11 19:20:55" itemprop="dateModified" datetime="2020-07-11T19:20:55+08:00">2020-07-11</time>
+                <time title="修改时间：2020-07-15 15:48:11" itemprop="dateModified" datetime="2020-07-15T15:48:11+08:00">2020-07-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -540,7 +540,7 @@
 
       
           <h1 id="链路状态路由协议概述"><a href="#链路状态路由协议概述" class="headerlink" title="链路状态路由协议概述"></a>链路状态路由协议概述</h1><p>链路状态路由协议使用Dijkstra算法，也称SPF（Shortest Path First，最短路径优先）算法。常见的链路状态路由协议有：OSPFv2、OSPFv3等。这篇文章主要针对OSPFv2，OSPFv3是面向IPv6的且不兼容IPv4。</p>
-<p>链路状态路由协议的工作流程是，发现其他同样运行了该链路状态路由协议的设备——所有设备交换相关链路信息——每个设备自己形成整体的连接图——每个设备独立计算最短路径形成路由表。首先运行了链路状态协议的所有节点共同构建一个连接图，这个连接图显示了网络上设备相互连接的情况。运行了该路由协议的节点会从本设备上所有可能的路径中，计算出本设备上的最佳下一跳是哪条路径，每个设备上最佳的路径构成了每个设备的路由表。</p>
+<p>链路状态路由协议的工作流程是，与其他运行了相同链路状态路由协议的设备建立邻居关系——交换链路信息并将建立链路状态数据库——每个设备自己形成整体的连接图——每个设备独立计算最短路径形成路由表。首先运行了链路状态协议的所有节点共同构建一个连接图，这个连接图显示了网络上设备相互连接的情况。运行了该路由协议的节点会从本设备上所有可能的路径中，计算出本设备上的最佳下一跳是哪条路径，每个设备上最佳的路径构成了每个设备的路由表。</p>
 <p>链路状态路由协议有点像你用导航去迪士尼乐园，导航软件从一开始就知道整个上海的地图以及从你所在的地点到迪士尼乐园有哪些可能存在的路线，然后对这些潜在的路线进行比较，看看哪条路线拥堵哪条路径通畅，最后选择出一条最优的路线告诉你应该怎么走。</p>
 <h2 id="协议优缺点"><a href="#协议优缺点" class="headerlink" title="协议优缺点"></a>协议优缺点</h2><p>概述</p>
 <p><strong>优点</strong></p>
@@ -580,13 +580,17 @@
 <li>LSA的泛洪在网络边界停止，能加速汇聚速度。</li>
 <li>缩小网络的不稳定性，一个区域的问题不会影响到其他区域。</li>
 </ol>
+<h4 id="单区域"><a href="#单区域" class="headerlink" title="单区域"></a>单区域</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-14_16-13-26.jpg" alt="Snipaste_2020-07-14_16-13-26"></p>
+<p>单区域就是所有路由器都在同一个Area中，如果一个区域内的路由器过多，那么同步的LSA会非常多，LSA的泛洪会很严重，OSPF路由器的负担会很大，因为OSPF要求区域内的所有路由器的LSDB相同，以计算出一个统一的无环的拓扑。同时单区域内的路由器过多会导致LSDB庞大，资源消耗过多，设备性能下降，影响数据转发。</p>
+<h4 id="多区域"><a href="#多区域" class="headerlink" title="多区域"></a>多区域</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-14_16-16-42.jpg" alt="Snipaste_2020-07-14_16-16-42"></p>
+<p>在部署OSPF时，可以采用多区域的方式部署，有且只能有一个Area 0，Area 0为骨干区域，骨干区域负责在非骨干区域之间发布由区域边界路由器汇总的路由信息，为避免区域间路由环路，非骨干区域之间不允许直接相互发布区域间路由，因此所有区域边界路由器都至少有一个接口属于Area 0，即每隔区域都必须连接到骨干区域。</p>
 <h3 id="多路访问（MA）"><a href="#多路访问（MA）" class="headerlink" title="多路访问（MA）"></a>多路访问（MA）</h3><blockquote>
 <p>A <strong>multi access network</strong> is a <strong>network</strong> which can have <strong>multiple</strong> (more than 2) machines participating in the <strong>network</strong>. A point to point <strong>network</strong> can have only 2 and a <strong>multi access network</strong> can have more than 2. The most common example of a <strong>multi access network</strong> is Ethernet (and FastEthernet etc).</p>
 </blockquote>
 <p>多路访问网络是有多个（超过两个）设备参与通信的网络。点对点（P2P）网络有且只有2个设备，多路访问网络可以有超过2个设备。最典型的多路访问网络就是日常生活中最常见的以太网。OSPF在点到点网络上是不选取DR的，正常情况下，DR只在多路访问时选取。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-25_16-58-10.jpg" alt="Snipaste_2020-06-25_16-58-10"></p>
 <p>多路访问网络有两种类型：广播型多路访问网络（BMA）及非广播型多路访问网络（NBMA）。以太网是一种典型的广播型多路访问网络。在OSPF中使用show ip ospf interface查看接口类型。</p>
-<h3 id="指定路由器（DR）"><a href="#指定路由器（DR）" class="headerlink" title="指定路由器（DR）"></a>指定路由器（DR）</h3><p>指定路由器（Designated Router），当OSPF链路被连接到多路访问的网络时，需要选择一个接口作为指定路由器，每台路由器都把拓扑变化发给DR和BDR，然后由DR通知多路访问网络中的其他路由器。在OSPF网络中，既不是DR也不是BDR的路由器，它的角色是DR Other。</p>
+<h3 id="指定路由器（DR）"><a href="#指定路由器（DR）" class="headerlink" title="指定路由器（DR）"></a>指定路由器（DR）</h3><p>指定路由器（Designated Router），当OSPF链路被连接到多路访问的网络时（广播、NBMA&lt;非广播多路访问&gt;），需要选择一个接口作为指定路由器，每台路由器都把拓扑变化发给DR和BDR，然后由DR通知多路访问网络中的其他路由器。在OSPF网络中，既不是DR也不是BDR的路由器，它的角色是DR Other。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-25_11-59-29.jpg" alt="Snipaste_2020-06-25_11-59-29"></p>
 <p>如上图中的四台路由器，R1、R2、R3、R4，运行OSPF协议且已经建立起了邻居且选举完DR\BDR，R1为DR，R3为BDR，R2和R4为DR Other，此时，这四台设备并不是相互之间两两交互LSA，而是R2、R3、R4分别和R1交换LSA，然后由R1将其他路由器没有的LSA传送给它们。DR Other 路由器只于DR和BDR建立完全邻接关系，其它路由器处于two-way状态。</p>
 <p>之所以要选举DR是为了避免路由器之间建立完全邻接关系而引起的大量开销，OSPF要求在多路访问的网络中选举出一个DR，每个路由器都与DR建立邻接关系。选举出DR的同时也选举出一个BDR（Backup Designated Router），BDR也就是备份DR路由器，BDR在DR失效时承担起DR的职责，DR Other路由器只与DR和BDR建立邻接关系。DR和BDR通信的组播地址为224.0.0.6，<strong>DR的选举是一个路由器的接口特性而不是整个路由器的特性</strong>，也就是说，一个路由器如果有3个接口，G0/0、G0/1和G0/2，G0/0是DR，G0/1是BDR，G0/2是DR Other也是没问题的，可能在一个MA网络种存在多个DR。比如下图的R3，两个接口分别是BDR和DR Other。</p>
@@ -601,7 +605,7 @@
 <h5 id="BDR晋升成DR"><a href="#BDR晋升成DR" class="headerlink" title="BDR晋升成DR"></a>BDR晋升成DR</h5><p>选举BDR\DR的场景中，绝大多数情况下，选举出的BDR都能顺利晋升成DR，也有极端场景比如俩OSPF路由器R1 R2在2-way刚选出BDR，另一台OSPF路由器R3接入进来发的hello里 DR是自己，这样R1 R2不知道会咋办。</p>
 <h5 id="已有DR-BDR"><a href="#已有DR-BDR" class="headerlink" title="已有DR\BDR"></a>已有DR\BDR</h5><p>什么情况下，一个路由器会发现链路中已经有DR或BDR出现呢，常见的一种情况是，一个路由器新加入已经运行了一段时间OSPF协议的网络，常见的另一种情况是，只有两台路由器相连，R1——R2，其中一台已经先行运行了OSPF协议而且在DR选举计时器结束前没有其他OSPF的Hello包出现，这时这台路由器会把接口设定为DR。当路由器的接口运行OSPF协议时，已经启动了一个DR选举的计时器，这个计时器时4倍的Hello时间，在以太网这个MA网络中也就是和Dead时间一样的40秒，RFC上对这个计时器的描述是“A single shot timer that causes the interface to exit the Waiting state, and as a consequence select a Designated Router on the network. The length of the timer is RouterDeadInterval seconds.”，可以用命令 show ip ospf interface XX | incl timer   查看，默认的计时器是：Timer intervals configured, Hello 10, Dead 40, <strong>Wait 40</strong>, Retransmit 5。这个Wait就是DR选举的计时器。当这个计时器到时的时候，也就是OSPF启动了40秒以后依旧没其他路由器发来Hello包进行选举时，这个路由器就会把自身这个接口设置为DR，因为思科规定即使MA网络中只有一台路由器运行OSPF协议也要选举DR。</p>
 <h5 id="BDR-DR的抢占性"><a href="#BDR-DR的抢占性" class="headerlink" title="BDR\DR的抢占性"></a>BDR\DR的抢占性</h5><p>DR和BDR具有非抢占性，也就是说当DR\BDR选举完成后，新加入的路由器即使Priority再小，DR\BDR也不会发生变化，为的是维持网络的稳定性。当DR失效后，BDR会成为DR，同时产生新的BDR。DR与BDR，DR与DR Other，BDR与DR Other之间都是Full状态，DR Other相互之间是2-way状态。所有的DR Other都只和DR以及BDR建立全毗邻关系。</p>
-<h5 id="其他总结"><a href="#其他总结" class="headerlink" title="其他总结"></a>其他总结</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-02_15-30-35.jpg" alt="Snipaste_2020-07-02_15-30-35"></p>
+<h5 id="其他概念"><a href="#其他概念" class="headerlink" title="其他概念"></a>其他概念</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-02_15-30-35.jpg" alt="Snipaste_2020-07-02_15-30-35"></p>
 <ul>
 <li>R1、R2接口的Priority值均为0，则R1和R2之间不能建立邻居，因为在MA网络下必须选举出DR，而R1、R2相连接口的Priority值均为0，失去了选举资格，所以两者无法建立邻居。</li>
 <li>R1接口优先级为0，R2接口优先级为1，则R2成为DR，且该多路访问网络中没有BDR。</li>
@@ -611,7 +615,7 @@
 </ul>
 <h4 id="选举的几个为什么"><a href="#选举的几个为什么" class="headerlink" title="选举的几个为什么"></a>选举的几个为什么</h4><h5 id="为什么选举DR-BDR"><a href="#为什么选举DR-BDR" class="headerlink" title="为什么选举DR\BDR"></a>为什么选举DR\BDR</h5><p>之所以选举DR\BDR是因为如果运行OSPF协议的路由器两两之间建立完全邻接关系会引起大量的开销，消耗大量资源，OSPF采取了每个DR Other路由器和DR以及BDR建立邻接关系的方法，来减少资源消耗。</p>
 <h5 id="为什么除了DR也要有BDR"><a href="#为什么除了DR也要有BDR" class="headerlink" title="为什么除了DR也要有BDR"></a>为什么除了DR也要有BDR</h5><p>之所以除了选举DR以外还要选举出一个BDR是因为，DR Other要和DR以及BDR形成邻接关系，然后DR和BDR这两者也要形成邻接关系，如果DR由于某种情况挂掉，那么BDR就能接替DR的位置，因为所有DR Other和BDR也形成了邻接关系，DR掌握的关于网络的信息和BDR是一样的，所以BDR可以顺利完美接替DR，这样可以把DR挂掉对网络的影响降到最低。</p>
-<h5 id="为什么先选举BDR"><a href="#为什么先选举BDR" class="headerlink" title="为什么先选举BDR"></a>为什么先选举BDR</h5><p>之所以先选举BDR再选举DR是因为：”The reason behind the election algorithm’s complexity is the desire for an orderly transition from Backup Designated Router to Designated Router, when the current Designated Router fails. This orderly transition is ensured through the introduction of hysteresis: no new Backup Designated Router can be chosen until the old Backup accepts its new Designated Router responsibilities.”——RFC 2328 - OSPF Version 2，section 9.4 - Electing the Designated Router。先选取BDR的原因是，如果DR发生故障，需要BDR来接替DR的位置和作用，如果先选举DR，则可能会在BDR接替之前挂掉的DR前，选举出一个不是之前BDR的新DR，这个新DR还得重新从224.0.0.6上学习信息才能执行DR的角色，重新学习信息可能使得网络无法顺利转发数据。而先选举BDR则不会出现上面的问题，BDR接替完DR，因为空出来BDR的角色以后再选取DR，不会对网络有影响。</p>
+<h5 id="为什么先选举BDR"><a href="#为什么先选举BDR" class="headerlink" title="为什么先选举BDR"></a>为什么先选举BDR</h5><p>之所以先选举BDR再选举DR是因为：”The reason behind the election algorithm’s complexity is the desire for an orderly transition from Backup Designated Router to Designated Router, when the current Designated Router fails. This orderly transition is ensured through the introduction of hysteresis: no new Backup Designated Router can be chosen until the old Backup accepts its new Designated Router responsibilities.”——RFC 2328 - OSPF Version 2，section 9.4 - Electing the Designated Router。先选取BDR的原因是，当DR发生故障挂掉时，需要BDR来接替DR的位置和作用，如果先选举DR，则可能会在BDR接替之前挂掉的DR前，选举出一个不是之前BDR的新DR，这个新DR还得重新从224.0.0.6上学习信息才能执行DR的角色，重新学习信息可能使得网络无法顺利转发数据。而先选举BDR则不会出现上面的问题，DR掌握的网络信息BDR都掌握，BDR可以不经过信息交互直接接替DR的功能，待BDR完美接替挂掉的旧DR的功能成为新DR后，空出来BDR的角色以后再选取BDR，不会对网络有影响。</p>
 <h4 id="选举的优化"><a href="#选举的优化" class="headerlink" title="选举的优化"></a>选举的优化</h4><p>由于所有DR Other要与DR\BDR交互LSA信息，会消耗一定系统资源，所以建议在接口上灵活使用ip ospf priority 避免一个路由器的多个接口成为DR，降低硬件开销，减小网络变化时产生的影响。因为如果不在接口上进行灵活配置，选举过程是先看Priority再看Router ID，默认情况下所有接口的Priority都为1，此时Router ID为最大的路由器上的所有接口都将为DR，不仅会使得路由器开销变大，也会使得万一Router ID最大的路由器一旦挂掉，会对网络造成比较大的影响，因为各网段都要重新选举BDR\DR。</p>
 <h3 id="组播地址"><a href="#组播地址" class="headerlink" title="组播地址"></a><a href="https://community.cisco.com/t5/routing/dr-bdr-communication/td-p/1142718" target="_blank" rel="noopener">组播地址</a></h3><blockquote>
 <p>All OSPF routers continue to <strong>multicast HELLOS</strong> to 224.0.0.5, so they can keep track of their neighbors.</p>
@@ -622,7 +626,7 @@
 <p>* DR/BDR listens on multicast-address 224.0.0.6 in addition to 224.0.0.5. This allows DR/BDR in a particular segment to figure out status updates.</p>
 </blockquote>
 <p>OSPF通过发送Hello包到组播地址224.0.0.5来建立邻居，所以只要是运行了OSPF协议的路由器，不管是DR 、BDR还是DR Other都会监听这个地址用来建立邻居。DR Other使用224.0.0.6的组播地址，将LSU发送给DR和BDR，所以DR和BDR会监听224.0.0.6的组播地址。DR使用224.0.0.5的组播地址将LSU发送给DR Other路由器。综上所述，所有运行了OSPF的路由器都会监听224.0.0.5的组播地址，但只有DR和BDR在监听224.0.0.5地址的同时额外监听224.0.0.6的组播地址。</p>
-<h3 id="Cost"><a href="#Cost" class="headerlink" title="Cost"></a>Cost</h3><p>OSPF协议使用Cost值当作Metric去衡量到达目标网络的远近，Cost值越小越优，与RIP只用跳数来标识Metric不同，OSPF的Metric包含的因素更多。在每一个运行OSPF协议的接口上，都维护着一个接口的Cost值，接口的Cost值=100M / 接口带宽，也就是：10的8次方/BW（bit），这个100M（10的8次方）指的是参考带宽。一条路由的Cost值，是该路由从来源一路过来的所有入口方向的接口Cost值的总和，也就是这条路由经过接口的Cost值的综合。</p>
+<h3 id="Cost"><a href="#Cost" class="headerlink" title="Cost"></a>Cost</h3><p>OSPF协议使用Cost值当作Metric去衡量到达目标网络的远近，Cost值越小越优，接口的带宽越大，计算出的Cost值越小，接口的带宽越小，计算出的Cost值越大。在每一个运行OSPF协议的接口上，都维护着一个接口的Cost值，接口的Cost值=100M / 接口带宽，也就是：10的8次方/BW（bit），这个100M（10的8次方）指的是参考带宽。一条路由的Cost值，是该路由从来源一路过来的所有入口方向的接口Cost值的总和，也就是这条路由经过接口的Cost值的综合。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-26_16-36-41.jpg" alt="Snipaste_2020-06-26_16-36-41"></p>
 <p>例如1.1.1.0/24的路由，由于是loop back接口，所以相对于Router A来说，Cost值为1，对于Router B来说，B与A相连接的接口Cost值为64，所以1.1.1.0/24的路由相对B来说，Cost值就是1+64，也就是65。</p>
 <p>修改Cost的方法：</p>
@@ -642,6 +646,8 @@
 <h3 id="协议的三张表"><a href="#协议的三张表" class="headerlink" title="协议的三张表"></a>协议的三张表</h3><p>邻居表（Neighbor Table）：邻居表由临界数据库（Adjacency Database）生成，两台路由器的OSPF要协同工作，最基本的要求是两者要形成邻接（Adjacency）关系，邻居表储存了OSPF路由器邻居状态以及关于该邻居的其他数据，每台路由器的邻居表和其他路由器的不同，用 ‘show ip ospf neighbor ‘命令查看邻居表 。</p>
 <p>拓扑表（Topology Table）：拓扑表由链路状态数据库（Link-State Database，LSDB）生成，储存着网络中其他路由器的信息，用于构建网络拓扑，同一个区域（Area）内的路由器中的拓扑表相同（因为拓扑表用于构建区域内的网络拓扑，每个路由器都在相同网络拓扑的区域内），LSDB的概念有点不太好理解，可以理解成LSDB中的这些数据相当于本AS内的网络拓扑图一样，用 ‘show ip ospf database ‘命令查看拓扑表。</p>
 <p>OSPF路由表（OSPF Routing Table）：路由表由转发数据库（Forwarding Database）生成，在链路状态数据库（Link-State DataBase，LSDB）基础上运行SPF算法后得出路由表，用 ‘show ip route’查看路由表。</p>
+<h3 id="触发更新"><a href="#触发更新" class="headerlink" title="触发更新"></a>触发更新</h3><p>当路由器、链路或网段的状态在up-down之间切换时会引发触发更新。假设下图中的网络已经完成了OSPF路由收敛，突然R3下面的一个网络发生了故障，R3用224.0.0.6的组播地址通知DR及BDR，监听224.0.0.6的DR和BDR在得知该网段故障后向组播地址224.0.0.5发送更新通知其他路由器，由于除了DR及BDR的其他路由器都会监听224.0.0.5这一组播地址，路由器收到包含变化后的LSA的LSU后，更新本路由器的LSDB，待SPF延迟计时器到期后运行SPF算法，对更新后的链路状态数据库执行SPF算法必要时更新路由表。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-14_16-06-29.jpg" alt="Snipaste_2020-07-14_16-06-29"></p>
 <h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Router(config)# router ospf process-id </span><br><span class="line">/*创建OSPF进程并进入OSPF进程配置模式，Process-id为OSPF进程号，</span><br><span class="line">范围必须在1-65535之间，进程号只具有本地意义，不同路由器之间的OSPF进程号可以相同也可以不同，</span><br><span class="line">互相之间不影响*/</span><br><span class="line">Router(config-router)# network  address  wildcard-mask  areaarea-id</span><br><span class="line">/*在特定网段上激活OSPF*/</span><br><span class="line">Router# show ip ospf neighbor </span><br><span class="line">/*查看OSPF邻居表*/</span><br><span class="line">Router# show ip ospf database</span><br><span class="line">/*查看OSPF的LSDB*/</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2020/06/24/13-ospf/ospf-if-e-0-0-1593085167925.png" alt="ospf-if-e-0-0"></p>
@@ -657,6 +663,7 @@
 <h2 id="OSPF计时器"><a href="#OSPF计时器" class="headerlink" title="OSPF计时器"></a>OSPF计时器</h2><p>OSPF协议根据接口的网络类型不同，Hello Interval、Dead Interval时间也不同，Hello Interval表示路由器多久向外发送一次Hello包，Dead Interval表示多久没收到邻居的Hello包就会认为邻居挂掉了。具体Hello、Dead时间如下表所示：</p>
 <p><img src="/2020/06/24/13-ospf/OSPF-Network-Interface-types.png" alt="OSPF-Network-Interface-types"></p>
 <p>LSA的老化计时器为60分钟，也就是60分钟内没收到该LSA的信息就会将其从LSDB中删除。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-14_18-44-35.jpg" alt="Snipaste_2020-07-14_18-44-35"></p>
 <h2 id="OSPF数据包"><a href="#OSPF数据包" class="headerlink" title="OSPF数据包"></a>OSPF数据包</h2><h3 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h3><p>OSPF数据包有邻居发现、形成邻接关系、泛洪LSA信息等功能，共有5种数据包，分别是Hello、DBD、LSR、LSU、LSAck。OSPF数据包的二层采用以太网封装，前面说过，OSPF使用的协议组播地址为224.0.0.5或224.0.0.6，所以以太网中的目标MAC地址字段为01-00-5E-00-00-05或01-00-5E-00-00-06；三层用IP封装（Protocol字段为89），目标IP地址为224.0.0.5或224.0.0.6.OSPF部分分为OSPF Header和OSPF Message两部分，Header决定了OSPF为5种类型种的哪种数据包，Message携带了该种类型包含的信息。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-11_18-44-34.jpg" alt="Snipaste_2020-07-11_18-44-34"></p>
 <h4 id="OSPF-Header"><a href="#OSPF-Header" class="headerlink" title="OSPF Header"></a>OSPF Header</h4><p><img src="/2020/06/24/13-ospf/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200710115532.jpg" alt="微信图片编辑_20200710115532"></p>
@@ -684,16 +691,50 @@
 <h4 id="格式分析"><a href="#格式分析" class="headerlink" title="格式分析"></a>格式分析</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-10_15-08-07.jpg" alt="Snipaste_2020-07-10_15-08-07"></p>
 <p><img src="/2020/06/24/13-ospf/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200710151006.jpg" alt="微信图片编辑_20200710151006"></p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-10_15-08-40.jpg" alt="Snipaste_2020-07-10_15-08-40"></p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-11_19-01-27.jpg" alt="Snipaste_2020-07-11_19-01-27"></p>
+<p><img src="/2020/06/24/13-ospf/Users/32759/Downloads/Snipaste_2020-07-12_12-37-23.jpg" alt="Snipaste_2020-07-12_12-37-23"></p>
 <ul>
 <li>Network Mask：网络掩码，指的是路由器要发送的网络的掩码，字段长度为32位。</li>
 <li>Hello Interval：Hello包发送间隔，也就是运行OSPF协议的接口每隔多久发送一次Hello消息，字段长度为16位。</li>
-<li>Opinion：选项，代表着路由器支持OSPF的哪些可选功能。</li>
-<li>Router Priority：路由器优先级，在选举BDR\DR时使用。</li>
-<li>Router Dead Interval：路由器失效间隔，表示如果多少秒后没收到邻居路由器的消息，会认为邻居路由器已Down掉。</li>
-<li>Designated Router：指定路由器，</li>
+<li>Opinion：选项，代表着路由器支持OSPF的哪些可选功能，字段长度为8位。</li>
+<li>Router Priority：路由器优先级，在选举BDR\DR时使用，字段长度为8位。</li>
+<li>Router Dead Interval：路由器失效间隔，表示如果多少秒后没收到邻居路由器的消息，会认为邻居路由器已Down掉，字段长度为32位。</li>
+<li>Designated Router：指定路由器，在NBMA以及广播这两种类型的网络中，要选举DR路由器，选举后DR的IP地址在该字段，所有DR Other路由器和DR建立完全邻接关系并交换LSA，如果没有DR则该字段为全0，字段长度为32位。</li>
+<li>Backup Designated Router：备份指定路由器，在NBMA以及广播这两种类型的网络中，要选举BDR路由器，BDR是DR的备份，当DR Down掉后由BDR接替DR的位置并发挥DR的作用，如果没有BDR则该字段为全0，字段长度为32位。</li>
+<li>Neighbor：邻居，当收到其他路由器发送来的Hello包时，将其他路由器的IP地址放在此字段，如收到多个路由器的Hello包时，会存放多个，收到一个其他路由器的Hello包占据32位，收到两个占据64位，以此类推，用Wireshark抓包时此字段为Active Neighbor，比如上图有两个Active Neighbor分别是1.1.1.1和3.3.3.3，表示该路由器分别收到了1.1.1.1和3.3.3.3这两个路由器发来的Hello包。</li>
 </ul>
-<h3 id="DBD"><a href="#DBD" class="headerlink" title="DBD"></a>DBD</h3><h3 id="LSR"><a href="#LSR" class="headerlink" title="LSR"></a>LSR</h3><h3 id="LSU"><a href="#LSU" class="headerlink" title="LSU"></a>LSU</h3><h3 id="LSACK"><a href="#LSACK" class="headerlink" title="LSACK"></a>LSACK</h3><h2 id="LSA"><a href="#LSA" class="headerlink" title="LSA"></a>LSA</h2><h3 id="LSA简介"><a href="#LSA简介" class="headerlink" title="LSA简介"></a>LSA简介</h3><p>OSPF使用LSDB（Link-State DataBase，链路状态数据库）计算路由，LSDB中是各种的LSA。每个区域（Area）中所有路由器的LSDB是相同的，也就是说这些路由器所掌握的LSA是相同的，LSA一共有11类，不同种类的LSA传播的范围各有不同。运行OSPF协议的路由器交换完LSA后，各自运行SPF算法，由于域内路由器的LSDB相同又采用同样的SPF算法，所以计算出的路由路径是相同的。LSA每30分钟全部刷新一次。如果链路的状态因为某种原因产生了变化，那么直连该链路的路由器检测到变化后会触发关于该链路变化的更新。</p>
+<p>Hello包中的Area ID，Hello Interval，Router Dead Interval、Authentication Type、Authentication几个字段在邻居建立时必须相同邻居才能成功建立。如果Hello 时间不同Debug时就会出现：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-12_13-46-07.jpg" alt="Snipaste_2020-07-12_13-46-07"></p>
+<h3 id="DBD"><a href="#DBD" class="headerlink" title="DBD"></a>DBD</h3><h4 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h4><p>DBD是DataBase Description的缩写，出现在邻居建立过程中的ExStart及Exchange阶段，DBD是链路状态数据摘要，也就是LSDB的摘要或者说它是LSDB中有什么LSA的简略列表，用于描述链路状态数据库（LSDB）的内容，一个域中所有路由器的LSDB必须相同，在交换LSA之前先通过比较DBD来知道需要交换哪些LSA，这个是DBD的主要作用。</p>
+<h4 id="格式分析-1"><a href="#格式分析-1" class="headerlink" title="格式分析"></a>格式分析</h4><p>整体的DBD包：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-15_15-42-26.jpg" alt="Snipaste_2020-07-15_15-42-26"></p>
+<p>DBD数据包的<strong>Header部分</strong>中的Packet Type为2，表示这是一个DBD数据，其他字段之前分析过这里就不再赘述了，Header部分如下图：</p>
+<p><img src="/2020/06/24/13-ospf/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200715120054.jpg" alt="微信图片编辑_20200715120054"></p>
+<p><strong>Message部分</strong>：</p>
+<p><img src="/2020/06/24/13-ospf/ospfdatabasedescriptionformat.png" alt="ospfdatabasedescriptionformat"></p>
+<ul>
+<li>Interface MTU：长度为16位，一个路由器的接口在不分片情况下，所能传递的IP信息的最大值。这个值两台路由器必须相等才能建立Full Adjacency的关系。</li>
+<li>Option：长度为8位，本地路由器在此字段中告知其所支持的功能。</li>
+<li>Flages：长度为8位，前5位保留值为0，后三位分别为I位（Initial位，当它置1时表示这是初始的第一个DBD包，用来协商Master\Slave关系；置0时表示这不是初始的第一个DBD包了，标志着Master\Slave选举结束）、M位（More位，当它置1时表示后续还有DBD包需要发送；置0时表示后续没有DBD包需要发送了）、MS位（Master\Slave位，当它置1时表示路由器认为自己的角色时Master；置0时表示对方为Master。）。</li>
+<li>DD Sequence number：长度为32位，主从关系（Master\Slave）确定前，两台路由器各自用一个随机的大数字作为自己的DD Sequence；当主从关系确定后，Slave一方会用Master一方的DD Sequence作为自己的DD Sequence发送DBD给Master表示确认收到了Master的DBD，也就是隐式确认。</li>
+<li>LSA Header：这部分包含了用来表述路由器LSDB的LSA头部。</li>
+</ul>
+<p>DBD的Wireshark抓包如下：</p>
+<p><img src="/2020/06/24/13-ospf/OSPF%20DBD%20packet%20capture.png" alt="OSPF DBD packet capture"></p>
+<h4 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h4><p>两台路由器的DBD包中的Interface MTU必须相等才能建立Full Adjacency的关系，如果不相等会出现如下的提示：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-15_15-17-34.jpg" alt="Snipaste_2020-07-15_15-17-34"></p>
+<h3 id="LSR"><a href="#LSR" class="headerlink" title="LSR"></a>LSR</h3><h4 id="概述-3"><a href="#概述-3" class="headerlink" title="概述"></a>概述</h4><p>LSR用于请求邻居路由器发送其链路状态数据库（LSDB）中的特定项。LSR一般用在两台路由器交换完DBD后，当然如果路由器发现彼此之间并不用交换LSA的话，则LSR不会出现。</p>
+<h4 id="格式分析-2"><a href="#格式分析-2" class="headerlink" title="格式分析"></a>格式分析</h4><p>整体格式：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-15_15-43-35.jpg" alt="Snipaste_2020-07-15_15-43-35"></p>
+<p>Header部分中的OSPF Type为3，其他部分与其他包的Header部分相同这里就不再赘述了。</p>
+<p>Message部分：</p>
+<p><img src="/2020/06/24/13-ospf/OSPF%20LSR%20header%20format.png" alt="OSPF LSR header format"></p>
+<ul>
+<li>LS type：长度为32位，表示所传递的LSA的类型。</li>
+<li>Link State ID：长度32位，表示所传递</li>
+</ul>
+<h3 id="LSU"><a href="#LSU" class="headerlink" title="LSU"></a>LSU</h3><h4 id="概述-4"><a href="#概述-4" class="headerlink" title="概述"></a>概述</h4><p>LSU用于向邻居路由器发送其所需要的链路状态通告（LSA）。</p>
+<h4 id="格式分析-3"><a href="#格式分析-3" class="headerlink" title="格式分析"></a>格式分析</h4><h3 id="LSACK"><a href="#LSACK" class="headerlink" title="LSACK"></a>LSACK</h3><h4 id="概述-5"><a href="#概述-5" class="headerlink" title="概述"></a>概述</h4><p>LSAck用来向发送方确认收到特定的LSU，由于OSPF在四层不适用TCP或UDP，而协议又对可靠性有要求，因此增加LSAck包来保证可靠性。</p>
+<h4 id="格式分析-4"><a href="#格式分析-4" class="headerlink" title="格式分析"></a>格式分析</h4><h2 id="LSA"><a href="#LSA" class="headerlink" title="LSA"></a>LSA</h2><h3 id="LSA简介"><a href="#LSA简介" class="headerlink" title="LSA简介"></a>LSA简介</h3><p>OSPF使用LSDB（Link-State DataBase，链路状态数据库）计算路由，LSDB中是各种的LSA，LSA中包含着链路状态信息和路由信息。每个区域（Area）中所有路由器的LSDB是相同的，也就是说这些路由器所掌握的LSA是相同的，LSA一共有11类，不同种类的LSA传播的范围各有不同，有些LSA只在本区域内传播，有些LSA可以跨区域传播。运行OSPF协议的路由器交换完LSA后，各自运行SPF算法，由于域内路由器的LSDB相同又采用同样的SPF算法，所以计算出的路由路径是相同的。LSA每30分钟全部刷新一次，在刷新时的具体动作请看后文。如果链路的状态因为某种原因产生了变化，那么直连该链路的路由器检测到变化后会触发关于该链路变化的更新。路由器只能对其产生的LSA进行修改，不能对其他路由器的LSA进行改动。当网络拓扑发生变化时，LSA会带着新的信息进行泛洪，如果网络收敛完毕后，拓扑没有变化则不会对LSA进行泛洪（除了30分钟的整体LSA刷新以外）。</p>
 <h3 id="LSA的添加"><a href="#LSA的添加" class="headerlink" title="LSA的添加"></a>LSA的添加</h3><h3 id="LSA的删除"><a href="#LSA的删除" class="headerlink" title="LSA的删除"></a>LSA的删除</h3><blockquote>
 <p>in OSPF, no router is allowed to prematurely delete other router’s LSAs from its link-state database. LSAs may only be removed from the link-state database either if they reached their maximum age, or if their original advertising router has explicitly flushed them by flooding them with the age set to MaxAge. The loss of a neighbor does not result in its LSAs being flushed.——<a href="https://community.cisco.com/t5/switching/ospf-lsa-flooding/td-p/1964852" target="_blank" rel="noopener">OSPF LSA Flooding</a></p>
 </blockquote>
@@ -710,6 +751,9 @@
 </ol>
 </li>
 </ol>
+<h3 id="LSA的刷新"><a href="#LSA的刷新" class="headerlink" title="LSA的刷新"></a>LSA的刷新</h3><h4 id="为什么需要刷新LSA"><a href="#为什么需要刷新LSA" class="headerlink" title="为什么需要刷新LSA"></a>为什么需要刷新LSA</h4><p>RFC 2328中规定：Every LSA has to be reoriginated (that is, refreshed) every 1800 seconds.也就是说每一条LSA每隔1800秒（30分钟）必须重新起源或者说刷新一次，不管LSA的老化计时器是否到期都会刷新LSA，为的是在LSA老化计时器的3600秒到达前还能在区域内存在并传播，路由器只刷新它生成的LSA。</p>
+<h4 id="刷新LSA的步骤"><a href="#刷新LSA的步骤" class="headerlink" title="刷新LSA的步骤"></a>刷新LSA的步骤</h4><p>OSPF的刷新步骤是“What OSPF routers do each 30 minutes is that each router takes all LSAs it has originated itself, increments their sequence (revision) number, resets the age and floods them. Basically, each router floods a refreshed version of its own LSAs. Note that this is not an entire database resynchronization.——<a href="https://community.cisco.com/t5/routing/why-in-ospf-lsa-refresh-time-is-set-as-30-minutes/td-p/2600233" target="_blank" rel="noopener">出处点击</a>”，以及“This is the 30 minute interval which you are asking about. As the age of some self-originated LSA approaches 1800 seconds, the router will generate a refreshed version of the same LSA and flood it - an incremented sequence number, the age timer set to 0. That’s it. Nothing more. There is no some kind of resynchronization of entire link-state databases or something. You just flood a new LSA, just like you would flood an LSA if some topological event occured. The DBD packets have nothing to do here. As with all LSA flooding operations, LSAs are flooded within LSU packets, and they are confirmed with LSAck packets.——<a href="https://community.cisco.com/t5/switching/when-was-dbd-database-descriptor-packets-sent/td-p/2080784" target="_blank" rel="noopener">出处点击</a>”。简单来说就是LSA的起源路由器会在30分钟的时候发送一条和之前LSA相同的新版本的LSA去刷新该条LSA，这个新版本的LSA相比之前的LSA来说，增加了序列号的数值且老化计时器为0。在LSA刷新的时候不会发送DBD，LSA刷新也和Loading时一样，LSA在LSU中用LSU刷新的，收到刷新LSA的LSU以后，路由器也会发送LSAck用来确认收到LSU。这里注意，由于所有DR Other只和DR\BDR建立完全邻接关系，所以在刷新LSA时，起源路由器的的LSU也是和DR\BDR交互的，由DR\BDR再泛洪给其他路由器。</p>
+<h4 id="刷新的对路由器是否有影响"><a href="#刷新的对路由器是否有影响" class="headerlink" title="刷新的对路由器是否有影响"></a>刷新的对路由器是否有影响</h4><p>答案是没有影响，因为近年来设备的CPU性能已足以应付每30分钟刷新一次的LSA，而且每隔域（Area）中有多个DR\BDR而不是一个，每个MA网络都有其自己的DR\BDR，只负责本MA网络的LSA泛洪就行。而且即使是一个有N台路由器的MA网络也不意味着同一时间同时泛洪LSA，因为LSA的老化计时器是在每条LSA生成泛洪时开始计时的，每条LSA生成的时间不同。即使因为巧合，所有路由器在同一时间刷新LSA，假设MA网络中有N个路由器，那么此时同时刷新的1类LSA为N条，需要更新的2类LSA由于在为1条（由于2类LSA由DR产生用来通告掩码），如果再有ABR或ASBR的话也需要泛洪的LSA也不多，所以不会对路由器有什么影响。</p>
 <h2 id="邻居建立"><a href="#邻居建立" class="headerlink" title="邻居建立"></a>邻居建立</h2><h3 id="邻居状态机"><a href="#邻居状态机" class="headerlink" title="邻居状态机"></a>邻居状态机</h3><h4 id="Down"><a href="#Down" class="headerlink" title="Down"></a>Down</h4><p>初始化状态，这是OSPF邻居状态机的第一个状态，在Down状态下，意味着没从其他路由器收到OSPF的Hello包，运行OSPF协议的接口仍然有尝试发现邻居的意愿，因此会不断的发送组播Hello包。</p>
 <h4 id="Attempt"><a href="#Attempt" class="headerlink" title="Attempt"></a>Attempt</h4><p>仅在NBMA网络类型上存在，如果一个路由器，它邻居处于Attempt状态，表示它从邻居没有收到任何信息，但做了努力来与邻居联系。在NBMA网络上具有DR选取资格的路由器与其邻居路由器相连的接口开始变为有效（Active）时，或当这台路由器成为DR或BDR时，这台具有DR选举资格的路由器会把邻居路由器的状态转换到Attempt状态，在Attempt状态下，路由器将在指定的hello间隔时间内向该邻居发送单播hello包。</p>
 <h4 id="init"><a href="#init" class="headerlink" title="init"></a>init</h4><p>当OSPF接口收到链路上某个邻居发来的第一个Hello包时，它会在接口上将该邻居状态设置为init，注意这个Hello包种可能并未包含任何的邻居信息，也就是hello包中没有active neighbor这个字段，但这个Hello包至少证明，在运行了OSPF协议的这个接口的链路上，至少有个活着的邻居。当路由器收到邻居发来的Hello包以后，它应该将邻居Hello包中的Router-ID放入它自己的Hello包中的Active Neighbor字段，用来确认它收到了一个有效的Hello数据包。</p>
@@ -722,16 +766,18 @@
 <p>在2-way状态下，路由器决定是否和邻居形成邻接状态。在类型为广播（MA）或非广播多路访问的情况下，路由器只和DR以及BDR形成FULL的关系，和其他的DR Other形成2-way的关系；在点对点和点对多点的网络中，路由器和所有其他链接的路由器形成FULL关系。在2-way的时候还要选举BDR和DR，<strong>注意是先选举BDR然后再选举DR，DR/BDR具体选举步骤上文写过，这里再简单写一下重点：</strong></p>
 <p>当一台OSPF路由器有效（Active）并去发现它的邻居路由器时，它将去检查有效的DR和BDR路由器（如果路由器的Priority为0那么就意味着它是无效的，不能参与选举DR和BDR），如果DR和BDR路由器存在的话，这台路由器将接受已经存在的DR和BDR（为什么要接受已经存在的DR和BDR呢，是因为DR具有非抢占性的，也就是说已经有了DR了，新加入的路由器接口的Priority再低也不会重新选举DR了，如果没有非抢占性，新加入一个Priority 更大的就被选举成新的DR，所有DR Other都和这个新DR再建立邻接关系达到Full状态，太消耗系统资源，所以当一台路由器发现已经存在DR和BDR时就会接受已经存在的DR和BDR），如果BDR和DR路由器都不存在（也就是Hello包种的DR以及BDR字段都为0.0.0.0），将执行一个选举<strong>BDR</strong>的过程，选举出具有最高优先级的路由器作为BDR路由器，选举中如果存在多台路由器具有相同的优先级（Priority），那么在数值上具有最高路由器ID的路由器将被选举成<strong>BDR</strong>（如果两台运行OSPF路由器路由器的接口的Priority都是1，那么此时一台路由器的Router-ID为1.1.1.1，另一台的Router-ID为2.2.2.2，Router-ID为2.2.2.2的显然比1.1.1.1更大，这台Router-ID为2.2.2.2的路由器的接口将被选举成BDR）。<strong>如果没有有效的DR路由器存在，那么之前选举出的BDR路由器将被选举成（或者说成提升）DR路由器，然后再选举出来BDR路由器。</strong>至此BDR和DR选举完毕。</p>
 <h4 id="ExStart-amp-Exchange"><a href="#ExStart-amp-Exchange" class="headerlink" title="ExStart &amp; Exchange"></a>ExStart &amp; Exchange</h4><h5 id="过程概述"><a href="#过程概述" class="headerlink" title="过程概述"></a>过程概述</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-06_16-49-52.jpg" alt="Snipaste_2020-07-06_16-49-52"></p>
-<p>在ExStart状态下，双方开始交互DBD，双方的第一、第二个DBD的I、M、MS位均置1，用来比较出谁是Master/Slave，第三个包由Slave发给Master，Slave采用了Master的序列号，I位置0因为已经不是第一个初始化的DBD了，M位置1因为之后还有DBD要交互，MS位置0因为我不是Master而对方是Master。三个数据交互完确定了Master/Slave关系后进入Exchange阶段，进入Exchange阶段后，Exchange以后Master发送一个DBD，Slave回一个DBD，二者</p>
-<p>一台OSPF路由器在某个邻居置为2-way状态后，就开始发送<strong>空的DBD包</strong>用于协商确定两者之间的 master/slave关系，协商M/S关系是为了决定后续谁来决定DBD的序列号，Slave将采用Master  DBD的序列号作为自己DBD的序列号，注意这个和DR\BDR不是一个概念。DBD的全称是DataBase Description，里面包含着LSA的头部信息，这个头部信息相当于链路状态数据库的目录或者说成LSA的列表也可以，比较两个OSPF路由器的链路状态信息库目录就能知道两边的链路状态数据库是否相同，由于链路状态协议要求同一个区域（Area）内的LSDB完全一致，所以先通过比较DBD目录知道差异以后再相互交换LSDB没有的LSA。</p>
-<p>在DBD包中有3个标记为用来管理邻居关系的建立过程：</p>
+<p>在<strong>ExStart</strong>状态下，双方开始交互DBD选举Master，<strong>Router ID大的一方在选举以后会成为Master</strong>。在DBD包中有3个标记为用来管理邻居关系的建立过程：</p>
 <ul>
 <li>I 位，Initial bit，中文翻译成初始位，当该位置位为1时，表示这是第一个用于ExStart协商主从关系的初始化协商的DBD包。当两个路由已经选举完Master、Slave时，I位置0。</li>
 <li>M位，More bit，中文翻译为后继位，当该位置位为1时，表示后续还有其他DBD报文需要交互，当该位置0时表示没有其他DBD报文需要交互，表示从ExStart到<strong>Exchange</strong>的整个LSDB目录交换过程结束。</li>
 <li>MS位，Master/Slave bit，中文翻译为主/从位，当该位置位为1时，表示自己时Master，Router ID大的一方为Master，大多数情况下DR会成为Master。当两个路由器给对方发送第一个DBD报文时，双方都会将自己的MS位置位为1，然后相互比较Router ID决定主从关系。当决出主从关系时，Master的MS位不变依旧为1而Slave的MS位会置0表示自己为Slave。</li>
 </ul>
-<p>双方发送的第一个DBD包都会随机产生一个Sequence Number序列号，交互以后，Router ID大的一方成为Master，小的为Slave，第三个包由Slave发出，只有M位置1，说明后面还有DBD，I位为0因为已经不是初始化的DBD了，MS为0说明认为对方是Master。</p>
-<p>如果某台OSPF Router收到邻居发来的DBD，I位置0，也就意味着ExStart状态结束且Master/Slave已经选举完毕，那么该路由器就会将邻居置为Exchange过程，在此过程，双方使用包含自己LSA头部的DBD报文进行交互，并且将对方发过来的LSA头部、自己感兴趣的LSA或自己没有的LSA存储在一个本地的OSPF接口的队列里，以便在下一个阶段进行LSA详细请求。当某个接口收到邻居发来的DBD中的M位置0，说明对方已经发完DBD了，与此同时，如果该路由器的这个OSPF接口上存在待请求的LSA，那么它会将这个邻居置为loading状态。在Exchange状态也有可能发送LSR去请求对方发送LSU。</p>
+<p>双方的第一、第二个DBD的I、M、MS位均置1，用来比较出谁是Master/Slave（注意不是BDR\DR），第三个包由Slave发给Master，Slave采用了Master的序列号，I位置0因为已经不是第一个初始化的DBD了，M位置1因为之后还有DBD要交互，MS位置0因为我不是Master而对方是Master。三个数据交互完确定了Master/Slave，从此只有Master可以设置并且增加序列号，而Slave不行。确定了Master/Slave关系后进入Exchange阶段，进入Exchange阶段后，Exchange以后Master发送一个DBD，Slave必须回一个DBD（主从关系确定后，Slave不能主动发送DBD只能被动回应Master的DBD），两者用这种方式交换DBD信息。如果Slave已经没有更多DBD需要交换（也就是M位置0）而Master依旧还在发送DBD，则Slave必须用DBD响应并用Master的序列号隐式确认，但由于Slave端已经发送了所有LSA目录，此时Slave的DBD包中没有LSA的相关信息包含在内了。<strong>Master/Slave关系只在DBD中存在，DBD数据包只在ExStart/Exchange过程中存在。</strong>下面看看抓包的对比，首先是Master发送的包含有LSA目录的DBD：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-13_16-44-11.jpg" alt="Snipaste_2020-07-13_16-44-11"></p>
+<p>接下来是Slave回应上面Master发送的DBD的消息，这个DBD用的序列号是2990，和上面Master发送的序列号相同，属于隐式确认，可以看到由于Slave的I、M、MS位都为0，说明此时它已经发送完了所有的LSA的目录，没有其他可发送了，所以抓包中并没有关于LSA的部分：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-13_16-44-35.jpg" alt="Snipaste_2020-07-13_16-44-35"></p>
+<p><strong>选举完Master/Slave</strong>以后，路由器会进入<strong>Exchange</strong>阶段，在该阶段中执行DBD的交换过程，并且通过交换DBD明白下一步要从邻居路由器下载哪些LSA。为什么要交换DBD呢？因为OSPF是链路状态路由协议，本Area内路由器里的LSDB要相同，这就需要邻居之间相互交换彼此没有的LSA，如何知道哪些LSA需要交换呢？先比较LSDB的目录，也就是比较DBD，DBD是链路状态数据摘要，也就是LSDB的摘要，用于描述链路状态数据库（LSDB）的内容。</p>
+<p>在Exchange阶段，双方使用包含自己LSA头部的DBD报文进行交互，并且将对方发过来的LSA头部、自己感兴趣的LSA或自己没有的LSA存储在一个本地的OSPF接口的队列里，以便在下一个阶段进行LSA详细请求。当某个接口收到邻居发来的DBD中的M位置0，说明对方已经发完DBD了，与此同时，如果该路由器的这个OSPF接口上存在待请求的LSA，那么它会将这个邻居置为loading状态。在Exchange状态也有可能发送LSR去请求对方发送LSU。</p>
 <h5 id="抓包说明"><a href="#抓包说明" class="headerlink" title="抓包说明"></a>抓包说明</h5><h6 id="空DBD包"><a href="#空DBD包" class="headerlink" title="空DBD包"></a>空DBD包</h6><p>空DBD包中只有LSA头部的信息，并没有整个LSA的信息：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_17-29-34.jpg" alt="Snipaste_2020-07-04_17-29-34"></p>
 <p>而完整的LSA中包含的信息要多得多：</p>
@@ -752,8 +798,19 @@
 <p>第六个DBD由Master（10.0.0.3）发送给Slave（10.0.0.1），序列号为之前Slave确认DBD的序列号+1，也就是2991，这时M位置0，说明Master（MS位置1）没有更多的DBD要发送了。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_21-05-19.jpg" alt="Snipaste_2020-07-04_21-05-19"></p>
 <p>最后一个DBD由Slave（10.0.0.1）发送给Master（10.0.0.3），序列号和刚才Master发送的序列号一致，也是个用来确认的DBD。至此两方都没有DBD信息要交换了，Exchange阶段结束。</p>
-<h5 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h5><h6 id="为什么用空DBD包？"><a href="#为什么用空DBD包？" class="headerlink" title="为什么用空DBD包？"></a>为什么用空DBD包？</h6><p>当两个路由器决定建立完全邻接关系时（Full adjacent），二者必须同步彼此的LSDB（Link State DataBase，链路状态信息数据库），因为OSPF是一个链路状态路由协议，每台设备都要知道网络的整体信息（在OSPF中就是了解全网的LSA）所以邻居的LSDB自己也必须掌握，掌握清楚全网的信息以后，再根据自己掌握的信息计算出路由。为了优化LSDB数据库同步过程，两台路由器会先比较它们LSDB的条目列表，这样就不用交换整个LSDB数据库了，再根据LSDB条目列表比较的情况决定去交互哪些LSA，发送空DBD包就是LSDB的条目列表，空DBD是并不包含LSA头部的DBD包，既能达到比较两台设备LSDB的目的，又减小网络及系统的开销。</p>
-<h6 id="如何确定对方收到DBD？"><a href="#如何确定对方收到DBD？" class="headerlink" title="如何确定对方收到DBD？"></a>如何确定对方收到DBD？</h6><p>由于链路状态路由协议要获知全网的网络信息，所以必须知道和邻居之间LSDB中的LSA差别在哪，这时候需要交换空DBD以交换彼此掌握的LSA目录，但由于OSPF协议中并没给DBD包设计专门的DBD确认，这时如何确定对方收到了DBD包呢？<strong>用DBD包中的序列号做隐式确认。</strong></p>
+<h5 id="补充说明-1"><a href="#补充说明-1" class="headerlink" title="补充说明"></a>补充说明</h5><h6 id="为什么用空DBD包？"><a href="#为什么用空DBD包？" class="headerlink" title="为什么用空DBD包？"></a>为什么用空DBD包？</h6><p>当两个路由器决定建立完全邻接关系时（Full adjacent），二者必须同步彼此的LSDB（Link State DataBase，链路状态信息数据库），因为OSPF是一个链路状态路由协议，每台设备都要知道网络的整体信息（在OSPF中就是了解全网的LSA）所以邻居的LSDB自己也必须掌握，掌握清楚全网的信息以后，再根据自己掌握的信息计算出路由。为了优化LSDB数据库同步过程，两台路由器会先比较它们LSDB的条目列表，这样就不用交换整个LSDB数据库了，再根据LSDB条目列表比较的情况决定去交互哪些LSA，发送空DBD包就是LSDB的条目列表，空DBD是并不包含LSA头部的DBD包，既能达到比较两台设备LSDB的目的，又减小网络及系统的开销，就好像两个商店之间互相比较存货的差异，这时只要比较两个商店的存货目录清单而不用把所有货物搬出来彼此比较一样。</p>
+<h6 id="如何确定对方收到DBD？"><a href="#如何确定对方收到DBD？" class="headerlink" title="如何确定对方收到DBD？"></a>如何确定对方收到DBD？</h6><p>由于链路状态路由协议要获知全网的网络信息，所以必须知道和邻居之间LSDB中的LSA差别在哪，这时候需要交换空DBD以交换彼此掌握的LSA目录，但由于OSPF协议中并没给DBD包设计专门的DBD确认（必须注意，LSAck是用来确认LSU的而不是确认DBD的），这时如何确定对方收到了DBD包呢？<strong>用DBD包中的序列号做隐式确认。</strong>当Master发送M位置1\0、MS位置1的DBD并且Sequence为X的DBD时（表示我是Master，我还有后或者没有续的DBD需要发送），Slave会发送一个<strong>序列号同为X</strong>、M位置1\0，MS位置0的DBD<strong>隐式确认</strong>之前Master发送的DBD（表示我是Slave，我有或没有后续的DBD发送，我的序列号是X）。</p>
+<h4 id="Loading"><a href="#Loading" class="headerlink" title="Loading"></a>Loading</h4><p>DBD交换完成后，进入Loading状态，在Exchange状态时已经对链路状态数据库和收到的DBD的LSA头部进行了比较，已经知道要向邻居请求哪些自身没有的LSA了，于是在Loading阶段向邻居发送LSR用来请求这些没有的LSA；邻居收到LSR后，回应LSU（LSU中包含着LSA）；收到邻居发来的LSU，存储这些LSA到自己的链路状态数据库，并发送LSAck确认。也就是一个LSR — LSU — LSAck的数据包交互过程，当需要交互的LSU全部发送完毕后，Loading状态结束进入Full状态。在发送LSU时，路由器中也维护着一个LSU的重传列表以便确定所有发送的LSU都能被正确接收到，如果没收到某个LSU的LSAck的话会重传该LSU，例如下图：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-14_18-19-36.jpg" alt="Snipaste_2020-07-14_18-19-36"></p>
+<ol>
+<li>R2需要向R1请求A2和B2两条LSA的LSU，R1要向R2请求B1这一条LSA的LSU。</li>
+<li>R1向R2发送了A2和B2这两个LSU，R2发送了A2的LSAck，表示已经收到了A2的LSU</li>
+<li>当R1的LSA计时器过期（5秒）后仍然没收到关于B2的LSAck，R1明白该LSU对方并未受到于是重新发送了B2的LSU给R2。</li>
+<li>R2收到B2的LSU后发送了关于B2的LSAck表示该LSU已收到。</li>
+<li>R2发送B1的LSU给R1。</li>
+<li>R1发送B1的LSAck表示该LSU已收到。</li>
+</ol>
+<h4 id="Full"><a href="#Full" class="headerlink" title="Full"></a>Full</h4><p>LSU全部交互完毕后，两台路由器拥有的LSDB，并保持在该状态。为了保持邻接状态，路由器之间会交互Hello包，确保对方的状态，如果在Deaf interval计时器到期前都未收到对方的Hello包，则邻接状态终结。一旦发现和其他路由器邻接状态终结，路由器将会泛洪该变化置域内其他路由器。</p>
 <p>在这里用一个有两台路由器的实验做抓包分析说明，区分了两种情况，一种是两台路由器都刚配置OSPF的情况，另一种是其中一台路由器早已配置完OSPF的情况，至于为什么要区分这两种情况，我们后面总结的时候再具体说。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-30_16-25-57.jpg" alt="Snipaste_2020-06-30_16-25-57"></p>
 <h3 id="刚配置完情况"><a href="#刚配置完情况" class="headerlink" title="刚配置完情况"></a>刚配置完情况</h3><p>两台路由器都刚开机不久的情况下，先看R1和R2的配置：</p>
@@ -776,7 +833,8 @@
 <li>链路上的MTU不匹配。</li>
 <li>接口下的OSPF网络类型不匹配。</li>
 </ol>
-<p>DR选举</p>
+<h2 id="OSPF网络、链路类型"><a href="#OSPF网络、链路类型" class="headerlink" title="OSPF网络、链路类型"></a>OSPF网络、链路类型</h2><p>不同网络类型之间将hello和dead时间改成一致后，可以建立邻居但不能传递路由，因为相互之间传递的LSA类型不同。</p>
+<h2 id="OSPF特殊区域"><a href="#OSPF特殊区域" class="headerlink" title="OSPF特殊区域"></a>OSPF特殊区域</h2><p>DR选举</p>
 <p>DR always forms full adjacency with all other OSPF routers on that segment (BDR and DR-other).</p>
 <p>BDR always forms full adjacency with all other OSPF routers on that segment (DR and DR-other).</p>
 <p>DR-other forms full adjacency with DR and BDR and 2 way with other DR-other.</p>
@@ -786,6 +844,10 @@
 <p><a href="https://community.cisco.com/t5/routing/why-bdr-is-elected-first/td-p/3207520" target="_blank" rel="noopener">Why BDR is elected first?</a></p>
 <p><a href="https://community.cisco.com/t5/switching/master-and-slave-concept/m-p/2411039#M285022" target="_blank" rel="noopener">Master and Slave concept</a></p>
 <p><a href="https://community.cisco.com/t5/switching/ospf-lsa-flooding/td-p/1964852" target="_blank" rel="noopener">OSPF LSA Flooding</a></p>
+<p><a href="https://community.cisco.com/t5/switching/when-was-dbd-database-descriptor-packets-sent/td-p/2080784" target="_blank" rel="noopener">When was DBD(database descriptor) packets sent ?</a></p>
+<p><a href="https://forum.huawei.com/enterprise/zh/thread-275125.html" target="_blank" rel="noopener">OSPF协议介绍及配置 （上）</a></p>
+<p><a href="https://www.computernetworkingnotes.com/ccna-study-guide/ospf-neighbor-states-explained-with-example.html" target="_blank" rel="noopener">OSPF Neighbor States Explained with Example</a></p>
+<p><a href="https://sites.google.com/site/amitsciscozone/home/important-tips/ospf/ospf-packet-types" target="_blank" rel="noopener">OSPF Packet Types</a></p>
 <object data="./13-ospf/ospf-router-startup-and-link-state-update.pdf" type="application/pdf" width="100%" height="877px">
 
 
