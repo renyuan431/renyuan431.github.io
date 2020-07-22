@@ -305,6 +305,7 @@
 </ol>
 <p>注意，interface（接口）和link（链路）是有区别的，两者并不是同一个概念。一个接口（Interface）表示的是一个路由器上的物理或逻辑接口，逻辑接口比如loop back接口，物理接口比如以太网接口；而一个链路（link）描述的是表格种两个节点的关系，虚链路（Virtual link）是一个说明这个概念的很好的例子，一个虚链路描述的是逻辑上连接到另一个路由器。</p>
 <h5 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-20_15-46-10.jpg" alt="Snipaste_2020-07-20_15-46-10"></p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-22_12-17-06.jpg" alt="Snipaste_2020-07-22_12-17-06"></p>
 <p>Length及之前的部分都是LSA Header，有两个地方需要说一下，一个是LS Type为1，表示这是一个1类的LSA；另一个是Link State ID部分，这里该字段被设置成路由器的Router ID，其他的字段在前面已经写过，这里从Length之后的部分开始看。</p>
 <ul>
 <li>V位：当该位置1时，表示该路由器是一个或多个已经达到Full状态的虚链路（Virtual link）的终点。V代表了Virtual link endpoint。</li>
@@ -1319,6 +1320,51 @@
       </categories>
   </entry>
   <entry>
+    <title>CCNA笔记——7、为什么要建立TCP/IP通信模型</title>
+    <url>/2020/02/19/layer-mind/</url>
+    <content><![CDATA[<p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，可能这个概念要真正掌握并且固话还需要一次次的反复，每次当发现认知有问题的时候，会对此篇笔记进行更新。</p>
+ <a id="more"></a>  
+
+<h2 id="2020年"><a href="#2020年" class="headerlink" title="2020年"></a>2020年</h2><h3 id="2月17日事件"><a href="#2月17日事件" class="headerlink" title="2月17日事件"></a>2月17日事件</h3><p>起因是看到TCP的RFC文档的2.6 Reliable Communication里有这么一段话：</p>
+<blockquote>
+<p>An acknowledgment by TCP does not guarantee that the data has been delivered to the end user, but only that the receiving TCP has taken the responsibility to do so.</p>
+</blockquote>
+<p>一开始觉得这段话的意思是说，对一个数据进行ACK了也不能确保整个数据肯定传到“用户”（user）了，发送ACK的这个设备（也就是其他路由器或网络设备）需要完成接下来的步骤，因为可能收到这个数据并发送ACK的设备给丢弃了，例如它这没有路由表或者说它down了。但因为知道自己很渣，所以到思科论坛发了<a href="https://community.cisco.com/t5/routing/what-s-the-meaning-of-an-acknowledgment-by-tcp-does-not/m-p/4030767#M329627" target="_blank" rel="noopener">求助帖</a>，想验证一下自己的想法是否正确，有个哥们回复我说，他认为：</p>
+<blockquote>
+<p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
+</blockquote>
+<p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
+<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，也就是数据从发送端的传输层——网络层——数据链路层——物理层——接收端的物理层——传输层——网络层——传输层的这个过程都是没问题的，当然按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，会出现发送端已收到TCP-ACK，但在接收端，“user”也就是应用层的程序，尚未收到该消息。</p>
+<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
+<p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
+<blockquote>
+<p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
+</blockquote>
+<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC的人，是看不到这段话的。</p>
+<p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
+<p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
+<h3 id="3月12日事件"><a href="#3月12日事件" class="headerlink" title="3月12日事件"></a>3月12日事件</h3><p>起因是因为感觉对RTO（retransmission timeout）还是理解的有问题，所以去网上看了<a href="https://www.extrahop.com/company/blog/2011/retransmission-timeouts-rtos-application-performance-degradation/" target="_blank" rel="noopener">一篇文章</a>，发现文章里有这么一句话：TCP starts a retransmission timer when an outbound segment is handed down to IP。看完这句话，感觉又被教育了一次什么叫分层。</p>
+<p>TCP是一个可靠的协议，里面的重传机制也是仅仅工作在本层的，和其他层没关系，之前看到一句话说：When the TCP transmits a segment containing data, it puts a copy on a retransmission queue and starts a timer，结合上面的那句话就是说，当TCP传输包含数据的段时，也就是说当TCP将数据段传送给下层的网络层时，它将该数据段的副本放在重传队列上并启动计时器。而并不是之前我所感觉的数据发出本设备时，计时器开始计时，而是当数据发出本层时计时器就开始计时了，因为TCP是传输层的协议，仅对自己传输层的东西负责和影响。</p>
+<h2 id="关于分层概念的浅见"><a href="#关于分层概念的浅见" class="headerlink" title="关于分层概念的浅见"></a>关于分层概念的浅见</h2><p>最后再针对一张很好的图说两句自己对于分层概念以及模型的理解：</p>
+<p>1、标准化</p>
+<p>2、彼此独立</p>
+<p>3、相互联系</p>
+<p>4、便于实现</p>
+<h3 id="便于网络通信的实现"><a href="#便于网络通信的实现" class="headerlink" title="便于网络通信的实现"></a>便于网络通信的实现</h3><p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。类似于汽车上的流水线分工，一开始是一个工人生产一辆汽车，但随着汽车需求原来越大，汽车生产过程的越来越复杂，这种模式已经不适合大规模生产的要求了，首先是一个人很难掌握如此多的工序，其次是即使掌握了也不便于汽车的大规模生产，第三是由于一个人要做很多道工序，很难精通所有的工序，无法加快汽车生产速度也无法提高优化每一步的生产精度，无法提高产品质量。</p>
+<p>网络传输也是同样的道理，一开始的时候协议是不分层的，实现所有的功能，但随着通信量的上升，如果要一种协议规定所有的功能和作用，那么该协议的具体实施和编程就会变得非常复杂，无法轻易实现。相比之下，按照网络分层，明确定义每层协议的作用和责任以后，针对每层具体的协议进行编程会更加有利于该协议的实现，使得网络易于实现和维护，便于调试。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。</p>
+<h3 id="标准化"><a href="#标准化" class="headerlink" title="标准化"></a>标准化</h3><p>生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，依旧用汽车这货来举个贴近生活的例子方便理解，在网络通信中，如果没有统一的规则，自己按照自己的规则开发导致协议、设备相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态，类推到汽车行业就是，生产汽车零件的厂家有很多，比如轮胎有普利司通的，有马牌的也有韩泰的，品牌不同但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用，才能像汽车一样，如果轮胎坏了（类推到网络中就是其中某些层的某些协议或功能出了问题），只需要更换一个同型号的换轮胎即可上路飞驰，汽车的其他零件不受影响也不用变动（对相应出问题层级进行排错，出问题的特定层级排除错误通信即可恢复）。</p>
+<h3 id="彼此独立又相互依靠"><a href="#彼此独立又相互依靠" class="headerlink" title="彼此独立又相互依靠"></a>彼此独立又相互依靠</h3><p>？？？？？？？？？？？？？？？</p>
+<h3 id="上层依赖于下层，下层为上层提供服务"><a href="#上层依赖于下层，下层为上层提供服务" class="headerlink" title="上层依赖于下层，下层为上层提供服务"></a>上层依赖于下层，下层为上层提供服务</h3><p>？？？？？？？？？？？？？？</p>
+<p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
+<p>当然仅仅分层也是不够的，还必须对每一层进行标准化，而生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，否则如果没有统一的规则，自己按照自己的规则开发导致相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态。标准化就类似于生产汽车零件的厂家有很多，但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用。</p>
+<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
+      <categories>
+        <category>路由交换方向</category>
+        <category>CCNA</category>
+      </categories>
+  </entry>
+  <entry>
     <title>CCNA笔记——8、子网划分</title>
     <url>/2020/02/19/8-subnet/</url>
     <content><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>此篇笔记是在<a href="https://blog.51cto.com/6930123/2113151" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《子网划分详解》</a>以及<a href="https://blog.51cto.com/6930123/2115072" target="_blank" rel="noopener">IP地址和子网划分学习笔记之《超网合并详解》</a>两篇笔记的基础上进行了部分改动。</p>
@@ -1538,51 +1584,6 @@
 </ol>
 <p>引用文章：</p>
 <p><a href="https://blog.csdn.net/lemontree1945/article/details/79553187" target="_blank" rel="noopener">划分子网例题详解</a></p>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
-      <categories>
-        <category>路由交换方向</category>
-        <category>CCNA</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>CCNA笔记——7、为什么要建立TCP/IP通信模型</title>
-    <url>/2020/02/19/layer-mind/</url>
-    <content><![CDATA[<p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，可能这个概念要真正掌握并且固话还需要一次次的反复，每次当发现认知有问题的时候，会对此篇笔记进行更新。</p>
- <a id="more"></a>  
-
-<h2 id="2020年"><a href="#2020年" class="headerlink" title="2020年"></a>2020年</h2><h3 id="2月17日事件"><a href="#2月17日事件" class="headerlink" title="2月17日事件"></a>2月17日事件</h3><p>起因是看到TCP的RFC文档的2.6 Reliable Communication里有这么一段话：</p>
-<blockquote>
-<p>An acknowledgment by TCP does not guarantee that the data has been delivered to the end user, but only that the receiving TCP has taken the responsibility to do so.</p>
-</blockquote>
-<p>一开始觉得这段话的意思是说，对一个数据进行ACK了也不能确保整个数据肯定传到“用户”（user）了，发送ACK的这个设备（也就是其他路由器或网络设备）需要完成接下来的步骤，因为可能收到这个数据并发送ACK的设备给丢弃了，例如它这没有路由表或者说它down了。但因为知道自己很渣，所以到思科论坛发了<a href="https://community.cisco.com/t5/routing/what-s-the-meaning-of-an-acknowledgment-by-tcp-does-not/m-p/4030767#M329627" target="_blank" rel="noopener">求助帖</a>，想验证一下自己的想法是否正确，有个哥们回复我说，他认为：</p>
-<blockquote>
-<p>IMHO, it’s all about hierarchical model. The “user” is the “application process”. TCP is just one of the layers (transport, 4th). TCP is responsible for receiving/transmitted data only. Let’s imagine that TCP receives data. Then the data should travel to the end user (Application, 7th layer). But application may be overloaded and discards the data. In this situation the remote side received TCP-ACK, but on our side the user has not received the message.</p>
-</blockquote>
-<p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
-<p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，也就是数据从发送端的传输层——网络层——数据链路层——物理层——接收端的物理层——传输层——网络层——传输层的这个过程都是没问题的，当然按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，会出现发送端已收到TCP-ACK，但在接收端，“user”也就是应用层的程序，尚未收到该消息。</p>
-<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
-<p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
-<blockquote>
-<p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
-</blockquote>
-<p>这段话说的是，RFC的这一部分是关于将责任转移到操作系统或过程的下一阶段。 从根本上讲，它与分层有关。所以说这段话还是在强调分层这个概念，当然我这种啃不下去RFC的人，是看不到这段话的。</p>
-<p>后来到网上搜了一下，有一个人在另一个论坛提出了和我一样的问题，这个回答相对更严谨复杂一些，有兴趣的可以看一下：</p>
-<p><a href="https://networkengineering.stackexchange.com/questions/55581/acknowledgment-by-tcp-does-not-guarantee-that-the-data-has-been-delivered" target="_blank" rel="noopener">acknowledgment by TCP does not guarantee that the data has been delivered</a></p>
-<h3 id="3月12日事件"><a href="#3月12日事件" class="headerlink" title="3月12日事件"></a>3月12日事件</h3><p>起因是因为感觉对RTO（retransmission timeout）还是理解的有问题，所以去网上看了<a href="https://www.extrahop.com/company/blog/2011/retransmission-timeouts-rtos-application-performance-degradation/" target="_blank" rel="noopener">一篇文章</a>，发现文章里有这么一句话：TCP starts a retransmission timer when an outbound segment is handed down to IP。看完这句话，感觉又被教育了一次什么叫分层。</p>
-<p>TCP是一个可靠的协议，里面的重传机制也是仅仅工作在本层的，和其他层没关系，之前看到一句话说：When the TCP transmits a segment containing data, it puts a copy on a retransmission queue and starts a timer，结合上面的那句话就是说，当TCP传输包含数据的段时，也就是说当TCP将数据段传送给下层的网络层时，它将该数据段的副本放在重传队列上并启动计时器。而并不是之前我所感觉的数据发出本设备时，计时器开始计时，而是当数据发出本层时计时器就开始计时了，因为TCP是传输层的协议，仅对自己传输层的东西负责和影响。</p>
-<h2 id="关于分层概念的浅见"><a href="#关于分层概念的浅见" class="headerlink" title="关于分层概念的浅见"></a>关于分层概念的浅见</h2><p>最后再针对一张很好的图说两句自己对于分层概念以及模型的理解：</p>
-<p>1、标准化</p>
-<p>2、彼此独立</p>
-<p>3、相互联系</p>
-<p>4、便于实现</p>
-<h3 id="便于网络通信的实现"><a href="#便于网络通信的实现" class="headerlink" title="便于网络通信的实现"></a>便于网络通信的实现</h3><p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。类似于汽车上的流水线分工，一开始是一个工人生产一辆汽车，但随着汽车需求原来越大，汽车生产过程的越来越复杂，这种模式已经不适合大规模生产的要求了，首先是一个人很难掌握如此多的工序，其次是即使掌握了也不便于汽车的大规模生产，第三是由于一个人要做很多道工序，很难精通所有的工序，无法加快汽车生产速度也无法提高优化每一步的生产精度，无法提高产品质量。</p>
-<p>网络传输也是同样的道理，一开始的时候协议是不分层的，实现所有的功能，但随着通信量的上升，如果要一种协议规定所有的功能和作用，那么该协议的具体实施和编程就会变得非常复杂，无法轻易实现。相比之下，按照网络分层，明确定义每层协议的作用和责任以后，针对每层具体的协议进行编程会更加有利于该协议的实现，使得网络易于实现和维护，便于调试。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。</p>
-<h3 id="标准化"><a href="#标准化" class="headerlink" title="标准化"></a>标准化</h3><p>生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，依旧用汽车这货来举个贴近生活的例子方便理解，在网络通信中，如果没有统一的规则，自己按照自己的规则开发导致协议、设备相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态，类推到汽车行业就是，生产汽车零件的厂家有很多，比如轮胎有普利司通的，有马牌的也有韩泰的，品牌不同但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用，才能像汽车一样，如果轮胎坏了（类推到网络中就是其中某些层的某些协议或功能出了问题），只需要更换一个同型号的换轮胎即可上路飞驰，汽车的其他零件不受影响也不用变动（对相应出问题层级进行排错，出问题的特定层级排除错误通信即可恢复）。</p>
-<h3 id="彼此独立又相互依靠"><a href="#彼此独立又相互依靠" class="headerlink" title="彼此独立又相互依靠"></a>彼此独立又相互依靠</h3><p>？？？？？？？？？？？？？？？</p>
-<h3 id="上层依赖于下层，下层为上层提供服务"><a href="#上层依赖于下层，下层为上层提供服务" class="headerlink" title="上层依赖于下层，下层为上层提供服务"></a>上层依赖于下层，下层为上层提供服务</h3><p>？？？？？？？？？？？？？？</p>
-<p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
-<p>当然仅仅分层也是不够的，还必须对每一层进行标准化，而生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，否则如果没有统一的规则，自己按照自己的规则开发导致相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态。标准化就类似于生产汽车零件的厂家有很多，但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用。</p>
-<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
       <categories>
         <category>路由交换方向</category>
