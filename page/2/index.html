@@ -508,7 +508,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-24 16:51:07" itemprop="dateModified" datetime="2020-07-24T16:51:07+08:00">2020-07-24</time>
+                <time title="修改时间：2020-07-27 16:40:53" itemprop="dateModified" datetime="2020-07-27T16:40:53+08:00">2020-07-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -565,12 +565,15 @@
 <p>OSPF路由协议的管理距离为110，使用IP协议号89，采用COST作为度量标准（Metric），OSPF维护邻居表、拓扑表和路由表三张表项；OSPF的消息有Hello，DBD（Database Description），LSR（Link State Request），LSU（Link State Update），LSAck（Link State Acknowledge）；OSPF的网络类型有广播多路访问（BMA，Broadcast Multi Access），非广播多路访问（NBMA，None Broadcast Multi Access）。</p>
 <p>SPF算法要求同一个OSPF区域中的每个路由器都有一致的LSDB，一个OSPF区域的每个路由器都以自己位根计算最短路径，到达每个目的地的最小Cost的路径最优，将最优的路径放入FIB中。  </p>
 <h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="自治系统（AS）"><a href="#自治系统（AS）" class="headerlink" title="自治系统（AS）"></a>自治系统（AS）</h3><p>自治系统（Autonomous system），采用同一种路由协议交换信息的路由器及其网络构成一个自治系统。具体到OSPF协议中，简单来说就是所有运行OSPF的路由器所组成的网络是同一自治系统。</p>
+<h3 id="内部网关协议（IGP）"><a href="#内部网关协议（IGP）" class="headerlink" title="内部网关协议（IGP）"></a>内部网关协议（IGP）</h3><p>内部网关协议，IGP，Interior Gateway Protocol，常见的OSPF、EIGRP、RIP这种都叫内部网关协议，每个自治系统（AS）都有一个IGP。 单独的自治系统（AS）可能会使用不同的IGP。与内部网关协议相对应的有外部网关协议（Exterior Gateway Protocol），与内部网关协议不同，外部网关协议其着眼点不在于发现和计算路由，而在于控制路由的传播和选择最佳路由。外部网关协议目前只有BGP这一种。</p>
 <h3 id="链路（Link）"><a href="#链路（Link）" class="headerlink" title="链路（Link）"></a>链路（Link）</h3><p>相当于一个接口加入OSPF进程，就被当做是OSPF的一条链路。</p>
 <h3 id="链路状态（Link-State）"><a href="#链路状态（Link-State）" class="headerlink" title="链路状态（Link-State）"></a>链路状态（Link-State）</h3><p>包括接口的IP、子网、网络类型、链路话费、链路上的邻居等。</p>
 <h3 id="链路状态通告（LSA）"><a href="#链路状态通告（LSA）" class="headerlink" title="链路状态通告（LSA）"></a>链路状态通告（LSA）</h3><p>链路状态通告（LSA）是OSPF协议的一种基本通信手段，它将路由器的本地拓扑发送给同区域（Area）的其他路由器。OSPF协议设计之初考虑了可扩展性，所以有些LSA不会在所有接口上泛洪而是只在相应区域的接口上泛洪。LSA用来描述路由器的本地状态，LSA包括的信息有路由器接口的状态和所形成的邻接状态。</p>
-<h3 id="路由器ID（Router-ID，简称RID）"><a href="#路由器ID（Router-ID，简称RID）" class="headerlink" title="路由器ID（Router ID，简称RID）"></a>路由器ID（Router ID，简称RID）</h3><p>RID是一个用来标识路由器的IP地址，在一个OSPF域中唯一地标识一台路由器，不能和其他路由器的Router ID重复，可以在OSPF路由进程中手工指定，如果没有指定，路由器默认选择环回接口（Loopback接口）中最高的IP作为RID；如果没有环回地址，路由器使用所有激活的物理接口中最高的IP作为RID。</p>
-<h3 id="邻居（Neighbor）"><a href="#邻居（Neighbor）" class="headerlink" title="邻居（Neighbor）"></a>邻居（Neighbor）</h3><p>运行OSPF协议的路由器在相互交换LSA之前需要先建立邻居。邻居通过相互交互Hello数据包的方式自动发现并建立的，Hello包通过组播地址224.0.0.5进行发送。如果两个路由器交互的hello包中的各项参数相互匹配，则二者的邻居关系将被自动建立。这些参数包括：子网、区域ID（Area ID）、OSPF相关计时器、认证、Area Stub 标识和MTU。两台路由器必须直连才能建立邻居。OSPF只与建立了邻接关系的邻居共享路由信息。</p>
-<h3 id="邻接关系"><a href="#邻接关系" class="headerlink" title="邻接关系"></a>邻接关系</h3><p>Routers first exchange hellos and become neighbors. Then they decide to form adjacencies. An adjacency is a state where two routers agree to exchange LSAs (link state advertisments).</p>
+<h3 id="路由器ID（Router-ID，简称RID）"><a href="#路由器ID（Router-ID，简称RID）" class="headerlink" title="路由器ID（Router ID，简称RID）"></a>路由器ID（Router ID，简称RID）</h3><p>RID是一个用来标识路由器的IP地址，长度为32位，在AS中唯一地标识一台路由器，不能和其他路由器的Router ID重复，可以在OSPF路由进程中手工指定，如果没有指定，路由器默认选择环回接口（Loopback接口）中最高的IP作为RID；如果没有环回地址，路由器使用所有激活的物理接口中最高的IP作为RID。</p>
+<h3 id="邻居路由器（Neighbor-routers）"><a href="#邻居路由器（Neighbor-routers）" class="headerlink" title="邻居路由器（Neighbor routers）"></a>邻居路由器（Neighbor routers）</h3><p>Two routers that have interfaces to a common network.Neighbor relationships are maintained by, and usually dynamically discovered by, OSPF’s Hello Protocol.</p>
+<p>两个路由器有共同的接口</p>
+<p>运行OSPF协议的路由器在相互交换LSA之前需要先建立邻居。邻居通过相互交互Hello数据包的方式自动发现并建立的，Hello包通过组播地址224.0.0.5进行发送。如果两个路由器交互的hello包中的各项参数相互匹配，则二者的邻居关系将被自动建立。这些参数包括：子网、区域ID（Area ID）、OSPF相关计时器、认证、Area Stub 标识和MTU。两台路由器必须直连才能建立邻居。OSPF只与建立了邻接关系的邻居共享路由信息。</p>
+<h3 id="邻接关系"><a href="#邻接关系" class="headerlink" title="邻接关系"></a>邻接关系</h3><p>A relationship formed between selected neighboring routers for the purpose of exchanging routing information.  Not every pair of neighboring routers become adjacent.Routers first exchange hellos and become neighbors. Then they decide to form adjacencies. An adjacency is a state where two routers agree to exchange LSAs (link state advertisments).</p>
 <p><a href="https://community.cisco.com/t5/switching/ospf-neighbor-v-ospf-adjacency/td-p/1576785" target="_blank" rel="noopener">https://community.cisco.com/t5/switching/ospf-neighbor-v-ospf-adjacency/td-p/1576785</a></p>
 <h3 id="邻居VS邻接"><a href="#邻居VS邻接" class="headerlink" title="邻居VS邻接"></a>邻居VS邻接</h3><p>是邻居关系不一定是邻接关系，但是邻接一定是已经建立起了邻居关系。</p>
 <h3 id="区域（Area）"><a href="#区域（Area）" class="headerlink" title="区域（Area）"></a>区域（Area）</h3><p>OSPF通过划分区域来实现分层设计，跨越两个或两个以上区域的路由被称作ABR（Area Border Router，区域边界路由）。所有的区域都和“Area 0”相连，“Area 0”被称作骨干区域（Backbone），骨干区域路由器具有整个自治系统用中所有路由条目，LSA的扩散进限制在本区域内，可以通过划分多个区域以减小LSA扩散过程中对硬件的负担。作为骨干区域的Area 0的存在是为了快速高效的传输数据包，通常不接用户，主要负责多个常规区域的流量传输。Area 0 之外的区域叫做Regular area普通区域或nonbackbone area非骨干区域，主要为了连接用户，且所有数据交互都要通过Area 0中转，所以常规区域必须和骨干区域连接。一般一个区域内的路由器数量是30-200台。</p>
@@ -664,19 +667,25 @@
 <li>那么路由器A如何知道DR收到了那条LSA呢，假定它发送的这条LSU叫AA，A通过224.0.0.6发送特定的LSU-AA给DR，由于DR需要将这个变化通告给域内其他的路由器，所以DR再把这条LSU-AA通过224.0.0.5发送给域内其他包括A在内的路由器，A也就从DR收到了LSU-AA，A收到DR发来的相同的LSU就知道DR已经收到了之前的LSU-AA，也就不用再等待DR的LSAck了，如果没收到的话DR不可能会泛洪这条LSU-AA，这就是<strong>隐式确认</strong>。</li>
 <li>在该网段的其他路由器会收到LSU-AA并返回给DR一个LSAck表示收到了这条LSU-AA，这是显示确认。</li>
 </ol>
-<h3 id="Stub-Transit-network-Stub-Transit-network"><a href="#Stub-Transit-network-Stub-Transit-network" class="headerlink" title="[Stub/Transit network](Stub/Transit network)"></a>[Stub/Transit network](Stub/Transit network)</h3><p>OSPF协议中，将运行了OSPF协议的网络分为两类，Stub network和Transit network。用show ip ospf router internal 可以查看到：</p>
+<h3 id="Stub-Transit-network"><a href="#Stub-Transit-network" class="headerlink" title="Stub/Transit network"></a>Stub/Transit network</h3><p>OSPF协议中，将运行了OSPF协议的网络分为两类，Stub network和Transit network。用show ip ospf router internal 可以查看到：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-24_15-36-33.jpg" alt="Snipaste_2020-07-24_15-36-33"></p>
 <h4 id="Transit-network"><a href="#Transit-network" class="headerlink" title="Transit network"></a>Transit network</h4><blockquote>
 <p>Transit networks are those capable of carrying data traffic that is neither locally originated nor locally destined. A transit network is represented by a graph vertex having both incoming and outgoing edges.</p>
 <p>​                                               ——RFC2328 Section 2.1</p>
 </blockquote>
-<p>RFC给出的定义很严谨，但由于它的严谨性有些概念理解起来就比较晦涩，通过RFC的定义我是没完全搞明白，又查了一些文章，结合自己的理解谈谈这个概念：由于Transit有运输、经过和运送的意思，Transit network是指的有能力发送不是本网段产生或不是以本网段为目的的数据。</p>
+<p>RFC给出的定义很严谨，但由于它过于严谨，使得理解起来过于费劲，通过RFC的定义我是没完全搞明白，又查了一些文章，结合自己的理解谈谈这个概念：由于Transit有运输、经过和运送的意思，从定义上看，Transit network是指的有能力发送既不是本网段产生也不是以本网段为目的的数据。但这个定义十分的不好理解，所以也可以把Transit network等同于，至少有两台路由器需要选举DR\BDR的网络（在<a href="https://community.cisco.com/t5/routing/does-the-transit-network-in-ospf-equal-ma-network/m-p/4125009#M337365" target="_blank" rel="noopener">思科论坛</a>上看到几次有人讨论过这个问题&lt;transit network means there is at least one OSPF neighbor on the link but does not require the election of DR/BDR even if most of the times this happens.&gt;，也在另一个<a href="https://www.networkfuntimes.com/ospf-what-is-a-stub-network/" target="_blank" rel="noopener">技术博客</a>上看到有人这么说&lt;What a transit network actually is, is any network that requires a designated router.&gt;，所以为了方便理解这里采用这个说法），这个Transit network可以是以太网LAN或者有多个虚链路的帧中继网络，不管是哪种网络，只要需要选举DR，那么它就是一个Transit network。在之前笔记中写过，由于DR和BDR选举时是每个网段上选的，所以这个Transit network中的network其实也可以理解成网段的意思（ Does the word ‘network’ in the ‘Transit network’ meaning ‘network segment’?Yes I agree——<a href="https://community.cisco.com/t5/routing/does-the-transit-network-in-ospf-equal-ma-network/m-p/4125009#M337365" target="_blank" rel="noopener">出处</a>）。</p>
+<p>弄懂基本意思了以后继续往下看，由于Transit network能发送那些既不是本地产生，也不以本地为目的地的数据，而且这货必须最少有2个路由器，所以不难想象，Transit network所需要存放的关于路由的数据相对后面的Stub network要多一些。</p>
 <h4 id="Stub-network"><a href="#Stub-network" class="headerlink" title="Stub network"></a>Stub network</h4><blockquote>
 <p>A stub network’s vertex has only incoming edges.</p>
 <p>​                                             ——RFC2328 Section 2.1</p>
 </blockquote>
-<p>Stub network的定义说人话其实就是一个只包含了一台路由器的网络，这个网络的网关就是这台路由器，在这个网络中它没有其他的OSPF邻居。</p>
-<h4 id="为什么要如此定义"><a href="#为什么要如此定义" class="headerlink" title="为什么要如此定义"></a>为什么要如此定义</h4><h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Router(config)# router ospf process-id </span><br><span class="line">/*创建OSPF进程并进入OSPF进程配置模式，Process-id为OSPF进程号，</span><br><span class="line">范围必须在1-65535之间，进程号只具有本地意义，不同路由器之间的OSPF进程号可以相同也可以不同，</span><br><span class="line">互相之间不影响*/</span><br><span class="line">Router(config-router)# network  address  wildcard-mask  areaarea-id</span><br><span class="line">/*在特定网段上激活OSPF*/</span><br><span class="line">Router# show ip ospf neighbor </span><br><span class="line">/*查看OSPF邻居表*/</span><br><span class="line">Router# show ip ospf database</span><br><span class="line">/*查看OSPF的LSDB*/</span><br></pre></td></tr></table></figure>
+<p>Stub network的定义说人话其实就是一个只包含了一台路由器的网络，这个网络的网关就是这台路由器，在这个网络中它没有其他的OSPF邻居。常见的点对点（Point-to-Point）就是stub network，又比如下面的这个拓扑也是stub network：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-25_17-17-16.jpg" alt="Snipaste_2020-07-25_17-17-16"></p>
+<p>但有意思的是，如果用<strong>以太网</strong>将两个路由器直连后，他们之间会默认成为Transit network，尽管二者之间真正的关系为点对点，为什么会这样呢？因为当使用以太网连接两台路由器时，设备不知道中间是否有一台交换机，因为二层设备在传递三层数据时相对来说是透明的，所以如果中间有交换机的话，可能会加入更多的运行OSPF的路由器，毕竟交换机的接口很多，如果加入更多的运行OSPF的设备，这种情况下就需要选择DR而选择DR就是Transit network，因此运行了OSPF的以太网接口会默认设置为Transit network。</p>
+<p>继续上面两个路由器用以太网直连的例子，此时如果在接口上配置了 “ip ospf network point-to-point”的话，此时他们之间为Stub network。</p>
+<p>由于Stub network只有一个路由器就行，没有其他OSPF邻居，所以相比前面有两台路由器要承载穿越流量（也就是不以本地为源也不以本地为目的）的Transit network来说，Stub network需要存放的路由信息就会相对少一些。</p>
+<h4 id="为什么要如此定义"><a href="#为什么要如此定义" class="headerlink" title="为什么要如此定义"></a>为什么要如此定义</h4><p>为什么要定义这两种类型的网络\网段呢？答案是为了减少内存使用。具体如何减少内存使用，说实话我没搞太明白，所以以下说明部分不保证完全正确，请看官批判理解，等哪天突然开窍了会回来继续完善这部分。</p>
+<h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Router(config)# router ospf process-id </span><br><span class="line">/*创建OSPF进程并进入OSPF进程配置模式，Process-id为OSPF进程号，</span><br><span class="line">范围必须在1-65535之间，进程号只具有本地意义，不同路由器之间的OSPF进程号可以相同也可以不同，</span><br><span class="line">互相之间不影响*/</span><br><span class="line">Router(config-router)# network  address  wildcard-mask  areaarea-id</span><br><span class="line">/*在特定网段上激活OSPF*/</span><br><span class="line">Router# show ip ospf neighbor </span><br><span class="line">/*查看OSPF邻居表*/</span><br><span class="line">Router# show ip ospf database</span><br><span class="line">/*查看OSPF的LSDB*/</span><br><span class="line">Router# show ip ospf database router x.x.x.x</span><br><span class="line">/*查看OSPF中Link ID为x.x.x.x的1类LSA，router意味着查看1类LSA*/</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2020/06/24/13-ospf/ospf-if-e-0-0-1593085167925.png" alt="ospf-if-e-0-0"></p>
 <ul>
@@ -688,6 +697,7 @@
 <li>State BDR，表示该E0/0接口的角色为BDR，也就是Backup Designated Router，备份指定路由器。</li>
 <li>Priority 1，表示该接口的OSPF Priority值为1，这个值在决定接口性质，也就是链路在决定一个接口的DR、BDR或DR Other时使用。Priority 最高的为DR。</li>
 </ul>
+<p><img src="/2020/06/24/13-ospf/ospf-database-2.1-768x814.jpg" alt="ospf-database-2.1-768x814"></p>
 <h2 id="OSPF计时器"><a href="#OSPF计时器" class="headerlink" title="OSPF计时器"></a>OSPF计时器</h2><p>OSPF协议根据接口的网络类型不同，Hello Interval、Dead Interval时间也不同，Hello Interval表示路由器多久向外发送一次Hello包，Dead Interval表示多久没收到邻居的Hello包就会认为邻居挂掉了。具体Hello、Dead时间如下表所示：</p>
 <p><img src="/2020/06/24/13-ospf/OSPF-Network-Interface-types.png" alt="OSPF-Network-Interface-types"></p>
 <p>LSA的老化计时器为60分钟，也就是60分钟内没收到该LSA的信息就会将其从LSDB中删除。</p>
@@ -1001,6 +1011,7 @@
 <p><a href="https://community.cisco.com/t5/routing/ospf-implicit-ack-vs-explicit-ack/td-p/2353763" target="_blank" rel="noopener">OSPF - Implicit ACK vs. Explicit ACK</a></p>
 <p><a href="https://networklessons.com/ospf/ospf-lsas-and-lsdb-flooding-tutorial" target="_blank" rel="noopener">OSPF LSAs and LSDB flooding Tutorial</a></p>
 <p><a href="http://www.firewall.cx/networking-topics/routing/ospf-routing-protocol/1178-ospf-lsa-types-explained.html" target="_blank" rel="noopener">OSPF LSA TYPES - PURPOSE AND FUNCTION OF EVERY OSPF LSA</a></p>
+<p><a href="https://www.networkfuntimes.com/ospf-what-is-a-stub-network/" target="_blank" rel="noopener">OSPF: WHAT IS A STUB NETWORK?</a></p>
 <object data="./13-ospf/ospf-router-startup-and-link-state-update.pdf" type="application/pdf" width="100%" height="877px">
 
 
