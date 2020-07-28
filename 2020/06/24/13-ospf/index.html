@@ -70,6 +70,12 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-07-14_16-06-29.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-07-24_15-36-33.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-07-25_17-17-16.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-07-28_15-38-29.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-07-28_15-03-50.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-07-28_15-04-54.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-07-28_15-41-18.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-07-28_16-04-43.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-07-28_16-08-40.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;ospf-if-e-0-0-1593085167925.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;ospf-database-2.1-768x814.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;OSPF-Network-Interface-types.png">
@@ -131,7 +137,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-07-04_21-05-19.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-07-14_18-19-36.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-06-30_16-25-57.jpg">
-<meta property="og:updated_time" content="2020-07-27T08:40:53.369Z">
+<meta property="og:updated_time" content="2020-07-28T08:09:30.047Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Cisco-CCNA-OSPF-1.jpg">
 
@@ -333,7 +339,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-27 16:40:53" itemprop="dateModified" datetime="2020-07-27T16:40:53+08:00">2020-07-27</time>
+                <time title="修改时间：2020-07-28 16:09:30" itemprop="dateModified" datetime="2020-07-28T16:09:30+08:00">2020-07-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -516,7 +522,23 @@
 <p>但有意思的是，如果用<strong>以太网</strong>将两个路由器直连后，他们之间会默认成为Transit network，尽管二者之间真正的关系为点对点，为什么会这样呢？因为当使用以太网连接两台路由器时，设备不知道中间是否有一台交换机，因为二层设备在传递三层数据时相对来说是透明的，所以如果中间有交换机的话，可能会加入更多的运行OSPF的路由器，毕竟交换机的接口很多，如果加入更多的运行OSPF的设备，这种情况下就需要选择DR而选择DR就是Transit network，因此运行了OSPF的以太网接口会默认设置为Transit network。</p>
 <p>继续上面两个路由器用以太网直连的例子，此时如果在接口上配置了 “ip ospf network point-to-point”的话，此时他们之间为Stub network。</p>
 <p>由于Stub network只有一个路由器就行，没有其他OSPF邻居，所以相比前面有两台路由器要承载穿越流量（也就是不以本地为源也不以本地为目的）的Transit network来说，Stub network需要存放的路由信息就会相对少一些。</p>
-<h4 id="为什么要如此定义"><a href="#为什么要如此定义" class="headerlink" title="为什么要如此定义"></a>为什么要如此定义</h4><p>为什么要定义这两种类型的网络\网段呢？答案是为了减少内存使用。具体如何减少内存使用，说实话我没搞太明白，所以以下说明部分不保证完全正确，请看官批判理解，等哪天突然开窍了会回来继续完善这部分。</p>
+<h4 id="为什么要如此定义"><a href="#为什么要如此定义" class="headerlink" title="为什么要如此定义"></a>为什么要如此定义</h4><p>为什么要定义这两种类型的网络\网段呢？答案是为了减少内存使用。具体如何减少内存使用，说实话我也只明白个大概，所以以下说明部分不保证完全正确，请看官批判理解，等哪天突然开窍了会回来继续完善这部分。</p>
+<p>OSPF会利用内存维护一个网络拓扑表的矩阵，这个矩阵通常的存在形式如下：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-38-29.jpg" alt="Snipaste_2020-07-28_15-38-29"></p>
+<p>矩阵最上面，行的备注是“form”，也就是“form object”：</p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-03-50.jpg" alt="Snipaste_2020-07-28_15-03-50" style="zoom:67%;">
+
+<p>矩阵最左边，列的备注是“to”，也就是“to object”：</p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-04-54.jpg" alt="Snipaste_2020-07-28_15-04-54" style="zoom:50%;">
+
+<p>做标记的N1和RT1交汇处的数值为3，表示从RT1（行代表的意思为form，也就是从的意思）路由器去到N1（列代表的意思为to，也就是去的意思）网段的cost值为3，当然从N1到RT1的cost也是3。其实这个网络拓扑矩阵也就是把物理连接图存在了路由器中，从图中也可以看出这个拓扑矩阵：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-41-18.jpg" alt="Snipaste_2020-07-28_15-41-18"></p>
+<p>那么这个拓扑矩阵和减少内存使用有毛关系呢？从矩阵图可以看出，有两个重要元素，路由器和网段。每个路由器都在该矩阵中出现，如果路由器不在该矩阵中出现，表示这个路由器和其背后的网络均无法到达。至于网段的话， Transit network属性的网段不论是在“form”的行上，还是在“to”的列中都会出现，但Stub network属性的网段在“from”的行上不出现，在“to”的列中才会出现，因为Stub network属性的网段背后没有其他网段了，它没有其他的OSPF邻居路由器，自然无需顾及穿越流量，所以在“from”行上不会出现，上面矩阵图中最上边的行中，只有N3、N6、N8、N9出现了，说明这几个网段为Transit network而除此之外的网段均为Stub network，Stub network不出现在from行中减少了矩阵的大小，节约了硬件资源。比如一个网络拓扑中有4台路由器和5个网段：</p>
+<p><N1>R1—<N2>—R2—<N3>—R3—<N4>—R4<N5></N5></N4></N3></N2></N1></p>
+<p>如果不分Transit\Stub network，那么矩阵图的大小就是9X9，也就是81的大小：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_16-04-43.jpg" alt="Snipaste_2020-07-28_16-04-43"></p>
+<p>区分了Transit\Stub network后，由于N1和N5这两个Stub network不用在表示from的行中出现，那么矩阵图的大小就是9X7，也就是63的大小：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_16-08-40.jpg" alt="Snipaste_2020-07-28_16-08-40"></p>
 <h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Router(config)# router ospf process-id </span><br><span class="line">/*创建OSPF进程并进入OSPF进程配置模式，Process-id为OSPF进程号，</span><br><span class="line">范围必须在1-65535之间，进程号只具有本地意义，不同路由器之间的OSPF进程号可以相同也可以不同，</span><br><span class="line">互相之间不影响*/</span><br><span class="line">Router(config-router)# network  address  wildcard-mask  areaarea-id</span><br><span class="line">/*在特定网段上激活OSPF*/</span><br><span class="line">Router# show ip ospf neighbor </span><br><span class="line">/*查看OSPF邻居表*/</span><br><span class="line">Router# show ip ospf database</span><br><span class="line">/*查看OSPF的LSDB*/</span><br><span class="line">Router# show ip ospf database router x.x.x.x</span><br><span class="line">/*查看OSPF中Link ID为x.x.x.x的1类LSA，router意味着查看1类LSA*/</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2020/06/24/13-ospf/ospf-if-e-0-0-1593085167925.png" alt="ospf-if-e-0-0"></p>
