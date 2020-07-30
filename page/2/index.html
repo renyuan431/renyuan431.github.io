@@ -508,7 +508,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-28 16:09:30" itemprop="dateModified" datetime="2020-07-28T16:09:30+08:00">2020-07-28</time>
+                <time title="修改时间：2020-07-30 18:29:20" itemprop="dateModified" datetime="2020-07-30T18:29:20+08:00">2020-07-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -667,24 +667,24 @@
 <li>那么路由器A如何知道DR收到了那条LSA呢，假定它发送的这条LSU叫AA，A通过224.0.0.6发送特定的LSU-AA给DR，由于DR需要将这个变化通告给域内其他的路由器，所以DR再把这条LSU-AA通过224.0.0.5发送给域内其他包括A在内的路由器，A也就从DR收到了LSU-AA，A收到DR发来的相同的LSU就知道DR已经收到了之前的LSU-AA，也就不用再等待DR的LSAck了，如果没收到的话DR不可能会泛洪这条LSU-AA，这就是<strong>隐式确认</strong>。</li>
 <li>在该网段的其他路由器会收到LSU-AA并返回给DR一个LSAck表示收到了这条LSU-AA，这是显示确认。</li>
 </ol>
-<h3 id="Stub-Transit-network"><a href="#Stub-Transit-network" class="headerlink" title="Stub/Transit network"></a>Stub/Transit network</h3><p>OSPF协议中，将运行了OSPF协议的网络分为两类，Stub network和Transit network。用show ip ospf router internal 可以查看到：</p>
+<h3 id="Stub-Transit-network"><a href="#Stub-Transit-network" class="headerlink" title="Stub/Transit network"></a>Stub/Transit network</h3><h4 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h4><p>OSPF协议中，将运行了OSPF协议的网络分为两类，Stub network和Transit network，OSPF规定这两个类型的网络或者更形象的说是规定这两种网段自然不是吃饱了撑的没事儿干，大概的意图是为了节省设备的硬件资源，Transit network消耗资源多一些，Stub network消耗资源少一点。该网络是哪种类型，用show ip ospf router internal 可以查看到：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-24_15-36-33.jpg" alt="Snipaste_2020-07-24_15-36-33"></p>
 <h4 id="Transit-network"><a href="#Transit-network" class="headerlink" title="Transit network"></a>Transit network</h4><blockquote>
 <p>Transit networks are those capable of carrying data traffic that is neither locally originated nor locally destined. A transit network is represented by a graph vertex having both incoming and outgoing edges.</p>
 <p>​                                               ——RFC2328 Section 2.1</p>
 </blockquote>
-<p>RFC给出的定义很严谨，但由于它过于严谨，使得理解起来过于费劲，通过RFC的定义我是没完全搞明白，又查了一些文章，结合自己的理解谈谈这个概念：由于Transit有运输、经过和运送的意思，从定义上看，Transit network是指的有能力发送既不是本网段产生也不是以本网段为目的的数据。但这个定义十分的不好理解，所以也可以把Transit network等同于，至少有两台路由器需要选举DR\BDR的网络（在<a href="https://community.cisco.com/t5/routing/does-the-transit-network-in-ospf-equal-ma-network/m-p/4125009#M337365" target="_blank" rel="noopener">思科论坛</a>上看到几次有人讨论过这个问题&lt;transit network means there is at least one OSPF neighbor on the link but does not require the election of DR/BDR even if most of the times this happens.&gt;，也在另一个<a href="https://www.networkfuntimes.com/ospf-what-is-a-stub-network/" target="_blank" rel="noopener">技术博客</a>上看到有人这么说&lt;What a transit network actually is, is any network that requires a designated router.&gt;，所以为了方便理解这里采用这个说法），这个Transit network可以是以太网LAN或者有多个虚链路的帧中继网络，不管是哪种网络，只要需要选举DR，那么它就是一个Transit network。在之前笔记中写过，由于DR和BDR选举时是每个网段上选的，所以这个Transit network中的network其实也可以理解成网段的意思（ Does the word ‘network’ in the ‘Transit network’ meaning ‘network segment’?Yes I agree——<a href="https://community.cisco.com/t5/routing/does-the-transit-network-in-ospf-equal-ma-network/m-p/4125009#M337365" target="_blank" rel="noopener">出处</a>）。</p>
+<p>RFC给出的定义很严谨，但由于它过于严谨，使得理解起来过于费劲，通过RFC的定义我是没完全搞明白，又查了一些文章，结合自己的理解谈谈这个概念：由于Transit有运输、经过和运送的意思，从定义上看，Transit network是指的有能力发送既不是本网段产生也不是以本网段为目的的数据。但这个定义十分的不好理解，所以也可以把Transit network等同于，至少有两台路由器需要选举DR\BDR的网络（在<a href="https://community.cisco.com/t5/routing/does-the-transit-network-in-ospf-equal-ma-network/m-p/4125009#M337365" target="_blank" rel="noopener">思科论坛</a>上看到几次有人讨论过这个问题&lt;transit network means there is at least one OSPF neighbor on the link but does not require the election of DR/BDR even if most of the times this happens.&gt;，也在另一个<a href="https://www.networkfuntimes.com/ospf-what-is-a-stub-network/" target="_blank" rel="noopener">技术博客</a>上看到有人这么说&lt;What a transit network actually is, is any network that requires a designated router.&gt;，所以为了方便理解这里采用这个说法），这个Transit network可以是以太网LAN或者有多个虚链路的帧中继网络，不管是哪种网络，只要需要选举DR，那么它就是一个Transit network。在之前笔记中写过，由于DR和BDR选举时是每个网段上选的，所以这个Transit network中的network其实也可以理解成网段的意思（ Does the word ‘network’ in the ‘Transit network’ meaning ‘network segment’?Yes I agree——<a href="https://community.cisco.com/t5/routing/does-the-transit-network-in-ospf-equal-ma-network/m-p/4125009#M337365" target="_blank" rel="noopener">出处</a>）。举一个不恰当的例子，Transit network有点类似于快递公司中相对大一点的集散中心，这个集散中心既能把周边地区的快递送到，也能把不属于本集散中心投送的快递交给其他靠近最终收件人的投送点进行投递，所以Transit network既要知道其他快递集散点的路径，又要知道周边收件人的地址，硬件消耗相对多一些。</p>
 <p>弄懂基本意思了以后继续往下看，由于Transit network能发送那些既不是本地产生，也不以本地为目的地的数据，而且这货必须最少有2个路由器，所以不难想象，Transit network所需要存放的关于路由的数据相对后面的Stub network要多一些。</p>
 <h4 id="Stub-network"><a href="#Stub-network" class="headerlink" title="Stub network"></a>Stub network</h4><blockquote>
 <p>A stub network’s vertex has only incoming edges.</p>
 <p>​                                             ——RFC2328 Section 2.1</p>
 </blockquote>
-<p>Stub network的定义说人话其实就是一个只包含了一台路由器的网络，这个网络的网关就是这台路由器，在这个网络中它没有其他的OSPF邻居。常见的点对点（Point-to-Point）就是stub network，又比如下面的这个拓扑也是stub network：</p>
+<p>Stub network的定义说人话其实就是一个只包含了一台路由器的网络，这个网络的网关就是这台路由器，在这个网络中它没有其他的OSPF邻居。常见的点对点（Point-to-Point）就是stub network，又比如下面的这个拓扑也是stub network，右边的那个矩阵表格会在下文有说明，这里暂时先不管：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-25_17-17-16.jpg" alt="Snipaste_2020-07-25_17-17-16"></p>
 <p>但有意思的是，如果用<strong>以太网</strong>将两个路由器直连后，他们之间会默认成为Transit network，尽管二者之间真正的关系为点对点，为什么会这样呢？因为当使用以太网连接两台路由器时，设备不知道中间是否有一台交换机，因为二层设备在传递三层数据时相对来说是透明的，所以如果中间有交换机的话，可能会加入更多的运行OSPF的路由器，毕竟交换机的接口很多，如果加入更多的运行OSPF的设备，这种情况下就需要选择DR而选择DR就是Transit network，因此运行了OSPF的以太网接口会默认设置为Transit network。</p>
 <p>继续上面两个路由器用以太网直连的例子，此时如果在接口上配置了 “ip ospf network point-to-point”的话，此时他们之间为Stub network。</p>
-<p>由于Stub network只有一个路由器就行，没有其他OSPF邻居，所以相比前面有两台路由器要承载穿越流量（也就是不以本地为源也不以本地为目的）的Transit network来说，Stub network需要存放的路由信息就会相对少一些。</p>
-<h4 id="为什么要如此定义"><a href="#为什么要如此定义" class="headerlink" title="为什么要如此定义"></a>为什么要如此定义</h4><p>为什么要定义这两种类型的网络\网段呢？答案是为了减少内存使用。具体如何减少内存使用，说实话我也只明白个大概，所以以下说明部分不保证完全正确，请看官批判理解，等哪天突然开窍了会回来继续完善这部分。</p>
+<p>由于Stub network只有一个路由器就行，没有其他OSPF邻居，所以相比前面有两台路由器要承载穿越流量（也就是不以本地为源也不以本地为目的）的Transit network来说，Stub network需要存放的路由信息就会相对少一些。对应上面Transit network的例子，Stub network类似于快递公司中，最靠近收件人的小的快递投送点，它只需要负责周边收件人快件的投送即可，不需要将快件发送到其他快递否送点，所以只需要知道周边用户的地址即可，硬件消耗会降低一些。</p>
+<h4 id="为什么要如此定义"><a href="#为什么要如此定义" class="headerlink" title="为什么要如此定义"></a>为什么要如此定义</h4><p>为什么要定义这两种类型的网络\网段呢？答案是为了减少内存使用（This distinction is made because of memory requirements of the OSPF implementation.——<a href="https://community.cisco.com/t5/switching/ospf-lsa-type-1-stub-network/td-p/1536761" target="_blank" rel="noopener">出处</a>）。具体如何减少内存使用，说实话我也没完全搞懂，所以以下说明部分不保证完全正确，请带着批判的眼光看。</p>
 <p>OSPF会利用内存维护一个网络拓扑表的矩阵，这个矩阵通常的存在形式如下：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-38-29.jpg" alt="Snipaste_2020-07-28_15-38-29"></p>
 <p>矩阵最上面，行的备注是“form”，也就是“form object”：</p>
@@ -693,13 +693,18 @@
 <p>矩阵最左边，列的备注是“to”，也就是“to object”：</p>
 <img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-04-54.jpg" alt="Snipaste_2020-07-28_15-04-54" style="zoom:50%;">
 
-<p>做标记的N1和RT1交汇处的数值为3，表示从RT1（行代表的意思为form，也就是从的意思）路由器去到N1（列代表的意思为to，也就是去的意思）网段的cost值为3，当然从N1到RT1的cost也是3。其实这个网络拓扑矩阵也就是把物理连接图存在了路由器中，从图中也可以看出这个拓扑矩阵：</p>
+<p>做标记的N1和RT1交汇处的数值为3，表示从RT1（行代表的意思为form，也就是从的意思）路由器去到N1（列代表的意思为to，也就是去的意思）网段的cost值为3，当然从N1网段到RT1的cost也是3。其实这个网络拓扑矩阵也就是把物理连接图用矩阵图的形式存在了路由器中，从图中也可以看出这个拓扑矩阵：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-41-18.jpg" alt="Snipaste_2020-07-28_15-41-18"></p>
-<p>那么这个拓扑矩阵和减少内存使用有毛关系呢？从矩阵图可以看出，有两个重要元素，路由器和网段。每个路由器都在该矩阵中出现，如果路由器不在该矩阵中出现，表示这个路由器和其背后的网络均无法到达。至于网段的话， Transit network属性的网段不论是在“form”的行上，还是在“to”的列中都会出现，但Stub network属性的网段在“from”的行上不出现，在“to”的列中才会出现，因为Stub network属性的网段背后没有其他网段了，它没有其他的OSPF邻居路由器，自然无需顾及穿越流量，所以在“from”行上不会出现，上面矩阵图中最上边的行中，只有N3、N6、N8、N9出现了，说明这几个网段为Transit network而除此之外的网段均为Stub network，Stub network不出现在from行中减少了矩阵的大小，节约了硬件资源。比如一个网络拓扑中有4台路由器和5个网段：</p>
+<p>那么这个拓扑矩阵和减少内存使用有毛关系呢？从矩阵图可以看出，有两个重要元素，路由器和网段。每个路由器都在该矩阵中出现，如果路由器不在该矩阵中出现，表示这个路由器和其背后的网络均无法到达。至于网段的话， Transit network属性的网段不论是在“form”的行上，还是在“to”的列中都会出现，但Stub network属性的网段在“to”的列中会出现，因为这个网段作为其他路由器或网段的目的地是没问题的；但在“from”的行上不出现，因为Stub network中只有一个路由器没有其他邻居，而这个网段就是终点了，网段后面也没有其他网段了，它没有穿越流量，因此不需要知道去往其他网段或路由器的路径，只需要把出向流量交给和该Stub network相连的路由器就OK了，那个路由器不管是在“from”还是“to”上都有，知道所有的路径。所以Stub network在“to”的列中有，但在“from”行上不会出现。上面矩阵图中最上边的行中，只有N3、N6、N8、N9出现了，说明这几个网段为Transit network而除此之外的网段均为Stub network，Stub network不出现在from行中减少了矩阵的大小，节约了硬件资源。如果有兴趣可以看一下下面这段话的出处，感觉我的理解并不到位。</p>
+<blockquote>
+<p>The key observation here is that the stub networks are actually uninteresting for shortest path calculations between routers because they do not provide any further path to any other part of the network. The stub network is the edge - there is nothing behind it, only the network itself. It can be considered an attribute of the router to which it is connected but it is not interesting as a transit topology object. This idea allows us to save memory by <strong>not including the stub networks into the “from” rows of the adjacency matrix</strong> and thus reducing its size. If out of N networks, only N’ (N’ &lt; N) networks are transit networks, the adjacency matrix could be reduced to the size of (M+<strong>N’</strong>) rows x (M+<strong>N</strong>) columns.</p>
+<p>This is why the OSPF actually has the stub/transit network distinction in the first place.                                    ——<a href="https://community.cisco.com/t5/switching/ospf-lsa-type-1-stub-network/td-p/1536761" target="_blank" rel="noopener">出处</a></p>
+</blockquote>
+<p>关于节约资源的部分举一个简单的例子，比如一个网络拓扑中有4台路由器和5个网段：</p>
 <p><N1>R1—<N2>—R2—<N3>—R3—<N4>—R4<N5></N5></N4></N3></N2></N1></p>
-<p>如果不分Transit\Stub network，那么矩阵图的大小就是9X9，也就是81的大小：</p>
+<p>如果不分Transit\Stub network，那么矩阵图的大小就是9X9，矩阵图的面基为81：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_16-04-43.jpg" alt="Snipaste_2020-07-28_16-04-43"></p>
-<p>区分了Transit\Stub network后，由于N1和N5这两个Stub network不用在表示from的行中出现，那么矩阵图的大小就是9X7，也就是63的大小：</p>
+<p>区分了Transit\Stub network后，由于N1和N5这两个Stub network不用在表示from的行中出现，那么矩阵图的大小就是9X7，面基为63：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_16-08-40.jpg" alt="Snipaste_2020-07-28_16-08-40"></p>
 <h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Router(config)# router ospf process-id </span><br><span class="line">/*创建OSPF进程并进入OSPF进程配置模式，Process-id为OSPF进程号，</span><br><span class="line">范围必须在1-65535之间，进程号只具有本地意义，不同路由器之间的OSPF进程号可以相同也可以不同，</span><br><span class="line">互相之间不影响*/</span><br><span class="line">Router(config-router)# network  address  wildcard-mask  areaarea-id</span><br><span class="line">/*在特定网段上激活OSPF*/</span><br><span class="line">Router# show ip ospf neighbor </span><br><span class="line">/*查看OSPF邻居表*/</span><br><span class="line">Router# show ip ospf database</span><br><span class="line">/*查看OSPF的LSDB*/</span><br><span class="line">Router# show ip ospf database router x.x.x.x</span><br><span class="line">/*查看OSPF中Link ID为x.x.x.x的1类LSA，router意味着查看1类LSA*/</span><br></pre></td></tr></table></figure>
 
@@ -741,7 +746,7 @@
 <li>Type 4：当Type为4时表示这是一个LSU包，携带的信息是完整的LSA条目，一个LSU种可携带多条LSA。</li>
 <li>Type 5：当Type为5时表示这是一个LSAck包，携带的信息为空。</li>
 </ul>
-<h3 id="Hello"><a href="#Hello" class="headerlink" title="Hello"></a>Hello</h3><h4 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h4><p>Hello数据包用于与邻居<strong>建立并维持</strong>毗邻关系、交互参数以及选举BDR/DR，当接口类型为广播和P2P时默认每10秒交换一次Hello包，其他接口类型时30秒发送一次Hello包，发送地址为组播的224.0.0.5。Hello包的Packet Type为1。Hello包会周期性的在运行了OSPF的接口上用组播发送出去。为了顺利建立起邻居，所有连接到网络种的路由器的相关参数必须<strong>互相相同</strong>，这些参数包括网络掩码、Hello时间和Dead时间。</p>
+<h3 id="Hello"><a href="#Hello" class="headerlink" title="Hello"></a>Hello</h3><h4 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h4><p>Hello数据包用于与邻居<strong>建立并维持</strong>毗邻关系、交互参数以及选举BDR/DR，当接口类型为广播和P2P时默认每10秒交换一次Hello包，其他接口类型时30秒发送一次Hello包，发送地址为组播的224.0.0.5。Hello包的Packet Type为1。Hello包会周期性的在运行了OSPF的接口上用组播发送出去。为了顺利建立起邻居，所有连接到网络种的路由器的相关参数必须<strong>互相相同</strong>，这些参数包括网络掩码、Hello时间和Dead时间。</p>
 <h4 id="格式分析"><a href="#格式分析" class="headerlink" title="格式分析"></a>格式分析</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-10_15-08-07.jpg" alt="Snipaste_2020-07-10_15-08-07"></p>
 <p><img src="/2020/06/24/13-ospf/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200710151006.jpg" alt="微信图片编辑_20200710151006"></p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-10_15-08-40.jpg" alt="Snipaste_2020-07-10_15-08-40"></p>
@@ -758,7 +763,7 @@
 </ul>
 <p>Hello包中的Area ID，Hello Interval，Router Dead Interval、Authentication Type、Authentication几个字段在邻居建立时必须相同邻居才能成功建立。如果Hello 时间不同Debug时就会出现：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-12_13-46-07.jpg" alt="Snipaste_2020-07-12_13-46-07"></p>
-<h3 id="DBD"><a href="#DBD" class="headerlink" title="DBD"></a>DBD</h3><h4 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h4><p>DBD是DataBase Description的缩写，出现在邻居建立过程中的ExStart及Exchange阶段，DBD是链路状态数据摘要，也就是LSDB的摘要或者说它是LSDB中有什么LSA的简略列表，用于描述链路状态数据库（LSDB）的内容，一个域中所有路由器的LSDB必须相同，在交换LSA之前先通过比较DBD来知道需要交换哪些LSA，这个是DBD的主要作用。</p>
+<h3 id="DBD"><a href="#DBD" class="headerlink" title="DBD"></a>DBD</h3><h4 id="概述-3"><a href="#概述-3" class="headerlink" title="概述"></a>概述</h4><p>DBD是DataBase Description的缩写，出现在邻居建立过程中的ExStart及Exchange阶段，DBD是链路状态数据摘要，也就是LSDB的摘要或者说它是LSDB中有什么LSA的简略列表，用于描述链路状态数据库（LSDB）的内容，一个域中所有路由器的LSDB必须相同，在交换LSA之前先通过比较DBD来知道需要交换哪些LSA，这个是DBD的主要作用。</p>
 <h4 id="格式分析-1"><a href="#格式分析-1" class="headerlink" title="格式分析"></a>格式分析</h4><p>整体的DBD包：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-15_15-42-26.jpg" alt="Snipaste_2020-07-15_15-42-26"></p>
 <p>DBD数据包的<strong>Header部分</strong>中的Packet Type为2，表示这是一个DBD数据，其他字段之前分析过这里就不再赘述了，Header部分如下图：</p>
@@ -776,7 +781,7 @@
 <p><img src="/2020/06/24/13-ospf/OSPF%20DBD%20packet%20capture.png" alt="OSPF DBD packet capture"></p>
 <h4 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h4><p>两台路由器的DBD包中的Interface MTU必须相等才能建立Full Adjacency的关系，如果不相等会出现如下的提示：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-15_15-17-34.jpg" alt="Snipaste_2020-07-15_15-17-34"></p>
-<h3 id="LSR"><a href="#LSR" class="headerlink" title="LSR"></a>LSR</h3><h4 id="概述-3"><a href="#概述-3" class="headerlink" title="概述"></a>概述</h4><p>LSR用于请求邻居路由器发送其链路状态数据库（LSDB）中的特定项。LSR一般用在两台路由器交换完DBD后，当然如果路由器发现彼此之间并不用交换LSA的话，则LSR不会出现。</p>
+<h3 id="LSR"><a href="#LSR" class="headerlink" title="LSR"></a>LSR</h3><h4 id="概述-4"><a href="#概述-4" class="headerlink" title="概述"></a>概述</h4><p>LSR用于请求邻居路由器发送其链路状态数据库（LSDB）中的特定项。LSR一般用在两台路由器交换完DBD后，当然如果路由器发现彼此之间并不用交换LSA的话，则LSR不会出现。</p>
 <h4 id="格式分析-2"><a href="#格式分析-2" class="headerlink" title="格式分析"></a>格式分析</h4><p>整体格式：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-15_15-43-35.jpg" alt="Snipaste_2020-07-15_15-43-35"></p>
 <p>Header部分中的OSPF Type为3，其他部分与其他包的Header部分相同这里就不再赘述了。</p>
@@ -789,7 +794,7 @@
 </ul>
 <p>LSR的Wires hark抓包如下：</p>
 <p><img src="/2020/06/24/13-ospf/OSPF%20LSR%20packet%20capture.png" alt="OSPF LSR packet capture"></p>
-<h3 id="LSU"><a href="#LSU" class="headerlink" title="LSU"></a>LSU</h3><h4 id="概述-4"><a href="#概述-4" class="headerlink" title="概述"></a>概述</h4><p>LSU用于向邻居路由器发送其所需要的链路状态通告（LSA）。这些LSU实现了LSA的泛洪。每条LSA中包含着描述网络的一部分信息，这些信息包括路由、度量值和拓扑信息等。本地路由器的LSA通过LSU被发送到邻居路由器，邻居路由器通过LSR来回应LSU。</p>
+<h3 id="LSU"><a href="#LSU" class="headerlink" title="LSU"></a>LSU</h3><h4 id="概述-5"><a href="#概述-5" class="headerlink" title="概述"></a>概述</h4><p>LSU用于向邻居路由器发送其所需要的链路状态通告（LSA）。这些LSU实现了LSA的泛洪。每条LSA中包含着描述网络的一部分信息，这些信息包括路由、度量值和拓扑信息等。本地路由器的LSA通过LSU被发送到邻居路由器，邻居路由器通过LSR来回应LSU。</p>
 <h4 id="格式分析-3"><a href="#格式分析-3" class="headerlink" title="格式分析"></a>格式分析</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-16_16-11-39.jpg" alt="Snipaste_2020-07-16_16-11-39"></p>
 <p>Header部分中的OSPF Type为4，其他部分与其他包的Header部分相同这里就不再赘述了。</p>
 <p>Message部分：</p>
@@ -801,7 +806,7 @@
 <p><img src="/2020/06/24/13-ospf/OSPF%20LSU%20Packet%20Capture.png" alt="OSPF LSU Packet Capture"></p>
 <p><img src="/2020/06/24/13-ospf/ospf-lsu-lsa-packet-structure-lsa-types-overview-1.png" alt="ospf-lsu-lsa-packet-structure-lsa-types-overview-1"></p>
 <p><img src="/2020/06/24/13-ospf/ospf-lsu-lsa-packet-structure-lsa-types-overview-2.png" alt="ospf-lsu-lsa-packet-structure-lsa-types-overview-2"></p>
-<h3 id="LSACK"><a href="#LSACK" class="headerlink" title="LSACK"></a>LSACK</h3><h4 id="概述-5"><a href="#概述-5" class="headerlink" title="概述"></a>概述</h4><p>LSAck用来向发送方确认收到特定的LSU，由于OSPF在四层不适用TCP或UDP，而协议又对可靠性有要求，因此增加LSAck包来保证可靠性。</p>
+<h3 id="LSACK"><a href="#LSACK" class="headerlink" title="LSACK"></a>LSACK</h3><h4 id="概述-6"><a href="#概述-6" class="headerlink" title="概述"></a>概述</h4><p>LSAck用来向发送方确认收到特定的LSU，由于OSPF在四层不适用TCP或UDP，而协议又对可靠性有要求，因此增加LSAck包来保证可靠性。</p>
 <h4 id="格式分析-4"><a href="#格式分析-4" class="headerlink" title="格式分析"></a>格式分析</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-17_10-47-05.jpg" alt="Snipaste_2020-07-17_10-47-05"></p>
 <p>OSPF的Header部分除了Type字段为5以外，其他部分之前已经写过，这里就不再赘述。</p>
 <p>Message部分包含了已经确认收到的LSA的报头，如果收到N个LSA的话就会有N个LSA报头在其中，关于LSA的Header部分在下一节LSA中具体讨论。</p>
