@@ -136,7 +136,11 @@
 <li>那么路由器A如何知道DR收到了那条LSA呢，假定它发送的这条LSU叫AA，A通过224.0.0.6发送特定的LSU-AA给DR，由于DR需要将这个变化通告给域内其他的路由器，所以DR再把这条LSU-AA通过224.0.0.5发送给域内其他包括A在内的路由器，A也就从DR收到了LSU-AA，A收到DR发来的相同的LSU就知道DR已经收到了之前的LSU-AA，也就不用再等待DR的LSAck了，如果没收到的话DR不可能会泛洪这条LSU-AA，这就是<strong>隐式确认</strong>。</li>
 <li>在该网段的其他路由器会收到LSU-AA并返回给DR一个LSAck表示收到了这条LSU-AA，这是显示确认。</li>
 </ol>
-<h2 id="Stub-Transit-network"><a href="#Stub-Transit-network" class="headerlink" title="Stub/Transit network"></a>Stub/Transit network</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>OSPF协议中，将运行了OSPF协议的网络分为两类，Stub network和Transit network，OSPF规定这两个类型的网络或者更形象的说是规定这两种网段自然不是吃饱了撑的没事儿干，大概的意图是为了节省设备的硬件资源，Transit network消耗资源多一些，Stub network消耗资源少一点。该网络是哪种类型，用show ip ospf router internal 可以查看到：</p>
+<h2 id="Stub-Transit-network"><a href="#Stub-Transit-network" class="headerlink" title="Stub/Transit network"></a>Stub/Transit network</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>Stub/Transit network这个概念在哪出现的呢？OSPF协议中，1类LSA中有一个Type字段：</p>
+<p><img src="/2020/06/24/13-ospf/capture.png" alt="capture"></p>
+<p>这个Type字段的取值范围为1-4，OSPF用1类LSA识别本链路为以下4种链路邻接方式的一种：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-21_17-02-14-1596443984358.jpg" alt="Snipaste_2020-07-21_17-02-14"></p>
+<p>OSPF将链路分为以上的类型自然不是吃饱了没事儿干，大概的意图是为了节省设备的硬件资源，Transit network消耗资源多一些，Stub network消耗资源少一点。必须注意的是，Stub network和后面的Stub area是完全不同的两个概念，千万不要混淆二者。该网络是哪种类型，用show ip ospf router internal 可以查看到：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-24_15-36-33.jpg" alt="Snipaste_2020-07-24_15-36-33"></p>
 <h3 id="Transit-network"><a href="#Transit-network" class="headerlink" title="Transit network"></a>Transit network</h3><blockquote>
 <p>Transit networks are those capable of carrying data traffic that is neither locally originated nor locally destined. A transit network is represented by a graph vertex having both incoming and outgoing edges.</p>
@@ -334,14 +338,21 @@
 <li>LS Checksum：LSA的校验和，用来检测LSA在传输过程中是否被更改，在LS Sequence Number相同时也用于比较两条LSA的新旧，Checksum值大的LSA更新一些。LS Checksum的校验和包括了LSA的Header部分但并不包括LS age部分，因为前面说过LS age是这条LSA的生成时间，随时在变化，如果包括了这部分校验和肯定是每个经过的路由器校验和都不一样。</li>
 <li>Length：包括了20位LSA Header在内的LSA的长度。</li>
 </ul>
+<p>这些信息在使用show ip ospf database X.X.X.X的时候也可以看得到</p>
+<p><img src="/2020/06/24/13-ospf/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200801213649.jpg" alt="微信图片编辑_20200801213649"></p>
+<p>报头中的信息使用show ip ospf database也能看到：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-01_21-46-08.jpg" alt="Snipaste_2020-08-01_21-46-08"></p>
+<p>看懂输出中关于Link State ID（有时是Link ID）的关键在于，该字段并不是一个IP地址，Link ID中的1.1.1.1不代表这个网络和1.1.1.1/32相连，它表示的是在LSDB的图中中有一个叫做1.1.1.1的路由器节点。</p>
+<p>不同类型的LSA中的Link ID和ADV ID不同</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-01_22-28-42-1596292138082.jpg" alt="Snipaste_2020-08-01_22-28-42"></p>
 <h3 id="LSA信息"><a href="#LSA信息" class="headerlink" title="LSA信息"></a>LSA信息</h3><p>根据LS Type值的不同，LSA共有11类，每一类的message部分差别都比较大，具体见后文。</p>
 <h2 id="LSA的分类"><a href="#LSA的分类" class="headerlink" title="LSA的分类"></a><a href="https://packetpushers.net/ospf-graphs-lsas-and-the-lsdb/" target="_blank" rel="noopener">LSA的分类</a></h2><h3 id="总览-1"><a href="#总览-1" class="headerlink" title="总览"></a><a href="https://www.packetflow.co.uk/ospf-areas-explained/" target="_blank" rel="noopener">总览</a></h3><ol>
-<li>所有运行了OSPF的路由器都会产生1类LSA，传播区域限于单一Area中。</li>
-<li>DR路由器产生2类LSA，传播区域限于单一Area中。</li>
-<li>ABR路由器产生3类LSA，描述了区域间路由。</li>
-<li>ABR路由器在知道ASBR的情况下会产生4类LSA，用来描述去往ASBR的路径。</li>
-<li>5类LSA由ASBR产生，用来描述ASBR从外部AS注入OSPF区域的重分布路由；</li>
-<li>7类LSA也由ASBR产生，位于NSSA区域内，用来描述外部路由，这个外部路由由ASBR发送给ABR并且由ABR转换成5类LSA后泛洪到其他区域。</li>
+<li>所有运行了OSPF的路由器都会产生1类LSA，仅在本Area中传播，1类LSA用来通告，网络中的节点路由器和这些路由器之间的关系，直连接口的信息。<img src="/2020/06/24/13-ospf/846645.png" alt="846645"></li>
+<li>DR路由器产生2类LSA，仅在本Area中传播，2类LSA中用来通告掩码信息。<img src="/2020/06/24/13-ospf/25424.png" alt="25424"></li>
+<li>ABR路由器产生3类LSA，在除了特殊区域（Totally\Stub area、Totally\NSSA）以外的其他Area中传播，通告了区域间路由。<img src="/2020/06/24/13-ospf/2523424.png" alt="2523424"></li>
+<li>ABR路由器在知道ASBR的情况下会产生4类LSA，在所有区域中传播，用来通告去往ASBR的路径。<img src="/2020/06/24/13-ospf/7654564.png" alt="7654564"></li>
+<li>5类LSA由ASBR产生，在所有区域中传播，用来描述ASBR从外部AS注入OSPF区域的重分布路由。<img src="/2020/06/24/13-ospf/123144.png" alt="123144"></li>
+<li>7类LSA也由ASBR产生，在NSSA区域内传播，用来描述外部路由，这个外部路由由ASBR发送给ABR并且由ABR转换成5类LSA后泛洪到其他区域。<img src="/2020/06/24/13-ospf/12312413.png" alt="12312413"></li>
 </ol>
 <h3 id="Type-1"><a href="#Type-1" class="headerlink" title="Type-1"></a>Type-1</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-2.jpg" alt="ospf-lsa-types-explained-2"></p>
 <p> 1类SLA的英文全称是：Router Link Advertisement，每台运行OSPF的路由器都会为其所属的每个Area产生1类LSA，1类LSA描述了该路由器在本区域内链路的状态，通告了直连这个区域接口的信息，1类LSA在本区域内泛洪。OSPF用1类LSA识别本链路为以下4种链路邻接方式的哪一种：</p>
@@ -370,12 +381,17 @@
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-21_17-02-14.jpg" alt="Snipaste_2020-07-21_17-02-14"></p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-21_17-02-21.jpg" alt="Snipaste_2020-07-21_17-02-21"></p>
 <ul>
-<li>#TOS：The type of service，如果没有TOS度量和一条链路相关，那么这个字段就设置为0X00。</li>
+<li>#TOS：The type of service，如果没有TOS度量和一条链路相关，那么这个字段就设置为0X00，。</li>
 <li>metric：度量值。</li>
 <li>TOS：该字段思科设备只支持为0。</li>
 <li>TOS metric：TOS特定的指标信息。</li>
 </ul>
-<h4 id="实验验证"><a href="#实验验证" class="headerlink" title="实验验证"></a>实验验证</h4><h3 id="Type-2"><a href="#Type-2" class="headerlink" title="Type-2"></a>Type-2</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-3.jpg" alt="ospf-lsa-types-explained-3"></p>
+<h4 id="Type字段"><a href="#Type字段" class="headerlink" title="Type字段"></a>Type字段</h4><p>OSPF定义了链路类型，注意这个链路类型（Link type）与网络类型（Network type）不同，链路类型主要用于描述OSPF路由器的接口或邻居。在1类LSA中，可以看到始发该LSA的路由器所连接的所有链路、链路的类型以及相关内容：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-03_17-24-25.jpg" alt="Snipaste_2020-08-03_17-24-25"></p>
+<p>上面说过，1类LSA中的Type字段的值也决定了后面的Link ID和Link Data的取值：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-21_17-01-45.jpg" alt="Snipaste_2020-07-21_17-01-45"></p>
+<p>OSPF链路类型分为四种，分别是Stub network link、Transit network link、Point-To-Point link、Virtual link。</p>
+<h5 id="Stub-network-link"><a href="#Stub-network-link" class="headerlink" title="Stub network link"></a>Stub network link</h5><h5 id="Transit-network-link"><a href="#Transit-network-link" class="headerlink" title="Transit network link"></a>Transit network link</h5><h5 id="Point-To-Point-link"><a href="#Point-To-Point-link" class="headerlink" title="Point-To-Point link"></a>Point-To-Point link</h5><h5 id="Virtual-link"><a href="#Virtual-link" class="headerlink" title="Virtual link"></a>Virtual link</h5><h4 id="实验验证"><a href="#实验验证" class="headerlink" title="实验验证"></a>实验验证</h4><h3 id="Type-2"><a href="#Type-2" class="headerlink" title="Type-2"></a>Type-2</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-3.jpg" alt="ospf-lsa-types-explained-3"></p>
 <p>(Network Link Advertisement)</p>
 <h3 id="Type-3"><a href="#Type-3" class="headerlink" title="Type-3"></a>Type-3</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-4.jpg" alt="ospf-lsa-types-explained-4"></p>
 <p>(Summary LSA) </p>
