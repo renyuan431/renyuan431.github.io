@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CCNA笔记——13、OSPF</title>
+    <title>13-ospf</title>
     <url>/2020/06/24/13-ospf/</url>
-    <content><![CDATA[<h1 id="OSPF概述"><a href="#OSPF概述" class="headerlink" title="OSPF概述"></a>OSPF概述</h1><p>OSPF（Open Shortest Path First，开放最短路径优先，RFC2328）是一个被各厂商设备广泛支持的链路状态路由协议，也是现网中采用最多的路由协议，出现的原因是因为RIP协议限制比较多，在可扩展性方面以及协议性能上已经不适应网络发展现状的需要，例如最大跳数为15跳，大规模网络中的跳数超过了RIP所规定的15跳，而超过15跳在RIP中就表示不可达，所以RIP注定被淘汰。OSPF目前共有两个版本，为IPV4使用的OSPF V2以及为IPV6使用的OSPF V3。</p>
+    <content><![CDATA[<p>title: CCNA笔记——13、OSPF<br>date: 2020-06-24 15:15:13<br>tags:<br>categories:</p>
+<ul>
+<li>路由交换方向</li>
+<li>CCNA<br>top: 990</li>
+</ul>
+<h1 id="OSPF概述"><a href="#OSPF概述" class="headerlink" title="OSPF概述"></a>OSPF概述</h1><p>OSPF（Open Shortest Path First，开放最短路径优先，RFC2328）是一个被各厂商设备广泛支持的链路状态路由协议，也是现网中采用最多的路由协议，出现的原因是因为RIP协议限制比较多，在可扩展性方面以及协议性能上已经不适应网络发展现状的需要，例如最大跳数为15跳，大规模网络中的跳数超过了RIP所规定的15跳，而超过15跳在RIP中就表示不可达，所以RIP注定被淘汰。OSPF目前共有两个版本，为IPV4使用的OSPF V2以及为IPV6使用的OSPF V3。</p>
 <p>OSPF采用SPF算法，不会产生环路；支持VLSM和CIDR；可以用于大型网络；采用层次化设计，容易扩展；区域化设计，减小路由更新给设备带来的负担；路由快速收敛，采用触发式更新；支持针对区域和链路的验证。执行OSPF的路由默认每隔30分钟会泛洪一次链路状态通告（LSA），成为链路状态刷新（并非周期性更新）；当一条LSA被接收并存储到链路状态数据库后，路由器会给这条记录增加一个老化时间标识，默认是一小时，所以为了防止一些正常的LSA被清除，这条LSA的路由会每隔30分钟泛洪一次这条LSA的一个新拷贝。</p>
 <p>OSPF路由协议的管理距离为110，使用IP协议号89，采用COST作为度量标准（Metric），OSPF维护邻居表、拓扑表和路由表三张表项；OSPF的消息有Hello，DBD（Database Description），LSR（Link State Request），LSU（Link State Update），LSAck（Link State Acknowledge）；OSPF的网络类型有广播多路访问（BMA，Broadcast Multi Access），非广播多路访问（NBMA，None Broadcast Multi Access）。</p>
 <p>SPF算法要求同一个OSPF区域中的每个路由器都有一致的LSDB，一个OSPF区域的每个路由器都以自己位根计算最短路径，到达每个目的地的最小Cost的路径最优，将最优的路径放入FIB中。  </p>
 <h2 id="协议工作流程"><a href="#协议工作流程" class="headerlink" title="协议工作流程"></a>协议工作流程</h2><p>链路状态路由协议有点像你用导航去迪士尼乐园，导航软件从一开始就知道整个上海的地图以及从你所在的地点到迪士尼乐园有哪些可能存在的路线，然后对这些潜在的路线进行比较，看看哪条路线拥堵哪条路径通畅，最后选择出一条最优的路线告诉你应该怎么走。</p>
 <p><img src="/2020/06/24/13-ospf/Cisco-CCNA-OSPF-1.jpg" alt="Cisco-CCNA-OSPF-1"></p>
+<ul>
+<li>首先向激活OSPF的接口发送Hello包，比较Hello包中的几个字段（Area ID，Hello Interval，Router Dead Interval、Authentication Type、Authentication），参数匹配后将对端放入自己的第一张表——邻居表（Neighbor Table，用show ip ospf neighbor命令查看）</li>
+<li>第二步向邻居（Neighbor）发送本路由器的OSPF数据库（LSDB，Link-State DataBase）中所拥有的LSA，从各个邻居收来的LSA放入自己的第二张表——拓扑表（Topology Table）也叫Database数据库，使用show ip ospf database查看。</li>
+<li>第三步运行SPF算法，以自己为根计算出一棵最短路径树，这棵树有两个特点，一是最短，二是无环，最后将计算出来的最优路径放入第三张表，路由表（OSPF Routing Table，用show ip route ospf查看）</li>
+</ul>
 <h3 id="LSA的泛洪"><a href="#LSA的泛洪" class="headerlink" title="LSA的泛洪"></a>LSA的泛洪</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-01_16-52-00.jpg" alt="Snipaste_2020-08-01_16-52-00"></p>
 <p>运行OSPF的路由器之间首先会建立一个协议的邻居关系。路由器之间交互的是LSA，Link State Advertisement，而不是路由，与网络或其他路由器连接的每条链路都用LSA表示，LSA可以简单的理解为，每台路由器都产生一个描述自己直连接口状态（包括接口的开销、与邻居之间的关系等）的通告。收到LSA以后首先看该条LSA是否在本地的LSDB数据库中（通过LSA ID、Advertising Router ID、Sequence number、Age这几个字段），如果不存在的话先将该LSA加入本地LSDB（链路状态数据库），然后泛洪LSA给邻居路由器。如果存在的话要比较LSA的序列号，如果序列号相同则收到的LSA将被丢弃，因为本地已经有了相同的LSA，不需要再将其加入LSDB中；在序列号不同时，如果本地LSDB的序列号旧，则用较新的LSA替换本地的旧LSA，发给邻居LSAck表示收到了该LSU更新；如果本地LSA比收到的LSA新，则将本地的LSA泛洪给邻居。</p>
 <h3 id="LSDB的组建"><a href="#LSDB的组建" class="headerlink" title="LSDB的组建"></a>LSDB的组建</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-01_17-02-02-1596272540780.jpg" alt="Snipaste_2020-08-01_17-02-02"></p>
@@ -351,7 +361,7 @@
 <li>LS age：链路状态计时器，也就是这条LSA生成的时间，单位为秒，当这个字段到3600s，也就是60分钟的时候，这条LSA会从LSDB中删除，因为到达了最大存在时间。</li>
 <li>Options：选项，表示了路由器所支持的OSPF功能有哪些。</li>
 <li>LS type：LS类型，表示了这条LSA是哪种类型的LSA。该字段为1的时候是1类LSA也就是Router-LSA；2为2类LSA也就是Network-LSA；3为3类LSA也就是ABR产生的Summary-LSA；4为4类LSA也就是ASBR产生的Summary-LSA；5为5类LSA也就是AS-External-LSA。</li>
-<li>Link State ID：链路ID，该字段定义了这条链路，通常是链路代表的路由器或网段的IP地址。</li>
+<li>Link State ID：链路ID，该字段定义了这条链路，标识了LSA正在通告的内容，通常是链路代表的路由器或网段的IP地址。</li>
 <li>Advertising Router：该字段表示了生成这条LSA的路由器的ID。</li>
 <li>LS Sequence Number：用来检测重复LSA或分清LSA新旧的序列号。</li>
 <li>LS Checksum：LSA的校验和，用来检测LSA在传输过程中是否被更改，在LS Sequence Number相同时也用于比较两条LSA的新旧，Checksum值大的LSA更新一些。LS Checksum的校验和包括了LSA的Header部分但并不包括LS age部分，因为前面说过LS age是这条LSA的生成时间，随时在变化，如果包括了这部分校验和肯定是每个经过的路由器校验和都不一样。</li>
@@ -386,13 +396,13 @@
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-22_12-17-06.jpg" alt="Snipaste_2020-07-22_12-17-06"></p>
 <p>Length及之前的部分都是LSA Header，有两个地方需要说一下，一个是LS Type为1，表示这是一个1类的LSA；另一个是Link State ID部分，这里该字段被设置成路由器的Router ID。LSA的Header也可以用命令”show ip ospf database”进行查看，但必须要注意这里的Link ID并不是上文倒数第二个字段Link ID，而是Link State ID，在1类LSA中就是Router ID。</p>
 <p><img src="/2020/06/24/13-ospf/106-02-show_ip_ospf_database.png" alt="106-02-show_ip_ospf_database"></p>
-<p>Link ID和ADV Router在不同类型的LSA中表示的不同含义，ADV Router就是生成这个LSA的Router ID，比如1类LSA的ADV Router就是每台路由器本身， 因为1类LSA由每台路由器自己产生；2类LSA的ADV Router是DR的Router ID，因为2类LSA由DR产生。</p>
+<p>Link ID和ADV Router在不同类型的LSA中表示的不同含义，ADV Router就是生成这个LSA的Router ID，比如1类LSA的ADV Router就是每台路由器本身， 因为1类LSA由每台路由器自己产生；2类LSA的ADV Router是DR的Router ID，因为2类LSA由DR产生。Link ID，是本设备为链路另一端设备所起的名字。</p>
 <p><img src="/2020/06/24/13-ospf/14568.png" alt="14568"></p>
 <p>LSA Header中其他的字段在前面已经写过，这里从Length之后的部分开始看。</p>
 <ul>
 <li>V位：当该位置1时，表示该路由器是一个或多个已经达到Full状态的虚链路（Virtual link）的终点。V代表了Virtual link endpoint。</li>
-<li>E位：当该位置1时，表示该路由器时ASBR路由器，也就是AS边界路由器。E代表了External。</li>
-<li>B位：当该位置1时，表示该路由器是ABR路由器，也就是区域边界路由器。B代表了Border。</li>
+<li>E位：当该位置1时，表示该路由器时ASBR路由器，也就是AS边界路由器。E代表了External，E位不能在Stub area中置1，因为Stub area不能包含ASBR路由器。</li>
+<li>B位：当该位置1时，表示该路由器是ABR路由器，也就是区域边界路由器。B代表了Border，当路由器连接到2个或更多区域时，B字段应马上置1表明它的ABR身份，即使该路由器目前还没连接到核心区域B位也应置1。</li>
 <li>#Links：又叫Number of LSAs，也就是后面携带的LSA的数量，是路由器包含的一个区域中的总体链路的数量。</li>
 <li>接下来的三个字段Link ID、Link Data以及Type，前两个字段，也就是Link ID和Link Data由Type所决定，当Type值为不同数值时，Link ID和Link Data的含义不同。Link ID字段定义了这条链路的对端是什么也就是连接到的是什么；这里的Type其实是Link Type，主要用于描述OSPF路由器的接口或邻居，它的值取决于所连接网络的类型。当Type为1时，表示这是一个’Point-to-Point connection to another router’，翻译成中文就是‘点对点连接到另一台路由器’；相对应的Link ID为’Neighboring router’s Router ID’，也就是邻居路由器的路由器ID；相对应的Link Data为’the IP interface address of the associated router interface’，也就是和网络相连的始发路由器接口的IP地址。具体参见下面几张表：</li>
 </ul>
@@ -412,8 +422,9 @@
 
 <img src="/2020/06/24/13-ospf/Snipaste_2020-08-03_17-24-25.jpg" alt="Snipaste_2020-08-03_17-24-25" style="zoom:67%;">
 
-<p>上面说过，1类LSA中的Type字段的值也决定了后面的Link ID和Link Data的取值：</p>
+<p>上面说过，1类LSA中的Type字段的值也决定了后面的Link ID和Link Data的取值，下面两张图，第一张是红茶三杯笔记中的，第二张是我结合RFC文档写的，区别在于虚链路的Link Data如何取值，RFC 2328的Page 128上写的是“For links to transit networks, numbered point-to-point links and virtual links, this field specifies the IP interface address of the associated router interface”，“For unnumbered point-to-point links, the Link Data field should be set to the unnumbered interface’s MIB-II [Ref8] ifIndex value.”，可能’unnumbered point-to-point links’和Virtual Link是一个意思？因为看到上面写的‘Virtual links are part of the backbone, and behave as if they were unnumbered point-to-point networks between the two routers.’，等真正搞明白以后再来完善这部分。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-21_17-01-45.jpg" alt="Snipaste_2020-07-21_17-01-45"></p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-07_16-49-52.jpg" alt="Snipaste_2020-08-07_16-49-52"></p>
 <p>OSPF链路类型分为四种，分别是Stub network link、Transit network link、Point-To-Point link、Virtual link。OSPF将链路分为以上的类型自然不是吃饱了没事儿干，一方面是描述网络连接方式，P2P link和Transit network link是用于描述网络拓扑结构的而Stub network link是用于描述子网的；另一方面是不同类型的Link消耗的硬件资源不同，比如Transit network消耗资源多一些，Stub network消耗资源少一点。必须注意的是，Stub network和后面的Stub area是完全不同的两个概念，千万不要混淆二者。</p>
 <h5 id="Stub-network-link"><a href="#Stub-network-link" class="headerlink" title="Stub network link"></a>Stub network link</h5><h6 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h6><blockquote>
 <p>A stub network’s vertex has only incoming edges.</p>
@@ -446,36 +457,25 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Link connected to: another Router (point-to-point)</span><br><span class="line">    (Link ID) Neighboring Router ID: 1.1.1.1</span><br><span class="line">    (Link Data) Router Interface address: 10.1.12.2</span><br><span class="line">    Number of TOS metrics: 0</span><br><span class="line">     TOS 0 Metrics: 64</span><br><span class="line"></span><br><span class="line">   Link connected to: a Stub Network</span><br><span class="line">    (Link ID) Network/subnet number: 10.1.12.0</span><br><span class="line">    (Link Data) Network Mask: 255.255.255.0</span><br><span class="line">    Number of TOS metrics: 0</span><br><span class="line">     TOS 0 Metrics: 64</span><br></pre></td></tr></table></figure>
 
 <p>值得注意的是，对于P2P的网络类型接口，OSPF使用了两个Link来描述，一个是P2P Link，用于描述链路对端连接的路由器ID及自己本地的接口IP地址，还用了一个Stub Network Link来描述该条链路的子网。</p>
-<h5 id="Virtual-link"><a href="#Virtual-link" class="headerlink" title="Virtual link"></a>Virtual link</h5><h5 id="为什么如此定义"><a href="#为什么如此定义" class="headerlink" title="为什么如此定义"></a>为什么如此定义</h5><h5 id="Loop-back接口"><a href="#Loop-back接口" class="headerlink" title="Loop back接口"></a>Loop back接口</h5><p>Loopback接口的链路类型（Link type）永远被定义为Stub host（红茶三杯笔记中这里写的时Stub network link，但看过RFC以后，我感觉还是用RFC中的Stub host更严谨一些&lt;To facilitate this, such interfaces are advertised in router-LSAs as single host routes, whose destination is the IP interface address.—RFC 2328，Page 68&gt;），默认使用32位掩码表示，无论将Loop back接口改为哪种网络类型（Network Type），始终改变不了它的OSPF链路类型（Link Type）属性，因为网络类型由二层介质或封装决定而链路类型由接口或邻居决定。没法改变loop back的链路类型但可以改变它在LSA中的掩码长度，也就是说，如果进入loop back接口在里面配置一条ip ospf network point-to-point命令，将这个loop back接口的网络类型由loop back 变为了point-to-point，那么这个loop back接口的掩码长度就由32位变成了24位。</p>
-<p>loop back 在OSPF中的默认状态：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-04_17-23-29.jpg" alt="Snipaste_2020-08-04_17-23-29"></p>
-<p>更改loop back接口为P2P以后的状态：</p>
-<h4 id="实验验证"><a href="#实验验证" class="headerlink" title="实验验证"></a>实验验证</h4><h5 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-06_16-08-31.jpg" alt="Snipaste_2020-08-06_16-08-31"></p>
-<p>R1、R2、R3三台路由器通过一台交换机组成MA网络，网段为192.168.123.0/24，每个路由器连接交换机的接口IP地址是该路由器编号，例如R1运行OSPF的接口就是192.168.123.1，R2就是192.168.123.2，这三台路由器运行OSPF的接口属于Area 1区域；R3和R4用<strong>点对点</strong>方式连接，网段为192.168.34.0/23，这两台路由器运行OSPF的接口属于Area 0区域。下面是三台路由器的核心配置：</p>
-<p>R1：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 1.1.1.1</span><br><span class="line"> network 1.1.1.1 0.0.0.0 area 1</span><br><span class="line"> network 192.168.123.1 0.0.0.0 area 1</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 1.1.1.1 255.255.255.255</span><br><span class="line">interface GigabitEthernet0/1</span><br><span class="line"> ip address 192.168.123.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+<h5 id="Virtual-link"><a href="#Virtual-link" class="headerlink" title="Virtual link"></a>Virtual link</h5><h5 id="为什么如此定义"><a href="#为什么如此定义" class="headerlink" title="为什么如此定义"></a>为什么如此定义</h5><h5 id="Loop-back接口"><a href="#Loop-back接口" class="headerlink" title="Loop back接口"></a>Loop back接口</h5><p>Loopback接口的链路类型（Link type）永远被定义为Stub host（红茶三杯笔记中这里写的时Stub network link，但看过RFC以后，我感觉还是用RFC中的Stub host更严谨一些&lt;To facilitate this, such interfaces are advertised in router-LSAs as single host routes, whose destination is the IP interface address.—RFC 2328，Page 68&gt;），默认使用32位掩码表示，无论配置loop back的IP地址时使用24/的掩码也是如此。如果进入loop back接口在里面配置一条ip ospf network point-to-point命令，将这个loop back接口的网络类型由loop back 变为了point-to-point，那么这个loop back接口的掩码长度就由32位变成了24位。</p>
+<h4 id="实验验证"><a href="#实验验证" class="headerlink" title="实验验证"></a>实验验证</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-11-52.jpg" alt="Snipaste_2020-08-11_16-11-52"></p>
+<h5 id="基础配置："><a href="#基础配置：" class="headerlink" title="基础配置："></a>基础配置：</h5><p>R7：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 7.7.7.7</span><br><span class="line"> network 7.7.7.7 0.0.0.0 area 0</span><br><span class="line"> network 192.168.78.0 0.0.0.255 area 0</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 7.7.7.7 255.255.255.0</span><br></pre></td></tr></table></figure>
 
-<p>R2：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 2.2.2.2</span><br><span class="line"> network 2.2.2.2 0.0.0.0 area 1</span><br><span class="line"> network 192.168.123.2 0.0.0.0 area 1</span><br><span class="line">interface GigabitEthernet0/2</span><br><span class="line"> ip address 192.168.123.2 255.255.255.0</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 2.2.2.2 255.255.255.255</span><br></pre></td></tr></table></figure>
+<p>R8</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 8.8.8.8</span><br><span class="line"> network 192.168.78.8 0.0.0.0 area 0</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 192.168.78.8 255.255.255.0</span><br></pre></td></tr></table></figure>
 
-<p>R3：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> network 192.168.34.0 0.0.0.255 area 0</span><br><span class="line"> network 192.168.123.0 0.0.0.255 area 1</span><br><span class="line"> interface Loopback0</span><br><span class="line"> ip address 3.3.3.3 255.255.255.255</span><br><span class="line">interface GigabitEthernet0/3</span><br><span class="line"> ip address 192.168.123.3 255.255.255.0</span><br><span class="line">interface GigabitEthernet0/2</span><br><span class="line"> ip address 192.168.34.3 255.255.255.0</span><br></pre></td></tr></table></figure>
+<h5 id="实验分析"><a href="#实验分析" class="headerlink" title="实验分析"></a>实验分析</h5><p>默认情况下，即使R7的loopback接口的IP地址配置成24/位掩码，但在R8的OSPF路由表中，依旧是32位掩码，因为此时R7的loop back 接口的Link type，也就是链路类型是stub host：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-28-22.jpg" alt="Snipaste_2020-08-11_16-28-22"></p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-27-16.jpg" alt="Snipaste_2020-08-11_16-27-16"></p>
+<p>为了改变思科IOS默认将Loop back接口的掩码设置为32位的情况，我们在思科设备中只能将接口的网络类型（Network type）设置为点对点：</p>
+<p>R7：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">interface Loopback0</span><br><span class="line"> ip address 7.7.7.7 255.255.255.0</span><br><span class="line"> ip ospf network point-to-point</span><br></pre></td></tr></table></figure>
 
-<p>R4：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 4.4.4.4</span><br><span class="line"> network 192.168.34.4 0.0.0.0 area 0</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 4.4.4.4 255.255.255.255</span><br><span class="line">interface GigabitEthernet0/0</span><br><span class="line"> ip address 192.168.34.4 255.255.255.0</span><br></pre></td></tr></table></figure>
-
-<h5 id="实验分析"><a href="#实验分析" class="headerlink" title="实验分析"></a>实验分析</h5><p>图中的几台路由器都会产生1类LSA，并且在本Area（区域）中泛洪，这里以R1距离，它会产生一个1类LSA，那么在这个1类LSA中，包含两个链路的描述，一个用于描述Loopback接口及接口的Cost值，另一个是描述G0/1接口及Cost值，这个1类LSA会在Area 1中泛洪。</p>
-<p>R1的LSDB（链路状态数据库）：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1#show ip ospf database</span><br><span class="line"></span><br><span class="line">            OSPF Router with ID (1.1.1.1) (Process ID 1)</span><br><span class="line"></span><br><span class="line">                Router Link States (Area 1)</span><br><span class="line"></span><br><span class="line">Link ID         ADV Router      Age         Seq#       Checksum Link count</span><br><span class="line">1.1.1.1         1.1.1.1         775         0x80000003 0x0068DD 2</span><br><span class="line">2.2.2.2         2.2.2.2         815         0x80000003 0x0058E0 2</span><br><span class="line">3.3.3.3         3.3.3.3         749         0x80000006 0x009FA5 1</span><br><span class="line"></span><br><span class="line">                Net Link States (Area 1)</span><br><span class="line"></span><br><span class="line">Link ID         ADV Router      Age         Seq#       Checksum</span><br><span class="line">192.168.123.3   3.3.3.3         749         0x80000003 0x0048DF</span><br><span class="line"></span><br><span class="line">                Summary Net Link States (Area 1)</span><br><span class="line"></span><br><span class="line">Link ID         ADV Router      Age         Seq#       Checksum</span><br><span class="line">192.168.34.0    3.3.3.3         1008        0x80000002 0x000E95</span><br></pre></td></tr></table></figure>
-
-<p>上面就是R1的LSDB，在Area 1内的所有OSPF路由器的LSDB都是一样的，因为这样才能基于相同的LSDB独立计算路由，一开始的OSPF协议流程部分已经说过这里就不再赘述。在R1的LSDB中，我们可以看到有1（Router Link States）、2（Net Link States）、3（Summary Net Link States），这总共3各类型的LSA，这里我们只看1类LSA：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1#show ip ospf database router 1.1.1.1</span><br><span class="line"></span><br><span class="line">            OSPF Router with ID (1.1.1.1) (Process ID 1)</span><br><span class="line"></span><br><span class="line">                Router Link States (Area 1)</span><br><span class="line"></span><br><span class="line">  LS age: 989</span><br><span class="line">  Options: (No TOS-capability, DC)</span><br><span class="line">  LS Type: Router Links</span><br><span class="line">  Link State ID: 1.1.1.1</span><br><span class="line">  Advertising Router: 1.1.1.1</span><br><span class="line">  LS Seq Number: 80000003</span><br><span class="line">  Checksum: 0x68DD</span><br><span class="line">  Length: 48</span><br><span class="line">  Number of Links: 2</span><br><span class="line"></span><br><span class="line">    Link connected to: a Stub Network</span><br><span class="line">     (Link ID) Network/subnet number: 1.1.1.1</span><br><span class="line">     (Link Data) Network Mask: 255.255.255.255</span><br><span class="line">      Number of MTID metrics: 0</span><br><span class="line">       TOS 0 Metrics: 1</span><br><span class="line"></span><br><span class="line">    Link connected to: a Transit Network</span><br><span class="line">     (Link ID) Designated Router address: 192.168.123.3</span><br><span class="line">     (Link Data) Router Interface address: 192.168.123.1</span><br><span class="line">      Number of MTID metrics: 0</span><br><span class="line">       TOS 0 Metrics: 1</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>show ip ospf database router 1.1.1.1，意思是是查看1类LSA 1.1.1.1</li>
-<li>LS Type: Router Links，LSA的类型为Router Links，也就是1类LSA</li>
-<li></li>
-</ul>
+<p>在R7的loop back接口的Network type，也就是网络类型设置为点对点后，R8的路由表中R7loop back接口的掩码由32位变成了loop back地址中配置的24位掩码：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-32-14.jpg" alt="Snipaste_2020-08-11_16-32-14"></p>
+<p>此时再看R7的loop back接口：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-34-22.jpg" alt="Snipaste_2020-08-11_16-34-22"></p>
 <h3 id="Type-2"><a href="#Type-2" class="headerlink" title="Type-2"></a>Type-2</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-3.jpg" alt="ospf-lsa-types-explained-3"></p>
 <p>(Network Link Advertisement)</p>
 <h3 id="Type-3"><a href="#Type-3" class="headerlink" title="Type-3"></a>Type-3</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-4.jpg" alt="ospf-lsa-types-explained-4"></p>
@@ -490,7 +490,65 @@
 <h3 id="TYPE-9"><a href="#TYPE-9" class="headerlink" title="TYPE 9"></a>TYPE 9</h3><p>OSPF LINK SCOPE OPAQUE (OSPFV2) / INTRA AREA PREFIX LSA (OSPFV3)</p>
 <h3 id="TYPE-10"><a href="#TYPE-10" class="headerlink" title="TYPE 10"></a>TYPE 10</h3><p> OSPF AREA SCOPE OPAQUE LSA</p>
 <h3 id="TYPE-11"><a href="#TYPE-11" class="headerlink" title="TYPE 11"></a>TYPE 11</h3><p> OSPF AS SCOPE OPAQUE LSA</p>
-<h2 id="LSA实验讲解"><a href="#LSA实验讲解" class="headerlink" title="LSA实验讲解"></a>LSA实验讲解</h2><h2 id="区域种类"><a href="#区域种类" class="headerlink" title="区域种类"></a><a href="https://www.packetflow.co.uk/ospf-areas-explained/" target="_blank" rel="noopener">区域种类</a></h2><h4 id><a href="#" class="headerlink" title></a></h4><blockquote>
+<h2 id="LSA实验讲解"><a href="#LSA实验讲解" class="headerlink" title="LSA实验讲解"></a>LSA实验讲解</h2><h5 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_15-31-08.jpg" alt="Snipaste_2020-08-11_15-31-08"></p>
+<p>R1、R2、R3三台路由器通过一台交换机组成MA网络，网段为192.168.123.0/24，每个路由器连接交换机的接口IP地址是该路由器编号，例如R1运行OSPF的接口就是192.168.123.1，R2就是192.168.123.2，这三台路由器运行OSPF的接口属于Area 1区域；R3和R4用<strong>点对点</strong>方式连接，网段为192.168.34.0/23，这两台路由器运行OSPF的接口属于Area 0区域。所有路由器上均开启loop back接口，R1的loop back接口为1.1.1.1，R2为2.2.2.2，其他设备以此类推，所有上述loop back接口仅作为路由器Router ID的选取使用并不做network宣告，R5上将loop back接口重发布进OSPF。下面是三台路由器的核心配置：</p>
+<p>R1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 1.1.1.1</span><br><span class="line"> network 192.168.123.1 0.0.0.0 area 1</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 1.1.1.1 255.255.255.255</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> ip address 192.168.123.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p>R2：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 2.2.2.2</span><br><span class="line"> network 192.168.123.2 0.0.0.0 area 1</span><br><span class="line">interface Ethernet0/2</span><br><span class="line"> ip address 192.168.123.2 255.255.255.0</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 2.2.2.2 255.255.255.255</span><br></pre></td></tr></table></figure>
+
+<p>R3：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> network 192.168.34.0 0.0.0.255 area 0</span><br><span class="line"> network 192.168.123.0 0.0.0.255 area 1</span><br><span class="line"> interface Loopback0</span><br><span class="line"> ip address 3.3.3.3 255.255.255.255</span><br><span class="line">interface Ethernet0/3</span><br><span class="line"> ip address 192.168.123.3 255.255.255.0</span><br><span class="line">interface Serial1/0</span><br><span class="line"> ip address 192.168.34.3 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p>R4：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 4.4.4.4</span><br><span class="line"> network 192.168.34.4 0.0.0.0 area 0</span><br><span class="line"> network 192.168.45.4 0.0.0.0 area 2</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 4.4.4.4 255.255.255.255</span><br><span class="line">interface Serial1/0</span><br><span class="line"> ip address 192.168.34.4 255.255.255.0</span><br><span class="line">interface Serial1/1</span><br><span class="line"> ip address 192.168.45.4 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p>R5：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 5.5.5.5</span><br><span class="line"> network 192.168.45.5 0.0.0.0 area 2</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 5.5.5.5 255.255.255.0</span><br><span class="line">interface Serial1/1</span><br><span class="line"> ip address 192.168.45.5 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<h5 id="实验分析-1"><a href="#实验分析-1" class="headerlink" title="实验分析"></a>实验分析</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_15-31-08.jpg" alt="Snipaste_2020-08-11_15-31-08"></p>
+<h6 id="1类LSA"><a href="#1类LSA" class="headerlink" title="1类LSA"></a>1类LSA</h6><p>图中的几台路由器都会产生1类LSA，并且在本Area（区域）中泛洪，1类LSA相当于每台路由器描述一下自己“家门口的状况”，这里以R1举例，它会产生一个1类LSA，那么在这个1类LSA中，包含两个链路的描述，一个用于描述Loopback接口及接口的Cost值，另一个是描述G0/1接口及Cost值，这个1类LSA会在Area 1中泛洪。</p>
+<p>R1的LSDB（链路状态数据库）：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1#show ip ospf database</span><br><span class="line"></span><br><span class="line">            OSPF Router with ID (1.1.1.1) (Process ID 1)</span><br><span class="line"></span><br><span class="line">                Router Link States (Area 1)</span><br><span class="line"></span><br><span class="line">Link ID         ADV Router      Age         Seq#       Checksum Link count</span><br><span class="line">1.1.1.1         1.1.1.1         775         0x80000003 0x0068DD 2</span><br><span class="line">2.2.2.2         2.2.2.2         815         0x80000003 0x0058E0 2</span><br><span class="line">3.3.3.3         3.3.3.3         749         0x80000006 0x009FA5 1</span><br><span class="line"></span><br><span class="line">                Net Link States (Area 1)</span><br><span class="line"></span><br><span class="line">Link ID         ADV Router      Age         Seq#       Checksum</span><br><span class="line">192.168.123.3   3.3.3.3         749         0x80000003 0x0048DF</span><br><span class="line"></span><br><span class="line">                Summary Net Link States (Area 1)</span><br><span class="line"></span><br><span class="line">Link ID         ADV Router      Age         Seq#       Checksum</span><br><span class="line">192.168.34.0    3.3.3.3         1008        0x80000002 0x000E95</span><br></pre></td></tr></table></figure>
+
+<p>上面就是R1的LSDB，在Area 1内的所有OSPF路由器的LSDB都是一样的，因为这样才能基于相同的LSDB独立计算路由，一开始的OSPF协议流程部分已经说过这里就不再赘述。在R1的LSDB中，我们可以看到有1（Router Link States）、2（Net Link States）、3（Summary Net Link States），这总共3各类型的LSA，这里我们只看1类LSA。在Area1内有3条LSA，由于每台路由器均产生1类LSA，所以Area 1中有3台路由器，ADV Router中的ID喝Link ID均为这台路由器的Router ID，所以二者相同。Age表示这条LSA存在的时间，Seq#：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1#show ip ospf database router 1.1.1.1                           #查看1类LSA 1.1.1.1</span><br><span class="line"></span><br><span class="line">            OSPF Router with ID (1.1.1.1) (Process ID 1)</span><br><span class="line"></span><br><span class="line">                Router Link States (Area 1)                       #Area 1中的1类LSA</span><br><span class="line"></span><br><span class="line">  LS age: 77</span><br><span class="line">  Options: (No TOS-capability, DC)</span><br><span class="line">  LS Type: Router Links                                         #LSA类型为router LSA也就是1类</span><br><span class="line">  Link State ID: 1.1.1.1                                        #LS ID为1.1.1.1，是R1的router-id</span><br><span class="line">  Advertising Router: 1.1.1.1                                   #生成这个LSA的路由器的router-id</span><br><span class="line">  LS Seq Number: 80000003</span><br><span class="line">  Checksum: 0x1F3C</span><br><span class="line">  Length: 36</span><br><span class="line">  Number of Links: 1                                            #R1连入本区域的接口（链路）数量</span><br><span class="line"></span><br><span class="line">    Link connected to: a Transit Network                        #R1通过以太网连到一个MA网络123.0</span><br><span class="line">     (Link ID) Designated Router address: 192.168.123.3         #DR的接口IP</span><br><span class="line">     (Link Data) Router Interface address: 192.168.123.1        #连到这个MA的本地接口IP</span><br><span class="line">      Number of MTID metrics: 0</span><br><span class="line">       TOS 0 Metrics: 1                                         #接口Cost=1</span><br></pre></td></tr></table></figure>
+
+<p>这就是1类LSA，从“Link connect to”开始就是该路由器的所有直连路径的相关信息。R2和R3在Area 1中的1类LSA大体上类似，那么R3在Area 0中泛洪的1类LSA如何呢？</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1#show ip ospf database router 3.3.3.3</span><br><span class="line"></span><br><span class="line">            OSPF Router with ID (1.1.1.1) (Process ID 1)</span><br><span class="line"></span><br><span class="line">                Router Link States (Area 1)</span><br><span class="line"></span><br><span class="line">  LS age: 870</span><br><span class="line">  Options: (No TOS-capability, DC)</span><br><span class="line">  LS Type: Router Links</span><br><span class="line">  Link State ID: 3.3.3.3</span><br><span class="line">  Advertising Router: 3.3.3.3</span><br><span class="line">  LS Seq Number: 80000002</span><br><span class="line">  Checksum: 0xA7A1</span><br><span class="line">  Length: 36</span><br><span class="line">  Area Border Router              #标识这台路由器为ABR，这其实是LSA1类报文中的B位置1</span><br><span class="line">  Number of Links: 1</span><br><span class="line"></span><br><span class="line">    Link connected to: a Transit Network</span><br><span class="line">     (Link ID) Designated Router address: 192.168.123.3</span><br><span class="line">     (Link Data) Router Interface address: 192.168.123.3</span><br><span class="line">      Number of MTID metrics: 0</span><br><span class="line">       TOS 0 Metrics: 1</span><br></pre></td></tr></table></figure>
+
+<p>现在再看一下R3在Area 0中的1类LSA</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R3#show ip ospf database router 3.3.3.3</span><br><span class="line"></span><br><span class="line">            OSPF Router with ID (3.3.3.3) (Process ID 1)</span><br><span class="line"></span><br><span class="line">                Router Link States (Area 0)</span><br><span class="line"></span><br><span class="line">  LS age: 1886</span><br><span class="line">  Options: (No TOS-capability, DC)</span><br><span class="line">  LS Type: Router Links</span><br><span class="line">  Link State ID: 3.3.3.3</span><br><span class="line">  Advertising Router: 3.3.3.3</span><br><span class="line">  LS Seq Number: 80000002</span><br><span class="line">  Checksum: 0x6D71</span><br><span class="line">  Length: 48</span><br><span class="line">  Area Border Router</span><br><span class="line">  Number of Links: 2</span><br><span class="line"></span><br><span class="line">    Link connected to: another Router (point-to-point)</span><br><span class="line">     (Link ID) Neighboring Router ID: 4.4.4.4</span><br><span class="line">     (Link Data) Router Interface address: 192.168.34.3</span><br><span class="line">      Number of MTID metrics: 0</span><br><span class="line">       TOS 0 Metrics: 1</span><br><span class="line"></span><br><span class="line">    Link connected to: a Stub Network</span><br><span class="line">     (Link ID) Network/subnet number: 192.168.34.0</span><br><span class="line">     (Link Data) Network Mask: 255.255.255.0</span><br><span class="line">      Number of MTID metrics: 0</span><br><span class="line">       TOS 0 Metrics: 1</span><br></pre></td></tr></table></figure>
+
+<p>R3在Area 0中只有一个接口，S1/0，由于网络类型为P2P，所以用了两条Link来描述，一条描述直连情况，一条描述子网掩码。</p>
+<h6 id="2类LSA"><a href="#2类LSA" class="headerlink" title="2类LSA"></a>2类LSA</h6><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_15-31-08.jpg" alt="Snipaste_2020-08-11_15-31-08"></p>
+<p>在MA网络中，会选举DR、BDR，而所有的DR Other都只能和DR\BDR建立Full的邻接关系。从某种层面上说，DR实际上代表了整个MA网络，在本区域中泛洪2类LSA，用来呈现该MA网络中的所有路由器，因此2类LSA仅存在于有MA网络的区域中，并且由DR发送，用来描述这个MA网络中的所有路由器的Router ID。在上图中，R3的E0/3接口作为123.0网络的DR，因此R1和R2都只和R3建立邻接关系，这是R3变成了这个MA网络的代表者，其发送2类LSA，该LSA在Area 1内泛洪，详细信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1#show ip ospf database network</span><br><span class="line"></span><br><span class="line">            OSPF Router with ID (1.1.1.1) (Process ID 1)</span><br><span class="line"></span><br><span class="line">                Net Link States (Area 1)</span><br><span class="line"></span><br><span class="line">  LS age: 912</span><br><span class="line">  Options: (No TOS-capability, DC)</span><br><span class="line">  LS Type: Network Links</span><br><span class="line">  Link State ID: 192.168.123.3 (address of Designated Router)</span><br><span class="line">  Advertising Router: 3.3.3.3</span><br><span class="line">  LS Seq Number: 80000002</span><br><span class="line">  Checksum: 0x4ADE</span><br><span class="line">  Length: 36</span><br><span class="line">  Network Mask: /24</span><br><span class="line">        Attached Router: 3.3.3.3</span><br><span class="line">        Attached Router: 1.1.1.1</span><br><span class="line">        Attached Router: 2.2.2.2</span><br></pre></td></tr></table></figure>
+
+<p>2类LSA描述Tansit network（包括Broadcast和NBMA的网络）的网络信息，由DR产生，描述其在该MA网络上连接的所有路由器的Router ID（包括DR）以及该MA网络的掩码；2类LSA只在本区域内泛洪，不允许跨越ABR，2类LSA没有Cost字段，因此需要借助1类LSA来进行SPF算法。</p>
+<p>1类LSA的直连信息+2类LSA的网络信息，提供了一个区域内计算路由的全部信息，由此产生的路由，在路由表中的标记为O，表示本区域内的路由。</p>
+<h6 id="3类LSA"><a href="#3类LSA" class="headerlink" title="3类LSA"></a>3类LSA</h6><p>1类和2类LSA解决了区域内路由计算的问题，那么区域见的路由怎么计算呢？如果路由器需要访问其他区域呢？这时就需要3类LSA。3类LSA是网络汇总LSA（Network summary），这里的汇总其实翻译为归纳更为贴切，它和路由汇总是完全不同的概念。由于ABR同时属于两个以上的区域（其中必有骨干区域），它知道这些区域的1、2类LSA，那么能做一件事：将某个区域的1、2类LSA做个归纳，然后为其他区域生成3类LSA并泛洪到其他区域中，如此一来，区域间的路由计算就没问题了。因此3类LSA由ABR产生。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_15-31-08.jpg" alt="Snipaste_2020-08-11_15-31-08"></p>
+<p>上图中，R3的接口E0/3属于Area 1，S1/0接口属于Area 0，它是一台ABR，因此它将Area 1内的LSA做个归纳，为Area 0生成3类LSA，实际上就是192.168.123.0这个网段的信息，然后泛洪到Area 0中，然后这条3类LSA被泛洪到Area 2中，这样R4和R5就能根据这个LSA3计算到123.0的路由，当然，R1和R2也都能通过R3泛洪过来的3类LSA了解到34.0和45.0的路由信息。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">                R3#show ip ospf database</span><br><span class="line">......</span><br><span class="line"></span><br><span class="line">Summary Net Link States (Area 0)</span><br><span class="line"></span><br><span class="line">Link ID         ADV Router      Age         Seq#       Checksum</span><br><span class="line">192.168.45.0    4.4.4.4         59          0x80000001 0x00781D</span><br><span class="line">192.168.123.0   3.3.3.3         58          0x80000001 0x003912</span><br></pre></td></tr></table></figure>
+
+<p>在Area 0中，有2个3类LSA在泛洪，分别描述的是192.168.45.0和192.168.123.0两个网络，可以再详细查看一下3类LSA的内容：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R3#show ip ospf database summary 192.168.123.0</span><br><span class="line"></span><br><span class="line">            OSPF Router with ID (3.3.3.3) (Process ID 1)</span><br><span class="line"></span><br><span class="line">                Summary Net Link States (Area 0)</span><br><span class="line"></span><br><span class="line">  LS age: 174</span><br><span class="line">  Options: (No TOS-capability, DC, Upward)</span><br><span class="line">  LS Type: Summary Links(Network)</span><br><span class="line">  Link State ID: 192.168.123.0 (summary Network Number)</span><br><span class="line">  Advertising Router: 3.3.3.3</span><br><span class="line">  LS Seq Number: 80000001</span><br><span class="line">  Checksum: 0x3912</span><br><span class="line">  Length: 28</span><br><span class="line">  Network Mask: /24</span><br><span class="line">        MTID: 0         Metric: 1</span><br></pre></td></tr></table></figure>
+
+<p>以上就是在Area 0中泛洪的192.168.123.0这三条LSA的详细内容，注意3类LSA的Link State ID也就是这个LSA所描述的子网的网络号，同时LSA还描述了这个子网的掩码（Network Mask）以及到达该子网的Metirc，也就是Cost值，这里的cost值为1，其实也就是R3的G0/2接口的cost。</p>
+<h6 id="4类LSA"><a href="#4类LSA" class="headerlink" title="4类LSA"></a>4类LSA</h6><p>4类LSA是一个指向ASBR的LSA，由该ASBR所在区域中的ABR产生。ASBR作为域边界路由器，将外部的路由通过重发布的方式注入了OSPF域，这些外部路由在OSPF中进行传递，也就是外部路由以5类LSA的形式在域内传播，而OSPF的内部路由想要前往这些外部的网段，必须同时具备两个条件：</p>
+<ul>
+<li>知道外部路由。这个条件已经满足，因为通过重发布的动作，外部路由已经注入了OSPF域内，并借助了5类LSA完成了传播，所以外部路由是知道的。</li>
+<li>知道完成这个重发布动作的ASBR路由器的位置。</li>
+</ul>
+<p>由于第一个条件已经满足，现在需要所有路由器知道ASBR路由器的位置，这里将除了ASBR的其他路由器分为两类进行讨论，一类是与身为ASBR的R5在同一区域的路由器，另一类是与R5不在同一区域的路由器。</p>
+<p>与ASBR在同一区域的区域内部路由器，例如图中与R5这个ASBR同在Area 2区域的R4，能够通过R5这个ASBR产生的1类LSA知道ASBR的位置，因为R5产生的1类LSA中E位=1，标明了R5的ASBR身份：</p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_17-32-50.jpg" alt="Snipaste_2020-08-11_17-32-50" style="zoom:50%;">
+
+<p>所以关键在于其他与ASBR不在同一区域路由器如何知道ASBR的位置呢？</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_15-31-08.jpg" alt="Snipaste_2020-08-11_15-31-08"></p>
+<h2 id="区域种类"><a href="#区域种类" class="headerlink" title="区域种类"></a><a href="https://www.packetflow.co.uk/ospf-areas-explained/" target="_blank" rel="noopener">区域种类</a></h2><h4 id><a href="#" class="headerlink" title></a></h4><blockquote>
 <ul>
 <li><strong>Backbone area</strong> - The backbone area is the core of the OSPF network. Furthermore, OSPF states that every area must be connected to the backbone area (aka area 0).</li>
 <li><strong>Standard areas</strong> - This is an area that is not “stub based”. This includes the backbone area.</li>
@@ -639,10 +697,6 @@
 
 
 </object><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">]]></content>
-      <categories>
-        <category>路由交换方向</category>
-        <category>CCNA</category>
-      </categories>
   </entry>
   <entry>
     <title>CCNA笔记——12、RIP</title>
