@@ -457,7 +457,35 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Link connected to: another Router (point-to-point)</span><br><span class="line">    (Link ID) Neighboring Router ID: 1.1.1.1</span><br><span class="line">    (Link Data) Router Interface address: 10.1.12.2</span><br><span class="line">    Number of TOS metrics: 0</span><br><span class="line">     TOS 0 Metrics: 64</span><br><span class="line"></span><br><span class="line">   Link connected to: a Stub Network</span><br><span class="line">    (Link ID) Network/subnet number: 10.1.12.0</span><br><span class="line">    (Link Data) Network Mask: 255.255.255.0</span><br><span class="line">    Number of TOS metrics: 0</span><br><span class="line">     TOS 0 Metrics: 64</span><br></pre></td></tr></table></figure>
 
 <p>值得注意的是，对于P2P的网络类型接口，OSPF使用了两个Link来描述，一个是P2P Link，用于描述链路对端连接的路由器ID及自己本地的接口IP地址，还用了一个Stub Network Link来描述该条链路的子网。</p>
-<h5 id="Virtual-link"><a href="#Virtual-link" class="headerlink" title="Virtual link"></a>Virtual link</h5><h5 id="为什么如此定义"><a href="#为什么如此定义" class="headerlink" title="为什么如此定义"></a>为什么如此定义</h5><h5 id="Loop-back接口"><a href="#Loop-back接口" class="headerlink" title="Loop back接口"></a>Loop back接口</h5><p>Loopback接口的链路类型（Link type）永远被定义为Stub host（红茶三杯笔记中这里写的时Stub network link，但看过RFC以后，我感觉还是用RFC中的Stub host更严谨一些&lt;To facilitate this, such interfaces are advertised in router-LSAs as single host routes, whose destination is the IP interface address.—RFC 2328，Page 68&gt;），默认使用32位掩码表示，无论配置loop back的IP地址时使用24/的掩码也是如此。如果进入loop back接口在里面配置一条ip ospf network point-to-point命令，将这个loop back接口的网络类型由loop back 变为了point-to-point，那么这个loop back接口的掩码长度就由32位变成了24位。</p>
+<h5 id="Virtual-link"><a href="#Virtual-link" class="headerlink" title="Virtual link"></a>Virtual link</h5><p>这种链路类型用来描述OSPF虚链路（Virtual Link）。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-12_11-43-00.jpg" alt="Snipaste_2020-08-12_11-43-00"></p>
+<p>在上图中，R1和R3之间建立了一条虚链路，则R1产生的LSA1中描述该虚链路的数据如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Link connected to: a Virtual Link</span><br><span class="line">     (Link ID) Neighboring Router ID: 3.3.3.3                #虚链路对端设备的RouterID</span><br><span class="line">     (Link Data) Router Interface address: 10.1.12.1       #本地接口IP地址</span><br><span class="line">     Number of TOS metrics: 0</span><br><span class="line">      TOS 0 Metrics: 128</span><br></pre></td></tr></table></figure>
+
+<p>上面输出的Metric：128，指的是从本地到虚链路对端，沿途所有出接口的COST累加，例如R1产生的描述虚链路的Link数据中包含的metric值就是如图中所示绿色标记的接口的cost值累加。</p>
+<h5 id="为什么如此定义"><a href="#为什么如此定义" class="headerlink" title="为什么如此定义"></a>为什么如此定义</h5><p>为什么要定义Stub\Transit network呢？答案是为了减少内存使用（This distinction is made because of memory requirements of the OSPF implementation.——<a href="https://community.cisco.com/t5/switching/ospf-lsa-type-1-stub-network/td-p/1536761" target="_blank" rel="noopener">出处</a>）。具体如何减少内存使用，说实话我也没完全搞懂，所以以下说明部分应该有一些问题。</p>
+<p>OSPF会利用内存维护一个网络拓扑表的矩阵，这个矩阵通常的存在形式如下：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-38-29.jpg" alt="Snipaste_2020-07-28_15-38-29"></p>
+<p>矩阵最上面，行的备注是“form”，也就是“form object”：</p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-03-50.jpg" alt="Snipaste_2020-07-28_15-03-50" style="zoom:67%;">
+
+<p>矩阵最左边，列的备注是“to”，也就是“to object”：</p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-04-54.jpg" alt="Snipaste_2020-07-28_15-04-54" style="zoom:50%;">
+
+<p>做标记的N1和RT1交汇处的数值为3，表示从RT1（行代表的意思为form，也就是从的意思）路由器去到N1（列代表的意思为to，也就是去的意思）网段的cost值为3，当然从N1网段到RT1的cost也是3。其实这个网络拓扑矩阵也就是把物理连接图用矩阵图的形式存在了路由器中，从图中也可以看出这个拓扑矩阵：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-41-18.jpg" alt="Snipaste_2020-07-28_15-41-18"></p>
+<p>那么这个拓扑矩阵和减少内存使用有毛关系呢？从矩阵图可以看出，有两个重要元素，路由器和网段。每个路由器都在该矩阵的“from”和“to”中出现，如果路由器不在该矩阵中出现，表示这个路由器和其背后的网络均无法到达。至于网段的话， Transit network属性的网段不论是在“form”的行上，还是在“to”的列中都会出现，但Stub network属性的网段在“to”的列中会出现，因为这个网段作为其他路由器或网段的目的地是没问题的；但在“from”的行上不出现，因为Stub network中只有一个路由器没有其他邻居，而这个网段就是终点了，网段后面也没有其他网段了，它没有穿越流量，因此不需要知道去往其他网段或路由器的路径，只需要把出向流量交给和该Stub network相连的路由器就OK了，那个路由器不管是在“from”还是“to”上都有，知道所有的路径。所以Stub network在“to”的列中有，但在“from”行上不会出现。上面矩阵图中最上边的行中，只有N3、N6、N8、N9出现了，说明这几个网段为Transit network而除此之外的网段均为Stub network，Stub network不出现在from行中减少了矩阵的大小，节约了硬件资源。如果有兴趣可以看一下下面这段话的出处，感觉我的理解并不到位。</p>
+<blockquote>
+<p>The key observation here is that the stub networks are actually uninteresting for shortest path calculations between routers because they do not provide any further path to any other part of the network. The stub network is the edge - there is nothing behind it, only the network itself. It can be considered an attribute of the router to which it is connected but it is not interesting as a transit topology object. This idea allows us to save memory by <strong>not including the stub networks into the “from” rows of the adjacency matrix</strong> and thus reducing its size. If out of N networks, only N’ (N’ &lt; N) networks are transit networks, the adjacency matrix could be reduced to the size of (M+<strong>N’</strong>) rows x (M+<strong>N</strong>) columns.</p>
+<p>This is why the OSPF actually has the stub/transit network distinction in the first place.                                    ——<a href="https://community.cisco.com/t5/switching/ospf-lsa-type-1-stub-network/td-p/1536761" target="_blank" rel="noopener">出处</a></p>
+</blockquote>
+<p>关于节约资源的部分举一个简单的例子，比如一个网络拓扑中有4台路由器和5个网段：</p>
+<p><N1>R1—<N2>—R2—<N3>—R3—<N4>—R4<N5></N5></N4></N3></N2></N1></p>
+<p>如果不分Transit\Stub network，那么矩阵图的大小就是9X9，矩阵图的面基为81：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_16-04-43.jpg" alt="Snipaste_2020-07-28_16-04-43"></p>
+<p>区分了Transit\Stub network后，由于N1和N5这两个Stub network不用在表示from的行中出现，那么矩阵图的大小就是9X7，面基为63：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_16-08-40.jpg" alt="Snipaste_2020-07-28_16-08-40"></p>
+<h5 id="Loop-back接口"><a href="#Loop-back接口" class="headerlink" title="Loop back接口"></a>Loop back接口</h5><p>Loopback接口的链路类型（Link type）永远被定义为Stub host（红茶三杯笔记中这里写的时Stub network link，但看过RFC以后，我感觉还是用RFC中的Stub host更严谨一些&lt;To facilitate this, such interfaces are advertised in router-LSAs as single host routes, whose destination is the IP interface address.—RFC 2328，Page 68&gt;），默认使用32位掩码表示，无论配置loop back的IP地址时使用24/的掩码也是如此。如果进入loop back接口在里面配置一条ip ospf network point-to-point命令，将这个loop back接口的网络类型由loop back 变为了point-to-point，那么这个loop back接口的掩码长度就由32位变成了24位。</p>
 <h4 id="实验验证"><a href="#实验验证" class="headerlink" title="实验验证"></a>实验验证</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-11-52.jpg" alt="Snipaste_2020-08-11_16-11-52"></p>
 <h5 id="基础配置："><a href="#基础配置：" class="headerlink" title="基础配置："></a>基础配置：</h5><p>R7：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 7.7.7.7</span><br><span class="line"> network 7.7.7.7 0.0.0.0 area 0</span><br><span class="line"> network 192.168.78.0 0.0.0.255 area 0</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 7.7.7.7 255.255.255.0</span><br></pre></td></tr></table></figure>
@@ -476,12 +504,35 @@
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-32-14.jpg" alt="Snipaste_2020-08-11_16-32-14"></p>
 <p>此时再看R7的loop back接口：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-34-22.jpg" alt="Snipaste_2020-08-11_16-34-22"></p>
-<h3 id="Type-2"><a href="#Type-2" class="headerlink" title="Type-2"></a>Type-2</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-3.jpg" alt="ospf-lsa-types-explained-3"></p>
-<p>(Network Link Advertisement)</p>
-<h3 id="Type-3"><a href="#Type-3" class="headerlink" title="Type-3"></a>Type-3</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-4.jpg" alt="ospf-lsa-types-explained-4"></p>
-<p>(Summary LSA) </p>
-<h3 id="Type-4"><a href="#Type-4" class="headerlink" title="Type-4"></a>Type-4</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-5.jpg" alt="ospf-lsa-types-explained-5"></p>
+<h3 id="Type-2"><a href="#Type-2" class="headerlink" title="Type-2"></a>Type-2</h3><h4 id="概述-8"><a href="#概述-8" class="headerlink" title="概述"></a>概述</h4><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-3.jpg" alt="ospf-lsa-types-explained-3"></p>
+<p>2类LSA的英文是Network-LSA，两个或多个路由器组成广播或NBMA类型的网络时，在DR和至少一个路由器形成全邻接状态（Full adjacency）后，会由DR产生2类LSA，2类LSA描述了包括DR本身在内的连接到网络的所有路由器。2类LSA在本区域内传播。2类LSA的Link state ID字段列出了DR接口的IP地址，这个IP地址和掩码地址（2类LSA中携带着掩码地址）做与运算后，可以得出网络号。</p>
+<h4 id="特殊情况分析"><a href="#特殊情况分析" class="headerlink" title="特殊情况分析"></a>特殊情况分析</h4><blockquote>
+<p>A router that has formerly been the Designated Router for anetwork, but is no longer, should flush the network-LSA thatit had previously originated.  This LSA is no longer used inthe routing table calculation.  It is flushed by prematurelyincrementing the LSA’s age to MaxAge and reflooding.</p>
+</blockquote>
+<p>如果一个路由器接口的角色由DR变成了非DR，那么它应该刷新之前产生的那条2类LSA，因为之前这个接口还是DR时会产生2类LSA，并将LSA中的age字段设置为最大，也就是3600秒，使这条2类LSA过期，好让其他路由器从LSDB中将这条已经不适用于计算路由的2类LSA删除，因为其他路由器并不能删除那些不是本身产生的LSA。</p>
+<blockquote>
+<p>In addition, in those rare cases where arouter’s Router ID has changed, any network-LSAs that wereoriginated with the router’s previous Router ID must beflushed. Since the router may have no idea what it’s previous Router ID might have been, these network-LSAs are indicated by having their Link State ID equal to one of the router’s IP interface addresses and their Advertising Router equal to some value other than the router’s current RouterID .</p>
+</blockquote>
+<p>此外，在那些路由器的Router ID改变的极少数情况下，任何之前产生的带有旧的Router ID的2类LSA都必须被刷新成带有新Router ID的2类LSA，因为路由器可能不知道它之前的的Router ID是什么。2类LSA的Link State ID字段的值为该路由器接口之一的IP地址，Advertising Router字段的值为路由器当前Router ID以外的值。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-12_16-50-32.jpg" alt="Snipaste_2020-08-12_16-50-32"></p>
+<h4 id="报文格式-1"><a href="#报文格式-1" class="headerlink" title="报文格式"></a>报文格式</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-12_16-54-39.jpg" alt="Snipaste_2020-08-12_16-54-39"></p>
+<p>LSA的Header部分之前分析过，这里只看message部分。</p>
+<ul>
+<li>Network Mask：网络的掩码。</li>
+<li>Attached Router：连接到网络的路由器的Router ID，事实上，只有那些和DR形成了全邻接关系（Full adjacency）的设备才会在这里面显示出来，DR的Router ID也会显示在这里面。</li>
+</ul>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-12_17-03-38.jpg" alt="Snipaste_2020-08-12_17-03-38"></p>
+<h4 id="实验分析-1"><a href="#实验分析-1" class="headerlink" title="实验分析"></a>实验分析</h4><h3 id="Type-3"><a href="#Type-3" class="headerlink" title="Type-3"></a>Type-3</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-4.jpg" alt="ospf-lsa-types-explained-4"></p>
+<h4 id="概述-9"><a href="#概述-9" class="headerlink" title="概述"></a>概述</h4><h3 id="Type-4"><a href="#Type-4" class="headerlink" title="Type-4"></a>Type-4</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-5.jpg" alt="ospf-lsa-types-explained-5"></p>
 <p> (Summary ASBR LSA) </p>
+<h4 id="为什么需要？"><a href="#为什么需要？" class="headerlink" title="为什么需要？"></a><a href="http://thenetworksherpa.com/ospf-why-have-a-type-4-lsa/#:~:text=So%2C%20a%20type%2D4%20asbr,ASBR%20and%20it' target=" _blank" rel="noopener" s%20advertised%20prefixes.">为什么需要？</a></h4><blockquote>
+<p>The type-5 is flooded across all non-stub areas. But the ASBRs RID only makes sense to routers in it’s native area, and isn’t helpful to non-native routers.  If the RID advertised by the Type-5 isn’t meaningful, then the path to it’s advertised prefix can’t be resolved.  External prefix =&gt; unreachable.<br>Well… that’s a bit shit. So, a type-4 asbr-summary LSA is needed to help make the ASBR reachable and, by extension make the associated type-5 prefix valid.  The type-4 acts like a glue record, and uses the ABRs well known RID as a care-of address for the ASBR and it’s advertised prefixes.<br>Now the process is:</p>
+<ul>
+<li>Receive type-5, read the ASBRs RID.  If the ASBR’s RID isn’t in your area graph then…</li>
+<li>We need a glue record. Look for type-4 with a LinkID matching the ASBRs RID.  This type-4 was advertised by your ABR, which you can locate in your area graph, then…</li>
+<li>Look for type-1 for ABRs RID and caculate path to ABR.</li>
+</ul>
+</blockquote>
 <h3 id="Type-5"><a href="#Type-5" class="headerlink" title="Type-5"></a>Type-5</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-6.jpg" alt="ospf-lsa-types-explained-6"></p>
 <p> AS external link advertisement</p>
 <h3 id="TYPE-6"><a href="#TYPE-6" class="headerlink" title="TYPE 6"></a>TYPE 6</h3><p>OSPF GROUP MEMBERSHIP LSA</p>
@@ -507,7 +558,7 @@
 <p>R5：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 5.5.5.5</span><br><span class="line"> network 192.168.45.5 0.0.0.0 area 2</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 5.5.5.5 255.255.255.0</span><br><span class="line">interface Serial1/1</span><br><span class="line"> ip address 192.168.45.5 255.255.255.0</span><br></pre></td></tr></table></figure>
 
-<h5 id="实验分析-1"><a href="#实验分析-1" class="headerlink" title="实验分析"></a>实验分析</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_15-31-08.jpg" alt="Snipaste_2020-08-11_15-31-08"></p>
+<h5 id="实验分析-2"><a href="#实验分析-2" class="headerlink" title="实验分析"></a>实验分析</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_15-31-08.jpg" alt="Snipaste_2020-08-11_15-31-08"></p>
 <h6 id="1类LSA"><a href="#1类LSA" class="headerlink" title="1类LSA"></a>1类LSA</h6><p>图中的几台路由器都会产生1类LSA，并且在本Area（区域）中泛洪，1类LSA相当于每台路由器描述一下自己“家门口的状况”，这里以R1举例，它会产生一个1类LSA，那么在这个1类LSA中，包含两个链路的描述，一个用于描述Loopback接口及接口的Cost值，另一个是描述G0/1接口及Cost值，这个1类LSA会在Area 1中泛洪。</p>
 <p>R1的LSDB（链路状态数据库）：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1#show ip ospf database</span><br><span class="line"></span><br><span class="line">            OSPF Router with ID (1.1.1.1) (Process ID 1)</span><br><span class="line"></span><br><span class="line">                Router Link States (Area 1)</span><br><span class="line"></span><br><span class="line">Link ID         ADV Router      Age         Seq#       Checksum Link count</span><br><span class="line">1.1.1.1         1.1.1.1         775         0x80000003 0x0068DD 2</span><br><span class="line">2.2.2.2         2.2.2.2         815         0x80000003 0x0058E0 2</span><br><span class="line">3.3.3.3         3.3.3.3         749         0x80000006 0x009FA5 1</span><br><span class="line"></span><br><span class="line">                Net Link States (Area 1)</span><br><span class="line"></span><br><span class="line">Link ID         ADV Router      Age         Seq#       Checksum</span><br><span class="line">192.168.123.3   3.3.3.3         749         0x80000003 0x0048DF</span><br><span class="line"></span><br><span class="line">                Summary Net Link States (Area 1)</span><br><span class="line"></span><br><span class="line">Link ID         ADV Router      Age         Seq#       Checksum</span><br><span class="line">192.168.34.0    3.3.3.3         1008        0x80000002 0x000E95</span><br></pre></td></tr></table></figure>
