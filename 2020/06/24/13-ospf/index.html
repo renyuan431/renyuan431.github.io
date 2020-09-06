@@ -191,7 +191,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-07-04_21-05-19.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-07-14_18-19-36.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Snipaste_2020-06-30_16-25-57.jpg">
-<meta property="og:updated_time" content="2020-09-05T06:43:18.854Z">
+<meta property="og:updated_time" content="2020-09-06T03:23:32.120Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;renyuan431.github.io&#x2F;2020&#x2F;06&#x2F;24&#x2F;13-ospf&#x2F;Cisco-CCNA-OSPF-1.jpg">
 
@@ -393,7 +393,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-05 14:43:18" itemprop="dateModified" datetime="2020-09-05T14:43:18+08:00">2020-09-05</time>
+                <time title="修改时间：2020-09-06 11:23:32" itemprop="dateModified" datetime="2020-09-06T11:23:32+08:00">2020-09-06</time>
               </span>
 
           
@@ -960,7 +960,7 @@
 <li>ABR会为非骨干区域的区域内路由产生3类LSA，并将3类LSA从非骨干区域泛洪到骨干区域；</li>
 <li>ABR使用SPF算法计算路由时，只会用骨干区域产生的3类LSA进行计算。</li>
 </ul>
-<p>比如上面的拓扑中，ABR1会为Area 1这个非骨干区域的内部路由生成3类LSA，并将该LSA泛洪到骨干区域Area 0。ABR也会为骨干区域Area 0的内部路由和外部路由生成3类LSA，并将该LSA泛洪到Area1这个非骨干区域。</p>
+<p>比如上面的拓扑中，ABR1会为Area 1这个非骨干区域的内部路由生成3类LSA，并将该LSA泛洪到骨干区域Area 0。ABR也会为骨干区域Area 0的内部路由和外部路由（剔除出原属于Area 1这个区域的路由后）生成3类LSA并将该LSA泛洪到Area1这个非骨干区域。</p>
 <p>上面的算法意味着ABR只有连接到Area 0的时候才会产生3类LSA，在思科设备中ABR是这个工作模式，但可能其他厂商的设备中会有所不同。</p>
 <h4 id="LSA实验-1"><a href="#LSA实验-1" class="headerlink" title="LSA实验"></a>LSA实验</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-29_22-47-33.jpg" alt="Snipaste_2020-08-29_22-47-33"></p>
 <p>查看路由器R2的LSDB得到如下结果：</p>
@@ -997,7 +997,8 @@
 
 <p>执行完以上的所有3类LSA需要的步骤后会发现，这些步骤和距离矢量路由协议执行的步骤相同，只是简单的将路由前缀、方向（发给路由器2.2.2.2）和Cost（在这个例子中是Metric：11）通告给邻居。这样一来，在区域间添加或删除路由前缀时不需要经过完整的SPF计算。当删除区域间路由时，只需要R2这个ABR将这条3类LSA中的LS age字段设置为超过3600的值，即表示这条LSA已经过期，其他路由器就会将它们LSDB中的条目删除。</p>
 <h3 id="Type-5"><a href="#Type-5" class="headerlink" title="Type-5"></a>Type-5</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-6.jpg" alt="ospf-lsa-types-explained-6"></p>
-<p> AS external link advertisement</p>
+<p>1 、2类LSA解决了本区域的路由，3类LSA解决了区域间的路由，如果外部有其他非OSPF协议的路由，该如何处理呢？这时就要用到5类LSA了，也就是AS external link advertisement。5类LSA描述的是去往AS外部路由，由ASBR（AS boundary routers）路由器生成，泛洪范围为所有Area。LSA的Link State ID的值为目标网络的IP地址，当5类LSA的Link State ID设置为0.0.0.0时，LSA用来描述到AS的默认路由。ASBR路由器通过另一个路由协议（比如BGP）或通过配置信息（比如配置静态路由然后重分布）学到外部路由，并为这些学到的外部路由生成一个5类LSA。</p>
+<p>AS external link advertisement</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-31_15-14-43.jpg" alt="Snipaste_2020-08-31_15-14-43"></p>
 <h3 id="Type-4"><a href="#Type-4" class="headerlink" title="Type-4"></a>Type-4</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-5.jpg" alt="ospf-lsa-types-explained-5"></p>
 <p> (Summary ASBR LSA) </p>
