@@ -69,7 +69,7 @@
 <p>单区域就是所有路由器都在同一个Area中，如果一个区域内的路由器过多，那么一旦出现变化，需要同步的LSA会非常多，LSA的泛洪会很严重，泛洪完LSA后还要重新用SPF算法根据庞大的LSDB进行复杂的计算，这样的话OSPF路由器的负担会很大，因为OSPF要求区域内的所有路由器的LSDB相同，以计算出一个统一的无环的拓扑。同时单区域内的路由器过多会导致LSDB庞大，资源消耗过多，设备性能下降，影响数据转发。一般情况下，思科建议一个Area内的路由器不超过50台。</p>
 <h3 id="多区域"><a href="#多区域" class="headerlink" title="多区域"></a>多区域</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-14_16-16-42.jpg" alt="Snipaste_2020-07-14_16-16-42"></p>
 <p>在部署OSPF时，可以采用多区域的方式部署，有且只能有一个Area 0，Area 0为骨干区域，骨干区域负责在非骨干区域之间发布由区域边界路由器汇总的路由信息，为避免区域间路由环路，非骨干区域之间不允许直接相互发布区域间路由，因此所有区域边界路由器都至少有一个接口属于Area 0，即每隔区域都必须连接到骨干区域。</p>
-<h2 id="网络类型"><a href="#网络类型" class="headerlink" title="网络类型"></a>网络类型</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>OSPF是一个“接口敏感”的协议，这句话非常值得细细品味，比如路由的Cost值实际上得累加上接口的cost值，下面的DR\BDR选举也是基于接口的，另外邻居的建立也是与接口有关，因此很多机制的着眼点都与接口有关。一旦我们在某个接口上激活了OSPF协议，那么这个接口将会根据接口的二层，也就是数据链路层的封装捆绑对应的的OSPF网络类型，不同的OSPF接口的网络类型所对应的操作有所不同用。例如如果接口二层封装为以太网，那么OSPF在这个接口的网络类型为Broadcast也就是广播，如果接口的二层封装是HDLC或PPP，那么OSPF的网络类型则是P2P。OSPF定义了以下几种网络类型：</p>
+<h2 id="网络类型"><a href="#网络类型" class="headerlink" title="网络类型"></a>网络类型</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>OSPF是一个“接口敏感”的协议，这句话非常值得细细品味，比如路由的Cost值实际上应累加上接口的cost值，下面的DR\BDR选举也是基于接口的，另外邻居的建立也是与接口有关，因此很多机制的着眼点都与接口有关。一旦我们在某个接口上激活了OSPF协议，那么这个接口将会根据接口的二层，也就是数据链路层的封装捆绑对应的的OSPF网络类型，不同的OSPF接口的网络类型所对应的操作有所不同用。例如如果接口二层封装为以太网，那么OSPF在这个接口的网络类型为Broadcast也就是广播，如果接口的二层封装是HDLC或PPP，那么OSPF的网络类型则是P2P。OSPF定义了以下几种网络类型：</p>
 <ul>
 <li>点到点，Point-to-Point，P2P</li>
 <li>广播，Broadcast Multi access</li>
@@ -93,12 +93,12 @@
 <p>多路访问网络是有多个（超过两个）设备参与通信的网络。点对点（P2P）网络有且只有2个设备，多路访问网络可以有超过2个设备。最典型的多路访问网络就是日常生活中最常见的以太网。OSPF在点到点网络上是不选取DR的，正常情况下，DR只在多路访问时选取。在多路访问类型网络中，所有路由器均与DR及BDR建立邻接关系，其他路由器（DR Other）之间处于2WAY状态。DR和BDR之间使用224.0.0.5的组播地址交换信息，其他路由器（DR Other）使用224.0.0.6和DR\BDR交换信息。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-25_16-58-10.jpg" alt="Snipaste_2020-06-25_16-58-10"></p>
 <p>多路访问网络有两种类型：广播型多路访问网络（BMA）及非广播型多路访问网络（NBMA）。以太网是一种典型的广播型多路访问网络。在OSPF中使用show ip ospf interface查看接口类型。</p>
-<h2 id="指定路由器（DR）"><a href="#指定路由器（DR）" class="headerlink" title="指定路由器（DR）"></a>指定路由器（DR）</h2><p>在广播多路访问网络中（Multi access）中，例如以太网接口，所有的路由器都是相同网段，处于同一个广播网络中，这些接口如果两两建立起OSPF邻接（Adjacency）关系，这就意味着，网络有：N（N-1）/2   这么多个邻接（Adjacency）关系，维护如此多的邻接关系不仅仅额外消耗设备硬件资源，更是增加了网络中LSA的泛红数量，占用网络资源。所以为了减小多路访问网络中的OSPF流量和硬件消耗，OSPF会在每一个MA网络中选举出一个指定路由器和备用指定路由器，也就是DR和BDR。DR及BDR的身份是基于OSPF接口的，所以如果我们说“这台路由器是DR”的话，实际上这种说法是不严谨的，因为DR是接口的属性而不是路由器的属性，严格的说应该是“这台路由器的这个接口，在这个MA网络上是DR”。每台路由器都把拓扑变化发给DR和BDR，然后由DR通知多路访问网络中的其他路由器。在OSPF网络中，既不是DR也不是BDR的接口，它的角色是DR Other。</p>
+<h2 id="指定路由器（DR）"><a href="#指定路由器（DR）" class="headerlink" title="指定路由器（DR）"></a>指定路由器（DR）</h2><p>在广播多路访问网络中（Multi access）中，例如以太网接口，所有的路由器都是相同网段，处于同一个广播网络中，这些接口如果两两建立起OSPF邻接（Adjacency）关系，这就意味着，网络有：N（N-1）/2   这么多个邻接（Adjacency）关系，维护如此多的邻接关系不仅仅额外消耗设备硬件资源，更是增加了网络中LSA的泛洪数量，占用网络资源。所以为了减小多路访问网络中的OSPF流量和硬件消耗，OSPF会在每一个MA网络中选举出一个指定路由器和备用指定路由器，也就是DR和BDR。DR及BDR的身份是基于OSPF接口的，所以如果我们说“这台路由器是DR”的话，实际上这种说法是不严谨的，因为DR是接口的属性而不是路由器的属性，严格的说应该是“这台路由器的这个接口，在这个MA网络上是DR”。每台路由器都把拓扑变化发给DR和BDR，然后由DR通知多路访问网络中的其他路由器。在OSPF网络中，既不是DR也不是BDR的接口，它的角色是DR Other。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-25_11-59-29.jpg" alt="Snipaste_2020-06-25_11-59-29"></p>
 <p>如上图中的四台路由器，R1、R2、R3、R4，运行OSPF协议且已经建立起了邻居且选举完DR\BDR，R1的接口为DR，R3的接口为BDR，R2和R4的接口为DR Other，此时，这四台设备并不是相互之间两两交互LSA，而是R2、R3、R4分别和R1交换LSA，然后由R1将其他路由器没有的LSA传送给它们。DR Other 只于DR和BDR建立完全邻接关系，其它路由器处于two-way状态。有了DR以后，MA网络中需要维护的OSPF邻接关系大幅减小，M=（n-2）X 2 +1，LSA的泛洪问题也能得到一定缓解：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-06_15-01-03.jpg" alt="Snipaste_2020-08-06_15-01-03"></p>
 <p>假设网络已经完成了OSPF收敛，现在突然R3下挂的一个网络发生了故障，路由器R3使用224.0.0.6将这个情况通知DR及BDR，DR\BDR监听224.0.0.6获得这个情况，DR向组播地址224.0.0.5发送更新通知其他路由器，所有的OSPF路由器监听224.0.0.5这一组播地址获知携带LSA更新的LSU，更新自己的LSDB并发送LSAck确认收到该信息，经过一段时间后（SPF延迟），对更新的链路状态数据库执行SPF算法，必要时更新路由表。</p>
-<p>之所以要选举DR是为了避免路由器之间建立完全邻接关系而引起的大量开销，OSPF要求在多路访问的网络中选举出一个DR，每个路由器都与DR建立邻接关系。选举出DR的同时也选举出一个BDR（Backup Designated Router），BDR也就是备份DR路由器，BDR在DR失效时承担起DR的职责，DR Other路由器只与DR和BDR建立邻接关系。DR和BDR通信的组播地址为224.0.0.6，<strong>DR的选举是一个路由器的接口特性而不是整个路由器的特性</strong>，也就是说，一个路由器如果有3个接口，G0/0、G0/1和G0/2，G0/0是DR，G0/1是BDR，G0/2是DR Other也是没问题的，可能在一个MA网络种存在多个DR。比如下图的R3，两个接口分别是BDR和DR Other。</p>
+<p>之所以要选举DR是为了避免路由器之间建立完全邻接关系而引起的大量开销，OSPF要求在多路访问的网络中选举出一个DR，每个路由器都与DR建立邻接关系。选举出DR的同时也选举出一个BDR（Backup Designated Router），BDR也就是备份DR路由器，BDR在DR失效时承担起DR的职责，DR Other路由器只与DR和BDR建立邻接关系。DR和BDR通信的组播地址为224.0.0.6，<strong>DR的选举是一个路由器的接口特性而不是整个路由器的特性</strong>，也就是说，一个路由器如果有3个接口，G0/0、G0/1和G0/2，G0/0是DR，G0/1是BDR，G0/2是DR Other也是没问题的，可能在一个MA网络种存在多个DR。比如下图的R3，两个接口分别是BDR和DR Other：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-25_18-48-46.jpg" alt="Snipaste_2020-06-25_18-48-46"></p>
 <h2 id="DR-BDR选举"><a href="#DR-BDR选举" class="headerlink" title="DR\BDR选举"></a>DR\BDR选举</h2><p>如果想了解完全版的具体过程请参见<a href="https://tools.ietf.org/html/rfc2328#page-75" target="_blank" rel="noopener">RFC</a>，但因为我看了两遍也没搞明白所以然，故这里采用红茶三杯总结的方式加上一点自己的理解，如果哪天突然开窍了看明白了RFC再回来补上这部分的笔记。</p>
 <h3 id="选举的前提"><a href="#选举的前提" class="headerlink" title="选举的前提"></a>选举的前提</h3><ul>
@@ -132,7 +132,7 @@
 <p>* DR/BDR listens on multicast-address 224.0.0.6 in addition to 224.0.0.5. This allows DR/BDR in a particular segment to figure out status updates.</p>
 </blockquote>
 <p>OSPF通过发送Hello包到组播地址224.0.0.5来建立邻居，所以只要是运行了OSPF协议的路由器，不管是DR 、BDR还是DR Other都会监听这个地址用来建立邻居。DR Other使用224.0.0.6的组播地址，将LSU发送给DR和BDR，所以DR和BDR会监听224.0.0.6的组播地址。DR使用224.0.0.5的组播地址将LSU发送给DR Other路由器。综上所述，所有运行了OSPF的路由器都会监听224.0.0.5的组播地址，但只有DR和BDR在监听224.0.0.5地址的同时额外监听224.0.0.6的组播地址。</p>
-<h2 id="Cost"><a href="#Cost" class="headerlink" title="Cost"></a>Cost</h2><p>OSPF协议使用Cost值当作Metric去衡量到达目标网络的远近，Cost值越小越优，接口的带宽越大，计算出的Cost值越小，接口的带宽越小，计算出的Cost值越大。在每一个运行OSPF协议的接口上，都维护着一个接口的Cost值，接口的Cost值=100M / 接口带宽，也就是：10的8次方/BW（bit），这个100M（10的8次方）指的是参考带宽。一条路由的Cost值，是该路由从来源一路过来的所有入口方向的接口Cost值的总和，也就是这条路由经过接口的Cost值的综合。</p>
+<h2 id="Cost"><a href="#Cost" class="headerlink" title="Cost"></a>Cost</h2><p>OSPF协议使用Cost值当作Metric去衡量到达目标网络的远近，Cost值越小越优。接口的带宽越大，计算出的Cost值越小，接口的带宽越小，计算出的Cost值越大。在每一个运行OSPF协议的接口上，都维护着一个接口的Cost值，接口的Cost值=100M / 接口带宽，也就是：10的8次方/BW（bit），这个100M（10的8次方）指的是参考带宽。一条路由的Cost值，是该路由从来源一路过来的所有入口方向的接口Cost值的总和，也就是这条路由经过接口的Cost值的综合。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-26_16-36-41.jpg" alt="Snipaste_2020-06-26_16-36-41"></p>
 <p>例如1.1.1.0/24的路由，由于是loop back接口，所以相对于Router A来说，Cost值为1，对于Router B来说，B与A相连接的接口Cost值为64，所以1.1.1.0/24的路由相对B来说，Cost值就是1+64，也就是65。</p>
 <p>修改Cost的方法：</p>
@@ -724,14 +724,15 @@
 <h3 id="TYPE-6"><a href="#TYPE-6" class="headerlink" title="TYPE 6"></a>TYPE 6</h3><p>6类LSA（OSPF GROUP MEMBERSHIP LSA）是OSPF中的组播，但现在已经被PIM所代替，思科设备根本就不支持6类LSA，所以这里就不继续提了。</p>
 <h3 id="TYPE-7"><a href="#TYPE-7" class="headerlink" title="TYPE 7"></a>TYPE 7</h3><h4 id="概述-11"><a href="#概述-11" class="headerlink" title="概述"></a>概述</h4><p> 7类LSA又叫做not-so-stubby-area（NSSA） LSA，因为NSSA区域不让外部LSA，也就是不让5类LSA进入，所以为了将外部路由引入NSSA area，就要用7类LSA。7类LSA由NSSA ASBR生成，只在原始NSSA区域中泛洪，也就是生成这个7类LSA的NSSA区域中泛洪，不会进入其他常规区域。</p>
 <h4 id="报文格式-3"><a href="#报文格式-3" class="headerlink" title="报文格式"></a>报文格式</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-19_17-18-11.jpg" alt="Snipaste_2020-09-19_17-18-11"></p>
-<p>Options字段：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-19_17-27-12.jpg" alt="Snipaste_2020-09-19_17-27-12"></p>
+<h5 id="Options字段："><a href="#Options字段：" class="headerlink" title="Options字段："></a>Options字段：</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-19_17-27-12.jpg" alt="Snipaste_2020-09-19_17-27-12"></p>
+<h6 id="E位"><a href="#E位" class="headerlink" title="E位"></a>E位</h6><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_17-20-11.jpg" alt="Snipaste_2020-09-30_17-20-11"></p>
+<p>5类LSA不能泛洪到Stub区域和NSSA区域中，E比特确保Stub区域和NSSA区域中的所有路由器都同意5类LSA不能泛洪进入的区域属性。E位只在Hello包和DBD包中有意义。当某一特定接口发出的Hello包中的E位置0时，意味着这个接口不会发送也不会接收5类LSA，换句话说这个接口连接到的是Stub区域或NSSA区域。两个路由器只有在对E位匹配时，也就是E位数值相同时才能成为邻居。</p>
 <ul>
 <li>E位：5类LSA不能泛洪到Stub区域和NSSA区域中，E比特确保Stub区域和NSSA区域中的所有路由器都同意5类LSA不能泛洪进入的区域属性。E位只在Hello包和DBD包中有意义。当某一特定接口发出的Hello包中的E位置0时，意味着这个接口不会发送也不会接收5类LSA，换句话说这个接口连接到的是Stub区域或NSSA区域。两个路由器只有在对E位匹配时，也就是E位数值相同时才能成为邻居。</li>
 <li>N位：N位决定了路由器是否支持NSSA。N位只在Hello包中有作用有意义，N位确保了区域内所有路由器都同意NSSA区域的属性。当特定接口发出的Hello包中的N位置1时，表示路由器将从那个接口中接收和发送7类LSA。两个路由器只有在N位互相匹配时，也就是N位数值相同时才能成为邻居。如果一个路由器的N位置1，那么它的E位必须置0。因为N位置1意味着能接收发送7类LSA也就是该区域为NSSA area，但如果E位置1意味着能接收发送5类LSA，二者相互冲突，而NSSA area中不能存在5类LSA。</li>
 <li>P位：P位只在7类LSA的Header中使用。置1时标识NSSA的边界路由器可以将7类LSA转换成5类LSA。通常P位置0。</li>
 </ul>
-<h3 id="TYPE-8"><a href="#TYPE-8" class="headerlink" title="TYPE 8"></a>TYPE 8</h3><p> OSPF EXTERNAL ATTRIBUTES LSA (OSPFV2) / LINK LOCAL LSA (OSPFV3)</p>
+<h6 id="N-P位"><a href="#N-P位" class="headerlink" title="N/P位"></a>N/P位</h6><h3 id="TYPE-8"><a href="#TYPE-8" class="headerlink" title="TYPE 8"></a>TYPE 8</h3><p> OSPF EXTERNAL ATTRIBUTES LSA (OSPFV2) / LINK LOCAL LSA (OSPFV3)</p>
 <h3 id="TYPE-9"><a href="#TYPE-9" class="headerlink" title="TYPE 9"></a>TYPE 9</h3><p>OSPF LINK SCOPE OPAQUE (OSPFV2) / INTRA AREA PREFIX LSA (OSPFV3)</p>
 <h3 id="TYPE-10"><a href="#TYPE-10" class="headerlink" title="TYPE 10"></a>TYPE 10</h3><p> OSPF AREA SCOPE OPAQUE LSA</p>
 <h3 id="TYPE-11"><a href="#TYPE-11" class="headerlink" title="TYPE 11"></a>TYPE 11</h3><p> OSPF AS SCOPE OPAQUE LSA</p>
@@ -814,6 +815,29 @@
 
 <p>上述命令需配置在NSSA内的所有路由器上。</p>
 <h4 id="实现效果-2"><a href="#实现效果-2" class="headerlink" title="实现效果"></a>实现效果</h4><p>将area 2配置为NSSA区域后，从骨干过来的4、5类LSA将无法进入NSSA，也就是说，如果area 1做了重发布，那么这些重发布的外部路由无法进入NSSA区域（NSSA中不许出现5类LSA），与此同时，area 2允许本地的路由器做重发布动作，重发布进来的路由，以7类LSA在NSSA中泛洪，在路由表中可以看到这些外部路由的标记为“O N”，这些7类LSA在“穿越”NSSA的ABR进入骨干区域之前，由ABR负责将7类LSA“转换”成5类LSA，最终area 0和area 1也能学到这些外部路由，不过它们路由表中呈现的是“O E”标记。</p>
+<h4 id="扩展知识"><a href="#扩展知识" class="headerlink" title="扩展知识"></a>扩展知识</h4><p><strong>NSSA ABR上的路由汇总动作</strong></p>
+<p>NSSA 的ABR会将7类LSA转换为5类LSA，在7转5的过程中可以使用summary-address 通告汇总的5类LSA，注意，这里汇总的是针对NSSA区域外部引入路由的汇总，但如果仍想对area 1 nssa 区域自己内部的路由做汇总，则应使用area  range命令。</p>
+<p><strong>NSSA的ABR，在某种程度上可以理解成为常规区域的ASBR，它不会为常规区域生成4类LSA。</strong></p>
+<p>NSSA的ABR产生了5类LSA（通过7转5）并通告进骨干区域，因此这台NSSA的ABR对于骨干区域而言就是一台ASBR，由于存在这个7转5的过程，真正的ASBR（NSSA区域中执行重发布的那台路由器）信息就不需要被骨干区域路由器知道，因此NSSA区域的ABR也不会为这个区域里的ASBR产生4类LSA并通告进骨干区域。</p>
+<p><strong>NSSA的双ABR问题</strong></p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_16-44-34.jpg" alt="Snipaste_2020-09-30_16-44-34"></p>
+<p>上图中，两个ABR都会收到7类LSA，但只有Router ID大的ABR才会执行7转5动作，两台ABR都会在NSSA区域泛洪1类LSA，并从中了解到对方的存在。</p>
+<p><strong>N/P位</strong></p>
+<p>N/P位为1bit，在HELLO和LSA中都携带option字段，N/P位在两者中分别有不同的意义。</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_16-51-32.jpg" alt="Snipaste_2020-09-30_16-51-32"></p>
+<ul>
+<li>在Hello报文中：N bit标识该路由器位NSSA区域路由器，当N  bit被置1时，E  bit就必须被清零。</li>
+<li>在LSA报文中：P bit 仅在7类LSA中出现，置1时标识NSSA区域的ABR能够将这条7类LSA转成5类LSA，而P位置0时不能进行7到5的LSA转换。</li>
+</ul>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_16-53-50.jpg" alt="Snipaste_2020-09-30_16-53-50"></p>
+<ul>
+<li>P bit 为0时，ABR将不能将该7类LSA转换成5类LSA，只有NSSA区域的ABR重发布路由时，通告的7类LSA中的P bit才为0。NSSA区域在ABR重发布时，将7类LSA的P bit 置0，通知其他NSSA区域的ABR不要对该LSA进行7转5，因为骨干区域内的其他路由器已经从骨干区域内收到该路由的5类LSA，因此NSSA区域其他ABR执行7转5是没意义的。</li>
+</ul>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_17-14-12.jpg" alt="Snipaste_2020-09-30_17-14-12" style="zoom:50%;">
+
+<ul>
+<li>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</li>
+</ul>
 <h3 id="Totally-NSSA"><a href="#Totally-NSSA" class="headerlink" title="Totally NSSA"></a>Totally NSSA</h3><h4 id="概述-16"><a href="#概述-16" class="headerlink" title="概述"></a>概述</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_10-28-51.jpg" alt="Snipaste_2020-09-26_10-28-51"></p>
 <p>Totally NSSA，翻译成中文是一个非常尴尬的名字，完全非末梢区域，Totally NSSA是在NSSA区域的基础上，进一步阻挡NSSA区域外的其他区域过来的3类LSA，同时ABR自动下发一条3类LSA的默认路由进入NSSA区域。</p>
 <h4 id="配置命令-3"><a href="#配置命令-3" class="headerlink" title="配置命令"></a>配置命令</h4><p>ABR：</p>
