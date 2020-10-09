@@ -288,28 +288,35 @@
 <p>LSR的Wires hark抓包如下：</p>
 <p><img src="/2020/06/24/13-ospf/OSPF%20LSR%20packet%20capture.png" alt="OSPF LSR packet capture"></p>
 <h2 id="LSU"><a href="#LSU" class="headerlink" title="LSU"></a>LSU</h2><h3 id="概述-4"><a href="#概述-4" class="headerlink" title="概述"></a>概述</h3><p>LSU用于向邻居路由器发送其所需要的链路状态通告（LSA）。这些LSU实现了LSA的泛洪。每条LSA中包含着描述网络的一部分信息，这些信息包括路由、度量值和拓扑信息等。本地路由器的LSA通过LSU被发送到邻居路由器，邻居路由器通过LSR来回应LSU。</p>
-<h3 id="格式分析-3"><a href="#格式分析-3" class="headerlink" title="格式分析"></a>格式分析</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-16_16-11-39.jpg" alt="Snipaste_2020-07-16_16-11-39"></p>
+<h3 id="格式分析-3"><a href="#格式分析-3" class="headerlink" title="格式分析"></a>格式分析</h3><img src="/2020/06/24/13-ospf/Snipaste_2020-07-16_16-11-39.jpg" alt="Snipaste_2020-07-16_16-11-39" style="zoom:80%;">
+
 <p>Header部分中的OSPF Type为4，其他部分与其他包的Header部分相同这里就不再赘述了。</p>
 <p>Message部分：</p>
 <p><img src="/2020/06/24/13-ospf/ospf-lsu-lsa-packet-structure-lsa-types-overview-1234.png" alt="ospf-lsu-lsa-packet-structure-lsa-types-overview-1234"></p>
 <p><img src="/2020/06/24/13-ospf/ospf-lsu-lsa-packet-structure-lsa-types-overview-2.png" alt="ospf-lsu-lsa-packet-structure-lsa-types-overview-2"></p>
 <p>需要更新给邻居的LSA，是以上图的形式，也就是LSA包含在LSU中，以LSU的形式发送给邻居路由器的，下面来看字段具体含义。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-16_16-42-45.jpg" alt="Snipaste_2020-07-16_16-42-45"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-16_16-42-45.jpg" alt="Snipaste_2020-07-16_16-42-45" style="zoom:80%;">
+
 <ul>
 <li>Number of Link State Advertisments：长度32位，表示这条LSU携带了几条LSA；</li>
 <li>LSAs：长度可变，表示所携带的LSA，具体报文格式参考后面的LSA部分。</li>
 </ul>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-10-08_12-23-59.jpg" alt="Snipaste_2020-10-08_12-23-59"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-10-08_12-23-59.jpg" alt="Snipaste_2020-10-08_12-23-59" style="zoom:80%;">
+
 <p>下图中的LSU中包含着1条1类LSA，这条1类LSA中包含着3个链路，其中两个链路为Stub类型，一个链路为P2P类型。</p>
 <p><img src="/2020/06/24/13-ospf/OSPF%20LSU%20Packet%20Capture.png" alt="OSPF LSU Packet Capture"></p>
 <h2 id="LSACK"><a href="#LSACK" class="headerlink" title="LSACK"></a>LSACK</h2><h3 id="概述-5"><a href="#概述-5" class="headerlink" title="概述"></a>概述</h3><p>LSAck用来向发送方确认收到特定的LSU，由于OSPF在四层不适用TCP或UDP，而协议又对可靠性有要求，因此增加LSAck包来保证可靠性。</p>
-<h3 id="格式分析-4"><a href="#格式分析-4" class="headerlink" title="格式分析"></a>格式分析</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-17_10-47-05.jpg" alt="Snipaste_2020-07-17_10-47-05"></p>
+<h3 id="格式分析-4"><a href="#格式分析-4" class="headerlink" title="格式分析"></a>格式分析</h3><img src="/2020/06/24/13-ospf/Snipaste_2020-07-17_10-47-05.jpg" alt="Snipaste_2020-07-17_10-47-05" style="zoom:80%;">
+
 <p>OSPF的Header部分除了Type字段为5以外，其他部分之前已经写过，这里就不再赘述。</p>
 <p>Message部分包含了已经确认收到的LSA的报头，如果收到N个LSA的话就会有N个LSA报头在其中，关于LSA的Header部分在下一节LSA中具体讨论。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-17_10-48-57.jpg" alt="Snipaste_2020-07-17_10-48-57"></p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-17_10-50-17.jpg" alt="Snipaste_2020-07-17_10-50-17"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-17_10-48-57.jpg" alt="Snipaste_2020-07-17_10-48-57" style="zoom:80%;">
+
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-17_10-50-17.jpg" alt="Snipaste_2020-07-17_10-50-17" style="zoom:80%;">
+
 <h1 id="LSA"><a href="#LSA" class="headerlink" title="LSA"></a>LSA</h1><h2 id="LSA简介"><a href="#LSA简介" class="headerlink" title="LSA简介"></a>LSA简介</h2><p>LSA由路由器产生，路由器的角色不同会产生不同种类的LSA，LSA中包含着链路状态信息和路由信息，LSA构成了LSDB（Link-State DataBase，链路状态数据库），OSPF使用LSDB计算路由。每个区域（Area）中所有路由器的LSDB是相同的，也就是说这些路由器所掌握的LSA是相同的，LSA一共有11类，不同种类的LSA传播的范围各有不同，有些LSA只在本区域内传播，有些LSA可以跨区域传播。运行OSPF协议的路由器交换完LSA后，各自运行SPF算法，由于域内路由器的LSDB相同又采用同样的SPF算法，所以计算出的路由路径是相同的。LSA每30分钟全部刷新一次，60分钟内如果没刷新则会由LSA的始发路由器泛洪一条LSA已到达最大过期时间的LSA，让其他路由器删除该LSA。如果链路的状态因为某种原因产生了变化，那么直连该链路的路由器检测到变化后会触发关于该链路变化的更新。路由器只能对其产生的LSA进行修改，不能对其他路由器的LSA进行改动。当网络拓扑发生变化时，LSA会带着新的信息进行泛洪，如果网络收敛完毕后，拓扑没有变化则不会对LSA进行泛洪（除了30分钟的整体LSA刷新以外）。</p>
-<h2 id="收到LSA后的动作"><a href="#收到LSA后的动作" class="headerlink" title="收到LSA后的动作"></a>收到LSA后的动作</h2><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-08_17-35-08.jpg" alt="Snipaste_2020-07-08_17-35-08"></p>
+<h2 id="收到LSA后的动作"><a href="#收到LSA后的动作" class="headerlink" title="收到LSA后的动作"></a>收到LSA后的动作</h2><img src="/2020/06/24/13-ospf/Snipaste_2020-07-08_17-35-08.jpg" alt="Snipaste_2020-07-08_17-35-08" style="zoom:67%;">
+
 <blockquote>
 <p>Each LSA has an <strong>aging timer</strong> which carries the <strong>link-state age field.</strong> By default each OSPF LSA is only valid for <strong>30 minutes.</strong> If the LSA expires then the router that created the LSA will resend the LSA and increase the <strong>sequence number</strong>. </p>
 <p>Let’s walk through this flowchart together. In this example a new LSA is arriving at the router and OSPF has to decide what to do with it:</p>
@@ -350,7 +357,8 @@
 </ol>
 <h2 id="LSA的格式"><a href="#LSA的格式" class="headerlink" title="LSA的格式"></a><a href="https://www.networkgalaxy.org/2013/07/understanding-ospf-link-state.html" target="_blank" rel="noopener">LSA的格式</a></h2><p><img src="/2020/06/24/13-ospf/OSPF%20Header.PNG" alt="OSPF Header"></p>
 <p>LSA的报文格式分成两部分，Header和Body，也就是报头和信息。不管是哪种类型的LSA，都有一个相同的20位的LSA报头，根据LS Type字段数值不同，LSA信息部分包括的内容也不同。</p>
-<h3 id="LSA报头"><a href="#LSA报头" class="headerlink" title="LSA报头"></a>LSA报头</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-18_19-02-42.jpg" alt="Snipaste_2020-07-18_19-02-42"></p>
+<h3 id="LSA报头"><a href="#LSA报头" class="headerlink" title="LSA报头"></a>LSA报头</h3><img src="/2020/06/24/13-ospf/Snipaste_2020-07-18_19-02-42.jpg" alt="Snipaste_2020-07-18_19-02-42" style="zoom:80%;">
+
 <ul>
 <li>LS age：链路状态计时器，也就是这条LSA生成的时间，单位为秒，当这个字段到3600s，也就是60分钟的时候，这条LSA会从LSDB中删除，因为到达了最大存在时间。</li>
 <li>Options：选项，表示了路由器所支持的OSPF功能有哪些。</li>
@@ -364,7 +372,8 @@
 <p>这些信息在使用show ip ospf database X.X.X.X的时候也可以看得到</p>
 <p><img src="/2020/06/24/13-ospf/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200801213649.jpg" alt="微信图片编辑_20200801213649"></p>
 <p>报头中的信息使用show ip ospf database也能看到：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-01_21-46-08.jpg" alt="Snipaste_2020-08-01_21-46-08"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-08-01_21-46-08.jpg" alt="Snipaste_2020-08-01_21-46-08" style="zoom:80%;">
+
 <h3 id="Options字段"><a href="#Options字段" class="headerlink" title="Options字段"></a>Options字段</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-16_16-56-25.jpg" alt="Snipaste_2020-09-16_16-56-25"></p>
 <ul>
 <li>E字段置1时表示它邻接的Area能处理5类LSA(ExternalRoutingCapability)；</li>
@@ -394,8 +403,10 @@
 <li>Virtual Links，虚链路。</li>
 </ol>
 <p>注意，interface（接口）和link（链路）是有区别的，两者并不是同一个概念。一个接口（Interface）表示的是一个路由器上的物理或逻辑接口，逻辑接口比如loop back接口，物理接口比如以太网接口；而一个链路（link）描述的是表格种两个节点的关系，虚链路（Virtual link）是一个说明这个概念的很好的例子，一个虚链路描述的是逻辑上连接到另一个路由器。</p>
-<h4 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-20_15-46-10.jpg" alt="Snipaste_2020-07-20_15-46-10"></p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-22_12-17-06.jpg" alt="Snipaste_2020-07-22_12-17-06"></p>
+<h4 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-07-20_15-46-10.jpg" alt="Snipaste_2020-07-20_15-46-10" style="zoom:80%;">
+
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-22_12-17-06.jpg" alt="Snipaste_2020-07-22_12-17-06" style="zoom:80%;">
+
 <p>Length及之前的部分都是LSA Header，有两个地方需要说一下，一个是LS Type为1，表示这是一个1类的LSA；另一个是Link State ID部分，这里该字段被设置成路由器的Router ID。LSA的Header也可以用命令”show ip ospf database”进行查看，但必须要注意这里的Link ID并不是上文倒数第二个字段Link ID，而是Link State ID，在1类LSA中就是Router ID。</p>
 <p><img src="/2020/06/24/13-ospf/106-02-show_ip_ospf_database.png" alt="106-02-show_ip_ospf_database"></p>
 <p>Link ID和ADV Router在不同类型的LSA中表示的不同含义，ADV Router就是生成这个LSA的Router ID，比如1类LSA的ADV Router就是每台路由器本身， 因为1类LSA由每台路由器自己产生；2类LSA的ADV Router是DR的Router ID，因为2类LSA由DR产生。Link ID，是本设备为链路另一端设备所起的名字。</p>
@@ -407,7 +418,8 @@
 <li>#Links：又叫Number of LSAs，也就是后面携带的LSA的数量，是路由器包含的一个区域中的总体链路的数量。</li>
 <li>接下来的三个字段Link ID、Link Data以及Type，前两个字段，也就是Link ID和Link Data由Type所决定，当Type值为不同数值时，Link ID和Link Data的含义不同。Link ID字段定义了这条链路的对端是什么，也就是连接到的是什么；这里的Type其实是Link Type，主要用于描述OSPF路由器的接口或邻居，它的值取决于所连接网络的类型。当Type为1时，表示这是一个’Point-to-Point connection to another router’，翻译成中文就是‘点对点连接到另一台路由器’；相对应的Link ID为’Neighboring router’s Router ID’，也就是邻居路由器的路由器ID；相对应的Link Data为’the IP interface address of the associated router interface’，也就是和网络相连的始发路由器接口的IP地址。具体参见下面几张表：</li>
 </ul>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-21_17-01-45.jpg" alt="Snipaste_2020-07-21_17-01-45"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-21_17-01-45.jpg" alt="Snipaste_2020-07-21_17-01-45" style="zoom:80%;">
+
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-21_17-02-14.jpg" alt="Snipaste_2020-07-21_17-02-14"></p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-21_17-02-21.jpg" alt="Snipaste_2020-07-21_17-02-21"></p>
 <ul>
@@ -416,7 +428,8 @@
 <li>TOS：该字段思科设备只支持为0。</li>
 <li>TOS metric：TOS特定的指标信息。</li>
 </ul>
-<h4 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-10-08_14-33-52.jpg" alt="Snipaste_2020-10-08_14-33-52"></p>
+<h4 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-10-08_14-33-52.jpg" alt="Snipaste_2020-10-08_14-33-52" style="zoom: 67%;">
+
 <h4 id="Type字段"><a href="#Type字段" class="headerlink" title="Type字段"></a><a href="http://blog.sina.com.cn/s/blog_5ec353710102vcsc.html" target="_blank" rel="noopener">Type字段</a></h4><h5 id="概述-6"><a href="#概述-6" class="headerlink" title="概述"></a>概述</h5><img src="/2020/06/24/13-ospf/capture-1596510103043.png" alt="capture" style="zoom:67%;">
 
 <p>这个Type字段定义的是链路类型，注意这个链路类型（Link type）与网络类型（Network type）不同，链路类型（Link type）主要用于描述OSPF路由器的接口或邻居，比如Link ID字段能够了解链路对端是什么设备或者链路对端是否有设备，因为构建OSPF数据库和运行SPF算法需要每台路由器宣告它们的1类LSA，这个1类LSA中必须描述路由器链路的状态，链路状态一共有4种；而网络类型（Network type）是由OSPF协议在接口上针对不同的二层链路介质或封装而定义的，如果二层封装协议是以太网（Ethernet）那么OSPF在这个接口的网络类型为Broadcast，如果二层封装的是HDLC或PPP，那么OSPF的网络类型是P2P。网络类型（Network type）决定了路由器和相邻节点在网段上的行为，常见也比较重要的就是是否选举DR\BDR，以及Hello\Dead interval（Hello和过期时间，网络类型为广播时为10S\40S，P2P、P2MP和point to multipoint non-broadcast时为30S\120S），可以在进入接口以后用命令ip ospf network XXXX（point-to-point、broadcast….想修改成什么网络类型，这个XXXX就改成什么）进行修改。</p>
@@ -426,8 +439,10 @@
 <img src="/2020/06/24/13-ospf/Snipaste_2020-08-03_17-24-25.jpg" alt="Snipaste_2020-08-03_17-24-25" style="zoom:67%;">
 
 <p>上面说过，1类LSA中的Type字段的值也决定了后面的Link ID和Link Data的取值，下面两张图，第一张是红茶三杯笔记中的，第二张是我结合RFC文档写的，维基百科上的图和我总结的一样，区别在于虚链路的Link Data如何取值，RFC 2328的Page 128上写的是“For links to transit networks, numbered point-to-point links and virtual links, this field specifies the IP interface address of the associated router interface”。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-21_17-01-45.jpg" alt="Snipaste_2020-07-21_17-01-45"></p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-07_16-49-52.jpg" alt="Snipaste_2020-08-07_16-49-52"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-21_17-01-45.jpg" alt="Snipaste_2020-07-21_17-01-45" style="zoom:80%;">
+
+<img src="/2020/06/24/13-ospf/Snipaste_2020-08-07_16-49-52.jpg" alt="Snipaste_2020-08-07_16-49-52" style="zoom:80%;">
+
 <p>OSPF链路类型分为四种，分别是Stub network link、Transit network link、Point-To-Point link、Virtual link。OSPF将链路分为以上的类型自然不是吃饱了没事儿干，一方面是描述网络连接方式，P2P link和Transit network link是用于描述网络拓扑结构的而Stub network link是用于描述子网的；另一方面是不同类型的Link消耗的硬件资源不同，比如Transit network消耗资源多一些，Stub network消耗资源少一点。必须注意的是，Stub network和后面的Stub area是完全不同的两个概念，千万不要混淆二者。</p>
 <h5 id="Stub-network-link"><a href="#Stub-network-link" class="headerlink" title="Stub network link"></a>Stub network link</h5><h6 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h6><blockquote>
 <p>A stub network’s vertex has only incoming edges.</p>
@@ -1098,9 +1113,9 @@ var disqus_config = function () {
 var d = document, s = d.createElement('script');
 s.src = "https://" + 'https-renyuan431-github-io' +".disqus.com/embed.js";
 s.setAttribute('data-timestamp', '' + +new Date());
-(d.head || d.body).appendChild(s);</script><script id="dsq-count-scr" src="https://https-renyuan431-github-io.disqus.com/count.js" async></script></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2020 By Rookie</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.8.2"></script><script src="/js/fancybox.js?version=1.8.2"></script><script src="/js/sidebar.js?version=1.8.2"></script><script src="/js/copy.js?version=1.8.2"></script><script src="/js/fireworks.js?version=1.8.2"></script><script src="/js/transition.js?version=1.8.2"></script><script src="/js/scroll.js?version=1.8.2"></script><script src="/js/head.js?version=1.8.2"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+(d.head || d.body).appendChild(s);</script><script id="dsq-count-scr" src="https://https-renyuan431-github-io.disqus.com/count.js" async></script></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2020 By Rookie</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.8.2"></script><script src="/js/fancybox.js?version=1.8.2"></script><script src="/js/sidebar.js?version=1.8.2"></script><script src="/js/copy.js?version=1.8.2"></script><script src="/js/fireworks.js?version=1.8.2"></script><script src="/js/transition.js?version=1.8.2"></script><script src="/js/scroll.js?version=1.8.2"></script><script src="/js/head.js?version=1.8.2"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
   $('#nav').addClass('is-mobile')
   $('footer').addClass('is-mobile')
   $('#top-container').addClass('is-mobile')
 }</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
- <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
