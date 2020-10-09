@@ -27,7 +27,8 @@
 
 <p>后半句的“一棵最短路径树”这个最短路径树中的“树”，指的其实是一种数据结构，这种树状的数据结构有一个根以及去往其他节点的分支，该分支也会有其他分支，大概看上去类似下图：</p>
 <p><img src="/2020/06/24/13-ospf/u=2971199997,2574875640&fm=26&gp=0.jpg" alt="u=2971199997,2574875640&amp;fm=26&amp;gp=0"></p>
-<h3 id="LSA的泛洪"><a href="#LSA的泛洪" class="headerlink" title="LSA的泛洪"></a>LSA的泛洪</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-01_16-52-00.jpg" alt="Snipaste_2020-08-01_16-52-00"></p>
+<h3 id="LSA的泛洪"><a href="#LSA的泛洪" class="headerlink" title="LSA的泛洪"></a>LSA的泛洪</h3><img src="/2020/06/24/13-ospf/Snipaste_2020-08-01_16-52-00.jpg" alt="Snipaste_2020-08-01_16-52-00" style="zoom:67%;">
+
 <p>运行OSPF的路由器之间首先会建立一个协议的邻居关系。路由器之间交互的是LSA，Link State Advertisement，而不是路由，与网络或其他路由器连接的每条链路都用LSA表示，LSA可以简单的理解为，每台路由器都产生一个描述自己直连接口状态（包括接口的开销、与邻居之间的关系等）的通告。收到LSA以后首先看该条LSA是否在本地的LSDB链路状态数据库中（通过LSA ID、Advertising Router ID、Sequence number、Age这几个字段检查自己的LSDB链路状态数据库中是否有相同的LSA，避免重复将一条LSA加入LSDB链路状态数据库中），如果不存在的话先将该LSA加入本地LSDB（链路状态数据库），然后泛洪LSA给邻居路由器（因为SPF算法要求同一个OSPF区域中的每个路由器都有一致的LSDB，该LSA我这台路由器没有，可能其他路由器也没有，所以要发送给其他路由器，使得OSPF域中的所有路由器的LSDB数据库尽快一致）。如果本地LSDB动态链路数据库中存在该LSA的话要比较LSA的序列号，如果序列号相同则收到的LSA将被丢弃，因为本地已经有了相同的LSA，不需要再将其加入LSDB中；在序列号不同时，如果本地LSDB的序列号旧，则用较新的LSA替换本地的旧LSA，发给邻居LSAck表示收到了该LSU更新；如果本地LSA比收到的LSA新，则将本地的LSA泛洪给邻居。</p>
 <h3 id="LSDB的组建"><a href="#LSDB的组建" class="headerlink" title="LSDB的组建"></a>LSDB的组建</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-01_17-02-02-1596272540780.jpg" alt="Snipaste_2020-08-01_17-02-02"></p>
 <p>经过了上面的LSA交互过程，路由器之间会彼此交互完所有LSA并利用LSA去构建LSDB，也就是链路状态数据库，构建了LSDB后路由器就清楚了全网的拓扑，因为LSDB中所存储的每条LSA都是由网络中各个路由器产生并且描述其直连接口的各项信息的条目，知道了这些接口的连接情况就可以根据LSDB“画出”全网络的拓扑。</p>
@@ -109,7 +110,8 @@
 <li>参与选举并和选举出的DR\BDR建立邻接关系需要Hello包种的参数相一致（Hello\Dead 时间，Area ID也是同一区域，认证通过，Router ID具有唯一性不与其他路由器相同）。</li>
 </ul>
 <h3 id="选举的过程"><a href="#选举的过程" class="headerlink" title="选举的过程"></a>选举的过程</h3><p>当一台OSPF路由器有效（Active）并去发现它的邻居路由器时，它将去检查有效的DR和BDR路由器（如果路由器的Priority为0那么就意味着它是无效的，不能参与选举DR和BDR），如果DR路由器存在的话（网络中某台路由器发出的Hello包中的DR字段为其自身的Router ID时就说明DR存在），这台路由器将接受已经存在的DR和BDR（为什么要接受已经存在的DR和BDR呢，是因为DR具有非抢占性的，也就是说已经有了DR了，新加入的路由器接口的Priority再低也不会重新选举DR了，如果没有非抢占性，新加入一个Priority 更大的就被选举成新的DR，所有DR Other都和这个新DR再建立邻接关系达到Full状态，太消耗系统资源，所以当一台路由器发现已经存在DR和BDR时就会接受已经存在的DR和BDR），如果BDR和DR路由器都不存在（也就是Hello包种的DR以及BDR字段都为0.0.0.0），将执行一个选举<strong>BDR</strong>的过程，没错一开始是选举BDR而不是DR，选举出具有最高优先级的路由器作为BDR路由器，选举中如果存在多台路由器具有相同的优先级（Priority），那么在数值上具有最高路由器ID的路由器将被选举成<strong>BDR</strong>（如果两台运行OSPF路由器路由器的接口的Priority都是1，那么此时一台路由器的Router-ID为1.1.1.1，另一台的Router-ID为2.2.2.2，Router-ID为2.2.2.2的显然比1.1.1.1更大，这台Router-ID为2.2.2.2的路由器的接口将被选举成BDR）。<strong>如果没有有效的DR路由器存在，那么之前选举出的BDR路由器将被选举成（或者说成提升）DR路由器，然后再选举出来BDR路由器。</strong>至此BDR和DR选举完毕。</p>
-<h3 id="选举的补充说明"><a href="#选举的补充说明" class="headerlink" title="选举的补充说明"></a>选举的补充说明</h3><h4 id="什么情况选举BDR-DR"><a href="#什么情况选举BDR-DR" class="headerlink" title="什么情况选举BDR\DR"></a>什么情况选举BDR\DR</h4><p><img src="/2020/06/24/13-ospf/123456.png" alt="123456"></p>
+<h3 id="选举的补充说明"><a href="#选举的补充说明" class="headerlink" title="选举的补充说明"></a>选举的补充说明</h3><h4 id="什么情况选举BDR-DR"><a href="#什么情况选举BDR-DR" class="headerlink" title="什么情况选举BDR\DR"></a>什么情况选举BDR\DR</h4><img src="/2020/06/24/13-ospf/123456.png" alt="123456" style="zoom:67%;">
+
 <h4 id="BDR晋升成DR"><a href="#BDR晋升成DR" class="headerlink" title="BDR晋升成DR"></a>BDR晋升成DR</h4><p>选举BDR\DR的场景中，绝大多数情况下，选举出的BDR都能顺利晋升成DR，也有极端场景比如俩OSPF路由器R1 R2在2-way刚选出BDR，另一台OSPF路由器R3接入进来发的hello里 DR是自己，这样R1 R2不知道会咋办。</p>
 <h4 id="已有DR-BDR"><a href="#已有DR-BDR" class="headerlink" title="已有DR\BDR"></a>已有DR\BDR</h4><p>什么情况下，一个路由器会发现链路中已经有DR或BDR出现呢，常见的一种情况是，一个路由器新加入已经运行了一段时间OSPF协议的网络，常见的另一种情况是，只有两台路由器相连，R1——R2，其中一台已经先行运行了OSPF协议而且在DR选举计时器结束前没有其他OSPF的Hello包出现，这时这台路由器会把接口设定为DR。当路由器的接口运行OSPF协议时，已经启动了一个DR选举的计时器，这个计时器时4倍的Hello时间，在以太网这个MA网络中也就是和Dead时间一样的40秒，RFC上对这个计时器的描述是“A single shot timer that causes the interface to exit the Waiting state, and as a consequence select a Designated Router on the network. The length of the timer is RouterDeadInterval seconds.”，可以用命令 show ip ospf interface XX | incl timer   查看，默认的计时器是：Timer intervals configured, Hello 10, Dead 40, <strong>Wait 40</strong>, Retransmit 5。这个Wait就是DR选举的计时器。当这个计时器到时的时候，也就是OSPF启动了40秒以后依旧没其他路由器发来Hello包进行选举时，这个路由器就会把自身这个接口设置为DR，因为思科规定即使MA网络中只有一台路由器运行OSPF协议也要选举DR。</p>
 <h4 id="BDR-DR的抢占性"><a href="#BDR-DR的抢占性" class="headerlink" title="BDR\DR的抢占性"></a>BDR\DR的抢占性</h4><p>DR和BDR具有非抢占性，也就是说当DR\BDR选举完成后，新加入的路由器即使Priority再小，DR\BDR也不会发生变化，为的是维持网络的稳定性。当DR失效后，BDR会成为DR，同时产生新的BDR。DR与BDR，DR与DR Other，BDR与DR Other之间都是Full状态，DR Other相互之间是2-way状态。所有的DR Other都只和DR以及BDR建立全毗邻关系。</p>
@@ -136,7 +138,8 @@
 </blockquote>
 <p>OSPF通过发送Hello包到组播地址224.0.0.5来建立邻居，所以只要是运行了OSPF协议的路由器，不管是DR 、BDR还是DR Other都会监听这个地址用来建立邻居。DR Other使用224.0.0.6的组播地址，将LSU发送给DR和BDR，所以DR和BDR会监听224.0.0.6的组播地址。DR使用224.0.0.5的组播地址将LSU发送给DR Other路由器。综上所述，所有运行了OSPF的路由器都会监听224.0.0.5的组播地址，但只有DR和BDR在监听224.0.0.5地址的同时额外监听224.0.0.6的组播地址。</p>
 <h2 id="Cost"><a href="#Cost" class="headerlink" title="Cost"></a>Cost</h2><p>OSPF协议使用Cost值当作Metric去衡量到达目标网络的远近，Cost值越小越优。接口的带宽越大，计算出的Cost值越小，接口的带宽越小，计算出的Cost值越大。在每一个运行OSPF协议的接口上，都维护着一个接口的Cost值，接口的Cost值=100M / 接口带宽，也就是：10的8次方/BW（bit），这个100M（10的8次方）指的是参考带宽。一条路由的Cost值，是该路由从来源一路过来的所有入口方向的接口Cost值的总和，也就是这条路由经过接口的Cost值的综合。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-26_16-36-41.jpg" alt="Snipaste_2020-06-26_16-36-41"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-06-26_16-36-41.jpg" alt="Snipaste_2020-06-26_16-36-41" style="zoom:67%;">
+
 <p>例如1.1.1.0/24的路由，由于是loop back接口，所以相对于Router A来说，Cost值为1，对于Router B来说，B与A相连接的接口Cost值为64，所以1.1.1.0/24的路由相对B来说，Cost值就是1+64，也就是65。</p>
 <p>修改Cost的方法：</p>
 <ol>
@@ -198,19 +201,24 @@
 <li>Hello interval：Hello包发送间隔，也就是运行OSPF协议的接口每隔多久发送一次Hello消息。进入接口后用命令：ip ospf hello-interval X 进行更改。Hello interval是接口属性，可以每个接口的Hello interval不同，只要和邻居相同能建立起邻居就可以；</li>
 <li>Dead interval：失效间隔，表示如果多少秒后没收到邻居路由器的消息，会认为邻居路由器已Down掉进入接口后用命令：ip ospf dead-interval X 进行更改。Dead interval是接口属性，可以每个接口的Hello interval不同，只要和邻居相同能建立起邻居就可以；</li>
 </ul>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-10-07_17-52-20.jpg" alt="Snipaste_2020-10-07_17-52-20"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-10-07_17-52-20.jpg" alt="Snipaste_2020-10-07_17-52-20" style="zoom:67%;">
+
 <p>OSPF协议根据接口的网络类型不同，Hello Interval、Dead Interval时间也不同，总结见下图：</p>
-<p><img src="/2020/06/24/13-ospf/OSPF-Network-Interface-types.png" alt="OSPF-Network-Interface-types"></p>
+<img src="/2020/06/24/13-ospf/OSPF-Network-Interface-types.png" alt="OSPF-Network-Interface-types" style="zoom:80%;">
+
 <ul>
 <li>Wait：等待计时器（接口属性，各接口可以不同），和Dead interval的值相同，定义了路由器在到达2WAY状态时，等待多久后会宣告自己就是DR。比如如果Wait时间是40秒，那么当一台处于MA网络的路由器到达2WAY状态后，会等待40秒，如果40秒内都没有收到邻居的Hello跟本路由器一起选举DR，那么它就会宣告自己就是DR。</li>
 <li>Retransmission：重传计时器（接口属性，各接口可以不同），表示发送完LSU以后，经过多久没收到ACK消息确认收到本设备发送的LSU，就认为这个LSU没成功发送到对方，会进行重新发送。</li>
 </ul>
 <h1 id="OSPF数据包"><a href="#OSPF数据包" class="headerlink" title="OSPF数据包"></a>OSPF数据包</h1><h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>OSPF数据包有邻居发现、形成邻接关系、泛洪LSA信息等功能，共有5种数据包，分别是Hello、DBD、LSR、LSU、LSAck。OSPF数据包的二层采用以太网封装，前面说过，OSPF使用的协议组播地址为224.0.0.5或224.0.0.6，所以以太网中的目标MAC地址字段为01-00-5E-00-00-05或01-00-5E-00-00-06；三层用IP封装（Protocol字段为89），目标IP地址为224.0.0.5或224.0.0.6.OSPF部分分为OSPF Header和OSPF Message两部分，Header决定了OSPF为5种类型种的哪种数据包，Message携带了该种类型包含的信息。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-11_18-44-34.jpg" alt="Snipaste_2020-07-11_18-44-34"></p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-10-07_18-30-40.jpg" alt="Snipaste_2020-10-07_18-30-40"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-11_18-44-34.jpg" alt="Snipaste_2020-07-11_18-44-34" style="zoom:67%;">
+
+<img src="/2020/06/24/13-ospf/Snipaste_2020-10-07_18-30-40.jpg" alt="Snipaste_2020-10-07_18-30-40" style="zoom:67%;">
+
 <h3 id="OSPF-Header"><a href="#OSPF-Header" class="headerlink" title="OSPF Header"></a>OSPF Header</h3><p><img src="/2020/06/24/13-ospf/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200710115532.jpg" alt="微信图片编辑_20200710115532"></p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-10_14-32-10.jpg" alt="Snipaste_2020-07-10_14-32-10"></p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-10-08_11-53-16.jpg" alt="Snipaste_2020-10-08_11-53-16"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-10-08_11-53-16.jpg" alt="Snipaste_2020-10-08_11-53-16" style="zoom:67%;">
+
 <p>所有5种OSPF数据包都有着共同通用的24字节长度的OSPF报头，通用的报头让接收端路由器能进行后续的验证和处理。OSPF并不适用TCP或UDP作为四层的报头而是使用单独的协议，协议号为89。OSPF的5种数据包，Header部分只有Type字段有所区别，后面具体分析的时候就不再涉及Header部分而只说Message部分了。</p>
 <ul>
 <li>Version：版本，OSPF v2版本该字段为2，字段长度为8位。</li>
@@ -233,8 +241,10 @@
 <h2 id="Hello"><a href="#Hello" class="headerlink" title="Hello"></a>Hello</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>Hello数据包用于与邻居<strong>建立并维持</strong>毗邻关系、交互参数以及选举BDR/DR，当接口类型为广播和P2P时默认每10秒交换一次Hello包，其他接口类型时30秒发送一次Hello包，发送地址为组播的224.0.0.5。Hello包的Packet Type为1。Hello包会周期性的在运行了OSPF的接口上用组播发送出去。为了顺利建立起邻居，所有连接到网络种的路由器的相关参数必须<strong>互相相同</strong>，这些参数包括网络掩码、Hello时间和Dead时间等。</p>
 <h3 id="格式分析"><a href="#格式分析" class="headerlink" title="格式分析"></a>格式分析</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-10_15-08-07.jpg" alt="Snipaste_2020-07-10_15-08-07"></p>
 <p><img src="/2020/06/24/13-ospf/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200710151006.jpg" alt="微信图片编辑_20200710151006"></p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-10_15-08-40.jpg" alt="Snipaste_2020-07-10_15-08-40"></p>
-<p><img src="/2020/06/24/13-ospf/add20392830280.jpg" alt="add20392830280"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-10_15-08-40.jpg" alt="Snipaste_2020-07-10_15-08-40" style="zoom:67%;">
+
+<img src="/2020/06/24/13-ospf/add20392830280.jpg" alt="add20392830280" style="zoom:80%;">
+
 <ul>
 <li>Network Mask：网络掩码，指的是路由器要发送的网络的掩码，字段长度为32位。</li>
 <li>Hello Interval：Hello包发送间隔，也就是运行OSPF协议的接口每隔多久发送一次Hello消息，字段长度为16位。</li>
@@ -246,10 +256,12 @@
 <li>Neighbor：邻居，当收到其他路由器发送来的Hello包时，将其他路由器的IP地址放在此字段，如收到多个路由器的Hello包时，会存放多个，收到一个其他路由器的Hello包占据32位，收到两个占据64位，以此类推，用Wireshark抓包时此字段为Active Neighbor，比如上图有两个Active Neighbor分别是1.1.1.1和3.3.3.3，表示该路由器分别收到了1.1.1.1和3.3.3.3这两个路由器发来的Hello包。</li>
 </ul>
 <p>Hello包中的Area ID，Hello Interval，Router Dead Interval、Authentication Type、Authentication几个字段在邻居建立时必须相同邻居才能成功建立。如果Hello 时间不同Debug时就会出现以下提示，说明两个路由器之间Hello时间Mismatch，也就是Hello时间不相匹配：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-12_13-46-07.jpg" alt="Snipaste_2020-07-12_13-46-07"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-12_13-46-07.jpg" alt="Snipaste_2020-07-12_13-46-07" style="zoom:80%;">
+
 <h2 id="DBD"><a href="#DBD" class="headerlink" title="DBD"></a>DBD</h2><h3 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h3><p>DBD是DataBase Description的缩写，出现在邻居建立过程中的ExStart及Exchange阶段，DBD是链路状态数据摘要，也就是LSDB的摘要或者说它是LSDB中有什么LSA的简略列表，用于描述链路状态数据库（LSDB）的内容，一个域中所有路由器的LSDB必须相同，在交换LSA之前先通过比较DBD来知道需要交换哪些LSA，这个是DBD的主要作用。</p>
 <h3 id="格式分析-1"><a href="#格式分析-1" class="headerlink" title="格式分析"></a>格式分析</h3><p>整体的DBD包：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-15_15-42-26.jpg" alt="Snipaste_2020-07-15_15-42-26"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-15_15-42-26.jpg" alt="Snipaste_2020-07-15_15-42-26" style="zoom:67%;">
+
 <p>DBD数据包的<strong>Header部分</strong>中的Packet Type为2，表示这是一个DBD数据，其他字段之前分析过这里就不再赘述了，Header部分如下图：</p>
 <p><img src="/2020/06/24/13-ospf/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200715120054.jpg" alt="微信图片编辑_20200715120054"></p>
 <p><strong>Message部分</strong>：</p>
@@ -264,10 +276,12 @@
 <p>DBD的Wireshark抓包如下：</p>
 <p><img src="/2020/06/24/13-ospf/OSPF%20DBD%20packet%20capture.png" alt="OSPF DBD packet capture"></p>
 <h3 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h3><p>两台路由器的DBD包中的Interface MTU必须相等才能建立Full Adjacency的关系，如果不相等会出现如下的提示，提示10.1.1.2的Interface MTU更小使得Adjacency无法建立：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-15_15-17-34.jpg" alt="Snipaste_2020-07-15_15-17-34"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-15_15-17-34.jpg" alt="Snipaste_2020-07-15_15-17-34" style="zoom: 67%;">
+
 <h2 id="LSR"><a href="#LSR" class="headerlink" title="LSR"></a>LSR</h2><h3 id="概述-3"><a href="#概述-3" class="headerlink" title="概述"></a>概述</h3><p>LSR用于请求邻居路由器发送其链路状态数据库（LSDB）中的特定项。LSR一般用在两台路由器交换完DBD后，当然如果路由器发现彼此之间并不用交换LSA的话，则LSR不会出现。</p>
 <h3 id="格式分析-2"><a href="#格式分析-2" class="headerlink" title="格式分析"></a>格式分析</h3><p>整体格式：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-15_15-43-35.jpg" alt="Snipaste_2020-07-15_15-43-35"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-15_15-43-35.jpg" alt="Snipaste_2020-07-15_15-43-35" style="zoom:67%;">
+
 <p>Header部分中的OSPF Type为3，其他部分与其他包的Header部分相同这里就不再赘述了。</p>
 <p>Message部分：</p>
 <p><img src="/2020/06/24/13-ospf/OSPF%20LSR%20header%20format.png" alt="OSPF LSR header format"></p>
@@ -279,7 +293,7 @@
 <p>LSR的Wires hark抓包如下：</p>
 <p><img src="/2020/06/24/13-ospf/OSPF%20LSR%20packet%20capture.png" alt="OSPF LSR packet capture"></p>
 <h2 id="LSU"><a href="#LSU" class="headerlink" title="LSU"></a>LSU</h2><h3 id="概述-4"><a href="#概述-4" class="headerlink" title="概述"></a>概述</h3><p>LSU用于向邻居路由器发送其所需要的链路状态通告（LSA）。这些LSU实现了LSA的泛洪。每条LSA中包含着描述网络的一部分信息，这些信息包括路由、度量值和拓扑信息等。本地路由器的LSA通过LSU被发送到邻居路由器，邻居路由器通过LSR来回应LSU。</p>
-<h3 id="格式分析-3"><a href="#格式分析-3" class="headerlink" title="格式分析"></a>格式分析</h3><img src="/2020/06/24/13-ospf/Snipaste_2020-07-16_16-11-39.jpg" alt="Snipaste_2020-07-16_16-11-39" style="zoom:80%;">
+<h3 id="格式分析-3"><a href="#格式分析-3" class="headerlink" title="格式分析"></a>格式分析</h3><img src="/2020/06/24/13-ospf/Snipaste_2020-07-16_16-11-39.jpg" alt="Snipaste_2020-07-16_16-11-39" style="zoom: 67%;">
 
 <p>Header部分中的OSPF Type为4，其他部分与其他包的Header部分相同这里就不再赘述了。</p>
 <p>Message部分：</p>
@@ -292,7 +306,7 @@
 <li>Number of Link State Advertisments：长度32位，表示这条LSU携带了几条LSA；</li>
 <li>LSAs：长度可变，表示所携带的LSA，具体报文格式参考后面的LSA部分。</li>
 </ul>
-<img src="/2020/06/24/13-ospf/Snipaste_2020-10-08_12-23-59.jpg" alt="Snipaste_2020-10-08_12-23-59" style="zoom:80%;">
+<img src="/2020/06/24/13-ospf/Snipaste_2020-10-08_12-23-59.jpg" alt="Snipaste_2020-10-08_12-23-59" style="zoom: 67%;">
 
 <p>下图中的LSU中包含着1条1类LSA，这条1类LSA中包含着3个链路，其中两个链路为Stub类型，一个链路为P2P类型。</p>
 <p><img src="/2020/06/24/13-ospf/OSPF%20LSU%20Packet%20Capture.png" alt="OSPF LSU Packet Capture"></p>
@@ -303,7 +317,7 @@
 <p>Message部分包含了已经确认收到的LSA的报头，如果收到N个LSA的话就会有N个LSA报头在其中，关于LSA的Header部分在下一节LSA中具体讨论。</p>
 <img src="/2020/06/24/13-ospf/Snipaste_2020-07-17_10-48-57.jpg" alt="Snipaste_2020-07-17_10-48-57" style="zoom:80%;">
 
-<img src="/2020/06/24/13-ospf/Snipaste_2020-07-17_10-50-17.jpg" alt="Snipaste_2020-07-17_10-50-17" style="zoom:80%;">
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-17_10-50-17.jpg" alt="Snipaste_2020-07-17_10-50-17" style="zoom: 67%;">
 
 <h1 id="LSA"><a href="#LSA" class="headerlink" title="LSA"></a>LSA</h1><h2 id="LSA简介"><a href="#LSA简介" class="headerlink" title="LSA简介"></a>LSA简介</h2><p>LSA由路由器产生，路由器的角色不同会产生不同种类的LSA，LSA中包含着链路状态信息和路由信息，LSA构成了LSDB（Link-State DataBase，链路状态数据库），OSPF使用LSDB计算路由。每个区域（Area）中所有路由器的LSDB是相同的，也就是说这些路由器所掌握的LSA是相同的，LSA一共有11类，不同种类的LSA传播的范围各有不同，有些LSA只在本区域内传播，有些LSA可以跨区域传播。运行OSPF协议的路由器交换完LSA后，各自运行SPF算法，由于域内路由器的LSDB相同又采用同样的SPF算法，所以计算出的路由路径是相同的。LSA每30分钟全部刷新一次，60分钟内如果没刷新则会由LSA的始发路由器泛洪一条LSA已到达最大过期时间的LSA，让其他路由器删除该LSA。如果链路的状态因为某种原因产生了变化，那么直连该链路的路由器检测到变化后会触发关于该链路变化的更新。路由器只能对其产生的LSA进行修改，不能对其他路由器的LSA进行改动。当网络拓扑发生变化时，LSA会带着新的信息进行泛洪，如果网络收敛完毕后，拓扑没有变化则不会对LSA进行泛洪（除了30分钟的整体LSA刷新以外）。</p>
 <h2 id="收到LSA后的动作"><a href="#收到LSA后的动作" class="headerlink" title="收到LSA后的动作"></a>收到LSA后的动作</h2><img src="/2020/06/24/13-ospf/Snipaste_2020-07-08_17-35-08.jpg" alt="Snipaste_2020-07-08_17-35-08" style="zoom:67%;">
@@ -363,7 +377,7 @@
 <p>这些信息在使用show ip ospf database X.X.X.X的时候也可以看得到</p>
 <p><img src="/2020/06/24/13-ospf/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200801213649.jpg" alt="微信图片编辑_20200801213649"></p>
 <p>报头中的信息使用show ip ospf database也能看到：</p>
-<img src="/2020/06/24/13-ospf/Snipaste_2020-08-01_21-46-08.jpg" alt="Snipaste_2020-08-01_21-46-08" style="zoom:80%;">
+<img src="/2020/06/24/13-ospf/Snipaste_2020-08-01_21-46-08.jpg" alt="Snipaste_2020-08-01_21-46-08" style="zoom: 50%;">
 
 <h3 id="Options字段"><a href="#Options字段" class="headerlink" title="Options字段"></a>Options字段</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-16_16-56-25.jpg" alt="Snipaste_2020-09-16_16-56-25"></p>
 <ul>
@@ -394,9 +408,9 @@
 <li>Virtual Links，虚链路。</li>
 </ol>
 <p>注意，interface（接口）和link（链路）是有区别的，两者并不是同一个概念。一个接口（Interface）表示的是一个路由器上的物理或逻辑接口，逻辑接口比如loop back接口，物理接口比如以太网接口；而一个链路（link）描述的是表格种两个节点的关系，虚链路（Virtual link）是一个说明这个概念的很好的例子，一个虚链路描述的是逻辑上连接到另一个路由器。</p>
-<h4 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-07-20_15-46-10.jpg" alt="Snipaste_2020-07-20_15-46-10" style="zoom:80%;">
+<h4 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-07-20_15-46-10.jpg" alt="Snipaste_2020-07-20_15-46-10" style="zoom: 67%;">
 
-<img src="/2020/06/24/13-ospf/Snipaste_2020-07-22_12-17-06.jpg" alt="Snipaste_2020-07-22_12-17-06" style="zoom:80%;">
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-22_12-17-06.jpg" alt="Snipaste_2020-07-22_12-17-06" style="zoom: 50%;">
 
 <p>Length及之前的部分都是LSA Header，有两个地方需要说一下，一个是LS Type为1，表示这是一个1类的LSA；另一个是Link State ID部分，这里该字段被设置成路由器的Router ID。LSA的Header也可以用命令”show ip ospf database”进行查看，但必须要注意这里的Link ID并不是上文倒数第二个字段Link ID，而是Link State ID，在1类LSA中就是Router ID。</p>
 <p><img src="/2020/06/24/13-ospf/106-02-show_ip_ospf_database.png" alt="106-02-show_ip_ospf_database"></p>
@@ -419,7 +433,7 @@
 <li>TOS：该字段思科设备只支持为0。</li>
 <li>TOS metric：TOS特定的指标信息。</li>
 </ul>
-<h4 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-10-08_14-33-52.jpg" alt="Snipaste_2020-10-08_14-33-52" style="zoom: 67%;">
+<h4 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-10-08_14-33-52.jpg" alt="Snipaste_2020-10-08_14-33-52" style="zoom: 50%;">
 
 <h4 id="Type字段"><a href="#Type字段" class="headerlink" title="Type字段"></a><a href="http://blog.sina.com.cn/s/blog_5ec353710102vcsc.html" target="_blank" rel="noopener">Type字段</a></h4><h5 id="概述-6"><a href="#概述-6" class="headerlink" title="概述"></a>概述</h5><img src="/2020/06/24/13-ospf/capture-1596510103043.png" alt="capture" style="zoom:67%;">
 
@@ -432,7 +446,7 @@
 <p>上面说过，1类LSA中的Type字段的值也决定了后面的Link ID和Link Data的取值，下面两张图，第一张是红茶三杯笔记中的，第二张是我结合RFC文档写的，维基百科上的图和我总结的一样，区别在于虚链路的Link Data如何取值，RFC 2328的Page 128上写的是“For links to transit networks, numbered point-to-point links and virtual links, this field specifies the IP interface address of the associated router interface”。</p>
 <img src="/2020/06/24/13-ospf/Snipaste_2020-07-21_17-01-45.jpg" alt="Snipaste_2020-07-21_17-01-45" style="zoom:80%;">
 
-<img src="/2020/06/24/13-ospf/Snipaste_2020-08-07_16-49-52.jpg" alt="Snipaste_2020-08-07_16-49-52" style="zoom:80%;">
+<img src="/2020/06/24/13-ospf/Snipaste_2020-08-07_16-49-52.jpg" alt="Snipaste_2020-08-07_16-49-52" style="zoom: 50%;">
 
 <p>OSPF链路类型分为四种，分别是Stub network link、Transit network link、Point-To-Point link、Virtual link。OSPF将链路分为以上的类型自然不是吃饱了没事儿干，一方面是描述网络连接方式，P2P link和Transit network link是用于描述网络拓扑结构的而Stub network link是用于描述子网的；另一方面是不同类型的Link消耗的硬件资源不同，比如Transit network消耗资源多一些，Stub network消耗资源少一点。必须注意的是，Stub network和后面的Stub area是完全不同的两个概念，千万不要混淆二者。</p>
 <h5 id="Stub-network-link"><a href="#Stub-network-link" class="headerlink" title="Stub network link"></a>Stub network link</h5><h6 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h6><blockquote>
@@ -468,7 +482,8 @@
 <p>值得注意的是，对于P2P的网络类型接口，OSPF使用了两个Link来描述，一个是P2P Link，用于描述链路对端连接的路由器ID及自己本地的接口IP地址，还用了一个Stub Network Link来描述该条链路的掩码。</p>
 <p>点对点的链路类型比较奇怪，因为理论上来说这种类型的链路并不需要IP地址就可以通信，因为OSPF将这种类型的链路视为“unnumbered”，也就是未编号，也可以理解成没有IP地址。因为链路上只有两个设备，流量从一段发过来肯定是要到另一端去的，给它提供两个IP地址其实意义并不大，但思科IOS中，一个接口如果没有IP地址就没法发送数据，所以也可以用命令“ip unnumbered XX”来让一个接口借用其他IP地址，比如如果想让Ethernet 0 这个链路类型为P2P的接口接用其他IP地址类通信，可以配置“ip unnumbered Ethernet 0”命令。</p>
 <h5 id="Virtual-link"><a href="#Virtual-link" class="headerlink" title="Virtual link"></a>Virtual link</h5><p>这种链路类型用来描述OSPF虚链路（Virtual Link）。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-12_11-43-00.jpg" alt="Snipaste_2020-08-12_11-43-00"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-08-12_11-43-00.jpg" alt="Snipaste_2020-08-12_11-43-00" style="zoom:67%;">
+
 <p>在上图中，R1和R3之间建立了一条虚链路，则R1产生的LSA1中描述该虚链路的数据如下：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Link connected to: a Virtual Link</span><br><span class="line">     (Link ID) Neighboring Router ID: 3.3.3.3                #虚链路对端设备的RouterID</span><br><span class="line">     (Link Data) Router Interface address: 10.1.12.1       #本地接口IP地址</span><br><span class="line">     Number of TOS metrics: 0</span><br><span class="line">      TOS 0 Metrics: 128</span><br></pre></td></tr></table></figure>
 
@@ -484,7 +499,8 @@
 <img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-04-54.jpg" alt="Snipaste_2020-07-28_15-04-54" style="zoom:50%;">
 
 <p>做标记的N1和RT1交汇处的数值为3，表示从RT1（行代表的意思为form，也就是从的意思）路由器去到N1（列代表的意思为to，也就是去的意思）网段的cost值为3，当然从N1网段到RT1的cost也是3。其实这个网络拓扑矩阵也就是把物理连接图用矩阵图的形式存在了路由器中，从图中也可以看出这个拓扑矩阵：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-41-18.jpg" alt="Snipaste_2020-07-28_15-41-18"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-28_15-41-18.jpg" alt="Snipaste_2020-07-28_15-41-18" style="zoom:67%;">
+
 <p>那么这个拓扑矩阵和减少内存使用有毛关系呢？从矩阵图可以看出，有两个重要元素，路由器和网段。每个路由器都在该矩阵的“from”和“to”中出现，如果路由器不在该矩阵中出现，表示这个路由器和其背后的网络均无法到达。至于网段的话， Transit network属性的网段不论是在“form”的行上，还是在“to”的列中都会出现，但Stub network属性的网段在“to”的列中会出现，因为这个网段作为其他路由器或网段的目的地是没问题的；但在“from”的行上不出现，因为Stub network中只有一个路由器没有其他邻居，而这个网段就是终点了，网段后面也没有其他网段了，它没有穿越流量，因此不需要知道去往其他网段或路由器的路径，只需要把出向流量交给和该Stub network相连的路由器就OK了，那个路由器不管是在“from”还是“to”上都有，知道所有的路径。所以Stub network在“to”的列中有，但在“from”行上不会出现。上面矩阵图中最上边的行中，只有N3、N6、N8、N9出现了，说明这几个网段为Transit network而除此之外的网段均为Stub network，Stub network不出现在from行中减少了矩阵的大小，节约了硬件资源。如果有兴趣可以看一下下面这段话的出处，感觉我的理解并不到位。</p>
 <blockquote>
 <p>The key observation here is that the stub networks are actually uninteresting for shortest path calculations between routers because they do not provide any further path to any other part of the network. The stub network is the edge - there is nothing behind it, only the network itself. It can be considered an attribute of the router to which it is connected but it is not interesting as a transit topology object. This idea allows us to save memory by <strong>not including the stub networks into the “from” rows of the adjacency matrix</strong> and thus reducing its size. If out of N networks, only N’ (N’ &lt; N) networks are transit networks, the adjacency matrix could be reduced to the size of (M+<strong>N’</strong>) rows x (M+<strong>N</strong>) columns.</p>
@@ -505,16 +521,19 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 8.8.8.8</span><br><span class="line"> network 192.168.78.8 0.0.0.0 area 0</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 192.168.78.8 255.255.255.0</span><br></pre></td></tr></table></figure>
 
 <h6 id="实验分析"><a href="#实验分析" class="headerlink" title="实验分析"></a>实验分析</h6><p>默认情况下，即使R7的loopback接口的IP地址配置成24/位掩码，但在<strong>R8</strong>的OSPF路由表中，依旧是32位掩码，因为此时R7的loop back 接口的Link type，也就是链路类型是stub host：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-28-22.jpg" alt="Snipaste_2020-08-11_16-28-22"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-28-22.jpg" alt="Snipaste_2020-08-11_16-28-22" style="zoom:67%;">
+
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-27-16.jpg" alt="Snipaste_2020-08-11_16-27-16"></p>
 <p>为了改变思科IOS默认将Loop back接口的掩码设置为32位的情况，我们在思科设备中只能将接口的网络类型（Network type）设置为点对点：</p>
 <p>R7：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">interface Loopback0</span><br><span class="line"> ip address 7.7.7.7 255.255.255.0</span><br><span class="line"> ip ospf network point-to-point</span><br></pre></td></tr></table></figure>
 
 <p>在R7的loop back接口的Network type，也就是网络类型设置为点对点后，R8的路由表中R7loop back接口的掩码由32位变成了loop back地址中配置的24位掩码：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-32-14.jpg" alt="Snipaste_2020-08-11_16-32-14"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-32-14.jpg" alt="Snipaste_2020-08-11_16-32-14" style="zoom:67%;">
+
 <p>此时再看R7的loop back接口：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-34-22.jpg" alt="Snipaste_2020-08-11_16-34-22"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-08-11_16-34-22.jpg" alt="Snipaste_2020-08-11_16-34-22" style="zoom:67%;">
+
 <h4 id="LSA实验"><a href="#LSA实验" class="headerlink" title="LSA实验"></a>LSA实验</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-18_16-27-27.jpg" alt="Snipaste_2020-08-18_16-27-27"></p>
 <p>在图中，R1有三条链路，一条是右边的E0/1口的链路，连接着R2，一条是上边的通向192.168.1.0/24网络的链路，另一条是通往下边的另一个网段的链路。R1需要用1类LSA描述这三条链路并将LSA宣告给R2。R1要给R2（或其他路由器）提供三种信息：</p>
 <ol>
@@ -528,7 +547,7 @@
 <h5 id="Describing-Stub-Network"><a href="#Describing-Stub-Network" class="headerlink" title="Describing Stub Network"></a>Describing Stub Network</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-18_16-27-27.jpg" alt="Snipaste_2020-08-18_16-27-27"></p>
 <p>R1是上面拓扑中的网段192.168.1.0/24中的唯一路由器，这种链路被OSPF分类为Stub network，因为该网段除了R1外没有其他的OSPF路由器，所以流量会从以该网段为起点或终点，但不会穿越该网段，换一种说法就是，网段192.168.1.0/24不会作为传输网段。</p>
 <p>R1为Stub network类型的Link type在其1类LSA中建模，好像它是一个连接到另一个节点的链路，用网络前缀作为它的Link ID，用子网掩码作为Link Data。这样一来，这个网段看起来像是一个直接连接到R1上的节点。在所有1类LSA描述的链路邻接节点中，只有Stub network类型的链路描述中携带了网络层地址信息。下面是R1对链路类型为Stub network的192.168.1.0/24这个网段的描述：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Link connected to: a Stub Network</span><br><span class="line"> (Link ID) Network/subnet number: 192.168.1.0                   该网段的网络前缀</span><br><span class="line"> (Link Data) Network Mask: 255.255.255.0                        该网段的网络掩码</span><br><span class="line">  Number of MTID metrics: 0</span><br><span class="line">   TOS 0 Metrics: 10</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Link connected to: a Stub Network</span><br><span class="line"> (Link ID) Network/subnet number: 192.168.1.0                   #该网段的网络前缀</span><br><span class="line"> (Link Data) Network Mask: 255.255.255.0                        #该网段的网络掩码</span><br><span class="line">  Number of MTID metrics: 0</span><br><span class="line">   TOS 0 Metrics: 10</span><br></pre></td></tr></table></figure>
 
 <p>R1到192.168.1.0/24这个链路类型为Stub network的网段已经描述完毕，接下来看R1如何用1类LSA描述R1和R2之间的点对点链路。</p>
 <h5 id="Point-to-Point"><a href="#Point-to-Point" class="headerlink" title="Point-to-Point"></a>Point-to-Point</h5><p>R1上看到的描述这个P2P链路输出为：</p>
@@ -552,14 +571,17 @@
 <p>In addition, in those rare cases where arouter’s Router ID has changed, any network-LSAs that wereoriginated with the router’s previous Router ID must beflushed. Since the router may have no idea what it’s previous Router ID might have been, these network-LSAs are indicated by having their Link State ID equal to one of the router’s IP interface addresses and their Advertising Router equal to some value other than the router’s current RouterID .</p>
 </blockquote>
 <p>此外，在那些路由器的Router ID改变的极少数情况下，任何之前产生的带有旧的Router ID的2类LSA都必须被刷新成带有新Router ID的2类LSA，因为路由器可能不知道它之前的的Router ID是什么。2类LSA的Link State ID字段的值为该路由器接口之一的IP地址，Advertising Router字段的值为路由器当前Router ID以外的值。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-12_16-50-32.jpg" alt="Snipaste_2020-08-12_16-50-32"></p>
-<h4 id="报文格式-1"><a href="#报文格式-1" class="headerlink" title="报文格式"></a>报文格式</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-12_16-54-39.jpg" alt="Snipaste_2020-08-12_16-54-39"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-08-12_16-50-32.jpg" alt="Snipaste_2020-08-12_16-50-32" style="zoom:67%;">
+
+<h4 id="报文格式-1"><a href="#报文格式-1" class="headerlink" title="报文格式"></a>报文格式</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-08-12_16-54-39.jpg" alt="Snipaste_2020-08-12_16-54-39" style="zoom:50%;">
+
 <p>LSA的Header部分之前分析过，这里只看message部分。</p>
 <ul>
 <li>Network Mask：网络的掩码。</li>
 <li>Attached Router：连接到网络的路由器的Router ID，事实上，只有那些和DR形成了全邻接关系（Full adjacency）的设备才会在这里面显示出来，DR的Router ID也会显示在这里面。</li>
 </ul>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-12_17-03-38.jpg" alt="Snipaste_2020-08-12_17-03-38"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-08-12_17-03-38.jpg" alt="Snipaste_2020-08-12_17-03-38" style="zoom:50%;">
+
 <h4 id="存在意义"><a href="#存在意义" class="headerlink" title="存在意义"></a>存在意义</h4><h5 id="只用1类LSA的情况"><a href="#只用1类LSA的情况" class="headerlink" title="只用1类LSA的情况"></a>只用1类LSA的情况</h5><img src="/2020/06/24/13-ospf/Snipaste_2020-08-27_16-52-47.jpg" alt="Snipaste_2020-08-27_16-52-47" style="zoom:67%;">
 
 <p>上图中R1、R2和R3各有一个接口在同一网段，是MA类型的网络，这种情况下，如果只用1类LSA中的P2P链路类型描述三个路由器之间的关系，而完全不用2类LSA的话，也可以描述，但只能一个一个链路的描述，也就是说一个路由器需要两条1类LSA描述，比如R1的话，需要节点1.1.1.1连接到节点3.3.3.3，1.1.1.1连接到4.4.4.4这两条1类LSA才能描述：</p>
@@ -585,7 +607,8 @@
 <p>上面描述的这个链路类型为Transit network的链路时，Link ID为134.1.1.4，既是DR（R4）在网段134.1.1.0/24上接口的IP地址，也同样时虚拟路由器的Link State ID，这个值是134.1.1.4；这条Transit network链路的Link Data部分，是R1连接到134这个网段上接口的IP地址，这个值是134.1.1.1 。</p>
 <p>上面这两条LSA组合到一起可以后描述了R1的链路情况，节点1.1.1.1通过一个Transit link类型的链路连接到一个虚拟节点134.1.1.4，掩码为24/。这个虚拟节点连接到了节点1.1.1.1、3.3.3.3和4.4.4.4 。</p>
 <h3 id="Type-3"><a href="#Type-3" class="headerlink" title="Type-3"></a>Type-3</h3><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-4.jpg" alt="ospf-lsa-types-explained-4"></p>
-<h4 id="概述-8"><a href="#概述-8" class="headerlink" title="概述"></a>概述</h4><p><img src="file://D:/blog/renyuan431/source/_posts/13-ospf/Snipaste_2020-08-29_15-44-12.jpg?lastModify=1598675877" alt="Snipaste_2020-08-29_15-44-12"></p>
+<h4 id="概述-8"><a href="#概述-8" class="headerlink" title="概述"></a>概述</h4><img src="file://D:/blog/renyuan431/source/_posts/13-ospf/Snipaste_2020-08-29_15-44-12.jpg?lastModify=1598675877" alt="Snipaste_2020-08-29_15-44-12" style="zoom:67%;">
+
 <p>1类和2类LSA解决了区域内路由计算问题，计算并生成了标识为O的路由，解决了区域内部的通信问题，那么区域间的路由怎么办呢？如果路由器需要访问其他区域呢？这时就需要3类LSA。3类LSA是网络汇总LSA，由ABR路由器生成，3类LSA与1类2类LSA不同的是，3类LSA不是详细描述一个区域种存在着哪些节点以及这些节点之间如何连接，它描述的是一个网络号、AS边界路由器或一个IP地址范围段（The destination described by a summary-LSA is either an IP network, an AS boundary router or a range of IP addresses.），也可以理解成是路由表中需要通告给其他Area的路由条目的网络号，也就是网络前缀。3类LSA通告范围只有一个区域，也就是把3类LSA传递给邻接的Area0（flood them into the other areas to which it is attached），再由Area 0的ABR生成到其他非Backbone区域的3类LSA。</p>
 <h5 id="OSPF的网络号"><a href="#OSPF的网络号" class="headerlink" title="OSPF的网络号"></a>OSPF的网络号</h5><p>在一个多区域OSPF网络中，存在着两种不同的路由，区域内路由和区域间路由，这两种路由也有对应的网络号（网络前缀）：</p>
 <ul>
@@ -593,7 +616,8 @@
 <li>区域间：来自区域外路由的网络号；</li>
 </ul>
 <h5 id="OSPF的层次结构"><a href="#OSPF的层次结构" class="headerlink" title="OSPF的层次结构"></a>OSPF的层次结构</h5><p>还必须了解一下OSPF的层次结构。为了提高抗路由环路能力，OSPF将拓扑分成两层，顶层是Area 0，也就是Backbone Area（骨干区域），下层是除了Area 0之外的其他Area。所有的区域必须和最顶层的Area 0相连接，所有的3类LSA通过位于顶层的骨干区域进行交换后，再发送到下层的其他Area中。这种层次的结构去交换3类LSA就相当于创建了一个下图的“Hub-and-Spoke”（中心辐射型）类型的拓扑：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-01_13-07-04.jpg" alt="Snipaste_2020-09-01_13-07-04"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-09-01_13-07-04.jpg" alt="Snipaste_2020-09-01_13-07-04" style="zoom:50%;">
+
 <h5 id="3类LSA的泛洪"><a href="#3类LSA的泛洪" class="headerlink" title="3类LSA的泛洪"></a>3类LSA的泛洪</h5><p>由于采用了层级设计，有区域间、区域类两种路由要传递，且3类LSA的通告范围只有一个区域，所以3类LSA的泛洪方式如下：</p>
 <ul>
 <li>ABR会为骨干区域的区域内路由和区域间路由产生3类LSA，并将3类LSA从骨干区域泛洪到非骨干区域；</li>
@@ -603,7 +627,8 @@
 <p>比如上面的拓扑中，ABR1会为Area 1这个非骨干区域的内部路由生成3类LSA，并将该LSA泛洪到骨干区域Area 0。ABR也会为骨干区域Area 0的内部路由和外部路由（剔除出原属于Area 1这个区域的路由后）生成3类LSA并将该LSA泛洪到Area1这个非骨干区域。</p>
 <p>上面的算法意味着ABR只有连接到Area 0的时候才会产生3类LSA，在思科设备中ABR是这个工作模式，但可能其他厂商的设备中会有所不同。</p>
 <p>有些人认为，3类LSA的通告范围是除了特殊区域的整个OSPF网络，但实际上这种说法是不严谨的，比较严谨的说法是3类LSA的通告范围只有一个区域，也就是邻接的其他那个区域。比如下面这个拓扑中，身处Area256中的R5身后192.168.5.0/24这个网段，由所在区域Area 256的ABR路由器R2生成3类LSA泛洪到Area 0中，这时可能有人要问，既然上门说了3类LSA的通告范围是邻接的一个区域，那么这个3类LSA就不会泛洪到Area 37或Area 489了，可实际实验中这两个区域是有192.168.5.0/24这个OIA的区域间路由的，这和上面3类LSA传播范围只有一个区域的说法矛盾了。是这样，R2生成的这条3类LSA发送到Area 0后，如果想将192.168.5.0/24这个OIA区域间路由用3类LSA继续传递给Area 37或Area 489，R3会为Area 37重新生成一条3类LSA然后传递到这个区域中，R4会为Area 489重新生成一条3类LSA传递到这个区域中，也就是说这条由R2生成的3类LSA由Area 256泛洪到Area 0以后这条3类LSA的泛洪就结束了，如果要继续泛洪到其他Area，就要由其他的ABR，比如R3或R4重新生成，虽然表示192.168.5.0/24这条路由的的3类LSA在每个Area中都有，但由于每过一个区域就要重新生成一次3类LSA，所以严格来说已经不是同一条LSA了，因为这两条LSA的Advertising Router不同。</p>
-<h4 id="LSA实验-1"><a href="#LSA实验-1" class="headerlink" title="LSA实验"></a>LSA实验</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-29_22-47-33.jpg" alt="Snipaste_2020-08-29_22-47-33"></p>
+<h4 id="LSA实验-1"><a href="#LSA实验-1" class="headerlink" title="LSA实验"></a>LSA实验</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-08-29_22-47-33.jpg" alt="Snipaste_2020-08-29_22-47-33" style="zoom:50%;">
+
 <p>查看路由器R2的LSDB得到如下结果：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R2#show ip ospf database</span><br><span class="line">OSPF Router with ID (2.2.2.2) (Process ID 1)</span><br><span class="line">Router Link States (Area 0)</span><br><span class="line">Link ID         ADV Router      Age         Seq#       Checksum Link count</span><br><span class="line">1.1.1.1         1.1.1.1         842         0x80000019 0x00AC74 4</span><br><span class="line">2.2.2.2         2.2.2.2         851         0x80000012 0x00034D 3</span><br><span class="line">3.3.3.3         3.3.3.3         834         0x80000011 0x003338 2</span><br><span class="line">4.4.4.4         4.4.4.4         834         0x80000011 0x000A57 2</span><br><span class="line">— some output has been omitted —</span><br><span class="line">Router Link States (Area 256)</span><br><span class="line">Link ID         ADV Router      Age         Seq#       Checksum Link count</span><br><span class="line">2.2.2.2         2.2.2.2         851         0x80000006 0x002BAB 1</span><br><span class="line">5.5.5.5         5.5.5.5         852         0x8000000A 0x00A7F9 3</span><br><span class="line">6.6.6.6         6.6.6.6         853         0x80000007 0x000CE5 2</span><br><span class="line">— some output has been omitted —</span><br></pre></td></tr></table></figure>
 
@@ -652,8 +677,10 @@
 <p>Area 256和Area 0中的LSA是一样的，但和Area 37以及Area 489中的LSA不同，说明3类LSA的泛洪距离为一个Area，想泛洪到其他Area中的话，必须由连接到其他Area的ABR重新生成LSA。</p>
 <h4 id="OSPF的距离矢量特征"><a href="#OSPF的距离矢量特征" class="headerlink" title="OSPF的距离矢量特征"></a><a href="http://blog.sina.com.cn/s/blog_5ec353710101bkg6.html" target="_blank" rel="noopener">OSPF的距离矢量特征</a></h4><h3 id="Type-5"><a href="#Type-5" class="headerlink" title="Type-5"></a>Type-5</h3><h4 id="概述-9"><a href="#概述-9" class="headerlink" title="概述"></a>概述</h4><p><img src="/2020/06/24/13-ospf/ospf-lsa-types-explained-6.jpg" alt="ospf-lsa-types-explained-6"></p>
 <p>1 、2类LSA解决了本区域的路由，3类LSA解决了区域间的路由，如果有从外部注入的路由信息该如何表示呢？这种外部注入的路由信息可能是通过重分布注入的其他路由协议的路由，亦或是由其他OSPF进程重分布进本OSPF进程的路由，这时候该如何处理呢？这时就要用到5类LSA了，也就是AS external link advertisement。5类LSA描述的是去往AS外部路由，由ASBR（AS boundary routers）路由器生成，泛洪范围为所有Area，5类LSA也是唯一一种泛洪到除了特殊区域（Stub, Totally Stubby and Not-so-stubby areas）之外的整个AS的LSA（’AS-external-LSAs are the only type of LSAs that are flooded throughout the entire Autonomous System; all other types of LSAs are specific to a single area.However, AS-external-LSAs are not flooded into/throughout stub areas’——RFC 2328，Page 40）。LSA的Link State ID的值为目标网络的IP地址，当5类LSA的Link State ID设置为0.0.0.0时，LSA用来描述到AS的默认路由。ASBR路由器通过另一个路由协议（比如BGP）或通过配置信息（比如配置静态路由然后重分布）学到外部路由，并为这些学到的外部路由生成一个5类LSA。</p>
-<h4 id="报文格式-2"><a href="#报文格式-2" class="headerlink" title="报文格式"></a>报文格式</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-09_15-44-11.jpg" alt="Snipaste_2020-09-09_15-44-11"></p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-10_15-04-49.jpg" alt="Snipaste_2020-09-10_15-04-49"></p>
+<h4 id="报文格式-2"><a href="#报文格式-2" class="headerlink" title="报文格式"></a>报文格式</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-09-09_15-44-11.jpg" alt="Snipaste_2020-09-09_15-44-11" style="zoom:50%;">
+
+<img src="/2020/06/24/13-ospf/Snipaste_2020-09-10_15-04-49.jpg" alt="Snipaste_2020-09-10_15-04-49" style="zoom:50%;">
+
 <ul>
 <li>Network Mask：被宣告路由的IP地址的子网掩码；</li>
 <li>E位：标识了外部路由的Metric类型。Metric有两种类型，1和2，当E位置1时，表示该路由为OE2，此时这条路由的cost值为ASBR到外部目标网络的值，固定为20；当E位为0时，表示该路由为OE1，此时这条路由的cost值为整个路径的cost值，也就是外部路由到ASBR的cost，与内部路由到ASBR的cost，两者之和。具体差别详见后面的OE1 VS OE2部分。</li>
@@ -666,7 +693,8 @@
 <p>拓扑如上图所示，有一个外部网段10.1.1.0/24，通过R3重分布进OSPF协议，此时这条外部路由的seed metric（可以简单理解为seed metric就是ospf，seed metric一般翻译成初始度量值或种子度量值，个人觉得初始度量值更容易理解。主要是因为各种不同的路由协议计算度量值的方法不一致，如RIP是跳数，OSPF则基于带宽，所以使用seed metrics建立一个标准的重分布metric值。）为20，这个seed metric对于E1和E2来说都是存在的。现在轮到R2计算去往外部网段10.1.1.0/24的metric/cost值了，这时E1和E2两种外部路由类型计算的方式出现了不同：</p>
 <p>E1：R2会把R2和R3之间的cost值，也就是cost=1，加上外部路由原有的seed metric值，也就是20，二者之和就是1+20=21，把21当作外部网段10.1.1.0/24的cost值。</p>
 <p>E2：R2只会计算外部网段10.1.1.0/24的seed metric值，而不会加上R2和R3之间的cost值，也就是说E2类型的外部路由的cost值恒为20，R1也将20视为这条外部路由的cost值。</p>
-<h4 id="LSA实验-2"><a href="#LSA实验-2" class="headerlink" title="LSA实验"></a>LSA实验</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-31_15-14-43.jpg" alt="Snipaste_2020-08-31_15-14-43"></p>
+<h4 id="LSA实验-2"><a href="#LSA实验-2" class="headerlink" title="LSA实验"></a>LSA实验</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-08-31_15-14-43.jpg" alt="Snipaste_2020-08-31_15-14-43" style="zoom:50%;">
+
 <p>上面拓扑中的5类LSA由R6产生，这条LSA中包含着以下三种重要信息：</p>
 <ul>
 <li>Link State ID字段是被注入OSPF路由协议的外部网段的网络号，在本例中被注入的网段是172.16.56.0/24和172.16.65.0/24；</li>
@@ -694,7 +722,8 @@
 <img src="/2020/06/24/13-ospf/Snipaste_2020-09-27_17-05-40.jpg" alt="Snipaste_2020-09-27_17-05-40" style="zoom:80%;">
 
 <p>为什么不把5类LSA限制在ASBR这个区域内，让它乱跑不是增加网络负担嘛？对于常规区域的OSPF设计而言，5类LSA的确是可以在OSPF区域内到处乱跑，在某些场合，可能由于OSPF网络的设计，使得OSPF路由器需要维护大量的外部路由，从而导致设备负担过重，那么你可以进行OSPF规划上的调整，例如使用特殊区域——Stub Area、NSSA Area的来优化网络。这些特殊区域能够限制4类LSA或5类LSA的泛洪，并用默认路由来解决网络连通性的问题，因此一来降低了外部路由条目过多带来的影响，二来也解决了去往AS外的连通问题，然而这也带来了一个问题，就是丢失了外部路由的精细度，只知道去往外部路由如何去，但不知道具体有那些路由，好比之前我跟你说的是韩国的妹纸ABCD都很漂亮，现在告诉你韩国的妹纸都不错，你去就是了，这就是所谓的丢失路由的精细度，这在某些特定的网络环境中可能会带来诸如次优路由等等的问题。</p>
-<h4 id="LSA实验-3"><a href="#LSA实验-3" class="headerlink" title="LSA实验"></a>LSA实验</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-08-31_15-14-43.jpg" alt="Snipaste_2020-08-31_15-14-43"></p>
+<h4 id="LSA实验-3"><a href="#LSA实验-3" class="headerlink" title="LSA实验"></a>LSA实验</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-08-31_15-14-43.jpg" alt="Snipaste_2020-08-31_15-14-43" style="zoom:50%;">
+
 <p>在上面的拓扑中，R6在重分布外部路由进入OSPF时，它的1类LSA中的Flags字段表示R6现在已经时一个ASBR路由器了：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LSA-type 1 (Router-LSA), len 60</span><br><span class="line">— omitted —</span><br><span class="line">Link State ID: 6.6.6.6</span><br><span class="line">Advertising Router: 6.6.6.6</span><br><span class="line">Sequence Number: 0x80000004</span><br><span class="line">Checksum: 0x18b4</span><br><span class="line">Length: 60</span><br><span class="line">Flags: 0x02 ((E) AS boundary router)</span><br><span class="line">…. .0.. = (V) Virtual link endpoint: No</span><br><span class="line">…. ..1. = (E) AS boundary router: Yes</span><br><span class="line">…. …0 = (B) Area border router: No</span><br></pre></td></tr></table></figure>
 
@@ -709,10 +738,12 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R4#show ip ospf 1 489 database asbr-summary</span><br><span class="line"></span><br><span class="line">            OSPF Router with ID (4.4.4.4) (Process ID 1)</span><br><span class="line"></span><br><span class="line">                Summary ASB Link States (Area 489)</span><br><span class="line"></span><br><span class="line">  LS age: 504</span><br><span class="line">  Options: (No TOS-capability, DC, Upward)</span><br><span class="line">  LS Type: Summary Links(AS Boundary Router)</span><br><span class="line">  Link State ID: 6.6.6.6 (AS Boundary Router address)</span><br><span class="line">  Advertising Router: 4.4.4.4</span><br><span class="line">  LS Seq Number: 80000003</span><br><span class="line">  Checksum: 0x7B6E</span><br><span class="line">  Length: 28</span><br><span class="line">  Network Mask: /0</span><br><span class="line">        MTID: 0         Metric: 40</span><br></pre></td></tr></table></figure>
 
 <p>4类LSA中有ASBR的RID、宣告这条4类LSA的ABR的RID以及ABR到ASBR的cost值。</p>
-<h3 id="1-5类LSA组合说明"><a href="#1-5类LSA组合说明" class="headerlink" title="1-5类LSA组合说明"></a>1-5类LSA组合说明</h3><p><img src="file://D:/blog/renyuan431/source/_posts/13-ospf/Snipaste_2020-08-31_15-14-43.jpg?lastModify=1600488925" alt="Snipaste_2020-08-31_15-14-43"></p>
+<h3 id="1-5类LSA组合说明"><a href="#1-5类LSA组合说明" class="headerlink" title="1-5类LSA组合说明"></a>1-5类LSA组合说明</h3><img src="/2020/06/24/13-ospf/Snipaste_2020-08-31_15-14-43-1602248783083.jpg" alt="Snipaste_2020-08-31_15-14-43" style="zoom:67%;">
+
 <p>分别看完了1-5类LSA，是否感觉它们各自为战并没有组成一个有机的整体呢？事实上所有LSDB中的不同类型LSA是用某些因素串联起来的，这些因素就是’Link State ID’，以及Link ID。利用这些关键因素，LSDB掌握了计算两个节点之间最短距离的所有关键信息。接下来用上面的拓扑中的，R1是如何计算到网段192.168.8.0/24，以及到外部网段172.16.65.0/24的路径为例，具体说说各类LSA是如何在LSDB中组合使用去计算路由的。在每次计算路由发现下一跳时，R1会结合使用Link State ID和Link ID，将二者当作R1计算出下一跳并最终到达目标节点的关键因素。</p>
 <h4 id="到192-168-8-0-24"><a href="#到192-168-8-0-24" class="headerlink" title="到192.168.8.0/24"></a>到192.168.8.0/24</h4><p>先看R1的LSDB中关于192.168.8.0/24的条目：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-19_13-25-13.jpg" alt="Snipaste_2020-09-19_13-25-13"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-09-19_13-25-13.jpg" alt="Snipaste_2020-09-19_13-25-13" style="zoom:67%;">
+
 <p>从R1的LSDB中能看到，关于192.168.8.0/24的LSA为3类LSA，所以下面看这条LSA的具体内容：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1#show ip ospf database summary 192.168.8.0</span><br><span class="line"></span><br><span class="line">            OSPF Router with ID (1.1.1.1) (Process ID 1)</span><br><span class="line"></span><br><span class="line">                Summary Net Link States (Area 0)</span><br><span class="line"></span><br><span class="line">  LS age: 339</span><br><span class="line">  Options: (No TOS-capability, DC, Upward)</span><br><span class="line">  LS Type: Summary Links(Network)</span><br><span class="line">  Link State ID: 192.168.8.0 (summary Network Number)</span><br><span class="line">  Advertising Router: 4.4.4.4</span><br><span class="line">  LS Seq Number: 80000001</span><br><span class="line">  Checksum: 0xD9CC</span><br><span class="line">  Length: 28</span><br><span class="line">  Network Mask: /24</span><br><span class="line">        MTID: 0         Metric: 21</span><br></pre></td></tr></table></figure>
 
@@ -733,7 +764,8 @@
 <p><em>NOTE: R1 will also calculate R3’s path to reach the pseudo-node, but the cost value would be 31 vs the 21 of going directly to R4. This is because R1 would forward to R3, which would forward to R4. R4’s cost to the pseudo-node is not used in R1’s calculation, because it is the incoming interface and not the outgoing interface for the traffic. This leads to the cost of 21 instead of 31. In R3’s case, R3’s interface would be used to both receive R1’s packet and forward the packet to R4, which is why it is added in the total cost of the path.</em></p>
 </blockquote>
 <h4 id="到172-16-65-0-24"><a href="#到172-16-65-0-24" class="headerlink" title="到172.16.65.0/24"></a>到172.16.65.0/24</h4><p>为了将数据发送到外部网段172.16.65.0/24，R1开始在LSDB中查找相关条目：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-19_15-12-38.jpg" alt="Snipaste_2020-09-19_15-12-38"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-09-19_15-12-38.jpg" alt="Snipaste_2020-09-19_15-12-38" style="zoom:80%;">
+
 <p>R1发现一条5类LSA有到达该网段的信息：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1#show ip ospf database external 172.16.65.0</span><br><span class="line"></span><br><span class="line">            OSPF Router with ID (1.1.1.1) (Process ID 1)</span><br><span class="line"></span><br><span class="line">                Type-5 AS External Link States</span><br><span class="line"></span><br><span class="line">  LS age: 709</span><br><span class="line">  Options: (No TOS-capability, DC, Upward)</span><br><span class="line">  LS Type: AS External Link</span><br><span class="line">  Link State ID: 172.16.65.0 (External Network Number )</span><br><span class="line">  Advertising Router: 6.6.6.6</span><br><span class="line">  LS Seq Number: 80000004</span><br><span class="line">  Checksum: 0xD9AD</span><br><span class="line">  Length: 36</span><br><span class="line">  Network Mask: /24</span><br><span class="line">        Metric Type: 2 (Larger than any link state path)</span><br><span class="line">        MTID: 0</span><br><span class="line">        Metric: 20</span><br><span class="line">        Forward Address: 0.0.0.0</span><br><span class="line">        External Route Tag: 0</span><br></pre></td></tr></table></figure>
 
@@ -751,7 +783,8 @@
 
 <p>本例出自<a href="https://packetpushers.net/ospf-graphs-lsas-and-the-lsdb/" target="_blank" rel="noopener">文章</a>，这个例子只是简单说明各类LSA的使用方式，在实际中，R1使用一种更彻底的方法来构建其SPT，这里就不继续写了，因为我还不会，等会了也许会继续更新本章。</p>
 <h3 id="Type3、Type4报文格式"><a href="#Type3、Type4报文格式" class="headerlink" title="Type3、Type4报文格式"></a>Type3、Type4报文格式</h3><p>由于3类LSA和4类LSA的格式几乎一样，所以RFC上将二者合并起来写的，笔记这里也用这种方式介绍这两种LSA的报文格式。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-09_15-18-15.jpg" alt="Snipaste_2020-09-09_15-18-15"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-09-09_15-18-15.jpg" alt="Snipaste_2020-09-09_15-18-15" style="zoom:50%;">
+
 <ul>
 <li>Network Mask：在3类LSA里，这个字段表示目标网络IP地址的掩码；在4类LSA里，这个字段没有实际意义必须取值为全0。</li>
 <li>Metric：这条路由的cost值。和1类LSA中的接口的Cost值一个意思。</li>
@@ -759,7 +792,8 @@
 <p>为了和之前的OSPF版本规范相兼容，LSA中还可以包含TOS-specific信息，TOS字段值的不同表示不同的意思，一般情况下为全0，表示‘normal service’。</p>
 <h3 id="TYPE-6"><a href="#TYPE-6" class="headerlink" title="TYPE 6"></a>TYPE 6</h3><p>6类LSA（OSPF GROUP MEMBERSHIP LSA）是OSPF中的组播，但现在已经被PIM所代替，思科设备根本就不支持6类LSA，所以这里就不继续提了。</p>
 <h3 id="TYPE-7"><a href="#TYPE-7" class="headerlink" title="TYPE 7"></a>TYPE 7</h3><h4 id="概述-11"><a href="#概述-11" class="headerlink" title="概述"></a>概述</h4><p> 7类LSA又叫做not-so-stubby-area（NSSA） LSA，因为NSSA区域不让外部LSA，也就是不让5类LSA进入，所以为了将外部路由引入NSSA area，就要用7类LSA。7类LSA由NSSA ASBR生成，只在原始NSSA区域中泛洪，也就是生成这个7类LSA的NSSA区域中泛洪，不会进入其他常规区域。</p>
-<h4 id="报文格式-3"><a href="#报文格式-3" class="headerlink" title="报文格式"></a>报文格式</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-19_17-18-11.jpg" alt="Snipaste_2020-09-19_17-18-11"></p>
+<h4 id="报文格式-3"><a href="#报文格式-3" class="headerlink" title="报文格式"></a>报文格式</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-09-19_17-18-11.jpg" alt="Snipaste_2020-09-19_17-18-11" style="zoom:50%;">
+
 <h5 id="Options字段："><a href="#Options字段：" class="headerlink" title="Options字段："></a>Options字段：</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-19_17-27-12.jpg" alt="Snipaste_2020-09-19_17-27-12"></p>
 <h6 id="E位"><a href="#E位" class="headerlink" title="E位"></a>E位</h6><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_17-20-11.jpg" alt="Snipaste_2020-09-30_17-20-11"></p>
 <p>5类LSA不能泛洪到Stub区域和NSSA区域中，E比特确保Stub区域和NSSA区域中的所有路由器都同意5类LSA不能泛洪进入的区域属性。E位只在Hello包和DBD包中有意义。当某一特定接口发出的Hello包中的E位置0时，意味着这个接口不会发送也不会接收5类LSA，换句话说这个接口连接到的是Stub区域或NSSA区域。两个路由器只有在对E位匹配时，也就是E位数值相同时才能成为邻居。</p>
@@ -819,14 +853,16 @@
 <li>NSSA (not so stubby area)：ABR上会过滤4、5类LSA，默认不会向内部传递默认路由，使用default-information-originate命令产生默认路由（7类LSA的形式），但允许引入外部路由。当NSSA中有两个ABR时需要执行7转5时，只有一个会进行转换，router-id大的转换，所有的stub区域的ABR总是会过滤掉5类LSA；配置命令：area x nssa；</li>
 <li>Totally NSSA (totally not so stubby area)：思科私有协议，ABR上会过滤3、4、5类LSA，同时向内部传递一条默认路由（3类LSA），允许引入外部路由。当NSSA中有两个ABR需要执行7转5时，只有一个会转换，也就是router-id大的转换，所有的stub area总是会过滤掉5类LSA；配置命令：ABR：area x nssa no-summary；其他路由器：area x nssa；</li>
 </ul>
-<h3 id="Stub-area"><a href="#Stub-area" class="headerlink" title="Stub area"></a>Stub area</h3><h4 id="概述-13"><a href="#概述-13" class="headerlink" title="概述"></a>概述</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-23_11-46-25.jpg" alt="Snipaste_2020-09-23_11-46-25"></p>
+<h3 id="Stub-area"><a href="#Stub-area" class="headerlink" title="Stub area"></a>Stub area</h3><h4 id="概述-13"><a href="#概述-13" class="headerlink" title="概述"></a>概述</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-09-23_11-46-25.jpg" alt="Snipaste_2020-09-23_11-46-25" style="zoom:67%;">
+
 <p>我们可以通过配置，将一个常规区域设置为stub区域。Stub区域将禁止4、5类LSA进入该区域（也就是不让10.1.1.0/24这条外部路由进入），同时该区域会自动下发一条默认路由（3类LSA）进入该区域，以保证数据去往外部路由的路径没有问题。这可以形象的理解为“外面的世界再怎么精彩，你不用告诉我细节，只需要告诉我怎么出去就行了”。这就是stub area的设计思路，当引入大量外部路由进入OSPF时，适当规划某些区域为stub，可以起到不错的网络优化作用。</p>
 <p>有一点值得注意，不能将骨干区域area 0配置为stub区域，同时，让一个区域为stub的话，该区域不允许注入外部路由，也就是不能做重发布。</p>
 <h4 id="配置命令"><a href="#配置命令" class="headerlink" title="配置命令"></a>配置命令</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1 </span><br><span class="line">area 1 stub</span><br></pre></td></tr></table></figure>
 
 <p>此命令需配置在stub区域中的所有路由器上，如果某台路由器没有配置该命令，那么它无法和其他stub area 中的路由器建立邻接关系。</p>
 <h4 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h4><p>Area 1中将不会有4、5类LSA，也就是Area 2重发布进来的关于网段10.1.1.0/24的路由被ABR过滤掉了，同时Area 1中的路由器将获得一条3类LSA的默认路由，该默认路由是由area 1的ABR自动下发。</p>
-<h3 id="Totally-Stub-area"><a href="#Totally-Stub-area" class="headerlink" title="Totally Stub area"></a>Totally Stub area</h3><h4 id="概述-14"><a href="#概述-14" class="headerlink" title="概述"></a>概述</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-23_15-51-20.jpg" alt="Snipaste_2020-09-23_15-51-20"></p>
+<h3 id="Totally-Stub-area"><a href="#Totally-Stub-area" class="headerlink" title="Totally Stub area"></a>Totally Stub area</h3><h4 id="概述-14"><a href="#概述-14" class="headerlink" title="概述"></a>概述</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-09-23_15-51-20.jpg" alt="Snipaste_2020-09-23_15-51-20" style="zoom:67%;">
+
 <p>通过将区域规划成Stub area，可以起到一定的网络优化作用，但感觉上还是不够彻底，因为Stub area只是不知道外部路由，但除了外部路由，其他区域的路由（约等于其他区域的LSA）其实我也没必要知道太多细节，用一条默认路由代替去往其他area的路由也没问题，那么这里就可以将area 1设置为完全末梢区域，也就是totally stub area，当一个区域被配置为完全末梢区域时，这个区域将：</p>
 <ul>
 <li>阻挡3、4、5类LSA进入本区域；</li>
@@ -841,10 +877,12 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line">area 1 stub</span><br></pre></td></tr></table></figure>
 
 <h4 id="实现效果-1"><a href="#实现效果-1" class="headerlink" title="实现效果"></a>实现效果</h4><p>完成上述配置后，area 1内的路由器将只有本区域的路由（ABR除外），同时能获取到ABR下发的3类默认路由，也就是说其他区域的路由以及外部注入的路由都被ABR挡在外面，取而代之的是一条默认路由。</p>
-<h3 id="NSSA"><a href="#NSSA" class="headerlink" title="NSSA"></a>NSSA</h3><h4 id="概述-15"><a href="#概述-15" class="headerlink" title="概述"></a>概述</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-23_17-14-16.jpg" alt="Snipaste_2020-09-23_17-14-16"></p>
+<h3 id="NSSA"><a href="#NSSA" class="headerlink" title="NSSA"></a>NSSA</h3><h4 id="概述-15"><a href="#概述-15" class="headerlink" title="概述"></a>概述</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-09-23_17-14-16.jpg" alt="Snipaste_2020-09-23_17-14-16" style="zoom:67%;">
+
 <p>在前面的知识基础上，我们已经了解到，在保证网络连通性的情况下，减少LSA的泛洪以及精简路由表，我们可以将特定区域配置为末梢区域（Stub area）或完全末梢区域（totally stub area），上面的拓扑中，如果我们将area 2配置为stub area，那么该area一方面会阻挡4、5类LSA的进入，另一方面会同时禁止重发布外部路由看，那么如果此时我们期望这个区域保持“阻挡其他区域过来的4、5类LSA”这个特性，同时允许在本area 内重发布路由，该怎么办呢？</p>
 <p>例如，假设area 2原来时作为一个stub area运行的，但突然有一个外部网络，需要接入到我们这个OSPF网络中，并且连在area 2中，这种情况下为了保证路由可达，就必须向area 2中注入外部路由了，但注入路由违反了stub area的规则，stub area禁止4、5类LSA进入，外部路由的LSA为5类，无法注入。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-23_17-32-23.jpg" alt="Snipaste_2020-09-23_17-32-23"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-09-23_17-32-23.jpg" alt="Snipaste_2020-09-23_17-32-23" style="zoom:67%;">
+
 <p>如何解决呢？引入NSSA（not-so-stubby-area）的概念，中文翻译就是“非完全末梢区域”，当一个区域配置为NSSA时，这个区域一方面将阻挡其他区域传来的4、5类LSA，同时“允许区域本地注入”外部路由，这些外部路由以一种特殊的LSA类型—7类LSA在NSSA中泛洪，并且7类LSA不允许进入骨干区域或常规区域，NSSA的ABR会负责将7类LSA“转换”成5类LSA，从而在常规区域中进一步泛洪。上面的“允许区域本地注入”的意思是，NSSA这个区域的路由器配置重新发布。</p>
 <p>必须注意的是，与Stub area及totally stub area不同的是，如果你将一个区域配置为NSSA，默认情况下，NSSA的ABR不会自动下发默认路由进NSSA，因此在NSSA环境下，需要留意网络连通信问题。</p>
 <h4 id="配置命令-2"><a href="#配置命令-2" class="headerlink" title="配置命令"></a>配置命令</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line">area 2 nssa</span><br></pre></td></tr></table></figure>
@@ -856,25 +894,29 @@
 <p><strong>NSSA的ABR，在某种程度上可以理解成为常规区域的ASBR，它不会为常规区域生成4类LSA。</strong></p>
 <p>NSSA的ABR产生了5类LSA（通过7转5）并通告进骨干区域，因此这台NSSA的ABR对于骨干区域而言就是一台ASBR，由于存在这个7转5的过程，真正的ASBR（NSSA区域中执行重发布的那台路由器）信息就不需要被骨干区域路由器知道，因此NSSA区域的ABR也不会为这个区域里的ASBR产生4类LSA并通告进骨干区域。</p>
 <p><strong>NSSA的双ABR问题</strong></p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_16-44-34.jpg" alt="Snipaste_2020-09-30_16-44-34"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_16-44-34.jpg" alt="Snipaste_2020-09-30_16-44-34" style="zoom:67%;">
+
 <p>上图中，两个ABR都会收到7类LSA，但只有Router ID大的ABR才会执行7转5动作，两台ABR都会在NSSA区域泛洪1类LSA，并从中了解到对方的存在。</p>
 <p><strong>N/P位</strong></p>
 <p>N/P位为1bit，在HELLO和LSA中都携带option字段，N/P位在两者中分别有不同的意义。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_16-51-32.jpg" alt="Snipaste_2020-09-30_16-51-32"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_16-51-32.jpg" alt="Snipaste_2020-09-30_16-51-32" style="zoom:67%;">
+
 <ul>
 <li>在Hello报文中：N bit标识该路由器位NSSA区域路由器，当N  bit被置1时，E  bit就必须被清零。</li>
 <li>在LSA报文中：P bit 仅在7类LSA中出现，置1时标识NSSA区域的ABR能够将这条7类LSA转成5类LSA，而P位置0时不能进行7到5的LSA转换。</li>
 </ul>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_16-53-50.jpg" alt="Snipaste_2020-09-30_16-53-50"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_16-53-50.jpg" alt="Snipaste_2020-09-30_16-53-50" style="zoom:67%;">
+
 <ul>
 <li>P bit 为0时，ABR将不能将该7类LSA转换成5类LSA，只有NSSA区域的ABR重发布路由时，通告的7类LSA中的P bit才为0。NSSA区域在ABR重发布时，将7类LSA的P bit 置0，通知其他NSSA区域的ABR不要对该LSA进行7转5，因为骨干区域内的其他路由器已经从骨干区域内收到该路由的5类LSA，因此NSSA区域其他ABR执行7转5是没意义的。</li>
 </ul>
-<img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_17-14-12.jpg" alt="Snipaste_2020-09-30_17-14-12" style="zoom:50%;">
+<img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_17-14-12.jpg" alt="Snipaste_2020-09-30_17-14-12" style="zoom: 67%;">
 
 <ul>
 <li>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</li>
 </ul>
-<h3 id="Totally-NSSA"><a href="#Totally-NSSA" class="headerlink" title="Totally NSSA"></a>Totally NSSA</h3><h4 id="概述-16"><a href="#概述-16" class="headerlink" title="概述"></a>概述</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_10-28-51.jpg" alt="Snipaste_2020-09-26_10-28-51"></p>
+<h3 id="Totally-NSSA"><a href="#Totally-NSSA" class="headerlink" title="Totally NSSA"></a>Totally NSSA</h3><h4 id="概述-16"><a href="#概述-16" class="headerlink" title="概述"></a>概述</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_10-28-51.jpg" alt="Snipaste_2020-09-26_10-28-51" style="zoom:67%;">
+
 <p>Totally NSSA，翻译成中文是一个非常尴尬的名字，完全非末梢区域，Totally NSSA是在NSSA区域的基础上，进一步阻挡NSSA区域外的其他区域过来的3类LSA，同时ABR自动下发一条3类LSA的默认路由进入NSSA区域。</p>
 <h4 id="配置命令-3"><a href="#配置命令-3" class="headerlink" title="配置命令"></a>配置命令</h4><p>ABR：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line">area 2 nssa no-summary</span><br></pre></td></tr></table></figure>
@@ -892,7 +934,8 @@
 <li>NSSA：1、2、3、7；</li>
 <li>Totally NSSA：1、2、7、3类0.0.0.0/0（ABR向区域内发起的一条3类缺省路由LSA）。</li>
 </ul>
-<h3 id="特殊区域实验"><a href="#特殊区域实验" class="headerlink" title="特殊区域实验"></a>特殊区域实验</h3><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_11-27-38.jpg" alt="Snipaste_2020-09-26_11-27-38"></p>
+<h3 id="特殊区域实验"><a href="#特殊区域实验" class="headerlink" title="特殊区域实验"></a>特殊区域实验</h3><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_11-27-38.jpg" alt="Snipaste_2020-09-26_11-27-38" style="zoom:67%;">
+
 <h4 id="无特殊区域"><a href="#无特殊区域" class="headerlink" title="无特殊区域"></a>无特殊区域</h4><h5 id="基础配置及结果："><a href="#基础配置及结果：" class="headerlink" title="基础配置及结果："></a>基础配置及结果：</h5><p>CO1：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 192.168.12.1 255.255.255.0</span><br><span class="line"> duplex auto</span><br><span class="line"> !</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> ip address 192.168.13.1 255.255.255.0</span><br><span class="line"> duplex auto</span><br><span class="line">!</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 1.1.1.1</span><br><span class="line"> network 192.168.12.1 0.0.0.0 area 0</span><br><span class="line"> network 192.168.13.1 0.0.0.0 area 0</span><br></pre></td></tr></table></figure>
 
@@ -939,7 +982,8 @@
 <img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_11-58-21.jpg" alt="Snipaste_2020-09-26_11-58-21" style="zoom: 67%;">
 
 <p>从输出结果可知，确实有5种LSA，但对于一个“叶”area来说，知道这么多种LSA，其实意义不大，这时我们引入Stub area，看结果如何。</p>
-<h4 id="Stub-area-1"><a href="#Stub-area-1" class="headerlink" title="Stub area"></a>Stub area</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_12-11-14.jpg" alt="Snipaste_2020-09-26_12-11-14"></p>
+<h4 id="Stub-area-1"><a href="#Stub-area-1" class="headerlink" title="Stub area"></a>Stub area</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_12-11-14.jpg" alt="Snipaste_2020-09-26_12-11-14" style="zoom:50%;">
+
 <p>此时我们将Area 1配置成Stub area，理论上应该由身为ABR的R3下发一条3类LSA的默认路由，然后Area 1阻止4、5类LSA进入，现在来看是不是这样。</p>
 <h5 id="变更的配置"><a href="#变更的配置" class="headerlink" title="变更的配置"></a>变更的配置</h5><p>在R3、R4和R5下加入配置：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line">area 1 stub</span><br></pre></td></tr></table></figure>
@@ -949,7 +993,8 @@
 <p>从上面的输出结果中可以看到LSDB相比配置之前进行了一定程度的精剪，R4和R5中原本存在的4、5类LSA已经被ABR阻隔了，由身为ABR的R3下发了一条默认路由，这条默认路由是以3类LSA的形式自动下发的，因为并没有进行任何关于默认路由的配置：</p>
 <img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_12-21-02.jpg" alt="Snipaste_2020-09-26_12-21-02" style="zoom: 80%;">
 
-<h4 id="Totally-Stub-area-1"><a href="#Totally-Stub-area-1" class="headerlink" title="Totally Stub area"></a>Totally Stub area</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_12-47-18.jpg" alt="Snipaste_2020-09-26_12-47-18"></p>
+<h4 id="Totally-Stub-area-1"><a href="#Totally-Stub-area-1" class="headerlink" title="Totally Stub area"></a>Totally Stub area</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_12-47-18.jpg" alt="Snipaste_2020-09-26_12-47-18" style="zoom:50%;">
+
 <p>现在将Area 1配置成Totally Stub area，理论上应阻止3、4、5类LSA进入Area 1并下发3类LSA构成的默认路由。</p>
 <h5 id="变更配置"><a href="#变更配置" class="headerlink" title="变更配置"></a>变更配置</h5><p>R3:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line">area 1 stub no-summary</span><br></pre></td></tr></table></figure>
@@ -957,7 +1002,8 @@
 <h5 id="LSDB及RIB-1"><a href="#LSDB及RIB-1" class="headerlink" title="LSDB及RIB"></a>LSDB及RIB</h5><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_13-03-47.jpg" alt="Snipaste_2020-09-26_13-03-47" style="zoom:80%;">
 
 <p>从上面的输出可以看出，LSDB比之前有了大幅精剪，除了由ABR，R3<strong>自动下发</strong>的一条3类LSA的默认路由以外，其他3、4、5类LSA都被阻隔在了外面，所以路由表中自然没有了其他区域的网络号，这些均由一条默认路由代替。</p>
-<h4 id="NSSA-1"><a href="#NSSA-1" class="headerlink" title="NSSA"></a>NSSA</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_13-19-54.jpg" alt="Snipaste_2020-09-26_13-19-54"></p>
+<h4 id="NSSA-1"><a href="#NSSA-1" class="headerlink" title="NSSA"></a>NSSA</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_13-19-54.jpg" alt="Snipaste_2020-09-26_13-19-54" style="zoom:50%;">
+
 <h5 id="变更的配置-1"><a href="#变更的配置-1" class="headerlink" title="变更的配置"></a>变更的配置</h5><p>R6、R7、R8：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line">area 2 nssa</span><br></pre></td></tr></table></figure>
 
@@ -983,7 +1029,8 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> Area 1 nssa default-information-originate</span><br></pre></td></tr></table></figure>
 </blockquote>
 </blockquote>
-<h4 id="Totally-NSSA-1"><a href="#Totally-NSSA-1" class="headerlink" title="Totally NSSA"></a>Totally NSSA</h4><p><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_13-46-56.jpg" alt="Snipaste_2020-09-26_13-46-56"></p>
+<h4 id="Totally-NSSA-1"><a href="#Totally-NSSA-1" class="headerlink" title="Totally NSSA"></a>Totally NSSA</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_13-46-56.jpg" alt="Snipaste_2020-09-26_13-46-56" style="zoom:50%;">
+
 <h5 id="变更的命令"><a href="#变更的命令" class="headerlink" title="变更的命令"></a>变更的命令</h5><p>R6：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line">area 2 nssa no-summary</span><br></pre></td></tr></table></figure>
 
@@ -1001,7 +1048,8 @@
 <p>没有active neighbor的hello包：</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-30_17-33-46.jpg" alt="Snipaste_2020-06-30_17-33-46"></p>
 <p>有active neighbor的hello包：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-30_17-34-52.jpg" alt="Snipaste_2020-06-30_17-34-52"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-06-30_17-34-52.jpg" alt="Snipaste_2020-06-30_17-34-52" style="zoom:67%;">
+
 <h3 id="2-—-Way"><a href="#2-—-Way" class="headerlink" title="2 — Way"></a>2 — Way</h3><p>当两个路由器之间建立起了双向通信时，进入2-Way状态，双向通信意味着两个路由器都收到了对方的Hello包，而Hello包中的Active Neighbor字段中是对方的Router-ID。当OSPF路由器在某个链路上发现了邻居后，它自己发送的Hello包里就会增加一个叫“Active Neighbor”的字段，用于存储在该链路上发现的OSPF邻居。当一台OSPF Router看到自己的Router ID出现在邻居发过来的Hello包中，它就会将该邻居置为Two-Way，该状态是OSPF邻居之间可以具有的最基本的关系，也是第一个稳定状态，但此时两者还不能共享路由信息。</p>
 <p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-03_17-29-25.jpg" alt="Snipaste_2020-07-03_17-29-25"></p>
 <p>在2-way状态下，路由器决定是否和邻居形成邻接状态。在类型为广播（MA）或非广播多路访问的情况下，路由器只和DR以及BDR形成FULL的关系，和其他的DR Other形成2-way的关系；在点对点和点对多点的网络中，路由器和所有其他链接的路由器形成FULL关系。在2-way的时候还要选举BDR和DR，<strong>注意是先选举BDR然后再选举DR，DR/BDR具体选举步骤上文写过，这里再简单写一下重点：</strong></p>
@@ -1014,35 +1062,47 @@
 <li>MS位，Master/Slave bit，中文翻译为主/从位，当该位置位为1时，表示自己时Master，Router ID大的一方为Master，大多数情况下DR会成为Master。当两个路由器给对方发送第一个DBD报文时，双方都会将自己的MS位置位为1，然后相互比较Router ID决定主从关系。当决出主从关系时，Master的MS位不变依旧为1而Slave的MS位会置0表示自己为Slave。</li>
 </ul>
 <p>双方的第一、第二个DBD的I、M、MS位均置1，用来比较出谁是Master/Slave（注意不是BDR\DR），第三个包由Slave发给Master，Slave采用了Master的序列号，I位置0因为已经不是第一个初始化的DBD了，M位置1因为之后还有DBD要交互，MS位置0因为我不是Master而对方是Master。三个数据交互完确定了Master/Slave，从此只有Master可以设置并且增加序列号，而Slave不行。确定了Master/Slave关系后进入Exchange阶段，进入Exchange阶段后，Exchange以后Master发送一个DBD，Slave必须回一个DBD（主从关系确定后，Slave不能主动发送DBD只能被动回应Master的DBD），两者用这种方式交换DBD信息。如果Slave已经没有更多DBD需要交换（也就是M位置0）而Master依旧还在发送DBD，则Slave必须用DBD响应并用Master的序列号隐式确认，但由于Slave端已经发送了所有LSA目录，此时Slave的DBD包中没有LSA的相关信息包含在内了。<strong>Master/Slave关系只在DBD中存在，DBD数据包只在ExStart/Exchange过程中存在。</strong>下面看看抓包的对比，首先是Master发送的包含有LSA目录的DBD：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-13_16-44-11.jpg" alt="Snipaste_2020-07-13_16-44-11"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-13_16-44-11.jpg" alt="Snipaste_2020-07-13_16-44-11" style="zoom:67%;">
+
 <p>接下来是Slave回应上面Master发送的DBD的消息，这个DBD用的序列号是2990，和上面Master发送的序列号相同，属于隐式确认，可以看到由于Slave的I、M、MS位都为0，说明此时它已经发送完了所有的LSA的目录，没有其他可发送了，所以抓包中并没有关于LSA的部分：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-13_16-44-35.jpg" alt="Snipaste_2020-07-13_16-44-35"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-13_16-44-35.jpg" alt="Snipaste_2020-07-13_16-44-35" style="zoom:67%;">
+
 <p><strong>选举完Master/Slave</strong>以后，路由器会进入<strong>Exchange</strong>阶段，在该阶段中执行DBD的交换过程，并且通过交换DBD明白下一步要从邻居路由器下载哪些LSA。为什么要交换DBD呢？因为OSPF是链路状态路由协议，本Area内路由器里的LSDB要相同，这就需要邻居之间相互交换彼此没有的LSA，如何知道哪些LSA需要交换呢？先比较LSDB的目录，也就是比较DBD，DBD是链路状态数据摘要，也就是LSDB的摘要，用于描述链路状态数据库（LSDB）的内容。</p>
 <p>在Exchange阶段，双方使用包含自己LSA头部的DBD报文进行交互，并且将对方发过来的LSA头部、自己感兴趣的LSA或自己没有的LSA存储在一个本地的OSPF接口的队列里，以便在下一个阶段进行LSA详细请求。当某个接口收到邻居发来的DBD中的M位置0，说明对方已经发完DBD了，与此同时，如果该路由器的这个OSPF接口上存在待请求的LSA，那么它会将这个邻居置为loading状态。在Exchange状态也有可能发送LSR去请求对方发送LSU。</p>
 <h4 id="抓包说明"><a href="#抓包说明" class="headerlink" title="抓包说明"></a>抓包说明</h4><h5 id="空DBD包"><a href="#空DBD包" class="headerlink" title="空DBD包"></a>空DBD包</h5><p>空DBD包中只有LSA头部的信息，并没有整个LSA的信息：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_17-29-34.jpg" alt="Snipaste_2020-07-04_17-29-34"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_17-29-34.jpg" alt="Snipaste_2020-07-04_17-29-34" style="zoom:67%;">
+
 <p>而完整的LSA中包含的信息要多得多：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-06_16-42-23.jpg" alt="Snipaste_2020-07-06_16-42-23"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-06_16-42-23.jpg" alt="Snipaste_2020-07-06_16-42-23" style="zoom:67%;">
+
 <h5 id="初始化协商的DBD消息"><a href="#初始化协商的DBD消息" class="headerlink" title="初始化协商的DBD消息"></a>初始化协商的DBD消息</h5><p>初始化协商的DBD消息中的I、M以及MS位均为1。I位置1，因为这是第一个用于ExStart协商主从关系的初始化协商的DBD包；M位为1，因为这不是Router发送的最后一个DBD包，因为还没开始交换DBD，所以这位肯定为1；MS也为1，因为这时Master/Slave选举还没得出结论，得出结论前两个协商的路由器都会认为自己是Master，所以都会把MS位置位为1。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_19-09-31.jpg" alt="Snipaste_2020-07-04_19-09-31"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_19-09-31.jpg" alt="Snipaste_2020-07-04_19-09-31" style="zoom:67%;">
+
 <p>我是10.0.0.1，Router ID为1.1.1.1，这是我协商主从关系的第一个DBD包（I位为1），我还有更多的DBD包要发送（M位为1），我是Master（MS位为1），我的DBD的序列号是3138。该DBD包中不包含LSA的信息。接下来我们看对方（10.0.0.3）发送的DBD初始消息。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_19-10-48.jpg" alt="Snipaste_2020-07-04_19-10-48"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_19-10-48.jpg" alt="Snipaste_2020-07-04_19-10-48" style="zoom:67%;">
+
 <p>我是10.0.0.3，Router ID为3.3.3.3，这是我协商主从关系的第一个DBD包（I位为1），我还有更多的DBD包要发送（M位为1），我是Master（MS位为1），我的DBD的序列号是2989。该DBD包中不包含LSA的信息。</p>
 <p>交互完DBD包以后，Router ID大的一方也就是ID为3.3.3.3的10.0.0.3成为Master，Router ID小的10.0.0.1成为Slave。</p>
-<h5 id="交互LSDB目录的过程"><a href="#交互LSDB目录的过程" class="headerlink" title="交互LSDB目录的过程"></a>交互LSDB目录的过程</h5><p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_19-25-33-1593861960005.jpg" alt="Snipaste_2020-07-04_19-25-33"></p>
+<h5 id="交互LSDB目录的过程"><a href="#交互LSDB目录的过程" class="headerlink" title="交互LSDB目录的过程"></a>交互LSDB目录的过程</h5><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_19-25-33-1593861960005.jpg" alt="Snipaste_2020-07-04_19-25-33" style="zoom:67%;">
+
 <p>第三个DBD由Slave（10.0.0.1）发给Master（10.0.0.3），序列号采用Master发送初始DBD中的序列号，I位置0因为已经不是初始化的DBD包了，也意味着此时<strong>进入了Exchange状态</strong>；M位置1表示还有后续的DBD包，不过一般实验中LSU较少所以这位为0也是正常的，因为一个DBD就交互完事儿了；MS位为0表示我是Slave。同时DBD包中也有LSA的摘要信息，但并没有LSA的具体信息，主要是交换了LSA的Router ID，表明自己有哪些路由器的信息。Master（10.0.0.3）收到这个DBD包以后，发现I位为0，于是将对方的状态改为Exchange，再查看Sequence号发现这个序号是自己这个Master产生的，于是在这个序列号的基础上+1生成新的序列号，这么做是隐式确认告诉对方之前你发的这个DBD我收到了，然后带上了自己的LSA摘要信息，发送给对方开始交互LSDB的摘要目录。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_19-28-29.jpg" alt="Snipaste_2020-07-04_19-28-29"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_19-28-29.jpg" alt="Snipaste_2020-07-04_19-28-29" style="zoom:67%;">
+
 <p>第四个DBD由Master发给Slave，序列号在之前的基础上+1，也就是2990，用以隐式确认之前收到的序列号为2899的DBD。I位为0，因为已经不是初始化的DBD包了；M位为1，表示还有后续的DBD包；MS位为1，因为自身是Master。后面带上了自己的LSA摘要信息。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_20-59-33.jpg" alt="Snipaste_2020-07-04_20-59-33"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_20-59-33.jpg" alt="Snipaste_2020-07-04_20-59-33" style="zoom:67%;">
+
 <p>第五个DBD由Slave（10.0.01）发送给Master（10.0.0.3），序列号和之前Master发给它的序列号相同，且M位置0，说明Slave没有需要发送给Master的其他LSDB目录了，这个DBD完全是用来确认之前Master的那个序列号为2990的DBD。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_21-03-53.jpg" alt="Snipaste_2020-07-04_21-03-53"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_21-03-53.jpg" alt="Snipaste_2020-07-04_21-03-53" style="zoom:67%;">
+
 <p>第六个DBD由Master（10.0.0.3）发送给Slave（10.0.0.1），序列号为之前Slave确认DBD的序列号+1，也就是2991，这时M位置0，说明Master（MS位置1）没有更多的DBD要发送了。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_21-05-19.jpg" alt="Snipaste_2020-07-04_21-05-19"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-04_21-05-19.jpg" alt="Snipaste_2020-07-04_21-05-19" style="zoom:67%;">
+
 <p>最后一个DBD由Slave（10.0.0.1）发送给Master（10.0.0.3），序列号和刚才Master发送的序列号一致，也是个用来确认的DBD。至此两方都没有DBD信息要交换了，Exchange阶段结束。</p>
 <h4 id="补充说明-1"><a href="#补充说明-1" class="headerlink" title="补充说明"></a>补充说明</h4><h5 id="为什么用空DBD包？"><a href="#为什么用空DBD包？" class="headerlink" title="为什么用空DBD包？"></a>为什么用空DBD包？</h5><p>当两个路由器决定建立完全邻接关系时（Full adjacent），二者必须同步彼此的LSDB（Link State DataBase，链路状态信息数据库），因为OSPF是一个链路状态路由协议，每台设备都要知道网络的整体信息（在OSPF中就是了解全网的LSA）所以邻居的LSDB自己也必须掌握，掌握清楚全网的信息以后，再根据自己掌握的信息计算出路由。为了优化LSDB数据库同步过程，两台路由器会先比较它们LSDB的条目列表，这样就不用交换整个LSDB数据库了，再根据LSDB条目列表比较的情况决定去交互哪些LSA，发送空DBD包就是LSDB的条目列表，空DBD是并不包含LSA头部的DBD包，既能达到比较两台设备LSDB的目的，又减小网络及系统的开销，就好像两个商店之间互相比较存货的差异，这时只要比较两个商店的存货目录清单而不用把所有货物搬出来彼此比较一样。</p>
 <h5 id="如何确定对方收到DBD？"><a href="#如何确定对方收到DBD？" class="headerlink" title="如何确定对方收到DBD？"></a>如何确定对方收到DBD？</h5><p>由于链路状态路由协议要获知全网的网络信息，所以必须知道和邻居之间LSDB中的LSA差别在哪，这时候需要交换空DBD以交换彼此掌握的LSA目录，但由于OSPF协议中并没给DBD包设计专门的DBD确认（必须注意，LSAck是用来确认LSU的而不是确认DBD的），这时如何确定对方收到了DBD包呢？<strong>用DBD包中的序列号做隐式确认。</strong>当Master发送M位置1\0、MS位置1的DBD并且Sequence为X的DBD时（表示我是Master，我还有后或者没有续的DBD需要发送），Slave会发送一个<strong>序列号同为X</strong>、M位置1\0，MS位置0的DBD<strong>隐式确认</strong>之前Master发送的DBD（表示我是Slave，我有或没有后续的DBD发送，我的序列号是X）。</p>
 <h3 id="Loading"><a href="#Loading" class="headerlink" title="Loading"></a>Loading</h3><p>DBD交换完成后，进入Loading状态，在Exchange状态时已经对链路状态数据库和收到的DBD的LSA头部进行了比较，已经知道要向邻居请求哪些自身没有的LSA了，于是在Loading阶段向邻居发送LSR用来请求这些没有的LSA；邻居收到LSR后，回应LSU（LSU中包含着LSA）；收到邻居发来的LSU，存储这些LSA到自己的链路状态数据库，并发送LSAck确认。也就是一个LSR — LSU — LSAck的数据包交互过程，当需要交互的LSU全部发送完毕后，Loading状态结束进入Full状态。在发送LSU时，路由器中也维护着一个LSU的重传列表以便确定所有发送的LSU都能被正确接收到，如果没收到某个LSU的LSAck的话会重传该LSU，例如下图：</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-07-14_18-19-36.jpg" alt="Snipaste_2020-07-14_18-19-36"></p>
+<img src="/2020/06/24/13-ospf/Snipaste_2020-07-14_18-19-36.jpg" alt="Snipaste_2020-07-14_18-19-36" style="zoom:67%;">
+
 <ol>
 <li>R2需要向R1请求A2和B2两条LSA的LSU，R1要向R2请求B1这一条LSA的LSU。</li>
 <li>R1向R2发送了A2和B2这两个LSU，R2发送了A2的LSAck，表示已经收到了A2的LSU</li>
