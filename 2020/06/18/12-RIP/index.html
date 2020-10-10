@@ -1,18 +1,230 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="12、RIP"><meta name="keywords" content=""><meta name="author" content="Rookie"><meta name="copyright" content="Rookie"><title>12、RIP | Rookie's Notebook</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.8.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.8.2"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
-  google_ad_client: 'ca-pub-1925354082861905',
-  enable_page_level_ads: 'true'
-});
-</script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  hexoVersion: '4.0.0'
-} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RIP"><span class="toc-number">1.</span> <span class="toc-text">RIP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#总览"><span class="toc-number">1.1.</span> <span class="toc-text">总览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#V1和V2的相同点"><span class="toc-number">1.1.1.</span> <span class="toc-text">V1和V2的相同点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V1和V2的不同点"><span class="toc-number">1.1.2.</span> <span class="toc-text">V1和V2的不同点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V1的缺陷"><span class="toc-number">1.1.3.</span> <span class="toc-text">V1的缺陷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V2的改进"><span class="toc-number">1.1.4.</span> <span class="toc-text">V2的改进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V1和V2兼容性"><span class="toc-number">1.1.5.</span> <span class="toc-text">V1和V2兼容性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RIP的计时器"><span class="toc-number">1.1.6.</span> <span class="toc-text">RIP的计时器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RIP-V2"><span class="toc-number">1.2.</span> <span class="toc-text">RIP V2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#报头"><span class="toc-number">1.2.1.</span> <span class="toc-text">报头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基本配置"><span class="toc-number">1.2.2.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#被动接口"><span class="toc-number">1.2.3.</span> <span class="toc-text">被动接口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RIP-综合实验"><span class="toc-number">1.3.</span> <span class="toc-text">RIP 综合实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实验需求"><span class="toc-number">1.3.1.</span> <span class="toc-text">实验需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基础配置"><span class="toc-number">1.3.2.</span> <span class="toc-text">基础配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置RIP"><span class="toc-number">1.3.3.</span> <span class="toc-text">配置RIP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优化路由"><span class="toc-number">1.3.4.</span> <span class="toc-text">优化路由</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-number">2.</span> <span class="toc-text">参考文章</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/images/avatar.jpg"></div><div class="author-info__name text-center">Rookie</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">13</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">2</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Rookie's Notebook</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">12、RIP</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-06-18</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/">CCNA</a><span class="post-meta__separator">|</span><i class="fa fa-comment-o post-meta__icon" aria-hidden="true"></i><a href="/2020/06/18/12-RIP/#disqus_thread"><span class="disqus-comment-count" data-disqus-identifier="2020/06/18/12-RIP/"></span></a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="RIP"><a href="#RIP" class="headerlink" title="RIP"></a>RIP</h1><h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。RIP一共有3个版本的协议，分别是RIP V1，RIP V2以及RIPNG。</p>
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Rookie">
+  <meta name="keywords" content="">
+  <title>12、RIP - Rookie&#39;s Notebook</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:" target="_blank" rel="noopener">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-06-18 10:25" pubdate>
+        June 18, 2020 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      29
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">12、RIP</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="RIP"><a href="#RIP" class="headerlink" title="RIP"></a>RIP</h1><h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。RIP一共有3个版本的协议，分别是RIP V1，RIP V2以及RIPNG。</p>
 <p>RIP定义了请求信息和响应消息两种类型。请求信息：可以请求整张路由表，也可以请求具体的路由信息。</p>
 <ul>
 <li><p>请求整张路由表：请求消息含有一个地址族标识字段为0（地址为0.0.0.0），度量值为16的单条路由，收到这个请求的设备将通过单播方式向发出请求的地址回送它的整个路由表。</p>
@@ -51,60 +263,393 @@
 <p>Invalid timer无效计时器：当一条路由条目被加进路由表后，如果它在路由表中超过180秒未被更新，则路由器认为这条路由无效，在这种情况下，路由器会将该路由的跳数标记为16跳，也就是不可达。</p>
 <p>hold down timer抑制计时器：一条路由信息无效之后，一段时间内这条路由都处于抑制状态，即在一定时间内不再接收关于同一目的地址的路由更新。大概过程是如果一个路由器从邻居路由器收到一条更新，提示以前可达的网络现在不可达了，或有一个更大跳数的路由，则路由器标识该路由为不可达并启动一个抑制计时器，如果在定时器到时之前收到该路由又可达的更新，或者新度量值比之前的度量值更好，则路由器标识这个路由可达并删除定时器。路由器从一个网段上得知一条路径失效，然后，立即在另一个网段上得知这个路由有效。这个有效的信息往往是不正确的，抑制计时避免了这个问题，而且，当一条链路频繁起停时，抑制计时减少了路由的浮动，增加了网络的稳定性。RIP的抑制计时器默认为6个更新的周期，也就是6X30，为180秒。</p>
 <p>Flush time清除计时器：清除计时器的默认时间为240秒，也就是说如果240秒内一条路由如果始终没有相应，则该路由条目被标记为不可达并从路由表中移除。</p>
-<h2 id="RIP-V2"><a href="#RIP-V2" class="headerlink" title="RIP V2"></a>RIP V2</h2><h3 id="报头"><a href="#报头" class="headerlink" title="报头"></a>报头</h3><p><img src="/2020/06/18/12-RIP/RIP_msgformat.PNG" alt="RIP_msgformat"></p>
-<p><img src="/2020/06/18/12-RIP/Snipaste_2020-06-21_15-54-09.jpg" alt="Snipaste_2020-06-21_15-54-09"></p>
-<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#router rip</span><br><span class="line">/*使用RIPv2，如果不使用这条命令默认是使用RIPv1*/</span><br><span class="line">Router(config-router)#version 2</span><br><span class="line">/*和RIPv1相同，都是宣告主类网络号*/</span><br><span class="line">R1(config-router)#no auto-summary  </span><br><span class="line">/*关闭自动汇总*/</span><br><span class="line">Router(config-router)#network 主类网络号</span><br><span class="line">Router(config-router)#int s0/0</span><br><span class="line">/*关闭自动汇总后，配置手动汇总的话需要在接口上进行配置，汇总是在路由的外出接口上面做的*/</span><br><span class="line">R1(config-if)#ip summary-address rip 汇总网络号  汇总掩码</span><br><span class="line">/*等待路由收敛后，查看路由表，就只能看到汇总路由的条目了*/</span><br></pre></td></tr></table></figure>
+<h2 id="RIP-V2"><a href="#RIP-V2" class="headerlink" title="RIP V2"></a>RIP V2</h2><h3 id="报头"><a href="#报头" class="headerlink" title="报头"></a>报头</h3><p><img src="/2020/06/18/12-RIP/RIP_msgformat.PNG" srcset="/img/loading.gif" alt="RIP_msgformat"></p>
+<p><img src="/2020/06/18/12-RIP/Snipaste_2020-06-21_15-54-09.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-06-21_15-54-09"></p>
+<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">Router</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#router</span> rip
+<span class="hljs-comment">/*使用RIPv2，如果不使用这条命令默认是使用RIPv1*/</span>
+<span class="hljs-function"><span class="hljs-title">Router</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#version</span> <span class="hljs-number">2</span>
+<span class="hljs-comment">/*和RIPv1相同，都是宣告主类网络号*/</span>
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#no</span> <span class="hljs-attribute">auto</span>-summary  
+<span class="hljs-comment">/*关闭自动汇总*/</span>
+<span class="hljs-function"><span class="hljs-title">Router</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#network</span> 主类网络号
+<span class="hljs-function"><span class="hljs-title">Router</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#int</span> s0/<span class="hljs-number">0</span>
+<span class="hljs-comment">/*关闭自动汇总后，配置手动汇总的话需要在接口上进行配置，汇总是在路由的外出接口上面做的*/</span>
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#ip</span> summary-<span class="hljs-selector-tag">address</span> rip 汇总网络号  汇总掩码
+<span class="hljs-comment">/*等待路由收敛后，查看路由表，就只能看到汇总路由的条目了*/</span></code></pre>
 
 <h3 id="被动接口"><a href="#被动接口" class="headerlink" title="被动接口"></a>被动接口</h3><p>当一个运行RIP协议的接口被配置为被动接口后，这个接口不发出路由的更新信息但接受路由的更新信息。</p>
 <p>配置命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#router rip </span><br><span class="line">R1(config-router)#passive-interface s1/1</span><br><span class="line">/*将S 1/1接口配置为被动接口*/</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#router</span> rip 
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#passive-interface</span> s1/<span class="hljs-number">1</span>
+<span class="hljs-comment">/*将S 1/1接口配置为被动接口*/</span></code></pre>
 
-<h2 id="RIP-综合实验"><a href="#RIP-综合实验" class="headerlink" title="RIP 综合实验"></a>RIP 综合实验</h2><p><img src="/2020/06/18/12-RIP/Snipaste_2020-06-21_17-13-05.jpg" alt="Snipaste_2020-06-21_17-13-05"></p>
+<h2 id="RIP-综合实验"><a href="#RIP-综合实验" class="headerlink" title="RIP 综合实验"></a>RIP 综合实验</h2><p><img src="/2020/06/18/12-RIP/Snipaste_2020-06-21_17-13-05.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-06-21_17-13-05"></p>
 <h3 id="实验需求"><a href="#实验需求" class="headerlink" title="实验需求"></a>实验需求</h3><ol>
 <li>网络拓扑如上图所示。 PC1 使用模拟器模拟，R3 下联的网段使用 Loopback 接口来模拟，一共开设三个 Loopback 接口，用于模拟 R3 下联的三个网段；</li>
 <li>要求 R1、R2、R3 运行 RIPv2，并实现全网可达；</li>
 <li>在 R3 上部署 RIP 手工路由汇总，使得 R1、R2 学习到 R3 下联 Loopback 的汇总路由。 </li>
 </ol>
 <h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><p>PC1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Router#config t</span><br><span class="line">Router(config)#hostname PC1</span><br><span class="line">PC1(config)#ip default-gateway 172.16.1.254</span><br><span class="line">/*配置默认网关为172.16.1.254，也就是和本社设备链接的R1的G0/1接口*/</span><br><span class="line">PC1(config)#no ip routing</span><br><span class="line">/*关闭路由功能，当成PC设备使用*/</span><br><span class="line">PC1(config)#int G0/0</span><br><span class="line">PC1(config-if)#no sh</span><br><span class="line">/*路由器接口默认关闭，这里打开该接口*/</span><br><span class="line">PC1(config-if)#ip add 172.16.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs stylus">Router<span class="hljs-selector-id">#config</span> t
+<span class="hljs-function"><span class="hljs-title">Router</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#hostname</span> PC1
+<span class="hljs-function"><span class="hljs-title">PC1</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#ip</span> default-gateway <span class="hljs-number">172.16</span>.<span class="hljs-number">1.254</span>
+<span class="hljs-comment">/*配置默认网关为172.16.1.254，也就是和本社设备链接的R1的G0/1接口*/</span>
+<span class="hljs-function"><span class="hljs-title">PC1</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#no</span> ip routing
+<span class="hljs-comment">/*关闭路由功能，当成PC设备使用*/</span>
+<span class="hljs-function"><span class="hljs-title">PC1</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#int</span> G0/<span class="hljs-number">0</span>
+<span class="hljs-function"><span class="hljs-title">PC1</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#no</span> sh
+<span class="hljs-comment">/*路由器接口默认关闭，这里打开该接口*/</span>
+<span class="hljs-function"><span class="hljs-title">PC1</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#ip</span> add <span class="hljs-number">172.16</span>.<span class="hljs-number">1.1</span> <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span></code></pre>
 
 <p>R1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Router&gt;en</span><br><span class="line">Router#config t</span><br><span class="line">Router(config)#hostname R1</span><br><span class="line">R1(config-line)#int g0/1</span><br><span class="line">R1(config-if)#no sh</span><br><span class="line">R1(config-if)#ip add 172.16.1.254 255.255.255.0</span><br><span class="line">R1(config-if)#int g0/0</span><br><span class="line">R1(config-if)#no sh</span><br><span class="line">R1(config-if)#ip add 192.168.12.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs stylus">Router&gt;en
+Router<span class="hljs-selector-id">#config</span> t
+<span class="hljs-function"><span class="hljs-title">Router</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#hostname</span> R1
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-line)</span></span><span class="hljs-selector-id">#int</span> g0/<span class="hljs-number">1</span>
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#no</span> sh
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#ip</span> add <span class="hljs-number">172.16</span>.<span class="hljs-number">1.254</span> <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span>
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#int</span> g0/<span class="hljs-number">0</span>
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#no</span> sh
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#ip</span> add <span class="hljs-number">192.168</span>.<span class="hljs-number">12.1</span> <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span></code></pre>
 
 <p>R2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Router&gt;en</span><br><span class="line">Router#config t</span><br><span class="line">Router(config)#hostname R2</span><br><span class="line">R2(config)#int g0/0</span><br><span class="line">R2(config-if)#no sh</span><br><span class="line">R2(config-if)#ip add 192.168.12.2 255.255.255.0</span><br><span class="line">R2(config-if)#int g0/1</span><br><span class="line">R2(config-if)#no sh</span><br><span class="line">R2(config-if)#ip add 192.168.23.2 255.255.255.0</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs stylus">Router&gt;en
+Router<span class="hljs-selector-id">#config</span> t
+<span class="hljs-function"><span class="hljs-title">Router</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#hostname</span> R2
+<span class="hljs-function"><span class="hljs-title">R2</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#int</span> g0/<span class="hljs-number">0</span>
+<span class="hljs-function"><span class="hljs-title">R2</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#no</span> sh
+<span class="hljs-function"><span class="hljs-title">R2</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#ip</span> add <span class="hljs-number">192.168</span>.<span class="hljs-number">12.2</span> <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span>
+<span class="hljs-function"><span class="hljs-title">R2</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#int</span> g0/<span class="hljs-number">1</span>
+<span class="hljs-function"><span class="hljs-title">R2</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#no</span> sh
+<span class="hljs-function"><span class="hljs-title">R2</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#ip</span> add <span class="hljs-number">192.168</span>.<span class="hljs-number">23.2</span> <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span></code></pre>
 
 <p>R3：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Router&gt;en</span><br><span class="line">Router#config t</span><br><span class="line">Router(config)#hostname R3</span><br><span class="line">R3(config)#int g0/0</span><br><span class="line">R3(config-if)#no sh</span><br><span class="line">R3(config-if)#ip add 192.168.23.3 255.255.255.0</span><br><span class="line">R3(config)#int loop 1</span><br><span class="line">R3(config-if)#ip add 172.16.32.1 255.255.255.0</span><br><span class="line">R3(config-if)#int loop 2</span><br><span class="line">R3(config-if)#ip add 172.16.33.1 255.255.255.0</span><br><span class="line">R3(config-if)#int loop 3</span><br><span class="line">R3(config-if)#ip add 172.16.34.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs stylus">Router&gt;en
+Router<span class="hljs-selector-id">#config</span> t
+<span class="hljs-function"><span class="hljs-title">Router</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#hostname</span> R3
+<span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#int</span> g0/<span class="hljs-number">0</span>
+<span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#no</span> sh
+<span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#ip</span> add <span class="hljs-number">192.168</span>.<span class="hljs-number">23.3</span> <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span>
+<span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#int</span> loop <span class="hljs-number">1</span>
+<span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#ip</span> add <span class="hljs-number">172.16</span>.<span class="hljs-number">32.1</span> <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span>
+<span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#int</span> loop <span class="hljs-number">2</span>
+<span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#ip</span> add <span class="hljs-number">172.16</span>.<span class="hljs-number">33.1</span> <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span>
+<span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#int</span> loop <span class="hljs-number">3</span>
+<span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#ip</span> add <span class="hljs-number">172.16</span>.<span class="hljs-number">34.1</span> <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span></code></pre>
 
 <h3 id="配置RIP"><a href="#配置RIP" class="headerlink" title="配置RIP"></a>配置RIP</h3><p>R1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R1(config-if)#router rip</span><br><span class="line">R1(config-router)#version 2</span><br><span class="line">R1(config-router)#no auto-summary</span><br><span class="line">R1(config-router)#network 172.16.0.0</span><br><span class="line">R1(config-router)#network 192.168.12.0</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#router</span> rip
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#version</span> <span class="hljs-number">2</span>
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#no</span> <span class="hljs-attribute">auto</span>-summary
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#network</span> <span class="hljs-number">172.16</span>.<span class="hljs-number">0.0</span>
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#network</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">12.0</span></code></pre>
 
 <p>R2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R2(config-if)#router rip</span><br><span class="line">R2(config-router)#version 2</span><br><span class="line">R2(config-router)#no auto-summary</span><br><span class="line">R2(config-router)#network 192.168.12.0</span><br><span class="line">R2(config-router)#network 192.168.23.0</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">R2</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#router</span> rip
+<span class="hljs-function"><span class="hljs-title">R2</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#version</span> <span class="hljs-number">2</span>
+<span class="hljs-function"><span class="hljs-title">R2</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#no</span> <span class="hljs-attribute">auto</span>-summary
+<span class="hljs-function"><span class="hljs-title">R2</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#network</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">12.0</span>
+<span class="hljs-function"><span class="hljs-title">R2</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#network</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">23.0</span></code></pre>
 
 <p>R3：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">R3(config-if)#router rip</span><br><span class="line">R3(config-router)#version 2</span><br><span class="line">R3(config-router)#no auto-summary</span><br><span class="line">R3(config-router)#network 172.16.0.0</span><br><span class="line">/*RIP 在使用 network 命令指定网段时，只支持通告主类网络。R3 有三个 Loopback接口，将这三个接口激活RIP时，只需network 172.16.0.0即可，实际上即使你输 入诸如network 172.16.32.0这样的命令， 系统也会按network 172.16.0.0生效*/</span><br><span class="line">R3(config-router)#network 192.168.23.0</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config-if)</span></span><span class="hljs-selector-id">#router</span> rip
+<span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#version</span> <span class="hljs-number">2</span>
+<span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#no</span> <span class="hljs-attribute">auto</span>-summary
+<span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#network</span> <span class="hljs-number">172.16</span>.<span class="hljs-number">0.0</span>
+<span class="hljs-comment">/*RIP 在使用 network 命令指定网段时，只支持通告主类网络。R3 有三个 Loopback接口，将这三个接口激活RIP时，只需network 172.16.0.0即可，实际上即使你输 入诸如network 172.16.32.0这样的命令， 系统也会按network 172.16.0.0生效*/</span>
+<span class="hljs-function"><span class="hljs-title">R3</span><span class="hljs-params">(config-router)</span></span><span class="hljs-selector-id">#network</span> <span class="hljs-number">192.168</span>.<span class="hljs-number">23.0</span></code></pre>
 
 <h3 id="优化路由"><a href="#优化路由" class="headerlink" title="优化路由"></a>优化路由</h3><p>R3</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R3(config-router)#int g0/0</span><br><span class="line">R3(config-if)#ip summary-address rip 172.16.32.0 255.255.252.0</span><br><span class="line">/*把三个loopback接口的网段汇总以后是172.16.32.0 255.255.255.252。</span><br><span class="line">RIP 的手工汇总，需要 RIP 版本 2 的支持，另外需要先在 RIP 进程中 no  auto-summary 关闭自动汇总功能，然后再在接口上配置手工汇总命令，注意，该命令配置在汇总 路由欲对外发布的那个接口上。*/</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs yaml"><span class="hljs-string">R3(config-router)#int</span> <span class="hljs-string">g0/0</span>
+<span class="hljs-string">R3(config-if)#ip</span> <span class="hljs-string">summary-address</span> <span class="hljs-string">rip</span> <span class="hljs-number">172.16</span><span class="hljs-number">.32</span><span class="hljs-number">.0</span> <span class="hljs-number">255.255</span><span class="hljs-number">.252</span><span class="hljs-number">.0</span>
+<span class="hljs-string">/*把三个loopback接口的网段汇总以后是172.16.32.0</span> <span class="hljs-number">255.255</span><span class="hljs-number">.255</span><span class="hljs-number">.252</span><span class="hljs-string">。</span>
+<span class="hljs-string">RIP</span> <span class="hljs-string">的手工汇总，需要</span> <span class="hljs-string">RIP</span> <span class="hljs-string">版本</span> <span class="hljs-number">2</span> <span class="hljs-string">的支持，另外需要先在</span> <span class="hljs-string">RIP</span> <span class="hljs-string">进程中</span> <span class="hljs-literal">no</span>  <span class="hljs-string">auto-summary</span> <span class="hljs-string">关闭自动汇总功能，然后再在接口上配置手工汇总命令，注意，该命令配置在汇总</span> <span class="hljs-string">路由欲对外发布的那个接口上。*/</span></code></pre>
 
 <h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="http://ccietea.com/" target="_blank" rel="noopener">红茶三杯CCNA实验手册</a></p>
 <p><a href="http://ccietea.com/" target="_blank" rel="noopener">红茶三杯Ip routing</a></p>
 <p><a href="https://www.qingsword.com/qing/570.html#Cisco-CCNA-RIPv1-defect-9" target="_blank" rel="noopener">[CCNA图文笔记]-14-RIPv1协议缺陷详解</a></p>
 <p><a href="https://www.qingsword.com/qing/576.html" target="_blank" rel="noopener">[CCNA图文笔记]-15-RIPv2协议详解</a></p>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css"></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined" target="_blank" rel="noopener">Rookie</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://renyuan431.github.io/2020/06/18/12-RIP/">https://renyuan431.github.io/2020/06/18/12-RIP/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://renyuan431.github.io">Rookie's Notebook</a>！</span></div></div><div class="post-meta__tag-list"></div><div class="addthis_inline_share_toolbox pull-right"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f7eed89b5533478" async></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/06/24/13-ospf/"><i class="fa fa-chevron-left">  </i><span>13-ospf</span></a></div><div class="next-post pull-right"><a href="/2020/05/04/11-route-basic/"><span>11、路由基础及静态路由</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="disqus_thread"></div><script>var unused = null;
-var disqus_config = function () {
-  this.page.url = 'https://renyuan431.github.io/2020/06/18/12-RIP/';
-  this.page.identifier = '2020/06/18/12-RIP/';
-  this.page.title = '12、RIP';
-}
-var d = document, s = d.createElement('script');
-s.src = "https://" + 'https-renyuan431-github-io' +".disqus.com/embed.js";
-s.setAttribute('data-timestamp', '' + +new Date());
-(d.head || d.body).appendChild(s);</script><script id="dsq-count-scr" src="https://https-renyuan431-github-io.disqus.com/count.js" async></script></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2020 By Rookie</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.8.2"></script><script src="/js/fancybox.js?version=1.8.2"></script><script src="/js/sidebar.js?version=1.8.2"></script><script src="/js/copy.js?version=1.8.2"></script><script src="/js/fireworks.js?version=1.8.2"></script><script src="/js/transition.js?version=1.8.2"></script><script src="/js/scroll.js?version=1.8.2"></script><script src="/js/head.js?version=1.8.2"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
-  $('#nav').addClass('is-mobile')
-  $('footer').addClass('is-mobile')
-  $('#top-container').addClass('is-mobile')
-}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
- <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/">CCNA</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/06/24/13-ospf/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">13-ospf</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/04/11-route-basic/">
+                        <span class="hidden-mobile">11、路由基础及静态路由</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "12、RIP&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

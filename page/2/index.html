@@ -1,31 +1,477 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content=""><meta name="keywords" content=""><meta name="author" content="Rookie"><meta name="copyright" content="Rookie"><title>Rookie's Notebook</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.8.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.8.2"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
-  google_ad_client: 'ca-pub-1925354082861905',
-  enable_page_level_ads: 'true'
-});
-</script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  hexoVersion: '4.0.0'
-} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="author-info"><div class="author-info__avatar text-center"><img src="/images/avatar.jpg"></div><div class="author-info__name text-center">Rookie</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">13</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">2</span></a></div></div></div><nav class="no-bg" id="nav"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Rookie's Notebook</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="site-info"><div id="site-title">Rookie's Notebook</div><div id="site-sub-title"></div></div></nav><div id="content-outer"><div class="layout" id="content-inner"><div class="recent-post-item article-container"><a class="article-title" href="/2020/05/04/11-route-basic/">11、路由基础及静态路由</a><span class="article-meta"><i class="fa fa-thumb-tack article-meta__icon sticky"></i><span class="sticky">置顶</span><span class="article-meta__separator" style="margin-right: 0.3rem">|</span></span><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-05-04</time><span class="article-meta"><span class="article-meta__separator">|</span><i class="fa fa-inbox article-meta__icon" aria-hidden="true"></i><a class="article-meta__categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox article-meta__icon" aria-hidden="true"></i><a class="article-meta__categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/">CCNA</a></span><div class="content"><h1 id="路由的基本概念"><a href="#路由的基本概念" class="headerlink" title="路由的基本概念"></a>路由的基本概念</h1><h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><blockquote>
-<p>Routing is the process of selecting a path for traffic in a network or between or across multiple networks.</p>
-<p>In packet switching networks, routing is the higher-level decision making that directs network packets from their source toward their destination through intermediate network nodes by specific packet forwarding mechanisms.</p>
-</blockquote>
-<p>路由是指在一个网络中或多个网络之间或跨多个网络的流量选择路径的过程。路由是指通过特定的数据包转发机制，将网络数据包从源头通过中间网络节点向目的地方向引导网络数据包的高级决策。路由过程通常根据路由表指导转发。<strong>路由是一个三层（网络层）的概念</strong>。</p>
-<p>当路由器（或者其他三层设备）收到一个 IP 数据包，路由器会找出 IP 包三层头中的目的 IP地址，然后拿着目的IP地址到自己的路由表中进行查找，找到“最匹配”的条目后，将数据包根据路由条目所 指示的出接口或下一跳 IP 转发出去，这就是 IP 路由（IP routing） 。而每台路由器都会在本地维护一个路由表 （Routing Table） ，路由表中装载着路由器获知的路由条目（Routes） ，路由条目由路由前缀（路由所关联的目的 地） 、路由信息来源、出接口或下一跳 IP 等元素构成。路由器通过静态的或者动态的方式获取路由条目并维护自 己的路由表。</p></div><a class="more" href="/2020/05/04/11-route-basic/#more">阅读更多</a><hr></div><div class="recent-post-item article-container"><a class="article-title" href="/2020/06/18/12-RIP/">12、RIP</a><span class="article-meta"><i class="fa fa-thumb-tack article-meta__icon sticky"></i><span class="sticky">置顶</span><span class="article-meta__separator" style="margin-right: 0.3rem">|</span></span><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-06-18</time><span class="article-meta"><span class="article-meta__separator">|</span><i class="fa fa-inbox article-meta__icon" aria-hidden="true"></i><a class="article-meta__categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox article-meta__icon" aria-hidden="true"></i><a class="article-meta__categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/">CCNA</a></span><div class="content"><h1 id="RIP"><a href="#RIP" class="headerlink" title="RIP"></a>RIP</h1><h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。RIP一共有3个版本的协议，分别是RIP V1，RIP V2以及RIPNG。</p>
-<p>RIP定义了请求信息和响应消息两种类型。请求信息：可以请求整张路由表，也可以请求具体的路由信息。</p>
-<ul>
-<li><p>请求整张路由表：请求消息含有一个地址族标识字段为0（地址为0.0.0.0），度量值为16的单条路由，收到这个请求的设备将通过单播方式向发出请求的地址回送它的整个路由表。</p>
-</li>
-<li><p>请求具体路由信息：当需要获知某个或某些具体路由的信息时，请求消息将与特定地址的路由条目一起发送。接受到请求的设备将根据请求消息逐个处理这些条目，并构成一个响应消息。</p></li></ul></div><a class="more" href="/2020/06/18/12-RIP/#more">阅读更多</a><hr></div><div class="recent-post-item article-container"><a class="article-title" href="/2020/06/24/13-ospf/">13-ospf</a><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-06-24</time><div class="content"><p>OSPF概述</p>
-<p>OSPF（Open Shortest Path First，开放最短路径优先，RFC2328）是一个被各厂商设备广泛支持的链路状态路由协议，也是现网中采用最多的路由协议，<strong>OSPF协议出现的原因</strong>是因为RIP协议限制比较多，在可扩展性方面以及协议性能上已经不适应网络发展现状的需要，例如最大跳数为15跳，大规模网络中的跳数超过了RIP所规定的15跳，而超过15跳在RIP中就表示不可达，所以RIP注定被淘汰。OSPF目前共有两个版本，为IPV4使用的OSPF V2以及为IPV6使用的OSPF V3。</p></div><a class="more" href="/2020/06/24/13-ospf/#more">阅读更多</a><hr></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fa fa-chevron-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2020 By Rookie</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span><i class="fa fa-user"></i><span id="busuanzi_value_site_uv"></span><span></span></span><span class="footer-separator">|</span><span><i class="fa fa-eye"></i><span id="busuanzi_value_site_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.8.2"></script><script src="/js/fancybox.js?version=1.8.2"></script><script src="/js/sidebar.js?version=1.8.2"></script><script src="/js/copy.js?version=1.8.2"></script><script src="/js/fireworks.js?version=1.8.2"></script><script src="/js/transition.js?version=1.8.2"></script><script src="/js/scroll.js?version=1.8.2"></script><script src="/js/head.js?version=1.8.2"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
-  $('#nav').addClass('is-mobile')
-  $('footer').addClass('is-mobile')
-  $('#top-container').addClass('is-mobile')
-}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
- <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Rookie">
+  <meta name="keywords" content="">
+  <title>Rookie&#39;s Notebook</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+</head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:" target="_blank" rel="noopener">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/banner.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/05/04/11-route-basic/">11、路由基础及静态路由</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/05/04/11-route-basic/">
+          
+          
+            
+          
+          路由的基本概念路由
+Routing is the process of selecting a path for traffic in a network or between or across multiple networks.
+In packet switching networks, routing is the higher-level decision making that dir
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-04 10:25" pubdate>
+              2020-05-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a>
+            
+              <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/">CCNA</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/06/18/12-RIP/">12、RIP</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/06/18/12-RIP/">
+          
+          
+            
+          
+          RIP总览RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。RIP一共有3个版本的协议，分别是RIP V1，RIP V2以及RIPNG。
+RIP定义了请求信息和响应消息两种类型。请求信息：可以请求整张路由表，也可以请求具体的路由信息。
+
+请求
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-06-18 10:25" pubdate>
+              2020-06-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a>
+            
+              <a href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/">CCNA</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        <a href="/2020/06/24/13-ospf/">13-ospf</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/06/24/13-ospf/">
+          
+          
+            
+          
+          OSPF概述
+OSPF（Open Shortest Path First，开放最短路径优先，RFC2328）是一个被各厂商设备广泛支持的链路状态路由协议，也是现网中采用最多的路由协议，OSPF协议出现的原因是因为RIP协议限制比较多，在可扩展性方面以及协议性能上已经不适应网络发展现状的需要，例如最大跳数为15跳，大规模网络中的跳数超过了RIP所规定的15跳，而超过15跳在RIP中就表示不可达，所以
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-06-24 15:15" pubdate>
+              2020-06-24
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "An elegant Material-Design theme for Hexo&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

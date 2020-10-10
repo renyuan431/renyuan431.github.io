@@ -1,18 +1,230 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="7、为什么要建立TCP/IP通信模型"><meta name="keywords" content=""><meta name="author" content="Rookie"><meta name="copyright" content="Rookie"><title>7、为什么要建立TCP/IP通信模型 | Rookie's Notebook</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.8.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.8.2"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
-  google_ad_client: 'ca-pub-1925354082861905',
-  enable_page_level_ads: 'true'
-});
-</script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  hexoVersion: '4.0.0'
-} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2020年"><span class="toc-number">1.</span> <span class="toc-text">2020年</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2月17日事件"><span class="toc-number">1.1.</span> <span class="toc-text">2月17日事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3月12日事件"><span class="toc-number">1.2.</span> <span class="toc-text">3月12日事件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于分层概念的浅见"><span class="toc-number">2.</span> <span class="toc-text">关于分层概念的浅见</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#便于网络通信的实现"><span class="toc-number">2.1.</span> <span class="toc-text">便于网络通信的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标准化"><span class="toc-number">2.2.</span> <span class="toc-text">标准化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#彼此独立又相互依靠"><span class="toc-number">2.3.</span> <span class="toc-text">彼此独立又相互依靠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#上层依赖于下层，下层为上层提供服务"><span class="toc-number">2.4.</span> <span class="toc-text">上层依赖于下层，下层为上层提供服务</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/images/avatar.jpg"></div><div class="author-info__name text-center">Rookie</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">13</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">2</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Rookie's Notebook</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">7、为什么要建立TCP/IP通信模型</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-02-19</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/">CCNA</a><span class="post-meta__separator">|</span><i class="fa fa-comment-o post-meta__icon" aria-hidden="true"></i><a href="/2020/02/19/layer-mind/#disqus_thread"><span class="disqus-comment-count" data-disqus-identifier="2020/02/19/layer-mind/"></span></a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，可能这个概念要真正掌握并且固话还需要一次次的反复，每次当发现认知有问题的时候，会对此篇笔记进行更新。</p>
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Rookie">
+  <meta name="keywords" content="">
+  <title>7、为什么要建立TCP/IP通信模型 - Rookie&#39;s Notebook</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:" target="_blank" rel="noopener">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-02-19 11:42" pubdate>
+        February 19, 2020 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      33
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">7、为什么要建立TCP/IP通信模型</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <p>OSI七层和TCP\IP这两个模型，除了了解每层的功能、各字段的意义、封装解封装的过程以及每层的协议以外，还有一个重要但又容易被忽视的概念，就是建立分层的思维，之前的笔记中也提到过，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。之前一直觉得这个概念很好理解，也就没再关注这个，但在总结笔记的时候，才发现这个概念还是没有真正理解，可能这个概念要真正掌握并且固话还需要一次次的反复，每次当发现认知有问题的时候，会对此篇笔记进行更新。</p>
  <a id="more"></a>  
 
 <h2 id="2020年"><a href="#2020年" class="headerlink" title="2020年"></a>2020年</h2><h3 id="2月17日事件"><a href="#2月17日事件" class="headerlink" title="2月17日事件"></a>2月17日事件</h3><p>起因是看到TCP的RFC文档的2.6 Reliable Communication里有这么一段话：</p>
@@ -25,7 +237,7 @@
 </blockquote>
 <p>IMHO是in my humble opinion的缩写，翻译成中文就是“以我愚见”，人家真是谦虚啊，帮我解答疑惑还这么客气，真让我无地自容。</p>
 <p>他的大概意思就是说，我不懂的那段文字其实说的是分层模型（潜台词就是说，哥们你没明白TCP\IP模型中这个分层的真正含义啊），RFC里的这个user指的并不是一个接收端，而指的是接收端TCP\IP模型（或OSI模型）应用层中的应用程序，因为模型中的每一层都是相互独立的，发给你ACK的是对端的TCP，而TCP在第四层也就是传输层，只能表示数据一直到对面的传输层都是正常的，而且对面的传输层也完整无误的收到了这个数据，也就是数据从发送端的传输层——网络层——数据链路层——物理层——接收端的物理层——传输层——网络层——传输层的这个过程都是没问题的，当然按道理来说，应用层确认收到数据以后，这个数据应该发送给了应用层，但是应用程序可能会过载，并丢弃数据。在这种情况下，会出现发送端已收到TCP-ACK，但在接收端，“user”也就是应用层的程序，尚未收到该消息。</p>
-<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" alt="微信图片编辑_20200219144709"></p>
+<p><img src="/2020/02/19/layer-mind/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200219144709.jpg" srcset="/img/loading.gif" alt="微信图片编辑_20200219144709"></p>
 <p>后来经高人指点发现RFC文档上有这么一句话，更印证了上面那哥们的回答：</p>
 <blockquote>
 <p>This part of the RFC is about passing responsibility over to the operating system or whatever is the next stage of the process. It’s fundamentally concerned with the separation of layers.</p>
@@ -47,19 +259,288 @@
 <h3 id="上层依赖于下层，下层为上层提供服务"><a href="#上层依赖于下层，下层为上层提供服务" class="headerlink" title="上层依赖于下层，下层为上层提供服务"></a>上层依赖于下层，下层为上层提供服务</h3><p>？？？？？？？？？？？？？？</p>
 <p>为什么要弄出分层这么一个模型，个人感觉是因为整个网络数据的传输过程比较复杂，分层使得网络易于实现和维护，便于调试。如果其中一层出了问题或者改变，只需要在其中一层进行改变，不会影响其他层。这么说可能不太直观，举个实际中的例子就是造汽车，一个人去造一整辆汽车显然无法适应现代汽车生产的需求，所以出现了汽车生产的流水线，这个流水线也就是将汽车生产的步骤分层成一个一个的步骤，每个步骤实现不同的工序用于实现不同的功能，网络分层也是一样的道理，要适应大规模数据传输必须将复杂的数据传输细分成实现不同功能的层次。比如汽车生产中有些步骤是生产底盘，有些步骤是安装轮胎，有些步骤是安装外壳，但不同的车型（类似于实现用户需求的程序），需要的轮胎、外壳和底盘都不同（用不同的协议实现），当需要造轿车的时候（比如要实现浏览网页的功能），需要相对应的轿车底盘和轿车轮胎（应用层需要采用HTTP协议，传输层需要采用TCP协议）。如果轮胎坏了（其中某些层的功能出了问题），只需要更换轮胎即可，汽车的其他零件不受影响（对相应出问题层级进行排错）。</p>
 <p>当然仅仅分层也是不够的，还必须对每一层进行标准化，而生产设备的厂家以及每一层的协议，必须符合分层模型统一的标准才能相互兼容，完成通信的全步骤，否则如果没有统一的规则，自己按照自己的规则开发导致相互不兼容，不仅无法通信，也无法形成今天全球互联网全互联的状态。标准化就类似于生产汽车零件的厂家有很多，但必须按一个统一的规定去生产，比如轮胎的直径和宽度是多少才能用到轿车上，这样的话，当汽车中的某个零件损坏时，才能使用同规格的零件替换，因为生产的标准、使用的连接方式都相同。同理在分层模型中，网络层的协议也必须遵守一定的规则才能被通信协议使用。</p>
-<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" alt="tcpipprotocols"></p>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css"></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined" target="_blank" rel="noopener">Rookie</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://renyuan431.github.io/2020/02/19/layer-mind/">https://renyuan431.github.io/2020/02/19/layer-mind/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://renyuan431.github.io">Rookie's Notebook</a>！</span></div></div><div class="post-meta__tag-list"></div><div class="addthis_inline_share_toolbox pull-right"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f7eed89b5533478" async></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/02/19/8-subnet/"><i class="fa fa-chevron-left">  </i><span>8、子网划分</span></a></div><div class="next-post pull-right"><a href="/2019/11/23/6-tcp-ip/"><span>6、tcp/ip参考模型</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="disqus_thread"></div><script>var unused = null;
-var disqus_config = function () {
-  this.page.url = 'https://renyuan431.github.io/2020/02/19/layer-mind/';
-  this.page.identifier = '2020/02/19/layer-mind/';
-  this.page.title = '7、为什么要建立TCP/IP通信模型';
-}
-var d = document, s = d.createElement('script');
-s.src = "https://" + 'https-renyuan431-github-io' +".disqus.com/embed.js";
-s.setAttribute('data-timestamp', '' + +new Date());
-(d.head || d.body).appendChild(s);</script><script id="dsq-count-scr" src="https://https-renyuan431-github-io.disqus.com/count.js" async></script></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2020 By Rookie</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.8.2"></script><script src="/js/fancybox.js?version=1.8.2"></script><script src="/js/sidebar.js?version=1.8.2"></script><script src="/js/copy.js?version=1.8.2"></script><script src="/js/fireworks.js?version=1.8.2"></script><script src="/js/transition.js?version=1.8.2"></script><script src="/js/scroll.js?version=1.8.2"></script><script src="/js/head.js?version=1.8.2"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
-  $('#nav').addClass('is-mobile')
-  $('footer').addClass('is-mobile')
-  $('#top-container').addClass('is-mobile')
-}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
- <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
+<p><img src="/2020/02/19/layer-mind/tcpipprotocols.png" srcset="/img/loading.gif" alt="tcpipprotocols"></p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/">CCNA</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/02/19/8-subnet/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">8、子网划分</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/11/23/6-tcp-ip/">
+                        <span class="hidden-mobile">6、tcp/ip参考模型</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "7、为什么要建立TCP/IP通信模型&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

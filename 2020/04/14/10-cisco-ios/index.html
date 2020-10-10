@@ -1,18 +1,230 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="10、设备管理及cisco IOS基础配置"><meta name="keywords" content=""><meta name="author" content="Rookie"><meta name="copyright" content="Rookie"><title>10、设备管理及cisco IOS基础配置 | Rookie's Notebook</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.8.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.8.2"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
-  google_ad_client: 'ca-pub-1925354082861905',
-  enable_page_level_ads: 'true'
-});
-</script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  hexoVersion: '4.0.0'
-} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CISCO路由器及启动过程"><span class="toc-number">1.</span> <span class="toc-text">CISCO路由器及启动过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#路由器组件"><span class="toc-number">1.1.</span> <span class="toc-text">路由器组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#路由器启动过程"><span class="toc-number">1.2.</span> <span class="toc-text">路由器启动过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#理论步骤"><span class="toc-number">1.2.1.</span> <span class="toc-text">理论步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实际分析"><span class="toc-number">1.2.2.</span> <span class="toc-text">实际分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#忘记登陆密码如何进入系统"><span class="toc-number">1.3.</span> <span class="toc-text">忘记登陆密码如何进入系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#配置寄存器"><span class="toc-number">1.3.1.</span> <span class="toc-text">配置寄存器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#口令恢复"><span class="toc-number">1.3.2.</span> <span class="toc-text">口令恢复</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cisco-交换机"><span class="toc-number">2.</span> <span class="toc-text">Cisco 交换机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#交换机启动过程"><span class="toc-number">2.1.</span> <span class="toc-text">交换机启动过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Switch密码重置步骤"><span class="toc-number">2.2.</span> <span class="toc-text">Switch密码重置步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2950-2960-3550-3560系列"><span class="toc-number">2.2.1.</span> <span class="toc-text">2950/2960/3550/3560系列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3650-3850"><span class="toc-number">2.2.2.</span> <span class="toc-text">3650/3850</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设备管理及CISCO-IOS介绍"><span class="toc-number">3.</span> <span class="toc-text">设备管理及CISCO IOS介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CISCO-IOS概述"><span class="toc-number">3.1.</span> <span class="toc-text">CISCO IOS概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设备管理方法"><span class="toc-number">3.2.</span> <span class="toc-text">设备管理方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#通过Console接口管理网络设备"><span class="toc-number">3.2.1.</span> <span class="toc-text">通过Console接口管理网络设备</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#超级终端（HyperTerminal）"><span class="toc-number">3.2.1.1.</span> <span class="toc-text">超级终端（HyperTerminal）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Secure-CRT"><span class="toc-number">3.2.1.2.</span> <span class="toc-text">Secure CRT</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IOS系统的备份与升级"><span class="toc-number">3.3.</span> <span class="toc-text">IOS系统的备份与升级</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IOS系统备份"><span class="toc-number">3.3.1.</span> <span class="toc-text">IOS系统备份</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IOS系统升级"><span class="toc-number">3.3.2.</span> <span class="toc-text">IOS系统升级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IOS系统恢复"><span class="toc-number">3.3.3.</span> <span class="toc-text">IOS系统恢复</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CISCO-IOS配置模式"><span class="toc-number">3.4.</span> <span class="toc-text">CISCO IOS配置模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CISCO-IOS命令"><span class="toc-number">3.5.</span> <span class="toc-text">CISCO IOS命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IOS命令结构"><span class="toc-number">3.5.1.</span> <span class="toc-text">IOS命令结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CLI的帮助"><span class="toc-number">3.5.2.</span> <span class="toc-text">CLI的帮助</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#命令提示及补全"><span class="toc-number">3.5.2.1.</span> <span class="toc-text">命令提示及补全</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#命令语法检查"><span class="toc-number">3.5.2.2.</span> <span class="toc-text">命令语法检查</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#热键和快捷方式"><span class="toc-number">3.5.2.3.</span> <span class="toc-text">热键和快捷方式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cisco-IOS-基础配置"><span class="toc-number">3.5.3.</span> <span class="toc-text">cisco IOS 基础配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#修改设备名称"><span class="toc-number">3.5.3.1.</span> <span class="toc-text">修改设备名称</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#配置用户登录密码："><span class="toc-number">3.5.3.2.</span> <span class="toc-text">配置用户登录密码：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#特权模式密码"><span class="toc-number">3.5.3.3.</span> <span class="toc-text">特权模式密码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VTY-口令"><span class="toc-number">3.5.3.4.</span> <span class="toc-text">VTY 口令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#管理配置文件"><span class="toc-number">3.5.3.5.</span> <span class="toc-text">管理配置文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#备份配置文件"><span class="toc-number">3.5.3.6.</span> <span class="toc-text">备份配置文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#接口相关配置"><span class="toc-number">3.5.3.7.</span> <span class="toc-text">接口相关配置</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#进入接口"><span class="toc-number">3.5.3.7.1.</span> <span class="toc-text">进入接口</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#设备接口规则："><span class="toc-number">3.5.3.7.2.</span> <span class="toc-text">设备接口规则：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#为接口配置IP地址"><span class="toc-number">3.5.3.7.3.</span> <span class="toc-text">为接口配置IP地址</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#激活接口"><span class="toc-number">3.5.3.7.4.</span> <span class="toc-text">激活接口</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#配置serial接口"><span class="toc-number">3.5.3.7.5.</span> <span class="toc-text">配置serial接口</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#show命令"><span class="toc-number">3.5.3.8.</span> <span class="toc-text">show命令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#设置命令输入同步模式"><span class="toc-number">3.5.3.9.</span> <span class="toc-text">设置命令输入同步模式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#返回上级命令"><span class="toc-number">3.5.3.10.</span> <span class="toc-text">返回上级命令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#命令缩写"><span class="toc-number">3.5.3.11.</span> <span class="toc-text">命令缩写</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Running-config-VS-Startup-config"><span class="toc-number">3.5.4.</span> <span class="toc-text">Running-config VS Startup-config</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基础实验"><span class="toc-number">3.5.5.</span> <span class="toc-text">基础实验</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CRT软件使用简介"><span class="toc-number">4.</span> <span class="toc-text">CRT软件使用简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用文章"><span class="toc-number">5.</span> <span class="toc-text">引用文章</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/images/avatar.jpg"></div><div class="author-info__name text-center">Rookie</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">13</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">2</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Rookie's Notebook</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">10、设备管理及cisco IOS基础配置</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-04-14</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/">CCNA</a><span class="post-meta__separator">|</span><i class="fa fa-comment-o post-meta__icon" aria-hidden="true"></i><a href="/2020/04/14/10-cisco-ios/#disqus_thread"><span class="disqus-comment-count" data-disqus-identifier="2020/04/14/10-cisco-ios/"></span></a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="CISCO路由器及启动过程"><a href="#CISCO路由器及启动过程" class="headerlink" title="CISCO路由器及启动过程"></a>CISCO路由器及启动过程</h2><h3 id="路由器组件"><a href="#路由器组件" class="headerlink" title="路由器组件"></a>路由器组件</h3><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-14_16-22-14.jpg" alt="Snipaste_2020-04-14_16-22-14"></p>
+
+
+<!DOCTYPE html>
+<html lang="zh-Hans" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Rookie">
+  <meta name="keywords" content="">
+  <title>10、设备管理及cisco IOS基础配置 - Rookie&#39;s Notebook</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:" target="_blank" rel="noopener">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-04-14 11:42" pubdate>
+        April 14, 2020 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      79
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">10、设备管理及cisco IOS基础配置</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h2 id="CISCO路由器及启动过程"><a href="#CISCO路由器及启动过程" class="headerlink" title="CISCO路由器及启动过程"></a>CISCO路由器及启动过程</h2><h3 id="路由器组件"><a href="#路由器组件" class="headerlink" title="路由器组件"></a>路由器组件</h3><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-14_16-22-14.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-14_16-22-14"></p>
 <p>CPU：中央处理器，CPU执行操作系统的指令，例如启动，路由功能和交换功能。</p>
  <a id="more"></a>  
 
@@ -26,80 +238,80 @@
 </ul>
 <p>Flash Memory，Flash Memory是一种非易失性存储，可以通过电子方式进行存储和擦除数据，主要用来存放IOS操作系统。</p>
 <p>NVRAM，NVRAM是Nonvolatile RAM的简写，中文是非易失性RAM存储，这种存储在断电或重启时也不会丢失其中的数据，主要用来存放startup configuration，也就是设备的启动配置。</p>
-<h3 id="路由器启动过程"><a href="#路由器启动过程" class="headerlink" title="路由器启动过程"></a>路由器启动过程</h3><h4 id="理论步骤"><a href="#理论步骤" class="headerlink" title="理论步骤"></a>理论步骤</h4><p><img src="/2020/04/14/10-cisco-ios/router-booting-process.jpg" alt="router-booting-process"></p>
-<p><img src="/2020/04/14/10-cisco-ios/071613_2203_CCNAPrepInt4.png" alt="071613_2203_CCNAPrepInt4"></p>
+<h3 id="路由器启动过程"><a href="#路由器启动过程" class="headerlink" title="路由器启动过程"></a>路由器启动过程</h3><h4 id="理论步骤"><a href="#理论步骤" class="headerlink" title="理论步骤"></a>理论步骤</h4><p><img src="/2020/04/14/10-cisco-ios/router-booting-process.jpg" srcset="/img/loading.gif" alt="router-booting-process"></p>
+<p><img src="/2020/04/14/10-cisco-ios/071613_2203_CCNAPrepInt4.png" srcset="/img/loading.gif" alt="071613_2203_CCNAPrepInt4"></p>
 <p>路由器开机后，先运行ROM中的POST，也就是进行硬件自检，看必备的开机部件（CPU, RAM和NVRAM）是否都工作正常，如果正常的话，将ROM中的Bootstrap程序拷贝到RAM中运行，当拷贝完毕且在RAM运行后，CPU执行bootstrap程序搜寻IOS操作系统的位置，搜索的过程依次为Flash — TFTP Server — ROM，如果都没有的话则进入ROMMON模式，如果找到操作系统则操作系统会加载到RAM中运行，并加载存储在NVRAM中的开机启动配置，当所有程序都在RAM中成功加载后，开机过程运行完毕。</p>
 <h4 id="实际分析"><a href="#实际分析" class="headerlink" title="实际分析"></a>实际分析</h4><p><strong>POST</strong> (Power On Self Test) - 首先 Router 会自我检查一下</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-41-19.jpg" alt="Snipaste_2020-05-04_10-41-19"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-41-19.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_10-41-19"></p>
 <p><strong>载入Bootstrap</strong> - 然后会加载Bootstrap这个应用程序，功能是后面加载IOS操作系统。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-43-54.jpg" alt="Snipaste_2020-05-04_10-43-54"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-43-54.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_10-43-54"></p>
 <p><strong>读取Configuration Register</strong> </p>
 <p>接下来会读取配置寄存器的数值，预设为0X2102，换算成二进制就是0010 0001 0000 0010 ， 每位都有不同的作用，一般情况下不会改变这个数值，但如果要冲重新设置密码，需要看第六位，也就是从右往左数第七个数字，之所以是第七个数字，是因为右起第一个数字是第零位，右起第二个数字是第一位，以此类推第六位也就是尤其第七个数字：</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-54-08.jpg" alt="Snipaste_2020-05-04_10-54-08"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-54-08.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_10-54-08"></p>
 <p>这个 Bit 可控制 Router 要不要跳过读取 Startup Configuration，预设 0 是不跳过 (即读取)，设成 1 则是跳过 (即不读取)。但开机时是看不到 Configuration Register 的值，只有在开机後用 Show Version 才可看到。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-56-05.jpg" alt="Snipaste_2020-05-04_10-56-05"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-56-05.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_10-56-05"></p>
 <p><strong>载入 IOS</strong> - 依 Flash丶TFTP 和 ROM 的次序载入 IOS，即是我们常常看见很多 # 号那个时刻</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-57-34.jpg" alt="Snipaste_2020-05-04_10-57-34"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-57-34.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_10-57-34"></p>
 <p><strong>载入 Startup Configuration</strong></p>
 <p>跟据 Configuration Register 的值决定是否载入 Startup Configuration。如果没有载入或 Startup Configuration 不存在，就会询问是否进行 Initial Configuration，就像打开一台新机一样。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-58-34.jpg" alt="Snipaste_2020-05-04_10-58-34"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_10-58-34.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_10-58-34"></p>
 <p>无论是 Console 密码丶Enable 密码都是储存在 Startup Configuration 之中，然後被载入至 Running Configuration。然而修改 Configuration 需要 Enable 密码，重设密码的哲学在於「如何在不用密码的情况下进入 Enable Mode (或称 Privilege Mode)</p>
 <h3 id="忘记登陆密码如何进入系统"><a href="#忘记登陆密码如何进入系统" class="headerlink" title="忘记登陆密码如何进入系统"></a>忘记登陆密码如何进入系统</h3><h4 id="配置寄存器"><a href="#配置寄存器" class="headerlink" title="配置寄存器"></a>配置寄存器</h4><p>配置寄存器（Configuration Register）是一个16位的虚拟寄存器，用于指定路由器启动的次序、中断参数和设置控制台波特率等，不同的配置寄存器数值决定了路由器的启动顺序（比如是从ROM中寻找IOS系统还是直接进入ROMMON模式）以及启动时的一些选项。该寄存器的值通常是以十六进制来表示的。Cisco路由器默认的配置设置是0x2102，这意味着第13位、第8位和第1位是开启的(值为1)。在特权模式下用命令“show version”查看当前配置寄存器的数值为多少。<strong>通过修改该数值可以决定路由器如何启动和运行。</strong></p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-30-08.jpg" alt="Snipaste_2020-04-27_10-30-08"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-30-08.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-27_10-30-08"></p>
 <p>上图中的二进制的0010000100000010，是由0X2102这个16进制的数字换算而来的，换算过程是，分别将2，1，0，2四个16进制换算成2进制然后组合而成。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-33-04.jpg" alt="Snipaste_2020-04-27_10-33-04"></p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-31-47.jpg" alt="Snipaste_2020-04-27_10-31-47"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-33-04.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-27_10-33-04"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-27_10-31-47.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-27_10-31-47"></p>
 <p>配置寄存器的默认设置是0x2102。这表明路由器应该尝试从闪存装载Cisco IOS软件镜像和用9600波特的控制台速率装载启动配置。注意，show version命令显示当前配置寄存器的值，也显示路由器重载后配置寄存器新的值。对配置寄存器进行的任何修改在重载之前不会起作用。</p>
 <h4 id="口令恢复"><a href="#口令恢复" class="headerlink" title="口令恢复"></a>口令恢复</h4><p>总体思路是，在开机时需跳过载入 Startup Configuration，在没有任何密码的情况下进入 Enable Mode，然後手动载入 Configuration 并修改密码。正如前面介绍过的，配置寄存器的第6位用于告诉路由器是否使用NVRAM中的内容来加载路由器的配置。默认的配置寄存器值是0x2102，即第6位是关闭的(值为0)。默认情况下，路由器会查找并加载存储在NVRAM(startup-config文件)中的路由器配置。若要恢复口令，需要开启第6位，告诉路由器忽略NVRAM的内容，二进制的话就是0010000101000010，换算成16进制就是0X2142，开启了第6位的配置寄存器值是0x2142，所以在口令回复的时候要将寄存器值从默认的0X2102改成0X2142，葫芦i额NVRAM的内容才能进行密码恢复。</p>
 <p><strong>1.启动路由器</strong></p>
 <p>在IOS系统被载入时按键盘的Ctrl 和 Break键， (如 Mac 可按 Ctrl-Delete) 中断载入，并进入 rommon 模式。</p>
-<p><img src="/2020/04/14/10-cisco-ios/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200504110154.jpg" alt="微信图片编辑_20200504110154"></p>
+<p><img src="/2020/04/14/10-cisco-ios/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200504110154.jpg" srcset="/img/loading.gif" alt="微信图片编辑_20200504110154"></p>
 <p>如果用笔记本的话没有小键盘的Break键，可以试试如下方法：</p>
-<p><img src="/2020/04/14/10-cisco-ios/721cbdd9882df4399175d0c93f7577218c8d74c28dcb01a7cecf1411683e66d5.jpg" alt="721cbdd9882df4399175d0c93f7577218c8d74c28dcb01a7cecf1411683e66d5"></p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-04-56.jpg" alt="Snipaste_2020-05-04_11-04-56"></p>
+<p><img src="/2020/04/14/10-cisco-ios/721cbdd9882df4399175d0c93f7577218c8d74c28dcb01a7cecf1411683e66d5.jpg" srcset="/img/loading.gif" alt="721cbdd9882df4399175d0c93f7577218c8d74c28dcb01a7cecf1411683e66d5"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-04-56.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_11-04-56"></p>
 <p><strong>2.修改配置寄存器，开启第6位，值为0x2142</strong></p>
 <p>按 ? 再按 <ENTER> 可以看到可用的指令。而我们想要做的是修改 Configuration Register，由 0x2102 改成 0x2142，指令是 <strong>confreg 2142</strong>，然後用指令 <strong>reset</strong> 重新开机。</ENTER></p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-05-46.jpg" alt="Snipaste_2020-05-04_11-05-46"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-05-46.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_11-05-46"></p>
 <p><strong>3.重载路由器</strong></p>
 <p> rommon 2 &gt;reset    //Cisco 2600系列路由器</p>
 <p> &gt;I    //初始化，Cisco 2500系列路由器</p>
 <p><strong>4.进入特权模式将开机启动配置加载到内存</strong></p>
 <p>这次开机让它载入 IOS，最後因为没有载入 Startup Configuration 而出现 Initial Configuration Dialog 模式，输入 no 跳过，这时不用密码也可进入 Enable Mode 了</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-08-36.jpg" alt="Snipaste_2020-05-04_11-08-36"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-08-36.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_11-08-36"></p>
 <p><strong>4.查看明文口令、重设口令</strong></p>
 <p> 由於刚才跳过了载入 Startup Configuration，现在手动把 Startup Configuration 抄写至 Running Configuration，现在可以修改密码了，最後别忘记 <strong>write memory</strong> 把 Configuration 储存至 Startup Configuration。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-10-40-1588561857223.jpg" alt="Snipaste_2020-05-04_11-10-40"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-10-40-1588561857223.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_11-10-40"></p>
 <p><strong>5.设置配置寄存器值为默认值</strong></p>
 <p>重新开机，再次按键盘 Ctrl-Break (如 Mac 可按 Ctrl-Delete) 进入 rommon 模式，把 Configuration Register 回复至 0x2102 并重新开机，重设密码的步骤便完成了。</p>
-<p> <img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-11-43.jpg" alt="Snipaste_2020-05-04_11-11-43"></p>
+<p> <img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_11-11-43.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_11-11-43"></p>
 <h2 id="Cisco-交换机"><a href="#Cisco-交换机" class="headerlink" title="Cisco 交换机"></a>Cisco 交换机</h2><h3 id="交换机启动过程"><a href="#交换机启动过程" class="headerlink" title="交换机启动过程"></a>交换机启动过程</h3><p><strong>POST</strong> (Power On Self Test) - 进行开机硬件自检</p>
 <p><strong>flash_init</strong> - 载入 flash_init 的小程式，用作读取 flash 里的档案。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-16-25.jpg" alt="Snipaste_2020-05-04_12-16-25"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-16-25.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_12-16-25"></p>
 <p><strong>载入 IOS</strong> - 依 Flash丶TFTP 和 ROM 的顺序搜索并载入 IOS。</p>
 <p><strong>载入 Startup Configuration</strong> - 如 Flash 中有 config.text 这个档案则载入，否则进入 System Configuration Dialog 模式。思科2900及3500系列的交换机并没有Configuration Register，要跳过载入 Startup Configuration 只需在 flash 把 config.text 档名改掉便可。</p>
 <h3 id="Switch密码重置步骤"><a href="#Switch密码重置步骤" class="headerlink" title="Switch密码重置步骤"></a>Switch密码重置步骤</h3><h4 id="2950-2960-3550-3560系列"><a href="#2950-2960-3550-3560系列" class="headerlink" title="2950/2960/3550/3560系列"></a>2950/2960/3550/3560系列</h4><p><strong>进入Password-recovery 模式</strong></p>
 <p>Switch 没有开关按钮，一插电制便开机了，在插电制的同时按着面版上的 Mode 按钮，直至 Switch 进入 Password-recovery 模式。</p>
-<p><img src="/2020/04/14/10-cisco-ios/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200504122312.jpg" alt="微信图片编辑_20200504122312"></p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-23-50.jpg" alt="Snipaste_2020-05-04_12-23-50"></p>
+<p><img src="/2020/04/14/10-cisco-ios/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200504122312.jpg" srcset="/img/loading.gif" alt="微信图片编辑_20200504122312"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-23-50.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_12-23-50"></p>
 <p><strong>更改启动配置文件名称</strong></p>
 <p>输入 <strong>flash_init</strong> 挂载 flash 档案系统，然後输入 <strong>dir flash:</strong> 应可看到 flash 里面的档案列表，这里我们的启动配置文件的名称是：config.text，将该文件改名为 config.bak，rename flash:config.text flash:config.bak，然後用指令 <strong>boot</strong> 开始载入 IOS。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-24-44.jpg" alt="Snipaste_2020-05-04_12-24-44"></p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-29-24.jpg" alt="Snipaste_2020-05-04_12-29-24"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-24-44.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_12-24-44"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-29-24.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_12-29-24"></p>
 <p>由於系统找不到 config.text，因而没法载入 Startup Configuration 而出现 Initial Configuration Dialog 模式，输入 no 跳过，这时不用密码也可进入 Enable Mode 了。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-30-18.jpg" alt="Snipaste_2020-05-04_12-30-18"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-30-18.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_12-30-18"></p>
 <p>把 flash:config.bak 改回 flash:config.text，然後把 startup-config 抄至 running-config，现在可以修改密码了，最後别忘记 <strong>write memory</strong> 把 Configuration 储存至 Startup Configuration。重设密码步骤完成。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-31-18.jpg" alt="Snipaste_2020-05-04_12-31-18"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-31-18.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_12-31-18"></p>
 <h4 id="3650-3850"><a href="#3650-3850" class="headerlink" title="3650/3850"></a><strong>3650/3850</strong></h4><p>从 3650 开始，Switch 的 IOS 改用 Linux Base，重设密码方法又有点不同，步骤如下：</p>
 <p>1、在插电制时先按着面版上的 Mode 去中断正常开机程序。</p>
 <p>2、输入指令 SWITCH_IGNORE_STARTUP_CFG=1 (全大写)，这样就会跳过载入 Startup Configuration。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-33-48.jpg" alt="Snipaste_2020-05-04_12-33-48"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-33-48.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_12-33-48"></p>
 <p>3、输入指令 <strong>flash_init</strong> 和 <strong>boot</strong> 把 IOS 载入。</p>
 <p>4、系统进入 Initial Configuration Dialog 模式，输入 no 跳过，这时不用密码也可进入 Enable Mode 了。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-35-10.jpg" alt="Snipaste_2020-05-04_12-35-10"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-35-10.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_12-35-10"></p>
 <p>5、由於刚才跳过了载入 Startup Configuration，所以手动把 Startup Configuration 抄写至 Running Configuration，现在可以修改密码了，最後别忘记 <strong>write memory</strong> 把 Configuration 储存至 Startup Configuration</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-35-45.jpg" alt="Snipaste_2020-05-04_12-35-45"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-35-45.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_12-35-45"></p>
 <p>6、重新开机，再次按住 mode 按钮去中断正常开机程序，把 SWITCH_IGNORE_STARTUP_CFG 的值改回 0，然後输入指令 <strong>flash_init</strong> 和 <strong>boot</strong> 继续开机程序。重设密码步骤完成。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-36-13.jpg" alt="Snipaste_2020-05-04_12-36-13"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_12-36-13.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_12-36-13"></p>
 <h2 id="设备管理及CISCO-IOS介绍"><a href="#设备管理及CISCO-IOS介绍" class="headerlink" title="设备管理及CISCO IOS介绍"></a>设备管理及CISCO IOS介绍</h2><h3 id="CISCO-IOS概述"><a href="#CISCO-IOS概述" class="headerlink" title="CISCO IOS概述"></a>CISCO IOS概述</h3><p>Cisco互联网络操作系统，Cisco私有的网络设备操作系统。它是Cisco 的一项核心技术，该操作系统应用于Cisco路由器、局域网交换机、小型无线接入点等设备。</p>
 <p>cisco IOS 可为设备提供下列网络服务：</p>
 <ul>
@@ -113,109 +325,152 @@
 <li>通过Telnet或SSH远程管理设备 </li>
 <li>辅助端口 </li>
 </ul>
-<h4 id="通过Console接口管理网络设备"><a href="#通过Console接口管理网络设备" class="headerlink" title="通过Console接口管理网络设备"></a>通过Console接口管理网络设备</h4><p><img src="/2020/04/14/10-cisco-ios/Cisco+console+port.jpg" alt="Cisco+console+port"></p>
-<p><img src="/2020/04/14/10-cisco-ios/console.jpg" alt="console"></p>
+<h4 id="通过Console接口管理网络设备"><a href="#通过Console接口管理网络设备" class="headerlink" title="通过Console接口管理网络设备"></a>通过Console接口管理网络设备</h4><p><img src="/2020/04/14/10-cisco-ios/Cisco+console+port.jpg" srcset="/img/loading.gif" alt="Cisco+console+port"></p>
+<p><img src="/2020/04/14/10-cisco-ios/console.jpg" srcset="/img/loading.gif" alt="console"></p>
 <p>Console，翻译成中文就是控制台，Console口就是专门用来配置设备的接口，用Console线和电脑连接，常见的Console线有以下几种：</p>
 <p>一种是RJ-45（连接设备的Console口） —— DB-9（连接计算机）线，但由于现在很多电脑已经没有了DB-9接口，所以大多情况下需要额外的转接口才能和电脑连接：</p>
-<p><img src="/2020/04/14/10-cisco-ios/usb-to-serial-adapter-with-console-cable.jpg" alt="usb-to-serial-adapter-with-console-cable"></p>
+<p><img src="/2020/04/14/10-cisco-ios/usb-to-serial-adapter-with-console-cable.jpg" srcset="/img/loading.gif" alt="usb-to-serial-adapter-with-console-cable"></p>
 <p>另一种是RJ-45（连接设备的Console口） —— USB（连接计算机）线，所有电脑上都有USB接口，所以不用额外的设备即可连接计算机，比较方便，更推荐使用这种线连接设备：</p>
-<p><img src="/2020/04/14/10-cisco-ios/AJV5_131962502847611197bIdYqdnY8K.jpg" alt="AJV5_131962502847611197bIdYqdnY8K"></p>
+<p><img src="/2020/04/14/10-cisco-ios/AJV5_131962502847611197bIdYqdnY8K.jpg" srcset="/img/loading.gif" alt="AJV5_131962502847611197bIdYqdnY8K"></p>
 <p>还有一种蓝牙Console线，不受线长约束，非常方便：</p>
-<p><img src="/2020/04/14/10-cisco-ios/O1CN011d84wI1b0cM5C4Gqs_!!52403403.jpg" alt="O1CN011d84wI1b0cM5C4Gqs_!!52403403"></p>
+<p><img src="/2020/04/14/10-cisco-ios/O1CN011d84wI1b0cM5C4Gqs_!!52403403.jpg" srcset="/img/loading.gif" alt="O1CN011d84wI1b0cM5C4Gqs_!!52403403"></p>
 <p>用Console先连接好设备与计算机后，可以用超级终端或Secure CRT连接设备</p>
 <h5 id="超级终端（HyperTerminal）"><a href="#超级终端（HyperTerminal）" class="headerlink" title="超级终端（HyperTerminal）"></a>超级终端（HyperTerminal）</h5><p>连接上Console线并装好驱动后，设备管理器中的端口选项中会多出一个设备，记住连接的是哪个COM口</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_13-52-21.jpg" alt="Snipaste_2020-04-16_13-52-21"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_13-52-21.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_13-52-21"></p>
 <p>Win XP系统自带超级终端，可以再附件中找到该工具，其他系统的话需要自行下载。打开超级终端后，有个对话框提示要填写位置电话号码，点击取消关闭该对话框，然后进入连接配置界面，名称随便输入即可。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_13-55-22.jpg" alt="Snipaste_2020-04-16_13-55-22"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_13-55-22.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_13-55-22"></p>
 <p>确定使用端口为上面设备管理器中的设备后，点击确定。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-40-15.jpg" alt="Snipaste_2020-04-16_14-40-15"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-40-15.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_14-40-15"></p>
 <p>参数建议直接选择还原默认值，注意核对“位/秒”一项的值为9600即可点击确定，成功通过Console口登入设备。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-42-16.jpg" alt="Snipaste_2020-04-16_14-42-16"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-42-16.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_14-42-16"></p>
 <h5 id="Secure-CRT"><a href="#Secure-CRT" class="headerlink" title="Secure CRT"></a>Secure CRT</h5><p>Secure CRT是网工常用的登录并对设备进行配置的强大工具，它支持SSH、Telnet和rlogin等协议，也可运行VBScript 和 JScript 脚本。该软件是一款商业软件，可以免费试用30天。安装好软件后，点击“New Session”新建连接。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-48-36.jpg" alt="Snipaste_2020-04-16_14-48-36"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-48-36.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_14-48-36"></p>
 <p>协议（Protocol）使用Serial，端口（Port）使用设备管理器中显示的COM口号码，波特率（Baud rate）选择9600，其他用默认选项即可，连接名称可以自定义，此处用 “Cisco serial Console”，设置完毕后即可用Secure CRT通过Console口连接到设备。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-48-59.jpg" alt="Snipaste_2020-04-16_14-48-59"></p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-51-54.jpg" alt="Snipaste_2020-04-16_14-51-54"></p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-53-48.jpg" alt="Snipaste_2020-04-16_14-53-48"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-48-59.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_14-48-59"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-51-54.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_14-51-54"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-53-48.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_14-53-48"></p>
 <p>下次使用时，该连接在Connect标签中会有保存，可直接点击Connect使用进行连接，不用重新配置参数。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-54-08.jpg" alt="Snipaste_2020-04-16_14-54-08"></p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-55-10.jpg" alt="Snipaste_2020-04-16_14-55-10"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-54-08.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_14-54-08"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_14-55-10.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_14-55-10"></p>
 <h3 id="IOS系统的备份与升级"><a href="#IOS系统的备份与升级" class="headerlink" title="IOS系统的备份与升级"></a>IOS系统的备份与升级</h3><h4 id="IOS系统备份"><a href="#IOS系统备份" class="headerlink" title="IOS系统备份"></a>IOS系统备份</h4><p>1、设置TFTP服务器，记住该服务器的IP地址。</p>
 <p>2、连接需要备份系统的设备，并登陆到特权模式，然后用show Flash命令查看Flash中有哪些文件：</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_14-01-01.jpg" alt="Snipaste_2020-05-04_14-01-01"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-04_14-01-01.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-04_14-01-01"></p>
 <p>上面这个.bin后缀的文件就是我们要备份的IOS，根据你选择的路由器的不同，这个文件名称也会有所不同，复制这个名称，等会要用到。</p>
 <p>3、使用<code>copy</code>命令将flash中的文件备份到tftp服务器。copy<code></code>flash tftp，然后输入之前记住的TFTP服务器的IP地址，确保服务器与本设备可以正常通信，备份文件名可以进行更改也可以直接回车用IOS的原名称：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Address or name of remote host []? 192.168.1.100</span><br><span class="line">Destination filename [c2800nm-advipservicesk9-mz.124-15.T1.bin]?</span><br><span class="line">Writing c2800nm-advipservicesk9-mz.124-15.T1.bin...</span><br><span class="line">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><br><span class="line"></span><br><span class="line">[OK - 50938004 bytes]</span><br><span class="line">50938004 bytes copied in 30.561 secs (1666000 bytes/sec)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs erlang-repl">Address or name of remote host []? <span class="hljs-number">192.168</span>.<span class="hljs-number">1.100</span>
+Destination filename [c2800nm-advipservicesk9-mz.<span class="hljs-number">124</span>-<span class="hljs-number">15</span>.T1.bin]?
+Writing c2800nm-advipservicesk9-mz.<span class="hljs-number">124</span>-<span class="hljs-number">15</span>.T1.bin...
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+[OK - <span class="hljs-number">50938004</span> bytes]
+<span class="hljs-number">50938004</span> bytes copied in <span class="hljs-number">30.561</span> secs (<span class="hljs-number">1666000</span> bytes/sec)</code></pre>
 
 <h4 id="IOS系统升级"><a href="#IOS系统升级" class="headerlink" title="IOS系统升级"></a>IOS系统升级</h4><p>当路由器的IOS有了新的版本，可以通过下面的命令来升级，升级前可以使用show flash来查看一下flash空间大小，看看是否可容纳新的IOS文件。</p>
 <p>1、从TFTP服务器上拷贝需要升级的IOS文件到Flash上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R1#copy tftp flash</span><br><span class="line">Address or name of remote host []? 192.168.1.100</span><br><span class="line">Source filename []? c2800nm-advipservicesk9-mz.124-15.T1.bin             /输入TFTP上的新IOS文件名    </span><br><span class="line">Destination filename [c2800nm-advipservicesk9-mz.124-15.T1.bin]?         /输入存放到Flash中的名称</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs routeros">R1#copy tftp flash<span class="hljs-built_in">
+Address </span><span class="hljs-keyword">or</span> name of remote host []? 192.168.1.100
+Source filename []? c2800nm-advipservicesk9-mz.124-15.T1.bin             /输入TFTP上的新IOS文件名    
+Destination filename [c2800nm-advipservicesk9-mz.124-15.T1.bin]?         /输入存放到Flash中的名称</code></pre>
 
 <p>2、路由器询问是否在拷贝新的IOS前删除旧的IOS系统，如果按回车则会删除旧的IOS系统</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Erase flash: before copying? [confirm]</span><br><span class="line">Erasing the flash filesystem will remove all files! Continue? [confirm]</span><br><span class="line">Erasing device... eee ...erased                                                /删除旧IOS系统中</span><br><span class="line">Erase of flash: complete                                                       /旧IOS系统删除成功</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs stata"><span class="hljs-keyword">Erase</span> flash: before copying? [<span class="hljs-keyword">confirm</span>]
+Erasing the flash filesystem will remove all files! <span class="hljs-keyword">Continue</span>? [<span class="hljs-keyword">confirm</span>]
+Erasing device... eee ...erased                                                /删除旧IOS系统中
+<span class="hljs-keyword">Erase</span> of flash: complete                                                       /旧IOS系统删除成功</code></pre>
 
 <p>3、删除旧IOS系统后开始拷贝新IOS系统</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Accessing tftp://192.168.1.100/c2800nm-advipservicesk9-mz.124-15.T1.bin...</span><br><span class="line">Loading c2800nm-advipservicesk9-mz.124-15.T1.bin from 192.168.1.100:</span><br><span class="line">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><br><span class="line">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><br><span class="line">[OK - 50938004 bytes]</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs erlang-repl">Accessing tftp://<span class="hljs-number">192.168</span>.<span class="hljs-number">1.100</span>/c2800nm-advipservicesk9-mz.<span class="hljs-number">124</span>-<span class="hljs-number">15</span>.T1.bin...
+Loading c2800nm-advipservicesk9-mz.<span class="hljs-number">124</span>-<span class="hljs-number">15</span>.T1.bin from <span class="hljs-number">192.168</span>.<span class="hljs-number">1.100</span>:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[OK - <span class="hljs-number">50938004</span> bytes]</code></pre>
 
 <p>4、如果Flash中有多个IOS系统，可以使用下面的命令让这个新的IOS作为默认系统使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#boot system flash flash:c2800nm-advipservicesk9-mz.124-15.T1.bin</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs routeros">R1(config)#boot<span class="hljs-built_in"> system </span>flash flash:c2800nm-advipservicesk9-mz.124-15.T1.bin</code></pre>
 
 <h4 id="IOS系统恢复"><a href="#IOS系统恢复" class="headerlink" title="IOS系统恢复"></a>IOS系统恢复</h4><p>如果IOS文件被不小心删除，或者在升级IOS的过程中突然断电，则可能造成路由器IOS文件的丢失，路由不能正常启动，假设服务器上备份好了路由器的IOS文件，这里手动删除路由器的IOS来模拟IOS丢失的情况，因为IOS文件被删除，重启以后路由器进入了ROM monitor模式，在这个模式下配置下面的信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">rommon 1 &gt;</span><br><span class="line">rommon 1 &gt; IP_ADDRESS=192.168.1.1               /设置路由器的临时IP，只要和TFTP服务器在同一网段就可以了</span><br><span class="line">rommon 2 &gt; IP_SUBNET_MASK=255.255.255.0         /设置路由器的子网掩码</span><br><span class="line">rommon 3 &gt; DEFAULT_GATEWAY=192.168.1.1          /设置网关，由此可见IOS文件的恢复支持跨网段进行</span><br><span class="line">rommon 4 &gt; TFTP_SERVER=192.168.1.100            /设置TFTP服务器的IP地址</span><br><span class="line">rommon 5 &gt; TFTP_FILE=c2800nm-advipservicesk9-mz.124-15.T1.bin               /设置服务器上IOS的文件名</span><br><span class="line">rommon 6 &gt; tftpdnld                             /开始下载TFTP服务器上指定的IOS文件</span><br><span class="line">Do you wish to continue? y/n [n]: y</span><br><span class="line">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><br><span class="line"></span><br><span class="line">rommon 7 &gt; reset                                /传输完成后使用reset重启路由</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs erlang-repl">rommon <span class="hljs-number">1</span> &gt;
+rommon <span class="hljs-number">1</span> &gt; IP_ADDRESS=<span class="hljs-number">192.168</span>.<span class="hljs-number">1.1</span>               /设置路由器的临时IP，只要和TFTP服务器在同一网段就可以了
+rommon <span class="hljs-number">2</span> &gt; IP_SUBNET_MASK=<span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span>         /设置路由器的子网掩码
+rommon <span class="hljs-number">3</span> &gt; DEFAULT_GATEWAY=<span class="hljs-number">192.168</span>.<span class="hljs-number">1.1</span>          /设置网关，由此可见IOS文件的恢复支持跨网段进行
+rommon <span class="hljs-number">4</span> &gt; TFTP_SERVER=<span class="hljs-number">192.168</span>.<span class="hljs-number">1.100</span>            /设置TFTP服务器的IP地址
+rommon <span class="hljs-number">5</span> &gt; TFTP_FILE=c2800nm-advipservicesk9-mz.<span class="hljs-number">124</span>-<span class="hljs-number">15</span>.T1.bin               /设置服务器上IOS的文件名
+rommon <span class="hljs-number">6</span> &gt; tftpdnld                             /开始下载TFTP服务器上指定的IOS文件
+Do you wish to continue? y/n [n]: y
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+rommon <span class="hljs-number">7</span> &gt; reset                                /传输完成后使用reset重启路由</code></pre>
 
 <p><span style="color:red">注意：使用这种方法时，必须连接路由器接口号最小的那个以太网接口</span></p>
 <h3 id="CISCO-IOS配置模式"><a href="#CISCO-IOS配置模式" class="headerlink" title="CISCO IOS配置模式"></a>CISCO IOS配置模式</h3><p><strong>用户模式</strong>（User Mode），显示为：cisco&gt; </p>
 <p>– 正常登陆设备CLI后的第一个配置模式，只具备最基本的查看权限，输入“？”查询能使用的命令后发现可用命令十分有限。 </p>
-<p><img src="/2020/04/14/10-cisco-ios/cisco_cli.png" alt="cisco_cli"></p>
+<p><img src="/2020/04/14/10-cisco-ios/cisco_cli.png" srcset="/img/loading.gif" alt="cisco_cli"></p>
 <p>输入命令：enable后即可进入特权模式。</p>
 <p><strong>特权模式</strong>（Privilege execute mode），显示为：cisco#</p>
 <p>– 从用户模式通过认证（如果设置了密码）后即可进入特权模式，从截图中可以看到，输入“？”查询能使用的命令后发现可用命令相比用户模式多了很多。 </p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-04-54.jpg" alt="Snipaste_2020-04-16_15-04-54"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-04-54.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_15-04-54"></p>
 <p><strong>全局配置模式</strong>（Global Configuration mode），在特权模式中输入config terminal 命令后即可进入全局模式，这个模式主要是针对网络整体参数进行的设置，例如DNS地址或接口IP地址等。从截图中可以看到，输入“？”查询能使用的命令后发现，命令相比前两个模式并不相同。</p>
 <p>– 可配置设备全局参数，开启或关闭设备全局特性或功能； </p>
 <p>– 从全局配置模式可进入多种不同的其他子配置模式。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-09-46.jpg" alt="Snipaste_2020-04-16_15-09-46"></p>
-<h3 id="CISCO-IOS命令"><a href="#CISCO-IOS命令" class="headerlink" title="CISCO IOS命令"></a>CISCO IOS命令</h3><h4 id="IOS命令结构"><a href="#IOS命令结构" class="headerlink" title="IOS命令结构"></a>IOS命令结构</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-31-37.jpg" alt="Snipaste_2020-04-16_15-31-37"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-09-46.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_15-09-46"></p>
+<h3 id="CISCO-IOS命令"><a href="#CISCO-IOS命令" class="headerlink" title="CISCO IOS命令"></a>CISCO IOS命令</h3><h4 id="IOS命令结构"><a href="#IOS命令结构" class="headerlink" title="IOS命令结构"></a>IOS命令结构</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-31-37.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_15-31-37"></p>
 <ul>
 <li>每个IOS 命令都具有特定的格式或语法，并在相应的提示符下执行。 </li>
 <li>常规命令语法为命令后接相应的关键字和参数。 </li>
 <li>某些命令包含一个关键字和参数子集，此子集可提供额外功能。 </li>
 </ul>
 <h4 id="CLI的帮助"><a href="#CLI的帮助" class="headerlink" title="CLI的帮助"></a>CLI的帮助</h4><h5 id="命令提示及补全"><a href="#命令提示及补全" class="headerlink" title="命令提示及补全"></a>命令提示及补全</h5><p><strong>命令提示</strong>：输入一半或未输入命令时，在命令行中输入“？”后系统会提示接下来可能存在的补全命令，例如输入rout 然后输入？ 后，系统会告诉用户所有以“ rout ”开头的命令，在本例中有两个，一个是route-map，一个是router，如果没有任何以这个开头的命令则系统会提示用户知道。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-32-57.jpg" alt="Snipaste_2020-04-16_15-32-57"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-32-57.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_15-32-57"></p>
 <p>如果在命令行中不输入任何命令直接输入“？”，则系统会将所有可能运行的命令告知用户。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-04-54-1587022600316.jpg" alt="Snipaste_2020-04-16_15-04-54"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-04-54-1587022600316.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_15-04-54"></p>
 <p><strong>命令补全：</strong>在输入部分命令后，直接按键盘上的TAB键，如果此时用户输入的命令只存在一种可能，则按完TAB键后该命令会自动补全。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-38-17.jpg" alt="Snipaste_2020-04-16_15-38-17"></p>
-<h5 id="命令语法检查"><a href="#命令语法检查" class="headerlink" title="命令语法检查"></a>命令语法检查</h5><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-39-40.jpg" alt="Snipaste_2020-04-16_15-39-40"></p>
-<h5 id="热键和快捷方式"><a href="#热键和快捷方式" class="headerlink" title="热键和快捷方式"></a>热键和快捷方式</h5><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-40-11.jpg" alt="Snipaste_2020-04-16_15-40-11"></p>
-<h4 id="cisco-IOS-基础配置"><a href="#cisco-IOS-基础配置" class="headerlink" title="cisco IOS 基础配置"></a>cisco IOS 基础配置</h4><h5 id="修改设备名称"><a href="#修改设备名称" class="headerlink" title="修改设备名称"></a><strong>修改设备名称</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Router(config)# hostname AS_SSL_1F_S3640 </span><br><span class="line"></span><br><span class="line">AS_SSL_1F_S3640(config)#</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-38-17.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_15-38-17"></p>
+<h5 id="命令语法检查"><a href="#命令语法检查" class="headerlink" title="命令语法检查"></a>命令语法检查</h5><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-39-40.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_15-39-40"></p>
+<h5 id="热键和快捷方式"><a href="#热键和快捷方式" class="headerlink" title="热键和快捷方式"></a>热键和快捷方式</h5><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-16_15-40-11.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-16_15-40-11"></p>
+<h4 id="cisco-IOS-基础配置"><a href="#cisco-IOS-基础配置" class="headerlink" title="cisco IOS 基础配置"></a>cisco IOS 基础配置</h4><h5 id="修改设备名称"><a href="#修改设备名称" class="headerlink" title="修改设备名称"></a><strong>修改设备名称</strong></h5><pre><code class="hljs lisp">Router(<span class="hljs-name">config</span>)# hostname AS_SSL_1F_S3640 
+
+AS_SSL_1F_S3640(<span class="hljs-name">config</span>)#</code></pre>
 
 <h5 id="配置用户登录密码："><a href="#配置用户登录密码：" class="headerlink" title="配置用户登录密码："></a><strong>配置用户登录密码</strong>：</h5><p>Console Password</p>
 <p>用于限制人员通过控制台（Console）连接访问设备 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#line console 0                                在全局配置模式下进入console口</span><br><span class="line"></span><br><span class="line">R1(config-line)#password  cisco                          将console口登录密码设置成&quot;cisco&quot;</span><br><span class="line"></span><br><span class="line">R1(config-line)#login                                    确认启用该密码</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#line</span> console <span class="hljs-number">0</span>                                在全局配置模式下进入console口
+
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-line)</span></span><span class="hljs-selector-id">#password</span>  cisco                          将console口登录密码设置成<span class="hljs-string">"cisco"</span>
+
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-line)</span></span><span class="hljs-selector-id">#login</span>                                    确认启用该密码</code></pre>
 
 <h5 id="特权模式密码"><a href="#特权模式密码" class="headerlink" title="特权模式密码"></a><strong>特权模式密码</strong></h5><p>限制人员使用特权模式配置设备</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#enable password cisco          设置非加密的特权模式密码，在查看命令时会显示密码，不安全</span><br><span class="line"></span><br><span class="line">Router(config)#enable secret cisco            设置经过加密的特权模式密码，在查看命令时不会显示密码</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs routeros">Router(config)#<span class="hljs-builtin-name">enable</span> password cisco          设置非加密的特权模式密码，在查看命令时会显示密码，不安全
+
+Router(config)#<span class="hljs-builtin-name">enable</span><span class="hljs-built_in"> secret </span>cisco            设置经过加密的特权模式密码，在查看命令时不会显示密码</code></pre>
 
 <h5 id="VTY-口令"><a href="#VTY-口令" class="headerlink" title="VTY 口令"></a><strong>VTY 口令</strong></h5><p>用于限制人员通过Telnet 远程访问设备</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#line vty0 4                                   进入编号为0-4的这5条VTY线路中</span><br><span class="line"></span><br><span class="line">Router(config-line)#password cisco                           将VTY远程Telnet登录的密码设置为cisco                    </span><br><span class="line">Router(config-line)#login                                    确认启用该密码</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">Router</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#line</span> vty0 <span class="hljs-number">4</span>                                   进入编号为<span class="hljs-number">0</span>-<span class="hljs-number">4</span>的这<span class="hljs-number">5</span>条VTY线路中
+
+<span class="hljs-function"><span class="hljs-title">Router</span><span class="hljs-params">(config-line)</span></span><span class="hljs-selector-id">#password</span> cisco                           将VTY远程Telnet登录的密码设置为cisco                    
+<span class="hljs-function"><span class="hljs-title">Router</span><span class="hljs-params">(config-line)</span></span><span class="hljs-selector-id">#login</span>                                    确认启用该密码</code></pre>
 
 <h5 id="管理配置文件"><a href="#管理配置文件" class="headerlink" title="管理配置文件"></a>管理配置文件</h5><p>将当前配置写入启动配置文件，这样当前运行的配置（running-config）会保存在NVRAM中变成开机配置（startup-config），即使重启或断电后开机后依然会是该配置，下面两条命令均可实现此功能。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1# write                                                    也可简写做wr</span><br><span class="line"></span><br><span class="line">R1# copy running-config startup-config                       将运行配置保存为开机配置</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs avrasm"><span class="hljs-built_in">R1</span><span class="hljs-meta"># write                                                    也可简写做wr</span>
+
+<span class="hljs-built_in">R1</span><span class="hljs-meta"># copy running-config startup-config                       将运行配置保存为开机配置</span></code></pre>
 
 <p>删除启动配置文件，删除开机启动的所有配置，务必谨慎使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1# erase startup-config                                     删除</span><br><span class="line"></span><br><span class="line">R1# delete flash:config.text</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs avrasm"><span class="hljs-built_in">R1</span><span class="hljs-meta"># erase startup-config                                     删除</span>
+
+<span class="hljs-built_in">R1</span><span class="hljs-meta"># delete flash:config.text</span></code></pre>
 
 <h5 id="备份配置文件"><a href="#备份配置文件" class="headerlink" title="备份配置文件"></a>备份配置文件</h5><p><strong>TFTP备份</strong></p>
 <p>1、通过TFTP软件工具备份公司Cisco2960交换机的配置，用软件建立TFTP服务器，Server interfaces填入启动软件的电脑IP：172.18.1.88，备份文件存放地址E:\Cisco_bak</p>
-<p><img src="/2020/04/14/10-cisco-ios/wKioL1i49degZT-jAAA7S9-CkBA600.png-wh_500x0-wm_3-wmp_4-s_13402697.png" alt="wKioL1i49degZT-jAAA7S9-CkBA600.png-wh_500x0-wm_3-wmp_4-s_13402697"></p>
+<p><img src="/2020/04/14/10-cisco-ios/wKioL1i49degZT-jAAA7S9-CkBA600.png-wh_500x0-wm_3-wmp_4-s_13402697.png" srcset="/img/loading.gif" alt="wKioL1i49degZT-jAAA7S9-CkBA600.png-wh_500x0-wm_3-wmp_4-s_13402697"></p>
 <p>2、用Secure CRT 通过telnet登录2960交换机，使用命令，copy running-config tftp ，然后输入TFTP的IP地址，172.18.1.88，输入备份的文件名为：djjs-as-c2960x-2-config</p>
-<p><img src="/2020/04/14/10-cisco-ios/wKiom1i49dex1enpAAAk-J4bNxI721.png-wh_500x0-wm_3-wmp_4-s_1645361981.png" alt="wKiom1i49dex1enpAAAk-J4bNxI721.png-wh_500x0-wm_3-wmp_4-s_1645361981"></p>
+<p><img src="/2020/04/14/10-cisco-ios/wKiom1i49dex1enpAAAk-J4bNxI721.png-wh_500x0-wm_3-wmp_4-s_1645361981.png" srcset="/img/loading.gif" alt="wKiom1i49dex1enpAAAk-J4bNxI721.png-wh_500x0-wm_3-wmp_4-s_1645361981"></p>
 <p>3、在E:\Cisco_bak下查看备份的配置文件，确认备份成功。</p>
 <p><strong>复制黏贴备份</strong></p>
 <p>在全局配置模式下，输入show run，然后将输出的命令行复制黏贴到文本文档中保存起来。</p>
-<h5 id="接口相关配置"><a href="#接口相关配置" class="headerlink" title="接口相关配置"></a>接口相关配置</h5><h6 id="进入接口"><a href="#进入接口" class="headerlink" title="进入接口"></a>进入接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1(config)# interface ethernet 0/0             进入Ethernet 0/0接口</span><br><span class="line"></span><br><span class="line">R1(config-if)#</span><br></pre></td></tr></table></figure>
+<h5 id="接口相关配置"><a href="#接口相关配置" class="headerlink" title="接口相关配置"></a>接口相关配置</h5><h6 id="进入接口"><a href="#进入接口" class="headerlink" title="进入接口"></a>进入接口</h6><pre><code class="hljs routeros">R1(config)#<span class="hljs-built_in"> interface ethernet </span>0/0             进入Ethernet 0/0接口
+
+R1(config-if)#</code></pre>
 
 <p>Ethernet是一种接口类型，全称是Fast Ethernet，速率为100M，除此之外还有Gigabit Ethernet，千兆接口。</p>
 <p>Ethernet 后面这个0/0，一般命名规则是：模块号/接口序号，0/0就是第0个模块板的第0个编号的接口</p>
@@ -224,37 +479,67 @@
 <li>中低端模块化路由器，其接口编号使用两个数字，中间用“1”格开，斜杠前面的是模块号，后面是模块接口编号，如2600路由器上的fa0/1表示第1个槽位的第2个接口，该接口是快速以太网接口。</li>
 <li>高端模块化路由器，其接口编号有时是三个数字，中间用“/”格开，第一个数字是模块号，第二个数字是该模块上的子卡号，第三个数字是该子卡上的接口模块号。如2800路由器上的G0/0/0表示0槽位第1个子模块上的第一个接口，该接口是 千兆位以太网口。</li>
 </ul>
-<h6 id="为接口配置IP地址"><a href="#为接口配置IP地址" class="headerlink" title="为接口配置IP地址"></a>为接口配置IP地址</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R1(config-if)# ip address 192.168.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+<h6 id="为接口配置IP地址"><a href="#为接口配置IP地址" class="headerlink" title="为接口配置IP地址"></a>为接口配置IP地址</h6><pre><code class="hljs routeros">R1(config-if)#<span class="hljs-built_in"> ip address </span>192.168.1.1 255.255.255.0</code></pre>
 
-<h6 id="激活接口"><a href="#激活接口" class="headerlink" title="激活接口"></a>激活接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R1(config-if)# no shutdown                   CISCO设备接口默认shutdown状态，必须将接口开启才能使用</span><br></pre></td></tr></table></figure>
+<h6 id="激活接口"><a href="#激活接口" class="headerlink" title="激活接口"></a>激活接口</h6><pre><code class="hljs reasonml"><span class="hljs-constructor">R1(<span class="hljs-params">config</span>-<span class="hljs-params">if</span>)</span># no shutdown                   CISCO设备接口默认shutdown状态，必须将接口开启才能使用</code></pre>
 
-<h6 id="配置serial接口"><a href="#配置serial接口" class="headerlink" title="配置serial接口"></a>配置serial接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R1(config)# interface serial 0/0                            进入serial 0/0接口</span><br><span class="line">R1(config-if)# ipaddress 192.168.1.1 255.255.255.0          为接口配置IP地址和子网掩码</span><br><span class="line">R1(config-if)# no shutdown                                  将默认为关闭的接口开启</span><br><span class="line">R1(config-if)# clock rate 64000                             在DCE端配置serial接口的时钟信号</span><br></pre></td></tr></table></figure>
+<h6 id="配置serial接口"><a href="#配置serial接口" class="headerlink" title="配置serial接口"></a>配置serial接口</h6><pre><code class="hljs routeros">R1(config)#<span class="hljs-built_in"> interface </span>serial 0/0                            进入serial 0/0接口
+R1(config-if)# ipaddress 192.168.1.1 255.255.255.0          为接口配置IP地址和子网掩码
+R1(config-if)# <span class="hljs-literal">no</span> shutdown                                  将默认为关闭的接口开启
+R1(config-if)#<span class="hljs-built_in"> clock </span>rate 64000                             在DCE端配置serial接口的时钟信号</code></pre>
 
-<h5 id="show命令"><a href="#show命令" class="headerlink" title="show命令"></a>show命令</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">show ? </span><br><span class="line">show version                                                 查看当前操作系统版本 </span><br><span class="line">show running-config                                          查看运行配置 </span><br><span class="line">show startup-config                                          查看启动配置 </span><br><span class="line">show flash                                                   查看FLASH </span><br><span class="line">show cpu                                                     查看CPU利用率 </span><br><span class="line">show memory                                                  查看内存使用情况 </span><br><span class="line">show interface                                               查看端口</span><br><span class="line">show ip interface brief                                      查看所有端口简要情况</span><br></pre></td></tr></table></figure>
+<h5 id="show命令"><a href="#show命令" class="headerlink" title="show命令"></a>show命令</h5><pre><code class="hljs routeros">show ? 
+show version                                                 查看当前操作系统版本 
+show running-config                                          查看运行配置 
+show startup-config                                          查看启动配置 
+show flash                                                   查看FLASH 
+show cpu                                                     查看CPU利用率 
+show memory                                                  查看内存使用情况 
+show<span class="hljs-built_in"> interface </span>                                              查看端口
+show<span class="hljs-built_in"> ip interface </span>brief                                      查看所有端口简要情况</code></pre>
 
 <h5 id="设置命令输入同步模式"><a href="#设置命令输入同步模式" class="headerlink" title="设置命令输入同步模式"></a>设置命令输入同步模式</h5><p>输入命令的时候，经常会有路由返回的各种消息打断了你的输入，虽然可以使用”Ctrl+R”来将当前输入转移到新行继续输入，但是这样非常不方便，可以通过下面的命令来让路由返回的消息不影响你的输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#line console 0              /进入console线路，</span><br><span class="line">R1(config-line)#logging synchronous   /设置console线路同步模式，返回的消息就不会打断输出了</span><br><span class="line">R1(config-line)#exec-timeout 0 0     /设置console线路命令输入永不超时，一段时间没有输入以后也不断开连接</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config)</span></span><span class="hljs-selector-id">#line</span> console <span class="hljs-number">0</span>              /进入console线路，
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-line)</span></span><span class="hljs-selector-id">#logging</span> synchronous   /设置console线路同步模式，返回的消息就不会打断输出了
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-line)</span></span><span class="hljs-selector-id">#exec-timeout</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span>     /设置console线路命令输入永不超时，一段时间没有输入以后也不断开连接</code></pre>
 
 <h5 id="返回上级命令"><a href="#返回上级命令" class="headerlink" title="返回上级命令"></a>返回上级命令</h5><p>exit命令是一次退一级的命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">R1(config-line)#exit</span><br><span class="line">R1(config)#</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config-line)</span></span><span class="hljs-selector-id">#exit</span>
+<span class="hljs-function"><span class="hljs-title">R1</span><span class="hljs-params">(config)</span></span>#</code></pre>
 
 <p>end命令是一次性退到特权模式最外层</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">R1(config-line)#end</span><br><span class="line">R1#</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs avrasm"><span class="hljs-built_in">R1</span>(config-line)<span class="hljs-meta">#end</span>
+<span class="hljs-built_in">R1</span><span class="hljs-meta">#</span></code></pre>
 
 <h5 id="命令缩写"><a href="#命令缩写" class="headerlink" title="命令缩写"></a>命令缩写</h5><p>命令可以缩写，缩写从要求是设备必须能够将缩写命令与其他命令区分开，比如在用户模式下要进入特权模式的命令enable可以缩写成en，因为以en开头的命令只有enable，设备不会将缩写的en错认为是其他命令。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-05_16-22-06.jpg" alt="Snipaste_2020-05-05_16-22-06"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-05_16-22-06.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-05_16-22-06"></p>
 <p>但当缩写的命令有两种及两种以上可能时，缩写则不能使用，如下图中，interface 后面以v开头的命令有多个，这时如果直接回车输入的话，设备并不知道用户要输入具体哪个命令，所以返回一个“命令不完整”的信息。</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-05_16-23-54.jpg" alt="Snipaste_2020-05-05_16-23-54"></p>
-<h4 id="Running-config-VS-Startup-config"><a href="#Running-config-VS-Startup-config" class="headerlink" title="Running-config VS Startup-config"></a>Running-config VS Startup-config</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-26-51.jpg" alt="Snipaste_2020-04-23_16-26-51"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-05-05_16-23-54.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-05-05_16-23-54"></p>
+<h4 id="Running-config-VS-Startup-config"><a href="#Running-config-VS-Startup-config" class="headerlink" title="Running-config VS Startup-config"></a>Running-config VS Startup-config</h4><p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-26-51.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-23_16-26-51"></p>
 <h4 id="基础实验"><a href="#基础实验" class="headerlink" title="基础实验"></a>基础实验</h4><p>实验1：</p>
 <p>结果使R1和R2之间可以连通</p>
-<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-28-02.jpg" alt="Snipaste_2020-04-23_16-28-02"></p>
+<p><img src="/2020/04/14/10-cisco-ios/Snipaste_2020-04-23_16-28-02.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-04-23_16-28-02"></p>
 <p>拓扑如上图所示，为两台直连路由器配置直连接口参数，使二者能够通信。</p>
 <p>R1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Router# configure terminal                                            进入全局配置模式</span><br><span class="line">Router(config)# hostname R1                                           将路由器名字改为R1</span><br><span class="line">R1(config)#enable secret 123456                                       为特权模式设置密码</span><br><span class="line">R1(config)#line console 0                                             进入console线路</span><br><span class="line">R1(config-line)#logg synchronous </span><br><span class="line">                设置console线路同步模式，返回的消息就不会打断输出了               </span><br><span class="line">R1(config-line)#exec-timeout 0 0     </span><br><span class="line">                设置console线路命令输入永不超时不断开连接   </span><br><span class="line">R1(config-line)#password test                                         设置console线路密码</span><br><span class="line">R1(config)# interface fastethernet 0/0                                进入E0/0接口</span><br><span class="line">R1(config-if)# ip address 192.168.12.1 255.255.255.0                  为E0/0接口配置IP地址</span><br><span class="line">R1(config-if)# no shutdown                                            激活E0/0接口</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs routeros">Router# configure terminal                                            进入全局配置模式
+Router(config)# hostname R1                                           将路由器名字改为R1
+R1(config)#<span class="hljs-builtin-name">enable</span><span class="hljs-built_in"> secret </span>123456                                       为特权模式设置密码
+R1(config)#line<span class="hljs-built_in"> console </span>0                                             进入console线路
+R1(config-line)#logg synchronous 
+                设置console线路同步模式，返回的消息就不会打断输出了               
+R1(config-line)#exec-timeout 0 0     
+                设置console线路命令输入永不超时不断开连接   
+R1(config-line)#password test                                         设置console线路密码
+R1(config)#<span class="hljs-built_in"> interface </span>fastethernet 0/0                                进入E0/0接口
+R1(config-if)#<span class="hljs-built_in"> ip address </span>192.168.12.1 255.255.255.0                  为E0/0接口配置IP地址
+R1(config-if)# <span class="hljs-literal">no</span> shutdown                                            激活E0/0接口</code></pre>
 
 <p>R2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Router# configure terminal </span><br><span class="line">Router(config)# hostname R2 </span><br><span class="line">R2(config)# interface fastethernet 0/0 </span><br><span class="line">R2(config-if)# ip address 192.168.12.2 255.255.255.0 </span><br><span class="line">R2(config-if)# no shutdown</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs routeros">Router# configure terminal 
+Router(config)# hostname R2 
+R2(config)#<span class="hljs-built_in"> interface </span>fastethernet 0/0 
+R2(config-if)#<span class="hljs-built_in"> ip address </span>192.168.12.2 255.255.255.0 
+R2(config-if)# <span class="hljs-literal">no</span> shutdown</code></pre>
 
 <p>验证配置：</p>
 <p>ping 命令，看两者之间通信是否畅通</p>
@@ -262,25 +547,300 @@
 <p>traceroute 命令，追踪两个IP之间的通信路径</p>
 <p>traceroute 192.168.12.2</p>
 <p>R2telnet 远程连接R1，看设置是否正确</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">R2#telnet 192.168.12.1</span><br><span class="line">Trying 192.168.12.1 ... Open</span><br><span class="line">User Access Verification</span><br><span class="line">Password: /*输入远程访问密码123456*/</span><br><span class="line">R1&gt;en</span><br><span class="line">Password: /*输入R1上的特权密码test*/</span><br><span class="line">R2# /*这样就进入了R2的特权模式了*/</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs css"><span class="hljs-selector-tag">R2</span><span class="hljs-selector-id">#telnet</span> 192<span class="hljs-selector-class">.168</span><span class="hljs-selector-class">.12</span><span class="hljs-selector-class">.1</span>
+<span class="hljs-selector-tag">Trying</span> 192<span class="hljs-selector-class">.168</span><span class="hljs-selector-class">.12</span><span class="hljs-selector-class">.1</span> ... <span class="hljs-selector-tag">Open</span>
+<span class="hljs-selector-tag">User</span> <span class="hljs-selector-tag">Access</span> <span class="hljs-selector-tag">Verification</span>
+<span class="hljs-selector-tag">Password</span>: <span class="hljs-comment">/*输入远程访问密码123456*/</span>
+<span class="hljs-selector-tag">R1</span>&gt;<span class="hljs-selector-tag">en</span>
+<span class="hljs-selector-tag">Password</span>: <span class="hljs-comment">/*输入R1上的特权密码test*/</span>
+<span class="hljs-selector-tag">R2</span># <span class="hljs-comment">/*这样就进入了R2的特权模式了*/</span></code></pre>
 
 <h2 id="CRT软件使用简介"><a href="#CRT软件使用简介" class="headerlink" title="CRT软件使用简介"></a>CRT软件使用简介</h2><h2 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h2><p><a href="http://vmnf.no-ip.org/itblog/how-to-setup-a-serial-console-connection/" target="_blank" rel="noopener">How to Setup a serial Console connection</a></p>
 <p><a href="http://blog.sina.com.cn/s/blog_635e1a9e0101172t.html" target="_blank" rel="noopener">管理配置寄存器和路由器口令恢复</a></p>
 <p><a href="https://www.jannet.hk/zh-Hans/post/password-recovery/" target="_blank" rel="noopener">Password Recovery 重设密码</a></p>
 <p><a href="https://www.qingsword.com/qing/707.html#CCNA-ios-manager-6" target="_blank" rel="noopener">[CCNA图文笔记]-27-Cisco设备文件管理与密码恢复</a></p>
 <p><a href="https://www.qingsword.com/qing/490.html" target="_blank" rel="noopener">[CCNA图文笔记]-8-Cisco路由CLI基础命令</a></p>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css"></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined" target="_blank" rel="noopener">Rookie</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://renyuan431.github.io/2020/04/14/10-cisco-ios/">https://renyuan431.github.io/2020/04/14/10-cisco-ios/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://renyuan431.github.io">Rookie's Notebook</a>！</span></div></div><div class="post-meta__tag-list"></div><div class="addthis_inline_share_toolbox pull-right"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f7eed89b5533478" async></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/05/04/11-route-basic/"><i class="fa fa-chevron-left">  </i><span>11、路由基础及静态路由</span></a></div><div class="next-post pull-right"><a href="/2020/04/02/9-communication-process/"><span>9、通信过程分析</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="disqus_thread"></div><script>var unused = null;
-var disqus_config = function () {
-  this.page.url = 'https://renyuan431.github.io/2020/04/14/10-cisco-ios/';
-  this.page.identifier = '2020/04/14/10-cisco-ios/';
-  this.page.title = '10、设备管理及cisco IOS基础配置';
-}
-var d = document, s = d.createElement('script');
-s.src = "https://" + 'https-renyuan431-github-io' +".disqus.com/embed.js";
-s.setAttribute('data-timestamp', '' + +new Date());
-(d.head || d.body).appendChild(s);</script><script id="dsq-count-scr" src="https://https-renyuan431-github-io.disqus.com/count.js" async></script></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2020 By Rookie</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.8.2"></script><script src="/js/fancybox.js?version=1.8.2"></script><script src="/js/sidebar.js?version=1.8.2"></script><script src="/js/copy.js?version=1.8.2"></script><script src="/js/fireworks.js?version=1.8.2"></script><script src="/js/transition.js?version=1.8.2"></script><script src="/js/scroll.js?version=1.8.2"></script><script src="/js/head.js?version=1.8.2"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
-  $('#nav').addClass('is-mobile')
-  $('footer').addClass('is-mobile')
-  $('#top-container').addClass('is-mobile')
-}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
- <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/CCNA/">CCNA</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/04/11-route-basic/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">11、路由基础及静态路由</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/04/02/9-communication-process/">
+                        <span class="hidden-mobile">9、通信过程分析</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "10、设备管理及cisco IOS基础配置&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
