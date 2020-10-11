@@ -1711,7 +1711,6 @@ area </span>2 nssa no-summary</code></pre>
 <li>R1发送B1的LSAck表示该LSU已收到。</li>
 </ol>
 <h3 id="Full"><a href="#Full" class="headerlink" title="Full"></a>Full</h3><p>LSU全部交互完毕后，两台路由器拥有的LSDB，并保持在该状态。为了保持邻接状态，路由器之间会交互Hello包，确保对方的状态，如果在Deaf interval计时器到期前都未收到对方的Hello包，则邻接状态终结。一旦发现和其他路由器邻接状态终结，路由器将会泛洪该变化置域内其他路由器。</p>
-<h2 id="邻居建立总结"><a href="#邻居建立总结" class="headerlink" title="邻居建立总结"></a>邻居建立总结</h2><p> <a href="13-ospf\ospf-router-startup-and-link-state-update.pdf">ospf-router-startup-and-link-state-update.pdf</a> </p>
 <h2 id="邻居无法建立常见原因"><a href="#邻居无法建立常见原因" class="headerlink" title="邻居无法建立常见原因"></a>邻居无法建立常见原因</h2><ol>
 <li>Hello间隔和Dead间隔不同。默认情况下，Dead间隔是Hello间隔的4倍，可以在接口下通过“ip ospf hello-interval”和“ip ospf dead-interval”命令来调整。</li>
 <li>区域号不一致（Area号不同）。</li>
@@ -1725,7 +1724,8 @@ area </span>2 nssa no-summary</code></pre>
 <h1 id="OSPF路由汇总"><a href="#OSPF路由汇总" class="headerlink" title="OSPF路由汇总"></a><a href="http://blog.sina.com.cn/s/blog_5ec353710102vtfy.html" target="_blank" rel="noopener">OSPF路由汇总</a></h1><h1 id="虚链路"><a href="#虚链路" class="headerlink" title="虚链路"></a>虚链路</h1><h2 id="概述-17"><a href="#概述-17" class="headerlink" title="概述"></a>概述</h2><p><img src="/2020/06/24/13-ospf/Snipaste_2020-10-11_16-17-35.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-10-11_16-17-35"></p>
 <p>OSPF规定每个区域都必须与区域0相连，当出现了以上情况，可以在区域1中建立一条虚链路（Virtual-link）来过度，配置命令为：</p>
 <pre><code class="hljs css"><span class="hljs-selector-tag">area</span> <span class="hljs-selector-tag">X</span>（过渡区域的<span class="hljs-selector-tag">ID</span>） <span class="hljs-selector-tag">virtual-link</span> <span class="hljs-selector-tag">A</span><span class="hljs-selector-class">.B</span><span class="hljs-selector-class">.C</span><span class="hljs-selector-class">.D</span>（虚链路对端<span class="hljs-selector-tag">router</span> 的<span class="hljs-selector-tag">Router</span> <span class="hljs-selector-tag">ID</span>）
-举例：<span class="hljs-selector-tag">area</span> 1 <span class="hljs-selector-tag">virtual-link</span> 3<span class="hljs-selector-class">.3</span><span class="hljs-selector-class">.3</span><span class="hljs-selector-class">.3</span>    #过渡区域为区域1，虚链路对端<span class="hljs-selector-tag">Router</span>的<span class="hljs-selector-tag">Router</span> <span class="hljs-selector-tag">ID</span>为3<span class="hljs-selector-class">.3</span><span class="hljs-selector-class">.3</span><span class="hljs-selector-class">.3</span></code></pre>
+举例：<span class="hljs-selector-tag">area</span> 1 <span class="hljs-selector-tag">virtual-link</span> 3<span class="hljs-selector-class">.3</span><span class="hljs-selector-class">.3</span><span class="hljs-selector-class">.3</span>    
+#过渡区域为区域1，虚链路对端<span class="hljs-selector-tag">Router</span>的<span class="hljs-selector-tag">Router</span> <span class="hljs-selector-tag">ID</span>为3<span class="hljs-selector-class">.3</span><span class="hljs-selector-class">.3</span><span class="hljs-selector-class">.3</span></code></pre>
 
 <p>查看虚链路命令为：</p>
 <pre><code class="hljs routeros">show<span class="hljs-built_in"> ip ospf </span>virtual-links</code></pre>
