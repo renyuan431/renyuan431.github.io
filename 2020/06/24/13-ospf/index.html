@@ -1547,17 +1547,13 @@ O E2     <span class="hljs-number">172.16</span><span class="hljs-number">.65</s
 </li>
 <li><p>Standard areas：翻译成中文是标准区域，也就是除了Stub area以外的其他area，上文的骨干区域（区域0）也属于标准区域，绝大多数的区域都是Standard area。标准区域中可以存在1、2、3、4、5类LSA，也可以存在ASBR路由器。</p>
 </li>
-<li><p>Stub area：翻译成中文是末节区域，在Stub area中，外部路由不会通过ABR路由器直接传播进Stub area，而是采用默认路由的方式代替，这条默认路由代替了所有外部路由。这样减少了路由器的LSDB的大小从而能够减少内存消耗。Stub area中可以存在1、2、3类的LSA，但不允许引入外部路由。配置命令为：area X stub，取消命令为： no area X stub。X为将要配置成stub区域的area的数字，配置举例如下：</p>
-<pre><code class="hljs routeros">router(config)# router<span class="hljs-built_in"> ospf </span>201
-router(config-router)#<span class="hljs-built_in"> area </span>33 stub
-router(config-router)# <span class="hljs-literal">no</span><span class="hljs-built_in"> area </span>33 stub</code></pre>
+<li><p>Stub area：翻译成中文是末节区域，在Stub area中，外部路由不会通过ABR路由器直接传播进Stub area，而是采用<strong>自动下发默认路由</strong>的方式代替，这条默认路由代替了所有外部路由。这样减少了路由器的LSDB的大小从而能够减少内存消耗。Stub area中不允许引入外部路由，就是4、5类LSA。</p>
 </li>
-<li><p>Totally stubby area：翻译成中文是完全末节区域，这个区域和之前的Stub area的性质一样，不过和Stub area的区别在于只能存在1和2类LSA，<strong>不能有3类LSA存在</strong>，也不允许引入外部路由，同时向内部传递一条默认路由。配置命令在域中的ABR上为：area X stub no-summary，取消命令为： no area X stub no-summary；在域中其他路由器上为：area X stub。</p>
-<pre><code class="hljs routeros">router(config)# router<span class="hljs-built_in"> ospf </span>201
-router(config-router)#<span class="hljs-built_in"> area </span>66 stub no-summary
-router(config-router)# <span class="hljs-literal">no</span><span class="hljs-built_in"> area </span>66 stub no-summary</code></pre>
+<li><p>Totally stubby area：翻译成中文是完全末节区域，这个区域和之前的Stub area的性质一样，不过和Stub area的区别在于也<strong>不能有3类LSA存在</strong>，也不允许引入外部路由，综合起来就是不允许有3、4、5类LSA的存在，同时自动下发一条默认路由（以3类LSA形式，自动下发的3类LSA是允许的）。</p>
 </li>
-<li><p>Not-so-stubby area：翻译成中文是非完全末节区域，另一种英文叫法是NSSA区域，和之前的Stub area性质一样，不过和Stub area的区别在于域中可以有ASBR路由器，由于ASBR既运行了OSPF协议，也运行了其他路由协议，所以表示非完全末节区域中可以引入外部路由。</p>
+<li><p>Not-so-stubby area：翻译成中文是非完全末节区域，另一种英文叫法是NSSA区域，和之前的Stub area性质一样，不过和Stub area的区别在于域中可以有ASBR路由器，由于ASBR既运行了OSPF协议，也运行了其他路由协议，所以表示非完全末节区域中可以引入外部路由，综上所述，NSSA区域内不允许有4、5类LSA，但外部路由可以用7类LSA的形式在NSSA中泛洪，但由于7类LSA不允许进入包括骨干区域在内的常规区域，所以NSSA的ABR会负责将7类LSA转换成5类LSA，但NSSA区域不会像其他特殊区域一样自动下发默认路由，可以使用default-information-originate命令产生默认路由（7类LSA形式）。</p>
+</li>
+<li><p>Totally NSSA：翻译成中文是完全非末梢区域，继承了所有NSSA区域特性（不允许4、5类LSA，外部路由用7类LSA在NSSA内泛洪，外部路由进入常规区域需要7转5）的同时，区别在于Totally NSSA区域也会将3类LSA过滤并会自动下发一条默认路由（3类LSA形式）。</p>
 </li>
 </ul>
 <h2 id="常规区域"><a href="#常规区域" class="headerlink" title="常规区域"></a>常规区域</h2><blockquote>
@@ -1572,9 +1568,10 @@ router(config-router)# <span class="hljs-literal">no</span><span class="hljs-bui
 </ul>
 <h2 id="特殊区域"><a href="#特殊区域" class="headerlink" title="特殊区域"></a>特殊区域</h2><h3 id="为什么需要特殊区域"><a href="#为什么需要特殊区域" class="headerlink" title="为什么需要特殊区域"></a><a href="http://ccietea.com/" target="_blank" rel="noopener">为什么需要特殊区域</a></h3><img src="/2020/06/24/13-ospf/Snipaste_2020-09-23_11-07-03.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-09-23_11-07-03" style="zoom:67%;">
 
-<p>OSPF网络共有三个区域，骨干区域area 0为银行的一级行及二级行设备运行的区域三级行运行的是OSPF的常规区域，为了保证网络的通畅，我们将网络的各个角落都宣告进了OSPF，感觉上很爽，但其实路由器运行的压力很大，因为虽赊设备使用年限的增加，设备数量的增多，网络前缀越来越多，路由条目势必逐渐增多，那么路由器的压力也会越来越大，毕竟庞大的路由表、LSA以及SPF算法的运行都在极大的消耗着路由器的资源。</p>
+<p>OSPF网络共有三个区域，骨干区域area 0为银行的一级行及二级行设备运行的区域三级行运行的是OSPF的常规区域，为了保证网络的通畅，我们将网络的各个角落都宣告进了OSPF，感觉上很爽，但其实路由器运行的压力很大，因为随着设备使用年限的增加，设备数量的增多，网络前缀越来越多，路由条目势必逐渐增多，那么路由器的压力也会越来越大，毕竟庞大的路由表、LSA以及SPF算法的运行都在极大的消耗着路由器的资源。</p>
 <p>从网络优化的角度来看，我们一直在输途保证网络通畅的情况下减少网络中传递的路由条目以及LSA的数量，路由汇总是一种很好的方法，当然，从OSPF的设计规划角度来看，我们还有特殊区域可供使用，下面来看看OSPF的特殊区域是如何帮助我们减少LSA泛洪的。</p>
 <p>我们拿area 1做参考区域，当area1为常规区域时，区域中有多少种LSA在泛洪呢？1类LSA肯定有，由于区域中存在MA网络，所以2类LSA也有。其他区域的前缀被ABR注入了本区域，所以3类LSA也有。此外由于area2中的ASBR引入的外部路由，10.1.1.0/24，所以5类LSA也会被泛洪进area1，由于area1的路由器不知道area2中的ASBR路由器的位置，所以4类LSA也在area1中存在。综上所述，area1中有1-5共计种LSA存在。但仔细一想就会发现，area1作为“叶”区域，没必要知道外部路由的详细情况，我只需要知道有这么一条路让我到达区域外即可，此时就需要特殊区域来解决这个问题，例如特殊区域种的stub area就能满足这种需求。</p>
+<p>所以综上所述，特殊区域是为了应对多区域时网络设备性能不够的产物，现在设备的性能已经不能和开发OSPF协议的80年代同日而语，所以特殊区域在现网中已经很难见到了。</p>
 <h3 id="概述-12"><a href="#概述-12" class="headerlink" title="概述"></a>概述</h3><img src="/2020/06/24/13-ospf/Snipaste_2020-09-23_10-38-00.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-09-23_10-38-00" style="zoom: 50%;">
 
 <p>OSPF中的特殊区域可以在一个区域中注入默认路由来取代3类或5类LSA，这样做的好处是可以将LSA的泛洪限制在最小的范围内、最小化LSDB、减少SPF算法运算并使路由表变得更小。这些特殊区域一共有四种，分别是：</p>
@@ -1645,11 +1642,10 @@ area </span>2 nssa</code></pre>
 <ul>
 <li>P bit 为0时，ABR将不能将该7类LSA转换成5类LSA，只有NSSA区域的ABR重发布路由时，通告的7类LSA中的P bit才为0。NSSA区域在ABR重发布时，将7类LSA的P bit 置0，通知其他NSSA区域的ABR不要对该LSA进行7转5，因为骨干区域内的其他路由器已经从骨干区域内收到该路由的5类LSA，因此NSSA区域其他ABR执行7转5是没意义的。</li>
 </ul>
+<p><strong>P bit为0，ABR将不能将该7类LSA转换成5类LSA：</strong></p>
 <img src="/2020/06/24/13-ospf/Snipaste_2020-09-30_17-14-12.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-09-30_17-14-12" style="zoom: 67%;">
 
-<ul>
-<li>？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？</li>
-</ul>
+<p>NSSA区域的ABR在重发布时，将7类LSA的P位置0，用来通知NSSA区域内的其他ABR不要对该LSA进行7转5，因为骨干区域内的其他路由器已经从骨干区域内收到该路由器的5类LSA，因此NSSA区域内其他ABR执行7转5是没有意义的。</p>
 <h3 id="Totally-NSSA"><a href="#Totally-NSSA" class="headerlink" title="Totally NSSA"></a>Totally NSSA</h3><h4 id="概述-16"><a href="#概述-16" class="headerlink" title="概述"></a>概述</h4><img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_10-28-51.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-09-26_10-28-51" style="zoom:67%;">
 
 <p>Totally NSSA，翻译成中文是一个非常尴尬的名字，完全非末梢区域，Totally NSSA是在NSSA区域的基础上，进一步阻挡NSSA区域外的其他区域过来的3类LSA，同时ABR自动下发一条3类LSA的默认路由进入NSSA区域。</p>
@@ -1767,9 +1763,9 @@ router<span class="hljs-built_in"> ospf </span>1
 <img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_12-04-43.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-09-26_12-04-43" style="zoom:67%;">
 
 <p>R7：</p>
-<pre><code class="hljs routeros">interface Loopback1                                              #loopback1 接口用作引入外部路由
+<pre><code class="hljs routeros">interface Loopback1                       #loopback1 接口用作引入外部路由
 <span class="hljs-built_in"> ip address </span>10.1.1.7 255.255.255.0
-<span class="hljs-built_in"> ip ospf network </span>point-to-point
+<span class="hljs-built_in"> ip ospf network </span>point-to-point           #网络类型配置成P2P使该路由为24/
 !<span class="hljs-built_in">
 interface </span>Ethernet0/0
 <span class="hljs-built_in"> ip address </span>192.168.67.7 255.255.255.0
@@ -1792,6 +1788,8 @@ router<span class="hljs-built_in"> ospf </span>1
 <span class="hljs-built_in"> network </span>192.168.68.8 0.0.0.0<span class="hljs-built_in"> area </span>2</code></pre>
 
 <img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_12-06-04.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-09-26_12-06-04" style="zoom:67%;">
+
+
 
 <p>此时Area1中有哪几类LSA呢？之前分析过1-5类LSA都有，实际情况是不是这样呢？</p>
 <img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_11-58-21.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-09-26_11-58-21" style="zoom: 67%;">
@@ -1863,6 +1861,7 @@ area </span>2 nssa no-summary</code></pre>
 <img src="/2020/06/24/13-ospf/Snipaste_2020-09-26_16-21-06.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-09-26_16-21-06" style="zoom:67%;">
 
 <p>从R6的LSDB中可以看到，在R6上执行了7转5的步骤，在抓包中，标识可以进行7转5操作的是P位：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-10-11_14-25-50.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-10-11_14-25-50"></p>
 <h1 id="邻居建立"><a href="#邻居建立" class="headerlink" title="邻居建立"></a>邻居建立</h1><h2 id="邻居状态机"><a href="#邻居状态机" class="headerlink" title="邻居状态机"></a>邻居状态机</h2><h3 id="Down"><a href="#Down" class="headerlink" title="Down"></a>Down</h3><p>初始化状态，这是OSPF邻居状态机的第一个状态，在Down状态下，意味着没从其他路由器收到OSPF的Hello包，运行OSPF协议的接口仍然有尝试发现邻居的意愿，因此会不断的发送组播Hello包。</p>
 <h3 id="Attempt"><a href="#Attempt" class="headerlink" title="Attempt"></a>Attempt</h3><p>仅在NBMA网络类型上存在，如果一个路由器，它邻居处于Attempt状态，表示它从邻居没有收到任何信息，但做了努力来与邻居联系。在NBMA网络上具有DR选取资格的路由器与其邻居路由器相连的接口开始变为有效（Active）时，或当这台路由器成为DR或BDR时，这台具有DR选举资格的路由器会把邻居路由器的状态转换到Attempt状态，在Attempt状态下，路由器将在指定的hello间隔时间内向该邻居发送单播hello包。</p>
 <h3 id="init"><a href="#init" class="headerlink" title="init"></a>init</h3><p>当OSPF接口收到链路上某个邻居发来的第一个Hello包时，它会在接口上将该邻居状态设置为init，注意这个Hello包种可能并未包含任何的邻居信息，也就是hello包中没有active neighbor这个字段，但这个Hello包至少证明，在运行了OSPF协议的这个接口的链路上，至少有个活着的邻居。当路由器收到邻居发来的Hello包以后，它应该将邻居Hello包中的Router-ID放入它自己的Hello包中的Active Neighbor字段，用来确认它收到了一个有效的Hello数据包。</p>
@@ -1933,22 +1932,7 @@ area </span>2 nssa no-summary</code></pre>
 <li>R1发送B1的LSAck表示该LSU已收到。</li>
 </ol>
 <h3 id="Full"><a href="#Full" class="headerlink" title="Full"></a>Full</h3><p>LSU全部交互完毕后，两台路由器拥有的LSDB，并保持在该状态。为了保持邻接状态，路由器之间会交互Hello包，确保对方的状态，如果在Deaf interval计时器到期前都未收到对方的Hello包，则邻接状态终结。一旦发现和其他路由器邻接状态终结，路由器将会泛洪该变化置域内其他路由器。</p>
-<p>在这里用一个有两台路由器的实验做抓包分析说明，区分了两种情况，一种是两台路由器都刚配置OSPF的情况，另一种是其中一台路由器早已配置完OSPF的情况，至于为什么要区分这两种情况，我们后面总结的时候再具体说。</p>
-<p><img src="/2020/06/24/13-ospf/Snipaste_2020-06-30_16-25-57.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-06-30_16-25-57"></p>
-<h2 id="刚配置完情况"><a href="#刚配置完情况" class="headerlink" title="刚配置完情况"></a>刚配置完情况</h2><p>两台路由器都刚开机不久的情况下，先看R1和R2的配置：</p>
-<p>R1：</p>
-<pre><code class="hljs routeros">R1(config)#router<span class="hljs-built_in"> ospf </span>1
-router-id 1.1.1.1<span class="hljs-built_in">
-network </span>192.168.12.1 255.255.255.255</code></pre>
-
-<p>R2：</p>
-<pre><code class="hljs routeros">router<span class="hljs-built_in"> ospf </span>1
-router-id 2.2.2.2<span class="hljs-built_in">
-network </span>192.168.12.2 255.255.255.255</code></pre>
-
-<p>现在来看具体邻居建立过程：</p>
-<p>R1和R2都刚配置完OSPF，前面讲过，OSPF通过发送Hello包到组播地址224.0.0.5来建立邻居，所以只要是运行了OSPF协议的路由器，不管是DR 、BDR还是DR Other都会监听这个地址用来建立邻居，所以配置完OSPF后，两台路由器开始监听224.0.0.5这个组播地址，看是否有hello包能否建立邻居。在两台路由器都没收到其他的hello包的情况下，两台路由器的状态</p>
-<h2 id="配置很久情况"><a href="#配置很久情况" class="headerlink" title="配置很久情况"></a>配置很久情况</h2><h2 id="邻居建立总结"><a href="#邻居建立总结" class="headerlink" title="邻居建立总结"></a>邻居建立总结</h2><p> <a href="13-ospf\ospf-router-startup-and-link-state-update.pdf">ospf-router-startup-and-link-state-update.pdf</a> </p>
+<h2 id="邻居建立总结"><a href="#邻居建立总结" class="headerlink" title="邻居建立总结"></a>邻居建立总结</h2><p> <a href="13-ospf\ospf-router-startup-and-link-state-update.pdf">ospf-router-startup-and-link-state-update.pdf</a> </p>
 <h2 id="邻居无法建立常见原因"><a href="#邻居无法建立常见原因" class="headerlink" title="邻居无法建立常见原因"></a>邻居无法建立常见原因</h2><ol>
 <li>Hello间隔和Dead间隔不同。默认情况下，Dead间隔是Hello间隔的4倍，可以在接口下通过“ip ospf hello-interval”和“ip ospf dead-interval”命令来调整。</li>
 <li>区域号不一致（Area号不同）。</li>
@@ -1959,9 +1943,16 @@ network </span>192.168.12.2 255.255.255.255</code></pre>
 <li>链路上的MTU不匹配。</li>
 <li>接口下的OSPF网络类型不匹配。</li>
 </ol>
-<h1 id="OSPF网络、链路类型"><a href="#OSPF网络、链路类型" class="headerlink" title="OSPF网络、链路类型"></a>OSPF网络、链路类型</h1><p>不同网络类型之间将hello和dead时间改成一致后，可以建立邻居但不能传递路由，因为相互之间传递的LSA类型不同。</p>
-<h1 id="OSPF路由汇总"><a href="#OSPF路由汇总" class="headerlink" title="OSPF路由汇总"></a><a href="http://blog.sina.com.cn/s/blog_5ec353710102vtfy.html" target="_blank" rel="noopener">OSPF路由汇总</a></h1><h1 id="虚链路"><a href="#虚链路" class="headerlink" title="虚链路"></a>虚链路</h1><h1 id="OSPF选路"><a href="#OSPF选路" class="headerlink" title="OSPF选路"></a>OSPF选路</h1><p><a href="https://community.cisco.com/t5/other-network-architecture/differences-between-n1-n2-e1-e2-in-ospf/td-p/398381" target="_blank" rel="noopener">https://community.cisco.com/t5/other-network-architecture/differences-between-n1-n2-e1-e2-in-ospf/td-p/398381</a></p>
-<p><strong>O&gt;&gt; O IA &gt;&gt; E1 &gt;&gt; N1 &gt;&gt;E2 &gt;&gt; N2</strong></p>
+<h1 id="OSPF路由汇总"><a href="#OSPF路由汇总" class="headerlink" title="OSPF路由汇总"></a><a href="http://blog.sina.com.cn/s/blog_5ec353710102vtfy.html" target="_blank" rel="noopener">OSPF路由汇总</a></h1><h1 id="虚链路"><a href="#虚链路" class="headerlink" title="虚链路"></a>虚链路</h1><h1 id="OSPF选路"><a href="#OSPF选路" class="headerlink" title="OSPF选路"></a>OSPF选路</h1><ol>
+<li>直连路由：本路由器发起的LSA 1、2；</li>
+<li>区域内路由：O；LSA 1、2；</li>
+<li>区域间路由：O IA；LSA 3；</li>
+<li>1类外部路由：O E1；LSA 5类型1；</li>
+<li>2类外部路由：O E2；LSA 5类型2；</li>
+<li>1类NSSA路由：O N1；LSA7类型1；</li>
+<li>2类NSSA路由：O N2；LSA 7类型2。</li>
+</ol>
+<p>简单版总结就是：<strong>O&gt;&gt; O IA &gt;&gt; E1 &gt;&gt; N1 &gt;&gt;E2 &gt;&gt; N2</strong>，但实际中不同厂家的优先选择方式不同，以各厂家的文档为准。</p>
 <h1 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h1><p><a href="https://community.cisco.com/t5/routing/ospf-bdr-and-dr-other-relations/td-p/3758851" target="_blank" rel="noopener">OSPF BDR and DR-OTHER relations</a></p>
 <p><a href="https://community.cisco.com/t5/routing/why-bdr-is-elected-first/td-p/3207520" target="_blank" rel="noopener">Why BDR is elected first?</a></p>
 <p><a href="https://community.cisco.com/t5/switching/master-and-slave-concept/m-p/2411039#M285022" target="_blank" rel="noopener">Master and Slave concept</a></p>
@@ -2023,7 +2014,7 @@ network </span>192.168.12.2 255.255.255.255</code></pre>
         addCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1.0/dist/disqusjs.css');
         addScript('https://cdn.jsdelivr.net/npm/disqusjs@1.0/dist/disqus.js', function () {
           new DisqusJS({
-            shortname: '',
+            shortname: 'https-renyuan431-github-io',
             apikey: ''
           });
         });
