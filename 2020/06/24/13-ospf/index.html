@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      46.2k 字
+      46.5k 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      567
+      572
        分钟
     </span>
   
@@ -1943,7 +1943,35 @@ area </span>2 nssa no-summary</code></pre>
 <li>链路上的MTU不匹配。</li>
 <li>接口下的OSPF网络类型不匹配。</li>
 </ol>
-<h1 id="OSPF路由汇总"><a href="#OSPF路由汇总" class="headerlink" title="OSPF路由汇总"></a><a href="http://blog.sina.com.cn/s/blog_5ec353710102vtfy.html" target="_blank" rel="noopener">OSPF路由汇总</a></h1><h1 id="虚链路"><a href="#虚链路" class="headerlink" title="虚链路"></a>虚链路</h1><h1 id="OSPF选路"><a href="#OSPF选路" class="headerlink" title="OSPF选路"></a>OSPF选路</h1><ol>
+<h1 id="OSPF路由汇总"><a href="#OSPF路由汇总" class="headerlink" title="OSPF路由汇总"></a><a href="http://blog.sina.com.cn/s/blog_5ec353710102vtfy.html" target="_blank" rel="noopener">OSPF路由汇总</a></h1><h1 id="虚链路"><a href="#虚链路" class="headerlink" title="虚链路"></a>虚链路</h1><h2 id="概述-17"><a href="#概述-17" class="headerlink" title="概述"></a>概述</h2><p><img src="/2020/06/24/13-ospf/Snipaste_2020-10-11_16-17-35.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-10-11_16-17-35"></p>
+<p>OSPF规定每个区域都必须与区域0相连，当出现了以上情况，可以在区域1中建立一条虚链路（Virtual-link）来过度，配置命令为：</p>
+<pre><code class="hljs css"><span class="hljs-selector-tag">area</span> <span class="hljs-selector-tag">X</span>（过渡区域的<span class="hljs-selector-tag">ID</span>） <span class="hljs-selector-tag">virtual-link</span> <span class="hljs-selector-tag">A</span><span class="hljs-selector-class">.B</span><span class="hljs-selector-class">.C</span><span class="hljs-selector-class">.D</span>（虚链路对端<span class="hljs-selector-tag">router</span> 的<span class="hljs-selector-tag">Router</span> <span class="hljs-selector-tag">ID</span>）
+举例：<span class="hljs-selector-tag">area</span> 1 <span class="hljs-selector-tag">virtual-link</span> 3<span class="hljs-selector-class">.3</span><span class="hljs-selector-class">.3</span><span class="hljs-selector-class">.3</span>    #过渡区域为区域1，虚链路对端<span class="hljs-selector-tag">Router</span>的<span class="hljs-selector-tag">Router</span> <span class="hljs-selector-tag">ID</span>为3<span class="hljs-selector-class">.3</span><span class="hljs-selector-class">.3</span><span class="hljs-selector-class">.3</span></code></pre>
+
+<p>查看虚链路命令为：</p>
+<pre><code class="hljs routeros">show<span class="hljs-built_in"> ip ospf </span>virtual-links</code></pre>
+
+<p>虚链路用来连接不连续的区域，只是一种临时或割接的手段，不建议用在常规网络的实施中。本质上虚链路是一条属于区域0的线路，所以如果在Area 0上开启了验证那么Virtual-link也要做验证，如果Area 0不做验证，只虚链路上自己做认证，那验证的范围就在虚链路上。虚链路用Hello包建立，以单播形式，虚链路一旦建立起邻居则Hello包不再发送，凡是通过虚链路学到的LSA都会标注DNA表示永远不会老化。</p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p><img src="/2020/06/24/13-ospf/Snipaste_2020-10-11_16-17-35.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-10-11_16-17-35"></p>
+<p>R2：</p>
+<pre><code class="hljs routeros">router<span class="hljs-built_in"> ospf </span>1
+ router-id 2.2.2.2
+<span class="hljs-built_in"> area </span>2 virtual-link 3.3.3.3
+<span class="hljs-built_in"> network </span>192.168.12.2 0.0.0.0<span class="hljs-built_in"> area </span>1
+<span class="hljs-built_in"> network </span>192.168.23.2 0.0.0.0<span class="hljs-built_in"> area </span>2</code></pre>
+
+<p>R3：</p>
+<pre><code class="hljs routeros">router<span class="hljs-built_in"> ospf </span>1
+ router-id 3.3.3.3
+<span class="hljs-built_in"> area </span>2 virtual-link 2.2.2.2
+<span class="hljs-built_in"> network </span>192.168.23.3 0.0.0.0<span class="hljs-built_in"> area </span>2
+<span class="hljs-built_in"> network </span>192.168.34.3 0.0.0.0<span class="hljs-built_in"> area </span>0</code></pre>
+
+<p>R2上的部分LSDB：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-10-11_16-34-57.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-10-11_16-34-57"></p>
+<p>R2上的邻居表：</p>
+<p><img src="/2020/06/24/13-ospf/Snipaste_2020-10-11_16-37-22.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-10-11_16-37-22"></p>
+<h1 id="OSPF选路"><a href="#OSPF选路" class="headerlink" title="OSPF选路"></a>OSPF选路</h1><ol>
 <li>直连路由：本路由器发起的LSA 1、2；</li>
 <li>区域内路由：O；LSA 1、2；</li>
 <li>区域间路由：O IA；LSA 3；</li>
@@ -1993,7 +2021,7 @@ area </span>2 nssa no-summary</code></pre>
                     
                       <a href="/2020/06/18/12-RIP/">
                         <span class="hidden-mobile">12、RIP</span>
-                        <span class="visible-mobile">次の記事</span>
+                        <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
                     
@@ -2036,7 +2064,7 @@ area </span>2 nssa no-summary</code></pre>
     
       <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
         <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;ディレクトリ</p>
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
   <div id="tocbot"></div>
 </div>
 
@@ -2063,7 +2091,7 @@ area </span>2 nssa no-summary</code></pre>
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">検索</h4>
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -2072,7 +2100,7 @@ area </span>2 nssa no-summary</code></pre>
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
           <label data-error="x" data-success="v"
-                 for="local-search-input">キーワード</label>
+                 for="local-search-input">keyword</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
