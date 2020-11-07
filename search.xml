@@ -1964,15 +1964,18 @@ Router<span class="hljs-selector-id">#config</span> t
 <h4 id="动态路由协议端口号或协议号"><a href="#动态路由协议端口号或协议号" class="headerlink" title="动态路由协议端口号或协议号"></a>动态路由协议端口号或协议号</h4><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-10_11-08-18.jpg" srcset="/img/loading.gif" alt="Snipaste_2020-06-10_11-08-18"></p>
 <h4 id="有类路由、无类路由"><a href="#有类路由、无类路由" class="headerlink" title="有类路由、无类路由"></a>有类路由、无类路由</h4><p>CISCO 路由器在路由的全局查找上有两种方式：有类（Classful）查找方式及无类（Classless）查找方式。 当路由器执行无类别路由查找时（默认，ip classless），它不会注意目的地址的类别，它会在目的地址和所有 己知的路由之间逐位(bit by bit)执行最长匹配； 而如果是有类路由查找（no ip classless 且关闭ip cef） ，那么收到一个数据包时，路由器先查找目的地址所 属主类，如果路由表中有主类路由，则再去找子网，如果有子网路由，则查询被限定在这些子网中，并进一步查 找，如果最终查找失败（没有任何子网匹配这条路由） ，则丢弃数据包，即使有默认路由存在；如果本地没有该主 类路由，则看是否有默认路由，如果有，则按默认路由转发，如果无，则丢弃数据包。</p>
 <p>目前基本所有在用的网络设备都是无类方式，有类如果看一遍不太懂可以暂时不看。</p>
-<h4 id="loopback接口"><a href="#loopback接口" class="headerlink" title="loopback接口"></a>loopback接口</h4><p>• Loopback接口，也叫环回口，是一个逻辑的、虚拟的接口； </p>
-<p>• 使用全局配置命令interface loopback 加上接口编号可创建一个Loopback接口，创建完成后即可为接口配置IP地址； </p>
-<p>• Loopback接口在手工创建后，除非人为shutdown，否则不会DOWN掉； </p>
-<p>• Loopback接口常用于： </p>
-<p>– 模拟路由器的直连网段，可用于测试； </p>
-<p>– 可用于设备管理（Loopback接口比较稳定）； </p>
-<p>– 供其他协议使用，例如OSPF、BGP、MPLS等； </p>
-<p>– SNMPTraps消息的源地址； </p>
-<p>– 其他用途（Loopback接口的用途十分广泛）。 </p>
+<h4 id="loopback接口"><a href="#loopback接口" class="headerlink" title="loopback接口"></a>loopback接口</h4><ol>
+<li>Loopback接口，也叫环回口，是一个逻辑的、虚拟的接口；</li>
+<li>使用全局配置命令interface loopback 加上接口编号可创建一个Loopback接口，创建完成后即可为接口配置IP地址； </li>
+<li>Loopback接口在手工创建后，除非人为shutdown，否则不会DOWN掉；</li>
+<li>Loopback接口常用于： </li>
+</ol>
+<ul>
+<li>模拟路由器的直连网段，可用于测试； </li>
+<li>可用于设备管理（Loopback接口比较稳定，如果用其他接口的话，如果路由器的某一个接口由于故障down 掉了，但是其他的接口却仍旧可以telnet ，也就是说，到达这台路由器的TCP连接依旧存在，用Loopback接口就能成功Telnet这台设备。）； </li>
+<li>供其他协议使用，例如OSPF、BGP、MPLS等，通常用作Router ID；</li>
+<li>SNMPTraps消息的源地址； </li>
+</ul>
 <h2 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h2><h3 id="路由表的概念"><a href="#路由表的概念" class="headerlink" title="路由表的概念"></a>路由表的概念</h3><blockquote>
 <p>In computer networking a routing table, or routing information base (RIB), is a data table stored in a router or a network host that lists the routes to particular network destinations, and in some cases, metrics (distances) associated with those routes. The routing table contains information about the topology of the network immediately around it.</p>
 </blockquote>
