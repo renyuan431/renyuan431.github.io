@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>12、RIP | Rookie的博客</title><meta name="author" content="Rookie"><meta name="copyright" content="Rookie"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="RIP总览RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。RIP一共有3个版本的协议，分别是RIP V1，RIP V2以及RIPNG。 RIP定义了请求信息和响应消息两种类型。请求信息：可以请求整张路由表，也可以请求具体的路由信息。  请求">
+<meta property="og:type" content="article">
+<meta property="og:title" content="12、RIP">
+<meta property="og:url" content="https://renyuan431.github.io/2020/06/18/12-RIP/index.html">
+<meta property="og:site_name" content="Rookie的博客">
+<meta property="og:description" content="RIP总览RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。RIP一共有3个版本的协议，分别是RIP V1，RIP V2以及RIPNG。 RIP定义了请求信息和响应消息两种类型。请求信息：可以请求整张路由表，也可以请求具体的路由信息。  请求">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://renyuan431.github.io/img/index.jpg">
+<meta property="article:published_time" content="2020-06-18T02:25:00.000Z">
+<meta property="article:modified_time" content="2022-01-17T07:23:54.426Z">
+<meta property="article:author" content="Rookie">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://renyuan431.github.io/img/index.jpg"><link rel="shortcut icon" href="/img/avatar.jpg"><link rel="canonical" href="https://renyuan431.github.io/2020/06/18/12-RIP/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '12、RIP',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-17 15:23:54'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/index.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Rookie的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">12、RIP</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-06-18T02:25:00.000Z" title="发表于 2020-06-18 10:25:00">2020-06-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-17T07:23:54.426Z" title="更新于 2022-01-17 15:23:54">2022-01-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="12、RIP"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="RIP"><a href="#RIP" class="headerlink" title="RIP"></a>RIP</h1><h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>RIP（Routing Information Protocol，路由信息协议），是早期应用比较普遍的内部网关协议，是典型的距离矢量路由协议，适用于小型网络，最大的缺点是无法在具有冗余链路的网络中有效的运用。RIP一共有3个版本的协议，分别是RIP V1，RIP V2以及RIPNG。</p>
+<p>RIP定义了请求信息和响应消息两种类型。请求信息：可以请求整张路由表，也可以请求具体的路由信息。</p>
+<ul>
+<li>请求整张路由表：请求消息含有一个地址族标识字段为0（地址为0.0.0.0），度量值为16的单条路由，收到这个请求的设备将通过单播方式向发出请求的地址回送它的整个路由表。</li>
+<li>请求具体路由信息：当需要获知某个或某些具体路由的信息时，请求消息将与特定地址的路由条目一起发送。接受到请求的设备将根据请求消息逐个处理这些条目，并构成一个响应消息。</li>
+</ul>
+ <span id="more"></span>  
+
+<h3 id="V1和V2的相同点"><a href="#V1和V2的相同点" class="headerlink" title="V1和V2的相同点"></a>V1和V2的相同点</h3><ol>
+<li>RIP V1和V2协议的算法均为贝尔曼福特算法。</li>
+<li>采用相同的防环机制，这六大机制为水平分割，路由中毒，毒性反转，触发更新，最大跳数，占用时间Hold Time。</li>
+<li>端口号、协议号、管理距离和度量值相同。UDP端口号520，协议号17，管理距离（AD）是120，度量值均为跳数。</li>
+<li>收敛速度和更新机制相同。更新机制均为周期更新、触发更新或完全更新、增量更新。RIP默认每隔30秒周期性的发送整个路由表给邻路由。</li>
+<li>没有邻居机制，但有数据库。</li>
+</ol>
+<h3 id="V1和V2的不同点"><a href="#V1和V2的不同点" class="headerlink" title="V1和V2的不同点"></a>V1和V2的不同点</h3><ol>
+<li><p>RIP V1是有类路由协议，发送路由更新<strong>不携带</strong>子网掩码，默认在有类边界自动汇总，不可关闭；RIP V2使用无类路由，发送路由更新要携带子网掩码，默认在有类边界自动汇总，但可以关闭。</p>
+</li>
+<li><p>V1不支持认证，V2支持认证。</p>
+</li>
+<li><p>V1采用广播更新路由，V2采用组播更新路由，组播地址为224.0.0.9。</p>
+</li>
+</ol>
+<h3 id="V1的缺陷"><a href="#V1的缺陷" class="headerlink" title="V1的缺陷"></a>V1的缺陷</h3><p>RIPv1是一个有类路由协议，可以支持带子网的网络地址，但是必须是连续的，中间不被其他主类网络分隔，并且子网掩码长度必须相同。所以后面RIP 又推出了V2版本对此进行了一些改进。</p>
+<h3 id="V2的改进"><a href="#V2的改进" class="headerlink" title="V2的改进"></a>V2的改进</h3><ol>
+<li>外部路由标记。通过在RIP中使用路由标记，就能在其他协议中，控制相关路由的重发布，当重发布到其他协议时，RIP路由只需要比较赋予他们的标记而不用比较整个路由。</li>
+<li>在路由更新中携带有子网掩码的路由选择信息，所以支持了VLSM和CIDR。</li>
+<li>组播能力。使用224.0.0.9的组播地址发送路由更新，代替了V1的广播更新。</li>
+<li>提供身份验证功能，支持明文和MD5认证。</li>
+<li>支持连续子网以及不连续子网。</li>
+<li>可以关闭自动汇总，并支持手动汇总。</li>
+</ol>
+<h3 id="V1和V2兼容性"><a href="#V1和V2兼容性" class="headerlink" title="V1和V2兼容性"></a>V1和V2兼容性</h3><p>默认情况下CISCO路由器上运行的 RIP发送v1，接收v1 v2， 如果显示声明为v1（在RIP进程中使用version 1命令）则只发送和接受v1报文，v2默认只发送和接收v2报文。</p>
+<h3 id="RIP的计时器"><a href="#RIP的计时器" class="headerlink" title="RIP的计时器"></a>RIP的计时器</h3><p>Update timer更新计时器：RIP默认路由信息交换的时间为30秒一次。</p>
+<p>Invalid timer无效计时器：当一条路由条目被加进路由表后，如果它在路由表中超过180秒未被更新，则路由器认为这条路由无效，在这种情况下，路由器会将该路由的跳数标记为16跳，也就是不可达。</p>
+<p>hold down timer抑制计时器：一条路由信息无效之后，一段时间内这条路由都处于抑制状态，即在一定时间内不再接收关于同一目的地址的路由更新。大概过程是如果一个路由器从邻居路由器收到一条更新，提示以前可达的网络现在不可达了，或有一个更大跳数的路由，则路由器标识该路由为不可达并启动一个抑制计时器，如果在定时器到时之前收到该路由又可达的更新，或者新度量值比之前的度量值更好，则路由器标识这个路由可达并删除定时器。路由器从一个网段上得知一条路径失效，然后，立即在另一个网段上得知这个路由有效。这个有效的信息往往是不正确的，抑制计时避免了这个问题，而且，当一条链路频繁起停时，抑制计时减少了路由的浮动，增加了网络的稳定性。RIP的抑制计时器默认为6个更新的周期，也就是6X30，为180秒。</p>
+<p>Flush time清除计时器：清除计时器的默认时间为240秒，也就是说如果240秒内一条路由如果始终没有相应，则该路由条目被标记为不可达并从路由表中移除。</p>
+<h2 id="RIP-V2"><a href="#RIP-V2" class="headerlink" title="RIP V2"></a>RIP V2</h2><h3 id="报头"><a href="#报头" class="headerlink" title="报头"></a>报头</h3><p><img src="/2020/06/18/12-RIP/RIP_msgformat.PNG" alt="RIP_msgformat"></p>
+<p><img src="/2020/06/18/12-RIP/Snipaste_2020-06-21_15-54-09.jpg" alt="Snipaste_2020-06-21_15-54-09"></p>
+<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Router(config)#router rip</span><br><span class="line">/*使用RIPv2，如果不使用这条命令默认是使用RIPv1*/</span><br><span class="line">Router(config-router)#version 2</span><br><span class="line">/*和RIPv1相同，都是宣告主类网络号*/</span><br><span class="line">R1(config-router)#no auto-summary  </span><br><span class="line">/*关闭自动汇总*/</span><br><span class="line">Router(config-router)#network 主类网络号</span><br><span class="line">Router(config-router)#int s0/0</span><br><span class="line">/*关闭自动汇总后，配置手动汇总的话需要在接口上进行配置，汇总是在路由的外出接口上面做的*/</span><br><span class="line">R1(config-if)#ip summary-address rip 汇总网络号  汇总掩码</span><br><span class="line">/*等待路由收敛后，查看路由表，就只能看到汇总路由的条目了*/</span><br></pre></td></tr></table></figure>
+
+<h3 id="被动接口"><a href="#被动接口" class="headerlink" title="被动接口"></a>被动接口</h3><p>当一个运行RIP协议的接口被配置为被动接口后，这个接口不发出路由的更新信息但接受路由的更新信息。</p>
+<p>配置命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#router rip </span><br><span class="line">R1(config-router)#passive-interface s1/1</span><br><span class="line">/*将S 1/1接口配置为被动接口*/</span><br></pre></td></tr></table></figure>
+
+<h2 id="RIP-综合实验"><a href="#RIP-综合实验" class="headerlink" title="RIP 综合实验"></a>RIP 综合实验</h2><p><img src="/2020/06/18/12-RIP/Snipaste_2020-06-21_17-13-05.jpg" alt="Snipaste_2020-06-21_17-13-05"></p>
+<h3 id="实验需求"><a href="#实验需求" class="headerlink" title="实验需求"></a>实验需求</h3><ol>
+<li>网络拓扑如上图所示。 PC1 使用模拟器模拟，R3 下联的网段使用 Loopback 接口来模拟，一共开设三个 Loopback 接口，用于模拟 R3 下联的三个网段；</li>
+<li>要求 R1、R2、R3 运行 RIPv2，并实现全网可达；</li>
+<li>在 R3 上部署 RIP 手工路由汇总，使得 R1、R2 学习到 R3 下联 Loopback 的汇总路由。 </li>
+</ol>
+<h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><p>PC1：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Router#config t</span><br><span class="line">Router(config)#hostname PC1</span><br><span class="line">PC1(config)#ip default-gateway 172.16.1.254</span><br><span class="line">/*配置默认网关为172.16.1.254，也就是和本社设备链接的R1的G0/1接口*/</span><br><span class="line">PC1(config)#no ip routing</span><br><span class="line">/*关闭路由功能，当成PC设备使用*/</span><br><span class="line">PC1(config)#int G0/0</span><br><span class="line">PC1(config-if)#no sh</span><br><span class="line">/*路由器接口默认关闭，这里打开该接口*/</span><br><span class="line">PC1(config-if)#ip add 172.16.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p>R1：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Router&gt;en</span><br><span class="line">Router#config t</span><br><span class="line">Router(config)#hostname R1</span><br><span class="line">R1(config-line)#int g0/1</span><br><span class="line">R1(config-if)#no sh</span><br><span class="line">R1(config-if)#ip add 172.16.1.254 255.255.255.0</span><br><span class="line">R1(config-if)#int g0/0</span><br><span class="line">R1(config-if)#no sh</span><br><span class="line">R1(config-if)#ip add 192.168.12.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p>R2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Router&gt;en</span><br><span class="line">Router#config t</span><br><span class="line">Router(config)#hostname R2</span><br><span class="line">R2(config)#int g0/0</span><br><span class="line">R2(config-if)#no sh</span><br><span class="line">R2(config-if)#ip add 192.168.12.2 255.255.255.0</span><br><span class="line">R2(config-if)#int g0/1</span><br><span class="line">R2(config-if)#no sh</span><br><span class="line">R2(config-if)#ip add 192.168.23.2 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p>R3：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Router&gt;en</span><br><span class="line">Router#config t</span><br><span class="line">Router(config)#hostname R3</span><br><span class="line">R3(config)#int g0/0</span><br><span class="line">R3(config-if)#no sh</span><br><span class="line">R3(config-if)#ip add 192.168.23.3 255.255.255.0</span><br><span class="line">R3(config)#int loop 1</span><br><span class="line">R3(config-if)#ip add 172.16.32.1 255.255.255.0</span><br><span class="line">R3(config-if)#int loop 2</span><br><span class="line">R3(config-if)#ip add 172.16.33.1 255.255.255.0</span><br><span class="line">R3(config-if)#int loop 3</span><br><span class="line">R3(config-if)#ip add 172.16.34.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置RIP"><a href="#配置RIP" class="headerlink" title="配置RIP"></a>配置RIP</h3><p>R1：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R1(config-if)#router rip</span><br><span class="line">R1(config-router)#version 2</span><br><span class="line">R1(config-router)#no auto-summary</span><br><span class="line">R1(config-router)#network 172.16.0.0</span><br><span class="line">R1(config-router)#network 192.168.12.0</span><br></pre></td></tr></table></figure>
+
+<p>R2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R2(config-if)#router rip</span><br><span class="line">R2(config-router)#version 2</span><br><span class="line">R2(config-router)#no auto-summary</span><br><span class="line">R2(config-router)#network 192.168.12.0</span><br><span class="line">R2(config-router)#network 192.168.23.0</span><br></pre></td></tr></table></figure>
+
+<p>R3：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">R3(config-if)#router rip</span><br><span class="line">R3(config-router)#version 2</span><br><span class="line">R3(config-router)#no auto-summary</span><br><span class="line">R3(config-router)#network 172.16.0.0</span><br><span class="line">/*RIP 在使用 network 命令指定网段时，只支持通告主类网络。R3 有三个 Loopback接口，将这三个接口激活RIP时，只需network 172.16.0.0即可，实际上即使你输 入诸如network 172.16.32.0这样的命令， 系统也会按network 172.16.0.0生效*/</span><br><span class="line">R3(config-router)#network 192.168.23.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="优化路由"><a href="#优化路由" class="headerlink" title="优化路由"></a>优化路由</h3><p>R3</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R3(config-router)#int g0/0</span><br><span class="line">R3(config-if)#ip summary-address rip 172.16.32.0 255.255.252.0</span><br><span class="line">/*把三个loopback接口的网段汇总以后是172.16.32.0 255.255.255.252。</span><br><span class="line">RIP 的手工汇总，需要 RIP 版本 2 的支持，另外需要先在 RIP 进程中 no  auto-summary 关闭自动汇总功能，然后再在接口上配置手工汇总命令，注意，该命令配置在汇总 路由欲对外发布的那个接口上。*/</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="http://ccietea.com/">红茶三杯CCNA实验手册</a></p>
+<p><a target="_blank" rel="noopener" href="http://ccietea.com/">红茶三杯Ip routing</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.qingsword.com/qing/570.html#Cisco-CCNA-RIPv1-defect-9">[CCNA图文笔记]-14-RIPv1协议缺陷详解</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.qingsword.com/qing/576.html">[CCNA图文笔记]-15-RIPv2协议详解</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Rookie</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://renyuan431.github.io/2020/06/18/12-RIP/">https://renyuan431.github.io/2020/06/18/12-RIP/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://renyuan431.github.io" target="_blank">Rookie的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/index.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechatpay.png" target="_blank"><img class="post-qr-code-img" src="/img/wechatpay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.png" target="_blank"><img class="post-qr-code-img" src="/img/alipay.png" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/10/11/14-BGP/"><img class="prev-cover" src="/img/index.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">14、BGP</div></div></a></div><div class="next-post pull-right"><a href="/2020/06/18/13-ospf/"><img class="next-cover" src="/img/index.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">13、ospf</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Rookie</div><div class="author-info__description"></div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RIP"><span class="toc-number">1.</span> <span class="toc-text">RIP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E8%A7%88"><span class="toc-number">1.1.</span> <span class="toc-text">总览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#V1%E5%92%8CV2%E7%9A%84%E7%9B%B8%E5%90%8C%E7%82%B9"><span class="toc-number">1.1.1.</span> <span class="toc-text">V1和V2的相同点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V1%E5%92%8CV2%E7%9A%84%E4%B8%8D%E5%90%8C%E7%82%B9"><span class="toc-number">1.1.2.</span> <span class="toc-text">V1和V2的不同点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V1%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="toc-number">1.1.3.</span> <span class="toc-text">V1的缺陷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V2%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="toc-number">1.1.4.</span> <span class="toc-text">V2的改进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V1%E5%92%8CV2%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="toc-number">1.1.5.</span> <span class="toc-text">V1和V2兼容性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RIP%E7%9A%84%E8%AE%A1%E6%97%B6%E5%99%A8"><span class="toc-number">1.1.6.</span> <span class="toc-text">RIP的计时器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RIP-V2"><span class="toc-number">1.2.</span> <span class="toc-text">RIP V2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E5%A4%B4"><span class="toc-number">1.2.1.</span> <span class="toc-text">报头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.2.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A2%AB%E5%8A%A8%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.2.3.</span> <span class="toc-text">被动接口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RIP-%E7%BB%BC%E5%90%88%E5%AE%9E%E9%AA%8C"><span class="toc-number">1.3.</span> <span class="toc-text">RIP 综合实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E9%9C%80%E6%B1%82"><span class="toc-number">1.3.1.</span> <span class="toc-text">实验需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.2.</span> <span class="toc-text">基础配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AERIP"><span class="toc-number">1.3.3.</span> <span class="toc-text">配置RIP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E8%B7%AF%E7%94%B1"><span class="toc-number">1.3.4.</span> <span class="toc-text">优化路由</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">2.</span> <span class="toc-text">参考文章</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/10/11/14-BGP/" title="14、BGP">14、BGP</a><time datetime="2020-10-11T09:08:28.000Z" title="发表于 2020-10-11 17:08:28">2020-10-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/06/18/12-RIP/" title="12、RIP">12、RIP</a><time datetime="2020-06-18T02:25:00.000Z" title="发表于 2020-06-18 10:25:00">2020-06-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/06/18/13-ospf/" title="13、ospf">13、ospf</a><time datetime="2020-06-18T02:25:00.000Z" title="发表于 2020-06-18 10:25:00">2020-06-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/05/04/11-route-basic/" title="11、路由基础及静态路由">11、路由基础及静态路由</a><time datetime="2020-05-04T02:25:00.000Z" title="发表于 2020-05-04 10:25:00">2020-05-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/04/14/10-cisco-ios/" title="10、设备管理及cisco IOS基础配置">10、设备管理及cisco IOS基础配置</a><time datetime="2020-04-14T03:42:18.000Z" title="发表于 2020-04-14 11:42:18">2020-04-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2022 By Rookie</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://renyuan431.github.io/2020/06/18/12-RIP/'
+    this.page.identifier = '2020/06/18/12-RIP/'
+    this.page.title = '12、RIP'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://newnotebook.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = '/posts/,/about/'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.akilar.top/api?renyuan431",['#e4dfd7', '#f9f4dc', '#f7e8aa', '#f7e8aa', '#f8df72', '#fcd217', '#fcc515', '#f28e16', '#fb8b05', '#d85916', '#f43e06'],'renyuan431')
+    }
+  </script><!-- hexo injector body_end end --></body></html>

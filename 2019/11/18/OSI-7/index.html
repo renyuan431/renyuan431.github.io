@@ -1,0 +1,362 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>5、OSI七层模型 | Rookie的博客</title><meta name="author" content="Rookie"><meta name="copyright" content="Rookie"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、定义开放式系统互联通信参考模型（英语：Open System Interconnection Reference Model，缩写为 OSI），简称为OSI模型（OSI model），一种概念模型，由国际标准化组织提出，一个试图使各种计算机在世界范围内互连为网络的标准框架。定义于ISO&#x2F;IEC 7498-1。 二、OSI模型解决什么问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5、OSI七层模型">
+<meta property="og:url" content="https://renyuan431.github.io/2019/11/18/OSI-7/index.html">
+<meta property="og:site_name" content="Rookie的博客">
+<meta property="og:description" content="一、定义开放式系统互联通信参考模型（英语：Open System Interconnection Reference Model，缩写为 OSI），简称为OSI模型（OSI model），一种概念模型，由国际标准化组织提出，一个试图使各种计算机在世界范围内互连为网络的标准框架。定义于ISO&#x2F;IEC 7498-1。 二、OSI模型解决什么问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://renyuan431.github.io/img/index.jpg">
+<meta property="article:published_time" content="2019-11-18T11:55:43.000Z">
+<meta property="article:modified_time" content="2022-01-17T07:23:26.406Z">
+<meta property="article:author" content="Rookie">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://renyuan431.github.io/img/index.jpg"><link rel="shortcut icon" href="/img/avatar.jpg"><link rel="canonical" href="https://renyuan431.github.io/2019/11/18/OSI-7/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '5、OSI七层模型',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-17 15:23:26'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/index.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Rookie的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">5、OSI七层模型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-11-18T11:55:43.000Z" title="发表于 2019-11-18 19:55:43">2019-11-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-17T07:23:26.406Z" title="更新于 2022-01-17 15:23:26">2022-01-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">9.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>28分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="5、OSI七层模型"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h2><p><strong>开放式系统互联通信参考模型</strong>（英语：Open System Interconnection Reference Model，缩写为 OSI），简称为<strong>OSI模型</strong>（OSI model），一种概念模型，由国际标准化组织提出，一个试图使各种计算机在世界范围内互连为网络的标准框架。定义于ISO/IEC 7498-1。</p>
+<h2 id="二、OSI模型解决什么问题"><a href="#二、OSI模型解决什么问题" class="headerlink" title="二、OSI模型解决什么问题"></a>二、OSI模型解决什么问题</h2> <span id="more"></span>  
+
+<p>伴随技术喷发，网络设备和网络软件行业兴起了几家巨头，包括思科、微软、Novell、IBM、惠普、苹果以及其它几家公司。<strong>每家都有自己的线缆和端口类型，允许各自的商业性协议。</strong>此时，如你从一家买路由器、另一家买交换机，又从别家买服务器，就会<strong>出现兼容性问题</strong>。</p>
+<p>有一些处理这些问题的通容办法，比如<strong>在网络上部署网关来转换不同的协议</strong>，这会导致<strong>性能上的瓶颈</strong>（比如网络慢速部分）并会令到<strong>故障排除十分困难和费时</strong>。最终，厂商们不得不达成一个在各自产品上都能工作的通用标准，一套叫做 TCP/IP 的免费协议包。最后，那些未能采行 TCP/IP 的厂商失去市场份额，走向破产。</p>
+<p><strong>ISO 创建出 OSI 模型，以助力于各厂商就通用标准达成一致，实现厂商之间的兼容。</strong>此模型包括了将总多网络功能分解为一套逻辑分层，或通俗地称为层的东西。各层只需完成其特定的一些功能，比如说你的公司专注于防火墙，那么这些防火墙将自然地与其它厂商的设备一起工作。</p>
+<p><strong>此模型的优势在于每件设备设计用来出色完成一个角色，而非不充分地完成多个角色。</strong>客户可以根据其解决方案选出最好的设备，而不用死栓在一家厂商那里。同时<strong>故障排除也变得更为容易</strong>，因为确定的出错可被追踪到具体的某层。</p>
+<p>OSI 模型将所有网络功能划分为七个不同的层。该层次化模型从第七层一路去往第一层。那些离用户更近、更为复杂的功能，在顶部，一直到处于底层的网络线缆规格。</p>
+<h2 id="三、总览"><a href="#三、总览" class="headerlink" title="三、总览"></a>三、总览</h2><p><strong>OSI模型类似于生产车间中的流水线或单位中的部门</strong>，OSI参考模型中的一层就相当于流水线上的一道工序或单位中的一个部门，他们<strong>既相互关联又彼此独立，下层为上层提供传输服务，不关心上层传输的内容，需要标识上层所使用的协议或应用；而上层也不关心下层传输的手段，只期望能将信息最终发到通信对端的相应层次上。</strong>就好像流水线上负责装轮子的工人只会安心装自己的车轮而不会管生产底盘工人如何工作，上一个人将需要生产的产品（也就是网络中的数据）交给他，他只需要装上轮子（在通信过程中就是完成本层协议规定的动作，例如为数据打上本层的报头）然后将产品交给下一个人进行继续生产。</p>
+<p>OSI七层模型的<strong>最大优点是将服务、接口和协议这三个概念明确地区分开来</strong>：服务说明某一层为上一层提供一些什么功能，接口说明上一层如何使用下层的服务，而协议涉及如何实现本层的服务；这样各层之间具有很强的独立性，互连网络中各实体采用什么样的协议是没有限制的，只要向上提供相同的服务并且不改变相邻层的接口就可以了。OSI 参考模型分为7层，<strong>高3层定义了端用户如何进行互相通信；底部4层定义了数据是如何端到端的传输。</strong>最高3层，也称之为上层(upper layer)，它们不关心网络的具体情况，这些工作是又下4层来完成。</p>
+<p><img src="/2019/11/18/OSI-7/v2-854e3df8ea850c977c30cb1deb1f64db_hd.jpg" alt="v2-854e3df8ea850c977c30cb1deb1f64db_hd"></p>
+<p><img src="/2019/11/18/OSI-7/osi5.png" alt="osi5"></p>
+<h2 id="四、OSI模型的不足"><a href="#四、OSI模型的不足" class="headerlink" title="四、OSI模型的不足"></a>四、OSI模型的不足</h2><p>OSI模型所存在的问题是模型与协议自身的缺陷。OSI参考模型将“服务”与“协议”的定义相结合，使得参考模型变得格外复杂，实现起来更加困难，而且整体上对安全方面考虑的不够。会话层在大多数应用中很少用到，表示层几乎是空的。在数据链路层与网络层有很多子层插入，每个子层都有不同的功能。所以实际生活中我们用的绝大多数网络协议都是依照后面的TCP/IP协议制定的，只有少部分协议，比如数据中心中使用的IS-IS（Intermediate System to Intermediate System，中间系统到中间系统）是用OSI七层模型的。</p>
+<h2 id="五、相关概念"><a href="#五、相关概念" class="headerlink" title="五、相关概念"></a>五、相关概念</h2><p><strong>本章节的概念比较难以理解一些，刚开始学的话建议对这些概念的定义有所了解就行，结合后边TCP/IP模型那章中的“用TCP/IP模型分析数据传输过程”部分，再回头看这些概念，会更好理解一些，因为联系实际能更方便对概念进行理解和掌握。</strong></p>
+<h3 id="（一）协议号，端口号"><a href="#（一）协议号，端口号" class="headerlink" title="（一）协议号，端口号"></a>（一）协议号，端口号</h3><p>协议号是三层概念，存在于IP头部协议号字段(常见的例如：6=TCP，17=UDP)；<br>端口号是四层概念，存在于TCP或UDP源/目端口号字段(常见的例如：TCP80=HTTP, UDP53=DNS)</p>
+<p>说白了都是“区分上层”用的，就是用来识别同一台计算机中进行通信的不同应用程序。但是所处的层次不一样。一台计算机上同时可以运行多个程序。传输层协议正是利用这些端口号识别本机中正在进行通信的应用程序，并准确地将数据传输。</p>
+<p><img src="/2019/11/18/OSI-7/1e487b21-906d-41ae-8894-d02f1037cf25.jpg" alt="1e487b21-906d-41ae-8894-d02f1037cf25"></p>
+<h3 id="（二）协议的定义及作用"><a href="#（二）协议的定义及作用" class="headerlink" title="（二）协议的定义及作用"></a>（二）协议的定义及作用</h3><p>什么是协议（protocol）？ </p>
+<p>是指通信双方对数据传送控制的一种约定。约定中包括对数据格式，同步方式，传送速度，传送步骤，检纠错方式以及控制字符定义等问题做出统一规定，通信双方必须共同遵守，它也叫做链路控制规程。</p>
+<p><strong>通俗的来讲，协议是一种双方都明白或者必须遵守的事先约定</strong>，比如说长城上放狼烟，是因为人们已经预先设定好狼烟这个物理信号代表了“敌人入侵”这一抽象信号。这样一个“狼烟=敌人入侵”就是一个简单的协议。协议可以更复杂，比如摩尔斯码(Morse Code)，使用短信号和长信号的组合，来代表不同的英文字母。当然，通信的双方必须遵从同样的协议才能够完成通信，比如你这里的协议规定的是“长城上放狼烟代表敌人入侵”，而你通信对端的协议规定是“长城上放狼烟代表打开城门”，那就出大事儿了，这样是没法交流的，所以通信双方必须遵从相同的协议才能通信。</p>
+<p>网络协议其实也是按照人的思维方式在工作，但是网络设备不会像人一样思考，所以我们当初给它设计各种协议的时候就要尽可能地为它想到这些协议所要应对的场景。</p>
+<blockquote>
+<p>a protocol is formally defined as a set of rules governing communication between entities at the same layer. </p>
+</blockquote>
+<h3 id="（三）X层设备"><a href="#（三）X层设备" class="headerlink" title="（三）X层设备"></a>（三）X层设备</h3><p>经常会听到三层交换机、二层交换机以及路由器是三层设备这种叫法。</p>
+<p>工作在三层（网络层）的设备，例如路由器，指的是这台设备同时具备1-3层的功能，也就是可以支持物理层、数据链路层和网络层的所有协议；如果是一台二层（数据链路层）设备，比如二层交换机，指的是这台二层交换机同时具备1-2层的功能，也就是可以支持物理层和数据链路层的所有协议。</p>
+<p>二层设备以三层设备的区别是看能不能识别三层的东西，能不能完整的运行三层协议，比如IP地址、路由等三层的东西。能识别能完整支持的就为三层设备。三层设备常用于多网段，隔离广播域。</p>
+<p>还有一个概念叫四层交换机，它是一种功能，它决定传输不仅仅依据MAC地址(第二层网桥)或源/目标IP地址(第三层路由),而且依据TCP/UDP(第四层) 应用端口号。第四层交换功能就象是虚IP，指向物理服务器，也就是LVS功能。  LVS 是 Linux Virtual Server 的简写，意即 Linux 虚拟服务器，是一个开源的<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/clb?from=10680">负载均衡</a>流量调度器。LVS 集群采用 IP 负载均衡技术和基于内容请求分发技术，将用户请求按照一定策略分发到后端的 Server 上，从而将一组服务器构成一个高性能的、高可用的虚拟服务器。 具体可参照<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zengkefu/p/5587687.html">LVS图解</a>这篇文章。</p>
+<h3 id="（四）上三层，下四层"><a href="#（四）上三层，下四层" class="headerlink" title="（四）上三层，下四层"></a>（四）上三层，下四层</h3><p>下四层：物理层、链路层、网络层、传输层都是运行协议数据等保证网络通畅；接着的上面三层：会话层、表示层、应用层都是用来控制会话等。 </p>
+<h3 id="（五）TCP-IP模型和OSI模型"><a href="#（五）TCP-IP模型和OSI模型" class="headerlink" title="（五）TCP\IP模型和OSI模型"></a>（五）TCP\IP模型和OSI模型</h3><p><img src="/2019/11/18/OSI-7/OSI-VS-TCPIP.jpg" alt="OSI-VS-TCPIP"></p>
+<p>OSI七层模型是 ISO（国际标准化组织）制定的，为了方便学习把层级分的比较多，这七层涵盖很多分类过细导致协议太复杂实现较困难，厂家自己搞出了另一套通信协议，叫做TCP/IP，只有四层实现起来也较为方便简单，所以目前使用的几乎都是TCP/IP协议栈，现在的互联网也是基于TCP/IP的，所以在学习网络知识的时候，都是参照OSI模型的，但在使用的时候，都是使用TCP/IP模型。</p>
+<p>关于两个模型具体的区别、联系，请看 <a href="https://renyuan431.github.io/2019/11/23/6-tcp-ip/">https://renyuan431.github.io/2019/11/23/6-tcp-ip/</a> 中相关部分</p>
+<h3 id="（六）全双工、半双工"><a href="#（六）全双工、半双工" class="headerlink" title="（六）全双工、半双工"></a>（六）全双工、半双工</h3><p><strong>全双工</strong>（Full Duplex）是通讯传输的一个术语。 通信允许数据在两个方向上同时传输，它在能力上相当于两个单工通信方式的结合。 <strong>全双工</strong>指可以同时（瞬时）进行信号的双向传输（A→B且B→A）。 指A→B的同时B→A，是瞬时同步的。 类似于我们现在的打电话，电话两边的人可以同时说话（两端同时可以发送接收数据）。</p>
+<p><strong>半双工</strong>(Half Duplex)数据传输指数据可以在一个信号载体的两个方向上传输，但是不能同时传输。 例如，在一个局域网上使用具有<strong>半双工</strong>传输的技术，一个工作站可以在线上发送数据，然后立即在线上接收数据，这些数据来自数据刚刚传输的方向。 类似于我们现在的对讲机，只有一端可以说话，在一段说话时对端只能听不能说。</p>
+<h3 id="（七）冲突域、广播域"><a href="#（七）冲突域、广播域" class="headerlink" title="（七）冲突域、广播域"></a>（七）冲突域、广播域</h3><p>冲突域：可以理解称为<strong>物理划分</strong>，冲突域是连接在同一导线上的所有工作站的集合，或者说是同一物理网段上所有节点的集合或以太网上竞争同一带宽的节点集合。这个域代表了冲突在其中发生并传播的区域，这个区域可以被认为是共享段。冲突域中所有节点都链接到同一个被交换机和学习型网桥划分的相互连接的中继器集合。冲突域一般来说小于或者包含在广播域中。 一些处在数据链路层的设备能够划分冲突域，但是广播域只能由像路由器或者网络层交换机这样的网络层的设备来进行划分。</p>
+<p>广播域：广播域是计算机网络的一个<strong>逻辑划分</strong>。广播域中的任意一个节点可以在数据链路层通过广播的方式到达任意一个节点。广播域可以被部署在同一个局域网或者被桥接到其他的局域网。</p>
+<p><strong>冲突域是发送一个单播会影响的范围，广播域是发送一个广播会影响的范围。</strong> 二层设备（例如二层交换机）可以分割冲突域，交换机的每个接口都是一个单独的冲突域；三层设备（例如路由器）可以分割广播域，路由器的每个接口都i是一个单独的广播域，一些靠广播才能工作的协议，例如ARP、DHCP协议，到路由器接口就被隔绝了，需要进行适当的中继配置才能跨广播域起到效果。</p>
+<h3 id="（八）网关"><a href="#（八）网关" class="headerlink" title="（八）网关"></a>（八）网关</h3><p>网关(Gateway)又称网间连接器、协议转换器。网关在传输层上以实现网络互连，是最复杂的网络互连设备，仅用于两个高层协议不同的网络互连。顾名思义，网关(Gateway)就是一个网络连接到另一个网络的“关口”。举个现实生活中的例子方便理解，从一个房间走到另一个房间，必然要经过一扇门。同样，从一个网络（192.168.10.0/24）向另一个网络（192.168.20.0/24）发送信息，也必须经过一道“关口”，这道关口就是网关，具体来说，如果要跨网段传输数据时，要先把数据发给本网段的网关，由该网关把本网段的信息发给其他网段的网关，然后再由其他网段的网关发给目的设备。</p>
+<h3 id="（九）泛洪"><a href="#（九）泛洪" class="headerlink" title="（九）泛洪"></a>（九）泛洪</h3><p>交换机将数据从所有的端口（除了接收到此帧的端口）发送出去，通常称为泛洪。如果配置了VLAN，泛洪也只在属于该VLAN ID的端口上泛洪。</p>
+<h2 id="六、各层介绍"><a href="#六、各层介绍" class="headerlink" title="六、各层介绍"></a>六、各层介绍</h2><h3 id="（第七层）应用层（Application）"><a href="#（第七层）应用层（Application）" class="headerlink" title="（第七层）应用层（Application）"></a>（第七层）应用层（Application）</h3><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175324-1574502824777.png" alt="微信截图_20191123175324"></p>
+<p>应用层是最接近终端用户的OSI层，这就意味着OSI应用层与用户之间是通过应用软件直接相互作用的。注意，<strong>应用层并非由计算机上运行的实际应用软件组成，而是由向应用程序提供访问网络资源的API（Application Program Interface，应用程序接口）组成</strong>，这类应用软件程序超出了OSI模型的范畴。应用层的功能一般包括标识通信伙伴、定义资源的可用性和同步通信。因为可能丢失通信伙伴，应用层必须为传输数据的应用子程序定义通信伙伴的标识和可用性。定义资源可用性时，应用层为了请求通信而必须判定是否有足够的网络资源。在同步通信中，所有应用程序之间的通信都需要应用层的协同操作。 </p>
+<p>就是应用软件使用的协议，如邮箱使用的POP3，SMTP、远程登录使用的Telnet、获取IP地址的DHCP、域名解析的DNS、网页浏览的http协议等；这部分协议主要是规定应用软件如何去进行通信的。</p>
+<p>http(80)、https（443）、 dns(53)、ftp(20/21)、smtp(25)、pop3(110)、telnet(23)</p>
+<h3 id="（第六层）表示层（Presentation）"><a href="#（第六层）表示层（Presentation）" class="headerlink" title="（第六层）表示层（Presentation）"></a>（第六层）表示层（Presentation）</h3><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175412.png" alt="微信截图_20191123175412"></p>
+<p>表示层提供多种功能用于应用层数据编码和转化，以确保以一个系统应用层发送的信息可以被另一个系统应用层识别。表示层的编码和转化模式包括公用数据表示格式、性能转化表示格式、公用数据压缩模式和公用数据加密模式。 </p>
+<p>决定数据的展现（编码）形式，如同一部电影可以采样、量化、编码为RMVB、AVI，一张图片能够是JPEG、BMP、PNG等。</p>
+<h3 id="（第五层）会话层（Session）"><a href="#（第五层）会话层（Session）" class="headerlink" title="（第五层）会话层（Session）"></a>（第五层）会话层（Session）</h3><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175603.png" alt="微信截图_20191123175603"></p>
+<p>为两端通信实体建立、管理及中断连接（会话），中间有认证鉴权以及检查点记录（供会话意外中断的时候可以继续，类似断点续传）,并提供3种不同的方式来组织它们之间的通信：单工、半双工、全双工 。</p>
+<h3 id="（第四层）传输层（Transport）-lt-数据段-gt"><a href="#（第四层）传输层（Transport）-lt-数据段-gt" class="headerlink" title="（第四层）传输层（Transport）&lt;数据段&gt;"></a>（第四层）传输层（Transport）&lt;数据段&gt;</h3><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175629.png" alt="微信截图_20191123175629"></p>
+<p>将一个数据/文件斩件分成很多小段，标记顺序以被对端接收后可以按顺序重组数据，另外标记该应用程序使用的端口号及提供QOS（不同的应用程序使用不同计算机的端口号，同样的应用程序需要使用一样的端口号才能正常通信） 。传输层的协议有TCP、UDP。</p>
+<h3 id="（第三层）网络层-Network-lt-数据包-gt"><a href="#（第三层）网络层-Network-lt-数据包-gt" class="headerlink" title="（第三层）网络层(Network)&lt;数据包&gt;"></a>（第三层）网络层(Network)&lt;数据包&gt;</h3><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175655.png" alt="微信截图_20191123175655"></p>
+<p>OSI参考模型规定网络层的主要功能有以下三点： </p>
+<p>1．路径选择与中继。在点-点连接的通信子网中，信息从源结点出发，要经过若干个中继结点的存储转发后，才能到达目的结点。通信子网中的路径是指从源结点到目的结点之间的一条通路，它可以表示为从源结点到目的结点之间的相邻结点及其链路的有序集合。一般在两个结点之间都会有多条路径选择。路径选择是指在通信子网中，源结点和中间结点为将报文分组传送到目的结点而对其后继结点的选择，这是网络层所要完成的主要功能之一。 </p>
+<p>2．流量控制。网络中多个层次都存在流量控制问题，网络层的流量控制则对进入分组交换网的通信量加以一定的控制，以防因通信量过大造成通信子网性能下降。 </p>
+<p>3．网络连接建立与管理。在面向连接服务中，网络连接是传输实体之间传送数据的逻辑的、贯穿通信子网的端—端通信通道。</p>
+<p>路由选路，选择本次通信使用的协议（http、ftp等），指定路由策略及访问控制策略（ospf、eigrp、BGP等协议），使用协议号标识上层应用 ，<strong>（IP地址在这一层，路由器以及三层交换机属于三层设备）</strong> 网络层的协议有IPV4、IPV6、OSPF等协议。</p>
+<h3 id="（第二层）数据链路层-Data-Link-Layer-lt-数据帧-gt"><a href="#（第二层）数据链路层-Data-Link-Layer-lt-数据帧-gt" class="headerlink" title="（第二层）数据链路层(Data Link Layer)&lt;数据帧&gt;"></a>（第二层）数据链路层(Data Link Layer)&lt;数据帧&gt;</h3><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175720.png" alt="微信截图_20191123175720"></p>
+<p>实际的物理链路是不可靠的，总会出现错误，<strong>数据链路层的作用就是通过一定的手段（将数据分成帧，以数据帧为单位进行传输）将有差错的物理链路转化成对上层来说没有错误的数据链路。</strong>它的特征参数包括：物理地址、网络拓朴结构、错误警告机制、所传数据帧的排序和流控等。其中物理地址是相对网络层地址而言的，它代表了数据链路层的节点标识技术。</p>
+<p>根据端口与MAC地址，做分组（VLAN）隔离、端口安全、访问控制。（<strong>MAC地址在这一层，二层交换机属于二层设备</strong>）处理VLAN内的数据帧转发，跨VLAN间的访问，需要上升到网络层。 数据链路层有FCS（帧检验字段）用于检测数据的完整性。数据链路层的协议有ARP、PPPOE等。</p>
+<h4 id="两个子层"><a href="#两个子层" class="headerlink" title="两个子层"></a>两个子层</h4><h5 id="LLC子层："><a href="#LLC子层：" class="headerlink" title="LLC子层："></a>LLC子层：</h5><p>负责识别Network layer 协议然后封装(encapsulate)数据.LLC 头部信息告诉Data Link layer 如何处理接受到的帧,LLC 也提供流控制和控制比特的编号 。</p>
+<h5 id="MAC子层："><a href="#MAC子层：" class="headerlink" title="MAC子层："></a>MAC子层：</h5><p>这层定义了物理地址和拓扑结构,错误检测,流控制等.共享带宽,CSMA/CD先到先服务原则(FCFS) 。</p>
+<p>物理地址通常为MAC地址：</p>
+<p>MAC地址是烧录在Network Interface Card(网卡,NIC)里的MAC地址,也叫硬件地址,是由48比特长,16进制的数字组成。 </p>
+<p>0 -24位 由厂家自己分配。</p>
+<p>25-47位 组织唯一标志符(organizationally unique identifier,OUI).OUI是由IEEE分配给每个组织.组织按高到低的顺序分配1个唯一的全局地址给每个网卡以保证不会有重复的编号。</p>
+<p>第47位 individual/Group(I/G)位,当I/G位为0的时候,我们可以设想这个地址是MAC地址的实际地址可以出现在MAC头部信息;当I/G位为1的时候,我们可以设想它为广播或多播。</p>
+<p>第46位 G/L位,也叫U/L位.当这个位为0的时候代表它是由IEEE分配的全局地址;当这个位为1的时候,代表本地管理地址（例如在DECnet当中）。</p>
+<p>CSMA/CD载波监听多路访问/冲突检测(carrier scnse multiple access collision detect)：设备准备发送数据以前先检查载波信首的介质访问机制。当一个节点想在网络中发送数据时，它首先检查线路上是否有其他主机的信号在传送：如果有，说明其他主机在发送数据，自己则利用退避算法等一会再试图发送；如果线路上没有其他主机的信号，自己就将数据发送出去，同时，不停的监听线路，以确信其他主机没有发送数据，如果检测到有其他信号，自己就发送一个JAM阻塞信号，通知网段上的其他节点停止发送数据，这时，其他节点也必须采用退避算法等一会再试图发送。</p>
+<h3 id="（第一层）物理层-Physical-Layer-lt-比特-gt"><a href="#（第一层）物理层-Physical-Layer-lt-比特-gt" class="headerlink" title="（第一层）物理层(Physical Layer)&lt;比特&gt;"></a>（第一层）物理层(Physical Layer)&lt;比特&gt;</h3><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123164057.png" alt="微信截图_20191123164057" style="zoom:50%;">
+
+<img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123164152.png" alt="微信截图_20191123164152" style="zoom: 50%;">
+
+<img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123164159.png" alt="微信截图_20191123164159" style="zoom:50%;">
+
+
+
+<h4 id="1、定义"><a href="#1、定义" class="headerlink" title="1、定义"></a>1、定义</h4><p>物理层定义了通讯网络之间物理链路的电气或机械特性，以及激活、维护和关闭这条链路的各项操作。物理层特征参数包括：电压、数据传输率、最大传输距离、物理连接媒体等。</p>
+<p>物理层将数据最终编码为用0、1标识的比特流，然后传输。（例如将QQ头像的图片，变为一串01100111100这样的数字来表示）。 <strong>物理层的作用就是通过物理手段把电脑连接起来，它主要规定了网络的一些电气特性，作用是负责传送0和1的电信号。物理层的协议有蓝牙（802.15）等。</strong></p>
+<h4 id="2、介质"><a href="#2、介质" class="headerlink" title="2、介质"></a>2、介质</h4><p>同轴电缆、双绞线（非屏蔽双绞线、屏蔽双绞线），更多具体说明请看 <a href="https://renyuan431.github.io/2019/11/16/lan-and-fiber/">https://renyuan431.github.io/2019/11/16/lan-and-fiber/</a> </p>
+<h4 id="3、设备"><a href="#3、设备" class="headerlink" title="3、设备"></a>3、设备</h4><p>物理层典型的设备有集线器（hub）、中继器（reperter）.中继器可以放大信号，延长网线传输距离。一般网线理论传输距离为100米，实际工作中不建议在超过70米的地方使用，丢包会很严重，传输质量无法保障；集线器相当于一个多端口的中继器，也能起到信号放大的作用，但集线器在半双工模式下工作，同一时间只能有一个方向的数据可以传输，发送的时候不能接收，接收的时候不能发送，所以集线器的所有接口都属于同一个冲突域。集线器的工作过程是接收到一个端口发来的数据后，将数据直接转发到除接收到这个数据的端口以外的所有端口上，工作效率比较低下，集线器已经被淘汰。</p>
+<h2 id="七、封装、解封装"><a href="#七、封装、解封装" class="headerlink" title="七、封装、解封装"></a>七、封装、解封装</h2><h3 id="（一）封装"><a href="#（一）封装" class="headerlink" title="（一）封装"></a>（一）封装</h3><h4 id="1、定义-1"><a href="#1、定义-1" class="headerlink" title="1、定义"></a>1、定义</h4><p>将数据变为比特流的过程中，在参考模型的每一层需要添加上特定的协议报头动作。</p>
+<h4 id="2、动作"><a href="#2、动作" class="headerlink" title="2、动作"></a>2、动作</h4><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175033.png" alt="微信截图_20191123175033"></p>
+<p>从高层往低层依次封装，在每一层使用特定的协议，对数据进行处理，在数据前添加特定的协议报头。L代表layer，表示第几层，H表示header，表示报头，第七层的报头在DATA（数据）的前面，表示数据在第七层（应用层）的时候前边加上了该层的报头。再到下一层（第六层，表示层）时前面又加上了第六层的报头，以此类推，到了第一层物理层的时候，打上了各层报头的数据被转换成0101的电信号发送给其他设备。</p>
+<p>大概流程可以理解为：在传输层将数据分段，并加入TCP头，在网络层加入IP地址，在数据链路层分别加入LLC头和MAC头，最后转换成电信号在物理层传输。 </p>
+<h4 id="3、封装原则"><a href="#3、封装原则" class="headerlink" title="3、封装原则"></a>3、封装原则</h4><p>（1）每一层在上一层数据前添加协议报头</p>
+<p>注：进行封装的时候是添加的“协议报头”，目前三层封装协议主要是IP协议，二层协议主要是以太网2协议，不代表只有这两个协议才能对二、三层进行封装。四层主要有TCP\UDP两个协议组成，所以在进行四层封装的时候添加的主要是这两个协议的报头。</p>
+<p>（2）添加完协议报头的整体，就是该层的PDU</p>
+<p>（3）每一层的PDU对于下一层来说就是上层数据（每一层的上层数据就是上层的PDU）。</p>
+<h4 id="4、封装的必要参数"><a href="#4、封装的必要参数" class="headerlink" title="4、封装的必要参数"></a>4、封装的必要参数</h4><p>传输层：源端口号     目标端口号</p>
+<p>网络层：源IP地址     目标IP地址</p>
+<p>数据链路层：源MAC地址   目标MAC地址</p>
+<h3 id="（二）解封装"><a href="#（二）解封装" class="headerlink" title="（二）解封装"></a>（二）解封装</h3><h4 id="1、定义-2"><a href="#1、定义-2" class="headerlink" title="1、定义"></a>1、定义</h4><p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191123175058.png" alt="微信截图_20191123175058"></p>
+<p>封装的逆过程，数据从比特流还原为数据的过程</p>
+<h4 id="2、动作-1"><a href="#2、动作-1" class="headerlink" title="2、动作"></a>2、动作</h4><p>从底层往高层依次解封装，每解封装一层，会将该层的协议报头去掉</p>
+<h4 id="3、解封装原则"><a href="#3、解封装原则" class="headerlink" title="3、解封装原则"></a>3、解封装原则</h4><p>（1）必须从底层往高层解封装</p>
+<p>（2）解封装时，<strong>只有协议报头合理，才可以解封装</strong>，打个比方，你收到一个包裹，上面有你的名字还有你的家庭住址和电话才是你的，你才能拆开叫做合理。举例说明，<strong>如果拆二层封装，必须目的MAC地址为自己接收这个帧的MAC地址才可以进行二层解封装，如果拆三层封装，必须目的IP地址为自己接收这个数据包的IP地址才可以进行三层解封装。</strong></p>
+<p>（3）解封装一旦停止，数据就会被丢弃</p>
+<p>（4）解封装由接收者触发，数据必须经过解封装才可以被接收</p>
+<h3 id="（三）PDU"><a href="#（三）PDU" class="headerlink" title="（三）PDU"></a>（三）PDU</h3><p><strong>PUD</strong>即协议数据单元（英语：Protocol Data Unit，缩写为_PDU_）。PDU包含来自上层的信息，以及当前层的实体附加的信息。 协议数据单元(Protocol Data Unit )物理层的 PDU是数据位（bit），数据链路层的 PDU是数据帧（frame），网络层的PDU是数据包（packet），传输层的 PDU是数据段（segment），其他更高层次的PDU是报文（message）。</p>
+<h2 id="八、通信流程说明"><a href="#八、通信流程说明" class="headerlink" title="八、通信流程说明"></a>八、通信流程说明</h2><p>![o_0D_2V8B_`V86P43E6OKYDVV](OSI-7/o_0D_2V8B_%60V86P43E6OKYDVV.gif)</p>
+<p><img src="/2019/11/18/OSI-7/osiencap.png" alt="osiencap"></p>
+<p><img src="/2019/11/18/OSI-7/Y6OBY.gif" alt="Y6OBY"></p>
+<p>从高层往低层依次封装，在每一层使用特定的协议，对数据进行处理，在数据前添加特定的协议报头。L代表layer，表示第几层，H表示header，表示报头，第七层的报头在DATA（数据）的前面，表示数据在第七层（应用层）的时候前边加上了该层的报头。再到下一层（第六层，表示层）时前面又加上了第六层的报头，以此类推，到了第一层物理层的时候，打上了各层报头的数据被转换成0101的电信号发送给其他设备。其他设备接到电信号后，由物理层将电信号转换成数据，然后发送到上层的数据链路层，拆二层报头识别后交给上一层，网络层继续拆封装并识别，以此类推直到应用层拆除所有层的报头后识别数据。</p>
+<h3 id="（一）A——B通信说明（按OSI七层模型）"><a href="#（一）A——B通信说明（按OSI七层模型）" class="headerlink" title="（一）A——B通信说明（按OSI七层模型）"></a>（一）A——B通信说明（按OSI七层模型）</h3><p>两主机通信的过程，从发送者（以下简称A）到接收者（以下简称B），属于从7层（应用层）-&gt;1层（物理层）封装，然后传输到远端，再从1层（物理层）-&gt;7层（应用层）解封装的过程。</p>
+<p>2个主机之间的通信，对于2台主机来说，肯定是都需要跨越7层的，而平常说的只需要去到2层或者3层，其实是对于中间系统而言的，就是说中间的交换机、路由器而言。</p>
+<p>1、 当A打开了QQ这个软件，相当就到达<strong>应用层</strong>了；因为软件会根据你的操作调动机器底层的硬件工作了。  </p>
+<p>2、 当A往QQ这个软件的聊天窗口里面输入信息，发出后，QQ会将这个信息保存在本地聊天记录文件MSGEX.db（一般就保存在QQ目录下以你的QQ号码为文件夹里）。以某种格式编码/保存某种信息，这可以理解为<strong>表示层</strong>了。  </p>
+<p>3、 当A打开与B的聊天窗口，输入信息，按下“输入”按钮，用户的操作就完结了，剩下都是机器自己的操作了。实际传输之前QQ会先建立A与B的会话连接，才真正开始传输信息/数据（你可以理解借传输文件理解：你发送文件给对方，要等待对方按下接收，才算建立了会话，然后才开始传输。）这算<strong>会话层</strong>了。  </p>
+<p>4、 会话建立后，会将A发的信息斩件，如A发送“你吃了饭没有”？<strong>传输层</strong>将这句话斩成“你”“吃”“了”“饭”“没”“有”6个数据段，标记号使用的端口号，然后准备发出去。  </p>
+<p>5、 接上一层，信息还未发出去，这时候在<strong>网络层</strong>做路由选路，可以理解为，从A家出去，可以分别经“联通”“电信”“移动”3个网络中的一个再到B家。</p>
+<p>网络层根据路由协议负责选路（根据链路质量、带宽、开销等方法论）。假设最后选了2条，可能就A-&gt;联通-&gt;B发送“你”“吃”“了”3个数据段，A-&gt;电信-&gt;B发送“饭”“没”“有”3个数据段。</p>
+<p>选路后，<strong>这一层要标记IP包头，包头主要内容是源IP地址，目的IP地址，使用什么协议</strong>。其中源、目的IP相当于你寄信的时候的收发的地址与邮政编码，标记出发送者与接收者。而协议相当于这封信到底用什么语言书写。（只有保证2端使用同种语言，才能确保通信起来，否则你用英文写信给大妈，大妈怎么看得懂呢？）  </p>
+<p>6、 然后再到<strong>数据链路层</strong>，数据链路层主要是负责同一个子网内的通信的。例如A、B连接在同一台二层交换机，就属于同一个子网，那么数据帧的通信室是不需要通过网络层的（即三层交换机或者路由器），直接在这台二层交换机就过去了。<strong>这一层打的是MAC地址的帧头，对于上述通信过程来说，就是为数据帧打上A的机器的MAC与A的网关的MAC</strong>。这一层的工作就完成了。  </p>
+<p>7、 到<strong>物理层</strong>了，经过上述斩件、打完各层标签后的6个数据帧，物理层将他们翻译为N段0、1表示的比特流，然后通过光纤、铜缆进行传输。  </p>
+<p>8、 当比特流传输到了远端，接着B的机器按照上述的1~7的步骤反方向运行一次即可（即由物理层到应用层）。就是一层层读取标签，传输给标签标记着的相应对象，然后摘除标签，再读取上一层标签，直到最后B的应用程序能够读到A往应用程序输入的数据为止。</p>
+<h3 id="（二）A——B通信说明（按实际）"><a href="#（二）A——B通信说明（按实际）" class="headerlink" title="（二）A——B通信说明（按实际）"></a>（二）A——B通信说明（按实际）</h3><h4 id="1、总体原则"><a href="#1、总体原则" class="headerlink" title="1、总体原则"></a>1、总体原则</h4><p><img src="/2019/11/18/OSI-7/Snipaste_2019-12-10_16-36-13.jpg" alt="Snipaste_2019-12-10_16-36-13"></p>
+<h4 id="2、局域网（LAN）通信步骤"><a href="#2、局域网（LAN）通信步骤" class="headerlink" title="2、局域网（LAN）通信步骤"></a>2、局域网（LAN）通信步骤</h4><p><img src="/2019/11/18/OSI-7/switch.jpg" alt="switch"></p>
+<ul>
+<li><p>交换机如果刚刚加电启动，它的MAC地址缓存为空，此时假设PC1要发送数据给PC3，假设这里是PC1要ping PC3的IP地址，根据OSI七层模型，我们知道，下四层每一层需要封装本层的报头，三层网络层封装的时候需要源目的IP地址，二层数据链路层封装的时候需要原目的MAC地址，这里PC1只知道PC3的IP地址和自己的IP地址，所以三层需要封装的参数已经知道了，但在开始通信的时候，二层封装的目的MAC地址还不知道，所以需要获得MAC地址才能完成二层数据链路层的封装，PC1会使用ARP（Address Resolution Protocol，缩写：<strong>ARP</strong>）这个协议去获取目的MAC地址用来完成二层封装。</p>
+</li>
+<li><p>假设PC1已经知道C的MAC地址（ARP获得目的MAC地址的过程在后边讨论）而Switch的MAC地址表项为空，PC1将数据封装好发送给Switch，Switch从接口1接收到PC1发过来的数据后，首先对数据进行解封装，将0101的比特流还原成数据，然后对二层进行解封装，知道了该数据帧的源、目的MAC地址，然后添加这个数据帧的源MAC地址，既PC1的MAC地址（AAAAAAAAAA）和对应的端口G0/1添加到自己的MAC地址表中方便以后再进行数据传输时使用，然后从自己的MAC地址表中去查找这个数据帧目的地PC3（CCCCCCCCCC）的MAC地址，但是此时由于MAC地址表项为空所以找不到对应的MAC地址，这时Switch将这个数据封装上二层帧头，从除了收到这个数据的G0/1以外的其他接口（G0/2、G0/3、G0/0）泛洪出去；</p>
+</li>
+<li><p>PC2和PC4都接收到了这个数据帧，这两台设备对数据帧进行解封装后查看该数据帧的目的MAC地址，发现目的MAC地址与自己的网卡MAC地址不相同，PC2和PC4丢弃这个数据帧；</p>
+</li>
+<li><p>在上一步中PC3也同时收到了这个数据帧，PC3对数据进行解封装后，检查目的MAC地址的时候发现，与本机相同，PC3接收这个数据包，并回发数据包对PC1进行确认，PC3封装一个源地址为自己MAC地址，目的地址是A的MAC地址，源IP为自己IP，目的IP为PC1的IP地址的数据发送给Switch；</p>
+</li>
+<li><p>Switch接收到这个数据，它首先添加PC3的MAC和对应的接口G0/3到自己的MAC地址表中，然后查询源MA地址表时候发现PC1的MAC地址在MAC地址表项中可以查到，此MAC地址对应端口为G0/1，Switch将这个数据帧发给接口G0/1的PC1；</p>
+</li>
+<li><p>PC1收到PC3发回的确认，通信成功；</p>
+</li>
+<li><p>通过这种形式，Switch学习到的MAC地址以及所在接口。如下：</p>
+</li>
+</ul>
+<p><img src="/2019/11/18/OSI-7/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20191124185137.jpg" alt="微信截图_20191124185137"></p>
+<p>通过不停的通信，最终Switch能够获得所有端口对应的MAC地址，但需注意，MAC地址表项的老化时间为300秒，如果超过老化时间，表项会被删除，Switch需重新泛洪以获取目的MAC地址对应的表项。思科交换机查看MAC地址表的命令为：<strong>show mac-address</strong> </p>
+<h4 id="3、广域网（WAN）通信步骤"><a href="#3、广域网（WAN）通信步骤" class="headerlink" title="3、广域网（WAN）通信步骤"></a>3、广域网（WAN）通信步骤</h4><p><img src="/2019/11/18/OSI-7/newL3-PC1-PC2.png" alt="newL3-PC1-PC2"></p>
+<p>假设交换机如果刚刚加电启动，它的MAC地址缓存为空，两台PC的网关分别为路由器的G0/0和G0/1，此时路由器Router有去往PC1（192.168.10.1）和PC2（192.168.20.1）的路由，此时假设PC1要发送数据给PC3，假设这里是PC1要ping PC3的IP地址，PC1首先判断通信对象PC2的IP是否为同一网段地址，此时PC2为不同网段，所以数据要先发给自身的网关（192.168.10.254），所以数据的源MAC地址为PC1的MAC地址，目的MAC地址为网关（192.168.10.254）对应的MAC地址，源IP地址为自身IP地址（192.168.10.1），目的IP地址为PC2的IP地址（192.168.20.1），抓包的结果如下：</p>
+<p><img src="/2019/11/18/OSI-7/PC1.jpg" alt="PC1"></p>
+<p>PC1的G0/0接口的MAC地址如下：</p>
+<p><img src="/2019/11/18/OSI-7/PC1-1.jpg" alt="PC1-1"></p>
+<p>网关，Router的G0/0接口MAC地址如下：</p>
+<p><img src="/2019/11/18/OSI-7/PC1-2.jpg" alt="PC1-2"></p>
+<p>路由器接到数据以后，首先对数据进行解封装，将0101的比特流还原成数据，然后对二层进行解封装，查看二层的目的MAC地址和接收端口G0/0的MAC地址是否一致，确定两者一致后继续对三层解封装查看目的IP地址，网关根据目的IP按照最长匹配原则查询是否有对应路由条目，在这里路由器是有10.0网段和20.0网段的路由的：</p>
+<p><img src="/2019/11/18/OSI-7/route.jpg" alt="route"></p>
+<p>查询路由表发现192.168.20.0网段直连G0/1接口，需要讲数据从G0/1发出，此时三层的源、目的IP地址封装是不变的，二层封装的MAC地址发生变化，源MAC地址为发出接口的G0/1的MAC地址，目的地址为PC2的G0/0接口MAC地址：</p>
+<p><img src="/2019/11/18/OSI-7/PC2-2.jpg" alt="PC2-2"></p>
+<p><img src="/2019/11/18/OSI-7/PC2-3.jpg" alt="PC2-3"></p>
+<p><img src="/2019/11/18/OSI-7/PC2-4.jpg" alt="PC2-4"></p>
+<p><img src="/2019/11/18/OSI-7/PC2.jpg" alt="PC2"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Rookie</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://renyuan431.github.io/2019/11/18/OSI-7/">https://renyuan431.github.io/2019/11/18/OSI-7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://renyuan431.github.io" target="_blank">Rookie的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/index.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechatpay.png" target="_blank"><img class="post-qr-code-img" src="/img/wechatpay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.png" target="_blank"><img class="post-qr-code-img" src="/img/alipay.png" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/11/23/6-tcp-ip/"><img class="prev-cover" src="/img/index.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">6、tcp/ip参考模型</div></div></a></div><div class="next-post pull-right"><a href="/2019/11/18/basic-knowledge/"><img class="next-cover" src="/img/index.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">4、基础知识</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Rookie</div><div class="author-info__description"></div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">一、定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81OSI%E6%A8%A1%E5%9E%8B%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">二、OSI模型解决什么问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%80%BB%E8%A7%88"><span class="toc-number">3.</span> <span class="toc-text">三、总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81OSI%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%B8%8D%E8%B6%B3"><span class="toc-number">4.</span> <span class="toc-text">四、OSI模型的不足</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">5.</span> <span class="toc-text">五、相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%8D%8F%E8%AE%AE%E5%8F%B7%EF%BC%8C%E7%AB%AF%E5%8F%A3%E5%8F%B7"><span class="toc-number">5.1.</span> <span class="toc-text">（一）协议号，端口号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%AE%9A%E4%B9%89%E5%8F%8A%E4%BD%9C%E7%94%A8"><span class="toc-number">5.2.</span> <span class="toc-text">（二）协议的定义及作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89X%E5%B1%82%E8%AE%BE%E5%A4%87"><span class="toc-number">5.3.</span> <span class="toc-text">（三）X层设备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E5%9B%9B%EF%BC%89%E4%B8%8A%E4%B8%89%E5%B1%82%EF%BC%8C%E4%B8%8B%E5%9B%9B%E5%B1%82"><span class="toc-number">5.4.</span> <span class="toc-text">（四）上三层，下四层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%BA%94%EF%BC%89TCP-IP%E6%A8%A1%E5%9E%8B%E5%92%8COSI%E6%A8%A1%E5%9E%8B"><span class="toc-number">5.5.</span> <span class="toc-text">（五）TCP\IP模型和OSI模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E5%85%AD%EF%BC%89%E5%85%A8%E5%8F%8C%E5%B7%A5%E3%80%81%E5%8D%8A%E5%8F%8C%E5%B7%A5"><span class="toc-number">5.6.</span> <span class="toc-text">（六）全双工、半双工</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%B8%83%EF%BC%89%E5%86%B2%E7%AA%81%E5%9F%9F%E3%80%81%E5%B9%BF%E6%92%AD%E5%9F%9F"><span class="toc-number">5.7.</span> <span class="toc-text">（七）冲突域、广播域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E5%85%AB%EF%BC%89%E7%BD%91%E5%85%B3"><span class="toc-number">5.8.</span> <span class="toc-text">（八）网关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%B9%9D%EF%BC%89%E6%B3%9B%E6%B4%AA"><span class="toc-number">5.9.</span> <span class="toc-text">（九）泛洪</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%90%84%E5%B1%82%E4%BB%8B%E7%BB%8D"><span class="toc-number">6.</span> <span class="toc-text">六、各层介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E7%AC%AC%E4%B8%83%E5%B1%82%EF%BC%89%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%88Application%EF%BC%89"><span class="toc-number">6.1.</span> <span class="toc-text">（第七层）应用层（Application）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E7%AC%AC%E5%85%AD%E5%B1%82%EF%BC%89%E8%A1%A8%E7%A4%BA%E5%B1%82%EF%BC%88Presentation%EF%BC%89"><span class="toc-number">6.2.</span> <span class="toc-text">（第六层）表示层（Presentation）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E7%AC%AC%E4%BA%94%E5%B1%82%EF%BC%89%E4%BC%9A%E8%AF%9D%E5%B1%82%EF%BC%88Session%EF%BC%89"><span class="toc-number">6.3.</span> <span class="toc-text">（第五层）会话层（Session）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E7%AC%AC%E5%9B%9B%E5%B1%82%EF%BC%89%E4%BC%A0%E8%BE%93%E5%B1%82%EF%BC%88Transport%EF%BC%89-lt-%E6%95%B0%E6%8D%AE%E6%AE%B5-gt"><span class="toc-number">6.4.</span> <span class="toc-text">（第四层）传输层（Transport）&lt;数据段&gt;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E7%AC%AC%E4%B8%89%E5%B1%82%EF%BC%89%E7%BD%91%E7%BB%9C%E5%B1%82-Network-lt-%E6%95%B0%E6%8D%AE%E5%8C%85-gt"><span class="toc-number">6.5.</span> <span class="toc-text">（第三层）网络层(Network)&lt;数据包&gt;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E7%AC%AC%E4%BA%8C%E5%B1%82%EF%BC%89%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82-Data-Link-Layer-lt-%E6%95%B0%E6%8D%AE%E5%B8%A7-gt"><span class="toc-number">6.6.</span> <span class="toc-text">（第二层）数据链路层(Data Link Layer)&lt;数据帧&gt;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AA%E5%AD%90%E5%B1%82"><span class="toc-number">6.6.1.</span> <span class="toc-text">两个子层</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#LLC%E5%AD%90%E5%B1%82%EF%BC%9A"><span class="toc-number">6.6.1.1.</span> <span class="toc-text">LLC子层：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MAC%E5%AD%90%E5%B1%82%EF%BC%9A"><span class="toc-number">6.6.1.2.</span> <span class="toc-text">MAC子层：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E7%AC%AC%E4%B8%80%E5%B1%82%EF%BC%89%E7%89%A9%E7%90%86%E5%B1%82-Physical-Layer-lt-%E6%AF%94%E7%89%B9-gt"><span class="toc-number">6.7.</span> <span class="toc-text">（第一层）物理层(Physical Layer)&lt;比特&gt;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E5%AE%9A%E4%B9%89"><span class="toc-number">6.7.1.</span> <span class="toc-text">1、定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E4%BB%8B%E8%B4%A8"><span class="toc-number">6.7.2.</span> <span class="toc-text">2、介质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E8%AE%BE%E5%A4%87"><span class="toc-number">6.7.3.</span> <span class="toc-text">3、设备</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%B0%81%E8%A3%85%E3%80%81%E8%A7%A3%E5%B0%81%E8%A3%85"><span class="toc-number">7.</span> <span class="toc-text">七、封装、解封装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%B0%81%E8%A3%85"><span class="toc-number">7.1.</span> <span class="toc-text">（一）封装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E5%AE%9A%E4%B9%89-1"><span class="toc-number">7.1.1.</span> <span class="toc-text">1、定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%8A%A8%E4%BD%9C"><span class="toc-number">7.1.2.</span> <span class="toc-text">2、动作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E5%B0%81%E8%A3%85%E5%8E%9F%E5%88%99"><span class="toc-number">7.1.3.</span> <span class="toc-text">3、封装原则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4%E3%80%81%E5%B0%81%E8%A3%85%E7%9A%84%E5%BF%85%E8%A6%81%E5%8F%82%E6%95%B0"><span class="toc-number">7.1.4.</span> <span class="toc-text">4、封装的必要参数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E8%A7%A3%E5%B0%81%E8%A3%85"><span class="toc-number">7.2.</span> <span class="toc-text">（二）解封装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E5%AE%9A%E4%B9%89-2"><span class="toc-number">7.2.1.</span> <span class="toc-text">1、定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%8A%A8%E4%BD%9C-1"><span class="toc-number">7.2.2.</span> <span class="toc-text">2、动作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E8%A7%A3%E5%B0%81%E8%A3%85%E5%8E%9F%E5%88%99"><span class="toc-number">7.2.3.</span> <span class="toc-text">3、解封装原则</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89PDU"><span class="toc-number">7.3.</span> <span class="toc-text">（三）PDU</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B%E8%AF%B4%E6%98%8E"><span class="toc-number">8.</span> <span class="toc-text">八、通信流程说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89A%E2%80%94%E2%80%94B%E9%80%9A%E4%BF%A1%E8%AF%B4%E6%98%8E%EF%BC%88%E6%8C%89OSI%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B%EF%BC%89"><span class="toc-number">8.1.</span> <span class="toc-text">（一）A——B通信说明（按OSI七层模型）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89A%E2%80%94%E2%80%94B%E9%80%9A%E4%BF%A1%E8%AF%B4%E6%98%8E%EF%BC%88%E6%8C%89%E5%AE%9E%E9%99%85%EF%BC%89"><span class="toc-number">8.2.</span> <span class="toc-text">（二）A——B通信说明（按实际）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E6%80%BB%E4%BD%93%E5%8E%9F%E5%88%99"><span class="toc-number">8.2.1.</span> <span class="toc-text">1、总体原则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%B1%80%E5%9F%9F%E7%BD%91%EF%BC%88LAN%EF%BC%89%E9%80%9A%E4%BF%A1%E6%AD%A5%E9%AA%A4"><span class="toc-number">8.2.2.</span> <span class="toc-text">2、局域网（LAN）通信步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E5%B9%BF%E5%9F%9F%E7%BD%91%EF%BC%88WAN%EF%BC%89%E9%80%9A%E4%BF%A1%E6%AD%A5%E9%AA%A4"><span class="toc-number">8.2.3.</span> <span class="toc-text">3、广域网（WAN）通信步骤</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/10/11/14-BGP/" title="14、BGP">14、BGP</a><time datetime="2020-10-11T09:08:28.000Z" title="发表于 2020-10-11 17:08:28">2020-10-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/06/18/12-RIP/" title="12、RIP">12、RIP</a><time datetime="2020-06-18T02:25:00.000Z" title="发表于 2020-06-18 10:25:00">2020-06-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/06/18/13-ospf/" title="13、ospf">13、ospf</a><time datetime="2020-06-18T02:25:00.000Z" title="发表于 2020-06-18 10:25:00">2020-06-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/05/04/11-route-basic/" title="11、路由基础及静态路由">11、路由基础及静态路由</a><time datetime="2020-05-04T02:25:00.000Z" title="发表于 2020-05-04 10:25:00">2020-05-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/04/14/10-cisco-ios/" title="10、设备管理及cisco IOS基础配置">10、设备管理及cisco IOS基础配置</a><time datetime="2020-04-14T03:42:18.000Z" title="发表于 2020-04-14 11:42:18">2020-04-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2022 By Rookie</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://renyuan431.github.io/2019/11/18/OSI-7/'
+    this.page.identifier = '2019/11/18/OSI-7/'
+    this.page.title = '5、OSI七层模型'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://newnotebook.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = '/posts/,/about/'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.akilar.top/api?renyuan431",['#e4dfd7', '#f9f4dc', '#f7e8aa', '#f7e8aa', '#f8df72', '#fcd217', '#fcc515', '#f28e16', '#fb8b05', '#d85916', '#f43e06'],'renyuan431')
+    }
+  </script><!-- hexo injector body_end end --></body></html>

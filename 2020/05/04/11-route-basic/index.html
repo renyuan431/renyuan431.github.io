@@ -1,0 +1,629 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>11、路由基础及静态路由 | Rookie的博客</title><meta name="author" content="Rookie"><meta name="copyright" content="Rookie"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="路由的基本概念路由 Routing is the process of selecting a path for traffic in a network or between or across multiple networks. In packet switching networks, routing is the higher-level decision making that dir">
+<meta property="og:type" content="article">
+<meta property="og:title" content="11、路由基础及静态路由">
+<meta property="og:url" content="https://renyuan431.github.io/2020/05/04/11-route-basic/index.html">
+<meta property="og:site_name" content="Rookie的博客">
+<meta property="og:description" content="路由的基本概念路由 Routing is the process of selecting a path for traffic in a network or between or across multiple networks. In packet switching networks, routing is the higher-level decision making that dir">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://renyuan431.github.io/img/index.jpg">
+<meta property="article:published_time" content="2020-05-04T02:25:00.000Z">
+<meta property="article:modified_time" content="2022-01-17T07:23:50.177Z">
+<meta property="article:author" content="Rookie">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://renyuan431.github.io/img/index.jpg"><link rel="shortcut icon" href="/img/avatar.jpg"><link rel="canonical" href="https://renyuan431.github.io/2020/05/04/11-route-basic/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '11、路由基础及静态路由',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-17 15:23:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/index.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Rookie的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">11、路由基础及静态路由</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-05-04T02:25:00.000Z" title="发表于 2020-05-04 10:25:00">2020-05-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-17T07:23:50.177Z" title="更新于 2022-01-17 15:23:50">2022-01-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">26.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>85分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="11、路由基础及静态路由"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="路由的基本概念"><a href="#路由的基本概念" class="headerlink" title="路由的基本概念"></a>路由的基本概念</h1><h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><blockquote>
+<p>Routing is the process of selecting a path for traffic in a network or between or across multiple networks.</p>
+<p>In packet switching networks, routing is the higher-level decision making that directs network packets from their source toward their destination through intermediate network nodes by specific packet forwarding mechanisms.</p>
+</blockquote>
+<p>路由是指在一个网络中或多个网络之间或跨多个网络的流量选择路径的过程。路由是指通过特定的数据包转发机制，将网络数据包从源头通过中间网络节点向目的地方向引导网络数据包的高级决策。路由过程通常根据路由表指导转发。<strong>路由是一个三层（网络层）的概念</strong>。</p>
+<p>当路由器（或者其他三层设备）收到一个 IP 数据包，路由器会找出 IP 包三层头中的目的 IP地址，然后拿着目的IP地址到自己的路由表中进行查找，找到“最匹配”的条目后，将数据包根据路由条目所 指示的出接口或下一跳 IP 转发出去，这就是 IP 路由（IP routing） 。而每台路由器都会在本地维护一个路由表 （Routing Table） ，路由表中装载着路由器获知的路由条目（Routes） ，路由条目由路由前缀（路由所关联的目的 地） 、路由信息来源、出接口或下一跳 IP 等元素构成。路由器通过静态的或者动态的方式获取路由条目并维护自 己的路由表。</p>
+ <span id="more"></span>  
+
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_12-17-05.jpg" alt="Snipaste_2020-05-05_12-17-05"></p>
+<p>具体到这张图上来说，PC1要和PC2进行通信，路由“指挥”着数据沿着红色箭头的路径一路传到了PC2。但路由器如何知道该如何传递数据呢？是因为路由器在收到数据以后查询了本机的路由表。</p>
+<h3 id="一些基本概念"><a href="#一些基本概念" class="headerlink" title="一些基本概念"></a>一些基本概念</h3><h4 id="路由收敛"><a href="#路由收敛" class="headerlink" title="路由收敛"></a>路由收敛</h4><p>路由收敛指网络的拓扑结构发生变化后，路由表重新建立到发送再到学习直至稳定，并通告网络中所有相关路由器都得知该变化的过程。也就是网络拓扑变化引起的通过重新计算路由而发现替代路由的行为。路由的收敛时间是指从网络的拓扑结构发生变化到网络中所有路由设备中路由表重新保持一致的状态转换过程。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-14_17-27-23.jpg" alt="Snipaste_2020-05-14_17-27-23"></p>
+<p>比如之前R4发送到R6数据是通过两者的G0/0直接发送，如果当两者之间G0/0直连的线路出现故障：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-14_17-29-41.jpg" alt="Snipaste_2020-05-14_17-29-41"></p>
+<p>也就是网络的拓扑结构发生了变化，那么R4之前的路由表要发生变化，并且要重新查找去往R6的路由，最后发现可以通过R4-R5然后到达R6，然后R4重新构筑路由表，把前往R6网段的路径由R4-R6变更为R4-R5-R6，当链路上所有路由器的路由表都包含相同的网络可达信息，路由表不再发生变化进入一个稳定状态后，说明路由器的路由表收敛完毕。</p>
+<h4 id="通信是双向的"><a href="#通信是双向的" class="headerlink" title="通信是双向的"></a>通信是双向的</h4><p>绝大部分的通信是双向的，这是由应用层的程序的功能决定的，所以在传输数据时要有来回的路由，比如R1-R2-R3三台路由器，R1需要和R3通信，R1需要有R3的路由这个大多数人都明白，因为没有R3的路由表R1不知道将数据如何发送，但R3也需要有R1的路由这个可能有一些人会忽略或不理解，这是因为常见的绝大多数应用层的应用程序是需要双向交互的，比如常用的检测链路是否通常的ICMP中的PING命令，当R1   ping  R3时，你发送出去了ICMP request（需要R1到R3的路由），对方要回复ICMP reply（需要R3到R1的路由），如果没有这个ICMP reply，R1就不知道ping通与否，所以这个通信是需要来回双向通信的。还有很多软件在传输层用TCP协议，又因为TCP的三次握手是双向的，所以这种情况下同时需要双向的路由，既要能去也要能回。当然也有少数的应用，比如IPTV，纯单向应用，单纯的把节目的流量推送给用户即可，不需要返回什么东西，这种情况下只有单项路由就可以了。</p>
+<h4 id="动态路由协议端口号或协议号"><a href="#动态路由协议端口号或协议号" class="headerlink" title="动态路由协议端口号或协议号"></a>动态路由协议端口号或协议号</h4><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-10_11-08-18.jpg" alt="Snipaste_2020-06-10_11-08-18"></p>
+<h4 id="有类路由、无类路由"><a href="#有类路由、无类路由" class="headerlink" title="有类路由、无类路由"></a>有类路由、无类路由</h4><p>CISCO 路由器在路由的全局查找上有两种方式：有类（Classful）查找方式及无类（Classless）查找方式。 当路由器执行无类别路由查找时（默认，ip classless），它不会注意目的地址的类别，它会在目的地址和所有 己知的路由之间逐位(bit by bit)执行最长匹配； 而如果是有类路由查找（no ip classless 且关闭ip cef） ，那么收到一个数据包时，路由器先查找目的地址所 属主类，如果路由表中有主类路由，则再去找子网，如果有子网路由，则查询被限定在这些子网中，并进一步查 找，如果最终查找失败（没有任何子网匹配这条路由） ，则丢弃数据包，即使有默认路由存在；如果本地没有该主 类路由，则看是否有默认路由，如果有，则按默认路由转发，如果无，则丢弃数据包。</p>
+<p>目前基本所有在用的网络设备都是无类方式，有类如果看一遍不太懂可以暂时不看。</p>
+<h4 id="loopback接口"><a href="#loopback接口" class="headerlink" title="loopback接口"></a>loopback接口</h4><ol>
+<li>Loopback接口，也叫环回口，是一个逻辑的、虚拟的接口；</li>
+<li>使用全局配置命令interface loopback 加上接口编号可创建一个Loopback接口，创建完成后即可为接口配置IP地址； </li>
+<li>Loopback接口在手工创建后，除非人为shutdown，否则不会DOWN掉；</li>
+<li>Loopback接口常用于： </li>
+</ol>
+<ul>
+<li>模拟路由器的直连网段，可用于测试； </li>
+<li>可用于设备管理（Loopback接口比较稳定，如果用其他接口的话，如果路由器的某一个接口由于故障down 掉了，但是其他的接口却仍旧可以telnet ，也就是说，到达这台路由器的TCP连接依旧存在，用Loopback接口就能成功Telnet这台设备。）； </li>
+<li>供其他协议使用，例如OSPF、BGP、MPLS等，通常用作Router ID；</li>
+<li>SNMPTraps消息的源地址； </li>
+</ul>
+<h2 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h2><h3 id="路由表的概念"><a href="#路由表的概念" class="headerlink" title="路由表的概念"></a>路由表的概念</h3><blockquote>
+<p>In computer networking a routing table, or routing information base (RIB), is a data table stored in a router or a network host that lists the routes to particular network destinations, and in some cases, metrics (distances) associated with those routes. The routing table contains information about the topology of the network immediately around it.</p>
+</blockquote>
+<p>在计算机网络世界中，路由表，或者路由信息表（RIB），是存储在路由器或网络主机上的数据表，数据表中列出了去往特定网络目的地的路由，在某些情况下，还列出了与这些路由相关的度量值（距离）。路由表包含有关其周围网络拓扑的信息。</p>
+<ul>
+<li>每一台<strong>路由器、防火墙或三层交换机等三层设备</strong>都会维护一个路由表，在路由表中包含着路由器发现的路由（路由条目、路由表项）； </li>
+<li>路由表相当于路由器的地图，路由器能够正确转发IP报文的前提是在其路由表中存在匹配该数据包目的IP地址的路由条目； </li>
+<li>路由表中的路由条目获取来源有多种：直连路由、静态路由及动态路由协议。</li>
+<li>路由表储存在RAM中，一般包括–源信息, 网络地址和子网掩码, 下一跳路由的IP地址</li>
+</ul>
+<p>举一个不太严谨的例子，路由表有点像我们去一个不认识地方时候问那附近的人路该怎么走，知道下一步如何走的这个人的功能类似于路由表。</p>
+<h3 id="路由表的构成"><a href="#路由表的构成" class="headerlink" title="路由表的构成"></a>路由表的构成</h3><p>每个路由表项最少必须包括下面三个项目： </p>
+<ul>
+<li>目标地址（路由前缀） ： 这是路由条目所关联的目的网络号。一条完整的路由前缀由：网络号+前缀长度构成，两者缺一不可，例如 192.168.1.0/24 与 192.168.1.0/25，虽然两者的网络号相同，都是 192.168.1.0，但 是两者绝对是两条不同的路由、两个不同的路由前缀，因为他们的前缀长度不相同。 </li>
+<li>指向目标的指针： 指针不是指向路由器的直连目标网络就是指向直连网络内的另一台路由器地址,或者是到这个链路的本地接口。更接近目标网络一跳的路由器叫下一跳(next hop)路由器。 </li>
+<li>路由信息的来源： 本条路由是通过什么途径学习到的，例如是静态的，或者是通过 OSPF、IS-IS、 EIGRP、BGP 等动态路由学习到的。 </li>
+</ul>
+<h3 id="如何查看路由表"><a href="#如何查看路由表" class="headerlink" title="如何查看路由表"></a>如何查看路由表</h3><p>查看路由表的命令为：show ip route</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-50-46.jpg" alt="Snipaste_2020-05-04_19-50-46"></p>
+<p>上图中的C表示直连路由，S表示静态路由。其他常用的路由获取来源还有O，也就是通过OSPF协议获得的，以及D，通过EIGRP协议获得。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-57-10.jpg" alt="Snipaste_2020-05-04_19-57-10"></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_19-58-52-1588593580832.jpg" alt="Snipaste_2020-05-04_19-58-52"></p>
+<p>思科路由器接口开机以后默认是关闭状态，必须到接口中使用“no shutdown”命令将接口开启，路由表才能更新该路由。</p>
+<h2 id="路由条目获取的来源"><a href="#路由条目获取的来源" class="headerlink" title="路由条目获取的来源"></a>路由条目获取的来源</h2><h3 id="直连路由"><a href="#直连路由" class="headerlink" title="直连路由"></a>直连路由</h3><h4 id="直连路由定义"><a href="#直连路由定义" class="headerlink" title="直连路由定义"></a>直连路由定义</h4><p>路由器的直连接口所在网络的信息。这种路由不需要手工进行添加，只要端口连通信正常即可自动加入路由表。</p>
+<h4 id="直连路由产生条件"><a href="#直连路由产生条件" class="headerlink" title="直连路由产生条件"></a>直连路由产生条件</h4><ol>
+<li>接口配置IP地址</li>
+<li>接口状态是UP</li>
+</ol>
+<p><strong>在满足以上两个条件时，直连路由自动产生，自动填充到路由表中。</strong></p>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-02-48.jpg" alt="Snipaste_2020-05-05_13-02-48"></p>
+<p>R1的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-04-11.jpg" alt="Snipaste_2020-05-05_13-04-11"></p>
+<p>R1的路由表中有两条路由，一条前缀为C的路由表示这条路由的性质是connect，也就是靠直连获得的，这条路由是通往192.168.12.0/24这个网段的，出口是G0/0，也就是说如果收到一个目标IP地址是属于192.168.12.0网段的消息，将它从G0/0接口发出即可，这条直连路由是由R2的G0/1接口提供的，图中R1的G0/0接口和R2的G0/1接口直接连接；另一条前缀为L表示这条路由的性质为local，也就是本地路由，这条路由目的地址是192.168.12.1/32这个IP地址，连接到G0/0接口，这条路由是由本地的G0/0接口提供的。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_14-13-09.jpg" alt="Snipaste_2020-05-05_14-13-09"></p>
+<p>要注意的是，R2的G0/1接口和R1的G0/0接口直接连接，所以R1只有R2的G0/1这个直连接口，也就是192.168.12.0/24这个网段的路由，但并没有R2的G0/0，192.168.23.0/24这个网段的路由，因为R2的G0/0接口和R1不直接连接。</p>
+<p>R2的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-06-22.jpg" alt="Snipaste_2020-05-05_13-06-22"></p>
+<p>R2的路由表中有四条路由，两条本地路由两条直连路由。两条本地路由分别由G0/1和G0/0提供，目的地址分别是192.168.12.2/32以及192.168.23.2/32这两个IP地址。两条直连路由其中一条是由R1的G0/0提供的192.168.12.0/24网段的路由，因为R1的G0/0和R2的G0/1直连；另一条直连路由是由R3的G0/0提供的192.168.23.0/24网段的路由，因为R3的G0/0接口和R2的G0/0接口直连。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_14-14-58.jpg" alt="Snipaste_2020-05-05_14-14-58"></p>
+<p>R3的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-07-45.jpg" alt="Snipaste_2020-05-05_13-07-45"></p>
+<p>R3的路由表中有两条路由，一条本地路由一条直连路由，本地路由是到192.168.23.3/32这个IP地址的，由G0/0接口提供；直连路由时由R2的G0/0接口提供的到192.168.23.0/24这个网段的路由，因为R2的G0/0和R3的G0/0直连。</p>
+<p>这里也要注意，R3只有R2的G0/0这个接口IP地址所处的网段，192.168.23.0/24的路由因为两者直连，但并没有R2的G0/1接口IP地址所处网段192.168.12.0/24的路由，因为R2的G0/1接口不和R3直连。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_14-24-19.jpg" alt="Snipaste_2020-05-05_14-24-19"></p>
+<p>如果其中一个接口和对端的连通性出了问题，比如R2的G0/0或对端对应的接口（R3的G0/0）如果被shutdown或中间网线断开连接，则192.168.23.0这条路由会在R2的路由表中消失。直连的网络是指R1和R2之间，R2和R3之间这种中间没有其他三层设备的情况，R1和R3之间因为有R2路由器隔离了三层，不处于相同的广播域所以不算直连。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-04_20-32-23.jpg" alt="Snipaste_2020-05-04_20-32-23"></p>
+<p> <a href="/download/static-route.zip">实验文件下载</a></p>
+<p>此文件在EVE模拟器中使用，IOS如下图，我这个实验用的是VIOS，如果你的EVE里没有这个IOS记得在设备开机前对设备点击右键将设备的IOS换成其他的。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_13-08-48.jpg" alt="Snipaste_2020-05-05_13-08-48"></p>
+<h3 id="静态路由"><a href="#静态路由" class="headerlink" title="静态路由"></a>静态路由</h3><p>静态路由就是由手工为路由器添加的静态路由条目。</p>
+<h3 id="动态路由"><a href="#动态路由" class="headerlink" title="动态路由"></a>动态路由</h3><p>通过在路由器上运行动态路由协议，使得路由器之间能够交互“用于路由计算的信息”，从而路由器动态的“学习”到网络中的路由。</p>
+<h2 id="路由协议"><a href="#路由协议" class="headerlink" title="路由协议"></a>路由协议</h2><h3 id="路由协议的定义"><a href="#路由协议的定义" class="headerlink" title="路由协议的定义"></a>路由协议的定义</h3><blockquote>
+<p>A routing protocol specifies how routers communicate with each other to distribute information that enables them to select routes between any two nodes on a computer network. Routers perform the “traffic directing” functions on the Internet; data packets are forwarded through the networks of the internet from router to router until they reach their destination computer. Routing algorithms determine the specific choice of route. Each router has a prior knowledge only of networks attached to it directly. A routing protocol shares this information first among immediate neighbors, and then throughout the network. This way, routers gain knowledge of the topology of the network. The ability of routing protocols to dynamically adjust to changing conditions such as disabled data lines and computers and route data around obstructions is what gives the Internet its fault tolerance and high availability.</p>
+</blockquote>
+<p>路由协议规定了路由器之间如何交换选路信息，这些选路信息使得路由器能够在计算机网络上的任意两个节点之间选择路径，并利用选择出的路径发送数据。路由器在互联网上承担了“流量指挥”的功能。数据在互联网上从一个路由器传递到另一个路由器直到到达目的计算机。路由算法决定了选择路径的方式。正常连接情况下每个网段只知道自己直连的网段。路由协议首先会在直连的邻居之间共享路由信息，然后在整个网络中共享这些信息，这样一来路由器就获得了网络拓扑的结构。路由器能够根据不断变化的网络情况（如线路中断或计算机宕机）进行动态调节，使得被路由数据传输能绕开障碍设备传递，这就是互联网具有容错性和高可用性的原因。</p>
+<h3 id="路由协议的分类"><a href="#路由协议的分类" class="headerlink" title="路由协议的分类"></a>路由协议的分类</h3><p><img src="/2020/05/04/11-route-basic/Cisco-CCNA-static-routing-2.jpg" alt="Cisco-CCNA-static-routing-2"></p>
+<h4 id="静态路由协议"><a href="#静态路由协议" class="headerlink" title="静态路由协议"></a>静态路由协议</h4><p>根据数据访问需求手工在每台设备上进行静态路由条目的创建。静态路由协议只能知道局部地点的静态信息，因为运行了静态路由协议的路由器之间<strong>不会</strong>互相交换网络信息，所以它不知道网络整体是如何连接的，只知道手动添加的那些局部地点的路由。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_12-41-09.jpg" alt="Snipaste_2020-05-05_12-41-09"></p>
+<p>从前一节的知识可知，R1和R2之间是直连的，因为中间没有其他三层设备，所以R1只知道和它直连的R2的路由信息，192.168.12.0网段如何去，但由于R2的另一个接口2.2.2.0/24并未和R1直连，所以R1的路由表中并没有该网段的信息，R1即使收到去往2.2.2.0/24网段的数据也不知道如何处理只能丢弃，因为路由表中并没有去往该网段的路由条目。这时候为了让数据在R1上被正确发送，我们可以手工添加一条静态路由到路由表中，让路由器知道如何处理，添加完静态路由后，路由表中即会出现2.2.2.0/24这个网段的路由条目。</p>
+<p>举一个不太恰当的例子说明一下加深理解，静态路由生成的路由条目有点类似咱们看到的静态的指路牌，每个路标相当于静态路由中的一个路由条目，这些路牌的信息都是静态的，不能自己动态更新必须由人工添加或修改，静态路牌没有路况状态的实时信息，不知道所指出的路径是畅通还是拥堵，也不知道指出的路还能否到达目的地，比如你想下山，这个路牌上指出了下山的方向，只要不人为的翻修、更新这个路牌的信息，它会一直指着同一个方向，但按静态路牌走能不能下山，下山这条路上是否拥堵，一概不知道，因为静态路牌没法动态的知道这条路上的路况以及这条路情况是否现在还能够通往下山。这就是前面说的静态路由只知道局部地点的静态信息的大概比喻。</p>
+<p><img src="/2020/05/04/11-route-basic/65498746456-1589792877010.jpg" alt="65498746456"></p>
+<h4 id="动态路由协议"><a href="#动态路由协议" class="headerlink" title="动态路由协议"></a>动态路由协议</h4><p>路由器自动进行路由或用于路由计算的相关信息的更新和同步，并且当网络拓扑变更时，能够动态收敛。 </p>
+<p>由于静态路由协议需要手工配置每一条路由条目，使得静态路由协议在大规模的网络中（例如跨国企业的网络、ISP运行商网络）使用起来十分困难，为了解决这个问题动态路由协议应运而生，动态路由协议可以让路由器自动学习到其他路由器的网络信息，每台路由器根据所掌握的全网的网络信息，<strong>以自我为中心计算出</strong>去往网络中各网段应如何转发生成相应路由表（和别的设备交换的只是网络的信息，根据这些信息每台路由器独立计算出本路由器的路由表，计算出路由表的这个过程不会和别的路由器协商），并且在网络拓扑发生改变后能自动获取变化后的网络信息，并根据之前获取和新获取的信息自动重新计算更新路由表。网络管理员只需要配置动态路由协议即可，相比人工指定转发策略，工作量大大减少。常见的动态路由协议有：OSPF，BGP，IS-IS，RIP，EIGRP等。</p>
+<p>在动态路由中，管理员不再需要与静态路由一样，手工对路由器上的路由表进行维护，而是在每台路由器上运行一个路由协议。这个路由协议会根据路由器上的接口的配置（如IP地址的配置）及所连接的链路的状态信息，计算并生成路由表中的路由表项。当网络拓扑结构改变时动态路由协议可以自动更新路由表，并负责决定数据传输最佳路径。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_15-37-51.jpg" alt="Snipaste_2020-05-05_15-37-51"></p>
+<p>当R1和R2的所有接口都运行了动态路由协议时，R1和R2就能互相交互路由信息，使得路由器动态的“学习”到网络中其他运行了相同动态路由协议设备上的路由信息，并更新自己的路由表。上图中的R1和R2在运行相同动态路由协议的情况下，R1就能“学习”到R2上2.2.2.0/24的信息，然后独立计算出前往该网段的最佳路由添加到自身的路由表中以便以后使用。</p>
+<p>举个不太恰当的例子方便理解，动态路由协议有点像底下视频中这个动态指路牌，首先动态路牌里的系统会学习并掌握到整个城市的地图以及实时的路径拥堵情况，而且是动态更新的，不管道路是拥塞、中断或畅通，这个电子动态路牌中的系统都会掌握并实时更新，并根据这些动态更新的路况计算出去往目的地最佳的路径，然后动态更新路牌的指路方向。这个动态路牌获取的是一个动态的全城的路径数据信息或者叫数据库更为准确一些，然后基于这个动态数据库自己计算出自己的动态路标。</p>
+<iframe src="//player.bilibili.com/player.html?aid=5842876&bvid=BV1Fs411k7B8&cid=9488192&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+<h5 id="距离矢量路由协议"><a href="#距离矢量路由协议" class="headerlink" title="距离矢量路由协议"></a>距离矢量路由协议</h5><h6 id="距离矢量的概念"><a href="#距离矢量的概念" class="headerlink" title="距离矢量的概念"></a>距离矢量的概念</h6><p>距离矢量（distance vector）：距离矢量路由协议根据距离确定数据包的最佳路由。距离矢量路由协议用数据包经过路由器的数量来定义距离，当数据传递经过一个路由器时，算作一跳。有些距离矢量路由协议也加入了延迟或其他因素来决定路由的传递（eigrp协议）。为了确定通往一个网络号的最佳路径，运行了距离矢量路由协议的路由器会互相交换信息，它们交换的信息通常是路由表加上到目标网络的跳数，有时候还有一些其他的流量信息，比如上面提到的延迟。距离矢量路由协议通常还要求路由器定期通知其邻居关于网络拓扑的变化。距离矢量协议使用<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm">Bellman–Ford</a>算法和<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm">Ford–Fulkerson</a>算法来计算最佳路径。</p>
+<p>距离矢量路由协议是“基于传闻的路由协议”，A发路由信息给B，B加上自己的度量值又发给C，路由表里的条目是听来的，每个路由器都不知道整个网络的拓扑是什么样，只知道自身与目标网络之间的距离，以及应该往哪个方向或使用哪个接口转发数据包。距离矢量路由协议选出最优路径的同时也可能会引发环路问题，它使用水平分割、毒性逆转以及触发更新等机制来避免环路。距离矢量路由协议一般采用定期更新、广播更新、路由表更新的方式更新路由表。</p>
+<p>做一个不太恰当的比喻，距离矢量路由协议的工作过程有点类似于你到上海旅游想去迪士尼公园，出了旅馆的门到一个十字路口不知道该怎么走了，你就在十字路口附近问别人，要去迪士尼乐园我应该在这个路口怎么拐？被问的这个人告诉你，他也不是本地人不认识上海也没去过迪士尼，但他听别人（基于传闻的路由）说从这右拐（左拐）这个方向就是去迪士尼。距离矢量协议的工作特点就是路由一跳一跳的传递，到了一个路由器（十字路口）查了路由表（问别人如何去迪士尼）才知道下一跳应该从哪个接口发送出去是去迪士尼的大致方向（左拐或右拐），但路上被问路的人除了最后一个人确切知道迪士尼公园肯定是在哪以外，其他人既不知道迪士尼公园的确切位置，也不知道上海整体的地图是什么样，它们唯一知道的只是别人告诉他去迪士尼大概的方向是哪，应该怎么走。</p>
+<p>距离矢量协议除了BGP、EIGRP可能在现网中有部署以外，其他的比如RIP协议已经几乎不可能在现网中看到了。</p>
+<h6 id="最大跳数"><a href="#最大跳数" class="headerlink" title="最大跳数"></a>最大跳数</h6><p>距离矢量协议中的“距离”也称为“跳数”（hop），每经过一个路由器，跳数就增加1，距离矢量协议使用最大跳数来避免环路，超过最大跳数则说明该路由不可达。例如在RIP协议中，一条路径只能包含15个路由器，也就是一条路由最大只能经过15跳，当距离（跳数）为16时，则说明这条路由不可达。</p>
+<h6 id="水平分割"><a href="#水平分割" class="headerlink" title="水平分割"></a>水平分割</h6><p>水平分割（Split horizon route advertisement）是在距离矢量路由协议中<strong>防止环路</strong>的一种方式，是通过禁止路由器将所学到的路由条目通告给学到该路由条目的接口的方式实现的。用人话说就是从这个接口收到的路由，就不会再从这个接口发回去。</p>
+<p>举个例子：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-14_16-17-36.jpg" alt="Snipaste_2020-05-14_16-17-36"></p>
+<p>有R1、R2、R3三台路由器如上图所示连接好，全部运行距离矢量协议，根据水平分割原则，路由器R1不会将收到的关于R3的8.8.8.8的路由条目通告给R2，因为8.8.8.8的路由是由R3通告给R2，然后R2通告给R1的，R1是从R2学到的该路由，所以不会通告回R2，为了防止产生环路。我们来看看如果没有水平分割原则会如何，如果R2和R3的链路发生故障，R2没有了去往8.8.8.8网段的路由，如果没有水平分割原则，则R1会将8.8.8.8的路由回告给R2，这种情况下，R2通过R3去往8.8.8.8的路由条目此时消失了，因为G0/0口已经down了，获取的所有路由就会从路由表中消失，而R2收到了R1能去往8.8.8.8的路由，认为通过R1能到达8.8.8.8，所以此时R2会把发往8.8.8.8的路由发给R1，但R1的路由表上去往8.8.8.8的下一跳是R2，也就是要把去往8.8.8.8的数据发给R2，然后R2收到目的IP地址为8.8.8.8的数据后，路由表上去往8.8.8.8的下一跳是R1，数据又发给了R1，循环往复，就形成了环路，所以水平分割原则十分重要。</p>
+<h6 id="路由中毒"><a href="#路由中毒" class="headerlink" title="路由中毒"></a>路由中毒</h6><p>路由中毒（Route poisoning）。路由中毒是指在路由信息在路由表中失效时，先将度量值变为无穷大的数，而不是马上从路由表中删掉这条路由信息。 然后再将中毒路由信息发布出去，当相邻的路由器收到该中毒路由就可以通过其度量值为无穷大明白该路由是无效的。</p>
+<p>距离矢量路由协议使用路由中毒来告诉其他路由器，某条路由已经失效无法传送数据到目的地址，不要将该路由加入其他路由器的路由表。和具有毒性反转的水平分割不同，路由中毒会立刻向网络中所有节点发送某条路由的路由更新，这条路由更新中该路由的跳数为不可到达。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-14_16-17-36-1589447716551.jpg" alt="Snipaste_2020-05-14_16-17-36"></p>
+<p>依旧用这个拓扑来说明路由中毒，三台路由器依旧运行距离矢量路由协议，这里用RIP举例，在RIP协议中，不可达的metric为16跳，R1的8.8.8.8的路由是R3发送给R2然后再传递给R1的，如果R3到8.8.8.8的链路中断，那么在下次发送给其他路由器更新RIP的路由表中就不会有8.8.8.8这个网络，而R2 和R1由于RIP路由的过期时间为180秒，这两个路由器的路由表中依旧有8.8.8.8这个路由条目因为还没到老化删除该条目的时间所以依旧会存在。但除了R3以外其他路由器不会知道此时R3已经没法去往8.8.8.8了，在R1、R2收到发往8.8.8.8的数据时，还会发给R3，可能会导致环路的产生。路由中毒的做法是，当R3发现前往8.8.8.8的网络中断后，在下次发送路由更新时，依旧会有8.8.8.8这个条目并将其跳数变更为不可达的metric，在RIP中就是协议跳数最大值+1，15+1也就是16，因为16超过了跳数的协议最大值15，所以R2收到路由更新时会发现去往8.8.8.8的路由条目中的metric变为了16跳，也就是不可达，R2会立刻知道8.8.8.8网络不可达，无需等待180秒RIP条目老化才将其删除。</p>
+<h6 id="毒性反转"><a href="#毒性反转" class="headerlink" title="毒性反转"></a>毒性反转</h6><p>毒性反转（Poison Reverse），和水平分割功能类似，也是在网络中避免环路的原则。它是指收到路由中毒消息的路由器，不遵守水平分割原则将中毒的路由消息转发给所有的相邻路由器，也包括发送中毒信息的源路由器，也就是通告相邻路由器这条路由信息己失效了。主要目的是达到快速收敛的目的。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-14_16-17-36-1589447716551.jpg" alt="Snipaste_2020-05-14_16-17-36"></p>
+<p>依旧用上面的拓扑来解释毒性反转，三台路由器依旧运行距离矢量路由协议，这里用RIP举例，在RIP协议中，不可达的metric为16跳，R1的8.8.8.8的路由是R3发送给R2然后再传递给R1的，如果R3到8.8.8.8的链路中断，那么在下次发送给其他路由器更新RIP的路由表中就不会有8.8.8.8这个网络，而R2 和R1由于RIP路由的过期时间为180秒，这两个路由器的路由表中依旧有8.8.8.8这个路由条目因为还没到老化删除该条目的时间所以依旧会存在。但除了R3以外其他路由器不会知道此时R3已经没法去往8.8.8.8了，在R1、R2收到发往8.8.8.8的数据时，还会发给R3，可能会导致环路的产生。前面说过此时就该路由中毒出场了，路由中毒做法是，当R3发现前往8.8.8.8的网络中断后，在下次发送路由更新时，依旧会有8.8.8.8这个条目并将其跳数变更为不可达的metric，在RIP中就是协议跳数最大值+1，15+1也就是16，因为16超过了跳数的协议最大值15，所以R2收到路由更新时会发现去往8.8.8.8的路由条目中的metric变为了16跳，也就是不可达，R2会立刻知道8.8.8.8网络不可达，无需等待180秒RIP条目老化才将其删除。此时路由中毒已经完成任务了，接下来毒性反转原则，是将带有无穷大metric的这条8.8.8.8的路由发送给R1而且会不遵守水平分割原则，这样会大大加快网络的收敛速度。</p>
+<h6 id="水平分割、毒性反转、路由中毒"><a href="#水平分割、毒性反转、路由中毒" class="headerlink" title="水平分割、毒性反转、路由中毒"></a>水平分割、毒性反转、路由中毒</h6><p>再用个例子来更好的说明这三个概念。R1和R2运行RIP V2，均宣告了自己的loop0接口和G0/0接口网段进RIP，彼此路由表中均有对方loop0的路由条目。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-17_15-45-46.jpg" alt="Snipaste_2020-06-17_15-45-46"></p>
+<p><strong>水平分割原则</strong>（Split Horizon）是从这个接口收到的路由，就不会再从这个接口发回去。R2通过G0/0从R1处学到了1.1.1.1的路由，根据水平分割原则，R2从G0/0学到的1.1.1.1的路由不会再通过G0/0发送回R1，抓包也能看出来，R2只向R1发送了自身2.2.2.2的路由条目：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-17_15-52-50.jpg" alt="Snipaste_2020-06-17_15-52-50"></p>
+<p><strong>路由中毒</strong>（Route Poisoning）是指在路由信息在路由表中失效时，先将度量值变为无穷大的数，而不是马上从路由表中删掉这条路由信息。 然后再将中毒路由信息发布出去，当相邻的路由器收到该中毒路由就可以通过其度量值为无穷大明白该路由是无效的。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-17_15-45-46.jpg" alt="Snipaste_2020-06-17_15-45-46"></p>
+<p>在这个例子中，我们将R1的loop1接口shutdown，这样这条1.1.1.1的RIP路由就在路由表中失效了，来抓包看看结果如何：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-17_17-02-36.jpg" alt="Snipaste_2020-06-17_17-02-36"></p>
+<p>此时R1在得知1.1.1.1的路由失效后，并没有删除该条路由而是立刻将该条路由的度量值变为无穷大，在RIP中就是16跳，并发送出去。</p>
+<p><strong>毒性反转</strong>（Poison Reverse）指的是收到路由中毒消息的路由器，不遵守水平分割原则将中毒的路由消息转发给所有的相邻路由器，也包括发送中毒信息的源路由器，也就是通告相邻路由器这条路由信息己失效了。在这里收到中毒消息的路由器是R2，按照毒性反转的定义，它应该违反水平分割原则，将带有中毒的路有消息发送给R1，现在来抓包看看：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-17_17-07-54.jpg" alt="Snipaste_2020-06-17_17-07-54"></p>
+<h6 id="触发更新"><a href="#触发更新" class="headerlink" title="触发更新"></a>触发更新</h6><p>触发更新（trigger update）。当路由表发生变化时，更新报文立即广播给相邻的所有路由器，而不是等待30秒的更新周期。同样，当一个路由器刚启动RIP时，它广播请求报文。收到此广播的相邻路由器立即应答一个更新报文，而不必等到下一个更新周期。这样，网络拓扑的变化会最快地在网络上传播开，减少了路由循环产生的可能性。</p>
+<h6 id="抑制计时器"><a href="#抑制计时器" class="headerlink" title="抑制计时器"></a>抑制计时器</h6><p>抑制计时器（hold-down timer）。一条路由信息无效之后，一段时间内这条路由都处于抑制状态，即在一定时间内不再接收关于同一目的地址的路由更新。大概过程是如果一个路由器从邻居路由器收到一条更新，提示以前可达的网络现在不可达了，或有一个更大跳数的路由，则路由器标识该路由为不可达并启动一个抑制计时器，如果在定时器到时之前收到该路由又可达的更新，或者新度量值比之前的度量值更好，则路由器标识这个路由可达并删除定时器。路由器从一个网段上得知一条路径失效，然后，立即在另一个网段上得知这个路由有效。这个有效的信息往往是不正确的，抑制计时避免了这个问题，而且，当一条链路频繁起停时，抑制计时减少了路由的浮动，增加了网络的稳定性。 </p>
+<h5 id="链路状态路由协议"><a href="#链路状态路由协议" class="headerlink" title="链路状态路由协议"></a>链路状态路由协议</h5><p>链路状态路由协议的工作流程是，发现其他同样运行了该链路状态路由协议的设备——所有设备交换相关链路信息——每个设备自己形成整体的连接图——每个设备独立计算最短路径形成路由表。首先运行了链路状态协议的所有节点共同构建一个连接图，这个连接图显示了网络上设备相互连接的情况。运行了该路由协议的节点会从本设备上所有可能的路径中，计算出本设备上的最佳下一跳是哪条路径，每个设备上最佳的路径构成了每个设备的路由表。</p>
+<p>链路状态路由协议有点像你用导航去迪士尼乐园，导航软件从一开始就知道整个上海的地图以及从你所在的地点到迪士尼乐园有哪些可能存在的路线，然后对这些潜在的路线进行比较，看看哪条路线拥堵哪条路径通畅，最后选择出一条最优的路线告诉你应该怎么走。</p>
+<h6 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h6><ol>
+<li>形成的路由表更加精确。链路状态路由协议是根究互相交换的LSA构成LSDB，在构成路由表，且路由表是在充分了解全网状况的条件下形成的，而距离矢量路由协议仅根据邻居路由宣告的信息生成自己的路由表。</li>
+<li>触发更新，收敛更快。链路状态路由协议采用触发更新机制，当网络发生变化时，路由器收到LSA后，立刻向除了接收到此LAS接口的其他接口泛洪出去，然后执行算法更新路由表，而距离矢量路由表采用周期性更新路由表。</li>
+<li>分层设计。链路状态路由协议都采取了区域设计，为链路状态更新范围设定了边界。LSA的传播和SPF的计算被限制在一个区域内，同一区域内路由器具有相同的LSDB，区域间路由信息的交换由区域边界路由器完成，因此路由表更小，并降低了链路状态更新的开销。</li>
+</ol>
+<h6 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h6><p>内存需求更大，处理器要求更高，带宽需求更大。</p>
+<h2 id="度量值及管理距离"><a href="#度量值及管理距离" class="headerlink" title="度量值及管理距离"></a>度量值及管理距离</h2><h3 id="管理距离"><a href="#管理距离" class="headerlink" title="管理距离"></a>管理距离</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>管理距离（Administrative Distance，AD）是指一种路由协议的路由可信度。每一种路由协议按可靠性从高到低，依次分配一个信任等级，这个信任等级就叫管理距离。管理距离是一个从0~255的整数值，0是最可信赖的，而255意味着不会有业务量从这个路由通过。<strong>管理距离仅在本设备具有重要意义，因此不会在路由更新中进行通告。</strong></p>
+<h4 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h4><p>当去往同一网段有两个或多个不同路由协议的路由表项时，管理距离用来选择使用哪种路由协议去往该网段。正常情况下，管理距离越小，它的优先级就越高，也就是可信度越高。也就是说，当到达一个目的地有多个不同的路由协议时，路由器根据管理距离来决定相信哪一个协议，AD是用于不同路由协议之间比较的参数。</p>
+<h4 id="理论分析"><a href="#理论分析" class="headerlink" title="理论分析"></a>理论分析</h4><p>如果路由器分别收到使用开放最短路径优先 (OSPF)（默认管理距离为110）和 Interior Gateway Routing Protocol (IGRP)（默认管理距离为100）通往特定网络的路由，则路由器将选择 IGRP，因为 IGRP 更可靠。这意味着路由器将路由的 IGRP 版本添加到路由表。</p>
+<p>如果丢失了 IGRP 协议的设备信息（例如，由于电源关闭），则会使用 OSPF 协议的路由表进行数据转发，一直到 IGRP 的路由信息再次出现。</p>
+<h4 id="设备默认AD值"><a href="#设备默认AD值" class="headerlink" title="设备默认AD值"></a>设备默认AD值</h4><p>不同厂家对于设备的默认AD值规定不相同，具体参见下表。</p>
+<h5 id="思科设备默认AD值"><a href="#思科设备默认AD值" class="headerlink" title="思科设备默认AD值"></a>思科设备默认AD值</h5><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_15-51-14.jpg" alt="Snipaste_2020-05-05_15-51-14"></p>
+<h5 id="juniper设备默认AD值"><a href="#juniper设备默认AD值" class="headerlink" title="juniper设备默认AD值"></a>juniper设备默认AD值</h5><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_16-01-24.jpg" alt="Snipaste_2020-05-05_16-01-24"></p>
+<h5 id="华为设备默认AD值"><a href="#华为设备默认AD值" class="headerlink" title="华为设备默认AD值"></a>华为设备默认AD值</h5><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_16-14-46.jpg" alt="Snipaste_2020-05-05_16-14-46"></p>
+<h3 id="度量值"><a href="#度量值" class="headerlink" title="度量值"></a>度量值</h3><p>度量值（metrics），是网络上路由的参数之一，用来在多个可行的路由路径中选出最佳的一条路径，路由器会选择metric值最小的那一条路径。度量值包括了被路由算法使用来决定哪一条路径较另一条路径好的所有数值。度量可能包括许多资讯，例如带宽、延迟、经过节点数、路径成本、负载、最大传输单元（MTU）、可靠性及传输成本等。路由表只储存最佳的可能路径，但拓扑表或邻接表数据库可能储存其他相关的资讯。</p>
+<p><strong>当同一个路由协议</strong>到达某一个网段有两条或以上的路径时，用metric决定选用哪条路径，路由会选择最低度量值的路径转发数据。如果度量值为0，代表该路径的目的地，与本地端界面是连接在同一个网络上。如果度量值大于零，该路径的目的地会被认为外部位址，必须通过转发才能抵达目的地。</p>
+<p>IP 路由协议中使用的度量如下：</p>
+<ul>
+<li>带宽   —EIGRP</li>
+<li>开销   —OSPF&amp;IS-IS</li>
+<li>延迟   — EIGRP</li>
+<li>跳数   —-RIP</li>
+<li>负载   —- EIGRP</li>
+<li>可靠性  — EIGRP</li>
+</ul>
+<h3 id="度量值VS管理距离"><a href="#度量值VS管理距离" class="headerlink" title="度量值VS管理距离"></a>度量值VS管理距离</h3><p>度量值metirc是<strong>相同路由协议内部到达同一目的网段有多条路径时，比较最佳路径的参数</strong>，<strong>管理距离AD是不同路由协议之间比较选路的参数</strong>。如果前往一个网段，有既有OSPF，也有BGP等其他路由协议，每个协议中也有多个打到该网段的路径，是应该先是各自的路由协议内部用metric（BGP用自己那套13条选路原则）选出各自路由协议中最优的路径，然后这些不同的路由协议之间，用AD比较选出最终的最优路径。</p>
+<h2 id="路由的负载均衡"><a href="#路由的负载均衡" class="headerlink" title="路由的负载均衡"></a>路由的负载均衡</h2><p><a target="_blank" rel="noopener" href="https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/5212-46.html#perper">路由负载均衡（Load Balancing）</a>，是一种技术解决方案。用来在多个资源中分配负载，达到最优化资源使用，避免过载。具体到路由中，就是到某个网段有两个或多个路径，负载均衡使路由器在转发数据包时可以使用到目标的多个路径。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-17_16-53-16.jpg" alt="Snipaste_2020-05-17_16-53-16"></p>
+<p>当R4要发送数据到R7身后的7.7.7.0网段时，如果所有路由器之间链路状态良好，路由协议配置相同且开启了负载均衡的话，很可能形成负载均衡，也就是路由表中到该网段有两条路径，类似下图所示：</p>
+<p><img src="/2020/05/04/11-route-basic/053014_1250_TrafficLoad9.png" alt="053014_1250_TrafficLoad9"></p>
+<h3 id="基于目的地地址"><a href="#基于目的地地址" class="headerlink" title="基于目的地地址"></a>基于目的地地址</h3><h4 id="简化过程："><a href="#简化过程：" class="headerlink" title="简化过程："></a>简化过程：</h4><p>基于目的地的负载均衡（Per-destination load balancing）的含义是，路由器基于目的地的IP地址分配数据包，例如当前往同一网段有两条路径时，当去往该网段的IP地址1走路径1，前往该网段IP地址2走路径2。例如如果去往192.168.1.0/24网段有两条负载相同的路径，G1/0和G2/0，前往192.168.1.X这个地址的流量走G1/0接口，前往192.168.1.Y这个地址的流量走G2/0接口。基于目的地址的负载均衡可能导致链路使用的不平衡，如果只有一个地址使用负载均衡的线路，那么它只使用了两条负载均衡线路中的一条，另一条如果没有另一个地址通信的话，则完全不会使用。</p>
+<h4 id="实际过程"><a href="#实际过程" class="headerlink" title="实际过程"></a>实际过程</h4><p>实际上这种基于目的地的负载均衡其实是基于flow的，也就是基于流的，每个数据流进行哈希然后根据哈希值决定下一跳走哪条路径，相同哈希值走的路径是固定的。如何定义一个flow的话，juniper一般是基于源目地IP地址，源目地MAC地址再加上协议，这个五元组去确定一个flow，也叫5个key，让这5个key去计算一个哈希结果，根据哈希结果不同发送到不同的下一跳，如果这个哈希结果相同就会走固定的下一跳，不会乱序。用哪几个key去计算哈希结果可以在设备上自行设置，比如在MPLS中可以加入MPLS的label当作key，使得负载更加均衡，厂家也有自动检测下一跳流量是否均衡，如果出现大量流量去往同一个下一跳而另一个负载均衡的目的地流量较少的情况，则系统会自动改哈希的key，使得流量负载自动均衡，个人感觉这个自动调节的技术好牛X。</p>
+<h3 id="基于数据包"><a href="#基于数据包" class="headerlink" title="基于数据包"></a>基于数据包</h3><p>基于数据包的负载均衡（Per-packet load-balancing）的含义是，路由器发送数据到一个目的地时，第一个数据走路径1，第二个数据走路径2，以此类推。基于数据包的负载均衡保证所有链路上负载相等。</p>
+<h1 id="静态路由-1"><a href="#静态路由-1" class="headerlink" title="静态路由"></a>静态路由</h1><h2 id="静态路由的概念"><a href="#静态路由的概念" class="headerlink" title="静态路由的概念"></a>静态路由的概念</h2><p>静态路由（英语：Static routing），一种路由的方式，路由条目（routing entry）由手动配置，而非动态决定。与动态路由不同，静态路由是固定的，不会改变，即使网络状况已经改变或是重新被组态。一般来说，静态路由是由网络管理员逐项加入路由表。</p>
+<p>路由器的天职，就是维护路由表以及利用路由表进行数据转发。而路由表中包含通过各种途径学习到的路由表项或路由条目，其中最简单最直接的方法，就是使用静态手工配置的方式，为路由器创建路由条目，这种方式最直接，可控性最高，配置也最简单。在小型的网络中，全网静态路由似乎没有什么问题，但是在一个大型网络中，如果纯用静态路由来做，工作量就非常大了，不仅仅工作量大，另外一个更重要的缺陷是静态路由无法根据网络拓扑结构的变更而做出调整，因此，在大规模网络中，我们往往采用静态+动态路由协议的方式来完成路由的部署。</p>
+<h2 id="静态路由的特点"><a href="#静态路由的特点" class="headerlink" title="静态路由的特点"></a>静态路由的特点</h2><p>需要通过手工的方式进行添加及维护，适用于组网规模较小的场景，如果网络规模较大，配置和维护的成本就会较高，所以一般网络中都采用动态、静态路由相结合的方式进行部署。</p>
+<p>优点：对CPU、内存等硬件的需求不高；不占用带宽，因为静态路由不会产生更新流量。</p>
+<p>不足：必须手动添加配置工作量大且容易出错；适应拓扑变化的能力较差，当网络拓扑发生变化时必须手动对静态路由进行维护。</p>
+<p>重复一下上面那个不太恰当的例子说明一下加深理解，静态路由生成的路由条目有点类似咱们看到的静态的指路牌，每个路标相当于静态路由中的一个路由条目，这些路牌的信息都是静态的不能自己动态更新必须人工添加或修改，也没有路况状态信息，不知道所指出的路径是畅通还是拥堵，更不知道指出的路还能否到达目的地，比如你想下山，这个路牌上有，能指引去往这个地方的方向，只要不人为的翻修这个路牌，它会一直指着同一个方向，但按静态路牌走能不能下山，下山这条路上是否拥堵，一概不知道，因为静态路牌没法动态的知道这条路上的路况以及这条路情况是否现在还能够通往下山。这就是前面说的静态路由只知道局部地点的静态信息的大概比喻。</p>
+<p><img src="/2020/05/04/11-route-basic/65498746456.jpg" alt="65498746456"></p>
+<h2 id="静态路由的配置"><a href="#静态路由的配置" class="headerlink" title="静态路由的配置"></a>静态路由的配置</h2><h3 id="基础配置命令"><a href="#基础配置命令" class="headerlink" title="基础配置命令"></a>基础配置命令</h3><p>R1(config)#  ip   route   network-address   subnet-mask     { Next hop ip-address  |  exit-interface } </p>
+<p>IP route 表示该路由是一条静态路由；network-address   subnet-mask  是目标网络的网络号和网络掩码，前缀和掩码配合主机位不能有1，也就是不能配置成：ip route 10.10.20.1 255.255.255.0 10.12.12.2，因为10.10.20.1和255.255.255.0做与运算以后，主机位是1，不是一个网络号，违反了配置的规则；{ Next hop ip-address  |  exit-interface } 是到达前面网络号的出口IP地址或出接口，当配置IP地址最好是路由器所直连的地址，否则还要进行递归查询，消耗路由器资源，当配置出接口时，是配置的自身路由器的一个接口而这个接口能将数据发送给目标网络号。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-18_10-11-27.jpg" alt="Snipaste_2020-06-18_10-11-27"></p>
+<p>例如，ip route  192.168.1.0   255.255.255.0   192.168.12.2，表示去往网络地址为192.168.1.0/24这个网络号，要将数据交给192.168.12.2发出；ip route 192.168.1.0 255.255.255.0 serial 0，表示去往网络地址为192.168.1.0/24这个网络号，要将数据从Serial 0 接口发出；后面也可以同时配置上出口IP地址和出接口：ip route  192.168.1.0  255.255.255.0  G0/0  192.168.12.2，具体讲解参见后面“静态路由的下一跳”部分。</p>
+<h3 id="查看命令"><a href="#查看命令" class="headerlink" title="查看命令"></a>查看命令</h3><p>show   ip   static-route</p>
+<h3 id="配置要点"><a href="#配置要点" class="headerlink" title="配置要点"></a>配置要点</h3><p>路由要配置来回路由，不能有去无回，且沿途所有路由器必须有到达目的网络的路由。</p>
+<h3 id="基础实验"><a href="#基础实验" class="headerlink" title="基础实验"></a>基础实验</h3><h4 id="实验1"><a href="#实验1" class="headerlink" title="实验1"></a>实验1</h4><h5 id="题干"><a href="#题干" class="headerlink" title="题干"></a>题干</h5><p>共有3台路由器，R1，R2，R3，现在需要让R1和R3之间能够通信，请用静态路由完成此实验。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-07_18-26-28.jpg" alt="Snipaste_2020-05-07_18-26-28"></p>
+<h5 id="实验分析"><a href="#实验分析" class="headerlink" title="实验分析"></a>实验分析</h5><p>配置静态路由前R1的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-10_14-58-07.jpg" alt="Snipaste_2020-05-10_14-58-07"></p>
+<p>R2的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-10_14-58-44.jpg" alt="Snipaste_2020-05-10_14-58-44"></p>
+<p>R3的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-10_15-14-05.jpg" alt="Snipaste_2020-05-10_15-14-05"></p>
+<p>如果要从R1发送数据给R3，通过查看R1和R3的路由表我们发现，两者均没有去往对方网段的路由条目，为什么这里需要看R1和R3是否有<strong>彼此</strong>的路由条目呢，是因为<a href="https://renyuan431.github.io/2020/05/04/11-route-basic/#%E9%80%9A%E4%BF%A1%E6%98%AF%E5%8F%8C%E5%90%91%E7%9A%84">路由是双向的</a>，所以我们需要在R1和R3上分别配置到对方的静态路由，路由有来有回这个要求满足了，下面来看沿途的所有路由器是否都有到达目标网络的路由。沿途的路由器只有R2，由于路由是双向的，所以R2既要有去往R1，192.168.12.0这个网段的路由，又要有去往R3，192.168.23.0这个网段的路由，经过查看R2的路由表，我们看到R2确实有这两条路由，所以这个要求也满足了。</p>
+<p>在封装数据时有几个重要的常用参数，三层封装中的源、目的IP地址以及二层封装中的源、目的MAC地址，也就是二层和三层的地址。</p>
+<p><img src="/2020/05/04/11-route-basic/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200507184145.jpg" alt="微信图片编辑_20200507184145"></p>
+<p><img src="/2020/05/04/11-route-basic/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200507184549.jpg" alt="微信图片编辑_20200507184549"></p>
+<h5 id="实验配置"><a href="#实验配置" class="headerlink" title="实验配置"></a>实验配置</h5><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-07_18-26-28.jpg" alt="Snipaste_2020-05-07_18-26-28"></p>
+<p>R1：</p>
+<p><strong>配置前的路由表：</strong></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-10_14-58-07-1589450121599.jpg" alt="Snipaste_2020-05-10_14-58-07"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1#config t                                            进去全局配置模式</span><br><span class="line">R1(config)#ip route 192.168.23.0 255.255.255.0 192.168.12.2</span><br><span class="line">               去往192.168.23.0网段的数据，交给192.168.12.2这个IP地址</span><br></pre></td></tr></table></figure>
+
+<p>R1和R3通信，也就是192.168.12.0网段和192.168.23.0这两个网段通信，但此时路由表中并没有这条路由，这里我们配置上这条静态路由，告诉R1如果想发送数据到192.168.23.0这个网段将数据发送给R2即可，因为R2的路由表中有该条路由。在这条静态路由中，配置的是192.168.23.0 255.255.255.0 ，IP地址和子网掩码做与运算以后，得出的是192.168.23.0/24这个网段，也就是只要以后R1发往23.0这个网段的数据，不管是ping 192.168.23.1 - 192.168.23.254这些地址，都会匹配到这条静态路由，因为他们都属于192.168.23.0/24网段。 在查看路由表时，之所以用do show ip route是因为此时在全局模式下，并没有show ip route这个特权模式下的命令，但前面加上do以后就可以正确运行了，其他命令也是如此，比如后面的do ping 192.168.23.3。</p>
+<p><strong>配置过程及配置后的路由表：</strong></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-14_17-56-56.jpg" alt="Snipaste_2020-05-14_17-56-56"></p>
+<p>发送给192.168.23.0/24网段的路由条目，S表示是静态路由，[ 1 / 0 ]，1是这条路由的管理距离AD值，因为思科默认静态路由的管理距离为1。后面的0是静态路由的metric值，192.168.12.2是这条路由的下一跳，表示去往192.168.23.0/24网段的数据发送给192.168.12.2，在路由表上192.168.12.0网段的路由是一条直连路由，表示去往该网段从G0/0发出即可，所以去往192.168.23.0/24的数据从G0/0接口发出。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-07_18-26-28.jpg" alt="Snipaste_2020-05-07_18-26-28"></p>
+<p>R3：</p>
+<p><strong>配置前的路由表：</strong></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-10_15-14-05-1589878743252.jpg" alt="Snipaste_2020-05-10_15-14-05"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R3#config t</span><br><span class="line">R3(config)#ip route 192.168.12.0 255.255.255.0 192.168.23.2</span><br><span class="line">               去往192.168.12.0网段的数据，交给192.168.23.2这个IP地址</span><br></pre></td></tr></table></figure>
+
+<p><strong>配置后的路由表：</strong></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-14_17-53-53.jpg" alt="Snipaste_2020-05-14_17-53-53"></p>
+<p>因为前面分析过，绝大多数通信都是双向的，所以R3上也要有去往R1的回程路由，所以需要配置去往192.168.12.0网段的静态路由。配置完静态路由后查看路由表，S是Static的缩写，表示静态路由，192.168.23.0/24是目标网段，192.168.12.2是下一跳地址，表示如果要发送数据去往192.168.23.0/24网段，需要将数据发送给192.168.12.2这个IP地址，路由表中去往192.168.12.0/24这个网段从G0/0接口发出，也就意味着发往192.168.12.0/24这个网段的数据从G0/0接口发出即可。</p>
+<h5 id="数据传递分析"><a href="#数据传递分析" class="headerlink" title="数据传递分析"></a>数据传递分析</h5><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-19_16-18-54.jpg" alt="Snipaste_2020-05-19_16-18-54"></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2019-12-10_16-36-13.jpg" alt="Snipaste_2019-12-10_16-36-13"></p>
+<p>在控制层面的路由表中有了所需要的路径后，开始进行数据层面的发送，按照上面的流程图，当R1要发送数据给192.168.23.0网段发送数据时，首先看对方是否和自己处于相同网段，192.168.12.0/24网段和192.168.23.0/24处于不同网段，由于是第一次和该网段通信，所以要先把数据发给网关，由于是R1和R3通信，R1自身的G0/0口就是网关也就不用把数据发给网关了，这时候查R1路由表上关于23.0网段的路由条目：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-19_16-51-51.jpg" alt="Snipaste_2020-05-19_16-51-51"></p>
+<p>前面的S表示静态路由，192.168.23.0/24是目标网段，[ 1 / 0 ]中的1是AD值，因为思科静态路由默认的管理距离AD值为1，后面的0是度量值metric。封装数据所需的四个地址分别是，源目地IP地址和源目地MAC地址，源IP地址为R1的G0/0的IP地址，192.168.12.1，目的地址为R3上G0/0接口的IP地址，192.168.23.3，因为是12.0和23.0两个网段通信；源MAC地址是R1的G0/0接口的MAC地址，因为数据从这个接口发出，目的MAC地址是下一跳的MAC地址，根据路由表中的信息，下一跳是192.168.12.2，所以目标MAC地址是R2的G0/1口的MAC地址，此时用show ip arp命令查看arp缓存表中是否有该缓存：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-21_15-34-28.jpg" alt="Snipaste_2020-05-21_15-34-28"></p>
+<p>可以看到，此时R1有目的地址的ARP缓存，所以可以直接封装，这里用ping包去测试连通性并抓取数据包：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-21_15-41-02.jpg" alt="Snipaste_2020-05-21_15-41-02"></p>
+<p>封装需要的二层、三层地址已经都有了，三层、二层封装后交给一层也就是物理层，R1的物理层将上层的数据转换成电磁信号通过网线发送给R2。</p>
+<p>当R1发送的数据到达R2的G0/1接口后，R2将电磁信号还原成帧，然后对二层（数据链路层）进行解封装，首先查看数据帧的CRC Checksum部分，看数据帧在传输过程中是否有损坏：</p>
+<p><img src="/2020/05/04/11-route-basic/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200611145704.jpg" alt="微信图片编辑_20200611145704"></p>
+<p>确定数据帧无损坏以后，开始对二层进行解封装，看看数据帧中目的MAC地址和收到这个数据帧的G0/1口是否一致，发现目的MAC地址和收到该数据的G0/1接口一致，然后查看数据帧头部的Ether Type字段，发现类型为0X0800，表示上层网络层用的是IPV4协议封装，这个字段是用来告诉上层，这个数据的三层用的是IPV4封装方式，以便上层解封装的时候使用正确的方式解封装，提高数据处理效率。接着它将以太网帧头剥去或者说解封装完，然后交给上层IP协议继续处理。</p>
+<p>三层（网络层）收到来自二层的数据后，继续对三层进行解封装，首先校验一下在传输过程中IP报头部分是否损坏：</p>
+<p><img src="/2020/05/04/11-route-basic/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200611150749.jpg" alt="微信图片编辑_20200611150749"></p>
+<p>查看IP报头的数据没有损坏以后，继续查看三层报头中的目的IP地址，此时发现目的IP地址并不是自身的IP地址，于是根据目的IP地址按照最长匹配原则查询路由表中是否有对应的路由：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-21_15-52-39.jpg" alt="Snipaste_2020-05-21_15-52-39"></p>
+<p>经过查询，路由表中去往23.0网段从G0/0口发出，所以不对三层报头进行其他操作（由于没有剥离三层报头所以不需要重新封装三层报头），发送回给二层继续封装。封装需要的四个地址中，源目地IP地址已经有了，依旧是之前的192.168.12.1和192.168.23.3，源MAC地址是R2的G0/0接口MAC地址，目的MAC地址是G0/0接口对端R3的G0/0接口的MAC地址，查看ARP缓存中是否有该ARP缓存：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-21_15-56-56.jpg" alt="Snipaste_2020-05-21_15-56-56"></p>
+<p>有所需的MAC地址后，由于上层采用IPV4封装，所以EtherType依旧是0X0800。然后发送给物理层转换成电磁信号发送给R3，封装好后的数据抓包为：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-21_16-01-31.jpg" alt="Snipaste_2020-05-21_16-01-31"></p>
+<p>R3将收到的数据还原成帧后，对二层进行解封装，发现目标MAC地址和收到该数据的G0/0接口的MAC地址相同，然后交给上层处理，网络层收到该数据后，对三层进行解封装发现目标IP地址为自己，进行进一步解封装后，根据三层的Protocol字段交给相应的上层应用进行处理。R3收到该ICMP request（ping）后，根据ICMP协议要回复一个reply，reply中的源地址为自身G0/0口的IP地址，192.168.23.3，目标IP地址为R1的G0/0接口，192.168.12.1，通过查询路由表可知，发往12.0网段的数据应发往192.168.23.2，而在路由表中，去往192.168.23.0的数据应从G0/0口发出，所以源MAC地址为G0/0接口的MAC地址，目的MAC地址为R2的G0/0接口的MAC地址，经过查询源目地MAC地址在ARP缓存表中均有相应条目，所以可以直接封装，将数据从G0/0口发出，由物理层将数据帧转化成电磁信号经由网线发送给R2。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-21_17-16-48.jpg" alt="Snipaste_2020-05-21_17-16-48"></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-21_17-20-39.jpg" alt="Snipaste_2020-05-21_17-20-39"></p>
+<p>R2收到R3发送的ICMP reply后，将电磁信号还原成帧，然后对二层进行解封装，发现目标MAC地址和收到该数据的G0/0口的MAC地址相同后，交给上层应用。三层收到二层发送的数据后，对三层进行解封装，发现目标IP地址不是自身的，经查询路由表后发现应从G0/1口将数据发出，所以在三层重新封装好原来的源目地IP地址后，将数据发给二层继续处理，二层收到上层发送来的数据后，由于要将数据从G0/1口发出，所以源MAC地址为G0/1口的MAC地址，目标MAC地址为R1的G0/0口MAC地址，查询ARP表后封装好数据，由物理层将数据帧转化成电磁信号经由网线发送给R1。</p>
+<p>R1收到数据后对电磁信号还原成帧，而后进行二层解封装发现目标MAC地址和接收到该数据的G0/0的MAC地址相同，于是将该数据交给上层处理。三层收到下层交给的数据后对三层进行解封装，发现目标IP地址为自身的IP地址，于是根据三层中的Type字段交给相应的上层应用处理。整个数据双向的发送——接收过程结束。</p>
+<h4 id="实验2"><a href="#实验2" class="headerlink" title="实验2"></a>实验2</h4><h4 id="题干-1"><a href="#题干-1" class="headerlink" title="题干"></a>题干</h4><p>PC1希望和PC2能正常通信，使用静态路由完成此实验，相关IP地址在图中已标出。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-26_11-15-21.jpg" alt="Snipaste_2020-05-26_11-15-21"></p>
+<h5 id="实验分析-1"><a href="#实验分析-1" class="headerlink" title="实验分析"></a>实验分析</h5><p>为了更直观的看到路由的走向，此处用路由器代替PC，在配置时用路由器的IOS，然后PC1配置默认网关ip default-gateway 192.168.1.254，PC2配置默认网关ip default-gateway  192.168.2.254，并关闭路由器的路由功能，no ip routing。此时该设备就和PC一样。</p>
+<p>配置前R1的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-26_11-43-53.jpg" alt="Snipaste_2020-05-26_11-43-53"></p>
+<p>由于PC1要和PC2通信，两者处于不同网段（192.168.1.0网段和192.168.2.0网段），按照通信流程，PC1要把发往不同网段的数据发送给网关，也就是R1的G0/1接口，进行下一步的发送，由于数据的目的网段为192.168.2.0所以R1的路由表中应有去往192.168.2.0网段的路由才能顺利发送数据，所以R1上应该配置一条去往2.0网段的静态路由。根据通信大多是双向的这个原则，R1既要有去往2.0网段的去向路由，又要有去往1.0网段的回向路由，这里回向路由是有的，因为R1和PC1直连，有彼此的路由。</p>
+<p>配置前R2的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-26_11-52-55.jpg" alt="Snipaste_2020-05-26_11-52-55"></p>
+<p>收到R1发送的由1.0网段发往2.0网段的数据后，由于路由是双向的，R2必须有这两个网段的路由条目才能成功的发送数据，所以此处应该配两条路由，分别是发送数据的出向路由，也就是去往2.0网段的路由，以及回向路由，去往1.0网段的。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-26_11-15-21.jpg" alt="Snipaste_2020-05-26_11-15-21"></p>
+<p>配置前R3的路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-26_11-58-13.jpg" alt="Snipaste_2020-05-26_11-58-13"></p>
+<p>收到R2发送来的由1.0网段发往2.0网段的数据后，由于路由是双向的，所以R3必须有去往1.0和2.0的路由，由于R3和PC2直连已经获得了去往2.0网段的路由，此处只配置去往1.0网段的路由即可。</p>
+<h4 id="实验配置-1"><a href="#实验配置-1" class="headerlink" title="实验配置"></a>实验配置</h4><p>R1</p>
+<p><strong>配置过程及配置后的路由表：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip route 192.168.2.0 255.255.255.0 192.168.12.2</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-26_15-47-46.jpg" alt="Snipaste_2020-05-26_15-47-46"></p>
+<p>R2</p>
+<p><strong>配置过程及配置后的路由表：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip route 192.168.2.0 255.255.255.0 192.168.23.3</span><br><span class="line">ip route 192.168.1.0 255.255.255.0 192.168.12.1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-26_15-49-48.jpg" alt="Snipaste_2020-05-26_15-49-48"></p>
+<p>R3</p>
+<p><strong>配置过程及配置后的路由表：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip route 192.168.1.0 255.255.255.0 192.168.23.2</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-26_15-50-51.jpg" alt="Snipaste_2020-05-26_15-50-51"></p>
+<p>PC1如何用路由器的IOS配置成PC用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ip default-gateway 192.168.1.254                      配置默认网关为R1的G0/1接口</span><br><span class="line">no ip routing                                         关闭路由功能</span><br><span class="line">interface g0/0                                        进入G0/0口配置</span><br><span class="line">no shutdown                                           打开G0/0接口</span><br><span class="line">ip address 192.168.1.1 255.255.255.0                  配置G0/0的IP地址</span><br></pre></td></tr></table></figure>
+
+<p>PC2如何用路由器的IOS配置成PC用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ip default-gateway 192.168.2.254                      配置默认网关为R3的G0/1接口</span><br><span class="line">no ip routing                                         关闭路由功能</span><br><span class="line">interface g0/0                                        进入G0/0口配置</span><br><span class="line">no shutdown                                           打开G0/0接口</span><br><span class="line">ip address 192.168.2.1 255.255.255.0                  配置G0/0的IP地址</span><br></pre></td></tr></table></figure>
+
+<h5 id="数据传递分析-1"><a href="#数据传递分析-1" class="headerlink" title="数据传递分析"></a>数据传递分析</h5><p><img src="/2020/05/04/11-route-basic/Snipaste_2019-12-10_16-36-13-1590479894157.jpg" alt="Snipaste_2019-12-10_16-36-13"></p>
+<p>当PC1要和PC2通信时，假设这个通信是ping也就是ICMP协议的通信，由于发生通信的两个IP地址分别在192.168.1.0和192.168.2.0两个不同的网段，所以PC1会将该数据发送给网关所以要查询ARP缓存表中是否有网关的ARP表项，如果没有该ARP表项则用ARP协议发送ARP请求去获取网关的MAC地址然后封装的四个地址分别为：源IP地址为192.168.1.1，目的IP地址为192.168.2.1，源MAC地址为G0/0的MAC地址，目的MAC地址为网关192.168.1.254的MAC地址。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-26_16-01-54.jpg" alt="Snipaste_2020-05-26_16-01-54"></p>
+<p>从ARP表中可以看到1.1和1.254的ARP，1.254的ARP表项中的age表示该ARP条目进入ARP表中以来的时间，也就是3分钟，距离ARP超时的4小时（思科普通交换机过期时间为4小时，Nexus系列交换机为25分钟）还有很长的时间。</p>
+<p>封装好该数据以后，PC1的物理层将该数据转换成电磁信号然后发送给网关，也就是R1的G0/1接口，R1的G0/1口抓到的ping包数据为：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-26_15-56-28.jpg" alt="Snipaste_2020-05-26_15-56-28"></p>
+<p>R1收到该数据后，物理层将该数据还原成帧，检查完二层的CRC字段确认数据无所坏后，数据链路层解二层封装后发现该数据的目的MAC地址和自身接口G0/1的MAC地址一致，于是将二层报头剥离后交给上层继续处理；网络层收到数据链路层发来的数据后继续对三层解封装发现目标IP地址不在本路由器上，于是根据目的IP地址按照最长匹配原则查询路由表中是否有对应的路由：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-26_17-17-58.jpg" alt="Snipaste_2020-05-26_17-17-58"></p>
+<p>根据路由表中的路由，递归出要将数据发送给192.168.2.0的目标网段，需要将数据从G0/0口发出，R1将数据交给下层数据链路层继续封装，数据链路层封装源MAC地址为R1的G0/0接口，目标MAC地址为R2的G0/1接口的MAC地址：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-26_17-20-20.jpg" alt="Snipaste_2020-05-26_17-20-20"></p>
+<p>R1的数据链路层封装好后交给物理层，由物理层转换成电磁信号发送给R2的G0/1接口。</p>
+<p>R2收到数据后物理层还原成帧——解二层封装、剥离二层报头交给上层——解三层封装——查找路由——封装二层——发送给R3，R3依旧也是同样的步骤处理数据，然后发给PC2，PC2解二层封装、剥离二层报头——解三层封装后发现目标IP地址是自己，于是将该数据交给上层继续处理，整个ICMP request的发送过程完毕。</p>
+<p>ICMP reply过程和上面的情况类似，就不再赘述了。</p>
+<h2 id="静态路由的下一跳"><a href="#静态路由的下一跳" class="headerlink" title="静态路由的下一跳"></a>静态路由的下一跳</h2><p>在配置静态路由时，下一跳既可以使用下一路由器的IP地址，也可以使用本地路由器的出接口，在点对点网络中，无论是哪种配置并没有影响，但在以太网multiple access多路访问环境中，两者有所差别。</p>
+<p>在以太网中，两个邻居接口之间的通信是依靠MAC地址，因为二者处于同一网段。这两个接口互相通信时就必须知道彼此的MAC地址，因为根据MAC地址才能将数据帧交给对方进行进一步处理，如何获得对方的MAC地址呢？就是之前提到过的ARP协议。</p>
+<p>为了比较直观的说明下一跳用IP地址和出接口的区别，这里用实验来对比二者的差别。</p>
+<h3 id="实验1-1"><a href="#实验1-1" class="headerlink" title="实验1"></a>实验1</h3><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-04_15-03-51.jpg" alt="Snipaste_2020-06-04_15-03-51"></p>
+<p>R4要和R5身后的5.5.5.5/32通信，这里用R5的loop back0接口来代替这个IP地址。</p>
+<h4 id="配置为下一跳"><a href="#配置为下一跳" class="headerlink" title="配置为下一跳"></a>配置为下一跳</h4><p>在R4上配置下一跳为IP地址：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip route 5.5.5.5 255.255.255.255 192.168.45.5</span><br></pre></td></tr></table></figure>
+
+<p>此时ping5.5.5.5可以ping通，通过抓包发现，该数据包封装的源目地IP地址分别位192.168.45.4和5.5.5.5，源目地MAC地址分别位R4的G0/0接口的MAC地址以及R5的G0/0接口的MAC地址，具体过程和之前上面静态路由实验中的结果类似，这里就不赘述了。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-04_17-20-08.jpg" alt="Snipaste_2020-06-04_17-20-08"></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-04_15-07-44.jpg" alt="Snipaste_2020-06-04_15-07-44"></p>
+<h4 id="配置为出接口"><a href="#配置为出接口" class="headerlink" title="配置为出接口"></a>配置为出接口</h4><p>在R4上配置下一跳为出接口：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-04_15-12-22.jpg" alt="Snipaste_2020-06-04_15-12-22"></p>
+<p>将下一跳配置成出接口以后，发现ARP表中多出了5.5.5.5的ARP缓存条目，而这个缓存条目和192.168.45.5，也就是路由表中去往5.5.5.5这个目标IP地址出接口G0/0的下一跳的MAC地址相同，这是为什么呢？我们继续来看路由表：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-04_15-13-20.jpg" alt="Snipaste_2020-06-04_15-13-20"></p>
+<p>路由表中去往5.5.5.5的路由条目后面有一个“directly connected”也就是直连的意思，但5.5.5.5在R5身后，和R4并未直连，为什么路由条目中显示直连呢？因为在配置静态路由时，后面的下一跳跟的是出接口，在这种情况下，路由器会认为去往5.5.5.5从G0/0接口发出就行了，所以路由器认为这个5.5.5.5和路由器直连，而在直连的情况下，路由器认为源目地IP地址在同一网段，所以会直接用ARP协议请求目标IP地址，5.5.5.5的MAC地址，这个ARP的源IP地址为192.168.45.4，目的IP地址为5.5.5.5，源MAC地址为G0/0对应的MAC地址，目的MAC地址为全F的广播，去请求5.5.5.5的MAC地址，这个广播到R5的G0/0接口后，我们知道三层设备不转发广播，也就是隔绝了该广播，这个广播是没法到达5.5.5.5的，所以R5怎么处理呢？R5将电磁信号还原成帧然后对二层进行解封装，发现是个目的MAC地址为全F的广播包，type字段为0X8060，所以这是一个ARP的广播包，于是交给上层继续处理，网络层收到下层交给的数据后，对三层解封装，发现ARP请求（通过operation code字段为1得知是ARP请求，如果该字段为2时为ARP reply）目的IP地址为5.5.5.5，经查询路由表发现有这个网段的路由信息，此时由于R5打开了代理ARP功能（思科设备默认开启该功能，如果关闭了此功能则这个场景下无法通信），因此会回复R4一个善意的“谎言”，告诉R4说5.5.5.5的MAC地址就是我G0/0的MAC地址，让R4把发往5.5.5.5的数据发给自己的G0/0接口，然后R5再将数据转发给5.5.5.5这个地址。</p>
+<h3 id="实验2-1"><a href="#实验2-1" class="headerlink" title="实验2"></a>实验2</h3><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-15_09-35-49.jpg" alt="Snipaste_2020-06-15_09-35-49"></p>
+<p>在这个拓扑环境中，R1和R2均连接到2.2.2.0/24网段，当R3用出接口配置静态路由时，R3会认为2.2.2.0/24网段和本路由器直连，当有数据发送到该网段时，假设是R3ping2.2.2.2，R3会发送ARP请求来获取该IP地址的MAC地址，这时如果R1和R2下联的端口启用了ARP代理功能，则两者都会把自身和R3相连接口的MAC地址发送给R3，这也是一种变相的ARP欺骗，如果R1的ARP回应报文先到，R2的ARP回应报文后到，则R3会将晚到的R2的ARP回应报文放入ARP缓存中使用。此后凡是去往2.2.2.2的数据包，均使用R2的F0/0口的MAC地址进行封装，不在发送ARP请求，如果R2的F0/0口DOWN掉，在R3上关于2.2.2.2的ARP条目超时之前（思科默认ARP超时时间，Nexus系列为25分钟，其他的交换机如6XXX系列交换机为4小时）或手动清除2.2.2.2的ARP条目之前，R3无法再PING通2.2.2.2，因为此时ARP缓存表中的MAC地址是错的是R2的，而R2此时DOWN了。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-15_10-12-53.jpg" alt="Snipaste_2020-06-15_10-12-53"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>为了将数据包<strong>转发到目的地</strong>，路由器必须先确定出口接口并在数据链路层重写2层头部（主要参数为源MAC地址、目的MAC地址以及type），然后再将数据通过物理层传递出去，在以太网环境中为了重写2层头部，路由器使用ARP协议通过已知的IP地址获得相对应的MAC地址。在配置静态路由时，既可指定发送接口，也可指定下一跳地址，<strong>在点对点环境下，无论是指定下一跳地址还是出接口，其效果都是一样的。但是在广播网络环境下，指定下一跳地址和指定出接口将会达到不同的效果。</strong></p>
+<p><strong>在点对点的情况下</strong>，不论指定下一跳地址还是出接口都是一样的，因为两个设备直接相连，下一跳只可能是彼此，是固定的，下一跳二层报头的MAC地址也是固定的。</p>
+<p><strong>在以太网环境下，当下一跳配置为出接口时</strong>，首先只有当该出接口状态为UP时该条路由才会加入路由表；其次路由器会认为该路由的目的IP地址和本地直连，由于二层封装需要目标IP地址的MAC地址，所以在这种情况下在以太网环境中，每次发送数据前往目的网段中的任一IP地址时，路由器都会尝试从静态路由配置的下一跳出接口发送ARP去获取目标IP地址所对应的MAC地址，而不会去请求网关的MAC地址。比如配置成：ip route 5.5.5.0 255.255.255.0 G0/0的时候，当发送数据去5.5.5.5时，路由器会认为5.5.5.5和G0/0接口直连，它会从G0/0口发出ARP去请求5.5.5.5的MAC地址，当发送数据去5.5.5.6时，路由器依旧会从G0/0口发出ARP去请求5.5.5.6的MAC地址，使得ARP表项过于庞大影响设备性能。当通过中间的代理ARP设备收到“善意欺骗”的MAC地址（假设该MAC地址为AA.AA.AA.AA）后，路由器会将该善意欺骗的MAC地址放入ARP缓存中，ARP缓存过期时间在思科设备上默认为25分钟，在这段时间里即使更换了新代理ARP设备，新的ARP代理设备的MAC地址为BB.BB.BB.BB，路由器中的ARP缓存条目还是之前的AA.AA.AA.AA，无法正确发送数据。</p>
+<p><strong>在以太网环境下，当静态路由的下一跳配置为IP地址时</strong>，发送数据去往目的网段需要用到下一跳IP地址对应的MAC地址，比如上面配置的：ip route 5.5.5.0 255.255.255.0 192.168.45.5，当封装去往目标网段的数据时，路由器只需要请求下一跳IP地址的MAC地址，也就是192.168.45.5的MAC地址去构建二层头部，发送数据去往该网段的所有IP地址只需要192.168.45.5的MAC地址，一条ARP条目即可完成整个网段的二层封装。</p>
+<p><strong>所以在广播或多路访问情况下，静态路由的下一跳用IP地址更为合适，因为这样可以避免每次发送数据时频繁请求目标IP地址对应的MAC地址，既能减少ARP缓存条目，也防止中间代理ARP设备更换但ARP缓存没到期没刷新引发的无法访问情况。</strong></p>
+<h2 id="缺省（默认）路由"><a href="#缺省（默认）路由" class="headerlink" title="缺省（默认）路由"></a>缺省（默认）路由</h2><p>默认路由是当没有其他路由与目标IP地址匹配时最后生效的路由。一般来说，路由表会根据最长匹配原则，先明细路由，而后汇总路由，最后使用默认路由。</p>
+<h3 id="配置命令"><a href="#配置命令" class="headerlink" title="配置命令"></a>配置命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Router(config)# ip route 0.0.0.0 0.0.0.0 &#123;ip-address | exit-interface&#125;</span><br></pre></td></tr></table></figure>
+
+<p>0.0.0.0  0.0.0.0 前面的网络号和后面子网掩码都是0，表示所有的网络和指定网络中所有的主机，后面可以跟出接口或者下一跳IP地址，比如可以配置成：ip route 0.0.0.0 0.0.0.0  G0/0，表示所有不知道该怎么走的数据均从G0/0口发出，当然上面章节中写过，静态路由的下一跳最好还是配置成和运营商直连的IP地址，以防止ARP导致的问题。</p>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>一般常见于内网的出口路由器上，避免维护过多的路由表加重路由器负担。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-27_15-39-53.jpg" alt="Snipaste_2020-05-27_15-39-53"></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-27_15-40-06.jpg" alt="Snipaste_2020-05-27_15-40-06"></p>
+<h3 id="静态路由进阶配置"><a href="#静态路由进阶配置" class="headerlink" title="静态路由进阶配置"></a>静态路由进阶配置</h3><h4 id="浮动静态路由"><a href="#浮动静态路由" class="headerlink" title="浮动静态路由"></a>浮动静态路由</h4><h5 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h5><p>浮动静态路由是指管理距离大于其他静态路由或动态路由的管理距离的静态路由。通过配置一个比主路由的管理距离更大的静态路由，保证网络中主路由失效的情况下，提供备份路由。 但在主路由存在的情况下它不会出现在路由表中。</p>
+<h5 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h5><p>用静态路由作为动态路由协议的备份路由手段。静态路由的AD（Administrative Distance，管理距离）在思科设备上的默认值为1，这意味着路由器在选择路径时，相对于管理距离更高的动态路由选择协议（OSPF的AD为110，EIGRP的AD为90）来说，会优先选择AD值更小的静态路由协议，当我们希望使用静态路由作为动态路由协议的备份路由手段时，我们得使用浮动静态路由。</p>
+<p>配置多条静态路由只希望有一条静态路由工作。当设备有多出口时，比如分别有电信和联通两个互联网出口，但希望联通作为主用出口，当联通线路中断时再使用备份的电信路径作为出口，浮动静态路由也非常有用。对于主用路径，可以使用默认管理距离，对于备用路径，使用更大的管理距离（管理距离越小路径越优先，越大越不优先），当主用路径的接口或链路出现故障时，主用路径从路由表中消失，路由器使用备用路径进行通信。</p>
+<h5 id="配置命令-1"><a href="#配置命令-1" class="headerlink" title="配置命令"></a>配置命令</h5><p>R1(config)#  ip   route   network-address   subnet-mask     { Next hop ip-address  |  exit-interface }   AD值</p>
+<p>比如配置成 ip route  0.0.0.0  0.0.0.0  192.168.12.2  10，意味着配置一条管理距离为10的，下一跳是192.168.12.2的默认静态路由。由于管理距离是10，比一般静态路由的AD值大，所以如果同时有一条 ip route  0.0.0.0  0.0.0.0  192.168.34.4  的静态路由时，AD为10的静态路由由于AD值大不会加入路由表，当没配置浮动静态路由的默认路由线路中断从路由表中消失后，AD为10的静态路由加入路由表，作为备份路由发挥作用。</p>
+<h5 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h5><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-15_11-32-08.jpg" alt="Snipaste_2020-06-15_11-32-08"></p>
+<p>在一个典型的教育园区网中，我们往往有两条以上的外网出口线路，假设一条为电信， 一条为教育网出口。那么我们一般为出口路由器添加一条默认路由，指向电信的下一跳地址，为的是让内网用户能够通过电信线路访问Internet资源。然而，如果电信出口出现故障呢？我们可以在路由器上增加一条默认路由， 我们知道，如果你配置两条默认路由，分别关联两个不同的下一跳，那么这两条路由将会在路由表中进行负载均 衡，但是这里我们并不希望出现这个现象，我们希望一主一备，那么这条新增的默认路由就可以这么来配置： Ip route 0.0.0.0  0.0.0.0  教育网下一跳IP   10   。我们知道静态路由的AD值是1，上面的配置方法，实际上是将该条静态路由的AD值修改为10。这样一来我们有两条默认路由，一条指向电信出口，AD 值为默认的 1；另一条指向教育网出口，AD 值为 10。那么经过 PK 之后，毫无疑问指向电信的默认路由出现在了路由表里，而指向教育网这条默认路由， “猥琐”的躲了起来。 当指向电信的默认路由失效的时候它就从路由表里消失了，那么这时候，指向教育网的这条默认路由，就“浮” 了出来。</p>
+<h4 id="permanent参数"><a href="#permanent参数" class="headerlink" title="permanent参数"></a>permanent参数</h4><p>当静态路由后面使用permanent参数时，即使该静态路由使用的接口出现故障，它也将停留在路由表中，如果不配置permanent参数，则静态路由使用的接口出现故障时，路由器将把该路由条目从路由表中删除，尝试寻找替代路由条目加入路由表。因此如果不希望数据包经其他路径前往目标网络（通常是基于安全考虑），应使用permanent参数。</p>
+<p>R1(config)#  ip   route   network-address   subnet-mask     { Next hop ip-address  |  exit-interface }   permanent</p>
+<h1 id="路由汇总"><a href="#路由汇总" class="headerlink" title="路由汇总"></a>路由汇总</h1><h2 id="技术背景"><a href="#技术背景" class="headerlink" title="技术背景"></a>技术背景</h2><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-15_11-37-18.jpg" alt="Snipaste_2020-06-15_11-37-18"></p>
+<p>这台出口路由器由于和三层交换机之间是三层链路，因此需配 置到内网的回程路由，也就是上图中红色字体部分，这个场景中内网只有三个网段，因此配置了三条静态路 由，但是如果有100个网段呢？岂不是要配100条路由？如此一来路由表就变的非常庞大和臃肿，维护和管理和非常不方便，更重要的是，这无疑浪费了设备的资源。因此从网络优化的角度，不管是何种网络场景何 种网络模型，我们都需时刻关心网络中路由器路由表里的路由条目数量，是否足够优化，是否有可优化的空间。应该如何优化？</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-15_11-39-15.jpg" alt="Snipaste_2020-06-15_11-39-15"></p>
+<p>答案是使用路由汇总，在这个场景中，如果使用单独的静态路由，一共需要3条，但此时可以使用一条汇总路由就能达到同样的效果，配置汇总路由的好处是，路由器的条目大大减少，能够降低路由器的负载。</p>
+<h2 id="路由汇总的计算"><a href="#路由汇总的计算" class="headerlink" title="路由汇总的计算"></a>路由汇总的计算</h2><p>路由的汇总实际上是通过对子网掩码的操作来完成的。</p>
+<p>假设我们有192.168.1.0/24，192.168.2.0/24……..192.168.8.0/24这几个子网，现在需要经过计算，得出刚好包括这几个明细的汇总网段。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-15_11-46-27.jpg" alt="Snipaste_2020-06-15_11-46-27"></p>
+<ol>
+<li>将他们写成二进制形式，实际上，我们只要考虑第三个8位组即可，因为这几个明细子网中只有第三个八位组是不同的。</li>
+<li>现在，我们要画一根竖线，这根线的左侧，每一个列二进制数都是一样的，线的右侧则无所谓，可以是不同的，注意这根竖线，可以从默认的掩码长度，也就是/24开始，一格一格的往左移，直到你观察到线的左端每一列数值都相等，即可停下，这时候，这根线，所处的位置就是刚刚好。</li>
+<li>如上图，线的位置是16+4=20，所以我们得到汇总地址：192.168.0.0/20，这就是一个最精确的汇总地址。</li>
+</ol>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-15_11-52-13.jpg" alt="Snipaste_2020-06-15_11-52-13"></p>
+<p>路由汇总虽然确实是一个非常非常重要的思想和工具，但是使用起来要持谨慎态度，毕竟减少路由条目 的同时，也降低了路由的颗粒度和精确性。看上图，在出口路由器上配置了静态汇总路由，下一跳是三层交 换机。而三层交换机为了将访问外网的流量送到出口路由器，配置了一条默认路由，下一跳是出口路由器。 这个网络在流量正常的情况下不会有问题，但是，现在内网用户中毒了，于是这些 PC 开始疯狂的发送 内网的扫描报文，这些报文的目的地址是一些192.168打头的不知名地址，甚至根本不存在的地址。数据包 被送到了网关也就是三层交换机上，由于三层交换机配置了默认路由，因此这些数据包目的地被默认路由匹 配并被引导到了出口路由器上，而出口路由器上部署了汇总路由，这些数据包的目的地址虽然在内网中不存 在，但是却是这个汇总路由里的一个IP，因此又被出口路由器转发回给三层交换机，接下去三层交换机又根 据默认路由，将数据包转发回出口路由器，这就形成了数据的环路。 因此，从这里我们可以看出来，路由汇总，是有产生环路的风险的，解决上述问题的一个办法就是，我 们在三层交换机上，增加一条静态路由：ip route 192.168.0.0 255.255.0.0 null 0，这样一来，当它收到访问 192.168开头的、不存在的目的地址的数据包，就会直接丢弃。而正常的访问192.168内网其他子网的流量会根据最长匹配原则被正常转发。 这个思想被应用到了诸如OSPF等这类动态路由协议上，细心的童鞋会发现，你在OSPF中部署了路由 汇总后，它会自动在本地产生一条指向 null0 的汇总路由，道理跟上面讲解的是一样的。</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-15_11-52-37.jpg" alt="Snipaste_2020-06-15_11-52-37"></p>
+<p>有些时候，路由汇总的颗粒度不够细的话，可能会包含一些不必要的网段，比如在R2上， 为了到达R1下联的网络， R2配置了使用路由汇总的工具， 指了一条汇总路由： 192.168.0.0/16 到R1，虽然这确实起到了网络优化的目的，但是，这条汇总路由太“粗犷”了，它甚至将R3这一侧的网段也囊括在内，在使用路由汇总时一定要注意避免发生这种情况。</p>
+<h1 id="路由器的工作原理"><a href="#路由器的工作原理" class="headerlink" title="路由器的工作原理"></a>路由器的工作原理</h1><h2 id="路由器的基本概念"><a href="#路由器的基本概念" class="headerlink" title="路由器的基本概念"></a>路由器的基本概念</h2><p>路由器工作在OSI参考模型的第三层网络层，利用网络层定义的”逻辑地址”（IPV4或IPV6地址）来区别不同网络，它不转发广播消息，并将广播消息限制在每个网络内部，也就是之前笔记曾经提到的隔绝广播域，每个接口是一个广播域；发往其他网段的数据根据路由表转发。</p>
+<p>目前在Internet网络中采用子网掩码来确定IP地址中的网络号和主机号；并规定，子网掩码（二进制形式）中数字”1”对应的IP地址中的部分为网络号，子网掩码中数字”0”所对应的IP地址中的部分为主机号，相同网络号的主机可以直接通信，不同网络号的主机需要通过网络中某个路由（网关）使他们能够通信。</p>
+<p>路由上不同端口对应不同IP子网，不同端口的网络号必须不同。</p>
+<h2 id="路由器转发原则"><a href="#路由器转发原则" class="headerlink" title="路由器转发原则"></a>路由器转发原则</h2><h3 id="转发IP包的条件"><a href="#转发IP包的条件" class="headerlink" title="转发IP包的条件"></a>转发IP包的条件</h3><ol>
+<li>目的网络可达(路由表中必须存在到达目的网络的路由).</li>
+<li>下一跳的接口地址必须可达.</li>
+<li>重写源MAC地址使得成功到达下一跳.–应该是ARP获得MAC地址更新ARP表然后才可正常转发.</li>
+</ol>
+<h3 id="数据处理步骤"><a href="#数据处理步骤" class="headerlink" title="数据处理步骤"></a>数据处理步骤</h3><p><img src="/2020/05/04/11-route-basic/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200611145704-1592451122884.jpg" alt="微信图片编辑_20200611145704"></p>
+<p>首先将物理层的比特流还原成帧，然后对数据帧尾部的FCS进行校验看数据是否损坏，如果损坏就丢弃，如果没损坏则进行解封装，检查二层帧头中的目的MAC地址是否是收到此数据接口的MAC地址，如果不是则丢弃，如果目的MAC地址和接口MAC地址相同则说明这个数据是发给自己的，而后查看数据帧头部的Ether Type字段，发现类型为0X0800（一般情况为0X0800，但具体问题具体分析），表示上层网络层用的是IPV4协议封装，这个字段是用来告诉上层，这个数据的三层用的是IPV4（或其他协议）封装方式，以便上层解封装的时候使用正确的方式解封装，提高数据处理效率。接着它将以太网帧头剥去或者说解封装完，然后交给上层IP协议继续处理。</p>
+<p><img src="/2020/05/04/11-route-basic/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91_20200611150749-1592451131369.jpg" alt="微信图片编辑_20200611150749"></p>
+<p>当数据到了网络层后，继续解三层数据包的封装，继续对IP报头进行解封装，首先校验一下在传输过程中IP报头部分是否损坏，如果没损坏则继续查看目的IP地址是否是自身的IP地址，这个自身的IP地址不仅是收到数据那个接口的IP地址，而是要看和所有接口及环回接口的IP地址是否相同，如果相同的话，则将三层报头剥离将数据传递，然后根据Protocol字段内容给相应的上层继续处理，如果IP地址不是自身的IP地址，如果该IP地址的网段在路由表中有相应条目则修改源、目的MAC地址将数据包按路由表转发出去。</p>
+<h2 id="递归查询"><a href="#递归查询" class="headerlink" title="递归查询"></a>递归查询</h2><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-15_15-26-04.jpg" alt="Snipaste_2020-06-15_15-26-04"></p>
+<p>R1的路由表如图中所示，当数据发送到192.168.30.0网段的数据时，根据查询路由表的第一行可知，该数据需要发送给下一跳192.168.23.3，如何前往192.168.23.3呢？由路由表第二行可知，去往192.168.23.0网段需将数据发送给下一跳为192.168.12.2，所以去往192.168.30.0只要将数据发送给192.168.12.2即可，通过进一步查询路由表可知，去往192.168.12.0网段需要从S0/0口发送出去，所以经过上面的路由查询可知，去往192.168.30.0网段的数据从S0/0口发送出去即可。这个过程就叫递归查询。</p>
+<h2 id="最长匹配原则"><a href="#最长匹配原则" class="headerlink" title="最长匹配原则"></a>最长匹配原则</h2><h3 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h3><p>最长匹配原则是CISCO IOS路由器默认的路由查找方式。当路由器收到一个IP数据包时，会将数据包的目 的IP地址与自己本地路由表中的表项进行bit by bit的逐位查找， 直到找到匹配度最长的条目， 这叫最长匹配原。</p>
+<h3 id="举例分析"><a href="#举例分析" class="headerlink" title="举例分析"></a>举例分析</h3><p>因为路由表中的每个表项都指定了一个网络，所以一个目的地址可能与多个表项匹配。最明确的一个表项——即子网掩码最长的一个——就叫做最长前缀匹配。之所以这样称呼它，是因为这个表项也是路由表中，与目的地址的高位匹配得最多的表项。</p>
+<p>例如，考虑下面这个IPv4的路由表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">192.168.20.16/28</span><br><span class="line">192.168.0.0/16</span><br></pre></td></tr></table></figure>
+
+<p>在要查找地址192.168.20.19的时候，这两个表项都“匹配”，因为192.168.20.16/28包含了从192.168.20.16-192.168.20.31这几个IP地址，而192.168.0.0/16包含了从192.168.0.1-192.168.255.254这所有的IP地址。也就是说，两个表项都包含着要查找的地址。这种情况下，前缀最长的路由就是192.168.20.16/28，因为它的子网掩码（/28）比其他表项的掩码（/16）要长，使得它更加明确，如果此时路由表中有一个192.168.20.19/32的路由，则这条路由比192.168.20.16/28要更加匹配，因为32/的掩码比28/要长。</p>
+<p>路由表中常常包含一个默认路由。这个路由在所有表项都不匹配的时候有着最短的前缀匹配。</p>
+<h3 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h3><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-10_11-35-48.jpg" alt="Snipaste_2020-06-10_11-35-48"></p>
+<h4 id="主类网络"><a href="#主类网络" class="headerlink" title="主类网络"></a>主类网络</h4><p>如上图所示，灰色的空间 172.16.0.0/16，这个网络号，我们称为主类网络号，所谓主类网络号，意思是该网络号，按照其所属的 IP 地址类别区分后，对应上的默认的子网掩码长度后得到的网络号。如 172.16.0.0 这是一个 B 类地址，B 类地址的默认子网掩码长度是 16 位，因此 172.16.0.0/16 本身就是一个主类网络号。再举过一个例 子，10.1.12.0/24，首先 10 开头的，这是一个 A 类地址，A 类地址默认的掩码是 255.0.0.0，因此 10.1.12.0/24 它的主类网络号是 10.0.0.0/8。再举一个C类网络的例子，192.168.10.1/26，C类地址的默认网络掩码是255.255.255.0，所以192.168.10.1/26的主类网络号是192.168.10.0/24。</p>
+<h4 id="子网"><a href="#子网" class="headerlink" title="子网"></a>子网</h4><p>继续如上图所示，从172.16.0.0/16 开始往里走，下一个我们看到的网络号是 172.16.10.0/24，这很明 显是应用了 VLSM 可变长子网掩码之后， 得到的一个 172.16.0.0/16 这个主类网络的一个子网。 所以所谓的子网，我们可以理解为是在网络号所属类别的默认掩码长度的基础上，将掩码“拉长”或者向主机位借位从而得到的一个网络号。实际上 172.16.0.0/16 是将 172.16.10.0/24 囊括在内的一个区间。</p>
+<h4 id="超网"><a href="#超网" class="headerlink" title="超网"></a>超网</h4><p>如图中所示，172.16.0.0/16 这个主类网络号，然后我们向外走，看上图。172.0.0.0/8 实际上是将这个 B 类 地址的掩码向左移了 8bits，这样一来得到的这个网络号实际上是囊括了 172.16.0.0/16 在内的一个大的网络号， 我们称其为超网。 </p>
+<h4 id="如何最长匹配"><a href="#如何最长匹配" class="headerlink" title="如何最长匹配"></a>如何最长匹配</h4><p>如果我们有一个 IP： 172.16.10.1，实际上这个 IP 既可以理解为在 172.16.0.0/16 网络内，也是在 172.16.10.0/24 网络内，当然，从图上我们能看出来，谁更精确呢？很明显是 172.16.10.0/24 更精确，因为172.16.0.0/16只匹配了16位，而172.16.10.0/24则匹配了24位，所以我们说，它的匹配长度相比 172.16.0.0 更长。</p>
+<p>当然子网 172.16.0.0/16 还可以进一步划分子网，得到 172.16.10.0/30，甚至 172.16.10.1/32，那么如果这些 前缀都存在的情况下，当我要去找 172.16.10.1，谁的匹配度最高呢？很明显，是 172.16.10.1/32 这条主机前缀， 或者说，主机路由吧？这就是最长匹配原则。 </p>
+<p>举个具体例子看一下最长匹配的过程：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-11_16-34-31.jpg" alt="Snipaste_2020-06-11_16-34-31"></p>
+<p>例如上图，当 R3 收到一个数据包，去往 172.16.1.1，那么实际上，172.16.1.1 是“掉落”在 172.16.1.0/24 及 172.16.0.0/16 网络中的，两者貌似皆可，但是 172.16.1.0/24 显然，匹配度要更长，因此，最终这个数据包被 丢给了 R1。同理若有数据包去往 172.16.2.1 呢？由于根据最长匹配原则，172.16.2.0/24 这个条目匹配度最高， 因此数据被扔给了 R2。具体匹配过程如下：</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-11_16-52-14.jpg" alt="Snipaste_2020-06-11_16-52-14"></p>
+<p>当R2挂掉以后，172.16.2.0/24 的条目失效，去往 2.0 子网的数据此时匹配的路由条目是 172.16.0.0/16 这条路由，因此被送往了 R1。这也是利用最长匹配原则，实施的一种简单的数据分流及路径冗余的方法。</p>
+<h2 id="路由所需的元素"><a href="#路由所需的元素" class="headerlink" title="路由所需的元素"></a>路由所需的元素</h2><p>目标网络和前缀、目的网络下一跳和/或出接口、管理距离、度量值和路由类型。其中目标网络和前缀以及下一跳和/或出接口是必须的，否则无法进行转发；管理距离及度量值用于比较路由的优先级，在一个目标网络有多种路由或多条路径时用于比较到底使用哪条路由转发。</p>
+<h2 id="路由查找原则总结"><a href="#路由查找原则总结" class="headerlink" title="路由查找原则总结"></a>路由查找原则总结</h2><ul>
+<li>不同的前缀（网络号+掩码，做与运算后得出前缀，网络号和掩码缺一不可） ，在路由表中属于不同的路</li>
+<li>相同的前缀，通过不同的协议获取，一般情况下先比AD，后比metric，特殊情况具体问题具体分析</li>
+<li>默认采用最长匹配原则，匹配，则转发；无匹配，则找默认路由，默认路由都没有，则丢弃 </li>
+<li>路由器的行为是逐跳的，到目标网络的沿路径每个路由器都必须有关于目的地的路由，没有路由则丢弃数据</li>
+<li>数据是双向的，考虑流量的时候，要关注流量的往返都有路由，数据才能进行传递。</li>
+</ul>
+<h2 id="路由器发送数据的方式"><a href="#路由器发送数据的方式" class="headerlink" title="路由器发送数据的方式"></a>路由器发送数据的方式</h2><h3 id="交换的概念"><a href="#交换的概念" class="headerlink" title="交换的概念"></a>交换的概念</h3><p>switching is the process of mapping layer 2 to layer 3 addresses and forwarding to a destination interface. </p>
+<p>交换是一个将二层地址映射到三层地址互相关联并且转发到目标接口的过程。这里路由器这个三层设备的交换概念和之后二层的交换不是一个概念，注意区分。</p>
+<h3 id="进程交换"><a href="#进程交换" class="headerlink" title="进程交换"></a>进程交换</h3><p>进程交换（process switching），在这种模式下，一条数据流(flow)中的第一个包(packet)将被置入系统缓存(system buffer)，其目的地址将会拿到路由表中去查询比对，路由器的处理器(CPU or Processer)同时将进行CRC校验,检查包是否正确。然后数据 包的二层 MAC 地址将会被重写,替换为下一跳接口的 MAC 地址，这样的过程将会继续,对这条数据流(flow) 中的第2个、第3个数据包……相同的操作，包括查询路由表、重写MAC地址,CRC校验等，也就是每个数据包都需要CPU进行处理。这种方式是最古老，占用CPU最多，速度最慢，延迟最大的，因为它要利用system buffer以及processor去处理每个收到的包，但是我们仍然有机会使用这种交换方式，比如在进行基于每个包的负载分担时,或是debug ip packet时。 </p>
+<h3 id="快速交换"><a href="#快速交换" class="headerlink" title="快速交换"></a>快速交换</h3><p>进程交换由于CPU占用率高，转发速度慢，已经跟不上互联网发展的需要，于是出现了速度更快的转发技术，快速交换（Fast Switching）。</p>
+<p>快速交换（Fast Switching）采用了route cache(路由缓存)来存储关于某条数据流(flow)的特定信息, 这个特定信息会包括诸如目的MAC地址，目的接口等内容，这时我们只需要对一条数据流(flow)中的第一个包做process switching（也就是上面的进程交换），大概过程就是对第一个数据包执行最长匹配查找算法获得下一跳IP地址，然后查找ARP缓存获得第二层的MAC地址信息，并把得出的信息存入cache（高速缓存），所有后续数据包，可以不必再中断system processor去执行查询等操作，直接从 cache（缓存） 中提取目的接口，目的 MAC 地址等，根据已经生成的高速缓存的条目直接重写MAC头信息完成交换操作，这样大大加速了包转发速度。</p>
+<p>但进程交换也有自己的问题，其中比较严重的就是由于路由更改，路由缓存条目中在一开始是没有缓存的，有时必须通过进程交换转发，导致转发效率下降。</p>
+<h3 id="思科CEF"><a href="#思科CEF" class="headerlink" title="思科CEF"></a>思科CEF</h3><p>由于快速交换的缓存机制原理问题，路由改变会导致之前的缓存无效，重建缓存的过程开销很大，而互联网中信息的大量增加导致缓存的负担增大，从而导致路由器性能的降低，此时快速交换已经不能适应需求了，所以CEF横空出世，该技术能解决进程交换存在的缓存无效问题，也能减少CPU消耗。其他厂家也有类似思科快速转发的技术，不过换了不同的名称，技术原理上都是类似的。</p>
+<p>CEF转发主要好处是减少了CPU的占用，提升设备稳定性。CEF采用了基于硬件的平台，不仅仅是将数据都存入system buffer，而是将整个路由表、拓扑表，以及所有的下一跳地址、MAC地址全部进行“预存”，只要路由表、拓扑表中存在的条目，无论是否有数据请求发往该地址，都会提前预读取，设置缓存，采用这种方式，当有新的数据请求发送时，就不需要CPU去查询目的接口，目的MAC地址等信息，而是直接从缓存中读取，从而使得转发速度得以大大提高。</p>
+<p>Cisco快速转发是最快的交换模式，这种方式比快速转发和进程转发交换使用更少的CPU，对于启用了CEF的路由器，其控制平面CPU会使用路由表和地址解析协议表中的3层和2层信息（IP地址、MAC地址），来创建两个基于硬件的表，这两个表分别是转发信息表（FIB）和邻接表（ADJ），<strong>当网络收敛时，FIB和ADJ表中会包含路由器在转发数据包时会使用的所有信息，两个基于硬件的表会用来转发数据包中的所有数据帧，包括第一个帧，FIB包含预先算出来的逆向查找和下一跳信息（包括2层信息和接口）</strong>。</p>
+<p>查看CEF是否开启的命令是：show ip cef，如果想在未开启CEF的设备上开启CEF，命令是：ip cef distributed</p>
+<p><img src="/2020/05/04/11-route-basic/CEF.png" alt="CEF"></p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-06-18_11-37-59.jpg" alt="Snipaste_2020-06-18_11-37-59"></p>
+<h4 id="FIB表"><a href="#FIB表" class="headerlink" title="FIB表"></a>FIB表</h4><p>FIB（forwarding information base）是一个动态构建的数据库，位于路由器转发（数据）层面，路由器使用它来做出基于前缀的转发决策，也就说路由器按照FIB表来转发数据，真正指导数据转发的是FIB表。FIB表中数据往往被存储在一个ASIC专用集成电路中，这使得设备在FIB表中进行数据查询时，可以实现相当高的速度。当然，FIB表空间是有限的，因此要注意用各种机制来减小设备路由表的规模，比如上文提到的路由汇总。</p>
+<p>FIB中的信息和IP路由表中的条目之间有一一对应的关系，FIB不仅有路由表的信息还提前对这些信息进行了路径的递归查询，节省了大量时间，提高了转发效率。由于FIB表存储存储在一个ASIC专用集成电路中，因此该表格不存在过期作废或定时刷新的问题，只有当网络拓扑或路由表发生变化时，IP路由表被更新，FIB也随之产生变化，重新进行递归等步骤生成FIB表。FIB表中一般包含IP前缀，递归的下一跳，出战接口，其他非转发核心的参数FIB表中并不包含，查看FIB（CEF）表的命令是show ip cef。</p>
+<p>路由器启动时默认使用CEF进行转发，路由表中的所有路由传入FIB的维护进程，该进程根据收到的前缀描述项和路径生成FIB（转发信息库）项目，例如把需要递归的路由提前算好。当主路由表内容改变时，会通知FIB维护进程，根据新路由信息改变收到路由改变影响的FIB条目。</p>
+<p><img src="/2020/05/04/11-route-basic/200807181216359487780.jpg" alt="200807181216359487780"></p>
+<h4 id="邻居表"><a href="#邻居表" class="headerlink" title="邻居表"></a>邻居表</h4><p>邻居表的英文是Adjacency table，当两个节点之间只间隔二层意义上的一跳时，那么说这两个节点相邻。CEF在叫做邻居表的数据库中为相邻节点存储转发信息，转发信息主要包括出栈接口以及二层报头重写信息。CEF使用邻居表提前为数据包准备二层地址信息。</p>
+<p>邻居发现的过程生成了邻居表，邻居表中的邻居条目可以由间接手动配置，也可以通过自动发现而自动添加进邻居表，例如由ARP协议自动添加邻居表的条目。邻居表还可以由路由协议（比如BGP或OSPF）在建立邻居时添加。邻居表每次创建一个相邻条目时，都会计算出该相邻节点的链路层报头，并存储在相邻表中。邻居表中的相关信息会在之后CEF转发过程中的封装步骤里使用到，也就是说二层帧的报头重写工作要根据邻接表中的信息来完成。</p>
+<p>当路由器确定了目标网络的可达性及下一跳后，下一步是确定发出接口的二层封装信息（源、目的MAC地址）以及其他传输需要的信息，这些信息都储存在邻居表中。这些二层信息通过ARP、ATM、帧中继的映射状态，路由协议的邻居关系等方式学习到。</p>
+<p>邻居表存储了与FIB条目中相关联的二层信息，避免了每次查找路由表都需要运行ARP协议。</p>
+<p><img src="/2020/05/04/11-route-basic/200807181216359461673.jpg" alt="200807181216359461673"></p>
+<h1 id="路由选择过程"><a href="#路由选择过程" class="headerlink" title="路由选择过程"></a>路由选择过程</h1><h2 id="需要路由选择的情况"><a href="#需要路由选择的情况" class="headerlink" title="需要路由选择的情况"></a>需要路由选择的情况</h2><p>当遇到类似于下图的情况，R2从两个不同的路由协议，OSPF和RIP同时获得了10.1.1.0/24的路由信息，或</p>
+<p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-05_16-33-58.jpg" alt="Snipaste_2020-05-05_16-33-58"></p>
+<h2 id="选择最佳路由的步骤"><a href="#选择最佳路由的步骤" class="headerlink" title="选择最佳路由的步骤"></a>选择最佳路由的步骤</h2><p>根据最长匹配原则，最先使用匹配位数最多的明细路由，然后是汇总路由，最后才是默认路由。如果到达一个目标网段有多种路由协议且每种路由协议有多条路径，这种情况下，每种路由协议内部的多条路径先比较metric值（BGP由13条选路原则决定），决出本路由协议内的最优路径，然后不同路由协议之间再由AD值决出不同路由协议之间的最优协议。</p>
+<p>1、比管理距离AD（可以是多种路由协议的比较；也可以是同种路由协议的比较，比如双线出口所配置的两条默认浮动路由比较）</p>
+<p>2、比度量值metric（路由协议不同则度量值不能做比较，比如rip度量值为跳数；ospf度量值为带宽；eigrp度量值为带宽+延迟等。所以在不同种协议之间先比较管理距离）</p>
+<h2 id="数据包的转发过程"><a href="#数据包的转发过程" class="headerlink" title="数据包的转发过程"></a>数据包的转发过程</h2><p><img src="/2020/05/04/11-route-basic/Snipaste_2020-05-11_16-19-39.jpg" alt="Snipaste_2020-05-11_16-19-39"></p>
+<p>经过交换机，不会改变帧，源目MAC地址不会改变，源目IP地址不会改变</p>
+<p>经过路由器，会改变帧，源目MAC地址会改变，源目IP地址不会改变</p>
+<h1 id="控制平面和数据平面"><a href="#控制平面和数据平面" class="headerlink" title="控制平面和数据平面"></a>控制平面和数据平面</h1><h1 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/chiyuwei1766/article/details/47334125">最佳路由选择的原则与步骤————管理距离和度量值</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/szcarewell/article/details/51246271">路由器数据转发过程</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.qingsword.com/qing/520.html">[CCNA图文笔记]-9-静态路由与默认路由</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv575583/">Cisco交换方式理论+实践</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zdh45222/article/details/3987577">cisco路由器 CEF,快速，过程交换</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.networkurge.com/2020/04/process-switching-vs-fast-switching-vs.html">Process Switching Vs Fast Switching Vs CEF</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.51cto.com/389333/945282">进程交换 快速交换 CEF</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/63094377">动态路由选择原理（距离矢量路由协议RIP）</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mypanlong/article/details/49000285">配置静态路由的下一跳使用出站接口和下一跳IP的差别</a></p>
+<p><a target="_blank" rel="noopener" href="http://ccietea.com/">IP routing（红茶三杯）</a></p>
+<p><a target="_blank" rel="noopener" href="https://forum.huawei.com/enterprise/zh/thread-272917-1-1.html">路由选择的最长匹配原则</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Rookie</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://renyuan431.github.io/2020/05/04/11-route-basic/">https://renyuan431.github.io/2020/05/04/11-route-basic/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://renyuan431.github.io" target="_blank">Rookie的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/index.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechatpay.png" target="_blank"><img class="post-qr-code-img" src="/img/wechatpay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.png" target="_blank"><img class="post-qr-code-img" src="/img/alipay.png" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/06/18/13-ospf/"><img class="prev-cover" src="/img/index.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">13、ospf</div></div></a></div><div class="next-post pull-right"><a href="/2020/04/14/10-cisco-ios/"><img class="next-cover" src="/img/index.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">10、设备管理及cisco IOS基础配置</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Rookie</div><div class="author-info__description"></div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">路由的基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1"><span class="toc-number">1.1.</span> <span class="toc-text">路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.1.</span> <span class="toc-text">一些基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%94%B6%E6%95%9B"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">路由收敛</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E6%98%AF%E5%8F%8C%E5%90%91%E7%9A%84"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">通信是双向的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE%E7%AB%AF%E5%8F%A3%E5%8F%B7%E6%88%96%E5%8D%8F%E8%AE%AE%E5%8F%B7"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">动态路由协议端口号或协议号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E7%B1%BB%E8%B7%AF%E7%94%B1%E3%80%81%E6%97%A0%E7%B1%BB%E8%B7%AF%E7%94%B1"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">有类路由、无类路由</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#loopback%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.1.1.5.</span> <span class="toc-text">loopback接口</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-number">1.2.</span> <span class="toc-text">路由表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E8%A1%A8%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.1.</span> <span class="toc-text">路由表的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E8%A1%A8%E7%9A%84%E6%9E%84%E6%88%90"><span class="toc-number">1.2.2.</span> <span class="toc-text">路由表的构成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-number">1.2.3.</span> <span class="toc-text">如何查看路由表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%9D%A1%E7%9B%AE%E8%8E%B7%E5%8F%96%E7%9A%84%E6%9D%A5%E6%BA%90"><span class="toc-number">1.3.</span> <span class="toc-text">路由条目获取的来源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E8%BF%9E%E8%B7%AF%E7%94%B1"><span class="toc-number">1.3.1.</span> <span class="toc-text">直连路由</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B4%E8%BF%9E%E8%B7%AF%E7%94%B1%E5%AE%9A%E4%B9%89"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">直连路由定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B4%E8%BF%9E%E8%B7%AF%E7%94%B1%E4%BA%A7%E7%94%9F%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">直连路由产生条件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E5%88%86%E6%9E%90"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">实例分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-number">1.3.2.</span> <span class="toc-text">静态路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-number">1.3.3.</span> <span class="toc-text">动态路由</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.4.</span> <span class="toc-text">路由协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.4.1.</span> <span class="toc-text">路由协议的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">1.4.2.</span> <span class="toc-text">路由协议的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.4.2.1.</span> <span class="toc-text">静态路由协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.4.2.2.</span> <span class="toc-text">动态路由协议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B7%9D%E7%A6%BB%E7%9F%A2%E9%87%8F%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.4.2.2.1.</span> <span class="toc-text">距离矢量路由协议</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%B7%9D%E7%A6%BB%E7%9F%A2%E9%87%8F%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.4.2.2.1.1.</span> <span class="toc-text">距离矢量的概念</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9C%80%E5%A4%A7%E8%B7%B3%E6%95%B0"><span class="toc-number">1.4.2.2.1.2.</span> <span class="toc-text">最大跳数</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%B0%B4%E5%B9%B3%E5%88%86%E5%89%B2"><span class="toc-number">1.4.2.2.1.3.</span> <span class="toc-text">水平分割</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E4%B8%AD%E6%AF%92"><span class="toc-number">1.4.2.2.1.4.</span> <span class="toc-text">路由中毒</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%AF%92%E6%80%A7%E5%8F%8D%E8%BD%AC"><span class="toc-number">1.4.2.2.1.5.</span> <span class="toc-text">毒性反转</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%B0%B4%E5%B9%B3%E5%88%86%E5%89%B2%E3%80%81%E6%AF%92%E6%80%A7%E5%8F%8D%E8%BD%AC%E3%80%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E6%AF%92"><span class="toc-number">1.4.2.2.1.6.</span> <span class="toc-text">水平分割、毒性反转、路由中毒</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E6%9B%B4%E6%96%B0"><span class="toc-number">1.4.2.2.1.7.</span> <span class="toc-text">触发更新</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%8A%91%E5%88%B6%E8%AE%A1%E6%97%B6%E5%99%A8"><span class="toc-number">1.4.2.2.1.8.</span> <span class="toc-text">抑制计时器</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%93%BE%E8%B7%AF%E7%8A%B6%E6%80%81%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.4.2.2.2.</span> <span class="toc-text">链路状态路由协议</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BC%98%E7%82%B9"><span class="toc-number">1.4.2.2.2.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-number">1.4.2.2.2.2.</span> <span class="toc-text">缺点</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%A6%E9%87%8F%E5%80%BC%E5%8F%8A%E7%AE%A1%E7%90%86%E8%B7%9D%E7%A6%BB"><span class="toc-number">1.5.</span> <span class="toc-text">度量值及管理距离</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E8%B7%9D%E7%A6%BB"><span class="toc-number">1.5.1.</span> <span class="toc-text">管理距离</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90"><span class="toc-number">1.5.1.3.</span> <span class="toc-text">理论分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E5%A4%87%E9%BB%98%E8%AE%A4AD%E5%80%BC"><span class="toc-number">1.5.1.4.</span> <span class="toc-text">设备默认AD值</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E7%A7%91%E8%AE%BE%E5%A4%87%E9%BB%98%E8%AE%A4AD%E5%80%BC"><span class="toc-number">1.5.1.4.1.</span> <span class="toc-text">思科设备默认AD值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#juniper%E8%AE%BE%E5%A4%87%E9%BB%98%E8%AE%A4AD%E5%80%BC"><span class="toc-number">1.5.1.4.2.</span> <span class="toc-text">juniper设备默认AD值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8D%8E%E4%B8%BA%E8%AE%BE%E5%A4%87%E9%BB%98%E8%AE%A4AD%E5%80%BC"><span class="toc-number">1.5.1.4.3.</span> <span class="toc-text">华为设备默认AD值</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%A6%E9%87%8F%E5%80%BC"><span class="toc-number">1.5.2.</span> <span class="toc-text">度量值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%A6%E9%87%8F%E5%80%BCVS%E7%AE%A1%E7%90%86%E8%B7%9D%E7%A6%BB"><span class="toc-number">1.5.3.</span> <span class="toc-text">度量值VS管理距离</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">1.6.</span> <span class="toc-text">路由的负载均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E7%9B%AE%E7%9A%84%E5%9C%B0%E5%9C%B0%E5%9D%80"><span class="toc-number">1.6.1.</span> <span class="toc-text">基于目的地地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E5%8C%96%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="toc-number">1.6.1.1.</span> <span class="toc-text">简化过程：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E8%BF%87%E7%A8%8B"><span class="toc-number">1.6.1.2.</span> <span class="toc-text">实际过程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">1.6.2.</span> <span class="toc-text">基于数据包</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1-1"><span class="toc-number">2.</span> <span class="toc-text">静态路由</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text">静态路由的概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">2.2.</span> <span class="toc-text">静态路由的特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">2.3.</span> <span class="toc-text">静态路由的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE%E5%91%BD%E4%BB%A4"><span class="toc-number">2.3.1.</span> <span class="toc-text">基础配置命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%91%BD%E4%BB%A4"><span class="toc-number">2.3.2.</span> <span class="toc-text">查看命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%A6%81%E7%82%B9"><span class="toc-number">2.3.3.</span> <span class="toc-text">配置要点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C"><span class="toc-number">2.3.4.</span> <span class="toc-text">基础实验</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C1"><span class="toc-number">2.3.4.1.</span> <span class="toc-text">实验1</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%A2%98%E5%B9%B2"><span class="toc-number">2.3.4.1.1.</span> <span class="toc-text">题干</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E5%88%86%E6%9E%90"><span class="toc-number">2.3.4.1.2.</span> <span class="toc-text">实验分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E9%85%8D%E7%BD%AE"><span class="toc-number">2.3.4.1.3.</span> <span class="toc-text">实验配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92%E5%88%86%E6%9E%90"><span class="toc-number">2.3.4.1.4.</span> <span class="toc-text">数据传递分析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C2"><span class="toc-number">2.3.4.2.</span> <span class="toc-text">实验2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%98%E5%B9%B2-1"><span class="toc-number">2.3.4.3.</span> <span class="toc-text">题干</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E5%88%86%E6%9E%90-1"><span class="toc-number">2.3.4.3.1.</span> <span class="toc-text">实验分析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E9%85%8D%E7%BD%AE-1"><span class="toc-number">2.3.4.4.</span> <span class="toc-text">实验配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92%E5%88%86%E6%9E%90-1"><span class="toc-number">2.3.4.4.1.</span> <span class="toc-text">数据传递分析</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E7%9A%84%E4%B8%8B%E4%B8%80%E8%B7%B3"><span class="toc-number">2.4.</span> <span class="toc-text">静态路由的下一跳</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C1-1"><span class="toc-number">2.4.1.</span> <span class="toc-text">实验1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%BA%E4%B8%8B%E4%B8%80%E8%B7%B3"><span class="toc-number">2.4.1.1.</span> <span class="toc-text">配置为下一跳</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%BA%E5%87%BA%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.4.1.2.</span> <span class="toc-text">配置为出接口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C2-1"><span class="toc-number">2.4.2.</span> <span class="toc-text">实验2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.4.3.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%BA%E7%9C%81%EF%BC%88%E9%BB%98%E8%AE%A4%EF%BC%89%E8%B7%AF%E7%94%B1"><span class="toc-number">2.5.</span> <span class="toc-text">缺省（默认）路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%91%BD%E4%BB%A4"><span class="toc-number">2.5.1.</span> <span class="toc-text">配置命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.5.2.</span> <span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E8%BF%9B%E9%98%B6%E9%85%8D%E7%BD%AE"><span class="toc-number">2.5.3.</span> <span class="toc-text">静态路由进阶配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%AE%E5%8A%A8%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-number">2.5.3.1.</span> <span class="toc-text">浮动静态路由</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89-1"><span class="toc-number">2.5.3.1.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF-1"><span class="toc-number">2.5.3.1.2.</span> <span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%91%BD%E4%BB%A4-1"><span class="toc-number">2.5.3.1.3.</span> <span class="toc-text">配置命令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E"><span class="toc-number">2.5.3.1.4.</span> <span class="toc-text">举例说明</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#permanent%E5%8F%82%E6%95%B0"><span class="toc-number">2.5.3.2.</span> <span class="toc-text">permanent参数</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%B1%87%E6%80%BB"><span class="toc-number">3.</span> <span class="toc-text">路由汇总</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E8%83%8C%E6%99%AF"><span class="toc-number">3.1.</span> <span class="toc-text">技术背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%B1%87%E6%80%BB%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">3.2.</span> <span class="toc-text">路由汇总的计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">3.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">4.</span> <span class="toc-text">路由器的工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">4.1.</span> <span class="toc-text">路由器的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E8%BD%AC%E5%8F%91%E5%8E%9F%E5%88%99"><span class="toc-number">4.2.</span> <span class="toc-text">路由器转发原则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E5%8F%91IP%E5%8C%85%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="toc-number">4.2.1.</span> <span class="toc-text">转发IP包的条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%AD%A5%E9%AA%A4"><span class="toc-number">4.2.2.</span> <span class="toc-text">数据处理步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E6%9F%A5%E8%AF%A2"><span class="toc-number">4.3.</span> <span class="toc-text">递归查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E5%8C%B9%E9%85%8D%E5%8E%9F%E5%88%99"><span class="toc-number">4.4.</span> <span class="toc-text">最长匹配原则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89-2"><span class="toc-number">4.4.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BE%E4%BE%8B%E5%88%86%E6%9E%90"><span class="toc-number">4.4.2.</span> <span class="toc-text">举例分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">4.4.3.</span> <span class="toc-text">相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E7%B1%BB%E7%BD%91%E7%BB%9C"><span class="toc-number">4.4.3.1.</span> <span class="toc-text">主类网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%90%E7%BD%91"><span class="toc-number">4.4.3.2.</span> <span class="toc-text">子网</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B6%85%E7%BD%91"><span class="toc-number">4.4.3.3.</span> <span class="toc-text">超网</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%9C%80%E9%95%BF%E5%8C%B9%E9%85%8D"><span class="toc-number">4.4.3.4.</span> <span class="toc-text">如何最长匹配</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%89%80%E9%9C%80%E7%9A%84%E5%85%83%E7%B4%A0"><span class="toc-number">4.5.</span> <span class="toc-text">路由所需的元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%9F%A5%E6%89%BE%E5%8E%9F%E5%88%99%E6%80%BB%E7%BB%93"><span class="toc-number">4.6.</span> <span class="toc-text">路由查找原则总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-number">4.7.</span> <span class="toc-text">路由器发送数据的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">4.7.1.</span> <span class="toc-text">交换的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E4%BA%A4%E6%8D%A2"><span class="toc-number">4.7.2.</span> <span class="toc-text">进程交换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E4%BA%A4%E6%8D%A2"><span class="toc-number">4.7.3.</span> <span class="toc-text">快速交换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E7%A7%91CEF"><span class="toc-number">4.7.4.</span> <span class="toc-text">思科CEF</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#FIB%E8%A1%A8"><span class="toc-number">4.7.4.1.</span> <span class="toc-text">FIB表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%82%BB%E5%B1%85%E8%A1%A8"><span class="toc-number">4.7.4.2.</span> <span class="toc-text">邻居表</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E8%BF%87%E7%A8%8B"><span class="toc-number">5.</span> <span class="toc-text">路由选择过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E7%9A%84%E6%83%85%E5%86%B5"><span class="toc-number">5.1.</span> <span class="toc-text">需要路由选择的情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E8%B7%AF%E7%94%B1%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="toc-number">5.2.</span> <span class="toc-text">选择最佳路由的步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8C%85%E7%9A%84%E8%BD%AC%E5%8F%91%E8%BF%87%E7%A8%8B"><span class="toc-number">5.3.</span> <span class="toc-text">数据包的转发过程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%B9%B3%E9%9D%A2%E5%92%8C%E6%95%B0%E6%8D%AE%E5%B9%B3%E9%9D%A2"><span class="toc-number">6.</span> <span class="toc-text">控制平面和数据平面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E6%96%87%E7%AB%A0"><span class="toc-number">7.</span> <span class="toc-text">引用文章</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/10/11/14-BGP/" title="14、BGP">14、BGP</a><time datetime="2020-10-11T09:08:28.000Z" title="发表于 2020-10-11 17:08:28">2020-10-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/06/18/12-RIP/" title="12、RIP">12、RIP</a><time datetime="2020-06-18T02:25:00.000Z" title="发表于 2020-06-18 10:25:00">2020-06-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/06/18/13-ospf/" title="13、ospf">13、ospf</a><time datetime="2020-06-18T02:25:00.000Z" title="发表于 2020-06-18 10:25:00">2020-06-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/05/04/11-route-basic/" title="11、路由基础及静态路由">11、路由基础及静态路由</a><time datetime="2020-05-04T02:25:00.000Z" title="发表于 2020-05-04 10:25:00">2020-05-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/04/14/10-cisco-ios/" title="10、设备管理及cisco IOS基础配置">10、设备管理及cisco IOS基础配置</a><time datetime="2020-04-14T03:42:18.000Z" title="发表于 2020-04-14 11:42:18">2020-04-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2022 By Rookie</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://renyuan431.github.io/2020/05/04/11-route-basic/'
+    this.page.identifier = '2020/05/04/11-route-basic/'
+    this.page.title = '11、路由基础及静态路由'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://newnotebook.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = '/posts/,/about/'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.akilar.top/api?renyuan431",['#e4dfd7', '#f9f4dc', '#f7e8aa', '#f7e8aa', '#f8df72', '#fcd217', '#fcc515', '#f28e16', '#fb8b05', '#d85916', '#f43e06'],'renyuan431')
+    }
+  </script><!-- hexo injector body_end end --></body></html>
