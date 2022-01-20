@@ -1,0 +1,1303 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>19-Switch | Rookie的博客</title><meta name="author" content="Rookie"><meta name="copyright" content="Rookie"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="以太网基础知识 Ethernet，以太网发明与20世纪70年代中期，由Xerox公司分部，Palo Alto研究中心开发的，Xerox最早发明的是一个2Mbps的以太网，后来又和Intel以及DEC合作开发出了10Mbps的以太网，俗称Ethernet 2或Ethernet DIX。后来IEEE通过802委员会把Ethernet标准化为IEEE802.3，它和Ethernet2十分相似。在TCP&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="19-Switch">
+<meta property="og:url" content="https://renyuan431.github.io/2022/01/20/19-Switch/index.html">
+<meta property="og:site_name" content="Rookie的博客">
+<meta property="og:description" content="以太网基础知识 Ethernet，以太网发明与20世纪70年代中期，由Xerox公司分部，Palo Alto研究中心开发的，Xerox最早发明的是一个2Mbps的以太网，后来又和Intel以及DEC合作开发出了10Mbps的以太网，俗称Ethernet 2或Ethernet DIX。后来IEEE通过802委员会把Ethernet标准化为IEEE802.3，它和Ethernet2十分相似。在TCP&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://renyuan431.github.io/img/index.jpg">
+<meta property="article:published_time" content="2022-01-20T07:32:18.000Z">
+<meta property="article:modified_time" content="2022-01-20T07:32:58.667Z">
+<meta property="article:author" content="Rookie">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://renyuan431.github.io/img/index.jpg"><link rel="shortcut icon" href="/img/avatar.jpg"><link rel="canonical" href="https://renyuan431.github.io/2022/01/20/19-Switch/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '19-Switch',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-20 15:32:58'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/index.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Rookie的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">19-Switch</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-20T07:32:18.000Z" title="发表于 2022-01-20 15:32:18">2022-01-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-20T07:32:58.667Z" title="更新于 2022-01-20 15:32:58">2022-01-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">28.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>103分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="19-Switch"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="以太网"><a href="#以太网" class="headerlink" title="以太网"></a>以太网</h1><h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><ul>
+<li>Ethernet，以太网发明与20世纪70年代中期，由Xerox公司分部，Palo Alto研究中心开发的，Xerox最早发明的是一个2Mbps的以太网，后来又和Intel以及DEC合作开发出了10Mbps的以太网，俗称Ethernet 2或Ethernet DIX。后来IEEE通过802委员会把Ethernet标准化为IEEE802.3，它和Ethernet2十分相似。在TCP/IP中，以太网IP数据报文的封装格式由RFC894定义格式，IEEE802.3网络的IP数据报文封装由RFC1042定义，当今最常用的封装格式是RFC894定义的格式，通常称为Ethernet 2或Ethernet DIX。</li>
+<li>管理MAC表。show mac address-table，clear mac address-table，绑定mac地址到一个接口：mac address-table static</li>
+</ul>
+<h2 id="以太网的数据链路层"><a href="#以太网的数据链路层" class="headerlink" title="以太网的数据链路层"></a>以太网的数据链路层</h2><p>在以太网中，针对不同的双工模式，提供不同的介质访问方法：</p>
+<ul>
+<li>半双工模式下采用的是CSMA/CD的访问方式。</li>
+<li>全双工模式下则可以直接进行收发，不用预先判断链路的忙闲状态。</li>
+</ul>
+<p>半双工和全双工是物理层的概念，而针对物理层的双工模式提供不同的访问方式则是数据链路层的概念，这样就形成了以太网的一个重要特点，数据链路层和物理层是相关的。</p>
+<p>由于以太网的物理层和数据链路层是相关的，针对物理层的不同工作模式，需要提供特定的数据链路层来访问。这给涉及和应用带来了一些不便，为此一些组织和厂家提出把数据链路层进行分层，分为逻辑链路控制子层（Logical Link Control，LLC）和媒体访问控制子层（Media Access Control），这样不同的物理层对应不同的MAC子层，LLC子层可以完全独立。</p>
+<h3 id="MAC子层"><a href="#MAC子层" class="headerlink" title="MAC子层"></a>MAC子层</h3><p>MAC子层负责如下任务：</p>
+<ul>
+<li><p>提供物理链路的访问；</p>
+</li>
+<li><p>链路级站点标识：在数据链路层识别网络上的各个站点。</p>
+</li>
+<li><p>也就是说，在该层次保留了一个站点地址，也就是MAC地址，来标识网络上的唯一一个站点。</p>
+</li>
+<li><p>链路级的数据传输：从LLC子层接收数据，附加上MAC地址和控制信息后，把数据发送到物理链路上；在这个过程中提供校验等功能。</p>
+</li>
+</ul>
+<p>MAC子层是物理相关的，也就是说，不同的物理层有不同的MAC子层来进行访问。在以太网中，主要存在两种MAC：</p>
+<ul>
+<li>半双工MAC：物理层运行模式是半双工时提供访问。</li>
+<li>全双工MAC：物理层运行模式是全双工时提供访问。</li>
+</ul>
+<p>这两种MAC都集成在网卡中，网卡初始化的时候一般进行自动协商，根据自动协商的结果决定运行模式，然后根据运行模式选择相应的访问MAC。</p>
+<p>MAC地址是烧录在网卡（Network Interface Controller，NIC）的ROM里的</p>
+<p><img src="/2022/01/20/19-Switch/1617264140004-2ff7c56f-5a0d-4e4d-ac5f-51e9bfcd88cd.png" alt="img"></p>
+<ul>
+<li>高位是Individual/Group位，当它的值为0时，就可以认为这个地址实际上是设备的MAC地址。当它的值为1时，就可以认为这个地址表示以太网中的广播地址或组播地址，或者表示TR和FDDI中的广播地址或功能地址。</li>
+<li>下一位是G/L位（也叫做U/L，这里的U表示全局）当这一位设置为0时，就表示一个全局管理地址（由IEEE分配），当这一位为1时，表示一个在管理上局部本地的地址（就像在DECnet中一样）。以太网一直使用全局唯一地址。</li>
+</ul>
+<h3 id="以太网帧格式"><a href="#以太网帧格式" class="headerlink" title="以太网帧格式"></a>以太网帧格式</h3><p>二层以太网的封装格式，能够见到的有四种，分别是TCP/IP协议使用、目前基本大一统的Ethernet II，IEEE的802.3、802.3LLC、802SNAP，常见的封装格式有两种：IEEE802.3和Ethernet II（以太网2），之所以有两种帧封装格式，是因为OSI七层以及TCP/IP两种模型定义了两种不同的封装格式，他们的差别主要是在帧头封装部分，之前规定的结果是控制层面使用802.3格式封装，转发层面的使用以太网2封装，但基本上目前是以太网一统天下，所以在这里就不说关于802.3的相关东西了。对这个有兴趣的可以看看论坛的帖子：<a target="_blank" rel="noopener" href="https://community.cisco.com/t5/switching/ethernet-802-3-vs-ethernet-ii-frame/td-p/2718996">Ethernet 802.3 vs. Ethernet II Frame</a>和<a target="_blank" rel="noopener" href="https://community.cisco.com/t5/switching/ether-frames-802-3-naming-conventions/td-p/2076323">Ether Frames 802.3 naming conventions</a>，这里贴一段总结的比较好的话：</p>
+<p>if you are going to look at an IPv4 or IPv6 communication, it will be practically always encapsulated into Ethernet II frames because those are the most efficient in terms of overhead. 802.3 + LLC frames are used nowadays mostly for older protocols authored by IEEE itself, such as STP/RSTP/MSTP. SNAP frames are often used for vendor-proprietary Layer2 protocols - Cisco uses it for CDP, DTP, VTP and PAgP, to name a few.</p>
+<p>如果你观察IPV4和IPV6的通信，它们实际上都是用以太网2进行封装的，因为从开销方面来说，这是最有效的封装方式，802.3+LLC子层的帧格式绝大部分时候出现在IEEE便携的较老的协议上，比如STP/RSTP/MSTP等协议。SNAP帧格式经常出现在厂家私有协议的二层协议中，比如思科在CDP，TDP，VTP和PAGP等协议上。</p>
+<p>为什么以太网2格式使用的更广泛呢？</p>
+<p>To run TCP/IP over IEEE 802.3, the SNAP format has to be used. That requires 8 bytes of the data field to identify the kind of data the frame is carrying: three bytes for the Logical Link Control, three bytes for the SNAP header, and two bytes for the Protocol Type field. That means the data field shrinks from the standard range of 46 to 1500 bytes down to a range of 38 to 1492. This is the reason most network managers stay with Ethernet II.</p>
+<p>在TCP/IP协议上运行IEEE802.3封装时，必须使用SNAP格式，它需要8字节的数据字段来标识帧所携带的数据类型。这8个字节由3个字节的逻辑子层控制、3字节的SNAP报头、2个字节的协议类型字段组成。这意味着能携带的数据部分将从46-1500，缩小到38-1492字节。数据部分缩小是绝大多数网络使用以太网2封装的原因。</p>
+<p><img src="/2022/01/20/19-Switch/1617269241080-767d3cfd-c2f9-4422-b375-26ac5b9e1191.jpeg" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1617265708413-f5ba315f-2aa3-4564-bf48-3649e0de7a92.png" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th>前导（Preamble）</th>
+<th>包括7个字节的签到码（一串1、0间隔，用于信号同步）及1个字节的帧起始定界符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>类型（Type）</td>
+<td>802.3使用长度字段，但Ethernet帧使用字段类型来识别网络层的协议。在Ethernet2帧中，两字节的类型字段用于标识数据字段中的高层协议，也就是说，该字段告诉接收设备如何解释数据字段。在以太网中，多种协议可以在局域网中同时共存，因此在Ethernet2的类型字段中设置相应的十六进制值提供了在局域网中支持多协议传输的机制。类型字段取值为0800的帧代表IP协议帧；类型字段取值为0806的帧代表ARP协议帧；类型字段取值为0835的帧代表RARP协议帧；类型字段取值为8137的帧代表IPX和SPX传输协议帧；802.3不能识别上层协议，因此必须与专用的LAN（比如IPX）一起使用。</td>
+</tr>
+<tr>
+<td>数据（Data）</td>
+<td>46-1500字节；在接口下设置的mtu xxx命令，指的就是这个，并且一般不允许手动修改。ip mtu指的是ip报文的最大值。</td>
+</tr>
+<tr>
+<td>帧校验序列FCS（Frame Check Sequence）</td>
+<td>这部分的作用是让接收端在收到数据的时候检查收到的帧是否正确无误，如果校验和结果错了，会丢掉此帧；如果校验和结果正确，再去判断帧的目的硬件地址（MAC地址）是否符合自己的接收条件，看帧校验和是二层解封装后的第一步。以太网使用CRC（Cyclic redundancy check）这种方式校验，所以在以太网里，可以暂且把两者看成是同一个东西，但从概念上来讲，要知道二者是不同的。</td>
+</tr>
+</tbody></table>
+<p>目前我们所使用到的以太网帧基本都是Ethernet2帧。</p>
+<h1 id="二层交换"><a href="#二层交换" class="headerlink" title="二层交换"></a>二层交换</h1><h2 id="VLAN"><a href="#VLAN" class="headerlink" title="VLAN"></a>VLAN</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><img src="/2022/01/20/19-Switch/1617269394100-5e7ab195-cf71-4f29-8442-b8a2f323c2f7.png" alt="img"></p>
+<ul>
+<li><p>一个VLAN中所有设备都是在同一广播域内，不同的VLAN为不同的广播域；</p>
+</li>
+<li><p>VLAN之间相互隔离，广播不能跨越VLAN传播，因此不同VLAN之间的设备一般无法相互访问，不同的VLAN间需通过三层设备实现相互通信；</p>
+</li>
+<li><p>一个VLAN一般为一个逻辑子网，由被配置为此VLAN成员的设备组成；</p>
+</li>
+<li><p>VLAN中成员大多基于交换机的端口分配，划分VLAN就是对交换机的接口划分；</p>
+</li>
+<li><p>VLAN工作域OSI参考模型的第二层；</p>
+</li>
+<li><p>VLAN是二层交换机的一个非常根本的工作机制；</p>
+</li>
+</ul>
+<h3 id="VLAN通信原理"><a href="#VLAN通信原理" class="headerlink" title="VLAN通信原理"></a>VLAN通信原理</h3><p>为了提高处理效率，交换机内部的数据帧一律带有VLAN Tag，以统一方式处理。当一个数据帧进入交换机端口时，如果没有带VLAN Tag，并且该端口上配置了PVID（Port VLAN ID），那么该数据帧就会被标记上端口的PVID，如果该数据已经带有了VLAN Tag，那么即使端口已经配置了PVID，交换机不会再给数据帧标记VLAN Tag。默认情况下，整台交换机的所有端口均属于同一个广播域。</p>
+<p>PVID是端口缺省VLAN ID的意思，即一个端口缺省属于的VLAN。</p>
+<p>由于端口类型不同，交换机对帧的处理过程也不同，下面将根据不同的端口类型分别介绍。</p>
+<h4 id="Access接口处理帧过程"><a href="#Access接口处理帧过程" class="headerlink" title="Access接口处理帧过程"></a>Access接口处理帧过程</h4><p>Access端口处理VLAN帧的过程如下：</p>
+<ol>
+<li><p>收到二层帧。</p>
+</li>
+<li><p>判断帧是否有Vlan Tag：如果没有Tag，则标记上Access端口的PVID，进行下一步处理；如果有Tag，则比较帧的VLAN Tag和端口的PVID，如果两者一致则进行下一步处理，如果不一致则丢弃帧。</p>
+</li>
+<li><p>二层交换机根据帧的MAC地址和VLAN ID查找VLAN配置信息，决定从哪个端口把帧发送出去。</p>
+</li>
+<li><p>交换机根据查到的出接口发送数据帧：</p>
+</li>
+</ol>
+<ul>
+<li><p>当数据帧从Access端口发出时，交换机先剥离帧的VLAN Tag，然后再发送出去；</p>
+</li>
+<li><p>当数据帧从Trunk端口发出时，直接发送帧；</p>
+</li>
+<li><p>当数据帧从Hybrid端口发出时，交换机判断VLAN在本地端口的属性是Untag还是Tag，如果是Untag，会先剥离帧的VLAN Tag，再发送；如果是Tag，则直接发送帧；</p>
+</li>
+</ul>
+<h4 id="Trunk端口处理帧过程"><a href="#Trunk端口处理帧过程" class="headerlink" title="Trunk端口处理帧过程"></a>Trunk端口处理帧过程</h4><p>Trunk端口处理VLAN帧的过程如下：</p>
+<ol>
+<li><p>收到一个二层帧。</p>
+</li>
+<li><p>判断帧是否有VLAN Tag。如果没有Tag，则标记上Trunk端口的PVID，进行下一步处理。如果有Tag，则判断该Trunk端口是否允许VLAN帧进入。允许进入则进行下一步，否则丢弃帧。</p>
+</li>
+<li><p>二层交换机根据帧目的MAC地址和VLAN ID查找VLAN配置信息，决定从哪个端口把帧发送出去。</p>
+</li>
+<li><p>交换机根据查到的出接口发送数据帧：</p>
+</li>
+</ol>
+<ul>
+<li><p>当数据帧从Access端口发出时，交换机先剥离帧的VLAN Tag，然后再发送出去；</p>
+</li>
+<li><p>当数据帧从Trunk端口发出时，直接发送帧；</p>
+</li>
+<li><p>当数据帧从Hybrid端口发出时，交换机判断VLAN在本地端口的属性是Untag还是Tag，如果是Untag先剥离帧的VLAN Tag，再发送，如果是Tag，直接发送帧；</p>
+</li>
+</ul>
+<h3 id="Protected-Port"><a href="#Protected-Port" class="headerlink" title="Protected Port"></a>Protected Port</h3><p><img src="/2022/01/20/19-Switch/1617348883508-d16e6d99-9a57-46eb-b24d-870913c1c398.png" alt="img"></p>
+<ul>
+<li><p>Protected Port虽然同处一个VLAN，但Protected Port接口之间彼此无法相互通信；</p>
+</li>
+<li><p>Protected Port智能与unprotected port（默认）互相通信；</p>
+</li>
+<li><p>Protected Port特性无法跨交换机实现；</p>
+</li>
+</ul>
+<p>将端口配置为Protected Port的命令为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">switchport protected</span><br></pre></td></tr></table></figure>
+
+<h2 id="Trunk"><a href="#Trunk" class="headerlink" title="Trunk"></a>Trunk</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p><img src="/2022/01/20/19-Switch/1617353951725-fb4f4915-c22d-43ff-9694-ae6059e218aa.png" alt="img"></p>
+<ul>
+<li><p>当一条链路，需要承载多VLAN信息时候，需使用trunk来实现；</p>
+</li>
+<li><p>Trunk两端的交换机需采用相同的干道协议；</p>
+</li>
+<li><p>一般见于交换机之间或交换机与路由器、服务器之间；</p>
+</li>
+</ul>
+<h3 id="封装协议"><a href="#封装协议" class="headerlink" title="封装协议"></a>封装协议</h3><p><img src="/2022/01/20/19-Switch/1617354034253-82bb9ee4-f05a-412a-820b-bb4fd2b48df5.png" alt="img"></p>
+<p>ISL是思科私有的VLAN封装协议，只有在全思科网络环境下才可能使用，但已经很少见到了，基本是DOT1Q（802.1Q）一统江湖，所以接下来不会涉及到ISL的知识。</p>
+<p>对于那些大于1500字节但小于2000字节的帧，Dot1Q的MTU为1522。</p>
+<p>DOT1Q的VLAN范围是1-4094个VLAN。</p>
+<p><strong>链路聚集模式：</strong></p>
+<ul>
+<li><p>Trunk：永久链路聚集模式，强制trunk，发送DTP帧；</p>
+</li>
+<li><p>Nonegotiate：永久链路聚集模式，必须手动将邻居配为干道，不发送DTP帧，一般用于对端设备不支持DTP的情况；</p>
+</li>
+<li><p>Desirable：主动尝试将链路设置成干道（Trunk，默认为该模式），发送DTP帧，如果邻接接口为Trunk\Desirable\AUTO，那么此接口成为Trunk；</p>
+</li>
+<li><p>Auto：接口愿意成为Trunk，如果临街接口设置为Trunk或Desirable，那么接口就成为Trunk；</p>
+</li>
+<li><p>Access：永久的Nontrunking模式，并且与对端接口协商，使其成为nontrunking链路；</p>
+</li>
+</ul>
+<p><img src="/2022/01/20/19-Switch/1617434654840-c21a78c0-83ce-4dce-ae98-37a1f3f4bbb4.png" alt="img"></p>
+<h3 id="Dot1Q"><a href="#Dot1Q" class="headerlink" title="Dot1Q"></a>Dot1Q</h3><h4 id="帧格式"><a href="#帧格式" class="headerlink" title="帧格式"></a>帧格式</h4><p><img src="/2022/01/20/19-Switch/1617434706610-29308387-141d-4cc8-bf25-92e16aec01b0.png" alt="img"></p>
+<p>802.1Q（Dot1Q）为共有协议，默认情况下，在802.1Q Trunk上，对所有的VLAN打Tag，除了Native VLAN，交换机根据以太网帧头信息来转发数据包。</p>
+<p>802.1Q Tag包含四个字段，含义如下：</p>
+<ul>
+<li><p>EtherType：长度为2字节，表示帧类型，当取值为0X8100时表示802.1Q Tag帧，如果不支持802.1Q的设备收到EtherType为0X8100的帧，会将其丢掉；</p>
+</li>
+<li><p>PRI：Priority，长度为3比特，表示帧的优先级，取值范围为0-7，值越大优先级越高，用于当交换机阻塞时，优先发送优先级高的数据包；</p>
+</li>
+<li><p>CFI：Canonical Format Indicator，长度为1比特，表示MAC地址是否为经典格式，CFI为0时说明是经典格式，CFI为1时表示为非经典格式，用于区分以太网帧、FDDI（Fiber Distributed Digital Interface）帧和令牌环网帧。</p>
+</li>
+<li><p>VID，VLAN ID，长度为12比特，表示该帧所属的VLAN，在VRP中，可配置的VLAN ID取值范围为1-4096。</p>
+</li>
+</ul>
+<h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h4><p>缺点是破坏了原始以太网帧的格式而且要重新计算FCS。802.1Q支持4096个VLAN，最大帧长度为1518+4=1522。</p>
+<h4 id="Native-Vlan"><a href="#Native-Vlan" class="headerlink" title="Native Vlan"></a>Native Vlan</h4><p>在802.1Q的Native vlan是不打标签的，使用Dot1Q的交换机把所有未标记的Frame转发到Native vlan中。</p>
+<ul>
+<li><p>Native VLAN所属的帧在经过Trunk时不打标签；</p>
+</li>
+<li><p>Native VLAN在Trunk两端必须匹配，否则会出现VLAN流量互串；</p>
+</li>
+<li><p>默认的Native vlan是vlan 1；</p>
+</li>
+<li><p>为了安全起见，建议将一个生僻的非vlan1的vlan定位Native vlan；</p>
+</li>
+</ul>
+<p><img src="/2022/01/20/19-Switch/1617436832422-f659aab0-fec4-4d79-9c5d-1b39c7691088.png" alt="img"></p>
+<p>上面拓扑中，两台交换机Trunk 两端Native vlan不一样，会有什么问题？首先两端的vlan2通信肯定是没问题的：VLAN2的PC发出的数据，到达左边交换机以后会打上VLAN2的Tag，然后经过中间802.1Q的Trunk链路时，不会对数据进行改变，到达右边交换机时，由于数据有Tag，Trunk端口会判断该端口是否允许属于该VLAN的数据进入，答案是允许进入，因为右侧也有vlan2，然后交换机会根据数据帧的VLAN ID，属于vlan2，从属于VLAN2的端口发出，由于右边属于VLAN2的端口连接的是PC，因此该端口应该是Access端口，带有VLAN2  tag的数据从access口发出时，交换机会先剥离掉VLAN2的Tag，然后发送给PC，两端完成通信。</p>
+<p>但两端属于VLAN3和VLAN4的PC通信就有问题了，先看VLAN3：从VLAN3的PC发出的数据帧到达左边交换机后，由于是Access接口，所以会打上VLAN3的Tag，然后从Trunk接口发出的时候，由于Native vlan是vlan3，Native vlan在通过trunk接口时不打标签，因此从trunk发出数据帧时，不带标签。这个不带标签的数据帧到达右侧交换机后，由于右侧交换机的Native vlan是vlan 4，交换机会认为该数据是属于vlan4的，通信就出现问题了。属于vlan4的PC通信也是类似情况。</p>
+<p><strong>Native vlan相关命令：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在Trunk接口上设置native vlan:</span><br><span class="line">Switch(config-if)#switchport trunk native vlan X</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对Native vlan也打标签</span><br><span class="line">Switch(config)#vlan dot1q tag native</span><br></pre></td></tr></table></figure>
+
+<h4 id="vlan范围"><a href="#vlan范围" class="headerlink" title="vlan范围"></a>vlan范围</h4><table>
+<thead>
+<tr>
+<th>vlan范围</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0,4095</td>
+<td>保留，系统使用</td>
+</tr>
+<tr>
+<td>1</td>
+<td>cisco默认vlan</td>
+</tr>
+<tr>
+<td>2-1001</td>
+<td>for Ethernet Vlans给vlan使用</td>
+</tr>
+<tr>
+<td>1002-1005</td>
+<td>Cisco默认为FDDI及Tokenring定义</td>
+</tr>
+<tr>
+<td>1006-4094</td>
+<td>只能为Ethernet使用，在一些特殊平台被保留使用</td>
+</tr>
+</tbody></table>
+<h3 id="DTP"><a href="#DTP" class="headerlink" title="DTP"></a>DTP</h3><p>DTP全称为Dynamic Trunking Protocol，翻译成中文就是动态中继协议，是思科私有协议，用于协商两个支持VLAN的交换机之间链路上对的中继，以及用于协商要使用的中继封装的类型。Trunk可以通过手工静态配置或通过DTP协商而来，在实际配置Trunk链路时，为了避免出现问题，还是尽量直接手工配置（比如使用switchport mode trunk或switchport mode access），避免用DTP协商。</p>
+<p>DTP协议通过DTP Message尝试帮助端口沟通并建立Trunk 链路，DTP有两个模式，分别是Desirable和Auto，简单来说Desirable就是主动模式，Auto就是被动模式，具体如下：</p>
+<p><img src="/2022/01/20/19-Switch/1617448276650-68c83a46-9c4c-45b0-96dc-e11afaf03a6d.png" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1617448288290-4e10c47b-08fb-4e17-b2a5-f4b559b98470.png" alt="img"></p>
+<h3 id="Trunk配置命令"><a href="#Trunk配置命令" class="headerlink" title="Trunk配置命令"></a>Trunk配置命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">将接口设置为Access模式:</span><br><span class="line">Switch(config-if)#switchport mode access</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果接口设置为Trunk，设置Trunk协议类型：</span><br><span class="line">Switch(config-if)#switchport mode encapsulate &#123;dot1q | ISL&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">将接口设置为DTP动态协商，可选择auto或desirable两种类型：</span><br><span class="line">Switch(config-if)#switchport mode dynamic &#123;auto | desirable&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">将接口设置为nonegotiate，不发送DTP帧，如果配置为非协商，就必须手工配置接口模式，为access或trunk：</span><br><span class="line">Switch(config-if)#switchport nonegotiate</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/01/20/19-Switch/1617449025393-17798873-bbc7-4603-aef9-bb9b3f680269.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SW1(config)# interface fast0/23 </span><br><span class="line">SW1(config-if)#switchport trunk encapsulate dot1q</span><br><span class="line">SW1(config-if)#switchport mode trunk</span><br><span class="line">SW1(config-if)#switchport native vlan 1</span><br><span class="line">SW1(config-if)#switchport nonegotiate</span><br><span class="line">SW1(config-if)#switchport trunk allowed vlan X</span><br></pre></td></tr></table></figure>
+
+<h3 id="VTP"><a href="#VTP" class="headerlink" title="VTP"></a>VTP</h3><p>VTP的全称是Virtual Trunking Protocol，也是思科的私有协议，主要用于VLAN管理。在有VTP的情况下，在某一台交换机上配置完VLAN后，该所有的VLAN信息能够自动同步到其他所有交换机上，省去了很多配置。VTP共有三个版本，version1、2、3，其中version1和2在设计上有些缺陷，可能会让交换机的vlan出现灾难性的问题，比如可能所有交换机上的VLAN信息都被清除掉，所以尽量谨慎使用VTP协议。</p>
+<p><img src="/2022/01/20/19-Switch/1617454409203-dc429e39-5c9e-4661-8767-8650a9017d72.png" alt="img"></p>
+<h4 id="VTP类型"><a href="#VTP类型" class="headerlink" title="VTP类型"></a>VTP类型</h4><p><img src="/2022/01/20/19-Switch/1617454537830-da3c64fc-8985-46cc-b2c7-d7891fe9ce2c.png" alt="img"></p>
+<h4 id="VTP的运作"><a href="#VTP的运作" class="headerlink" title="VTP的运作"></a>VTP的运作</h4><ul>
+<li><p>VTP协议通过组播地址0100-0CCC-CCCC在Trunk链路上发送VTP公告；</p>
+</li>
+<li><p>VTP Server和Client以修订号作为同步的基础，会将修订号最高的信息同步到自身设备上；</p>
+</li>
+<li><p>VTP协议每隔5分钟发送一次VTP通告或在有变化发生时通告；</p>
+</li>
+</ul>
+<h4 id="VTP配置"><a href="#VTP配置" class="headerlink" title="VTP配置"></a>VTP配置</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">配置VTP域名</span><br><span class="line">Switch(config)#vtp domain XXX</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">配置本设备VTP模式</span><br><span class="line">Switch(config)#vtp mode &#123;server |client |transparent&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">可以配置密码</span><br><span class="line">Switch(config)#vtp password XXX</span><br></pre></td></tr></table></figure>
+
+<h4 id="VTP的问题"><a href="#VTP的问题" class="headerlink" title="VTP的问题"></a>VTP的问题</h4><p><img src="/2022/01/20/19-Switch/1617454928718-20214183-29b8-4004-b59f-1634204efb73.png" alt="img"></p>
+<p>两台交换机，如果VTP Client的配置修订号（Revision11）比Server的高，那么Client也是能够将Server的vlan信息覆盖的，这种情况下可能会出现问题，比如一台新接入网络的交换机，之前的vlan信息没有清除，配置修订号比现网使用的其他交换机的配置修订号高，此时它就会将现网中原本配置好的vlan信息冲掉，造成灾难性的后果。</p>
+<p><img src="/2022/01/20/19-Switch/1617455099519-68cb4a91-4360-4be0-aef0-d86d254dccc0.png" alt="img"></p>
+<p>上图中Server及Client的配置修订号相同，但vlan信息则不同，这时会报错，提示md5 digest checksum mismatch。</p>
+<h4 id="VTP-Pruning"><a href="#VTP-Pruning" class="headerlink" title="VTP Pruning"></a>VTP Pruning</h4><p>VTP Pruning中文翻译成VTP修剪，VTP协议能确保处于VTP域中的所有交换机都能拥有所有的VLAN信息，但有些时候，VTP会制造一些不必要的流量，那些无用流量会充斥着整个网络：</p>
+<p><img src="/2022/01/20/19-Switch/1617456279305-7e7d0aa9-e726-4de6-873c-e1892cb1a0d9.jpeg" alt="img"></p>
+<p>比如上图的拓扑中，Switch1中只有VLAN1和VLAN2，经过修剪后，VLAN3的流量就不会在Switch1上出现，被修剪了，减少了不必要的流量。</p>
+<p>VTP的配置非常简单，只需在VTP Server中输入‘vtp pruning’即可自动搞定，整个VTP domain中的交换机都会自动激活该功能。</p>
+<h3 id="MTU"><a href="#MTU" class="headerlink" title="MTU"></a>MTU</h3><p>MTU全称是Maximum Transmission Unit，中文翻译为最大传输单元，在思科IOS上，interface X接口模式下：</p>
+<ul>
+<li>MTU ？：指的是二层的MTU，是接口MTU，指的是不含二层帧头的、Payload的MTU，整个MTU一般是不能手工修改的，这个相当于Juniper的Default IP MTU，Default IP MTU（1500字节）=TCP Header（20字节）+IP Header（20字节）+TCP Segment Length（1460字节）。这样一来，思科路由器支持的二层数据帧最大值就是1500的Payload加上二层帧头及二层FCS：目的MAC地址（6字节）+源MAC地址（6字节）+类型字段（2字节）+FCS（4字节），所以总数是1518字节。相当于Juniper的Default Media MTU[1518字节，1500 （Default IP MTU） + 14（encapsulation overhead，6字节的目的MAC＋6字节的源MAC＋2字节的帧类型）]但不包含FCS部分（4字节）。</li>
+<li>IP MTU？：指的是三层的MTU，这个值可以手工修改，但最大值必须小于接口的二层MTU值，也就是要小于1500，这个MTU指的是三层IP包的总大小，如果接口发出的包大于这个接口的IP MTU则这个IP包将被分片。</li>
+</ul>
+<p><img src="/2022/01/20/19-Switch/1617457562934-c181c8b1-c84c-4562-9cae-f3eacb43ba8c.png" alt="img"></p>
+<p>比如上图中，R1的F0/0接口的IP MTU为1500，现在去ping 1.1.1.2 repeat 1 size 1500，会发现R1直接将一个ICMP包发出去了，没有分片，报文如下：</p>
+<p><img src="/2022/01/20/19-Switch/1617457634610-f9494c9a-9035-49e5-9319-839a0bf9eacd.png" alt="img"></p>
+<p>从报文中可以看到，IP包的大小为1500字节。其中IP报头20字节，ICMP报头8字节，ICMP Data 载荷1472字节，刚好1500字节，因此在思科IOS设备上，ping 后面跟着的size指的就是发出去的IP包整个大小。如果在R1上ping 1.1.1.2 repeat 1 size 1501，则由于这个IP包大于MTU1500，会被分片，然后在R2上这两个分片被重组。</p>
+<h2 id="私有VLAN"><a href="#私有VLAN" class="headerlink" title="私有VLAN"></a>私有VLAN</h2><h3 id="基本概念-1"><a href="#基本概念-1" class="headerlink" title="基本概念"></a>基本概念</h3><ul>
+<li><p>私有VLAN全称是Private VLAN，中文是私有VLAN；</p>
+</li>
+<li><p>将一个VLAN划分成几个单独的VLAN，这些VLAN都是用同一个IP网段；</p>
+</li>
+<li><p>可以提高安全性，降低子网数量，提高IP利用率；</p>
+</li>
+<li><p>尽管网络设备处于同一个子网中，但它们属于不同的Pvlan，Pvlan之间的通信还是必须通过默认网关来实现；</p>
+</li>
+<li><p>每个Pvlan包括一个主VLAN以及多个辅助VLAN。所有的辅助VLAN都映射到主VLAN；</p>
+</li>
+<li><p>辅助VLAN分为团体VLAN和隔离VLAN；</p>
+</li>
+<li><p>相同的团体VLAN能够相互通信，但是团体VLAN之间必须通过设置SVI或者路由器接口才能通信，也就是要通过三层才能通信；</p>
+</li>
+<li><p>相同的隔离VLAN内部以及隔离VLAN之间都是不能够相互通信的，只能与混杂接口通信；</p>
+</li>
+<li><p>一个主VLAN只能有一个Isolate VLAN；</p>
+</li>
+<li><p>混杂端口能够与Pvlan中的任何设备通信，不管对方是处于主VLAN还是辅助VLAN；</p>
+</li>
+</ul>
+<h3 id="PVLAN端口类型"><a href="#PVLAN端口类型" class="headerlink" title="PVLAN端口类型"></a>PVLAN端口类型</h3><ul>
+<li><p>Isolated：中文翻译为隔离端口，隔离端口只能与混杂端口通信，不能与其他类型端口通信；</p>
+</li>
+<li><p>Promiscuous：中文翻译为混杂端口，可以和所有类型的端口通信；</p>
+</li>
+<li><p>Community：中文翻译为公共端口，与公共vlan相关的任何交换机端口都可以相互通信，并与混杂端口通信；</p>
+</li>
+</ul>
+<p><img src="/2022/01/20/19-Switch/1617506769185-c658aab9-0458-434c-8378-d40f5876ccf4.jpeg" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1617506774009-41ce5e07-5f6d-4324-8718-c9c672c65ef2.png" alt="img"></p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>Pvlan必须配置在透明模式的交换机上，禁止将第三层的VLAN接口配置为辅助VLAN，VTP并不支持Pvlan，所以必须手动在各个交换机上配置VLAN信息。</p>
+<h3 id="Pvlan配置命令"><a href="#Pvlan配置命令" class="headerlink" title="Pvlan配置命令"></a>Pvlan配置命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">创建主VLAN</span><br><span class="line">vlan 100</span><br><span class="line">  private-vlan primary</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">创建辅助VLAN</span><br><span class="line">vlan 101</span><br><span class="line">  private-vlan community</span><br><span class="line">vlan 102</span><br><span class="line">  private-vlan isolate</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">配置主vlan，将二层辅助vlan关联到主vlan</span><br><span class="line">vlan 100</span><br><span class="line">  private-vlan association 101,102</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">配置接口为主机接口</span><br><span class="line">interface e0/1</span><br><span class="line">  switchport mode private-vlan host</span><br><span class="line">  switchport private-vlan host-association 100 101</span><br><span class="line">  #关联主vlan和辅助vlan到接口</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">配置接口为混杂接口</span><br><span class="line">interface e0/2</span><br><span class="line">  switchport mode private-vlan promiscuous</span><br><span class="line">  switchport private-vlan mapping add 100 101</span><br><span class="line">  #将端口映射到pvlan</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">查看及验证：</span><br><span class="line">show pvlan mapping</span><br></pre></td></tr></table></figure>
+
+<h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><p><img src="/2022/01/20/19-Switch/1617507772486-1126e9e8-24a9-4ff6-9439-d13cc6e06b46.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sw(config)#vtp transparent</span><br><span class="line">sw(config)#vlan 201</span><br><span class="line">sw(config-vlan)#private-vlan isolated</span><br><span class="line">sw(config)#vlan 202</span><br><span class="line">sw(config-vlan)#private-vlan community</span><br><span class="line">sw(config)#vlan 100</span><br><span class="line">sw(config-vlan)#private-vlan primary</span><br><span class="line">sw(config-vlan)#private-vlan association 201，202</span><br><span class="line">！</span><br><span class="line">sw(config)#interface f0/24</span><br><span class="line">sw(config-if)#switchport mode private-vlan promiscuous</span><br><span class="line">sw(config-if)#switchport private-vlan mapping 100 201,202</span><br><span class="line">sw(config)#interface f0/1-2</span><br><span class="line">sw(config-if)#switchport mode private-vlan host</span><br><span class="line">sw(config-if)#switchport private-vlan host-association 100 202</span><br><span class="line">sw(config)#interface range f0/3-4</span><br><span class="line">sw(config-if)#switchport mode private-vlan host</span><br><span class="line">sw(config-if)#switchport private-vlan host-association 100 201</span><br></pre></td></tr></table></figure>
+
+<h1 id="Spanning-tree"><a href="#Spanning-tree" class="headerlink" title="Spanning-tree"></a>Spanning-tree</h1><h2 id="协议概述"><a href="#协议概述" class="headerlink" title="协议概述"></a>协议概述</h2><p><img src="/2022/01/20/19-Switch/1617508413192-8b039fc0-f6eb-4199-837e-ac1a56809ff3.png" alt="img"></p>
+<ul>
+<li><p>如果接入层交换机单链路上联，会存在单点故障，如果任意一个汇聚交换设备宕机，将直接导致下联的接入层网络挂掉；</p>
+</li>
+<li><p>如果接入层交换机采取双链路上联到两台汇聚设备，构成一个物理链路冗余的二层环境，可以解决单链路故障问题，但二层存在环路问题；</p>
+</li>
+<li><p>生成树可以解决二层环路问题，通过生成树协议，在逻辑上将特定的端口Block，从而实现物理上存在冗余链路，而二层上又组织环路的产生；</p>
+</li>
+<li><p>当拓扑发生变化的时候，生成树协议能够探测到这些变化，并且及时自动的调整接口状态，从而适应网络拓扑的变化，实现链路冗余；</p>
+</li>
+</ul>
+<h2 id="协议基础"><a href="#协议基础" class="headerlink" title="协议基础"></a>协议基础</h2><h3 id="生成树种类"><a href="#生成树种类" class="headerlink" title="生成树种类"></a>生成树种类</h3><table>
+<thead>
+<tr>
+<th>协议</th>
+<th>共有or私有</th>
+<th>别称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>STP（PVST）</td>
+<td>公有</td>
+<td>802.1 D</td>
+<td></td>
+</tr>
+<tr>
+<td>PVST+</td>
+<td>思科私有协议</td>
+<td></td>
+<td>包含了Portfast、uplinkfast、Backbonefast特性</td>
+</tr>
+<tr>
+<td>RSTP</td>
+<td>公有</td>
+<td>802.1 W</td>
+<td>集成了PVST的功能并公有化</td>
+</tr>
+<tr>
+<td>MST</td>
+<td>公有</td>
+<td>802.1 S</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="BPDU结构及参数"><a href="#BPDU结构及参数" class="headerlink" title="BPDU结构及参数"></a>BPDU结构及参数</h3><p><img src="/2022/01/20/19-Switch/1617511489661-76968eff-16e7-495f-8d47-2fc8849b0c61.png" alt="img"></p>
+<p>BPDU全称为Bridge Protocol Data Units，翻译成中文是网桥协议数据单元，里面包含了有关生成树协议的帧。也就是交换机用来在彼此之间传输STP信息的帧，一个网络中应该只有Root交换机（根交换机）发送BPDU，不过当交换机刚启动时，它会认为自己试根交换机，而发送BPDU，知道它收到一个包含Bridge ID较小的BPDU，才知道自己在Root switch的选举中失利而停止发送BPDU。BPDU默认2秒发送一次，接收到的BPDU会被存储20秒（Max-age），也就是说如果交换机超过20秒没收到BPDU，就会判断Root交换机已经挂掉，会再次认为它自己试Root交换机，再次发送BPDU。</p>
+<ul>
+<li><p>Root ID：网桥ID，长度8字节，由网桥优先级（2字节）+网桥MAC（6字节）构成，缺省优先级为32768，取值范围从0-65535，前4bit表示优先级，后8bit作为system ID，为协议扩展使用，越小越优，取值是4096的倍数。</p>
+</li>
+<li><p>Port ID：端口ID，长度2字节，由端口优先级（1字节）+端口ID（1字节）组成，缺省优先级为128，组织范围从0-255，越小越优。思科交换机端口ID中的优先级默认为128（优先级8bit）。</p>
+</li>
+<li><p>Cost：路径开销，表示从本交换机到达根交换机路径的总开销，越小越优，和端口带宽有关:</p>
+</li>
+</ul>
+<p><img src="/2022/01/20/19-Switch/1617511816073-3efa545e-2f2c-4a2f-ba6b-b487c949c82f.png" alt="img"></p>
+<h2 id="802-1D协议"><a href="#802-1D协议" class="headerlink" title="802.1D协议"></a>802.1D协议</h2><h3 id="基础知识-1"><a href="#基础知识-1" class="headerlink" title="基础知识"></a>基础知识</h3><h4 id="端口类型"><a href="#端口类型" class="headerlink" title="端口类型"></a>端口类型</h4><ul>
+<li><p>根端口(RP，Root Port）：对象是非根设备，每个非根设备有且仅有一个，除了根以外，离根最近的端口，用来接收来自根交换机的BPDU；</p>
+</li>
+<li><p>指定端口（DP，Designated Port）：每条链路上有且仅有一个DP。离根最近，也就是cost最小，用来发送BPDU。一般来说根交换机的端口都是DP，因为离根最近且用来发送BPDU。</p>
+</li>
+<li><p>非制定端口（None Designated Port）：每个环形拓扑有且仅有一个，用来阻塞数据防止环路。</p>
+</li>
+</ul>
+<h4 id="端口状态"><a href="#端口状态" class="headerlink" title="端口状态"></a>端口状态</h4><table>
+<thead>
+<tr>
+<th><strong>状态</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Disable</td>
+<td>无效连接，忽略所有接收到的数据包</td>
+</tr>
+<tr>
+<td>Block</td>
+<td>仅接收BPDU数据包</td>
+</tr>
+<tr>
+<td>Listen</td>
+<td>接收及传送BPDU数据包</td>
+</tr>
+<tr>
+<td>Learn</td>
+<td>接收、发送BPDU数据包，并且学习MAC地址</td>
+</tr>
+<tr>
+<td>Forward</td>
+<td>接收、发送BPDU数据包，学习MAC地址，发送数据</td>
+</tr>
+</tbody></table>
+<p><img src="/2022/01/20/19-Switch/1617605112708-7220ec4f-ef38-474d-b38d-6c787258385b.png" alt="img"></p>
+<h4 id="选举规则"><a href="#选举规则" class="headerlink" title="选举规则"></a>选举规则</h4><p>简单版：根桥ID、根路径开销、发送者BID、发送接口BID，越小越优先；</p>
+<p>具体版：选举根交换机（Root Switch）、选举根端口（Root Port）、选举指定端口（Designated Port），具体参见后文‘STP的运行’部分。</p>
+<h3 id="BPDU报文"><a href="#BPDU报文" class="headerlink" title="BPDU报文"></a>BPDU报文</h3><p>BPDU有两种类型，配置BPDU以及TCN BPDU，由于交换机在一开始又叫网桥，所以字段中的Bridge其实指代的就是交换机。在网络收敛后的正常情况下，交换机只会从它的Root Port上收到配置BPDU，但绝对不会主动发送配置BPDU给根交换机。</p>
+<h4 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h4><p><strong>配置BPDU</strong></p>
+<p><img src="/2022/01/20/19-Switch/1617527884418-61fdcb8b-9772-47e2-ad9b-61f03a20219a.png" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th>字节</th>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2</td>
+<td>协议Protocol ID</td>
+<td>代表上层协议，BPDU，当协议为802.1D时该值总为0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>版本Protocol Version ID</td>
+<td>802.1D的该值总为0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>BPDU种类BPDU Type</td>
+<td>配置BPDU值为0X00，TCN BPDU值为0X80</td>
+</tr>
+<tr>
+<td>1</td>
+<td>标志Flags</td>
+<td>Flags位有两种可能：Topology change（TC）位，表示在通往根桥的路径被中断了。此时由根交换机TC位置1的配置BPDU，通告下游交换机链路发生了变化，涉及的交换机如何在端口上进行相应的改变；Topology change acknowledge（TCA）位，当该位置1时，表示确认收到了TC位置1的配置BPDU；</td>
+</tr>
+<tr>
+<td>8</td>
+<td>根IDRoot ID</td>
+<td>根ID字段会列出2字节的优先级以及6字节的MAC地址ID来表示根桥。当交换机刚启动的时候，这个字段和交换机的根桥ID相同，因为一开始生成树协议还未选举完毕，每台交换机都认为自己就是根桥，随着选举的完毕，最低根桥ID将取代本地根桥ID，以识别根交换机。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>路径开销Root Path Cost</td>
+<td>路径开销，表示从本交换机发送配置信息到根桥的开销，每台交换机的路径开销都不同。</td>
+</tr>
+<tr>
+<td>8</td>
+<td>网桥IDBridge ID</td>
+<td>网桥ID包含着本设备网桥优先级和MAC地址ID。这个字段可以让根交换机了解BPDU的来源，也可以用来识别从交换机到跟交换机的多条路径。当跟交换机从其他交换机收到多条不同路径开销的BPDU时，它会知道有两条不同的路径并使用开销较低的那条。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>端口IDPort ID</td>
+<td>端口ID表示发送生成树相关信息的端口号，这个字段允许检测和纠正交换机产生的环路。（优先级+端口号）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>消息寿命Message age</td>
+<td>从根桥发出BPDU之后的秒数，代表着这个BPDU存活了多长时间，每经过一个网桥都减1，所以它本质上是到达根交换机的跳数。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>最大寿命Max age</td>
+<td>当一段时间内未收到任何BPDU，生存时间到达MAX Age时，交换机会认为该端口连接的链路发生故障，也可以理解为这个BPDU的最大寿命，默认时间为20秒。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Hello时间Hello Time</td>
+<td>根交换机发送BPDU之间的间隔时间，默认为2秒。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>转发延迟Forward Delay</td>
+<td>在监听和学习状态所停留的时间间隔。默认15秒。</td>
+</tr>
+</tbody></table>
+<p><img src="/2022/01/20/19-Switch/1617535206167-5f496a19-ed98-4a4e-83e5-68039d3075e0.png" alt="img"></p>
+<p>如果英文还不错可以到<a target="_blank" rel="noopener" href="https://www.ii.pwr.edu.pl/~kano/course/module4/4.1.2.5/4.1.2.5.html">这个网页</a>看一下，老外做了一个BPDU每个字段的解释以及抓包的页面，很详细。</p>
+<p><strong>TCN BPDU</strong></p>
+<p><img src="/2022/01/20/19-Switch/1617596833582-6d47ab06-f324-4f91-a304-4f0017718984.png" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1617596888375-2fedad6a-7213-4799-b679-a6012919e597.png" alt="img"></p>
+<p>Configuration BPDUs -are originated by the Root Bridge and flow outward along the active paths that radiate away from the Root Bridge.</p>
+<p>Topology Change Notification BPDUs - flow upstream (toward the Root Bridge) to alert the Root Bridge that the active topology has changed.</p>
+<p>Type - Determines which of the two BPDU formats the frame contains (Configuration BPDU or TCN BPDU).</p>
+<p>Type of BPDU can be one of the following</p>
+<p>0x00 (Binary: 0000 0000) Configuration BPDU</p>
+<p>0x80 (Binary: 1000 0000) Topology Change Notification (TCN) BPDU</p>
+<p>Robert, A non root switch originates a TCN BPDU in two conditions:</p>
+<p>=It transitions a port into the Forwarding state and it has at least one Designated Port.</p>
+<p>=It transitions a port from either the Forwarding or Learning states to the Blocking state.</p>
+<p>These situations construe a change in the active topology and require notification be sent to the Root Bridge. Assuming that the current bridge is not the Root Bridge, the current bridge begins this notification process by sending TCN BPDU out its Root Port. It continues sending the TCN BPDU every Hello Time interval seconds until the TCN message is acknowledged</p>
+<p>Now the second part of the question :</p>
+<p>Difference between TC message type and TC flag</p>
+<p>Flags- are Used to handle changes in the active topology and is a field of COnfig BPDU</p>
+<p>Flags can be :</p>
+<p>LSB = Topology Change (TC) flag</p>
+<p>MSB = Topology Change Acknowledgment (TCA) flag</p>
+<p>In a nutshell, the FLAG is set to Topology Change (TC) by the Root Bridge/Switch to notify the downstream bridges/switches who are involved and need to know regarding the change.</p>
+<p><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/switching/bpdu-message-types-and-flags/td-p/1004067">https://community.cisco.com/t5/switching/bpdu-message-types-and-flags/td-p/1004067</a></p>
+<p>The designated bridge acknowledges the TCN by immediately sending back a normal  configuration BPDU with the topology change acknowledgement (TCA) bit set</p>
+<p><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/switching/tcn-acknowlegement-in-stp/td-p/2390425">https://community.cisco.com/t5/switching/tcn-acknowlegement-in-stp/td-p/2390425</a></p>
+<h4 id="配置BPDU"><a href="#配置BPDU" class="headerlink" title="配置BPDU"></a>配置BPDU</h4><p>配置BPDU用来在交换机之间交换配置信息，用于生成树协议的计算，比如选举根交换机、DP或RP接口等，每隔两秒发送一次（Hellotime字段），以组播形式发送到01:80:C2:00:00:00这个地址，在DP上发送。</p>
+<p>在网络刚开始运行，生成树进行初始化的时候，所有的交换机都会从所有的端口上发送配置BPDU，所有的交换机都会认为自己是根交换机，随着配置BPDU的泛洪和收集，根据BPDU中所包含的信息，所有交换机PK出来个结果，Root交换机被选出来了。在此之后Root以默认的2秒为周期发送BPDU，所有的非Root交换机从自己的根端口收到BPDU，再从自己的指定端口产生BPDU发出，有点像我们从Root倒一盆水下来，水顺着这颗无环的树，从上往下不断的流，另外被Block的非制定端口会源源不断的收到连路上的BPDU并一直监听，当其在一定时间内没有再收到BPDU，则认为链路出现了故障，开始进入了新的收敛阶段。</p>
+<p>“When a switch receives a configuration BPDU that contains superior information (lower bridge ID, lower path cost, and so forth), it stores the information for that port. If this BPDU is received on the root port of the switch, the switch also forwards it with an updated message to all attached LANs for which it is the designated switch. </p>
+<p>If a switch receives a configuration BPDU that contains inferior information to that currently stored for that port, it discards the BPDU. If the switch is a designated switch for the LAN from which the inferior BPDU was received, it sends that LAN a BPDU containing the up-to-date information stored for that port. In this way, inferior information is discarded, and superior information is propagated on the network.” </p>
+<p>当交换机收到一个包含着更优信息（更低的根桥ID，更少的路径开销或者其他）的配置BPDU后，交换机会储存该端口的信息，如果这个BPDU是从根端口上收到的，交换机还会将那个更优的BPDU信息，由DP端口（Designated port指定端口）通过update信息发送给其他连接的交换机。</p>
+<p>如果交换机收到的配置BPDU比它自身存储的BPDU更差，它会丢弃收到的BPDU。如果交换机收到更差的BPDU的接口为DP，那么它还会通过该DP端口将更优的BPDU发送出去，这样一来较差的BPDU信息被丢弃而更优的BPDU会在网络上传播开。</p>
+<h4 id="TCN-BPDU"><a href="#TCN-BPDU" class="headerlink" title="TCN BPDU"></a>TCN BPDU</h4><p>TCN BPDU在网络拓扑变化时产生。Type字段为0X80。</p>
+<p>当网络拓扑发生变化的时候，最先意识到变化的交换机会从根端口发送TCN（Type字段为0X80）到上一层交换机（朝向根交换机的方向），然后一直到根交换机，用来警告根交换机，拓扑发生了变化。</p>
+<p>一台非根桥交换机会在两种情况下发送TCN BPDU：</p>
+<ul>
+<li>当这台交换机的一个接口进入转发状态，而且它至少有一个DP口时；</li>
+<li>当这台交换机的一个接口从转发或学习状态进入封闭状态；</li>
+</ul>
+<p>以上这两种情况说明拓扑发生了变更，并且需要让根桥知道。</p>
+<h3 id="STP的运行"><a href="#STP的运行" class="headerlink" title="STP的运行"></a>STP的运行</h3><h4 id="总体步骤"><a href="#总体步骤" class="headerlink" title="总体步骤"></a>总体步骤</h4><p>STP采用四步来解决二层环路问题：</p>
+<ol>
+<li><p>在一个交换网络中选举出一个Root Bridge，也就是选举出一个根交换机；</p>
+</li>
+<li><p>在每个非交换机上，选举出一个根端口（RP，Root Port）；</p>
+</li>
+<li><p>为每个网段选举一个指定端口（DP，Designated Port）；</p>
+</li>
+<li><p>阻塞非指定端口；</p>
+</li>
+</ol>
+<h4 id="比较原则"><a href="#比较原则" class="headerlink" title="比较原则"></a>比较原则</h4><p>STP需要网络设备互相交换信息来检测桥接环路，该消息就是之前说过的BPDU，网桥协议数据单元，阻塞端口也会不断收到BPDU，以保证故障发生的时候，仍然可以计算出一颗新的STP生成树。要理解STP工作的过程，非常重要的一点是要理解BPDU中各字段的含义，因为这些都是STP赖以工作的根本。</p>
+<p>生成树构造一个无环路拓扑时，总是使用相同的四步来判定：</p>
+<ul>
+<li><p>最低根桥ID，交换机根桥ID由优先级+MAC地址构成，先比较优先级后比较MAC地址；</p>
+</li>
+<li><p>到根桥的最低路径成本；</p>
+</li>
+<li><p>最低的发送者网桥ID；</p>
+</li>
+<li><p>最低的发送者端口ID；</p>
+</li>
+</ul>
+<p>交换机使用这四步来保存各个端口收到最佳的BPDU的一个副本，每个BPDU到达时，都会按照这四步来进行检查，看收到的BPDU和端口保存的BPDU哪个更优，如果收到的BPDU更优，则会更新端口保存的BPDU。</p>
+<p>当一个交换机开始工作后，它的每个端口都是每2秒发送一个BPDU（BPDU中的Hello time字段），当一个端口收到一个比现在发送的更优的BPDU时，本地端口会停止发送，如果在一段时间内（默认为20秒，Forward Delay字段）后它不再收到来自邻居的更优的BPDU，则它将会再次发送自己的BPDU。因此对于802.1D来说，根桥会不停的向所有接口发送BPDU，而非根桥会从自己的根端口收到BPDU，并且从自己的指定端口发送该BPDU，非指定端口是不会发送BPDU的，只会监听。</p>
+<h4 id="注意事项-1"><a href="#注意事项-1" class="headerlink" title="注意事项"></a>注意事项</h4><ul>
+<li><p>根桥的角色是可抢占的；</p>
+</li>
+<li><p>桥ID中的MAC，是交换机的背板MAC，端口ID中的MAC是交换机的端口MAC，查看交换机上的所有Mac，可以用命令‘show interface | include bia’；</p>
+</li>
+<li><p>二层交换机的端口MAC就是在这里使用的；</p>
+</li>
+</ul>
+<h4 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h4><p><strong>案例1</strong></p>
+<p><img src="/2022/01/20/19-Switch/1617612485588-ec12db09-6665-43b0-a0d1-f352b0c25cff.png" alt="img"></p>
+<ul>
+<li><p>选举Root根桥：先比较优先级，优先级都是32768相同，所以比较MAC地址，从左往右一位一位的比较MAC地址，最小的0C00.1111.0000胜出，所以SW1为根桥；</p>
+</li>
+<li><p>选举RP根端口：所有的非根交换机上都要选择出一个根端口，根端口就是离根桥最近的开销最小的端口，用于接收BPDU信息，由于SW1是根端口，所以SW2、SW3和SW1相连的端口是RP；百兆链路的开销为19，SW2和SW1相连的端口开销为19，SW2和SW3相连的接口开销为19+19=38，所以SW2上联SW1的接口为根端口；</p>
+</li>
+<li><p>选举DP指定端口：每一个网段上都有一个DP，指定端口就是cost最小，用来发送BPDU的端口，一般来说根桥的端口都是根端口，因为根桥的BPDU最优，需要往外发送自身的BPDU，所以SW1上的两个端口为DP；SW2和SW3之间的链路上，谁是DP呢？最低根桥ID相同，因为根桥ID都是SW1的BPDU，相同，这时这两个端口到达根交换机的开销相同，所以比较发送BPDU交换机的ID，也就是比较优先级-MAC地址，优先级相同，MAC地址小的SW2胜出，所以SW2上和SW3相连的接口为DP。</p>
+</li>
+<li><p>选举非指定端口：SW3上和SW2相连的接口既不是DP也不是RP，所以是非指定端口，被Block掉；</p>
+</li>
+</ul>
+<p>结果为：</p>
+<p><img src="/2022/01/20/19-Switch/1617613891954-c63eda6b-fdc2-455d-a58d-eb7df4b947e3.png" alt="img"></p>
+<p><strong>案例2</strong></p>
+<p><img src="/2022/01/20/19-Switch/1617691752385-47693e95-10d1-4b45-b123-99a1e2d068f1.png" alt="img"></p>
+<ul>
+<li><p>选举Root根桥：先比较优先级，优先级都是32768相同，所以比较MAC地址，从左往右一位一位的比较MAC地址，最小的0C00.1111.0000胜出，所以SW1为根桥；</p>
+</li>
+<li><p>选举RP根端口：所有的非根交换机上都要选择出一个根端口，根端口就是离根桥最近的开销最小的端口，用于接收BPDU信息，首先看开销，100兆链路的开销为19，10兆的开销为100，所以SW2与SW1连接的接口开销为19，而SW2和SW3连接接口的开销为19+100=119，因此SW2和SW1连接的接口为RP，因为开销最小；SW3上的RP接口为SW2和SW3连接的接口，开销为19+19=38，小于SW3和SW1接口开销的100。</p>
+</li>
+<li><p>选举DP指定端口：每一个网段上都有一个DP，指定端口就是cost最小，用来发送BPDU的端口，一般来说根桥的端口都是根端口，因为根桥的BPDU最优，需要往外发送自身的BPDU，所以SW1上的两个端口为DP；SW2和SW3之间的链路，左边SW2的接口为DP，因为每条链路上都要有一个DP。</p>
+</li>
+<li><p>选举非指定端口：SW3上和SW1相连的接口既不是DP也不是RP，所以是非指定端口，被Block掉；</p>
+</li>
+</ul>
+<p>结果为：</p>
+<p><img src="/2022/01/20/19-Switch/1617692184670-c591a953-7116-4e23-adfa-4ab286427f5e.png" alt="img"></p>
+<p><strong>案例3</strong></p>
+<p><img src="/2022/01/20/19-Switch/1617693370658-95168a3b-9090-47da-b2af-eedb825ef543.png" alt="img"></p>
+<ul>
+<li><p>选举Root根桥：先比较优先级，优先级都是32768相同，所以比较MAC地址，从左往右一位一位的比较MAC地址，最小的0C00.1111.0000胜出，所以SW1为根桥；</p>
+</li>
+<li><p>选举RP根端口：所有的非根交换机上都要选择出一个根端口，根端口就是离根桥最近的开销最小的端口，用于接收BPDU信息，首先看开销，假设每条链路都是100兆开销为19，10兆的开销为100，SW2和SW1连接的端口，SW3和SW1连接的端口均为RP，因为上面的端口相比下面的端口来说离根桥最近；接下来看SW4上哪个端口是RP，SW4上两个端口的开销都是19+19=38，相同，所以比较下一个属性，发送者网桥ID，发送者网桥ID由优先级+MAC地址构成，优先级相同而SW2的MAC地址更小，所以SW4左边接口的发送者网桥ID更优，因此SW4左边的接口为RP。</p>
+</li>
+<li><p>选举DP指定端口：每一个网段上都有一个DP，指定端口就是cost最小，用来发送BPDU的端口，一般来说根桥的端口都是根端口，因为根桥的BPDU最优，需要往外发送自身的BPDU，所以SW1上的两个端口为DP；SW2下连SW4的接口为DP，因为每条链路上都有一个DP；SW3和SW4之间的链路谁是DP呢？首先看开销，SW4接口开销为19+19=38，而SW3和SW4相连的接口开销为19，所以SW3上的接口为DP。</p>
+</li>
+<li><p>选举非指定端口：SW4上和SW3相连的接口既不是DP也不是RP，所以是非指定端口，被Block掉；</p>
+</li>
+</ul>
+<p>结果为：</p>
+<p><img src="/2022/01/20/19-Switch/1617693942166-74fd5303-af4c-43b5-a569-876ec49b7198.png" alt="img"></p>
+<p><strong>案例4</strong></p>
+<p><img src="/2022/01/20/19-Switch/1617694323746-a9bf9f0c-e295-44d8-8bf0-d138f1c8ff91.png" alt="img"></p>
+<ul>
+<li><p>选举RP根端口：所有的非根交换机上都要选择出一个根端口，根端口就是离根桥最近的开销最小的端口，用于接收BPDU信息，首先看开销，由于两条链路到根桥的开销相同，所以比较下一项，发送者网桥ID，但由于发送者网桥ID也都是SW1的网桥ID，依旧相同，所以比较下一项，发送端口ID（由端口优先级+端口ID构成），假设两个接口优先级相同，接下来就要比较端口ID了，最终F0/1的端口ID更小，因此SW2的F0/1接口为RP。</p>
+</li>
+<li><p>选举DP指定端口：每一个网段上都有一个DP，指定端口就是cost最小，用来发送BPDU的端口，一般来说根桥的端口都是根端口，因为根桥的BPDU最优，需要往外发送自身的BPDU，所以SW1上的两个端口为DP。</p>
+</li>
+<li><p>选举非指定端口：SW2的F0/2既不是DP也不是RP，所以是非指定端口，被Block掉；</p>
+</li>
+</ul>
+<p>注意，此时如果试图在SW2上将F0/2的接口优先级调小并没有用，因为看的是发送者的端口ID，也就是SW1的两个端口的ID，只有在SW1上将F0/2的端口优先级调小，SW2上的F0/2才会胜出称为根端口。</p>
+<p>结果为：</p>
+<p><img src="/2022/01/20/19-Switch/1617694512268-f4f5276f-1d79-4eff-a367-2556cd9db03f.png" alt="img"></p>
+<h3 id="STP端口状态"><a href="#STP端口状态" class="headerlink" title="STP端口状态"></a>STP端口状态</h3><p>由于网络设备存在固有的滞后，所以交换网络中也就存在传播延迟，基于上述原因，拓扑变更可能发生在网络中的不同时间和不同网段。如果二层接口直接从生成树的Block状态切换到转发状态，就可能会出现暂时的数据环路。为了缓解这种问题，在开始转发数据帧之前，端口应当等待新的拓扑信息传播到整个交换网络中。</p>
+<h4 id="接口状态"><a href="#接口状态" class="headerlink" title="接口状态"></a>接口状态</h4><p><img src="/2022/01/20/19-Switch/1617697371239-ec236f20-90ff-46b0-a22a-7a2c188860d7.png" alt="img"></p>
+<h4 id="端口计时器"><a href="#端口计时器" class="headerlink" title="端口计时器"></a>端口计时器</h4><ul>
+<li><p>Hello时间：根桥发送配置BPDU的时间间隔，默认为2秒；</p>
+</li>
+<li><p>转发延迟时间：从侦听到学习状态或学习状态到转发状态所需要的时间，默认为15秒；</p>
+</li>
+<li><p>最大存活期：在丢弃BPDU之前，网桥用来存储BPDU的时间，缺省为20秒，也就是连续收不到10个BPDU，开始进入Listening状态；</p>
+</li>
+</ul>
+<p>网络中生成树拓扑依附于根桥的计时器，根交换机将BPDU中的计时器传递给二层所有的其他交换机。</p>
+<p>从阻塞到转发状态通常要转发状态通常要30-50秒，默认50秒，即20+15+15，也就是20秒的最大存活期内收不到BPDU，认为链路发生了问题，然后端口进入侦听状态，侦听状态15秒到学习状态，再一个15秒由学习状态到转发状态。</p>
+<h4 id="端口切换过程"><a href="#端口切换过程" class="headerlink" title="端口切换过程"></a>端口切换过程</h4><p><img src="/2022/01/20/19-Switch/1617697704180-dcca6979-4032-462b-a482-c5c955fa1be6.png" alt="img"></p>
+<h3 id="STP拓扑变更"><a href="#STP拓扑变更" class="headerlink" title="STP拓扑变更"></a>STP拓扑变更</h3><h4 id="TCN-BPDU概述"><a href="#TCN-BPDU概述" class="headerlink" title="TCN BPDU概述"></a>TCN BPDU概述</h4><p>当网络拓扑出现变更的时候，最先意识到变化的交换机将发送TCN BPDU。</p>
+<p>在发生在以下时机时，交换机发送TCN BPDU：</p>
+<ul>
+<li><p>对于处于转发和监听状态的接口，过渡到Block状态，也就是链路发生故障的情况；</p>
+</li>
+<li><p>端口进入转发状态，并且网桥已经拥有指定端口；</p>
+</li>
+<li><p>非根桥交换机在它的指定端口（DP）收到TCN；</p>
+</li>
+</ul>
+<h4 id="TCN-BPDU-1"><a href="#TCN-BPDU-1" class="headerlink" title="TCN BPDU"></a>TCN BPDU</h4><p>TCN BPDU包含3个字段，它与配置BPDU除了Type字段之外的前三个字段完全相同。</p>
+<h4 id="拓扑变更过程"><a href="#拓扑变更过程" class="headerlink" title="拓扑变更过程"></a>拓扑变更过程</h4><p>最先意识到拓扑变更的交换机发送TCN BPDU，发送的方向是根桥方向，指定网桥收到TCN并且立刻回送一个TCA被置位的正常BPDU来确认收到了表示拓扑变化的TCN BPDU。在该网桥确认这个TCN之前，负责通知拓扑变更的网桥将持续发送TCN BPDU。</p>
+<p>接下来该指定网桥将为自己的根端口产生另外的TCN，从RP发出给上游更靠近根交换机的其他交换机，并且这个过程一路持续发到根交换机为止。</p>
+<p>一旦根桥意识到网络中发生拓扑变更的情况，它将发送TC被置位的BPDU，网络中每台交换机都将传递这些被置位的BPDU，进而便于每个单独的网桥都意识到拓扑变更的情况。</p>
+<h4 id="拓扑变更示例"><a href="#拓扑变更示例" class="headerlink" title="拓扑变更示例"></a>拓扑变更示例</h4><p><img src="/2022/01/20/19-Switch/1617698857935-198699fb-7d75-4249-8878-4bc29cb7c894.png" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1617698872474-e3ba745d-38a0-4a4c-99d4-936a03a79866.png" alt="img"></p>
+<ul>
+<li><p>Switch A挂掉；</p>
+</li>
+<li><p>Switch B最先检测到拓扑变化，因为A挂掉后，SwitchB会无法接受到对方的BPDU，过20秒（Max Age）后就会知道对方挂了，于是产生TCN BPDU从根端口发送出去（因为根端口是朝向着根桥的方向），B连续发送TCN BPDU直到指定交换机C发送TCN ACK进行确认，这个TCN ACK就是一个TCA被置位的正常配置BPDU；</p>
+</li>
+<li><p>Switch C收到这个TCN BPDU后，回送一个TCN ACK（TCA被置位为1的正常的配置BPDU）给B表示收到了TCN BPDU，同时向自己的根端口转发这个TCN BPDU；</p>
+</li>
+<li><p>根桥交换机收到这个TCN BPDU，同时回送一个TCN ACK（TCA被置位为1的正常的配置BPDU）给C；</p>
+</li>
+<li><p>根桥交换机（Root）修改自己的配置BPDU，用修改后的BPDU来通告整个交换网络关于拓扑变更的情况。Root会在配置BPDU中设置一段时间（转发延迟+Max Age，默认时间为15+20，也就是35秒）的拓扑变更（Flags字段中的TC位置1），以此通告下游交换机，链路发生了变化，</p>
+</li>
+<li><p>当下游交换机收到Root发出的这个TC置位的配置BPDU后，它们使用转发延迟计时器（默认15秒）来更新其MAC地址表中的条目，也就是说MAC地址条目的默认寿命由原来的300秒变为15秒，这样能保证MAC地址条目更快速的刷新。交换机将持续这个过程，直到不再从Root收到TC BPDU消息为止。</p>
+</li>
+</ul>
+<p>我们会发现，当拓扑变更的时候就会产生TCN BPDU，而有些情况下，TCN的过渡泛洪可能会对网络造成不必要的影响，通过在接入层交换机上，将连接PC终端设备的接口设置为Portfast可以在一定程度上优化网络，防止由于PC开关机导致的接入层交换机端口UP\DOWN而产生过多的TCN。</p>
+<h4 id="STP命令"><a href="#STP命令" class="headerlink" title="STP命令"></a>STP命令</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">SW#show spanning-tree</span><br><span class="line"></span><br><span class="line">VLAN0001</span><br><span class="line">  Spanning tree enabled protocol ieee</span><br><span class="line">  Root ID    Priority    24577</span><br><span class="line">             Address     0016.468f.xxxx</span><br><span class="line">             This bridge is the root</span><br><span class="line">             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec</span><br><span class="line"></span><br><span class="line">  Bridge ID  Priority    24577  (priority 24576 sys-id-ext 1)</span><br><span class="line">             Address     0016.468f.xxxx</span><br><span class="line">             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec</span><br><span class="line">             Aging Time 300</span><br><span class="line">             </span><br><span class="line">             </span><br><span class="line">上面显示的Spanning tree enabled protocol ieee表示运行的820.1D</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">设置vlan的优先级</span><br><span class="line">switch(config)#spanning-tree vlan Y priority XX</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">设置接口cost值</span><br><span class="line">Switch(config-if)#spanning-tree vlan Y cost XX</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">设置接口优先级，默认128</span><br><span class="line">Switch(config-if)#spanning-tree vlan Y port-priority XX</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">设置vlan的时间参数</span><br><span class="line">Switch(config)# spanning-tree vlan Y hello-time XX</span><br><span class="line">Switch(config)# spanning-tree vlan Y forward-time XX</span><br><span class="line">Switch(config)# spanning-tree vlan Y max-age XX</span><br></pre></td></tr></table></figure>
+
+<h3 id="STP特性"><a href="#STP特性" class="headerlink" title="STP特性"></a>STP特性</h3><h4 id="Portfast"><a href="#Portfast" class="headerlink" title="Portfast"></a>Portfast</h4><p>配置了Portfast特性的端口，一旦接入了设备，接口可以绕过Listening和Learning状态直接进入Forwarding状态，Portfast特性一般在连接PC或服务器的端口上配置，如果连的是交换机，这个接口仍然要接受Spanning-tree的计算结果，如果计算结果是Block，那么这个接口仍然会被Block，所以如果在Cisco IOS设备上敲入Portfast命令后，IOS会提示可能造成短暂的环路。</p>
+<p>配置命令为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">全局配置命令会将所有非Trunk接口激活portfast特性</span><br><span class="line">switch(config)# spanning-tree portfast default </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">接口上配置portfast特性</span><br><span class="line">Switch(config-if)# spanning-tree portfast [trunk] </span><br></pre></td></tr></table></figure>
+
+<p>portfast 特性不嫩直接配置在Trunk模式的接口上，即使配上去了，IOS也不生效，除非该接口变为access模式，如果确实需要在Trunk上配置该特性，例如该接口连接了一台支持Trunk的服务器，那么久在Spanning-tree portfast命令上增加Trunk关键字。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Switch(config-if)# switchport mode host </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">switchport mode access</span><br><span class="line">spanning-tree portfast</span><br><span class="line">disables port-channeling</span><br></pre></td></tr></table></figure>
+
+<p>上面的‘switchport mode host’命令是一条简化命令，相当于在接口上配置了下面的三条命令，也就是指定接口的mode为access模式，开启portfast特性并关闭端口汇聚。</p>
+<h4 id="BPDU-Guard"><a href="#BPDU-Guard" class="headerlink" title="BPDU Guard"></a>BPDU Guard</h4><p>配置命令为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">接口上配置命令：</span><br><span class="line">Switch(config-if)# spanning-tree bpduguard enable</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">全局配置命令：</span><br><span class="line">SW3(config)# spanning-tree portfast bpduguard default</span><br></pre></td></tr></table></figure>
+
+<p>配置完该命令后：</p>
+<ul>
+<li><p>该接口在收到BPDU报文后，会立刻切换到err-disable状态；</p>
+</li>
+<li><p>通常搭配portfast特性在接口上一起使用，用于连接主机的接口；</p>
+</li>
+<li><p>可在接口模式上激活，也可以在全局模式上配置，两者有所不同，在接口模式下配置，该接口收到BPDU报文后会立刻切换到err-disable状态；在全局模式下配置，该命令会在所有激活Portfast特性的接口上激活bpduguard特性；</p>
+</li>
+</ul>
+<h4 id="BPDU-Filter"><a href="#BPDU-Filter" class="headerlink" title="BPDU Filter"></a>BPDU Filter</h4><p>该特性可以在全局模式下配置，也可以在接口模式下配置，区别如下：</p>
+<p>全局配置为：spanning-tree portfast bpduguard default</p>
+<ul>
+<li><p>启用了portfast的接口将激活bpdu filter特性；</p>
+</li>
+<li><p>接口在link up后瞬间会发送一些bpdu，此后不再发送任何bpdu；</p>
+</li>
+<li><p>接口在收到bpdu后立刻丢失portfast及bpdu filter特性，成为一个普通的spanning-tree接口；</p>
+</li>
+</ul>
+<p>接口配置为：spanning-tree bpdufilter enable</p>
+<ul>
+<li><p>该接口不会发送BPDU，也忽略接收到的BPDU；</p>
+</li>
+<li><p>在接口上激活BPDU filter特性相当于在上面禁用了生成树，可能会造成二层环路；</p>
+</li>
+<li><p>在接口上配置，不一定必须和portfast特性一起使用，可独立配置。当然建议搭配portfast特性使用；</p>
+</li>
+</ul>
+<h4 id="UplinkFast"><a href="#UplinkFast" class="headerlink" title="UplinkFast"></a>UplinkFast</h4><p><img src="/2022/01/20/19-Switch/1617769356656-f73a9eaf-e7c3-4813-8a70-64468edd2287.png" alt="img"></p>
+<p>SW2为Root，SW1的F0/2是Forwarding状态，F0/1处于block状态，当F0/2的链路挂掉时，SW1会立刻进行STP计算，不过F0/1由block状态转到forwarding的状态需要30秒（15+15，端口进入侦听状态，侦听状态15秒到学习状态，再一个15秒由学习状态到转发状态），而等待30秒对于网络来说是不可接受的，因此思科提出的解决方案为uplinkfast，启动了uplinkfast的switch会选择一个Block状态的端口设置为standby状态，当RP端口挂掉时，standby的port立刻转换成Forwarding状态，节省30秒时间。</p>
+<p>配置命令为在全局模式下：spanning-tree uplinkfast；</p>
+<p>查看命令为：show spanning tree uplinkfast；</p>
+<p><img src="/2022/01/20/19-Switch/1617768483961-18b7201d-7ee7-4221-9721-7ae99e812f1f.png" alt="img"></p>
+<ul>
+<li>配置Uplink fast的交换机需为末梢交换机，或网络三层结构中的接入层交换机，不能在根桥上配置；</li>
+<li>激活Uplinkfast特性后，交换机会自动调整一些参数：</li>
+</ul>
+<ol>
+<li><p>交换机的默认网桥优先级会增加到一个比缺省值更高的值，使得该交换机不会成为Root根交换机；</p>
+</li>
+<li><p>交换机的所有端口的默认Cost值会增加3000，以使得该交换机的端口不会被选举为指定端口；</p>
+</li>
+<li><p>非默认的（指手工配置的）Priority与cost不变；</p>
+</li>
+</ol>
+<p>When the spanning tree reconfigures the new root port, other interfaces flood the network with multicast  packets, one for each address that was learned on the interface. You can limit these bursts of multicast traffic by reducing the max-update-rate parameter (the default for this parameter is 150 packets per second). However, if you enter zero, station-learning frames are not generated, so the spanning-tree topology converges more slowly after a loss of connectivity.</p>
+<p>当生成树重新设置了RP端口时，其他端口会泛洪组播数据包，每个端口上学习到的地址都有一个。可以通过降低最大更新速率来限制这些组播流量的爆发，默认速率是每秒150个包。如果将速率配置为0，那么将不会生成Learing的帧，因此在失去连接后，拓扑收敛速度会非常慢。</p>
+<h4 id="Backbone-Fast"><a href="#Backbone-Fast" class="headerlink" title="Backbone Fast"></a>Backbone Fast</h4><p><img src="/2022/01/20/19-Switch/1617782508364-002cc1c4-2459-48af-a431-15c51ac987de.png" alt="img"></p>
+<ul>
+<li><p>在没有Backbone Fast的情况下，SW3有一个接口被Block，这个接口将不会发送BPDU报文；</p>
+</li>
+<li><p>当Link 1 Down掉后，SW2将无法从ROOT收到BPDU，于是它会认为他自己就是ROOT，开始向SW3发送BPDU；</p>
+</li>
+<li><p>SW3收到这个BPDU后，发现SW2的BPDU不如自己本地存储的BPDU，因此忽略该BPDU；</p>
+</li>
+<li><p>Max age（默认20秒）计时器超时后，SW3上F0/3存储的BPDU老化，该接口进入侦听状态，并发送和接收BPDU；</p>
+</li>
+<li><p>SW2收到SW3发送的更优的BPDU后，停止发送它自己的BPDU；</p>
+</li>
+<li><p>SW3的F0/3从Listening到Forwarding，需花费20（Max age）+30（两倍的Forward delay）秒；</p>
+</li>
+</ul>
+<p><strong>接下来看看有BackboneFast的特性：</strong></p>
+<p><img src="/2022/01/20/19-Switch/1617783034983-3bee11b1-0381-4291-99ce-31bf75e56e3b.png" alt="img"></p>
+<ul>
+<li><p>部署了Backbone Fast以后，SW3一收到SW2发来的次优BPDU，会立刻进行一系列步骤以重新计算根端口。SW3会从根端口向根桥发送RLQ请求；</p>
+</li>
+<li><p>Root收到RLQ请求后，立刻以RLQ相应进行回复，以告知自己仍然存活；</p>
+</li>
+<li><p>SW3立刻老化掉存储在F0/3上的BPDU，端口F0/3进入Listening状态并开始发送BPDU；</p>
+</li>
+<li><p>SW2从SW3收到BPDU，经过计算得出自己的F0/2为根端口；</p>
+</li>
+</ul>
+<p>配置命令为：‘spanning-tree backbonefast’</p>
+<h4 id="Root-Guard"><a href="#Root-Guard" class="headerlink" title="Root Guard"></a>Root Guard</h4><p>Root Guard可以保护STP的Root，免受Switch Priority小的交换机抢走根桥角色，因为根桥的角色是可抢占的。但如果规划好的根桥角色轻易被别的交换机抢夺走，整个网络就会和规划的有所差别，所以要杜绝这种情况。</p>
+<p>配置命令为：SW1(config-if)#spanning-tree guard root</p>
+<p>查看命令为：show spanning-tree inconsistentports</p>
+<p>当配置了Root Guard的接口插入了一个优先级比Root小的交换机，这个端口会处于Root inconsistent状态，它会被Block而不会传送或接收数据，比如下图中的F0/8接口：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SW1#show spanning-tree inconsistentports</span><br><span class="line"> </span><br><span class="line"> Name                 Interface              Inconsistency</span><br><span class="line"> -------------------- ---------------------- ------------------</span><br><span class="line"> VLAN0001             FastEthernet0/8        Root Inconsistent</span><br><span class="line"> </span><br><span class="line"> Number of inconsistent ports (segments) in the system : 1</span><br><span class="line"> </span><br><span class="line"> SW1#show spanning-tree vlan 1 | begin Interface</span><br><span class="line"> Interface        Role Sts Cost      Prio.Nbr Type</span><br><span class="line"> ---------------- ---- --- --------- -------- --------------------------------</span><br><span class="line"> Fa0/1            Desg FWD 19        128.1    P2p</span><br><span class="line"> Fa0/8            Desg BKN*19        128.8    P2p *ROOT_Inc</span><br><span class="line"> Gi0/1            Desg FWD 4         128.9    Edge P2p</span><br></pre></td></tr></table></figure>
+
+<p>inconsistent和err-disable的区别在于，err-disable会disable掉整个接口，而inconsistent是针对特定VLAN的。</p>
+<h4 id="UDLD"><a href="#UDLD" class="headerlink" title="UDLD"></a>UDLD</h4><p>UDLD全称为Unidirectional Link Detection，用于单向链路检测，主要用于光纤链路。需要两端设备都支持UDLD，开启UDLD以后，端口会不断向对方发出检测，如果对方有回应，表示运作正常，但如果收不到对方的回应，UDLD会认为出现了单向故障，会administratively shut down整个接口，并提示用户。单向链路会引发各种问题，其中包括spanning-tree环路。</p>
+<p>UDLD有两种模式：normal（默认为该模式）和aggressive模式.</p>
+<p>Normal模式配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">normal模式配置</span><br><span class="line">在全局模式上配置会启动所有接口的UDLD的normal模式</span><br><span class="line">SW1(config)#udld enable</span><br><span class="line">或在端口上为某个端口配置</span><br><span class="line">SW1(config-if)#udld port</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">用show udld命令查看配置情况，DULD预设每7秒发从一次检测报文，如果5秒内收不到恢复则判断为单向链路故障</span><br><span class="line"></span><br><span class="line">SW1#show udld</span><br><span class="line"> </span><br><span class="line"> Interface Fa0/1</span><br><span class="line"> ---</span><br><span class="line"> Port enable administrative configuration setting: Enabled</span><br><span class="line"> Port enable operational state: Enabled</span><br><span class="line"> Current bidirectional state: Unknown</span><br><span class="line"> Current operational state: Advertisement</span><br><span class="line"> Message interval: 7</span><br><span class="line"> Time out interval: 5</span><br><span class="line"> No neighbor cache information stored</span><br></pre></td></tr></table></figure>
+
+<p>Aggressive模式配置：</p>
+<p>在aggressive模式中，端口变为err-disable</p>
+<p>全局配置命令为：SW1(config)#udld aggressive</p>
+<p>端口设定命令为：SW1(config-if)#udld port aggressive</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SW1#show udld</span><br><span class="line"> </span><br><span class="line"> Interface Fa0/1</span><br><span class="line"> ---</span><br><span class="line"> Port enable administrative configuration setting: Enabled / in aggressive mode</span><br><span class="line"> Port enable operational state: Enabled / in aggressive mode</span><br><span class="line"> Current bidirectional state: Unknown</span><br><span class="line"> Current operational state: Advertisement</span><br><span class="line"> Message interval: 7</span><br><span class="line"> Time out interval: 5</span><br><span class="line"> No neighbor cache information stored</span><br></pre></td></tr></table></figure>
+
+<h4 id="LoopGuard"><a href="#LoopGuard" class="headerlink" title="LoopGuard"></a>LoopGuard</h4><p>UDLD只能防止光纤单向链路故障而导致的环路，但收不到BPDU也可能由其他问题引起，例如交换机的硬件问题或CPU满载而无法处理收到的BPDU，另一个办法是用Loopguard。如果端口开启了Loop Guard，当它收不到BPDU超过Max age的话会转成Loop Inconsistent状态避免发生环路。不过必须注意，LoopGuard和LoopGuard无法同时启动。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">全局打开命令：</span><br><span class="line">SW1(config)#spanning-tree loopguard default</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">端口打开命令：</span><br><span class="line">SW1(config-if)#spanning-tree guard loop</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/01/20/19-Switch/1617787895551-f019fd9c-6fa0-4183-bab3-33d071c0d952.png" alt="img"></p>
+<h2 id="PVST"><a href="#PVST" class="headerlink" title="PVST+"></a>PVST+</h2><h3 id="基本概念-2"><a href="#基本概念-2" class="headerlink" title="基本概念"></a>基本概念</h3><p>传统的STP，也就是802.1D，是所有的VLAN共用一颗生成树，这样一来的好处是交换机不用耗费过多的资源去计算多颗生成树，不足是，通过Block固定的端口，导致流量只走一侧，而部分链路一点流量都没有，浪费了带宽。</p>
+<p>PVST+在这方面做出了改进。PVST+全称为Per Vlan Spanning Tree Plus，中文是增强的按VLAN生成树，是思科的私有协议，一个VLAN对应一颗生成树，如此一来交换机将基于VLAN计算生成树，可以通过单独的VLAN生成树调节优先级等相关参数，从而影响生成树的计算，最终实现合理的链路带宽利用：</p>
+<p><img src="/2022/01/20/19-Switch/1617867288530-d44f11b7-2675-4389-860a-85acdf82dc4a.png" alt="img"></p>
+<p>比如上图中，内网存在两个VLAN，10和20，这里让SW1成为VLAN10的主根，将它的优先级配置为最低，SW2成为VLAN10的次根，SW3优先级最高，如此一来将Block掉SW3上连接SW2的上联口，相对的VLAN20也通过参数调节，Block掉SW3连接SW1的上联接口。这样，vlan10用户出去将走左侧链路，vlan20用户走右侧用户，两边链路都得到了合理的使用，实现了负载均衡。</p>
+<h3 id="MAC地址"><a href="#MAC地址" class="headerlink" title="MAC地址"></a>MAC地址</h3><ul>
+<li><p>Cisco 交换机的MAC地址池最多容纳1024个地址，交换机的型号决定了可用MAC的数量，并不是所有型号的交换机都能支持这么多的MAC；</p>
+</li>
+<li><p>这些MAC地址作为VLAN生成树中网桥ID的MAC地址部分。不同交换机型号支持不同的可用MAC地址数目。交换机依照次序分配MAC地址；</p>
+</li>
+<li><p>show run interface | include bia 能看到所有的MAC地址，第一个MAC地址将被生成树所使用，也就是CPU的  MAC。接下来是每个以太网接口的MAC；</p>
+</li>
+<li><p>我们知道交换机能够支持的VLAN数据是很庞大的，如果开启PVST+，每个VLAN一个生成树，而每颗生成树都要有一个独立的标识，都需要消耗一个MAC地址的话，那么MAC地址池肯定是无法承受的；</p>
+</li>
+<li><p>因此需要使用到MAC地址缩减方案</p>
+</li>
+</ul>
+<p>在PVST+中，一个VLAN一颗生成树，在每台交换机上，对于每一颗生成树，需要有一个唯一的标识符，也就是网桥ID要唯一，网桥ID之前说过，就是优先级和MAC地址构成的，在MAC地址缩减方案中，同一台交换机的所有生成树的根桥ID中，MAC地址都是用自己交换机CPU的MAC，同时将16bit的优先级进行扩展，变成4bit的优先级+12bit的系统ID，通过这个系统ID来标识不同的VLAN。在Cisco IOS中，这个系统ID用的就是VLAN ID。</p>
+<p><img src="/2022/01/20/19-Switch/1617868713939-ae3626b6-16f7-490e-ae0f-cf136b124af9.png" alt="img"></p>
+<p>如此一来，优先级就成为了最高的4bit，系统ID取值VLAN ID，比如VLAN10的生成树，在本交换机的根桥ID就是‘4bit的优先级+12bit的sysid’，SYSID还作为VLAN或MST实例的标识。</p>
+<p>为什么优先级必须是4096的倍数呢，因为在使用Extended System ID的情况下，每个VLAN的MAC地址可以相同，BID被要求包含VLAN ID信息，解决的办法是从优先级域的16个bit中拿出低位的12个bit，称为扩展的System ID，用来唯一标识每个VLAN号，剩下的4个bit用来表示交换机的优先级，这种情况下优先级的取值只有24=16个，2的12次方=4096，是4096的倍数。</p>
+<h2 id="RSTP（802-1W）"><a href="#RSTP（802-1W）" class="headerlink" title="RSTP（802.1W）"></a>RSTP（802.1W）</h2><p>使用传统的802.1D协议时，当拓扑发生改变时，整个网络需要30秒或以上才能恢复稳定状态，这是现代网络所不能接受的，想象一下，如果证券交易服务因为生成树的30秒收敛时间而中断交易，那么将损失惨重，所以为了网络更快收敛，又开发出了RSTP协议，全称为Rapid Spanning Tree Protocol，快速生成树协议，由STP协议改进而来，主要改进了STP收敛慢的问题。</p>
+<h3 id="基础知识-2"><a href="#基础知识-2" class="headerlink" title="基础知识"></a>基础知识</h3><h4 id="RSTP端口状态"><a href="#RSTP端口状态" class="headerlink" title="RSTP端口状态"></a>RSTP端口状态</h4><p><img src="/2022/01/20/19-Switch/1617872380822-1db0d41c-48b3-4316-80b3-0033164d9bb2.png" alt="img"></p>
+<h4 id="RSTP端口角色"><a href="#RSTP端口角色" class="headerlink" title="RSTP端口角色"></a>RSTP端口角色</h4><p>RSTP保留了Root Port和Designated的设计，选择方法与STP相同，另外增加了Alternate Port和Backup Port，以便加快收敛时间。</p>
+<ul>
+<li><p>Root Port，根端口，<strong>交换机上最接近Root Switch</strong>的端口（即Root cost最小）成为RP根端口，每个交换机上只会有一个根端口，用来接收来自根交换机的BPDU；</p>
+</li>
+<li><p>Designated Port，指定端口，在没有RP的情况下，<strong>网段里****最接近根桥</strong>的端口成为根端口，用来发送BPDU，每个网段只会有一个Designated Port；</p>
+</li>
+<li><p>Alternate Port，替代端口，处于丢弃状态，Discarding状态，交换机除了根端口外，其他到根路径的端口，如果活跃的根端口发生故障，替代端口将成为根端口，所以替代端口也可以理解为根端口的可替代者，A是R的替代端口，5秒内完成转换；</p>
+</li>
+<li><p>Backup Port，备份端口，处于丢弃状态，Discarding状态，备份端口是指定端口的备份，出现在一台交换机有两个端口连接到同一个共享介质的时候，B是DP的备份端口，1秒内完成转换。</p>
+</li>
+</ul>
+<p>当Alternate Port和Backup Port有一天被唤醒而需要转发数据时，会先进入Learning状态（非常短时间）然后进入Forwarding状态。</p>
+<p><img src="/2022/01/20/19-Switch/1617873273748-f4fb2be7-0082-4a1d-8ea9-fa84cd6cb375.png" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1617873423388-b98691a9-d4ee-40a6-a6be-aa5669d2782a.png" alt="img"></p>
+<h3 id="BPDU格式和操作"><a href="#BPDU格式和操作" class="headerlink" title="BPDU格式和操作"></a>BPDU格式和操作</h3><h4 id="BPDU格式"><a href="#BPDU格式" class="headerlink" title="BPDU格式"></a>BPDU格式</h4><p>RSTP只在802.1D的基础上对BPDU做了少量修改，RSTP的BPDU协议是2，版本是2，还有就是在802.1D中，Type字段只是用了最高位和最低位，来表示TC以及TCA，RSTP对该字段进行了扩展：</p>
+<p><img src="/2022/01/20/19-Switch/1617874264697-421baf3a-5e55-4a5b-8366-e5adf34d4e09.png" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1617874249653-c469d7b9-3402-4dbd-b342-8bf7c195f6b8.png" alt="img"></p>
+<h4 id="BPDU操作"><a href="#BPDU操作" class="headerlink" title="BPDU操作"></a>BPDU操作</h4><p>在802.1D中，非根交换机只有从根端口收到根桥发送的BPDU，自己才能产生BPDU，而在RSTP中，即使非根交换机没有从根交换机收到BPDU，自己也以Hello间隔（默认为2秒）发送BPDU。</p>
+<h4 id="Faster-Aging-of-information"><a href="#Faster-Aging-of-information" class="headerlink" title="Faster Aging of information"></a>Faster Aging of information</h4><p>在特定的接口，如果连续三个周期（3X2=6秒）没有收到BPDU或者Max age超时，接口上的STP协议数据将迅速老化，如此一来，BPDU又有点类似交换机之间的Keep-alive机制，这种快速老化的机制有助于对拓扑变化的快速响应。</p>
+<h4 id="accepts-Inferior-BPDUs"><a href="#accepts-Inferior-BPDUs" class="headerlink" title="accepts Inferior BPDUs"></a>accepts Inferior BPDUs</h4><p>这个机制与思科的BackboneFast非常类似，当交换机从其他指定交换机或根桥收到次优BPDU时，802.1D遇到这种情况是首先忽略这些次优BPDU，而RSTP是立刻接收这些次优BPDU同时回传一个更优的BPDU。</p>
+<p><img src="/2022/01/20/19-Switch/1617874734696-f181a373-ec5b-4a29-83bb-1de586323bf6.png" alt="img"></p>
+<p>在802.1D的初始状况下，交换机C的一个接口被选举为非指定端口而被Block掉，B会从指定端口发送BPDU给C，当ROOT和B之间的链路发生故障，由于C上面链接B的端口被Block，C不会发送BPDU给B，因此B在过了Maxage以后会认为自己是Root，于是B向C发送自己为Root的BPDU，而这时由于C的接口上还存储着B的BPDU信息，而这个之前存储的BPDU信息比B现在发送给自己的BPDU更优，因此C会直接忽略掉这些次优BPDU，一直到Maxage超时以后，C接口上存储的此前B发送过来的BPDU才会老化，这时接口进入Listening状态，才会开始发送Root的最优BPDU给B，此时B收到Root的BPDU才会知道自己不是跟，将B和C连接的接口角色变为根端口。</p>
+<p>在RSTP的情况下，C收到次优BPDU以后，会立刻回送自己存储的ROOT发来的更优的BPDU，好让B了解拓扑的情况，这个机制和BackboneFast非常类似。</p>
+<h3 id="Link-Type"><a href="#Link-Type" class="headerlink" title="Link Type"></a>Link Type</h3><p>RSTP的一个重要改进就是端口的快速过渡，传统的STP算法在一个接口过渡到Forwarding状态之前，需要经过几个计时器，加起来至少要30-50秒，为了让网络快速收敛，我们可能会去调节计时器，但这么做有可能影响网络的稳定性，RSTP的设计使得可以不依赖计时器的调整并且还能让接口快速过渡到转发状态。</p>
+<p>Link Type是RSTP新增的概念，RSTP将Link氛围Edge Port、Point-To-Point Non-edge Port以及Shared Non-edge Port三种。</p>
+<h4 id="Edge-Port"><a href="#Edge-Port" class="headerlink" title="Edge Port"></a>Edge Port</h4><p><img src="/2022/01/20/19-Switch/1617951524655-97ead16a-6c30-4bba-a6f0-bc2d22f703f2.png" alt="img"></p>
+<p>Edge Port接口的中文叫做边缘接口，RSTP定义的这种端口类型和Portfast十分类似，因为这些接口用于连接主机，所以一般不会产生环路，这些端口可以跳过Listening或Learning阶段直接进入转发状态，并且这些接口的up和down的时候都不会引起拓扑变更。另外，边缘接口一旦收到BPDU，则会立刻丢失掉边缘接口的特征，变成一个普通的Spanning-tree接口，配置命令就是在接口上输入portfast来开启。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">SW(config)#int fastEthernet 1/0/3</span><br><span class="line">SW(config-if)#spanning-tree portfast</span><br><span class="line">SW(config-if)#end</span><br><span class="line">SW#show spanning-tree</span><br><span class="line"></span><br><span class="line">VLAN0001</span><br><span class="line">  Spanning tree enabled protocol rstp</span><br><span class="line">  Root ID    Priority    24577</span><br><span class="line">             Address     0016.468f.xxxx</span><br><span class="line">             This bridge is the root</span><br><span class="line">             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec</span><br><span class="line"></span><br><span class="line">  Bridge ID  Priority    24577  (priority 24576 sys-id-ext 1)</span><br><span class="line">             Address     0016.468f.xxxx</span><br><span class="line">             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec</span><br><span class="line">             Aging Time 300</span><br><span class="line"></span><br><span class="line">Interface        Role Sts Cost      Prio.Nbr Type</span><br><span class="line">---------------- ---- --- --------- -------- --------------------------------</span><br><span class="line">Fa1/0/1          Desg FWD 19        128.3    P2p</span><br><span class="line">Fa1/0/2          Desg FWD 19        128.4    Shr</span><br><span class="line">Fa1/0/3          Desg FWD 19        128.5    Edge P2p</span><br></pre></td></tr></table></figure>
+
+<h4 id="Point-to-Point-Non-edge-Port"><a href="#Point-to-Point-Non-edge-Port" class="headerlink" title="Point to Point Non-edge Port"></a>Point to Point Non-edge Port</h4><p>RSTP会把全双工的网口定义为Point-to-Point Non-edge port，并会使用RSTP和对方进行沟通（Synchronization Process）。</p>
+<h4 id="Shared-Non-edge-Port"><a href="#Shared-Non-edge-Port" class="headerlink" title="Shared Non-edge Port"></a>Shared Non-edge Port</h4><p>半双工接口会成为Shared Non-edge Port，只能用传统的STP方法进行沟通。下图中的F1/0/1是P2P non-edge port，F1/0/2是shared non-edge port：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SW#show spanning-tree</span><br><span class="line"></span><br><span class="line">VLAN0001</span><br><span class="line">  Spanning tree enabled protocol rstp</span><br><span class="line">  Root ID    Priority    24577</span><br><span class="line">             Address     0016.468f.xxxx</span><br><span class="line">             This bridge is the root</span><br><span class="line">             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec</span><br><span class="line"></span><br><span class="line">  Bridge ID  Priority    24577  (priority 24576 sys-id-ext 1)</span><br><span class="line">             Address     0016.468f.xxxx</span><br><span class="line">             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec</span><br><span class="line">             Aging Time 300</span><br><span class="line"></span><br><span class="line">Interface        Role Sts Cost      Prio.Nbr Type</span><br><span class="line">---------------- ---- --- --------- -------- --------------------------------</span><br><span class="line">Fa1/0/1          Desg FWD 19        128.3    P2p</span><br><span class="line">Fa1/0/2          Desg FWD 19        128.4    Shr</span><br><span class="line">Fa1/0/3          Desg FWD 19        128.5    Edge P2p</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">也可以用命令强制设置Link Type：</span><br><span class="line">SW(config-if)#spanning-tree link-type ?</span><br><span class="line">  point-to-point  Consider the interface as point-to-point</span><br><span class="line">  shared          Consider the interface as shared</span><br></pre></td></tr></table></figure>
+
+<h3 id="RSTP-VS-802-1D"><a href="#RSTP-VS-802-1D" class="headerlink" title="RSTP VS 802.1D"></a>RSTP VS 802.1D</h3><h4 id="802-1D场景"><a href="#802-1D场景" class="headerlink" title="802.1D场景"></a>802.1D场景</h4><p><img src="/2022/01/20/19-Switch/1617952784105-d05d7e44-753a-4a9c-87db-30c2a3fef84d.png" alt="img"></p>
+<ul>
+<li><p>A和ROOT之间新增链路Link1；</p>
+</li>
+<li><p>A及Root在Link1两端的接口都进入Listening状态，A将收到Root发出来的BPDU；</p>
+</li>
+<li><p>A将BPDU从自己的指定端口发送出去，BPDU被泛洪到网络中；</p>
+</li>
+<li><p>B和C收到这个更优的BPDU，继续向网络中泛洪；</p>
+</li>
+<li><p>数秒后，D收到这个BPDU，Block掉端口P1；</p>
+</li>
+</ul>
+<p>由于缺乏Feedback机制，A连接Root的接口从Listening到Forwarding，需要经历15X2也就是30秒的延迟，此时A、B、C下联的用户流量就出现问题了，因为D在收到更优的BPDU后，P1接口就Block掉了，这时候A、B、C相当于在A的端口过渡到Forwarding之前都处于网络的‘隔离地带’</p>
+<h4 id="RSTP场景"><a href="#RSTP场景" class="headerlink" title="RSTP场景"></a>RSTP场景</h4><p><img src="/2022/01/20/19-Switch/1617953054296-ef01b9ea-15ae-4fdc-997f-312995223944.png" alt="img"></p>
+<p>A及Root之间新增链路Link1。</p>
+<p><img src="/2022/01/20/19-Switch/1617953093993-8e520ffb-4692-4110-81a0-a9d6e87a4729.png" alt="img"></p>
+<p>A及Root，在Link1两端口up之后进入了Designated Blocking，然后双方交互BPDU信息，这个过程实际上是一个协商的过程。</p>
+<p><img src="/2022/01/20/19-Switch/1617953218187-32af3a94-66e9-4fc5-ad5f-8c1e7ff96fe2.png" alt="img"></p>
+<ul>
+<li>A在收到Root发送的BPDU后，将自己的所有非边缘接口Block掉（这个过程称作同步，Synchronization mechanism），并且回送一个Agreement消息给Root；</li>
+<li>在此之后，Root以及A在Link1上的端口like过渡到转发状态，而且此时网络是没有环路的，因为A的下联接口都是切断的；</li>
+</ul>
+<p><img src="/2022/01/20/19-Switch/1617953399784-d1a11cae-7e54-42af-8b44-b994bbe7afeb.png" alt="img"></p>
+<p>A、B、C之间，开启新一轮的协商，B、C收到A发送的BPDU后，完成同步过程，将自己的非边缘端口Block掉，然后都会向A回送Agreement消息，同时，A、B、C互相连接的接口进入转发状态，在和B、C同步操作的过程中，B下联的权势主机，所以没有被Block的接口，此时它已经完成了同步。而C要Block掉连接D的端口。</p>
+<p><img src="/2022/01/20/19-Switch/1617953540009-a16a833a-65ed-49d6-9448-edb4628080a2.png" alt="img"></p>
+<p>完成上一步之后，生成树状态如上图，最终BPDU到达D，D将P1接口Block掉。</p>
+<p><strong>总结：</strong></p>
+<p>在RSTP收敛过程中，RSTP用同步机制取代了基于计时器（Listening过15秒到Learning再过15秒到Forwarding）的机制，耗费的时间仅仅是BPDU从ROOT泛洪到网络末端的时间，不受到任何Timer的限制，直接绕过两个转发延迟的时间，因此收敛速度很快。</p>
+<p><img src="/2022/01/20/19-Switch/1617956210092-1ca39512-8945-48a3-b411-9c099e99b3a8.png" alt="img"></p>
+<p>还需要注意两点：</p>
+<ul>
+<li>交换机之间的这种协商机制只在P2P链路上执行；</li>
+<li>边缘端口的配置非常重要，如果配置不当，可能会在同步过程中被Block掉；</li>
+</ul>
+<h4 id="P-amp-A机制"><a href="#P-amp-A机制" class="headerlink" title="P&amp;A机制"></a>P&amp;A机制</h4><p>全称是Proposal/Agreement Sequence，对于802.1D来说，当一个端口被选举为指定端口，它从Blocking到Forwarding至少需要30秒的时间，然而在RSTP中，Proposal &amp; Agreement机制使得接口可以在几秒内完成迅速可靠的过渡。</p>
+<p><img src="/2022/01/20/19-Switch/1617956431094-2f27ed30-1101-4b86-81bb-ebabc4d89629.png" alt="img"></p>
+<ul>
+<li><p>当Root和A之间新增了一跳链路，链路两端的接口在收到对方发送的BPDU之前是Designated Block状态，当一个被选举为指定端口的接口，在Discarding或Learning（在且只在这个状态），它在其发送的BPDU中进行Proposal bit置位，这就是步骤1的P0情况，也就是<strong>Proposal</strong>（When a designated port is in a discarding or learning state (and only in this case), it sets the proposal bit on the BPDUs it sends out）；</p>
+</li>
+<li><p>A收到一个最优的BPDU，它立刻知道P1就是新的根端口，接下来A将启动一个同步进程，这个同步过程用来确定A上所有的端口，是否已经和最新收到的这个最优的BPDU了（Switch A then starts a sync to verify that all of its ports are in-sync with this new information）。</p>
+</li>
+<li><p>A怎么确定它的端口是否已经完成了同步呢？当端口处于Blocking状态（意味着拓扑已经稳定）或者当这个接口是一个边缘端口角色时，表示该接口已经同步完成（A port is in sync if it meets either of these criteria:The port is in the blocking state, which means discarding in a stable topology；The port is an edge port.）；如果接口不满足上述两个条件，也就是说如果接口既不是边缘端口，也不处于Block状态，那么这个接口将被Block而进入Discarding状态完成同步。也就相当于A把所有接口Block掉，完成同步。</p>
+</li>
+<li><p>现在具体看A，它上面的三个端口其中P2是Alternated port，替代端口，是处于Discarding状态的，也就是完成了同步；P4端口时Edge port，边缘端口，符合完成同步的标准，也就是完成了同步；P3是Designated port，指定端口，不符合完成同步的标准，所以还没完成同步；为了让P3完成同步，A于是将P3端口Block掉，让该端口处于Discarding状态，这样的话，所有的端口都完成了同步，然后A会发送Agreement消息给Root，这个Agreement消息是之前Proposal BPDU消息的拷贝，但Proposal位不置1，而是agreement bit置1，这样的话P0接口就能知道该agreement回应的是哪个proposal报文了。</p>
+</li>
+</ul>
+<p><img src="/2022/01/20/19-Switch/1618042999330-4f9d3d9a-7d4e-4854-bb41-f45a629dbf90.png" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1618042833462-8de957cf-6ed8-4939-a124-1458efd7b8fc.png" alt="img"></p>
+<ul>
+<li>当Root的P0接口收到agreement报文后，它立刻进入Forwarding状态；A的P3接口之前是指定端口，在Proposal\agreement这个过程同步完成后，会执行和P0一样的Proposal\agreement步骤，开始对A的邻居发送Proposal报文，收到agreement报文后会马上进入Forwarding状态。</li>
+</ul>
+<p>总结：</p>
+<ul>
+<li>Proposal\Agreement机制运行的速度非常快，它并不受限于计时器，它会非常快速的传遍整个网络，在拓扑变更后，能使网络快速收敛。</li>
+<li>如果处于Discarding状态的指定端口（DP）在发送完Proposal后没有收到Agreement的回复，那么它会慢慢的过渡到Forwarding状态，‘退化’成为802.1D的listening-learning-forwarding 过程。这种情况可能出现在对端交换机不理解RSTP的BPUD时，或是对端交换机被Block掉的情况下。</li>
+</ul>
+<h3 id="拓扑变更机制"><a href="#拓扑变更机制" class="headerlink" title="拓扑变更机制"></a>拓扑变更机制</h3><h4 id="检测机制"><a href="#检测机制" class="headerlink" title="检测机制"></a>检测机制</h4><p>在RSTP中，只有当非边缘端口过渡到Forwarding状态才会触发状态变更，也就是说一个端口如果丢失了连接，则不再认为是一次拓扑变更，这是与802.1D是有区别的。</p>
+<p>当一个RSTP交换机检测到一次拓扑变更，它将：</p>
+<ul>
+<li><p>为根端口及所有的非边缘指定端口启动一个TC While timer，该timer的值等于2倍的hello-time计时器；</p>
+</li>
+<li><p>向上述端口泛洪MAC表；</p>
+</li>
+<li><p>注意TC while timer在端口上计时，端口发送出去的BPDU就会进行TC bit置位，该BPDU也会从根端口往外发送；</p>
+</li>
+</ul>
+<h4 id="传递机制"><a href="#传递机制" class="headerlink" title="传递机制"></a>传递机制</h4><p>当一台RSTP交换机收到TC bit置位的BPDU，它将：</p>
+<ul>
+<li>清除从所有交换机接口学到的MAC表项，但不清楚收到TC BPDU的那个接口。这个动作虽然有可能导致网络中存在短暂的突发性泛洪，但也有利于刷新CAM表，清除表项；</li>
+<li>激活TC while timer，然后从所有的非边缘指定端口及根端口往外发送TC置位的BPDU，通过这种方式，拓扑变更信息会迅速在网络中泛洪；</li>
+</ul>
+<p>通过这种方式，TC消息会被迅速的泛洪到整个网络。而不像802.1D那样需要等到消息传递到Root，然后再由Root来通知拓扑进行变更。</p>
+<h3 id="补充帖子"><a href="#补充帖子" class="headerlink" title="补充帖子"></a>补充帖子</h3><p><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/switching/rstp-convergence-few-questions/td-p/1856300">https://community.cisco.com/t5/switching/rstp-convergence-few-questions/td-p/1856300</a></p>
+<p><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/switching/rstp-proposal-agreement-process/td-p/2303537">https://community.cisco.com/t5/switching/rstp-proposal-agreement-process/td-p/2303537</a></p>
+<p><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/routing/rstp-proposal-agreement-sync-process/td-p/2095718">https://community.cisco.com/t5/routing/rstp-proposal-agreement-sync-process/td-p/2095718</a></p>
+<p><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/switching/rstp-working-how-to-use-bpdu-agreement-flag/td-p/1606059">https://community.cisco.com/t5/switching/rstp-working-how-to-use-bpdu-agreement-flag/td-p/1606059</a></p>
+<h2 id="MSTP（802-1S）"><a href="#MSTP（802-1S）" class="headerlink" title="MSTP（802.1S）"></a>MSTP（802.1S）</h2><p>从STP到RSTP，主要是速度的加快，而从RSTP到MSTP，则是硬件资源和管理层级式的进化，MSTP（又叫802.1S）继承了RSTP的Synchronization Process带来的高效率收敛，而比RSTP更优秀的是，MSTP可以把多个Spanning-tree分配给不同的实例（Instance），从而减少整个生成树系统的拓扑数量。</p>
+<h3 id="RSTP的问题"><a href="#RSTP的问题" class="headerlink" title="RSTP的问题"></a>RSTP的问题</h3><ul>
+<li>消耗硬件资源较大。思科所有支持RSTP的生成树都是Pervlan的，也就是一个VLAN一张生成树，如果有100个VLAN，那么就要维护100个生成树的拓扑，对交换机的CPU和内存都有很大影响；MSTP提出了实例（Instance）的概念，把多个VLAN分组成不同的Instance，同一组Instance的VLAN共用一组生成树，比如网络中共有VLAN101至VLAN200共100组VLAN，把VLAN101至150编入Instance1，余下的VLAN151至200编入Instance2，这样生成树拓扑的数量由100下降到2个；</li>
+<li>缺乏区域概念，难于管理。MSTP把整个网络分区（Region）管理，每个Region之间不会互相干扰拓扑，每个Region会构成一个巨大的虚拟Switch，每个虚拟交换机之间会运行独立的生成树，称为Common and Internal Spanning Tree（CIST），不会影响每个Region里的拓扑。</li>
+</ul>
+<h3 id="区域（Region）"><a href="#区域（Region）" class="headerlink" title="区域（Region）"></a>区域（Region）</h3><p>在同一个Region中的交换机只会处理相同Region中的BPDU消息，从而计算出生成树拓扑。要判断是否在同一Region，交换机会比较生成树中的三个参数，只有三个参数完全相同才算处于同一个Region：</p>
+<ul>
+<li><p>Configuration Name：用命令‘name’设置；</p>
+</li>
+<li><p>Revision Number：设定的版本编号，习惯上每次更改MST设定都会把Revision Number加1，设定命令为revision；</p>
+</li>
+<li><p>vlan及Instance对应表：设置Instance所包含的VLAN，命令为Instance X vlan Y。要注意，思科会将Instance 0用作CIST，不能用作Region用。</p>
+</li>
+</ul>
+<h3 id="扩展系统ID"><a href="#扩展系统ID" class="headerlink" title="扩展系统ID"></a>扩展系统ID</h3><p><img src="/2022/01/20/19-Switch/1618049203053-32429cb0-0cdf-4364-a6a8-63c1e7a5edbd.png" alt="img"></p>
+<h3 id="实验1"><a href="#实验1" class="headerlink" title="实验1"></a>实验1</h3><p><img src="/2022/01/20/19-Switch/1618049509389-3ac3aff2-7533-460f-9fc0-ce06642095d8.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">SW1(config)#spanning-tree mode mst</span><br><span class="line">SW1(config)#spanning-tree mst configuration</span><br><span class="line">SW1(config-mst)#name Region1</span><br><span class="line">SW1(config-mst)#revision 1</span><br><span class="line">SW1(config-mst)#instance 1 vlan 11-13</span><br><span class="line">SW1(config-mst)#instance 2 vlan 21-23</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SW2(config)#spanning-tree mode mst</span><br><span class="line">SW2(config)#spanning-tree mst configuration</span><br><span class="line">SW2(config-mst)#name Region1</span><br><span class="line">SW2(config-mst)#revision 1</span><br><span class="line">SW2(config-mst)#instance 1 vlan 11-13</span><br><span class="line">SW2(config-mst)#instance 2 vlan 21-23</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SW3(config)#spanning-tree mode mst</span><br><span class="line">SW3(config)#spanning-tree mst configuration</span><br><span class="line">SW3(config-mst)#name Region1</span><br><span class="line">SW3(config-mst)#revision 1</span><br><span class="line">SW3(config-mst)#instance 1 vlan 11-13</span><br><span class="line">SW3(config-mst)#instance 2 vlan 21-23</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">接下来查看MSTP：</span><br><span class="line">SW1#show spanning-tree mst configuration</span><br><span class="line">Name      [Region1]</span><br><span class="line">Revision  1     Instances configured 3</span><br><span class="line"></span><br><span class="line">Instance  Vlans mapped</span><br><span class="line">--------  ---------------------------------------------------------------------</span><br><span class="line">0         1-10,14-20,24-4094</span><br><span class="line">1         11-13</span><br><span class="line">2         21-23</span><br></pre></td></tr></table></figure>
+
+<p>MSTP会把其他的VLAN放入Instance0中，一共有3个Instance在运行中，除了Instance1和2以外，还有一个预设的Instance0，用来做CIST用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">SW1#show spanning-tree</span><br><span class="line"></span><br><span class="line">MST0</span><br><span class="line">  Spanning tree enabled protocol mstp</span><br><span class="line">  Root ID    Priority    32768</span><br><span class="line">             Address     aabb.cc00.0400</span><br><span class="line">             This bridge is the root</span><br><span class="line">             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec</span><br><span class="line"></span><br><span class="line">  Bridge ID  Priority    32768  (priority 32768 sys-id-ext 0)</span><br><span class="line">             Address     aabb.cc00.0400</span><br><span class="line">             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec</span><br><span class="line"></span><br><span class="line">Interface           Role Sts Cost      Prio.Nbr Type</span><br><span class="line">------------------- ---- --- --------- -------- --------------------------------</span><br><span class="line">Et0/0               Desg FWD 2000000   128.1    Shr</span><br><span class="line">Et0/1               Desg FWD 2000000   128.2    Shr</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MST1</span><br><span class="line">  Spanning tree enabled protocol mstp</span><br><span class="line">  Root ID    Priority    32769</span><br><span class="line">             Address     aabb.cc00.0400</span><br><span class="line">             This bridge is the root</span><br><span class="line">             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec</span><br><span class="line"></span><br><span class="line">  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)</span><br><span class="line">             Address     aabb.cc00.0400</span><br><span class="line">             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec</span><br><span class="line"></span><br><span class="line">Interface           Role Sts Cost      Prio.Nbr Type</span><br><span class="line">------------------- ---- --- --------- -------- --------------------------------</span><br><span class="line">Et0/0               Desg FWD 2000000   128.1    Shr</span><br><span class="line">Et0/1               Desg FWD 2000000   128.2    Shr</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MST2</span><br><span class="line">  Spanning tree enabled protocol mstp</span><br><span class="line">  Root ID    Priority    32770</span><br><span class="line">             Address     aabb.cc00.0400</span><br><span class="line">             This bridge is the root</span><br><span class="line">             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec</span><br><span class="line"></span><br><span class="line">  Bridge ID  Priority    32770  (priority 32768 sys-id-ext 2)</span><br><span class="line">             Address     aabb.cc00.0400</span><br><span class="line">             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec</span><br><span class="line"></span><br><span class="line">Interface           Role Sts Cost      Prio.Nbr Type</span><br><span class="line">------------------- ---- --- --------- -------- --------------------------------</span><br><span class="line">Et0/0               Desg FWD 2000000   128.1    Shr</span><br><span class="line">Et0/1               Desg FWD 2000000   128.2    Shr</span><br></pre></td></tr></table></figure>
+
+<p>如果这里希望MST2由SW2来做Root，可以修改Priority，与STP/RSTP不同的是，MSTP要改的是Instance的参数而不是VLAN的参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">SW2(config)#spanning-tree mst 2 priority 28672</span><br><span class="line">SW2(config)#exit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SW2#show spanning-tree mst 1-2</span><br><span class="line"></span><br><span class="line">##### MST1    vlans mapped:   11-13</span><br><span class="line">Bridge        address aabb.cc00.0500  priority      32769 (32768 sysid 1)</span><br><span class="line">Root          address aabb.cc00.0400  priority      32769 (32768 sysid 1)</span><br><span class="line">            port    Et0/1           cost      2000000              rem hops 19</span><br><span class="line"></span><br><span class="line">Interface        Role Sts Cost      Prio.Nbr Type</span><br><span class="line">---------------- ---- --- --------- -------- --------------------------------</span><br><span class="line">Et0/0            Desg FWD 2000000   128.1    Shr</span><br><span class="line">Et0/1            Root FWD 2000000   128.2    Shr</span><br><span class="line"></span><br><span class="line">##### MST2    vlans mapped:   21-23</span><br><span class="line">Bridge        address aabb.cc00.0500  priority      28674 (28672 sysid 2)</span><br><span class="line">Root          this switch for MST2</span><br><span class="line"></span><br><span class="line">Interface        Role Sts Cost      Prio.Nbr Type</span><br><span class="line">---------------- ---- --- --------- -------- --------------------------------</span><br><span class="line">Et0/0            Desg FWD 2000000   128.1    Shr</span><br><span class="line">Et0/1            Desg FWD 2000000   128.2    Shr</span><br></pre></td></tr></table></figure>
+
+<h3 id="CIST"><a href="#CIST" class="headerlink" title="CIST"></a>CIST</h3><p>如果此时网络中又出现了另一个Region，MSTP会如何处理呢？MSTP会把Region当成一个大的虚拟交换机（Virtual Switch）去看待：</p>
+<p><img src="/2022/01/20/19-Switch/1618050131358-1a0ce80a-d00d-471f-8071-765870016b26.png" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1618050171999-c7e32564-6df4-42a1-8847-71f94454ada1.png" alt="img"></p>
+<h1 id="三层交换"><a href="#三层交换" class="headerlink" title="三层交换"></a>三层交换</h1><h2 id="CAM-amp-TCAM"><a href="#CAM-amp-TCAM" class="headerlink" title="CAM&amp;TCAM"></a>CAM&amp;TCAM</h2><h3 id="CAM"><a href="#CAM" class="headerlink" title="CAM"></a>CAM</h3><p>CAM是交换机用于二层交换时所查的表，Content Addressable Memory Table，内容可寻址内存，在查表时使用二进制的0、1进行匹配，并且需要严格匹配，也就是目的MAC与CAM表中的MAC需要完全匹配，查找的结果如果是完全匹配，则根据返回的端口号将数据转发出去。CAM表只能输出两种结果：0表示真，也就是匹配，1表示为假，也就是不匹配。所以CAM表在构建那些需要精确匹配的表格（比如MAC地址表）的时候就非常有用，因为MAC地址为48位，需要每位都匹配才能使得数据帧从一个接口发出去。（CAM performs quick lookup based on exact match on the given search key. In essence, a CAM looks up a single record - the one matches the search key precisely——出自<a target="_blank" rel="noopener" href="https://community.cisco.com/t5/switching/cam-tcam-backplane-speed/td-p/1970089">这个帖子</a>）</p>
+<p>查看CAM表使用命令：show mac address-table dynamic [address mac-address | interface type mod/num | vlan vlan-id]</p>
+<p>查看CAM表大小使用命令：show mac address-table count</p>
+<p><img src="/2022/01/20/19-Switch/1618214813472-12f54ac0-cbee-4779-a9bf-80819f072410.png" alt="img"></p>
+<p>CAM (Content Addressable Memory) is memory that can be addressed by content, rather than a numeric memory address. You can look up the interface by presenting the memory with the MAC address. This is done in a single CPU cycle vs. the traditional programming of searching through a table, which will cost many CPU cycles.</p>
+<h3 id="TCAM"><a href="#TCAM" class="headerlink" title="TCAM"></a>TCAM</h3><p>TCAM（Ternary Content Addressable Memory）是路由模块或路由器用于三层时转发所查的表，用于ip寻址，也用在ACL、QOS等情况下使用。（TCAM performs quick lookups based on search key and a mask that identifies which bits of the search key must be matched.while a TCAM looks up an entire set of similar records that match the “interesting” bits of a search key (the “interesting” bits are identified by the mask).）因为TCAM可以提供三种结果，0,1和无所谓（don’t care）。TCAM对于构建那些需要最长匹配的东西，比如IP路由表，非常有用。</p>
+<p>查看TCAM表占用率的命令：show tcam counts；</p>
+<h3 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h3><p>CAM和TCAM比传统意义上的DRAM内存要贵得多，因为它们的性能更强大，在普通PC上看不到它们的身影，只在专门做数据转发的设备，比如路由器或交换机上才会有它们。</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>CAM (Content Addressable Memory) VS TCAM (Ternary Content Addressable Memory)</p>
+<h2 id="CAM-VS-TCAM"><a href="#CAM-VS-TCAM" class="headerlink" title="CAM VS TCAM"></a>CAM VS TCAM</h2><p>Multilayer switches forward frames and packets at wire speed by using ASIC hardware. Specific Layer 2 and Layer 3 components, such as routing tables or Access Control Lists (ACLs), are cached into hardware. Routing, switching, ACL and QoS tables are stored in a high-speed table memory so that forwarding decisions and restrictions can be made in high-speed hardware. Switches perform lookups in these tables for result information, such as to determine whether a packet with a specific destination IP address is supposed to be dropped according to an ACL.</p>
+<p>Cisco Catalyst switches deploys these memory tables using specialized memory architectures, referred to as CAM and TCAM.</p>
+<h2 id="CAM-Content-Addressable-Memory"><a href="#CAM-Content-Addressable-Memory" class="headerlink" title="CAM (Content Addressable Memory)"></a>CAM (Content Addressable Memory)</h2><p>CAM stands for <strong>Content Addressable Memory</strong> which is a special type of memory used by Cisco switches. In the case of ordinary RAM the IOS uses a memory address to get the data stored at this memory location, while with CAM the IOS does the inverse. It uses the data and the CAM returns the address where the data is stored. Also the CAM is considered to be faster than the RAM since the CAM searches the entire memory in one operation.</p>
+<p>CAM tables provide only two results: 0 (true) or 1 (false). CAM is most useful for building tables that search on exact matches such as MAC address tables. The CAM table is the primary table used to make Layer 2 forwarding decisions. In the case of Layer 2 switching tables, the switch must find an exact match to a destination MAC address or the switch floods the packet out all ports in the VLAN.</p>
+<p>The table is built by recording the source address and inbound port of all frames. As frames arrive on switch ports, the source MAC addresses are learned and recorded in the CAM table. The port of arrival and the VLAN are both recorded in the table, along with a timestamp. If a MAC address learned on one switch port has moved to a different port, the MAC address and timestamp are recorded for the most recent arrival port. Then, the previous entry is deleted. If a MAC address is found already present in the table for the correct arrival port, only its timestamp is updated.</p>
+<p>When a frame arrives at the switch with a destination MAC address of an entry in the CAM table, the frame is forwarded out through only the port that is associated with that specific MAC address. The information a switch uses to perform a lookup in a CAM table is called a key. For example, a Layer 2 lookup would use a destination MAC address and a VLAN ID as a key.</p>
+<p>To view the contents of the CAM table, you can use the following EXEC command:</p>
+<p>Switch# show mac address-table dynamic [address <em>mac-address</em> | interface <em>type mod/num</em> | vlan <em>vlan-id</em>]The entries that have been dynamically learned will be shown. You can add the <strong>address</strong> keyword to specify a single MAC address, or the <strong>interface</strong> or <strong>vlan</strong> keywords to see addresses that have been learned on a specific interface or VLAN.</p>
+<p>To see the CAM table’s size, use the <strong>show mac address-table count</strong> command.</p>
+<p>The problem with CAM is that it can only do exact matches on ones and zeros (binary CAMs), and here comes TCAM.</p>
+<h2 id="TCAM-Ternary-Content-Addressable-Memory"><a href="#TCAM-Ternary-Content-Addressable-Memory" class="headerlink" title="TCAM (Ternary Content Addressable Memory)"></a>TCAM (Ternary Content Addressable Memory)</h2><p>TCAM stands for <strong>Ternary Content Addressable Memory</strong> which can match a third state, which is any value. This makes TCAM a very important component of Cisco Layer 3 switches and modern routers, since they can store their routing table in the TCAMs, allowing for very fast lookups, which is considerably better than routing tables stored in ordinary RAM. TCAM is a specialized CAM designed for rapid table lookups.</p>
+<p>TCAM provides three results: 0, 1, and “don’t care.” TCAM is most useful for building tables for searching on longest matches such as IP routing tables organized by IP prefixes. The TCAM table stores ACL, QoS and other information generally associated with upper-layer processing. As a result of using TCAM, applying ACLs does not affect the performance of the switch.</p>
+<p>Most switches have multiple TCAMs so that both inbound and outbound security, as well as QoS ACLs, can be evaluated simultaneously or entirely in parallel with a Layer 2 or Layer 3 forwarding decision.</p>
+<p>The term VMR (Value, Mask and Result) refers to the format of entries in TCAM. The “value” in VMR refers to the pattern that is to be matched; examples include IP addresses, protocol ports, DSCP values, and so on. The “mask” refers to the mask bits associated with the pattern and determines the prefix. The “result” refers to the result or action that occurs in the case where a lookup returns a hit for the pattern and mask.</p>
+<p>This result might be a “permit” or “deny” in the case of a TCAM for ACLs, values for QoS policies in case of QoS or a pointer to an entry in the hardware adjacency table that contains the next-hop MAC rewrite information in the case of a TCAM used for IP routing.</p>
+<p>To see the current TCAM resource usage, use the <strong>show tcam counts</strong> EXEC command. To see the current TCAM partitioning, you can use the <strong>show sdm prefer</strong> EXEC command.</p>
+<p>Most of the traditional Layer 2 Cisco switches has only CAM for Layer 2 switching, while some Layer 2 Cisco switches has TCAM for QoS and not for routing, while layer 3 switches has the routing TCAM. CAM and TCAM are the most important parts of the so called ASICs that Cisco switches leverage for line-speed fast switching.</p>
+<p>Catalyst switch architecture supports the ability to perform multiple lookups into multiple distinct CAM and TCAM regions in parallel. As a result of this ability to perform multiple lookups simultaneously, Catalyst switches do not suffer any performance degradation by enabling additional hardware-switching features such as QoS and IP ACL processing.</p>
+<p>出自<a target="_blank" rel="noopener" href="https://community.cisco.com/t5/networking-documents/cam-content-addressable-memory-vs-tcam-ternary-content/ta-p/3107938">这个帖子</a></p>
+<p>CAM stands for Content Addressable Memory which is a special type of memory used by Cisco switches, in the case of ordinary RAM the IOS uses a memory address to get the data stored at this memory location, while with CAM the IOS does the inverse, it uses the data and the CAM returns the address where the data is stored, also the CAM is considered to be faster than the RAM since the CAM searches the entire memory in one operation.</p>
+<p>The problem with CAM is that it can only do exact matches on ones and zeros (binary CAMs), and here TCAM (Ternary CAM) comes, since it can match a third state which is any, this makes TCAM a very important component of Cisco layer 3 switches and modern routers, since they can store their routing table in the TCAMs, allowing for very fast lookups, which is considerably better than routing tables stored in ordinary RAM.</p>
+<p>CAM and TCAM are the most important parts of the so called ASICs that Cisco switches leverage for line-speed fast switching.</p>
+<p>Well to keep it simple, a multilayer switch uses sets of TCAMs, each set of TCAMs are used for a certain feature (Routing, QoS, ACLs …), and it does parallel lookups to get all the required results using the VMR combination (Value, Mask and Result), these results can be permit and deny in the case of ACLs, values for QoS policies in case of QoS or pointers to a next-hop in the routing table in case of routing, most of the traditional layer 2 Cisco switches has only CAMs for only layer 2 switching, while some layer 2 Cisco switches has TCAMs for QoS and not for routing, while layer 3 switches has the routing TCAMs.</p>
+<p>出自<a target="_blank" rel="noopener" href="https://community.cisco.com/t5/switching/cam-vs-tcam/td-p/988524">这个帖子</a></p>
+<h2 id="VLAN间路由"><a href="#VLAN间路由" class="headerlink" title="VLAN间路由"></a>VLAN间路由</h2><h3 id="单臂路由"><a href="#单臂路由" class="headerlink" title="单臂路由"></a>单臂路由</h3><p><img src="/2022/01/20/19-Switch/1618296871746-92611ec6-3546-4b12-8663-4724048bbb32.png" alt="img"></p>
+<p>在二层环境下，一个VLAN就是一个广播，不同VLAN处于不同的广播域，一般也都是不同的逻辑子网，相互隔离无法相互访问，这样能起到隔绝广播的作用。但世纪网络中往往有VLAN之间需要相互访问的需求，例如一个公司不同的部门被划分到不同的VLAN中，这些部门之间也会有数据来往的需求，这时二层交换机就无法实现了，需要借助三层设备。最简单的办法就是使用路由器，最经典的解决方案就是单臂路由（router-on-a-stick）：</p>
+<p><img src="/2022/01/20/19-Switch/1618296997059-b50631b1-91dc-496b-abf3-7a8d1a635a66.png" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1618297213051-f20cb0e7-2d4e-46e3-a90a-9a4c60891323.jpeg" alt="img"></p>
+<p>所谓的单臂路由（router-on-a-stick），就是在路由器的以太网口上（必须是百兆以上的），来承载VLAN之间的流量，让路由器和交换机之间跑一个Trunk，使用Dot1Q封装，这时候，为了让路由器的以太网口支持Dot1Q并识别承载VLAN流量，那么需要对物理接口进行子接口的划分，比如上图中划分了F0/0.1和F0/0.2两个子接口，分别承担不同VLAN的流量，并配置封装协议Dot1Q，同时为流量打上VLAN的Tag，这样一来，交换机和路由器之间起了一个Trunk，路由器的这两个子接口分别配置两个VLAN的网关IP，作为VLAN用户的网关。</p>
+<p>配置方式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">interface F0/0</span><br><span class="line"> no shutdown</span><br><span class="line">interface F0/0.10</span><br><span class="line"> encapsulate dot1Q 10</span><br><span class="line"> ip address 192.168.10.254 255.255.255.0</span><br><span class="line"> no shutdown</span><br><span class="line">interface F0/0.20</span><br><span class="line"> encapsulate dot1Q 20</span><br><span class="line"> ip address 192.168.20.254 255.255.255.0</span><br><span class="line"> no shutdown</span><br></pre></td></tr></table></figure>
+
+<p>encapsulate dot1Q 20表示F0/0.20属于VLAN20，encapsulate dot1Q 10表示F0/0.10属于VLAN10。</p>
+<p>使用单臂路由能够解决VLAN数据间互访的问题，但也存在弊端，比如中间的Trunk 链路，也就是路由器和交换机这条链路，承载流量较大，因为流量需要二次进出，扩展性差，存在单点故障可能。</p>
+<h3 id="园区网构架"><a href="#园区网构架" class="headerlink" title="园区网构架"></a>园区网构架</h3><p><img src="/2022/01/20/19-Switch/1618298412191-acf34f63-715b-4508-9dc1-2c0a647c0b59.png" alt="img"></p>
+<p>过去，交换机基于硬件转发，路由基于软件转发，因此园区网更多采用交换网络设计，比如左图中的构架设计。</p>
+<p>现今，路由已经几乎和交换一样快速，也能够基于硬件做转发，与此同时，路由的设计很好的解决了交换网络的二层环路问题，以及vlan的隔离问题，所以现在的园区网更多采用有图的设计。</p>
+<h3 id="Switch-Virtual-Interfaces（SVI）"><a href="#Switch-Virtual-Interfaces（SVI）" class="headerlink" title="Switch Virtual Interfaces（SVI）"></a>Switch Virtual Interfaces（SVI）</h3><p><img src="/2022/01/20/19-Switch/1618300474133-19804cbd-1b4a-43c4-8dc8-41b85ce28e2a.png" alt="img"></p>
+<p>下面来看看三层交换机是如何实现VLAN间的数据互访的，我们从这里为切入点，开始理解并部署三层交换机。我们知道二层交换机是可以实现二层交换的，它看的是二层的数据帧，对帧头的二层信息进行读取并且根据自己的CAM表进行转发。而三层交换机相当于在二层交换机的基础上，多了个路由模块，于是它就支持路由功能了：支持路由选择协议，支持三层数据的转发，支持IP路由查找，支持三层接口等等。</p>
+<p>先来人事一下第一种三层接口，SVI，交换式虚拟接口，SVI中的V是Virtual，也就是虚拟的意思，也就是说它不是一个物理接口，当我们在交换机上创建了一个VLAN后，紧接着就可以创建一个与这个VLAN相对应的SVI接口，例如在三层交换机上穿件了一个VLAN10，那么VLAN10所对应的SVI接口就是Interface VLAN10或者叫SVI10这个三层接口。可以为这个三层SVI借口配置IP地址，配置的地址与VLAN10内的PC用户的IP地址为同一网段，那么这样一来，VLAN10内的用户就能够将网关指向这个SVI接口，当VLAN10的PC需要访问其他网段的数据时，这些PC就会将需要跨网段的数据交给三层的SVI10这个接口，由这个SVI接口再去做路由及数据转发这种三层才能完成的工作。在这个过程中，可以用单臂路由这个模型来类比。</p>
+<p>上图中，在三层交换机上创建了两个VLAN，VLAN10和VLAN20，同时为两个VLAN的三层SVI接口分配了地址作为各自VLAN的用户网关，这样一来，这台交换机的路由表里就有了两个VLAN网段的路由。那么当两个VLAN之间要互访时，VLAN10的用户将数据丢给自己的网关，VLAN10的SVI接口，数据到了SVI10以后，三层交换机查表，发现目的IP是VLAN20所在的网段，因此将数据从VLAN20的SVI扔出去，最终到达目的地，VLAN20的PC上。</p>
+<p>举个不是特别恰当的例子，可以把VLAN想象成一个独立的班级，PC是学生，SVI是班主任，当班级之间的学生（PC）相互通信的时候，由于都在一个班里边（同一个VLAN中），彼此都相互认识，如果要和别的班的同学通信，也就是跨网段通信，需要经过班主任去对接其他班级的班主任，因为同学之间不认识。</p>
+<h3 id="三层交换机的端口"><a href="#三层交换机的端口" class="headerlink" title="三层交换机的端口"></a>三层交换机的端口</h3><h4 id="基本概念-3"><a href="#基本概念-3" class="headerlink" title="基本概念"></a>基本概念</h4><p><img src="/2022/01/20/19-Switch/1618302381892-875363a2-f676-4e99-a377-0170714b9acd.png" alt="img"></p>
+<p>总的来说，三层交换机包括两类端口，二层接口L2和三层接口L3：</p>
+<ul>
+<li>二层接口（Switchport）：二层接口包括了常见的Access mode和Trunk Mode，交换机的所有物理接口默认是二层接口，也就是Switchport。</li>
+<li>三层接口：路由接口（no switchport或叫做routed port）、SVI接口。SVI是一个虚拟接口，而routed port是一个和路由器上接口相同的物理接口。三层交换机支持将物理接口变为一个类似路由器物理接口的三层接口，具体的配置就是进入接口以后，使用‘no switchport’命令，这样该接口就变为了一个L3的路由接口，可以给该接口配置IP地址，就像操作路由器的接口一样类对待它。</li>
+</ul>
+<h4 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">开启三层交换机的路由功能</span><br><span class="line">Switch(config)# ip routing </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">关闭三层交换机的路由功能</span><br><span class="line">Switch(config)#no ip routing </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">创建VLAN并命名</span><br><span class="line">Switch(config)# vlan 10 </span><br><span class="line">Switch(config-vlan)# name XXX</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">配置VLAN对应的SVI接口</span><br><span class="line">witch(config)#interface Vlan10</span><br><span class="line">Switch(config-if)#ip address 192.168.10.254 255.255.255.0</span><br><span class="line">Switch(config-if)#no shutdown</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">配置三层接口</span><br><span class="line">Switch(config)# interface fast 0/1</span><br><span class="line">Switch(config-if)# no switchport </span><br><span class="line">Switch(config-if)# ip address 192.168.255.1 255.255.255.0</span><br><span class="line">Switch(config-if)# no shutdown</span><br></pre></td></tr></table></figure>
+
+<h4 id="实验1-1"><a href="#实验1-1" class="headerlink" title="实验1"></a>实验1</h4><p><img src="/2022/01/20/19-Switch/1618365566128-bea7494e-0693-41f3-9e7b-819797709fe2.png" alt="img"></p>
+<p>两台PC通过两台二层交换机接入网络，二层交换机上联三层交换机，这是一个在小型网络中常见的拓扑结构，二层交换机放在楼层配线间，通过光纤和担负核心职责的三层交换机相连。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">L2-SWITCH2:</span><br><span class="line">vlan 10</span><br><span class="line">exit</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> switchport trunk encapsulation dot1q</span><br><span class="line"> switchport mode trunk</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> switchport access vlan 10</span><br><span class="line"> switchport mode access</span><br><span class="line">!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">L2-SWITCH3:</span><br><span class="line">vlan 20</span><br><span class="line">exit</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> switchport trunk encapsulation dot1q</span><br><span class="line"> switchport mode trunk</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> switchport access vlan 20</span><br><span class="line"> switchport mode access</span><br><span class="line">!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">L3-SWITCH:</span><br><span class="line">vlan 10,20</span><br><span class="line">exit</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> switchport trunk encapsulation dot1q</span><br><span class="line"> switchport mode trunk</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> switchport trunk encapsulation dot1q</span><br><span class="line"> switchport mode trunk</span><br><span class="line">!</span><br><span class="line">interface Vlan10</span><br><span class="line"> ip address 192.168.10.254 255.255.255.0</span><br><span class="line">!</span><br><span class="line">interface Vlan20</span><br><span class="line"> ip address 192.168.20.254 255.255.255.0</span><br><span class="line">!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">L3_SWTICH#show ip route</span><br><span class="line">Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP</span><br><span class="line">       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area</span><br><span class="line">       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2</span><br><span class="line">       E1 - OSPF external type 1, E2 - OSPF external type 2</span><br><span class="line">       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2</span><br><span class="line">       ia - IS-IS inter area, * - candidate default, U - per-user static route</span><br><span class="line">       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP</span><br><span class="line">       a - application route</span><br><span class="line">       + - replicated route, % - next hop override, p - overrides from PfR</span><br><span class="line"></span><br><span class="line">Gateway of last resort is not set</span><br><span class="line"></span><br><span class="line">      192.168.10.0/24 is variably subnetted, 2 subnets, 2 masks</span><br><span class="line">C        192.168.10.0/24 is directly connected, Vlan10</span><br><span class="line">L        192.168.10.254/32 is directly connected, Vlan10</span><br><span class="line">      192.168.20.0/24 is variably subnetted, 2 subnets, 2 masks</span><br><span class="line">C        192.168.20.0/24 is directly connected, Vlan20</span><br><span class="line">L        192.168.20.254/32 is directly connected, Vlan20</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">VPC5:</span><br><span class="line">VPCS&gt; ip 192.168.20.1 192.168.20.254</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">VPC4:</span><br><span class="line">VPCS&gt; ip 192.168.10.1 192.168.10.254</span><br><span class="line">VPCS&gt; trace 192.168.20.1</span><br><span class="line">trace to 192.168.20.1, 8 hops max, press Ctrl+C to stop</span><br><span class="line"> 1   192.168.10.254   0.575 ms  0.550 ms  0.702 ms</span><br><span class="line"> 2   *192.168.20.1   2.737 ms (ICMP type:3, code:3, Destination port unreachable)</span><br></pre></td></tr></table></figure>
+
+<p>PC上配置好IP地址和网关；两个二层交换机上分别创建属于这个交换机的VLAN，然后就将连接PC的接口配置成access模式并将接口划入相应的VLAN，两个二层交换机不配置对方交换机的VLAN是没问题的，也就是说SWITCH2上只有VLAN10，SWTICH3上只有VLAN20不影响数据通信。上联L3交换机的接口配置成Trunk，使得可以通行多VLAN；三层交换机上创建VLAN10和20，然后进入这两个VLAN的SVI接口配置IP地址（interface VLAN10，ip address X.X.X.X），并将下联到L2交换机的接口配置成Trunk以便通行多VLAN。</p>
+<p>从L3交换机的路由表中可以看出，配置完毕以后它已经有了10.0和20.0网段的路由，因此可以转发二层交换机无法转发的数据。从192.168.10.1这台PC的Traceroute中也能看出，发往192.168.20.1的数据先发给了所在的10.0网段的网关192.168.10.254，这个10.254就是L3交换机上VLAN10的SVI这个三层接口，然后发给了目的地址，所以整体的数据走向是：</p>
+<p><img src="/2022/01/20/19-Switch/1618369005307-216c36d8-cb06-4191-acf4-977da4901f3f.png" alt="img"></p>
+<p>假设所有设备中的MAC地址表都为空，PC1的数据通过Access接口发送到上联的二层交换机以后，会打上Access端口的PVID也就是VLAN10的TAG，然后交换机对数据解封装，将PC1的MAC地址和接口的对应信息放入CAM表中，根据数据帧中的目的MAC地址，查询本地MAC地址表，由于MAC地址表为空，所以会发送ARP广播来查找网关的MAC地址，这个广播会经过Trunk链路打上VLAN10的TAG，然后发送给L3交换机。L3交换机收到带VLAN10TAG的广播以后，会回复interface VLAN10的MAC地址给L2交换机，然后L2交换机将发送到20.1的数据帧重新封装二层地址（源地址为连接PC端口的MAC地址，目的为网关的MAC地址）：</p>
+<p><img src="/2022/01/20/19-Switch/1618370329311-321839e4-b1fe-4b45-b383-5f0486e59ac7.png" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1618370373063-dc157d37-4608-4d9d-9dc0-3818ea2fcf8f.png" alt="img"></p>
+<p>L2交换机将重新封装好的数据发送给L3交换机（此时数据之前在进入Access口时打上了VLAN10的TAG所以Trunk不需要重新打标签），L3交换机收到数据后解封装二层，发现是发给自己VLAN10的SVI接口的，于是继续将数据解封装至三层，发现目标IP地址为192.168.20.1，在自己的VLAN20的Interface接口上，接下来发送ARP查找对应的MAC地址，发送给右边的L2交换机，然后L2-SWTICH3将它的E0/1口的MAC地址回复给广播ARP，L3Switch获知MAC地址后重新封装数据包，交给L2-SWTICH3。</p>
+<p>这里注意，L3的access口并不会发送ARP的广播，但Trunk口会。</p>
+<p>补充帖子：</p>
+<p><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/switching/switch-svi/td-p/2386970">https://community.cisco.com/t5/switching/switch-svi/td-p/2386970</a></p>
+<p><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/switching/l2-l3-vlan/td-p/990201">https://community.cisco.com/t5/switching/l2-l3-vlan/td-p/990201</a></p>
+<h2 id="交换机的管理"><a href="#交换机的管理" class="headerlink" title="交换机的管理"></a>交换机的管理</h2><h3 id="二层交换机的管理"><a href="#二层交换机的管理" class="headerlink" title="二层交换机的管理"></a>二层交换机的管理</h3><h4 id="理论知识"><a href="#理论知识" class="headerlink" title="理论知识"></a>理论知识</h4><p>在一个园区网中，数量最多的设备一般是交换机，其中二层交换机的数量居多，二层交换机在典型的三层网络构架中属于“接入层”主要任务是为终端的PC和用户提供接入，同时划分VLAN隔离广播域，再或者运行STP来提供二层的放环机制。一个中小型的园区网，二层交换机一般都有几十上百台，这些设备在客户现场被拆箱后，一般是由工程师现场用Console线缆一台台的调试，这些交换机在调试好之后，会被安装到客户现场的各个机房或弱电配线间去，一切妥当后就正式上线运行了。在设备上线后，如果需要变更设备的配置，管理这些就交换机怎么办？不可能拿着笔记本一个配线间一个配线间的去跑，可以通过Telnet或者其他方式来远程管理，只要三层可达，就能Telnet到设备。</p>
+<p>二层交换机无法识别三层报文，它根本不会去看三层的报头，但这并不影响二层交换机自己拥有一个IP地址。在路由器上，我们始终是给路由器的物理接口配置IP地址，而二层交换机，是在Interface VLAN口上配置IP地址，也就是SVI虚拟接口，跟VLAN对应的一个逻辑的虚拟的接口。一台二层交换机只能给一个VLAN接口分配IP地址，但二层交换机的‘SVI’地址并不是一个完全意义上的SVI地址，完全意义上的SVI接口要能执行三层策略，比如路由、ACL等，而二层交换机的‘SVI’只是个管理接口，没有那些功能。</p>
+<p><img src="/2022/01/20/19-Switch/1618390415484-756e3e26-71df-44fb-ade3-5bd9143439b5.png" alt="img"></p>
+<p>如上图左侧，PC想要Telnet交换机，首先PC要能PING通交换机，其次交换机上要激活VTP并配置密码。那么我们在二层交换机上创建一个VLAN10，将F0/1接口划入VLAN10，同时给二层交换机的VLAN10逻辑接口配置一个IP地址，与PC在同一网段。这样一来PC就能访问到交换机了，可问题来了，这样一来，PC与交换机就在同一网段同一个VLAN了，万一下面有PC配置的IP地址与交换机配置的管理地址有冲突就麻烦了，因此我们可以考虑给交换机划分一个单独的VLAN用于管理这些交换机，这个VLAN适用于整个交换网络，统一的VLAN统一的IP规划，它就是管理VLAN，因此管理VLAN并不是一个特定的VLAN，更不是VLAN1，这是很多人的误解，一般情况下，我们会使用一个较为‘生僻的’VLAN ID和IP编制，例如VLAN255，以及网段192.168.255.0/24。</p>
+<p>问题来了，给交换机单独一个管理VLAN固然可以起到与用户VLAN隔离的作用，但这样一来，用户就无法访问到交换机了，因为同一交换机上不同的VLAN之间是隔绝广播域无法访问的，就需要借助三层设备，比如路由器或三层交换机了，与此同时，由于二层交换机没有路由功能，无法像路由器那样拥有一个IP路由表，因此还需要给交换机配置一个默认网关，就像用路由器模拟PC那样。</p>
+<h4 id="实验说明"><a href="#实验说明" class="headerlink" title="实验说明"></a>实验说明</h4><p><img src="/2022/01/20/19-Switch/1618390845477-03be0fd1-b3e2-4f40-90a9-ed0b55565545.png" alt="img"></p>
+<p>交换机下联 2 台 PC，又连接了一台路由器。路由器作为内网 VLAN10、VLAN20 用户的网关。交换机增加一个 VLAN255用于其自身的设备管理，交换机的管理 IP 为 192.168.255.1，网关在路由器上； 交换机创建 VLAN10、VLAN20，这是用户 VLAN，是 PC 用户的 VLAN；路由器 FE0/0 口划分子接口做单臂，作为 VLAN10、VLAN20 及 VLAN255 的网关；要求 VLAN10、VLAN20 之间的用户能够互访，同时只允许 VLAN10 的用户 Telnet 交换机进  行设备的管理。 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Switch(config)#no ip routing</span><br><span class="line">Switch(config)#vlan 10,20,255</span><br><span class="line">Switch(config-vlan)#exit</span><br><span class="line">Switch(config)#int e0/1</span><br><span class="line">Switch(config-if)#switchport mode access</span><br><span class="line">Switch(config-if)#switchport access vlan 10</span><br><span class="line">Switch(config-if)#int e0/2</span><br><span class="line">Switch(config-if)#switchport mode access</span><br><span class="line">Switch(config-if)#switchport access vlan 20</span><br><span class="line">Switch(config-if)#exit</span><br><span class="line">Switch(config)#int e0/3</span><br><span class="line">Switch(config-if)#switchport trunk encapsulation dot1q</span><br><span class="line">Switch(config-if)#switchport mode trunk</span><br><span class="line">Switch(config-if)#exit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Switch(config)#line vty 0 4</span><br><span class="line">Switch(config-line)#password CISCO</span><br><span class="line">Switch(config-line)#login</span><br><span class="line">Switch(config-line)#exit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">interface Vlan255</span><br><span class="line"> ip address 192.168.255.1 255.255.255.0</span><br><span class="line">ip default-gateway 192.168.255.254</span><br></pre></td></tr></table></figure>
+
+<p>由于EVE的交换机都是三层，所以这里用no ip routing将三层交换机的路由功能关闭，变为二层交换机，如果不配置该命令，ip default-gateway指定的缺省网关是无效的，此时也可以使用ip route 0.0.0.0 0.0.0.0 的方式来代替ip default-gateway这条命令，但必须注意，ip default-gateway，是给交换机自己用的，不是为了底下接入的PC配置的网关。接下来看路由器的配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">interface Ethernet0/0</span><br><span class="line"> no shutdown</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0.10</span><br><span class="line"> encapsulation dot1Q 10</span><br><span class="line"> ip address 192.168.10.254 255.255.255.0</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0.20</span><br><span class="line"> encapsulation dot1Q 20</span><br><span class="line"> ip address 192.168.20.254 255.255.255.0</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0.255</span><br><span class="line"> encapsulation dot1Q 255</span><br><span class="line"> ip address 192.168.255.254 255.255.255.0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">GW#show ip interface brief</span><br><span class="line">Interface                  IP-Address      OK? Method Status                Protocol</span><br><span class="line">Ethernet0/0                unassigned      YES unset  up                    up</span><br><span class="line">Ethernet0/0.10             192.168.10.254  YES manual up                    up</span><br><span class="line">Ethernet0/0.20             192.168.20.254  YES manual up                    up</span><br><span class="line">Ethernet0/0.255            192.168.255.254 YES manual up                    up</span><br></pre></td></tr></table></figure>
+
+<p>GW的E0/0接口一定要配置no shutdown命令否则子接口也无法打开。E0/0.10是VLAN10的网关，E0/0.20是VLAN20的网关，E0/0.255是VLAN255的网关。在实际部署中，如果直接将交换机暴露在网络中，所有内网PC都能随意登陆是有风险的，我们还可以在交换机上增加如下配置，来限制交换机管理的网段，例如只为让192.168.10.0/24网段的用户登陆管理交换机：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Switch(router)# access-list 1 permit 192.168.10.0 0.0.0.255 </span><br><span class="line">Switch(router)# line vty 0 4 </span><br><span class="line">Switch(router-line)# access-class 1 in </span><br></pre></td></tr></table></figure>
+
+<h3 id="三层交换机的管理"><a href="#三层交换机的管理" class="headerlink" title="三层交换机的管理"></a>三层交换机的管理</h3><p><img src="/2022/01/20/19-Switch/1618555135173-f02c6ec9-4568-4cd2-bc7f-45e82964c782.png" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1618555341872-b690794a-3ad5-419a-b9d9-26825711a474.png" alt="img"></p>
+<p>二层交换机配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Switch(config)# vlan 10，20,255</span><br><span class="line">Switch(config-if)# exit</span><br><span class="line">Switch(config)# interface fast0/1 </span><br><span class="line">Switch(config-if)# switchport access vlan 10 </span><br><span class="line">Switch(config)# interface fast0/2</span><br><span class="line">Switch(config-if)# switchport access vlan 20 </span><br><span class="line">Switch(config)# interface fast0/15</span><br><span class="line">Switch(config-if)# switchport trunk encapsulate dot1Q</span><br><span class="line">Switch(config-if)# switchport mode trunk</span><br><span class="line">Switch(config)# interface vlan 255</span><br><span class="line">Switch(config-if)#ip address 192.168.255.1 255.255.255.0</span><br><span class="line">Switch(config)# ip default-gateway 192.168.255.254</span><br></pre></td></tr></table></figure>
+
+<p>核心交换机配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Switch(config)# vlan 10，20,255</span><br><span class="line">Switch(config-if)# exit</span><br><span class="line">Switch(config)# interface fast0/15</span><br><span class="line">Switch(config-if)# switchport trunk encapsulate dot1Q</span><br><span class="line">Switch(config-if)# switchport mode trunk</span><br><span class="line">Switch(config)# interface vlan 10</span><br><span class="line">Switch(config-if)#ip address 192.168.10.254 255.255.255.0</span><br><span class="line">Switch(config)# interface vlan 20</span><br><span class="line">Switch(config-if)#ip address 192.168.20.254 255.255.255.0</span><br><span class="line">Switch(config)# interface vlan 2550</span><br><span class="line">Switch(config-if)#ip address 192.168.10.254 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<h2 id="冗余网关技术"><a href="#冗余网关技术" class="headerlink" title="冗余网关技术"></a>冗余网关技术</h2><p>一旦网关或关键节点出现故障，将对业务造成灾难性的故障，因此应运而生了首跳网关冗余技术，常见的有HSRP、VRRP和GLBP，相互之间的区别如下：</p>
+<p><img src="/2022/01/20/19-Switch/1618556451542-3e276964-def5-46cf-a0e6-050382f2afbd.png" alt="img"></p>
+<h3 id="基本概念-4"><a href="#基本概念-4" class="headerlink" title="基本概念"></a>基本概念</h3><p>由于HSRP和GLBP都是思科私有技术，这里只写VRRP这种公有技术。</p>
+<p>利用VRRP（Virtual Router Redundancy Protocol，虚拟路由冗余协议）协议，一组路由器可以协同工作，但只有一个处于激活状态，在一个VRRP组内的多个路由器公用一个虚拟IP地址，该地址被作为局域网内所有主机的缺省网关地址，VRRP协议决定哪个路由器被激活，被激活的路由器负责收发过来的数据包并进行路由。</p>
+<p><img src="/2022/01/20/19-Switch/1618556886952-3c05fda8-f129-4779-9a31-d434a40fd947.png" alt="img"></p>
+<ul>
+<li><p>VRRP路由器：运行VRRP协议的路由器，一台VRRP路由器可以同时参与到多个VRRP组中，在不同的组中，一台VRRP路由器可以充当不同的角色；</p>
+</li>
+<li><p>VRRP组（VRID）：由多个路由器组成，属于同一个VRRP组的VRRP路由器相互交换信息，每一组由一个VRID标识；</p>
+</li>
+<li><p>虚拟路由器：对每一个VRRP组，抽象出来的一个逻辑路由，该路由器充当网络用户的网关；</p>
+</li>
+<li><p>虚拟IP、MAC地址：用于标识虚拟的路由器，该地址实际上是用户的默认网关，两个地址都是虚拟的；</p>
+</li>
+<li><p>Master路由器：在VRRP组中实际转发数据包的路由器，在每一个VRRP组中，仅有Master响应对虚拟IP地址的ARP请求；</p>
+</li>
+<li><p>Backup路由器：在VRRP组中处于监听状态的路由器，一旦Master路由器出现故障，Backup路由器就开始接替所有的工作；</p>
+</li>
+<li><p>初始状态（Initialize）：路由器杠杠启动时进入此状态，通过VRRP报文交互数据后进入其他状态；</p>
+</li>
+<li><p>活动状态（Master）：VRRP组中的路由器通过VRRP报文交换后确定的当前转发数据包的一种状态；</p>
+</li>
+<li><p>备份状态（Backup）：VRRP组中的路由器通过VRRP报文交换后确定的处于监听的一种状态；</p>
+</li>
+</ul>
+<h3 id="报文"><a href="#报文" class="headerlink" title="报文"></a>报文</h3><p>VRRP路由器之间使用组播进行消息传输。报文使用的组播地址是224.0.0.18，VRRP报文承载在IP报文之上，使用协议号112。</p>
+<p><img src="/2022/01/20/19-Switch/1618557911808-c3096179-e87b-49a9-967c-a74b8a82280a.png" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1618558019697-822e7020-7a62-442d-ad4a-d5063d3d7f41.png" alt="img"></p>
+<h3 id="计时器"><a href="#计时器" class="headerlink" title="计时器"></a>计时器</h3><ul>
+<li>Advertisement Interval：主路由器按照Advertisement Interval定义的时间间隔来发送VRRP通告报文，默认为1秒，在备份路由器上可以手动配置，但必须与主路由器相同，也可以从主路由器学习到这个时间间隔；</li>
+<li>Master Down Timer：Backup路由器认为Master路由器Down掉的时间间隔，默认情况下为3*Hello+Skew time【skew time=（(256-pri)/256）ms】，这个时间确保优先级更好的备份路由器成为新的Master路由器；</li>
+</ul>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><p><img src="/2022/01/20/19-Switch/1618558675533-97ac5d28-50e1-4451-b9f9-e190e5a91c78.png" alt="img"></p>
+<ul>
+<li>Preempt抢占模式，主要用于保证更高优先级的路由器在接入网络时成为活动路由器；如果关闭抢占模式，高优先级的备份路由器不会主动成为活动路由器，即使活动路由器优先级较低，只有当活动路由器实效时，备份路由器才会成为主路由器；默认情况下，VRRP抢占模式都是开启的；</li>
+<li>Track：监视某个接口，并根据所监视接口的状态动态的调整本地路由器的优先级。</li>
+</ul>
+<h3 id="配置命令"><a href="#配置命令" class="headerlink" title="配置命令"></a>配置命令</h3><p><img src="/2022/01/20/19-Switch/1618559064972-0e168f67-152e-4a29-915f-1e3180e1dfe7.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#interface F1/0</span><br><span class="line">R1(config-if)#ip address 192.168.1.253 255.255.255.0</span><br><span class="line">R1(config-if)#vrrp 1 ip 192.168.1.254</span><br><span class="line">R1(config-if)#vrrp 1 priority 105</span><br><span class="line">R1(config-if)#vrrp 1 preempt</span><br><span class="line">R1(config-if)#vrrp 1 track e0/0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R2(config)#interface F1/0</span><br><span class="line">R2(config-if)#ip address 192.168.1.252 255.255.255.0</span><br><span class="line">R2(config-if)#vrrp 1 ip 192.168.10.254</span><br><span class="line">R2(config-if)#vrrp 1 preempt</span><br><span class="line">R2(config-if)#vrrp 1 track e0/0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>vrrp ip：用于激活VRRP协议，如果配置的VRRP组地址与接口的实际地址相同，那么该路由器将具有最高优先级，成为Master；</p>
+</li>
+<li><p>vrrp priority：用于设定端口的VRRP优先级，具有最高优先级的成员将成为激活的路由器（假设设置为优先级的方式）；</p>
+</li>
+<li><p>vrrp timers：用预设定Hello包之间的时间间隔（Hello time）以及路由器在多长的一个时间段内没有从VRRP邻居收到Hello包就判定该邻居已经关闭（Hold time）；</p>
+</li>
+<li><p>vrrp preempt：表明当本地路由器的备份优先级超过当前激活路由器时，他就将接管控制权，成为激活路由器；</p>
+</li>
+<li><p>vrrp track：用于设置允许路由器端口根据另一端口的可用性修改自己的VRRP优先级；</p>
+</li>
+</ul>
+<h1 id="EtherChannel"><a href="#EtherChannel" class="headerlink" title="EtherChannel"></a>EtherChannel</h1><h2 id="协议概述-1"><a href="#协议概述-1" class="headerlink" title="协议概述"></a>协议概述</h2><p>为了适应园区网业务的发展，速率的提高，我们可以采用多种方式提高园区网络中的数据传输速度：</p>
+<ul>
+<li><p>能够提供更多带宽；</p>
+</li>
+<li><p>将相同的链路逻辑上聚合到一起；</p>
+</li>
+<li><p>逻辑上聚合到一起的端口看起来像是一个逻辑上的端口；</p>
+</li>
+<li><p>可以提供冗余和负载均衡；</p>
+</li>
+<li><p>三层接口和二层接口均可以捆绑；</p>
+</li>
+<li><p>Port-channel接口一旦建立完毕后，就形成了一个逻辑的接口，后续针对该接口的配置在Port-channel中完成；</p>
+</li>
+<li><p>Port-channel不能称为SPAN的目的接口；</p>
+</li>
+<li><p>隶属于同一个Port-channel的物理接口要有相同的speed、duplex、接口模式（access、trunk），如果是trunk模式那么Native vlan和allowed vlan需相同，如果是access模式那么所属vlan需相同；</p>
+</li>
+<li><p>有PAgP和LACP两种协议，其中PAgP是思科私有协议，LACP是公有协议；</p>
+</li>
+</ul>
+<p><img src="/2022/01/20/19-Switch/1618561498229-21564692-be92-4204-9e54-7f4c9c3c0dc9.jpeg" alt="img"></p>
+<h2 id="PAgP相关知识"><a href="#PAgP相关知识" class="headerlink" title="PAgP相关知识"></a>PAgP相关知识</h2><p>模式：</p>
+<p><img src="/2022/01/20/19-Switch/1618561592678-681b43c6-39b0-4cf1-a92a-6a30551abbb0.png" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/1618561604175-b365237b-7537-4f8a-b70f-547ba8db6778.png" alt="img"></p>
+<h2 id="LACP相关知识"><a href="#LACP相关知识" class="headerlink" title="LACP相关知识"></a>LACP相关知识</h2><p><img src="/2022/01/20/19-Switch/1618561630034-fb7d3be4-bb3c-4479-bfd8-634180d58821.png" alt="img"></p>
+<h2 id="二层捆绑配置"><a href="#二层捆绑配置" class="headerlink" title="二层捆绑配置"></a>二层捆绑配置</h2><p><img src="/2022/01/20/19-Switch/1618562143625-05e72743-b484-407c-bcdc-aab415879c75.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Sw1(config)#interface range F0/1-2</span><br><span class="line">Sw1(config-if-range)#switchport</span><br><span class="line">！将接口配置为二层</span><br><span class="line">Sw1(config-if-range)#switchport trunk encapsulation dot1q</span><br><span class="line">！封装trunk协议为dot1q</span><br><span class="line">Sw1(config-if-range)#switchport mode trunk</span><br><span class="line">!设置接口为trunk</span><br><span class="line">Sw1(config-if-range)#channel-protocol pagp/lacp</span><br><span class="line">Sw1(config-if-range)#channel-group 1 mode desirable</span><br><span class="line">配置etherchannel，ID为1，模式为desirable</span><br><span class="line">！</span><br><span class="line">查看命令为show etherchannel 1 summary</span><br></pre></td></tr></table></figure>
+
+<h2 id="三层捆绑配置"><a href="#三层捆绑配置" class="headerlink" title="三层捆绑配置"></a>三层捆绑配置</h2><p><img src="/2022/01/20/19-Switch/1618562315733-a1acc9c2-1f3f-4aae-8041-bb67fe1dfeb4.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Sw1(config)#interface range F0/1-2</span><br><span class="line">Sw1(config-if-range)#no switchport</span><br><span class="line">Sw1(config-if-range)#no ip address</span><br><span class="line">Sw1(config-if-range)#channel-group 1 mode desirable</span><br><span class="line">Sw1(config-if-range)#no shutdown</span><br><span class="line">Sw1(config)#interface port-channel 1</span><br><span class="line">Sw1(config-if)#ip address 172.16.10.1 255.255.255.0</span><br><span class="line">Sw1(config-if)#no sh</span><br><span class="line"></span><br><span class="line">查看命令为show ethernet 1 summary</span><br></pre></td></tr></table></figure>
+
+<h2 id="负载均衡配置"><a href="#负载均衡配置" class="headerlink" title="负载均衡配置"></a>负载均衡配置</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sw1(config)#Port-channel load-balance XX</span><br></pre></td></tr></table></figure>
+
+<p>Etherchannel支持在同一个port-channel的链路中执行负载均衡，负载均衡动作可以基于MAC、端口、IP（源IP，目的IP或两者），默认的负载均衡行为是源目ip地址（src-dst-ip）</p>
+<h1 id="二层安全"><a href="#二层安全" class="headerlink" title="二层安全"></a>二层安全</h1><h1 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h1><p><a target="_blank" rel="noopener" href="https://blog.51cto.com/9315074/1680082">STP生成树协议的分析总结</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jannet.hk/zh-Hans/post/spanning-tree-protocol-stp/">Spanning Tree Protocol (STP) 生成树协定</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/jiao424525707/article/details/89493103">stp中优先级为什么是4096的倍数？</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jannet.hk/zh-Hans/post/rapid-spanning-tree-protocol-rstp/">Rapid Spanning Tree Protocol (RSTP) 快速生成树协定</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jannet.hk/zh-Hans/post/multiple-spanning-tree-protocol-mstp/">Multiple Spanning Tree Protocol (MSTP) 多重生成树协定</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Rookie</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://renyuan431.github.io/2022/01/20/19-Switch/">https://renyuan431.github.io/2022/01/20/19-Switch/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://renyuan431.github.io" target="_blank">Rookie的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/index.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechatpay.png" target="_blank"><img class="post-qr-code-img" src="/img/wechatpay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.png" target="_blank"><img class="post-qr-code-img" src="/img/alipay.png" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/01/20/20-Multicast/"><img class="prev-cover" src="/img/index.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">20-Multicast</div></div></a></div><div class="next-post pull-right"><a href="/2022/01/20/18-MPLSVPN/"><img class="next-cover" src="/img/index.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">18-MPLSVPN</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Rookie</div><div class="author-info__description"></div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A5%E5%A4%AA%E7%BD%91"><span class="toc-number">1.</span> <span class="toc-text">以太网</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A5%E5%A4%AA%E7%BD%91%E7%9A%84%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">1.2.</span> <span class="toc-text">以太网的数据链路层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MAC%E5%AD%90%E5%B1%82"><span class="toc-number">1.2.1.</span> <span class="toc-text">MAC子层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A5%E5%A4%AA%E7%BD%91%E5%B8%A7%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">以太网帧格式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E5%B1%82%E4%BA%A4%E6%8D%A2"><span class="toc-number">2.</span> <span class="toc-text">二层交换</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#VLAN"><span class="toc-number">2.1.</span> <span class="toc-text">VLAN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VLAN%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.2.</span> <span class="toc-text">VLAN通信原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Access%E6%8E%A5%E5%8F%A3%E5%A4%84%E7%90%86%E5%B8%A7%E8%BF%87%E7%A8%8B"><span class="toc-number">2.1.2.1.</span> <span class="toc-text">Access接口处理帧过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Trunk%E7%AB%AF%E5%8F%A3%E5%A4%84%E7%90%86%E5%B8%A7%E8%BF%87%E7%A8%8B"><span class="toc-number">2.1.2.2.</span> <span class="toc-text">Trunk端口处理帧过程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Protected-Port"><span class="toc-number">2.1.3.</span> <span class="toc-text">Protected Port</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trunk"><span class="toc-number">2.2.</span> <span class="toc-text">Trunk</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.2.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%81%E8%A3%85%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.2.2.</span> <span class="toc-text">封装协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dot1Q"><span class="toc-number">2.2.3.</span> <span class="toc-text">Dot1Q</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%A7%E6%A0%BC%E5%BC%8F"><span class="toc-number">2.2.3.1.</span> <span class="toc-text">帧格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">2.2.3.2.</span> <span class="toc-text">优缺点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Native-Vlan"><span class="toc-number">2.2.3.3.</span> <span class="toc-text">Native Vlan</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vlan%E8%8C%83%E5%9B%B4"><span class="toc-number">2.2.3.4.</span> <span class="toc-text">vlan范围</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DTP"><span class="toc-number">2.2.4.</span> <span class="toc-text">DTP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Trunk%E9%85%8D%E7%BD%AE%E5%91%BD%E4%BB%A4"><span class="toc-number">2.2.5.</span> <span class="toc-text">Trunk配置命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VTP"><span class="toc-number">2.2.6.</span> <span class="toc-text">VTP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#VTP%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.2.6.1.</span> <span class="toc-text">VTP类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VTP%E7%9A%84%E8%BF%90%E4%BD%9C"><span class="toc-number">2.2.6.2.</span> <span class="toc-text">VTP的运作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VTP%E9%85%8D%E7%BD%AE"><span class="toc-number">2.2.6.3.</span> <span class="toc-text">VTP配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VTP%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.2.6.4.</span> <span class="toc-text">VTP的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VTP-Pruning"><span class="toc-number">2.2.6.5.</span> <span class="toc-text">VTP Pruning</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MTU"><span class="toc-number">2.2.7.</span> <span class="toc-text">MTU</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%81%E6%9C%89VLAN"><span class="toc-number">2.3.</span> <span class="toc-text">私有VLAN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-1"><span class="toc-number">2.3.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PVLAN%E7%AB%AF%E5%8F%A3%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.3.2.</span> <span class="toc-text">PVLAN端口类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">2.3.3.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pvlan%E9%85%8D%E7%BD%AE%E5%91%BD%E4%BB%A4"><span class="toc-number">2.3.4.</span> <span class="toc-text">Pvlan配置命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">2.3.5.</span> <span class="toc-text">实验</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Spanning-tree"><span class="toc-number">3.</span> <span class="toc-text">Spanning-tree</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E6%A6%82%E8%BF%B0"><span class="toc-number">3.1.</span> <span class="toc-text">协议概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80"><span class="toc-number">3.2.</span> <span class="toc-text">协议基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%A0%91%E7%A7%8D%E7%B1%BB"><span class="toc-number">3.2.1.</span> <span class="toc-text">生成树种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BPDU%E7%BB%93%E6%9E%84%E5%8F%8A%E5%8F%82%E6%95%B0"><span class="toc-number">3.2.2.</span> <span class="toc-text">BPDU结构及参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#802-1D%E5%8D%8F%E8%AE%AE"><span class="toc-number">3.3.</span> <span class="toc-text">802.1D协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-1"><span class="toc-number">3.3.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.3.1.1.</span> <span class="toc-text">端口类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E7%8A%B6%E6%80%81"><span class="toc-number">3.3.1.2.</span> <span class="toc-text">端口状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E4%B8%BE%E8%A7%84%E5%88%99"><span class="toc-number">3.3.1.3.</span> <span class="toc-text">选举规则</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BPDU%E6%8A%A5%E6%96%87"><span class="toc-number">3.3.2.</span> <span class="toc-text">BPDU报文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.3.2.1.</span> <span class="toc-text">报文格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEBPDU"><span class="toc-number">3.3.2.2.</span> <span class="toc-text">配置BPDU</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCN-BPDU"><span class="toc-number">3.3.2.3.</span> <span class="toc-text">TCN BPDU</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#STP%E7%9A%84%E8%BF%90%E8%A1%8C"><span class="toc-number">3.3.3.</span> <span class="toc-text">STP的运行</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E4%BD%93%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.3.3.1.</span> <span class="toc-text">总体步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E5%8E%9F%E5%88%99"><span class="toc-number">3.3.3.2.</span> <span class="toc-text">比较原则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-1"><span class="toc-number">3.3.3.3.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90"><span class="toc-number">3.3.3.4.</span> <span class="toc-text">案例分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#STP%E7%AB%AF%E5%8F%A3%E7%8A%B6%E6%80%81"><span class="toc-number">3.3.4.</span> <span class="toc-text">STP端口状态</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E7%8A%B6%E6%80%81"><span class="toc-number">3.3.4.1.</span> <span class="toc-text">接口状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E8%AE%A1%E6%97%B6%E5%99%A8"><span class="toc-number">3.3.4.2.</span> <span class="toc-text">端口计时器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E5%88%87%E6%8D%A2%E8%BF%87%E7%A8%8B"><span class="toc-number">3.3.4.3.</span> <span class="toc-text">端口切换过程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#STP%E6%8B%93%E6%89%91%E5%8F%98%E6%9B%B4"><span class="toc-number">3.3.5.</span> <span class="toc-text">STP拓扑变更</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TCN-BPDU%E6%A6%82%E8%BF%B0"><span class="toc-number">3.3.5.1.</span> <span class="toc-text">TCN BPDU概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCN-BPDU-1"><span class="toc-number">3.3.5.2.</span> <span class="toc-text">TCN BPDU</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%93%E6%89%91%E5%8F%98%E6%9B%B4%E8%BF%87%E7%A8%8B"><span class="toc-number">3.3.5.3.</span> <span class="toc-text">拓扑变更过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%93%E6%89%91%E5%8F%98%E6%9B%B4%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.3.5.4.</span> <span class="toc-text">拓扑变更示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#STP%E5%91%BD%E4%BB%A4"><span class="toc-number">3.3.5.5.</span> <span class="toc-text">STP命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#STP%E7%89%B9%E6%80%A7"><span class="toc-number">3.3.6.</span> <span class="toc-text">STP特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Portfast"><span class="toc-number">3.3.6.1.</span> <span class="toc-text">Portfast</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BPDU-Guard"><span class="toc-number">3.3.6.2.</span> <span class="toc-text">BPDU Guard</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BPDU-Filter"><span class="toc-number">3.3.6.3.</span> <span class="toc-text">BPDU Filter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UplinkFast"><span class="toc-number">3.3.6.4.</span> <span class="toc-text">UplinkFast</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Backbone-Fast"><span class="toc-number">3.3.6.5.</span> <span class="toc-text">Backbone Fast</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Root-Guard"><span class="toc-number">3.3.6.6.</span> <span class="toc-text">Root Guard</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UDLD"><span class="toc-number">3.3.6.7.</span> <span class="toc-text">UDLD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LoopGuard"><span class="toc-number">3.3.6.8.</span> <span class="toc-text">LoopGuard</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PVST"><span class="toc-number">3.4.</span> <span class="toc-text">PVST+</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-2"><span class="toc-number">3.4.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MAC%E5%9C%B0%E5%9D%80"><span class="toc-number">3.4.2.</span> <span class="toc-text">MAC地址</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RSTP%EF%BC%88802-1W%EF%BC%89"><span class="toc-number">3.5.</span> <span class="toc-text">RSTP（802.1W）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-2"><span class="toc-number">3.5.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RSTP%E7%AB%AF%E5%8F%A3%E7%8A%B6%E6%80%81"><span class="toc-number">3.5.1.1.</span> <span class="toc-text">RSTP端口状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RSTP%E7%AB%AF%E5%8F%A3%E8%A7%92%E8%89%B2"><span class="toc-number">3.5.1.2.</span> <span class="toc-text">RSTP端口角色</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BPDU%E6%A0%BC%E5%BC%8F%E5%92%8C%E6%93%8D%E4%BD%9C"><span class="toc-number">3.5.2.</span> <span class="toc-text">BPDU格式和操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#BPDU%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.5.2.1.</span> <span class="toc-text">BPDU格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BPDU%E6%93%8D%E4%BD%9C"><span class="toc-number">3.5.2.2.</span> <span class="toc-text">BPDU操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Faster-Aging-of-information"><span class="toc-number">3.5.2.3.</span> <span class="toc-text">Faster Aging of information</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#accepts-Inferior-BPDUs"><span class="toc-number">3.5.2.4.</span> <span class="toc-text">accepts Inferior BPDUs</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Link-Type"><span class="toc-number">3.5.3.</span> <span class="toc-text">Link Type</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Edge-Port"><span class="toc-number">3.5.3.1.</span> <span class="toc-text">Edge Port</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Point-to-Point-Non-edge-Port"><span class="toc-number">3.5.3.2.</span> <span class="toc-text">Point to Point Non-edge Port</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Shared-Non-edge-Port"><span class="toc-number">3.5.3.3.</span> <span class="toc-text">Shared Non-edge Port</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSTP-VS-802-1D"><span class="toc-number">3.5.4.</span> <span class="toc-text">RSTP VS 802.1D</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#802-1D%E5%9C%BA%E6%99%AF"><span class="toc-number">3.5.4.1.</span> <span class="toc-text">802.1D场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RSTP%E5%9C%BA%E6%99%AF"><span class="toc-number">3.5.4.2.</span> <span class="toc-text">RSTP场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#P-amp-A%E6%9C%BA%E5%88%B6"><span class="toc-number">3.5.4.3.</span> <span class="toc-text">P&amp;A机制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%93%E6%89%91%E5%8F%98%E6%9B%B4%E6%9C%BA%E5%88%B6"><span class="toc-number">3.5.5.</span> <span class="toc-text">拓扑变更机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E6%9C%BA%E5%88%B6"><span class="toc-number">3.5.5.1.</span> <span class="toc-text">检测机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E9%80%92%E6%9C%BA%E5%88%B6"><span class="toc-number">3.5.5.2.</span> <span class="toc-text">传递机制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E5%B8%96%E5%AD%90"><span class="toc-number">3.5.6.</span> <span class="toc-text">补充帖子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSTP%EF%BC%88802-1S%EF%BC%89"><span class="toc-number">3.6.</span> <span class="toc-text">MSTP（802.1S）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RSTP%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">3.6.1.</span> <span class="toc-text">RSTP的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BA%E5%9F%9F%EF%BC%88Region%EF%BC%89"><span class="toc-number">3.6.2.</span> <span class="toc-text">区域（Region）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E7%B3%BB%E7%BB%9FID"><span class="toc-number">3.6.3.</span> <span class="toc-text">扩展系统ID</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C1"><span class="toc-number">3.6.4.</span> <span class="toc-text">实验1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CIST"><span class="toc-number">3.6.5.</span> <span class="toc-text">CIST</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2"><span class="toc-number">4.</span> <span class="toc-text">三层交换</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CAM-amp-TCAM"><span class="toc-number">4.1.</span> <span class="toc-text">CAM&amp;TCAM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CAM"><span class="toc-number">4.1.1.</span> <span class="toc-text">CAM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCAM"><span class="toc-number">4.1.2.</span> <span class="toc-text">TCAM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"><span class="toc-number">4.1.3.</span> <span class="toc-text">扩展阅读</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">4.2.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CAM-VS-TCAM"><span class="toc-number">4.3.</span> <span class="toc-text">CAM VS TCAM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CAM-Content-Addressable-Memory"><span class="toc-number">4.4.</span> <span class="toc-text">CAM (Content Addressable Memory)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCAM-Ternary-Content-Addressable-Memory"><span class="toc-number">4.5.</span> <span class="toc-text">TCAM (Ternary Content Addressable Memory)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VLAN%E9%97%B4%E8%B7%AF%E7%94%B1"><span class="toc-number">4.6.</span> <span class="toc-text">VLAN间路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E8%87%82%E8%B7%AF%E7%94%B1"><span class="toc-number">4.6.1.</span> <span class="toc-text">单臂路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%AD%E5%8C%BA%E7%BD%91%E6%9E%84%E6%9E%B6"><span class="toc-number">4.6.2.</span> <span class="toc-text">园区网构架</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Switch-Virtual-Interfaces%EF%BC%88SVI%EF%BC%89"><span class="toc-number">4.6.3.</span> <span class="toc-text">Switch Virtual Interfaces（SVI）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E7%AB%AF%E5%8F%A3"><span class="toc-number">4.6.4.</span> <span class="toc-text">三层交换机的端口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-3"><span class="toc-number">4.6.4.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="toc-number">4.6.4.2.</span> <span class="toc-text">基本命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C1-1"><span class="toc-number">4.6.4.3.</span> <span class="toc-text">实验1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E7%AE%A1%E7%90%86"><span class="toc-number">4.7.</span> <span class="toc-text">交换机的管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E7%AE%A1%E7%90%86"><span class="toc-number">4.7.1.</span> <span class="toc-text">二层交换机的管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86"><span class="toc-number">4.7.1.1.</span> <span class="toc-text">理论知识</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%AF%B4%E6%98%8E"><span class="toc-number">4.7.1.2.</span> <span class="toc-text">实验说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E7%AE%A1%E7%90%86"><span class="toc-number">4.7.2.</span> <span class="toc-text">三层交换机的管理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%97%E4%BD%99%E7%BD%91%E5%85%B3%E6%8A%80%E6%9C%AF"><span class="toc-number">4.8.</span> <span class="toc-text">冗余网关技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-4"><span class="toc-number">4.8.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E6%96%87"><span class="toc-number">4.8.2.</span> <span class="toc-text">报文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E6%97%B6%E5%99%A8"><span class="toc-number">4.8.3.</span> <span class="toc-text">计时器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">4.8.4.</span> <span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%91%BD%E4%BB%A4"><span class="toc-number">4.8.5.</span> <span class="toc-text">配置命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#EtherChannel"><span class="toc-number">5.</span> <span class="toc-text">EtherChannel</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E6%A6%82%E8%BF%B0-1"><span class="toc-number">5.1.</span> <span class="toc-text">协议概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PAgP%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="toc-number">5.2.</span> <span class="toc-text">PAgP相关知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LACP%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="toc-number">5.3.</span> <span class="toc-text">LACP相关知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%B1%82%E6%8D%86%E7%BB%91%E9%85%8D%E7%BD%AE"><span class="toc-number">5.4.</span> <span class="toc-text">二层捆绑配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E6%8D%86%E7%BB%91%E9%85%8D%E7%BD%AE"><span class="toc-number">5.5.</span> <span class="toc-text">三层捆绑配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E9%85%8D%E7%BD%AE"><span class="toc-number">5.6.</span> <span class="toc-text">负载均衡配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E5%B1%82%E5%AE%89%E5%85%A8"><span class="toc-number">6.</span> <span class="toc-text">二层安全</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E6%96%87%E7%AB%A0"><span class="toc-number">7.</span> <span class="toc-text">引用文章</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/20-Multicast/" title="20-Multicast">20-Multicast</a><time datetime="2022-01-20T07:34:09.000Z" title="发表于 2022-01-20 15:34:09">2022-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/19-Switch/" title="19-Switch">19-Switch</a><time datetime="2022-01-20T07:32:18.000Z" title="发表于 2022-01-20 15:32:18">2022-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/18-MPLSVPN/" title="18-MPLSVPN">18-MPLSVPN</a><time datetime="2022-01-20T07:30:18.000Z" title="发表于 2022-01-20 15:30:18">2022-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/17-MPLS/" title="17-MPLS">17-MPLS</a><time datetime="2022-01-20T07:29:19.000Z" title="发表于 2022-01-20 15:29:19">2022-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/16-IPV6/" title="16-IPV6">16-IPV6</a><time datetime="2022-01-20T07:17:05.000Z" title="发表于 2022-01-20 15:17:05">2022-01-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2022 By Rookie</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://renyuan431.github.io/2022/01/20/19-Switch/'
+    this.page.identifier = '2022/01/20/19-Switch/'
+    this.page.title = '19-Switch'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://newnotebook.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = '/posts/,/about/'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.akilar.top/api?renyuan431",['#e4dfd7', '#f9f4dc', '#f7e8aa', '#f7e8aa', '#f8df72', '#fcd217', '#fcc515', '#f28e16', '#fb8b05', '#d85916', '#f43e06'],'renyuan431')
+    }
+  </script><!-- hexo injector body_end end --></body></html>

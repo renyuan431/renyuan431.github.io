@@ -1,0 +1,730 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>17-MPLS | Rookie的博客</title><meta name="author" content="Rookie"><meta name="copyright" content="Rookie"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文大部分照搬自红茶三杯的MPLS笔记。 存在意义为什么需要MPLS 让我们用上面这个拓扑举个简单的例子，图中一个ISP为两家公司，公司A和公司B提供互联网连接服务以外没有其他服务，公司A和公司B通过ISP和在另一个位置的公司分支机构进行连接。 为了实现客户‘总部和分支机构互联’的需求，ISP的PE（Provider Edge，运营商边缘路由器）路由器采用EBGP方式和客户的CE（Customer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="17-MPLS">
+<meta property="og:url" content="https://renyuan431.github.io/2022/01/20/17-MPLS/index.html">
+<meta property="og:site_name" content="Rookie的博客">
+<meta property="og:description" content="本文大部分照搬自红茶三杯的MPLS笔记。 存在意义为什么需要MPLS 让我们用上面这个拓扑举个简单的例子，图中一个ISP为两家公司，公司A和公司B提供互联网连接服务以外没有其他服务，公司A和公司B通过ISP和在另一个位置的公司分支机构进行连接。 为了实现客户‘总部和分支机构互联’的需求，ISP的PE（Provider Edge，运营商边缘路由器）路由器采用EBGP方式和客户的CE（Customer">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://renyuan431.github.io/img/index.jpg">
+<meta property="article:published_time" content="2022-01-20T07:29:19.000Z">
+<meta property="article:modified_time" content="2022-01-20T07:30:05.956Z">
+<meta property="article:author" content="Rookie">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://renyuan431.github.io/img/index.jpg"><link rel="shortcut icon" href="/img/avatar.jpg"><link rel="canonical" href="https://renyuan431.github.io/2022/01/20/17-MPLS/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '17-MPLS',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-20 15:30:05'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/index.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Rookie的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">17-MPLS</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-20T07:29:19.000Z" title="发表于 2022-01-20 15:29:19">2022-01-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-20T07:30:05.956Z" title="更新于 2022-01-20 15:30:05">2022-01-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">19.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>75分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="17-MPLS"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本文大部分照搬自红茶三杯的MPLS笔记。</p>
+<h1 id="存在意义"><a href="#存在意义" class="headerlink" title="存在意义"></a>存在意义</h1><h2 id="为什么需要MPLS"><a href="#为什么需要MPLS" class="headerlink" title="为什么需要MPLS"></a>为什么需要MPLS</h2><p><img src="/2022/01/20/17-MPLS/1612855500904-e6c4dfc1-1c43-4cc6-9f35-424b83a18385.png" alt="img"></p>
+<p>让我们用上面这个拓扑举个简单的例子，图中一个ISP为两家公司，公司A和公司B提供互联网连接服务以外没有其他服务，公司A和公司B通过ISP和在另一个位置的公司分支机构进行连接。</p>
+<p>为了实现客户‘总部和分支机构互联’的需求，ISP的PE（Provider Edge，运营商边缘路由器）路由器采用EBGP方式和客户的CE（Customer Edge，客户边缘路由器）路由器进行连接，这意味着ISP运营商的P（Provider，运营商骨干路由器只负责穿越流量）路由器必须运行BGP协议并形成IBGP邻居才能获取到客户A、客户B的路由前缀，否则没法为客户两端的互联提供服务。如果中间的P路由器也运行BGP协议的话，中间的P路由器需要交换至少50万条路由且P路由器之间必须两两形成IBGP邻居，虽然使用路由反射器（Route-Reflector）能够减少IBGP邻居的数量，但所有P路由器在查找路由表时，必须在50万条路由中进行查找，这种解决方案肯定不是最优的。</p>
+<p>既然最终的目的仅仅是让两端客户能够维持连通性，那么不让中间的P路由器知道这些路由也可以达到同样的目的。因为只要和客户CE连接的PE设备只要如何传递数据就可以了，核心部分的P路由器并不需要知道，比如可以在PE之间建立GRE隧道，比如：</p>
+<p><img src="/2022/01/20/17-MPLS/1612947312984-13eda048-6cf5-492d-81c1-dfd7b8bdfc26.png" alt="img"></p>
+<p>在上图中，位于上面的两台PE会使用GRE隧道，联通公司A，位于下面的两台PE也会使用GRE隧道，联通公司B。这样配置的话，中间的P路由器就不用运行BGP协议，而只需要在PE上和CE路由器形成EBGP邻居，PE路由器之间形成IBGP邻居即可，让我们来通过一个实验验证一下上面的做法是否可行，下面的拓扑是上面拓扑的简化版，只有一个客户的两个分支机构，将配置PE1和PE2之间的GRE隧道，使得P路由器不用运行BGP协议。</p>
+<p><img src="/2022/01/20/17-MPLS/1612947862078-646e3271-b557-4ba4-9ce5-bc4c86131546.png" alt="img"></p>
+<p><strong>OSPF配置</strong></p>
+<p>使用OSPF协议作为ISP内部互联的协议，配置如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">P：</span><br><span class="line"></span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 3.3.3.3</span><br><span class="line"> network 3.3.3.3 0.0.0.0 area 0</span><br><span class="line"> network 192.168.23.3 0.0.0.0 area 0</span><br><span class="line"> network 192.168.34.3 0.0.0.0 area 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PE1：</span><br><span class="line"></span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 2.2.2.2</span><br><span class="line"> network 2.2.2.2 0.0.0.0 area 0</span><br><span class="line"> network 192.168.23.2 0.0.0.0 area 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PE2：</span><br><span class="line"></span><br><span class="line">router bgp 1234</span><br><span class="line"> bgp router-id 4.4.4.4</span><br><span class="line"> bgp log-neighbor-changes</span><br><span class="line"> neighbor 192.168.45.5 remote-as 20</span><br></pre></td></tr></table></figure>
+
+<p><strong>EBGP配置</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">PE1：</span><br><span class="line"></span><br><span class="line">router bgp 1234</span><br><span class="line"> bgp router-id 2.2.2.2</span><br><span class="line"> bgp log-neighbor-changes</span><br><span class="line"> neighbor 192.168.12.1 remote-as 10</span><br><span class="line"></span><br><span class="line">CE1：</span><br><span class="line"></span><br><span class="line">router bgp 10</span><br><span class="line"> bgp router-id 1.1.1.1</span><br><span class="line"> bgp log-neighbor-changes</span><br><span class="line"> network 1.1.1.0 mask 255.255.255.0</span><br><span class="line"> neighbor 192.168.12.2 remote-as 1234</span><br><span class="line"></span><br><span class="line">PE2：</span><br><span class="line"></span><br><span class="line">router bgp 1234</span><br><span class="line"> bgp router-id 4.4.4.4</span><br><span class="line"> bgp log-neighbor-changes</span><br><span class="line"> neighbor 192.168.45.5 remote-as 20</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CE2：</span><br><span class="line"></span><br><span class="line">router bgp 20</span><br><span class="line"> bgp router-id 5.5.5.5</span><br><span class="line"> bgp log-neighbor-changes</span><br><span class="line"> network 5.5.5.0 mask 255.255.255.0</span><br><span class="line"> neighbor 192.168.45.4 remote-as 1234</span><br></pre></td></tr></table></figure>
+
+<p><strong>GRE隧道配置</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">PE1：</span><br><span class="line"></span><br><span class="line">PE1(config)#interface tunnel 0</span><br><span class="line">PE1(config-if)#tunnel source 2.2.2.2</span><br><span class="line">PE1(config-if)#tunnel destination 4.4.4.4</span><br><span class="line">PE1(config-if)#ip address 192.168.24.2 255.255.255.0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PE2：</span><br><span class="line"></span><br><span class="line">PE2(config)#interface tunnel 0</span><br><span class="line">PE2(config-if)#tunnel source 4.4.4.4</span><br><span class="line">PE2(config-if)#tunnel destination 2.2.2.2</span><br><span class="line">PE2(config-if)#ip address 192.168.24.4 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p>这里使用了GRE隧道技术，当然这里用任何的VPN隧道技术都是可以的，比如IP-IN-IP或Q-in-Q都是没问题的</p>
+<p><strong>IBGP配置</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PE1：</span><br><span class="line"></span><br><span class="line">router bgp 1234</span><br><span class="line"> bgp router-id 2.2.2.2</span><br><span class="line"> neighbor 192.168.24.4 remote-as 1234</span><br><span class="line"> neighbor 192.168.24.4 next-hop-self</span><br><span class="line"></span><br><span class="line">PE2：</span><br><span class="line"></span><br><span class="line">router bgp 1234</span><br><span class="line"> bgp router-id 4.4.4.4</span><br><span class="line"> neighbor 192.168.24.2 next-hop-self</span><br><span class="line"> neighbor 192.168.45.5 remote-as 20</span><br></pre></td></tr></table></figure>
+
+<p>当然这里也可以使用PE1和PE2的loopback接口作为更新原地址来配置IBGP邻居，使用loopback接口建立邻居的优势是PE1和PE2之间的BGP流量不会经过隧道封装。</p>
+<p><strong>配置验证</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CE1#traceroute 5.5.5.5 source loop 0</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Tracing the route to 5.5.5.5</span><br><span class="line">VRF info: (vrf in name/id, vrf out name/id)</span><br><span class="line">  1 192.168.12.2 2 msec 1 msec 0 msec</span><br><span class="line">  2 192.168.24.4 2 msec 3 msec 2 msec</span><br><span class="line">  3 192.168.45.5 2 msec 2 msec *</span><br></pre></td></tr></table></figure>
+
+<p>从上面的验证中可以看出，ISP核心区域的P路由器并没有运行BGP路由协议，PE1和PE2之间通过GRE隧道形成了IBGP邻居并交换了彼此的BGP路由前缀。</p>
+<p><strong>配置解析</strong></p>
+<p>在BGP建立邻居时，两边配置的更新原地址采用的是Tunnel0接口的地址：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">neighbor 192.168.24.4 remote-as 1234</span><br><span class="line">neighbor 192.168.24.2 remote-as 1234</span><br></pre></td></tr></table></figure>
+
+<p>由于BGP协议使用TCP作为四层的协议，所以两个更新原地址之间的TCP连接必须畅通：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">RE1#ping 192.168.24.4 source 192.168.24.2</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending 5, 100-byte ICMP Echos to 192.168.24.4, timeout is 2 seconds:</span><br><span class="line">Packet sent with a source address of 192.168.24.2</span><br><span class="line">!!!!!</span><br><span class="line">Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms</span><br><span class="line"></span><br><span class="line">经过PING检测发现两边的TCP连接没问题</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/01/20/17-MPLS/1613106277152-ca435381-f364-46ea-a898-ae5f859348f9.png" alt="img"></p>
+<p>两端的Tunnel0口是如何联通的呢？通过查询路由表可知，到邻居的更新源地址192.168.24.4的下一跳是从Tunnel0发出，Tunnel0的源为2.2.2.2，目的为4.4.4.4，要去往4.4.4.4的下一跳是192.168.23.3，从E0/2接口发出，也就是发给路由器P：</p>
+<p><img src="/2022/01/20/17-MPLS/1613106708409-4a15c01c-b389-48d9-b284-8c6da51fade3.png" alt="img"></p>
+<p>通过查询路由器P的路由表可知，P路由器通过OSPF协议获得了4.4.4.4的路由，从E0/2口发出即可。来看看BGP的Open报文的抓包：</p>
+<p><img src="/2022/01/20/17-MPLS/1613104707199-0007845b-3032-4d9c-94fd-ead96e77e8e6.png" alt="img"></p>
+<p>抓取的数据包是192.168.24.2（PE1的Tunnel 0口的IP地址），发往192.168.24.4（PE2的Tunnel 0口的IP地址）用来建立邻居关系的Open报文。由于PE1和PE2之间使用了GRE隧道，去往192.168.24.4的数据被发往Tunnel0中，封装成源地址为2.2.2.2，目标地址为4.4.4.4的GRE包并发往P路由器，该GRE包在P路由器眼中就是个前往4.4.4.4的普通数据包且P路由器有该路由所以会被顺利转发。</p>
+<p>从上面的例子可以看出，使用隧道VPN技术可以使得ISP内部不用配置BGP路由协议，从而降低ISP中心P设备的硬件消耗，在这个例子中我们使用的是GRE隧道VPN技术，其实用其他任何隧道VPN技术都可以，比如IP-in-IP，Q-in-Q或者用MPLS，这就引出了后面的部分，到底什么是MPLS？</p>
+<h2 id="什么是MPLS"><a href="#什么是MPLS" class="headerlink" title="什么是MPLS"></a>什么是MPLS</h2><p>MPLS，英文全称为Multi Protocol Label Switching，中文翻译成多协议标签交换，Multi Protocol，多协议，表示除了可以支持IP协议之外，它还能支持几乎所有协议，比如IPV6、Ethernet、PPP、帧中继等等等等。。。；Label Switching，标签交换，意味着它基于标签进行转发而不是基于路由表进行转发。MPLS不仅能做VPN隧道能做到的，还有很多其他功能，比如可以用MPLS替代之前例子中的GRE隧道，首先把之前配置的GRE隧道和PE1\PE2基于GRE的邻居配置no掉：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PE1&amp;PE2</span><br><span class="line">no interface tunnel 0</span><br><span class="line"></span><br><span class="line">PE1:</span><br><span class="line">no neighbor 192.168.24.4 remote-as 1234</span><br><span class="line"></span><br><span class="line">PE2:</span><br><span class="line">no neighbor 192.168.24.2 remote-as 1234</span><br></pre></td></tr></table></figure>
+
+<p><strong>IBGP配置</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">PE1：</span><br><span class="line"></span><br><span class="line">router bgp 1234</span><br><span class="line"> bgp router-id 2.2.2.2</span><br><span class="line"> neighbor 4.4.4.4 remote-as 1234</span><br><span class="line"> neighbor 4.4.4.4 update-source Loopback0</span><br><span class="line"> neighbor 4.4.4.4 next-hop-self</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> PE2：</span><br><span class="line"> </span><br><span class="line"> router bgp 1234</span><br><span class="line"> bgp router-id 4.4.4.4</span><br><span class="line"> neighbor 2.2.2.2 remote-as 1234</span><br><span class="line"> neighbor 2.2.2.2 update-source Loopback0</span><br><span class="line"> neighbor 2.2.2.2 next-hop-self</span><br></pre></td></tr></table></figure>
+
+<p><strong>MPLS配置</strong></p>
+<p>首先要在接口上激活MPLS协议，需要在所有连接了PE1\P\PE2的接口上激活：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">PE1：</span><br><span class="line">RE1(config)#interface e0/2</span><br><span class="line">RE1(config-if)#mpls ip</span><br><span class="line"></span><br><span class="line">PE2：</span><br><span class="line">RE2(config)#interface e0/2</span><br><span class="line">RE2(config-if)#mpls ip</span><br><span class="line"></span><br><span class="line">P：</span><br><span class="line">P(config)#int range e0/1-2                   表示进入e0/1到e0/2的所有接口</span><br><span class="line">P(config-if-range)#mpls ip</span><br></pre></td></tr></table></figure>
+
+<p><strong>验证配置</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CE1#ping 5.5.5.5 source loop 0</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending 5, 100-byte ICMP Echos to 5.5.5.5, timeout is 2 seconds:</span><br><span class="line">Packet sent with a source address of 1.1.1.1</span><br><span class="line">!!!!!</span><br><span class="line">Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms</span><br></pre></td></tr></table></figure>
+
+<p>从CE1上ping位于CE2上的5.5.5.5可以ping通，但此时ISP的核心路由器P，还是没有运行BGP协议，但通过Traceroute追踪得知，数据是经过了路由器P的，它上面也没有5.5.5.5的路由，按理说P路由器应该会丢掉那些不知道目标的流量，为什么数据还能顺利发送过去呢？是因为用了MPLS协议，该协议中的标签提供了路径指引。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">P#show ip route 5.5.5.5</span><br><span class="line">% Network not in table</span><br><span class="line"></span><br><span class="line">P#show ip cef 5.5.5.5</span><br><span class="line">0.0.0.0/0</span><br><span class="line">  no route</span><br><span class="line">  </span><br><span class="line">CE1#traceroute 5.5.5.5 source 1.1.1.1</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Tracing the route to 5.5.5.5</span><br><span class="line">VRF info: (vrf in name/id, vrf out name/id)</span><br><span class="line">  1 192.168.12.2 0 msec 2 msec 1 msec</span><br><span class="line">  2  *  *  *</span><br><span class="line">  3 192.168.34.4 1 msec 3 msec 1 msec</span><br><span class="line">  4 192.168.45.5 1 msec 2 msec *</span><br></pre></td></tr></table></figure>
+
+<p>让我们先看PE1上关于5.5.5.5的路由：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">RE1#show ip route 5.5.5.5</span><br><span class="line">Routing entry for 5.5.5.0/24</span><br><span class="line">  Known via &quot;bgp 1234&quot;, distance 200, metric 0</span><br><span class="line">  Tag 20, type internal</span><br><span class="line">  Last update from 4.4.4.4 01:05:21 ago</span><br><span class="line">  Routing Descriptor Blocks:</span><br><span class="line">  * 4.4.4.4, from 4.4.4.4, 01:05:21 ago</span><br><span class="line">      Route metric is 0, traffic share count is 1</span><br><span class="line">      AS Hops 1</span><br><span class="line">      Route tag 20</span><br><span class="line">      MPLS label: none</span><br></pre></td></tr></table></figure>
+
+<p>‘Last update from 4.4.4.4 01:05:21 ago’表示去往5.5.5.5的话，需要将数据发送给4.4.4.4，也就是发送给PE2，此时我们不去查看路由表，而是查看一下MPLS转发表：</p>
+<p><img src="/2022/01/20/17-MPLS/1613121303017-1690bc18-bf6e-40a9-9414-746a897080c5.png" alt="img"></p>
+<p>MPLS转发表中的‘Label’就是路由器用来转发数据到目标地址的依据，PE1为了将数据发送到4.4.4.4，路由器会将标签‘17’嵌入数据包并将它从接口E0/2发出到路由器P。另一个快捷方式查看标签的方式是查看CEF表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RE1#show ip cef 5.5.5.5</span><br><span class="line">5.5.5.0/24</span><br><span class="line">  nexthop 192.168.23.3 Ethernet0/2 label 17</span><br></pre></td></tr></table></figure>
+
+<p>来看看在路由器P上抓取的CE1和CE2之间通讯的数据包：</p>
+<p><img src="/2022/01/20/17-MPLS/1613121837083-5d0ed496-894e-45ba-b7f4-f45e9b745c23.png" alt="img"></p>
+<p>从抓包中可以看到，在二层数据链路层和三层网络层协议之间，加入了一个MPLS的头部，这也是为什么很多人管MPLS叫2.5层协议的原因，那么当P路由器收到这个数据包时会如何呢？路由器会用MPLS来决定如何转发这个数据包，因为它采用了MPLS协议，路由器会查询MPLS转发表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">P(config)#do show mpls fo</span><br><span class="line">Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop</span><br><span class="line">Label      Label      or Tunnel Id     Switched      interface</span><br><span class="line">16         Pop Label   2.2.2.2/32       19327         Et0/1      192.168.23.2</span><br><span class="line">17         Pop Label   4.4.4.4/32       19931         Et0/2      192.168.34.4</span><br></pre></td></tr></table></figure>
+
+<p>当路由器P收到打了标签17的数据时，这个数据肯定是去往4.4.4.4的，出向标签（outgoing）写的是‘Pop label’也就是弹出标签，这意味着这个数据会在P上面将标签剥离掉，这样PE2收到的就会是一个普通的IP数据包，接下来PE2会查询路由表中关于去往5.5.5.5的路由条目，会将该数据发往CE2。当CE2收到该ICMP request数据包时，CE2会回送一个ICMP reply数据包给1.1.1.1。PE2上关于1.1.1.1的路由为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">RE2#show ip route 1.1.1.1</span><br><span class="line">Routing entry for 1.1.1.0/24</span><br><span class="line">  Known via &quot;bgp 1234&quot;, distance 200, metric 0</span><br><span class="line">  Tag 10, type internal</span><br><span class="line">  Last update from 2.2.2.2 01:38:42 ago</span><br><span class="line">  Routing Descriptor Blocks:</span><br><span class="line">  * 2.2.2.2, from 2.2.2.2, 01:38:42 ago</span><br><span class="line">      Route metric is 0, traffic share count is 1</span><br><span class="line">      AS Hops 1</span><br><span class="line">      Route tag 10</span><br><span class="line">      MPLS label: none</span><br></pre></td></tr></table></figure>
+
+<p>也就是去往1.1.1.1的数据要发送给2.2.2.2，现在来看2.2.2.2的路由：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RE2#show ip cef 2.2.2.2</span><br><span class="line">2.2.2.2/32</span><br><span class="line">  nexthop 192.168.34.3 Ethernet0/2 label 16</span><br></pre></td></tr></table></figure>
+
+<p>也就是去往2.2.2.2的路由要打上标签16并从E0/2接口发出给P路由器，在P上查看MPLS转发表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">P#show mpls forwarding-table</span><br><span class="line">Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop</span><br><span class="line">Label      Label      or Tunnel Id     Switched      interface</span><br><span class="line">16         Pop Label   2.2.2.2/32       25908         Et0/1      192.168.23.2</span><br><span class="line">17         Pop Label   4.4.4.4/32       26395         Et0/2      192.168.34.4</span><br></pre></td></tr></table></figure>
+
+<p>路由器P的MPLS表显示去往2.2.2.2的下一个动作是将标签弹出然后从E0/1口发出给PE1，弹出标签以后这个数据就是个普通的IP数据，所以PE1收到它以后会查询路由表，进而发送给CE1完成ICMP的所有动作。</p>
+<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="协议简介"><a href="#协议简介" class="headerlink" title="协议简介"></a>协议简介</h2><ul>
+<li><p>MPLS是一种新的转发机制，数据在MPLS网络中是根据标签信息进行转发的，也就是基于报文头部的标签进行数据转发，而不像传统网络中基于源目的IP地址进行转发，最初的目的是为了提高转发速度进而取代传统的IP转发，因为传统的进程交换（Process Switching）和快速交换（Fast Switching）的转发速度无法满足现实需求，但思科的特快转发（Cisco Express Forwarding）技术出来后已经能满足现时使用需求，MPLS目前主要用于运营商，比如MPLS VPN等业务；</p>
+</li>
+<li><p>MPLS全称是Multi Protocol Label Switching，中文翻译成多协议标签交换，Multi Protocol中文意思为多协议，指的是MPLS能够支持几乎所有协议，比如IP、IPV6、IPX、Ethernet、PPP等等。Label中文意思为标签，是一种短的、长度相等、易于处理、不包含拓扑信息、只具有局部意义的信息内容。Switching中文意思为交换，指的是MPLS报文交换和转发是基于标签的，当使用IP作为三层协议时，IP包在进入MPLS网络时，入口的路由器分析IP包的内容并为IP包选择合适的标签并打上标签，其他MPLS网络中的节点会依据这个标签作为转发依据，当IP包最终离开MPLS网络时，标签会被出口的边缘路由器剥离；</p>
+</li>
+<li><p>MPLS依赖IP路由协议，也就是说在运行MPLS协议之前需要运行一个传统的动态路由协议，比如OSPF或EIGRP，先将传统动态路由协议的路由学过来，在这个基础上再构造MPLS协议，比如标签信息等；</p>
+</li>
+<li><p>MPLS依赖CEF，也就是说在一台设备上没开启CEF的话，则不能使用MPLS协议；</p>
+</li>
+<li><p>MPLS标签对应的目的地址，涉及的前缀与传统ip转发是一样的；</p>
+</li>
+<li><p>MPLS的报头在英文中叫做Shim herder，位于二层和三层之间，俗称2.5层协议；</p>
+</li>
+</ul>
+<p><img src="/2022/01/20/17-MPLS/1613359082779-94eb59e2-39b8-4ea1-a239-d4d8b5321e8b.png" alt="img"></p>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p><strong>优点：</strong></p>
+<ul>
+<li><p>Improved up-time – By providing alternative network paths；</p>
+</li>
+<li><p>Improved bandwidth utilization – By allowing for multiple traffic types to traverse the network；</p>
+</li>
+<li><p>Reduced network congestion – By utilizing optional paths for traffic to avoid congestion；</p>
+</li>
+<li><p>Improved end-user experience – By allowing multiple Classes of Service to different types of traffic such as VOIP；</p>
+</li>
+</ul>
+<p><strong>不足：</strong></p>
+<p>MPLS整网必须从运营商处采购，由运营商进行支持，价格稍贵；另一个潜在的不足就是MPLS没有数据保护，但由于和运营商直连所以一般情况下来说这个不是很大问题。</p>
+<h2 id="一张图概述"><a href="#一张图概述" class="headerlink" title="一张图概述"></a>一张图概述</h2><p><img src="/2022/01/20/17-MPLS/1613995111853-d16e14b2-4976-4f0e-b414-0eff3cd4d7da.jpeg" alt="img"></p>
+<h1 id="MPLS标签"><a href="#MPLS标签" class="headerlink" title="MPLS标签"></a>MPLS标签</h1><h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="LSR"><a href="#LSR" class="headerlink" title="LSR"></a>LSR</h3><p>LSR的全称为Label Switch Router，是一台支持MPLS协议并激活了该协议的设备，它能明白MPLS标签代表的含义，并能接收那些基于标签的数据包，LSR在MPLS网络中共有三中类型：</p>
+<ul>
+<li><p>Ingress  LSRs：中文翻译为入口LSR路由器，它收到那些没有标签的数据包后，会为这些数据包打上标签，然后将它发送出去；</p>
+</li>
+<li><p>Egress LSRs：中文翻译为出口LSR路由器，它收到那些有标签的数据包后，将标签剥离掉然后发送出去；</p>
+</li>
+<li><p>Intermediate LSRs：中文翻译为中间LSR路由器，它收到那些带有标签的数据包，按照标签转发信息库的信息，对标签进行替换，然后将数据发送出去。</p>
+</li>
+</ul>
+<p>Ingress LSRs和Egress LSRs都属于边缘LSR路由器，LER（Label Edge Router）。</p>
+<p><img src="/2022/01/20/17-MPLS/1613358686342-275ce264-3007-4355-aca6-54696c6181e1.png" alt="img"></p>
+<p><img src="/2022/01/20/17-MPLS/1613966002462-a5ffcced-db59-491b-8ac7-0174e7f6f75f.png" alt="img"></p>
+<h3 id="LSP"><a href="#LSP" class="headerlink" title="LSP"></a>LSP</h3><p>LSR全称为Label Switched Path，中文为标签交换路径，LSP是数据在穿越整个MPLS网络或穿越部门MPLS网络时的路径，LSP在数据开始传输之前就已经建立\确定，LSP由LDP（Label Distribution Protocol）或RSVP-TE（Resource Reservation Protocol - Traffic Engineering）建立。</p>
+<p><img src="/2022/01/20/17-MPLS/1613975432290-b28ba839-cc86-446c-9d33-276295fd6dbe.png" alt="img"></p>
+<h3 id="FEC"><a href="#FEC" class="headerlink" title="FEC"></a>FEC</h3><p>FEC全称为Forwarding Equivalence Class，中文为转发等价类，FEC是那些具有相同的下一跳、出接口以及处理方式（比如QOS）的一组数据包。FEC是一个属于控制层面的概念，比较晦涩难懂，问过一个在大厂做TAC的朋友，它对这个概念也没有特别深入的理解，他认为FEC指代控制层面上等同于Label的概念，再深入的不需要了解，因为他没完全理解FEC的作用，这里仅把红茶三杯的总结贴在后面。</p>
+<p>在转发过程中，具有相同处理方式的一组数据，可以通过地址、隧道、COS等方式来标识，通常在一台设备上对于一个FEC分配相同的标签，属于一个FEC的流量具有相同的转发方式、转发路径和转发待遇，但并不是所有拥有相同标签的报文都属于一个FEC，因为这些报文的EXP值（报头中的Experimental位，用于QOS）可能不同，执行方式可能不同，因此他们属于不同的FEC。决定报文属于哪一个FEC的路由器是入栈LSR，因为是它对报文进行分类和压入标签。</p>
+<p>一些FEC范例：</p>
+<ul>
+<li><p>在第三层中，目的IP地址匹配同一个特定前缀的报文；</p>
+</li>
+<li><p>属于某个特定组播的组播报文；</p>
+</li>
+<li><p>根据进程或IP  DSCP（Differentiated Services Code Point，负责QOS，Quality Of Services）字段有相同处理方式的报文；</p>
+</li>
+</ul>
+<p>一条FEC可以包含多个数据流，但不是一个数据流一个FEC，比如一台主机在看新浪的网页，这是一个流，又在看新浪视频，这又是一个流，这两个流在发给远程主机时，走的路径应该是相同的，所以一个FEC有多个流，但每个流并没有属于单独的FEC。</p>
+<h3 id="C-CE-PE-P路由器"><a href="#C-CE-PE-P路由器" class="headerlink" title="C\CE\PE\P路由器"></a>C\CE\PE\P路由器</h3><p>C路由器是Customer  Router，也就是用户所使用的路由器；CE路由器是Customer Edge Router，也就是用户的边界路由器；PE路由器是Provider Edge Router，也就是运营商边界路由器；P路由器是Provider Router，也就是运营商路由器。</p>
+<p>C和CE路由器都属于客户的网络，这些路由器不运行MPLS协议，PE路由器位于客户网络和运营商MPLS网络之间，它们是MPLS网络的起点和终点。P路由器是运营商的骨干路由器。</p>
+<p><img src="/2022/01/20/17-MPLS/1613978008961-b586c337-25f8-43d0-85b9-96fcd2a89ea3.gif" alt="img"></p>
+<h2 id="标签格式"><a href="#标签格式" class="headerlink" title="标签格式"></a>标签格式</h2><p><img src="/2022/01/20/17-MPLS/1613557268422-dd6fa61b-b879-4846-bf3b-0fba3da559ae.jpeg" alt="img"></p>
+<p>MPLS标签报头长度为32比特。</p>
+<ul>
+<li><p>Label：前20比特为标签值，取值范围为<img src="/2022/01/20/17-MPLS/a06646f45c9ca05bfddd2289aa2906ca.svg" alt="img">，也就是1-1048575，但是前16个比特有特殊意义不能随便使用，标签值仅在本路由器上有意义，不对其他路由器产生任何实质性的影响，所以不同路由器上的标签值可以相同也可以不同，都没关系，每经过一个路由器，标签会根据LFIB（标签转发信息库）进行替换；</p>
+</li>
+<li><p>Exp：20-22比特为EXP位（全称为Experimental，中文为实验位），用于QOS服务；</p>
+</li>
+<li><p>Bos：第23比特为BOS位（Bottom of Stack，中文为栈底位），一个数据包可以有一个或者多个标签，当它有多个标签时，由于MPLS报头没有标识长度的字段，所以用BOS位来完成这个功能，当BOS位为1的意味着这个标签是栈底，说明它是最后一个标签，后面没有其他标签了。当它值为0时意味着它不是最后一个标签，后面还有其他标签。</p>
+</li>
+<li><p>TTL：24-31比特为TTL位（Time To Live，中文为生存时间），和IP报头中的TTL含义及功能相同，每经过一跳TTL的值减一，TTL位的功能是防止路由环路，当TTL值为0时，数据包被丢弃。</p>
+</li>
+</ul>
+<h2 id="标签堆栈"><a href="#标签堆栈" class="headerlink" title="标签堆栈"></a>标签堆栈</h2><p>为了实现某些功能，数据包可能会有多个标签，比如MPLS VPN就有两层标签，这时这些标签会被打包到堆栈中，叫做MPLS Label Stack：</p>
+<p><img src="/2022/01/20/17-MPLS/1613638938457-72196b29-5d84-46a1-8894-947f632481aa.png" alt="img"></p>
+<p>当多个标签堆叠时，在最上面的标签叫做栈顶标签，最下面的叫做栈底标签，在顶部和底部标签之间，可以有任意多的其他标签堆叠，只有栈底标签的BOS位置1，其他标签的BOS位为0。</p>
+<p><img src="/2022/01/20/17-MPLS/1613894003939-570c0334-96a6-4a1e-bd79-d398714c5860.png" alt="img"></p>
+<p>比如上图封装了三层标签，对于一个LSR来说，只处理第一个标签，每一层标签都有个BOS栈底位，用来表示是否已经是标签的栈底（是否是最后一个标签），最后一个标签的BOS位=1。</p>
+<h2 id="标签相关概念"><a href="#标签相关概念" class="headerlink" title="标签相关概念"></a>标签相关概念</h2><h3 id="几张表"><a href="#几张表" class="headerlink" title="几张表"></a>几张表</h3><p>涉及到MPLS的几张表：RIB（Routing Information Base）、FIB（Forwarding Information Base）、LIB（Label Information Base）、LFIB（Label Forwarding）、CEF Adjacency Table。</p>
+<ul>
+<li>RIB，中文叫路由表，是一个控制层面的概念，由路由协议中的算法生成，存储着来自邻居们的路由信息，RIB中没有MPLS标签信息。使用命令‘show ip route’可查看路由表。</li>
+<li>FIB，中文叫转发信息表，又叫CEF表，是一个数据层面的概念，由CEF（Cisco Express Forwarding）生成，存储着路由和标签的信息，和RIB表中的条目之间有一一对应的关系，MPLS协议需要使用CEF。使用命令‘show ip cef’可以查看FIB\CEF表。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">R1#show  ip cef 4.4.4.4</span><br><span class="line">4.4.4.4/32, version 12, epoch 0, cached adjacency 10.1.12.2</span><br><span class="line">0 packets, 0 bytes</span><br><span class="line"> tag information set</span><br><span class="line">  local tag: 104 fast tag rewrite with Fa0/0, 10.1.12.2, tags imposed: &#123;203&#125;</span><br><span class="line">   via 10.1.12.2, FastEthernet0/0, 0 dependencies</span><br><span class="line">    next hop 10.1.12.2, FastEthernet0/0</span><br><span class="line">    valid cached adjacency</span><br><span class="line">    tag rewrite with Fa0/0, 10.1.12.2, tags imposed: &#123;203&#125; </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>CEF Adjacency Table，中文叫邻接表，是个数据层面的概念，和FIB表一样都是CEF（Cisco Express Forwarding）所使用的到的表，但和FIB表不同。</li>
+<li>LIB，中文叫标签信息库，是一个控制层面的概念，由LDP\RSVP等基于RIB的协议产生，简单来说LIB中存储着所有已知的标签，包括自己的和邻居发来的标签。路由器为每一个IGP前缀在本地生成一个标签并分发给LDP邻居，同时也从LDP邻居收到那些为特定前缀所分发的标签。路由器将本地标签和远程标签（LDP邻居发过来的标签）存储在LIB中。使用命令‘show mpls ldp bindings’查看。</li>
+</ul>
+<p><img src="/2022/01/20/17-MPLS/1614048686354-1835814c-0df8-409a-b2ee-83334bbc3a8f.jpeg" alt="img"></p>
+<ul>
+<li>LFIB，中文叫标签转发信息库，是一个数据层面的概念，由RIB和LIB共同建立，表中存储着路由和标签。简单来说路由器使用LFIB来对MPLS数据进行转发。LSR路由器可能会收到关于某一个前缀的多个标签（从多个LDP邻居发送过来的），但它只需要使用其中的一个标签，LFIB从LIB中的众多标签中找到最优的传输标签并将它存储在LFIB中。使用命令‘show mpls forwarding-table’查看。</li>
+</ul>
+<p><img src="/2022/01/20/17-MPLS/1614048862779-5aab6b47-6ca1-48f1-99f6-7d3a80cc41d7.jpeg" alt="img"></p>
+<h3 id="几张表的关联"><a href="#几张表的关联" class="headerlink" title="几张表的关联"></a><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/mpls/relationship-between-lib-fib-and-lfib/td-p/782307">几张表的关联</a></h3><p><strong>RIB&amp;FIB</strong></p>
+<p>RIB中存储着来自邻居们的路由信息，但仅有这些路由信息的话，路由器无法对数据进行转发，因为路由器还不知道如何使用这些路由信息转发数据，转发数据路由器需要封装\解封装二层包头以及数据从哪个接口发出去，所以需要告诉路由器二层报头信息，以及数据如何发出，所以需要FIB表和邻接表<Adjacency table>（CEF中的邻接表中有关于下一跳所需的封装信息，FIB为每条FEC提供了一个指针，这个指针对应着邻接表中的一个或多个条目，使得LIB和FIB能相互对应起来，知道从哪个接口将数据发送出去），这两张表中包含路由器在转发数据包时使用的所有信息（例如二层地址以及出接口等），因为FIB表示基于RIB衍生出来的，经过了查找、递归等步骤，更适合。</Adjacency></p>
+<p><img src="/2022/01/20/17-MPLS/1613884912056-1c6198a4-12f9-4b71-8c3d-7a44bb7468f1.png" alt="img"></p>
+<p><strong>LIB&amp;LFIB</strong></p>
+<p>在运行了MPLS协议的路由器上，所有的标签储存在LIB中（可能会看到一个前缀对应着多个标签的情况，因为标签仅在本路由器上有意义，其他路由器可能会对相同的前缀分配不同的标签，用LDP ID进行区别），和RIB&amp;FIB的情况类似，仅有LIB也无法对数据进行转发，所以需要LFIB，LFIB由LIB的信息映射到FIB上生成，目的是为了获取下一跳信息以便发送到下一跳的路由器上。</p>
+<p><img src="/2022/01/20/17-MPLS/1613891087274-219698ef-c9af-4a73-b79f-91578ae57074.png" alt="img"></p>
+<h3 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h3><p><strong>为什么需要这么多表？</strong></p>
+<p>因为传入以及传出MPLS网络的数据包都可能有两种（带标签的数据、不带标签的传统IP包），所以就会有四种可能，需要分别查询不同的表来处理数据，如下图所示：</p>
+<p><img src="/2022/01/20/17-MPLS/1613886432179-39d7f720-903d-4e46-9fd5-4bf0c21ff943.gif" alt="img"></p>
+<p><strong>这么多表如何转发？</strong></p>
+<ul>
+<li><p>当收到的数据为IP数据，转发出的数据也为IP数据时，就是纯IP报文转发，使用FIB表项，也就是cisco的CEF；</p>
+</li>
+<li><p>当收到的数据为MPLS数据，转发出去的依旧为MPLS数据时，查询LFIB表；</p>
+</li>
+<li><p>收到IP数据，但需要以MPLS数据转发出去，那么依然走FIB（CEF）表，因为CEF表中有标签信息；</p>
+</li>
+<li><p>收到MPLS数据，但需要以IP数据转发出去，输入时走LFIB表，输出时使用FIB（CEF）表；</p>
+</li>
+</ul>
+<h3 id="查哪张表"><a href="#查哪张表" class="headerlink" title="查哪张表"></a>查哪张表</h3><p>MPLS数据包查询LFIB表进行转发，IP数据包查询FIB\CEF表进行转发，那么路由器如何知道该数据是MPLS数据包还是IP数据包呢？以太网二层帧头中的EtherType字段值：</p>
+<p><img src="/2022/01/20/17-MPLS/1613471169123-e5e46c6c-3f1e-41cd-947c-d694086a42be.png" alt="img"></p>
+<p><img src="/2022/01/20/17-MPLS/1613473710169-8e6b5d34-2949-43e9-a562-6ec00c4e47a9.png" alt="img"></p>
+<p>当字段值为0X0800时，表示它是一个IPV4数据，查询FIB表；当字段值为0X8847时，表示它是一个MPLS单播数据，查询LFIB；当字段值为0X8848时，表示它是一个MPLS组播数据，查询LFIB。</p>
+<p>初始路由器上，是查找FIB还是LFIB呢？由于在初始路由器上，产生的依旧是IP报文，查找的是CEF表，用‘show ip cef<ip address> detail’命令可以从输出中看到对此路由是否压入标签，分配标签的依据是根据CEF表中的前缀来分配的：</ip></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">R1#show  ip cef 4.4.4.4</span><br><span class="line">4.4.4.4/32, version 12, epoch 0, cached adjacency 10.1.12.2</span><br><span class="line">0 packets, 0 bytes</span><br><span class="line"> tag information set</span><br><span class="line">  local tag: 104 fast tag rewrite with Fa0/0, 10.1.12.2, tags imposed: &#123;203&#125;</span><br><span class="line">   via 10.1.12.2, FastEthernet0/0, 0 dependencies</span><br><span class="line">    next hop 10.1.12.2, FastEthernet0/0</span><br><span class="line">    valid cached adjacency</span><br><span class="line">    tag rewrite with Fa0/0, 10.1.12.2, tags imposed: &#123;203&#125; </span><br></pre></td></tr></table></figure>
+
+<p>例如这条CEF条目的最后一行显示，去往4.4.4.4的数据，要压上203的标签，发送给10.1.12.2。</p>
+<h3 id="标签Q-amp-A"><a href="#标签Q-amp-A" class="headerlink" title="标签Q&amp;A"></a>标签Q&amp;A</h3><p>标签和目标网段映射\绑定，而不是和接口映射\绑定。（Label are assigned to destination networks, not to interfaces.）</p>
+<h2 id="BOS位"><a href="#BOS位" class="headerlink" title="BOS位"></a><a target="_blank" rel="noopener" href="https://blog.ipspace.net/2014/11/handling-bottom-of-mpls-stack.html">BOS位</a></h2><h2 id="MPLS构架"><a href="#MPLS构架" class="headerlink" title="MPLS构架"></a>MPLS构架</h2><p><img src="/2022/01/20/17-MPLS/1613376957089-6945748b-492a-4b1c-a828-48ac81058743.jpeg" alt="img"></p>
+<p><img src="/2022/01/20/17-MPLS/1613373336055-4ad9e29c-aeb4-4f75-b90d-e8b2f7b121aa.jpeg" alt="img"></p>
+<p><img src="/2022/01/20/17-MPLS/1613891594623-bc415569-cb76-42ad-a38c-df4a02a4c27f.jpeg" alt="img"></p>
+<p><img src="/2022/01/20/17-MPLS/1613892609348-0d300f4e-ccfd-48b0-9861-42a3b198fb84.png" alt="img"></p>
+<h2 id="标签处理"><a href="#标签处理" class="headerlink" title="标签处理"></a>标签处理</h2><h3 id="标签动作"><a href="#标签动作" class="headerlink" title="标签动作"></a>标签动作</h3><p>路由器对标签共有三种动作，压入标签（Push），替换标签（Swap），弹出标签（Pop）：</p>
+<p><img src="/2022/01/20/17-MPLS/1613978423252-8ee00a10-7fa0-4632-8862-083d4ce54410.png" alt="img"></p>
+<p><strong>Push：压入标签</strong>，过程是为数据在二层和三层报头之间加入一个新的标签，入标签由PE路由器完成。如果原数据没有标签压，例如PE路由器从客户路由器收到IP数据的情况下，并压入标签后，会将传统的IP数据包‘变为’MPLS包；如果原数据有标签，则该数据的顶部标签上层会增加一个或多个标签。</p>
+<p><img src="/2022/01/20/17-MPLS/1613980321089-db8bd481-453a-4518-ac7b-fc55fcb75065.png" alt="img"></p>
+<p><strong>Swap：替换标签</strong>，过程发生在MPLS网络中，由运营商的核心P路由器完成这个动作。MPLS数据的顶部标签被移除同时使用一个新的标签代替被移除的标签。<img src="/2022/01/20/17-MPLS/1613980301483-56ba8b99-4722-4e65-949b-8e54f04e3a7a.png" alt="img"></p>
+<p><strong>Pop：弹出标签</strong>，过程就是将原本MPLS数据中最上层的标签弹出，报文的转发依靠标签栈中余下的标签，或将其作为无标签的IP数据转发。</p>
+<p><img src="/2022/01/20/17-MPLS/1613980336914-7667f636-49e8-4615-a150-fede8ed3c5e2.png" alt="img"></p>
+<p><strong>Untag：移除标签</strong>，过程是将原本MPLS数据中的整个标签栈移除，按照无标签的IP数据包的方式进行转发。</p>
+<p><img src="/2022/01/20/17-MPLS/1613980361633-3d10ae5f-6509-452e-aed7-c47155b9ebb4.png" alt="img"></p>
+<h4 id="POP-amp-Untag"><a href="#POP-amp-Untag" class="headerlink" title="POP&amp;Untag"></a>POP&amp;Untag</h4><p><strong>区别</strong></p>
+<p>Pop金会将顶层标签头部弹出，经过Pop动作转发后的报文可以是IP数据也可以是MPLS标签数据，因为Pop只摘掉一层标签而原数据可能有一层或多层标签头，在只有一层标签头的情况下，Pop掉一层标签后会变成IP数据，如果有多层标签头的情况下，Pop掉一层标签后还有其他标签，依旧是个MPLS标签数据。</p>
+<h4 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h4><p>Pop：收到了下游发来的分配给某前缀的标签为空时，那么本LSR向下游LSR发送去往该前缀的数据的时候，会执行Pop的动作，弹出顶层标签。此时本LSR只需要查询一次LFIB，其中有下一跳的信息，弹出顶层标签后交给下一跳即可，如果该数据只有一个标签则弹出标签后是IP包，不用再次查找FIB表。</p>
+<p>Untag：弹出所有标签，随后根据下一跳（查询FIB表）转发。出现Untag有以下三种原因：</p>
+<ul>
+<li><p>下游不能分配标签，没有启用MPLS协议；</p>
+</li>
+<li><p>下游分配了标签但无法传递到本LSR上，因为LDB Neighbor没有建立；</p>
+</li>
+<li><p>分配标签错误，这种情况仅会出现在IGP是OSPF的情况下，因为如果用环回口做LDP的Router ID而且不是32位的地址，OSPF会自动以32位的环回地址发布，这样会导致标签分配错误；</p>
+</li>
+</ul>
+<h3 id="总体过程"><a href="#总体过程" class="headerlink" title="总体过程"></a>总体过程</h3><p>The first label is imposed on the ingress LSR and the label belongs to one LSP. The path of the packet through the MPLS network is bound to that one LSP. All that changes is that the top label in the label stack is swapped at each hop. The ingress LSR imposes one or more labels on the packet. The intermediate LSRs swap the top label (the incoming label) of the received labeled packet with another label (the outgoing label) and transmit the packet on the outgoing link. The egress LSR of the LSP strips off the labels of this LSP and forwards the packet. For this to work, adjacent LSRs  must agree on which label to use for each IGP prefix. Therefore, each intermediate LSR must be able to figure out with which outgoing label the incoming label should be swapped </p>
+<p>第一个标签是在入口LSR（Label Switch Router，运行了MPLS的路由器）上压入（Push）数据包的，这个标签属于一个LSP（Label Switched Path，标签交换路径，LSP是数据在穿越整个MPLS网络或穿越部门MPLS网络时的路径），该数据包在MPLS网络中的路径是和LSP绑定的。这个数据包在MPLS网络中所有的变化就是将顶部标签在每一跳路由器上进行替换（Swap）。入口LSR在压入标签时，可能压入（Push）了一个或多个标签，位于中间位置的LSR们会将最顶部的标签进行替换后，将数据从出口链接发送出去。LSP出口端的LSR会将弹出（Pop）这个LSP的标签，转发数据包。</p>
+<p>为了做到这些，邻居LSR们必须在IGP前缀使用哪些标签上达成一致。因此，那些在中间执行标签替换的LSR必须能搞明白它们需要将入站标签替换成什么出站标签。</p>
+<h3 id="IP-amp-标签查找"><a href="#IP-amp-标签查找" class="headerlink" title="IP&amp;标签查找"></a>IP&amp;标签查找</h3><p>之前说过，之所以需要RIB\FIB\LIB\LFIB这么多表是因为入向和出向数据可能是IP数据包也可能是MPLS数据包：</p>
+<p><img src="/2022/01/20/17-MPLS/1613986191364-7f18a4a1-d9ab-49f2-ad4a-e6cb9abf0c39.png" alt="img"></p>
+<ul>
+<li>如果LSR收到一个IP数据包，这个数据去往4.4.4.0/24网段，此时路由器会查看FIB，输出如下。FIB表中最后写着‘nexthop 10.1.12.2 FastEthernet0/0 label 204’，表示下一跳是10.1.12.2，需要从F0/0口发出，要打上标签204.在思科设备上，CEF交换是唯一的一种可用于标记报文的IP转发模式，因为CEF中既有路由信息又有标签信息，因此在启用MPLS的时候必须在路由器上开启CEF。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R1#show ip cef 4.4.4.0 detail </span><br><span class="line">4.4.4.0/24, epoch 0</span><br><span class="line"> local label info: global/16</span><br><span class="line"> nexthop 10.1.12.2 FastEthernet0/0 label 204 </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当路由器收到一个带标签的报文时，则在LFIB中进行查找，LFIB表中相关的匹配条目会有针对该入栈标签的出栈动作或替换标签，以及下一跳信息。</li>
+<li>当路由器收到一个带标签的数据包，并且该数据包的顶部标签不能在本地LFIB中找到，那么CISCO IOS将丢弃这个数据包。</li>
+</ul>
+<h2 id="标签分配过程"><a href="#标签分配过程" class="headerlink" title="标签分配过程"></a>标签分配过程</h2><p>MPLS标签分配共有两种模式，Frame-Mode和Cell-Mode，具体区别如下：</p>
+<p><img src="/2022/01/20/17-MPLS/1614049675897-a84d7499-017b-40c7-ac7a-4286f37ffe2f.png" alt="img"></p>
+<p>我们这里只讨论Frame-Mode的标签，这种在现网中使用。</p>
+<h3 id="构建IP路由表"><a href="#构建IP路由表" class="headerlink" title="构建IP路由表"></a>构建IP路由表</h3><p><img src="/2022/01/20/17-MPLS/1614050271852-ffc9f8a8-ba2d-4e2a-9523-2543f5ab3eac.png" alt="img"></p>
+<p>所有的路由器都运行路由协议，全网路由互通，然后在路由器的接口上激活LDP协议，然后这些运行了LDP协议的路由器<strong>两两之间</strong>会形成LDP邻接关系。</p>
+<h3 id="分配并分发标签"><a href="#分配并分发标签" class="headerlink" title="分配并分发标签"></a>分配并分发标签</h3><p><img src="/2022/01/20/17-MPLS/1614050458629-d13a286c-2e10-4dce-9ca4-b977e66d01e6.png" alt="img"></p>
+<p>激活LDP后，每台路由器会为自己本地路由表中的路有前缀分配并捆绑标签，例如上图中的X路由，所有路由器（A、B、C、D、E）都会为自己路由器上的X路由分配一个标签，然后为路由X捆绑的标签保存在本地LIB表中，接下来所有运行了LDP协议的路由器，都会把自己为各个路由前缀捆绑的标签发给它的LDP邻居，如图所示，B将给前缀X的标签发给了A\E\C这几个路由器。由于标签的分发没有水平分割的概念，所以B可能从C学到的路由X，但B仍然会将它（B）为前缀X捆绑的标签传递给C，C也会把从B学到的标签放入LIB中，不用担心有环路，因为LDP可以借助IGP路由协议来防止环路。</p>
+<p><img src="/2022/01/20/17-MPLS/1614051171541-0f003c4e-d459-4ed8-8443-56c45e149dba.png" alt="img"></p>
+<p>当LDP路由器从他的LDP邻居处收到邻居的捆绑标签，它会将捆绑的结果存储在自己的LIB表中，LIB表中有Local Label，这是自己为前缀分发的标签，而Remote Label是邻居为该路由前缀分发的标签。LDP邻居会将邻居分配的remote  label都放在LIB中，只会从LIB中所有可能的标签中选择出一个可能的出站标签放入LFIB中。LDP路由器根据LIB表并结合路由表构成LFIB表，如上图中A的LFIB表。</p>
+<p>这里有一点要注意，E路由器中会收到自己LDB邻居B、C这两个路由器的标签捆绑信息，其中都有关于路由X捆绑的标签，那么E在LFIB表中，寸的是哪个邻居发来的Remote Label呢？存储的是C的Remote Label，因为路由X由D发过来，C才是去往X的下一跳，E会借助路由表来判断谁的标签捆绑‘更优’。</p>
+<h3 id="LIB-amp-LFIB表的建立"><a href="#LIB-amp-LFIB表的建立" class="headerlink" title="LIB&amp;LFIB表的建立"></a>LIB&amp;LFIB表的建立</h3><p><img src="/2022/01/20/17-MPLS/1614060394107-65a5be51-0cf3-427f-9277-3c7af3f0a16b.png" alt="img"></p>
+<p>在所有的LDP路由器都相互发送标签捆绑信息后，大家逐步建立了自己的LFIB。</p>
+<p><img src="/2022/01/20/17-MPLS/1614060512690-0a37c63a-049e-46f1-8bb4-44bf2541bf54.png" alt="img"></p>
+<p>当所有路由器的LFIB都构建完毕后，我们就能看到，当A收到一个IP数据包，要访问X，那么A查看自己的CEF表（因为CEF中既有路由又有标签），发现下一跳要发往B，而B上给路由X分配的标签头为201，所以要给数据包压入（Push）标签，于是它压上标签值为201的标签头，然后发给B。B收到这个标签包，由于也要以MPLS标签包转发出去，所以查询LFIB表，发现标签头中Label为201，于是查看自己的LFIB，发现201标签的Outgoing Label为301且下一跳是C，于是它将201标签替换（Swap）成301然后交给C。数据到了路由器C上，由于要以IP包形式转发出去，它在输入时走LFIB表，输出时使用FIB（CEF）表，发现301对应的Outgoing Label是Pop并且下一跳是D，所以它将标签头弹出，数据变为了IPV4数据包，C将这个数据包交给D。</p>
+<h2 id="标签报文的负载均衡"><a href="#标签报文的负载均衡" class="headerlink" title="标签报文的负载均衡"></a>标签报文的负载均衡</h2><p>Equal Cost Multipath (ECMP) </p>
+<h1 id="LDP协议"><a href="#LDP协议" class="headerlink" title="LDP协议"></a>LDP协议</h1><h2 id="协议概述"><a href="#协议概述" class="headerlink" title="协议概述"></a>协议概述</h2><p>LDP协议英文全称是Label Distribution Protocol，是MPLS用来分发标签的协议之一，简单来说就是路由器为路由前缀（比如OSPF\ISIS\EIGRP这些IGP协议的路由前缀）自动生成标签，并且和其他路由器交换的协议，由RFC3035和3036首次定义，由RFC5036更新，它实际上是思科TDP（Tag Distribution Protocol）协议的公有化。MPLS协议的基本特点之一就是所有的报文都是有标签的，如果让OSPF\EIGRP\RIP\ISIS这样的协议来分发标签是不可能的了，那么就需要一个新的协议，独立于所有的路由协议并且能够结合所有IGP路由协议一起使用，LDP就是这样一个协议，当然BGP因为运载的是外部路由，所以认为用BGP本身来分发标签更为有效，甚至非常完美，所以BGP可以实现多协议，用它来分发标签信息所产生的的影响是非常小的。而且BGP是唯一一种在AS自制系统之间分发前缀的协议。</p>
+<p>对IP路由表中的每一条IGP的IP前缀来说，每一台运行LDP协议的LSR都会进行本地捆绑，也就是说，为IPV4前缀分配标签，然后LSR再将分配的标签分发给所有LSR邻居。邻居们将这些收到的标签转换为远程标签Remote Label，之后邻居们将远程标签和本地标签存储于一张特殊的表中，这个表就是标签信息库，LIB（Label Information Base）。通常一台LDP路由器会有多个邻居，那么这些邻居都会给路由分配标签然后将标签传给自己。</p>
+<p>在所有捆绑在某一个前缀的Remote Label中，LSR只是用一个标签来确定该前缀的出站标签。RIB，也就是路由表来确定IPV4前缀的下一跳是什么。而LSR从下游LSR收到的远程标签中选择其路由表中达到该前缀的下一跳的标签，LSR用这样的信息来创建它自己的标签转发信息库，LFIB。</p>
+<p>在思科IOS中，LDP不会为BGP的IPV4前缀捆绑标签。</p>
+<p><img src="/2022/01/20/17-MPLS/1614139117334-792bdb12-0626-46fc-b789-902d19722bfa.png" alt="img"></p>
+<p><img src="/2022/01/20/17-MPLS/1614138723897-493e5ad4-2637-4dc2-8f5f-1668706bb227.png" alt="img"></p>
+<h2 id="LDP邻居建立过程"><a href="#LDP邻居建立过程" class="headerlink" title="LDP邻居建立过程"></a>LDP邻居建立过程</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>运行LDP之前，先确定路由器运行了CEF协议，因为CEF中的两张表，FIB和CEF邻居表是LIB和LFIB构成的元素，如果不运行CEF表则无法构建LIB和LFIB，自然也无从运行LDP协议。LDP邻居建立过程共分两步，邻居发现过程、会话建立过程。邻居发现使用UDP组播的Hello报文实现，一旦两个路由器决定形成邻居关系，接下来它们会使用TCP建立连接，这个TCP连接用来交互标签信息，一般而言，使用Loopback接口建立邻居。</p>
+<p><img src="/2022/01/20/17-MPLS/1614138623812-59f76fff-ac4f-4d52-86cb-da9777ad32ee.jpeg" alt="img"></p>
+<h3 id="邻居发现阶段"><a href="#邻居发现阶段" class="headerlink" title="邻居发现阶段"></a>邻居发现阶段</h3><p><img src="/2022/01/20/17-MPLS/1614080442325-84a069b4-4de9-4432-a51f-71b274ecb403.png" alt="img"></p>
+<ul>
+<li>当LDP协议在路由器上激活后，会发送Hello包来发现邻居，邻居发现是借助UDP组播Hello包来进行的，LSR会在所有激活运行了LDP协议的接口上（也就是那些在接口上配置了‘mpls ip’命令的）发送Hello包，这个Hello包的源、目的端口都是UDP646，Hello包发向组播地址224.0.0.2，源地址为接口IP。收到LDP Hello包的路由器会知道有一个LDP邻居。Hello包中携带着Hold Time信息，如果在Hold time过期之前没收到其他路由器的Hello包，那么LSR会将LDP会话关闭，可以用命令‘show mpls ldp dicovery [detail]’命令来查看是否收到了LDP Hello包、Hello Interval、Hold Time等信息。‘show mpls interfaces’命令可以查看有哪些接口运行了LDP协议；‘mpls ldp discovery { hello { holdtime | interval } <em>seconds</em>’命令修改Hello\interval时间，默认的Hello interval（间隔多久发送一次Hello包）为5秒，默认的Hold time（间隔多久如果没收到对方的Hello报文会关闭LDP会话）为15秒。</li>
+</ul>
+<p><img src="/2022/01/20/17-MPLS/1614130485923-0f967452-1154-42fe-a9b0-e741a069c04c.jpeg" alt="img"></p>
+<p><img src="/2022/01/20/17-MPLS/1614130984325-75ec424e-0d2e-4c8c-b2a4-05935e3011f3.png" alt="img"></p>
+<ul>
+<li>发现邻居后，传输地址大的一方为主动发起方，比如上图中，传输地址分别是1.1.1.1和2.2.2.2，所以地址大的一方2.2.2.2为主动发起方，发起了TCP握手报文，源地址是本地的Transport Address，目的地址是对端的Transport Address。Transport Address默认情况下为路由器的LDP Router ID。必须保证两个Transport Address之间是路由可达的。也可以在接口下使用命令‘mpls ldp discovery transport-address interface’将Transport Address配置为直连接口的IP地址。之所以建立TCP连接是为了能够可靠的交互标签。</li>
+</ul>
+<h3 id="LDP会话建立阶段"><a href="#LDP会话建立阶段" class="headerlink" title="LDP会话建立阶段"></a>LDP会话建立阶段</h3><p><img src="/2022/01/20/17-MPLS/1614081207146-736f814b-6453-4489-9881-8029158be7d9.png" alt="img"></p>
+<p>连接建立成功后，开始交互初始化消息，初始化消息中包含各种参数，对方也发送自己的初始化消息，并且如果接收了前者的初始化消息后，会发送一个Keep alive消息表示接受，到此LDP的邻居关系就建立起来了，接下去可以互相传递标签映射消息了。</p>
+<p><strong>LDP****允许非直连邻居，这样一来邻居发现无需借助组播的Hello包而是采用单播包。</strong></p>
+<h2 id="标签交互"><a href="#标签交互" class="headerlink" title="标签交互"></a>标签交互</h2><h2 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h2><h3 id="Hello报文"><a href="#Hello报文" class="headerlink" title="Hello报文"></a>Hello报文</h3><p><img src="/2022/01/20/17-MPLS/1614149966024-3c99c296-cd46-4bb9-ba7f-f0984c71e669.png" alt="img"></p>
+<p>LDP邻居建立首先发送Hello包，它使用UDP，源目的端口都是646，LDP ID为6个字节（4字节的IP+2字节的Label Space），两个路由器建立LDP邻居，要保证双方到对方的LDP ID的三层可达，也可以说要有到对方LDP ID的路由，Transport Address除非手工用命令（mpls ldp discovery transport-address）指定，否则一般等于LDP ID。上面共提到了三个地址，接口IP address，Transport address和LDP ID：</p>
+<p>Transport address：建立TCP连接所使用的地址，Transport address是LDP的Hello报文的一部分，</p>
+<p><img src="/2022/01/20/17-MPLS/1614151686708-40cd8758-38b4-455e-8001-109e3a60f537.png" alt="img"></p>
+<p>使用如下命令可以看到相关信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">R1#show mpls ldp discovery detail</span><br><span class="line">   Local LDP Identifier: </span><br><span class="line">    1.1.1.1:0</span><br><span class="line">     Discovery Sources:</span><br><span class="line">     Interfaces: FastEthernet0/0 (ldp): xmit/recv</span><br><span class="line">      Enabled: Interface config </span><br><span class="line">      Hello interval: 5000 ms; Transport IP addr: 1.1.1.1  </span><br><span class="line">      LDP Id: 2.2.2.2:0; no host route to transport addr</span><br><span class="line">       Src IP addr: 10.1.12.2; Transport IP addr: 2.2.2.2 </span><br><span class="line">       Hold time: 15 sec; Proposed local/peer: 15/15 sec </span><br><span class="line">       Reachable via 2.2.2.0/24 </span><br><span class="line">       Password: not required, none, in use </span><br></pre></td></tr></table></figure>
+
+<h4 id="LDP-identifier"><a href="#LDP-identifier" class="headerlink" title="LDP identifier"></a>LDP identifier</h4><p><img src="/2022/01/20/17-MPLS/1614138772730-d3130055-2691-485e-ae61-effd702397a7.png" alt="img"></p>
+<p><img src="/2022/01/20/17-MPLS/1614137764097-5cbb7ca3-c409-4de7-96ff-951760b24c01.png" alt="img"></p>
+<p><img src="/2022/01/20/17-MPLS/1614156158063-1575cfb6-f536-4287-8248-fd768780bd2c.png" alt="img"></p>
+<p>LDP ID（Identifier）是一个6bytes的字段，是LSR的LDP标识符，包含4bytes的LSR标识符（Router ID）和2bytes的标签控件（Tag Space ID），选举规则和OSPF的Router ID一样，优先使用最大的Loopback地址，如果没有Loopback接口激活，则使用最大的IP地址作为LDP ID。</p>
+<ul>
+<li>当存在loopback接口时，LDP ID的前4bytes，Router ID是loopback接口的最大IP，如果没有loopback接口，则前4bytes，Router ID是物理接口的最大IP，使用命令‘mpls ldp router-id <em>inerface</em>[force]’可以进行修改，比如‘mpls ldp router-id loopback0’就是把MPLS的LDP ID配置成loopback0接口，如果加上‘force’关键字则为马上生效，否则只有当前选做MPLS LDP ID的接口Down掉的时候才会进行重新选择。必须注意的是，<strong>邻居的LDP ID必须在本地有可达路由，否则LDP邻居无法建立。</strong></li>
+<li>后面2bytes的Tag Space ID标签空间为0，说明是基于设备或者说基于平台（Per-platform）的标签空间。 什么叫基于平台的标签呢？比如下图中的B路由器，它为前缀X捆绑了标签34，并且将这个标签捆绑信息发布给所有的LDP邻居，A、C、D，这三台路由器上都收到了从B发从过来的关于前缀X的Remote Label，34，这就是基于平台基于设备的标签。</li>
+</ul>
+<p><img src="/2022/01/20/17-MPLS/1614155246106-e5e9f304-c997-436b-a2a5-7dff7b780dd5.png" alt="img"></p>
+<h3 id="Initialization报文"><a href="#Initialization报文" class="headerlink" title="Initialization报文"></a>Initialization报文</h3><p><img src="/2022/01/20/17-MPLS/1614152178252-e05a2439-4b91-4a02-96f7-b05c349f0087.png" alt="img"></p>
+<h3 id="Label-Mapping报文"><a href="#Label-Mapping报文" class="headerlink" title="Label Mapping报文"></a>Label Mapping报文</h3><p>一个LDP报文会承载多个标签映射消息，每个标签映射消息包含两个要素，FEC TLV和Label TLV。</p>
+<p><img src="/2022/01/20/17-MPLS/1614152256771-9edf4c3b-c758-47d3-b52f-51a6a212913a.png" alt="img"></p>
+<h2 id="PHP次末跳弹出机制"><a href="#PHP次末跳弹出机制" class="headerlink" title="PHP次末跳弹出机制"></a>PHP次末跳弹出机制</h2><h3 id="基本概念-1"><a href="#基本概念-1" class="headerlink" title="基本概念"></a>基本概念</h3><p>Penultimate hop popping (PHP) is a function performed by certain routers in an MPLS enabled network. It refers to the process whereby the outermost label of an MPLS tagged packet is removed by a Label Switch Router (LSR) before the packet is passed to an adjacent Label Edge Router (LER). The benefit is that the LSR has to do a label lookup anyway and it doesn’t make a difference whether this results in a label swap or pop. However, for the LER this saves one cycle of label lookup.</p>
+<p>次末跳弹出机制，PHP（Penultimate hop poping）是一种在MPLS网络中特定服务器上执行的功能。它指的是MPLS数据最上层标签，在发送给LER路由器之前，被LSR剥离掉的过程。这样做的好处是LSR不管对上层标签是进行替换还是剥离动作，都得查询CEF表，但剥离了最上层标签后，最后一跳的LER路由器就省去了一次查找的过程。</p>
+<p>次末跳弹出机制有两种标签，一种是POP或Implicit Null，中文为隐式空，在LDP中标签值为3；另一种是Explicit Null，中文为显式空，在LDP中标签值为0。</p>
+<p>如果收到邻居发来的关于某条路由分配的标签值为3，那么本地在转发数据给邻居时，会将该标签弹出，再将内层数据转发给邻居；如果邻居关于某条路由分配的标签值为0，那么本地在转发数据给邻居时，会带上标签为0的标签头一并转发给邻居。</p>
+<p>为什么显式空要带上一个标签为0的空标签而不直接去掉呢？是因为比如部署了MPLS QOS的时候，需要使用标签报头中的EXP字段，需要这个字段发挥作用，如果直接去掉了整个标签头，那么EXP字段也去掉了就没有QOS了，而QOS最后一跳必须携带EXP位，所以这里使用标签值为0的空标签头，来满足QOS的需要，配置‘mpls ldp explicit-null’来分配给特定路由的标签值为0使得次末跳弹出时采用显式空的方式来保留标签头。</p>
+<h3 id="没有PHP机制"><a href="#没有PHP机制" class="headerlink" title="没有PHP机制"></a>没有PHP机制</h3><p><img src="/2022/01/20/17-MPLS/1614157324729-2118fa38-6728-4385-827e-415a76cc7268.png" alt="img"></p>
+<ul>
+<li><p>30.0/24这条前缀，路由器C分配的标签是23，这个映射传给了路由器B；B路由器给C分配的标签是22，这个映射传递给了A；</p>
+</li>
+<li><p>A下面有用户发送数据到30.0网络，于是A将数据压上了标签头，标签值为22。标签到了路由器B，B将标签替换成23，然后传递给C。</p>
+</li>
+<li><p>路由器C上，先查找LFIB表，发现要将标签弹出，于是C将标签弹出，然后发现是个IP报文，又查FIB表，最终将这个IP数据包转发出去。C进行了两次查找，降低了转发效率。如果标签能在次末跳，也就是路由器B上弹出，那么C只需要查找FIB表将收到的IP报文进行转发。</p>
+</li>
+</ul>
+<h3 id="有PHP机制"><a href="#有PHP机制" class="headerlink" title="有PHP机制"></a>有PHP机制</h3><p><img src="/2022/01/20/17-MPLS/1614158443314-78803990-ef61-476a-b0e8-4da432af1a01.png" alt="img"></p>
+<p>有了PHP次末跳弹出机制后，C为网段30.0/24前缀分配的标签为POP，也就是弹出，并将该标签通告给其他LDP邻居，如此一来，B收到A发送过来的标签值为22的标签包后，将会直接弹出标签将它变为IP包，然后再转发给C，路由器C只需要查找FIB表将数据转发即可。</p>
+<h3 id="保留标签"><a href="#保留标签" class="headerlink" title="保留标签"></a>保留标签</h3><p>标签0-15都是被保留的标签，以下是一些有特定作用的保留标签：</p>
+<ul>
+<li><p>标签0：显式空标签；</p>
+</li>
+<li><p>标签3：隐式空标签；</p>
+</li>
+<li><p>标签1：路由器报警标签；</p>
+</li>
+<li><p>标签14：OAM报警标签；</p>
+</li>
+</ul>
+<h4 id="隐式空标签"><a href="#隐式空标签" class="headerlink" title="隐式空标签"></a>隐式空标签</h4><p>在PHP中，我们已经了解了隐式空标签的作用，当然，隐式空标签不局限于PHP中，还可以运用在标签栈中有2-3个或多个标签的报文中，在出站LSR上使用隐式空标签（在LDP中，值为3）将会通知倒数第二跳路由器移除顶层标签，从而向出站LSR传递的带标签数据的标签数量就会少一个，这样的话，出站LSR就不需要执行两个标签的查找了。注意，使用隐式空标签并不是必须将标签中的所有标签都弹出，而是弹出顶层标签。</p>
+<p>尽管隐式空标签也是用了一个标签值为3的标签，但标签3永远不会出现在MPLS报文的标签栈中，这也是其叫隐式空标签的原因。</p>
+<p><img src="/2022/01/20/17-MPLS/1614227228290-2cdcbba9-542b-469a-9677-49e2b6d28e1a.png" alt="img"></p>
+<p>显式空标签</p>
+<p>在IPV4中，显式空标签为0，IPV6中为2。</p>
+<p>上面的隐式空标签已经介绍过了，它确实可以增加效率，但也有一个问题，因为如果我收到一个下游邻居发送过来的关于某个特定前缀捆绑的隐式空标签，那么我在转发标签数据给该邻居之前，我会先将顶层标签弹出，那么这个弹出动作实际上是将整个顶层的标签头都弹出了，也就是连带着标签字段、EXP等字段都弹出了，而EXP字段用作QOS也被弹出了，意味着丢失了用于QOS的部分信息，因此又定义了显式空标签，用于应对上面描述的场景。</p>
+<p><img src="/2022/01/20/17-MPLS/1614227446240-898320e5-483f-4653-beb0-1eddbf5cce34.png" alt="img"></p>
+<p>上图中，C针对30.0/24的前缀捆绑了标签0，也就是显示空标签，然后将标签映射给路由器B，B也产生自己的标签映射然后发给A，那么这时候，如果B收到来自A的一个标签包，顶层标签值为20，那么B查找自己的LFIB，发现要将标签转换成0，于是B将顶层标签替换成0后发送给C，那么对于C来说它就收到了一个标签值为0的标签包，C不能通过在LFIB中查找标签值0来转发这样的报文，因为这个标签值可以分配给多个FEC，C只是仅仅弹出标签值为0的显式空标签，之后不得不进行另外一种查找，查找FIB表，虽然得进行两次查找，但C可以通过看标签头中的EXP位来获得该报文的QOS信息了。</p>
+<h4 id="路由器报警标签"><a href="#路由器报警标签" class="headerlink" title="路由器报警标签"></a>路由器报警标签</h4><p>标签值为1，这个标签可以出现在标签栈的任何位置，除了栈底位以外。</p>
+<p>当路由器报警标签位位于栈顶时，它向LSR发出警告说，该报文需特别注意，这样一来该报文就不会通过硬件传输，而是通过软件进程传输。一旦这个报文开始被转发，标签1首先被移除，接下来LSR在LFIB中对标签栈中的下一个标签进行查找然后执行相应的标签操作（添加、移除、交换），标签1又会被添加到标签的顶部，最后才被转发出去。</p>
+<h4 id="OAM标签报警"><a href="#OAM标签报警" class="headerlink" title="OAM标签报警"></a>OAM标签报警</h4><p>OAM用于错误检测、定位和监控实施，该标签将普通报文和OAM报文区分开，思科执行MPLS OAM时不适用标签14来实现。</p>
+<h2 id="标签模式"><a href="#标签模式" class="headerlink" title="标签模式"></a>标签模式</h2><p>MPLS有两种模式，一种是Frame Mode（帧模式），另一种是Cell Mode（细胞模式），但现网中用的几乎都是Frame Mode，所以一般情况下只记住关于Frame Mode的知识点就够了。</p>
+<p>分配模式（Label Allocation）：Frame Mode 采用独立控制模式（Independent Control），只要本地通过IGP学习到路有前缀，就会为这条路由前缀分配标签，也会为直连路由分配POP标签。</p>
+<p>分发模式（Label Distribution）：Frame Mode采用下游主动模式（Downstream Unsolicited），本地会主动将所生成的标签映射消息通告给所有LDP邻居。</p>
+<p>保留模式（Label Retention）：Frame Mode采用自由模式（Liberal Retention），本地将从邻居接收到的所有标签映射消息保存在数据库中。</p>
+<p>标签空间（Label Space）：Frame Mode采用基于平台的模式（Per-Platform），本地通告出去的标签映射消息对全局有意义，从不同的接口通告出去的同一FEC对应的标签相同。</p>
+<h2 id="路由汇总对MPLS影响"><a href="#路由汇总对MPLS影响" class="headerlink" title="路由汇总对MPLS影响"></a>路由汇总对MPLS影响</h2><p><img src="/2022/01/20/17-MPLS/1614228556124-eec276a4-5dda-4f3e-ad54-20fc169bb1f8.png" alt="img"></p>
+<p>路由器E上有条路由10.1.1.0/24被通告出来，然后在C上做了汇总，汇总路由为10.1.0.0/16并通告给B。</p>
+<ul>
+<li><p>路由汇总将原先的一段LSP分割成了两端；</p>
+</li>
+<li><p>A将数据压上标签23，到路由器B上，将标签头弹出给C（PHP机制），C收到这个IP包去查找FIB表，又将数据压上标签55交给D，D最后查找LFIB并将标签弹出为IP包，将IP包交给E，E将该IP数据转发到目的地。</p>
+</li>
+<li><p>在这个环境中这样使用没有太大问题，但路由汇总在点到点的LSP环境下就会有比较大的问题，比如在MPLS VPN或MPLS TE中。</p>
+</li>
+</ul>
+<h2 id="环路检测"><a href="#环路检测" class="headerlink" title="环路检测"></a>环路检测</h2><ul>
+<li><p>LDP的环路检测机制依赖于IGP协议；</p>
+</li>
+<li><p>如果出现环路（一般是IGP出了问题，如静态路由的配置错误），标签头中的TTL将方式标签包无尽的被转发；</p>
+</li>
+<li><p>标签头中的TTL与IP头中的TTL是一样的，通常拷贝自IP头中的TTL值（当一个IP包进入MPLS网络时的TTL），这是TTL的Propagation；</p>
+</li>
+</ul>
+<h3 id="传统TTL操作"><a href="#传统TTL操作" class="headerlink" title="传统TTL操作"></a>传统TTL操作</h3><p><img src="/2022/01/20/17-MPLS/1614322971766-5febdffc-741d-4e2f-bdde-17cad05c6c06.png" alt="img"></p>
+<p>数据包被路由器A压上标签，标签头的TTL值拷贝自IP报头中的TTL值（当然要先减去1），并且随着数据帧在MPLS网络中传输，MPLS头中的TTL值在递减，直到减少到0后丢弃或直到数据帧出了MPLS域，那么IP头中的TTL才开始工作，出站时，标签头中的TTL减1后拷贝到IP头中的TTL。</p>
+<p>传统的TTL操作实际上存在一定的安全隐患，例如如果外人使用Traceroute命令的话，可能会暴露网络内部的结构，获取路径中所有设备的信息。</p>
+<p>为什么会暴露网络内部结构呢？假设路由器A下面有路由器E，路由器E用Traceroute到D下面的F路由器的网段，那么数据会从E传给A，在A上被打上标签传递给B，在B上标签TTL递减至0，此时B丢掉数据并返回ICMP出错消息给E，然后E将原来Traceroute的TTL+1，到C后数据也被丢掉返回ICMP出错消息给E，以此类推，最终E能收到路途中每一跳路由器返回的ICMP差错消息，了解到内部网络的信息。</p>
+<p>这时可以关闭TTL Propagation功能。</p>
+<h3 id="关闭TTL-Propagation"><a href="#关闭TTL-Propagation" class="headerlink" title="关闭TTL Propagation"></a>关闭TTL Propagation</h3><p><img src="/2022/01/20/17-MPLS/1614326806100-9f8ca2be-a4eb-4bb1-b4ac-d2f895bce8d5.png" alt="img"></p>
+<p>在A设备（一般在MPLS边界设备上）上配置‘no mpls ip propagate-ttl’特性。这样边界设备上加入标签头的时候，就不去拷贝原IP头里边的TTL值了，而是将TTL值配置为255。关闭TTL propagation可以避免MPLS网络因为Traceroute方式被暴露。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">no mpls ip propagate-ttl[forwarded | local]</span><br></pre></td></tr></table></figure>
+
+<p>forwarded关键字表示这条命令仅针对穿越本路由器的流量生效。Local关键字表示针对本地产生的流量生效。</p>
+<h3 id="TTL扩散行为"><a href="#TTL扩散行为" class="headerlink" title="TTL扩散行为"></a>TTL扩散行为</h3><p><img src="/2022/01/20/17-MPLS/1614327044811-96cb5b93-59a6-4bde-b5a2-66d5b4d76495.png" alt="img"></p>
+<p>前面描述的是IP——标签包的TTL扩散过程，现在来看一下标签到标签的TTL扩散过程。</p>
+<p>Swap这个过程很好理解，LSR在处理标签栈中有多个标签的标签数据时，只会处理顶层标签。因此Swap这个过程是在标签交换后，入站标签的TTL-1，然后拷贝到出站标签TTL上。</p>
+<p>Push也是类似的过程，只对顶层标签操作，首先入站顶层标签的TTL249先减1，然后新压入的标签头TTL拷贝这个数值。</p>
+<p>Pop则是顶层标签TTL-1然后弹出，新的TTL值被写入到出站数据的顶层标签上。</p>
+<h2 id="LDP-amp-IGP同步"><a href="#LDP-amp-IGP同步" class="headerlink" title="LDP&amp;IGP同步"></a>LDP&amp;IGP同步</h2><h3 id="基本概念-2"><a href="#基本概念-2" class="headerlink" title="基本概念"></a>基本概念</h3><h1 id="MPLS配置"><a href="#MPLS配置" class="headerlink" title="MPLS配置"></a>MPLS配置</h1><h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ip cef</span><br><span class="line">!</span><br><span class="line">mpls ldp router-id loopback0      #ldp的routerID使用loopback接口的IP地址</span><br><span class="line">mpls label protocol ldp           #标签协议使用LDP（默认是LDP不用特意配置）</span><br><span class="line">mpls label range 100 199          #指定本地标签范围，方便观察现象和排错</span><br><span class="line">!</span><br><span class="line">interface e0/0</span><br><span class="line"> mpls ip                          #接口上激活mpls，实际上是激活LDP</span><br></pre></td></tr></table></figure>
+
+<h3 id="邻居建立配置"><a href="#邻居建立配置" class="headerlink" title="邻居建立配置"></a>邻居建立配置</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mpls ldp discovery hello interval XXX</span><br><span class="line">修改LDP的Hello消息发送间隔，默认为5秒</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mpls ldp discovery holdtime XXX</span><br><span class="line">修改LDP的Holetime，默认为15秒</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果两个LDP邻居的LDPHoletime配置不相同，那么其中较小那个值会被用作LDP的Holdtime时间，Cisco IOS可能会对已配置的LDP Hello间隔进行重写。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mpls ldp backoff (initial-backoff) (maximum-backoff)</span><br><span class="line">initial-backoff默认15秒，maximum-backoff默认120秒。</span><br><span class="line">两台LDP邻居在交换参数时又一次发现不匹配的话，这条命令可以减缓两台LDP LSR之间尝试去简历LDP会话的时间，如果会话建立失败，那么下一次再尝试的间隔时间回成倍数增长，直到maximum-backoff计时器超时。</span><br></pre></td></tr></table></figure>
+
+<h3 id="show命令"><a href="#show命令" class="headerlink" title="show命令"></a>show命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">show ip cef detail</span><br><span class="line">show tcp brief</span><br><span class="line">show mpls ldp discovery detail</span><br><span class="line">show mpls ldp parameters</span><br><span class="line">show mpls ldp neighbor</span><br><span class="line">show mpls ldp dicovery</span><br><span class="line">show mpls forwarding-table</span><br><span class="line">show mpls ldp bindings</span><br></pre></td></tr></table></figure>
+
+<h2 id="实验1"><a href="#实验1" class="headerlink" title="实验1"></a>实验1</h2><p><img src="/2022/01/20/17-MPLS/1614395056568-6786a26e-203e-40ee-9dd9-abe2ee1d3269.png" alt="img"></p>
+<p><strong>实验环境</strong></p>
+<ul>
+<li><p>R1、R2、R3、R4运行OSPF，宣告直连接口以及loopback接口，loopback接口IP为X.X.X.X/32，X为设备编号，该IP同时为LDP RouterID；</p>
+</li>
+<li><p>设备互联网段如图所示，例如10.1.23.0/24是R2-R3互联地址段，R2接口IP为10.1.23.2，R3接口IP为10.1.23.3，以此类推；</p>
+</li>
+<li><p>在所有设备上激活LDP，为了方便观察现象，为每台设备指定Label Range，如R1的Label Range为100-199，R2为200-299，以此类推；</p>
+</li>
+</ul>
+<p><strong>实验需求</strong></p>
+<ul>
+<li><p>认识FIB、LIB、LFIB表；</p>
+</li>
+<li><p>了解LDP邻居关系建立过程；</p>
+</li>
+<li><p>了解数据在MPLS域中的转发过程；</p>
+</li>
+</ul>
+<p><strong>实验配置</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line">R1：</span><br><span class="line"></span><br><span class="line">ip cef</span><br><span class="line">!</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 1.1.1.1 255.255.255.255</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 10.1.12.1 255.255.255.0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 1.1.1.1</span><br><span class="line"> network 1.1.1.1 0.0.0.0 area 0</span><br><span class="line"> network 10.1.12.1 0.0.0.0 area 0</span><br><span class="line">!</span><br><span class="line">ip forward-protocol nd</span><br><span class="line">!</span><br><span class="line">!</span><br><span class="line">no ip http server</span><br><span class="line">no ip http secure-server</span><br><span class="line">!</span><br><span class="line">mpls ldp router-id Loopback0</span><br><span class="line">mpls label range 100 199</span><br><span class="line">interface e0/0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">interface e0/1</span><br><span class="line"> mpls ip</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">R2:</span><br><span class="line"> </span><br><span class="line">ip cef</span><br><span class="line"> !</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 2.2.2.2 255.255.255.255</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 10.1.12.2 255.255.255.0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> ip address 10.1.23.2 255.255.255.0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/2</span><br><span class="line"> no ip address</span><br><span class="line"> shutdown</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/3</span><br><span class="line"> no ip address</span><br><span class="line"> shutdown</span><br><span class="line">!</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 2.2.2.2</span><br><span class="line"> network 0.0.0.0 255.255.255.255 area 0</span><br><span class="line">!</span><br><span class="line">mpls ldp router-id Loopback0</span><br><span class="line">mpls label range 200 299</span><br><span class="line">interface e0/0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">interface e0/1</span><br><span class="line"> mpls ip</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">R3:</span><br><span class="line"></span><br><span class="line">ip cef</span><br><span class="line">!</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 3.3.3.3 255.255.255.255</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 10.1.23.3 255.255.255.0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> ip address 10.1.34.3 255.255.255.0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 3.3.3.3</span><br><span class="line"> network 0.0.0.0 255.255.255.255 area 0</span><br><span class="line">!</span><br><span class="line">mpls ldp router-id Loopback0</span><br><span class="line">!</span><br><span class="line">mpls label range 300 399</span><br><span class="line">interface e0/0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">interface e0/1</span><br><span class="line"> mpls ip</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R4:</span><br><span class="line"></span><br><span class="line">ip cef</span><br><span class="line">!</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 4.4.4.4 255.255.255.255</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 10.1.34.4 255.255.255.0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 4.4.4.4</span><br><span class="line"> network 0.0.0.0 255.255.255.255 area 0</span><br><span class="line">!</span><br><span class="line">mpls ldp router-id Loopback0</span><br><span class="line">!</span><br><span class="line">mpls label range 400 499</span><br><span class="line">interface e0/0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">interface e0/1</span><br><span class="line"> mpls ip</span><br></pre></td></tr></table></figure>
+
+<p>配置OSPF的时候，偷懒使用了network 0.0.0.0 0.0.0.0 area 0的方式，在生产网配置的时候，还是尽量采用更规范的方式配置。</p>
+<p><strong>实验现象</strong></p>
+<p>完成上述配置后，可以检验一下，路由全网是互通的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">R1#show mpls ldp neighbor</span><br><span class="line">    Peer LDP Ident: 2.2.2.2:0; Local LDP Ident 1.1.1.1:0</span><br><span class="line">        TCP connection: 2.2.2.2.62247 - 1.1.1.1.646</span><br><span class="line">        State: Oper; Msgs sent/rcvd: 33/33; Downstream</span><br><span class="line">        Up time: 00:20:08</span><br><span class="line">        LDP discovery sources:</span><br><span class="line">          Ethernet0/0, Src IP addr: 10.1.12.2</span><br><span class="line">        Addresses bound to peer LDP Ident:</span><br><span class="line">          10.1.12.2       10.1.23.2       2.2.2.2</span><br></pre></td></tr></table></figure>
+
+<p>上面是R1上显示的LDP邻居，‘Peer LDP Ident: 2.2.2.2:0;’说明邻居的LDP Router ID是2.2.2.2，Label space ID=0，说明是基于平台的标签空间（本地通告出去的标签映射消息对全局有意义，从不同的接口通告出去的同一FEC对应的标签相同）。</p>
+<p>‘TCP connection: 2.2.2.2.62247 - 1.1.1.1.646’表示这个LDP连接是建立在TCP的1.1.1.1源端口646，到目的地2.2.2.2的62247端口，因为2.2.2.2的IP地址更大，所以它是发起方。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">R1#show mpls ldp bindings             #看R1的LIB表</span><br><span class="line">  lib entry: 1.1.1.1/32, rev 2</span><br><span class="line">        local binding:  label: imp-null</span><br><span class="line">        remote binding: lsr: 2.2.2.2:0, label: 200</span><br><span class="line">  lib entry: 2.2.2.2/32, rev 4</span><br><span class="line">        local binding:  label: 100</span><br><span class="line">        remote binding: lsr: 2.2.2.2:0, label: imp-null</span><br><span class="line">  lib entry: 3.3.3.3/32, rev 6</span><br><span class="line">        local binding:  label: 101</span><br><span class="line">        remote binding: lsr: 2.2.2.2:0, label: 203</span><br><span class="line">  lib entry: 4.4.4.4/32, rev 8</span><br><span class="line">        local binding:  label: 102</span><br><span class="line">        remote binding: lsr: 2.2.2.2:0, label: 201</span><br><span class="line">  lib entry: 10.1.12.0/24, rev 10</span><br><span class="line">        local binding:  label: imp-null</span><br><span class="line">        remote binding: lsr: 2.2.2.2:0, label: imp-null</span><br><span class="line">  lib entry: 10.1.23.0/24, rev 12</span><br><span class="line">        local binding:  label: 103</span><br><span class="line">        remote binding: lsr: 2.2.2.2:0, label: imp-null</span><br><span class="line">  lib entry: 10.1.34.0/24, rev 14</span><br><span class="line">        local binding:  label: 104</span><br><span class="line">        remote binding: lsr: 2.2.2.2:0, label: 202</span><br></pre></td></tr></table></figure>
+
+<p>一旦LDP激活后，LDR会为路由表中的前缀在本地产生一个标签，然后和前缀捆绑在一起，将这个标签映射消息发送给所有LDP邻居。当我收到LDP邻居发来的标签（Remote Binding），针对某些前缀的标签捆绑后，路由器会将这些邻居发来的标签，以及本地为前缀捆绑的标签放置于LIB中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  lib entry: 3.3.3.3/32, rev 6</span><br><span class="line">        local binding:  label: 101</span><br><span class="line">        remote binding: lsr: 2.2.2.2:0, label: 203</span><br><span class="line">        </span><br><span class="line">比如R1的LIB中关于3.3.3.3/32这条前缀的标签，本地为该前缀捆绑的标签为101，从LDP邻居2.2.2.2（也就是R2）发来的标签为203</span><br></pre></td></tr></table></figure>
+
+<p>当然，并不是LIB中的所有remote标签都会被用上，我们还需结合FIB表，来获得有关前缀的下一跳信息，最后形成LFIB表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">R1#show mpls forwarding-table</span><br><span class="line">Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop</span><br><span class="line">Label      Label      or Tunnel Id     Switched      interface</span><br><span class="line">100        Pop Label  2.2.2.2/32       0             Et0/0      10.1.12.2</span><br><span class="line">101        203        3.3.3.3/32       0             Et0/0      10.1.12.2</span><br><span class="line">102        201        4.4.4.4/32       0             Et0/0      10.1.12.2</span><br><span class="line">103        Pop Label  10.1.23.0/24     0             Et0/0      10.1.12.2</span><br><span class="line">104        202        10.1.34.0/24     0             Et0/0      10.1.12.2</span><br></pre></td></tr></table></figure>
+
+<p>现在来看一下当R1要发送数据去往R4的loopback接口4.4.4.4时，数据时如何传送的。</p>
+<p>首先分析一下<strong>控制层面</strong>：</p>
+<p>在R4上用命令‘show mpls ldp binding’查看R4为4.4.4.4绑定的标签：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lib entry: 4.4.4.4/32, rev 8</span><br><span class="line">      local binding:  label: imp-null</span><br></pre></td></tr></table></figure>
+
+<p>由于4.4.4.4是R4上的loopback接口，所以R4为该前缀分配的标签为‘imp-null’也就是隐式空，R4将这个标签发送给R3，R3就知道当有MPLS数据前往4.4.4.4时，R3需要对该MPLS数据执行POP动作：</p>
+<p><img src="/2022/01/20/17-MPLS/1614399239899-c825875e-9e96-488b-b726-be987368a072.png" alt="img"></p>
+<p>R3上通过查询LIB表得知，R3为前缀4.4.4.4分配的标签为302，同时它还从2.2.2.2和4.4.4.4都收到了LDP邻居分配的标签：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lib entry: 4.4.4.4/32, rev 8</span><br><span class="line">      local binding:  label: 302</span><br><span class="line">      remote binding: lsr: 2.2.2.2:0, label: 201</span><br><span class="line">      remote binding: lsr: 4.4.4.4:0, label: imp-null</span><br></pre></td></tr></table></figure>
+
+<p>然后R3将自己为4.4.4.4分配的标签302发给R2：</p>
+<p><img src="/2022/01/20/17-MPLS/1614399754426-ed51ae3a-7297-4d7b-a8a2-71de3916b2b3.png" alt="img"></p>
+<p>R2上通过查询LIB表得知，R2为前缀4.4.4.4分配的标签为201，同时它从1.1.1.1和3.3.3.3都收到了LDP邻居分配的标签：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lib entry: 4.4.4.4/32, rev 6</span><br><span class="line">      local binding:  label: 201</span><br><span class="line">      remote binding: lsr: 1.1.1.1:0, label: 102</span><br><span class="line">      remote binding: lsr: 3.3.3.3:0, label: 302</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/01/20/17-MPLS/1614399988211-a0663356-6874-40be-b2b6-b9422efdec0a.png" alt="img"></p>
+<p>R1上通过查询LIB表得知，R1从R2收到了LDP邻居分配的标签：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lib entry: 4.4.4.4/32, rev 8</span><br><span class="line">      local binding:  label: 102</span><br><span class="line">      remote binding: lsr: 2.2.2.2:0, label: 201</span><br></pre></td></tr></table></figure>
+
+<p>现在来看看<strong>数据层面</strong></p>
+<p>当R1要去ping 4.4.4.4时，R1查自己的FIB也就是CEF表，此时是一个IP查找：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R1#show ip cef 4.4.4.4</span><br><span class="line">4.4.4.4/32</span><br><span class="line">  nexthop 10.1.12.2 Ethernet0/0 label 201</span><br></pre></td></tr></table></figure>
+
+<p>CEF条目指示，要去往4.4.4.4，需要给IP报文压上标签成为MPLS数据，标签值为201，然后将数据丢给下一跳，10.1.12.2，从E0/0口发出，由于只有一层标签，所以BOS位为1，具体抓包如下：</p>
+<p><img src="/2022/01/20/17-MPLS/1614407204777-d93d35a6-6709-4b5a-b89e-bce3be3cfa06.png" alt="img"></p>
+<p>接下来看R2，当R2收到这个标签包后，从它的二层以太网帧头的字段类型得知，这是一个标签包，因为Type字段值为0X8847，因此去查找自己的LFIB表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R2#show mpls forwarding-table</span><br><span class="line">Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop</span><br><span class="line">Label      Label      or Tunnel Id     Switched      interface</span><br><span class="line">200        Pop Label  1.1.1.1/32       0             Et0/0      10.1.12.1</span><br><span class="line">201        302        4.4.4.4/32       590           Et0/1      10.1.23.3</span><br></pre></td></tr></table></figure>
+
+<p>这个入站标签包的标签值为201，在R2的LFIB表中显示，要将标签Swap替换成302，然后从E0/1口发出，于是R2将标签替换成302然后发送给了R3。</p>
+<p><img src="/2022/01/20/17-MPLS/1614407807099-18bd06c7-6913-4a1f-93c7-5c9dafc08757.png" alt="img"></p>
+<p>R3收到了这个MPLS数据，同样先查看自己的LFIB：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">R3# show mpls forwarding-table</span><br><span class="line">Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop</span><br><span class="line">Label      Label      or Tunnel Id     Switched      interface</span><br><span class="line">300        200        1.1.1.1/32       0             Et0/0      10.1.23.2</span><br><span class="line">301        Pop Label  2.2.2.2/32       0             Et0/0      10.1.23.2</span><br><span class="line">302        Pop Label  4.4.4.4/32       570           Et0/1      10.1.34.4</span><br><span class="line">303        Pop Label  10.1.12.0/24     570           Et0/0      10.1.23.2</span><br></pre></td></tr></table></figure>
+
+<p>R3发现，入站标签为302的MPLS数据，出站标签是POP，于是它将顶层标签（实际上只有一层标签）弹出，然后直接将弹出的数据丢给10.1.34.4，注意，此时它无需再查询FIB表，因为LFIB表中已经有下一跳信息了，最终这个数据被传到了R4。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">R1#traceroute 4.4.4.4</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Tracing the route to 4.4.4.4</span><br><span class="line">VRF info: (vrf in name/id, vrf out name/id)</span><br><span class="line">  1 10.1.12.2 [MPLS: Label 201 Exp 0] 2 msec 1 msec 1 msec</span><br><span class="line">  2 10.1.23.3 [MPLS: Label 302 Exp 0] 1 msec 1 msec 1 msec</span><br><span class="line">  3 10.1.34.4 1 msec 1 msec *</span><br></pre></td></tr></table></figure>
+
+<h2 id="关于OSPF"><a href="#关于OSPF" class="headerlink" title="关于OSPF"></a>关于OSPF</h2><p>在前面的配置中，所有设备的loopback接口都是/32位的，因此没出问题，现在我们来看看R1：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">R1#show mpls forwarding-table</span><br><span class="line">Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop</span><br><span class="line">Label      Label      or Tunnel Id     Switched      interface</span><br><span class="line">100        Pop Label  2.2.2.2/32       0             Et0/0      10.1.12.2</span><br><span class="line">101        203        3.3.3.3/32       0             Et0/0      10.1.12.2</span><br><span class="line">102        201        4.4.4.4/32       0             Et0/0      10.1.12.2</span><br><span class="line">103        Pop Label  10.1.23.0/24     0             Et0/0      10.1.12.2</span><br><span class="line">104        202        10.1.34.0/24     0             Et0/0      10.1.12.2</span><br></pre></td></tr></table></figure>
+
+<p>来看关于2.2.2.2/32这条，现在的Outgoing Label是Pop Label，也就是空标签，现在我们将R2的loopback接口改为24位掩码，也就是2.2.2.2/24，看会有什么现象。</p>
+<p><img src="/2022/01/20/17-MPLS/1614408697600-c31d0b39-2996-44db-85b3-e3251763c538.png" alt="img"></p>
+<p>标签从POP编程了No Label（也就是Untaged）了，为什么呢？我们修改了R2的loopback接口地址的掩码，从32位变成了24位，那么对于R2自己这个直连路由就是2.2.2.0/24，R2会为该前缀分配标签，由于是直连，所以R2给这条前缀分配了个空标签3，然后将标签映射消息发送给其他LDP邻居，比如R1和R3：</p>
+<p><img src="/2022/01/20/17-MPLS/1614409192066-8f1ad9db-c8ca-4ddd-90f9-277657013d25.png" alt="img"></p>
+<p>R1和R3收到了这个标签，前缀是2.2.2.0/24，标签是3，与此同时，他们也收到了R2更新过来的路由，由于loopback接口的路由被OSPF更新默认是采用/32位的方式更新的，因此R1和R3上学到的关于2.2.2.2的路由是32位的，那么就有问题了，我这条路由的条目是2.2.2.2/32，但标签信息中却是2.2.2.0/24的，不匹配。于是R1就认为通过标签到不了2.2.2.2/32，所以分配了No Label（也就是Untaged）的标签，因为R1认为MPLS到不了2.2.2.2/32，但路由中有该前缀的路由所以用传统的IP数据包肯定能到，于是将所有MPLS标签头弹出（No label\Untag）变成IP数据包再查找FIB表是符合逻辑的，在这个网络环境中貌似没什么问题，但在许多环境下，却会出现问题，比如MPLS VPN这个环境中，如何解决呢？在R2的loopback接口上配置‘ip ospf network point-2-point’或者修改掩码都可以。</p>
+<h2 id="高级特性"><a href="#高级特性" class="headerlink" title="高级特性"></a>高级特性</h2><h3 id="TTL-Propagate"><a href="#TTL-Propagate" class="headerlink" title="TTL-Propagate"></a>TTL-Propagate</h3><p>在上面实验中，R1上Traceroute4.4.4.4的输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">R1#traceroute 4.4.4.4</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Tracing the route to 4.4.4.4</span><br><span class="line">VRF info: (vrf in name/id, vrf out name/id)</span><br><span class="line">  1 10.1.12.2 [MPLS: Label 201 Exp 0] 2 msec 1 msec 1 msec</span><br><span class="line">  2 10.1.23.3 [MPLS: Label 302 Exp 0] 1 msec 1 msec 1 msec</span><br><span class="line">  3 10.1.34.4 1 msec 1 msec *</span><br></pre></td></tr></table></figure>
+
+<p>可以看到每一跳的地址以及标签都清晰可见，这样会有安全性上的风险，因此通过在LER边界路由器（ingress路由器和egress路由器上都要配置）上关闭ttl-propagate特性可以隐藏MPLS中间的路由信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#no mpls ip propagate-ttl</span><br><span class="line">R1(config)#do traceroute 4.4.4.4</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Tracing the route to 4.4.4.4</span><br><span class="line">VRF info: (vrf in name/id, vrf out name/id)</span><br><span class="line">  1 10.1.34.4 2 msec 4 msec *</span><br></pre></td></tr></table></figure>
+
+<h3 id="targeted邻居关系建立"><a href="#targeted邻居关系建立" class="headerlink" title="targeted邻居关系建立"></a>targeted邻居关系建立</h3><h3 id="LDP认证"><a href="#LDP认证" class="headerlink" title="LDP认证"></a>LDP认证</h3><p>LDP会话是一种TCP会话，TCP会话可能会受到TCP碎片欺骗的攻击，可以使用LDP认证来进行保护，MD5将添加一个签名，又叫做MD5摘要，到TCP分段中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mpls ldp neighbor [vrf vrf-name] ip-address password [0 | 7] password-string</span><br><span class="line">例如：</span><br><span class="line">Router(config)# mpls ldp neighbor vrf vpn1 10.1.1.1 password nbrce1pwd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用命令show mpls ldp neighbor [vrf vrf-name] [ip-address | interface] [detail] [graceful-restart]查看配置情况</span><br><span class="line">Router# show mpls ldp neighbor vrf vpn1 detail</span><br></pre></td></tr></table></figure>
+
+<h3 id="LDP-autoconfig"><a href="#LDP-autoconfig" class="headerlink" title="LDP autoconfig"></a>LDP autoconfig</h3><p>通常的做法是在每个运行IGP的接口上使用‘mpls ip’来激活LDP协议，但有一种更简单的办法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> mpls ldp autoconfig area 0</span><br></pre></td></tr></table></figure>
+
+<p>所有ospf中属于area 0的接口都将自动激活LDP，如果某个特定接口不希望激活LDP协议，可以使用‘no mpls ldp igp来关闭LDP’</p>
+<p><img src="/2022/01/20/17-MPLS/1614411688860-abf76105-ebad-4587-a852-dc0e468aa3a6.png" alt="img"></p>
+<h1 id="MPLS环境下的BGP路由传递"><a href="#MPLS环境下的BGP路由传递" class="headerlink" title="MPLS环境下的BGP路由传递"></a>MPLS环境下的BGP路由传递</h1><p>MPLS不会为BGP路由分配标签，但会为BGP路由的下一跳分配标签。</p>
+<h2 id="实验1-1"><a href="#实验1-1" class="headerlink" title="实验1"></a>实验1</h2><p><img src="/2022/01/20/17-MPLS/1614412798115-45537f1e-7b89-42f2-bb5d-20322514a556.png" alt="img"></p>
+<p><strong>拓扑环境描述：</strong></p>
+<ul>
+<li><p>R1、R2、R3、R4处于Transit AS 1234，在AS内运行的IGP协议是OSPF；</p>
+</li>
+<li><p>所有的互联网IP如图所示；</p>
+</li>
+<li><p>所有设备的loopback接口地址为x.x.x.x/32，x为设备编号；</p>
+</li>
+<li><p>R1与R4之间建立IBGP邻接关系，IBGP邻接关系建立在物理接口上，R1与R5，R4与R6之间建立EBGP邻接关系，也是建立在物理接口上；</p>
+</li>
+<li><p>在这个实验中，在OSPF中宣告R1-R5和R4-R6的直连网段；</p>
+</li>
+<li><p>R5和R6各自在BGP进程中宣告自己的loopback路由；</p>
+</li>
+</ul>
+<p>由于R2\R3没有运行BGP协议，并且Core OSPF内也没有5.5.5.0及6.6.6.0的路由，因此最终结果是R5和R6虽然能够学习到彼此的路由，但却无法相互访问，因为R2\R3上出现了路由黑洞。解决办法就是用MPLS，下面我们将Core变成MPLS域：</p>
+<p>分别在R1-R4四台路由器上配置MPLS的LDP Router ID，标签范围以及在接口上激活LDP协议：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><span class="line">R1：</span><br><span class="line"></span><br><span class="line">ip cef</span><br><span class="line">!</span><br><span class="line">mpls label range 100 199</span><br><span class="line">!</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 1.1.1.1 255.255.255.255</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 10.1.12.1 255.255.255.0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> ip address 10.1.15.1 255.255.255.0</span><br><span class="line">!</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 1.1.1.1</span><br><span class="line"> network 1.1.1.1 0.0.0.0 area 0</span><br><span class="line"> network 10.1.12.1 0.0.0.0 area 0</span><br><span class="line"> network 10.1.15.1 0.0.0.0 area 0</span><br><span class="line">!</span><br><span class="line">router bgp 1234</span><br><span class="line"> bgp router-id 1.1.1.1</span><br><span class="line"> bgp log-neighbor-changes</span><br><span class="line"> neighbor 10.1.15.5 remote-as 500</span><br><span class="line"> neighbor 10.1.34.4 remote-as 1234</span><br><span class="line">!</span><br><span class="line">mpls ldp router-id Loopback0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R2：</span><br><span class="line"></span><br><span class="line">ip cef</span><br><span class="line">no ipv6 cef</span><br><span class="line">!</span><br><span class="line">mpls label range 200 299</span><br><span class="line">!</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 2.2.2.2 255.255.255.255</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 10.1.12.2 255.255.255.0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> ip address 10.1.23.2 255.255.255.0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 2.2.2.2</span><br><span class="line"> network 0.0.0.0 255.255.255.255 area 0</span><br><span class="line">!</span><br><span class="line">mpls ldp router-id Loopback0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R3:</span><br><span class="line"></span><br><span class="line">ip cef</span><br><span class="line">!</span><br><span class="line">mpls label range 300 399</span><br><span class="line">!</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 3.3.3.3 255.255.255.255</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 10.1.23.3 255.255.255.0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> ip address 10.1.34.3 255.255.255.0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 3.3.3.3</span><br><span class="line"> network 0.0.0.0 255.255.255.255 area 0</span><br><span class="line">!</span><br><span class="line">mpls ldp router-id Loopback0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R4:</span><br><span class="line"></span><br><span class="line">ip cef</span><br><span class="line">!</span><br><span class="line">mpls label range 400 499</span><br><span class="line">!</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 4.4.4.4 255.255.255.255</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 10.1.34.4 255.255.255.0</span><br><span class="line"> mpls ip</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> ip address 10.1.46.4 255.255.255.0</span><br><span class="line">!</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 4.4.4.4</span><br><span class="line"> network 4.4.4.4 0.0.0.0 area 0</span><br><span class="line"> network 10.1.34.4 0.0.0.0 area 0</span><br><span class="line"> network 10.1.46.4 0.0.0.0 area 0</span><br><span class="line">!</span><br><span class="line">router bgp 1234</span><br><span class="line"> bgp router-id 4.4.4.4</span><br><span class="line"> bgp log-neighbor-changes</span><br><span class="line"> neighbor 10.1.12.1 remote-as 1234</span><br><span class="line"> neighbor 10.1.46.6 remote-as 600</span><br><span class="line">!</span><br><span class="line">mpls ldp router-id Loopback0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R5:</span><br><span class="line"></span><br><span class="line">ip cef</span><br><span class="line">!</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 5.5.5.5 255.255.255.255</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 10.1.15.5 255.255.255.0</span><br><span class="line">!</span><br><span class="line">router bgp 500</span><br><span class="line"> bgp router-id 5.5.5.5</span><br><span class="line"> bgp log-neighbor-changes</span><br><span class="line"> network 5.5.5.5 mask 255.255.255.255</span><br><span class="line"> neighbor 10.1.15.1 remote-as 1234</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R6:</span><br><span class="line"></span><br><span class="line">ip cef</span><br><span class="line">!</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 6.6.6.6 255.255.255.255</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 10.1.46.6 255.255.255.0</span><br><span class="line">!</span><br><span class="line">router bgp 600</span><br><span class="line"> bgp router-id 6.6.6.6</span><br><span class="line"> bgp log-neighbor-changes</span><br><span class="line"> network 6.6.6.6 mask 255.255.255.255</span><br><span class="line"> neighbor 10.1.46.4 remote-as 1234</span><br></pre></td></tr></table></figure>
+
+<p>R1-R4运行了LDP协议后，LDP默认不会为BGP路由分配标签，但我们也知道，BGP路由都有nexthop，这个下一跳是IGP路由可达的，LDP则会为这条（下一跳地址所在的）路由分配标签，这一点非常重要。这样一来，5.5.5.5和6.6.6.6之间就能够互访了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">R6#ping  5.5.5.5 source 6.6.6.6</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending 5, 100-byte ICMP Echos to 5.5.5.5, timeout is 2 seconds:</span><br><span class="line">Packet sent with a source address of 6.6.6.6</span><br><span class="line">!!!!!</span><br><span class="line">Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/3 ms</span><br></pre></td></tr></table></figure>
+
+<p>R6上关于5.5.5.5的路由为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R6#show ip cef 5.5.5.5</span><br><span class="line">5.5.5.5/32</span><br><span class="line">  nexthop 10.1.46.4 Ethernet0/0</span><br></pre></td></tr></table></figure>
+
+<p>于是R6将数据从E0/0口发送给R4。此时R4上的CEF表项为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R4#show ip cef 5.5.5.5 detail</span><br><span class="line">5.5.5.5/32, epoch 0, flags [rib only nolabel, rib defined all labels]</span><br><span class="line">  recursive via 10.1.15.5</span><br><span class="line">    recursive via 10.1.15.0/24</span><br><span class="line">      nexthop 10.1.34.3 Ethernet0/0 label 304</span><br></pre></td></tr></table></figure>
+
+<p>R4上路由表中关于5.5.5.5路由的下一跳为10.1.15.5，而10.1.15.5的路由下一跳为10.1.34.3，也就是R3，CEF表项在进行了递归查询以后，将该数据压上了值为304的标签头，从E0/0口发出给R3。但LDP是不会为BGP路由分配标签的，但会为BPG路由的下一跳，这里BGP路由的下一跳是10.1.15.5，为它分配标签，304。R3收到标签头为304的MPLS数据后，查询LFIB表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">R3#show mpls forwarding-table</span><br><span class="line">Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop</span><br><span class="line">Label      Label      or Tunnel Id     Switched      interface</span><br><span class="line">300        200        1.1.1.1/32       0             Et0/0      10.1.23.2</span><br><span class="line">301        Pop Label  2.2.2.2/32       0             Et0/0      10.1.23.2</span><br><span class="line">302        Pop Label  4.4.4.4/32       0             Et0/1      10.1.34.4</span><br><span class="line">303        Pop Label  10.1.12.0/24     11482         Et0/0      10.1.23.2</span><br><span class="line">304        203        10.1.15.0/24     5016          Et0/0      10.1.23.2</span><br><span class="line">305        Pop Label  10.1.46.0/24     5196          Et0/1      10.1.34.4</span><br></pre></td></tr></table></figure>
+
+<p>发现Local Label为304的数据接下来应该将标签Swap替换成203，然后从E0/0口发出给下一跳为10.1.23.2，也就是发送给R2。R2收到标签头为203的MPLS数据后，查询LFIB表后发现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">R2#show mpls forwarding-table</span><br><span class="line">Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop</span><br><span class="line">Label      Label      or Tunnel Id     Switched      interface</span><br><span class="line">200        Pop Label  1.1.1.1/32       0             Et0/0      10.1.12.1</span><br><span class="line">201        Pop Label  3.3.3.3/32       0             Et0/1      10.1.23.3</span><br><span class="line">202        302        4.4.4.4/32       0             Et0/1      10.1.23.3</span><br><span class="line">203        Pop Label  10.1.15.0/24     5570          Et0/0      10.1.12.1</span><br><span class="line">204        Pop Label  10.1.34.0/24     9868          Et0/1      10.1.23.3</span><br><span class="line">205        305        10.1.46.0/24     5130          Et0/1      10.1.23.3</span><br></pre></td></tr></table></figure>
+
+<p>本地标签为203的下个标签为POP，也就是将头部标签弹出，变成了IP数据包。这里为什么会POP呢？因为这条BGP路由其实用的是它下一跳10.1.15.0的标签，而10.1.15.0是R1的直连网段，因此R1在这里为这个直连网段分配了POP的标签，将这个结果发送给了R2。然后查询过CEF表后发现，该数据的下一跳为10.1.12.1，从E0/0口发出给R1，之所以要查两个表示因为入站为MPLS数据出站为IP数据的，输入时走LFIB表，输出时使用FIB（CEF）表。于是将IP数据发给了R1，而R1上是有5.5.5.5/32的路由的，15.5和R1直连，从而完成了数据传输：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">B        5.5.5.5 [20/0] via 10.1.15.5, 01:21:08</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/01/20/17-MPLS/1614419007456-0df6b8ab-545f-428b-8c91-25516316a4e5.png" alt="img"></p>
+<h2 id="实验2"><a href="#实验2" class="headerlink" title="实验2"></a>实验2</h2><p>在上面的实验中，在Core的OSPF中宣告了R1-R5以及R4-R6的直连网段，然而在实际中不会宣告这条AS外的链路，所以现在不在OSPF中宣告10.1.15.0以及10.1.46.0这两个路由，停止宣告后由于OSPF没有了这两个直连网段的路由，那么5.5.5.5和6.6.6.6学到以后在本地就不是最优路由了，所以需要在R1对R4以及R4对R1上使用nexthopself的命令，配置过后，R4上去往5.5.5.5的下一跳为10.1.12.1，当6.6.6.6访问5.5.5.5的时候IP包到达R4，R4查CEF并且为IP包压上标签，此时R4会使用10.1.12.0这条路由的标签（因为MPLS只会给BGP的下一跳分配标签，在这里12.0就是去往5.5.5.5的下一跳），而这个标签是R3分配的，那么这个标签包被传递到了R3，R3会如何处理？R3会将标签POP变成IP包然后丢给R2，因为R2为路由10.1.12.0分配的标签就是POP，12.0是R2的直连网段，这里有次末跳弹出机制。那么这个IP包到了R2就被丢弃了，因为R2根本没有6.6.6.6和5.5.5.5的路由，该怎么办呢？用R1和R4的loopback接口建立IBGP邻居。之前使用物理接口建立IBGP邻居时为了更好的理解MPLS环境下BGP路由的问题，现在在R1\R4上使用loopback接口来建立IBGP邻居关系，这样问题就解决了。R4上去往5.5.5.5的下一跳是R1的loopback接口地址，所以R4在给去往5.5.5.5的IP包亚标签的时候，压入的是1.1.1.1/32路由的标签，R2\R3也一样，那么标签就能通过1.1.1.1/32打通的LSP一路传到R2并在R2这里弹出标签变为IP包再传递给R1，R1再将IP包发给R5。</p>
+<p>因此路由器不会对BGP路由直接分配标签，而是为BGP路由通过递归后的下一跳路由分配标签，这样做是很有好处的。BGP中的路由条目相当多，如此一来我们通过MPLS，可以大大简化路由器的性能损耗，BGP的Transit AS的路由黑洞也得到了很好的解决。</p>
+<h1 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h1><p><a target="_blank" rel="noopener" href="https://networklessons.com/mpls/introduction-to-mpls/">Introduction to MPLS</a></p>
+<p><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/routing/rib-fib-lib-lfib/m-p/3917174">RIB,FIB,LIB,LFIB</a></p>
+<p><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/mpls/relationship-between-lib-fib-and-lfib/td-p/782307">Relationship between LIB,FIB and LFIB</a></p>
+<p><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/mpls/lfib-table/m-p/1835742">LFIB table</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.51cto.com/361531/1693692">MPLS 2个转发平面</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Rookie</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://renyuan431.github.io/2022/01/20/17-MPLS/">https://renyuan431.github.io/2022/01/20/17-MPLS/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://renyuan431.github.io" target="_blank">Rookie的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/index.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechatpay.png" target="_blank"><img class="post-qr-code-img" src="/img/wechatpay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.png" target="_blank"><img class="post-qr-code-img" src="/img/alipay.png" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/01/20/18-MPLSVPN/"><img class="prev-cover" src="/img/index.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">18-MPLSVPN</div></div></a></div><div class="next-post pull-right"><a href="/2022/01/20/16-IPV6/"><img class="next-cover" src="/img/index.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">16-IPV6</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Rookie</div><div class="author-info__description"></div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%98%E5%9C%A8%E6%84%8F%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">存在意义</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81MPLS"><span class="toc-number">1.1.</span> <span class="toc-text">为什么需要MPLS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMPLS"><span class="toc-number">1.2.</span> <span class="toc-text">什么是MPLS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">2.</span> <span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B"><span class="toc-number">2.1.</span> <span class="toc-text">协议简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">2.2.</span> <span class="toc-text">优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E5%BC%A0%E5%9B%BE%E6%A6%82%E8%BF%B0"><span class="toc-number">2.3.</span> <span class="toc-text">一张图概述</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MPLS%E6%A0%87%E7%AD%BE"><span class="toc-number">3.</span> <span class="toc-text">MPLS标签</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">3.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LSR"><span class="toc-number">3.1.1.</span> <span class="toc-text">LSR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSP"><span class="toc-number">3.1.2.</span> <span class="toc-text">LSP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FEC"><span class="toc-number">3.1.3.</span> <span class="toc-text">FEC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-CE-PE-P%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="toc-number">3.1.4.</span> <span class="toc-text">C\CE\PE\P路由器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">标签格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E5%A0%86%E6%A0%88"><span class="toc-number">3.3.</span> <span class="toc-text">标签堆栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">3.4.</span> <span class="toc-text">标签相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E5%BC%A0%E8%A1%A8"><span class="toc-number">3.4.1.</span> <span class="toc-text">几张表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E5%BC%A0%E8%A1%A8%E7%9A%84%E5%85%B3%E8%81%94"><span class="toc-number">3.4.2.</span> <span class="toc-text">几张表的关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">3.4.3.</span> <span class="toc-text">为什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E5%93%AA%E5%BC%A0%E8%A1%A8"><span class="toc-number">3.4.4.</span> <span class="toc-text">查哪张表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BEQ-amp-A"><span class="toc-number">3.4.5.</span> <span class="toc-text">标签Q&amp;A</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BOS%E4%BD%8D"><span class="toc-number">3.5.</span> <span class="toc-text">BOS位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MPLS%E6%9E%84%E6%9E%B6"><span class="toc-number">3.6.</span> <span class="toc-text">MPLS构架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E5%A4%84%E7%90%86"><span class="toc-number">3.7.</span> <span class="toc-text">标签处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E5%8A%A8%E4%BD%9C"><span class="toc-number">3.7.1.</span> <span class="toc-text">标签动作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#POP-amp-Untag"><span class="toc-number">3.7.1.1.</span> <span class="toc-text">POP&amp;Untag</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0"><span class="toc-number">3.7.1.2.</span> <span class="toc-text">产生原因</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E4%BD%93%E8%BF%87%E7%A8%8B"><span class="toc-number">3.7.2.</span> <span class="toc-text">总体过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP-amp-%E6%A0%87%E7%AD%BE%E6%9F%A5%E6%89%BE"><span class="toc-number">3.7.3.</span> <span class="toc-text">IP&amp;标签查找</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E5%88%86%E9%85%8D%E8%BF%87%E7%A8%8B"><span class="toc-number">3.8.</span> <span class="toc-text">标签分配过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BAIP%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-number">3.8.1.</span> <span class="toc-text">构建IP路由表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%85%8D%E5%B9%B6%E5%88%86%E5%8F%91%E6%A0%87%E7%AD%BE"><span class="toc-number">3.8.2.</span> <span class="toc-text">分配并分发标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LIB-amp-LFIB%E8%A1%A8%E7%9A%84%E5%BB%BA%E7%AB%8B"><span class="toc-number">3.8.3.</span> <span class="toc-text">LIB&amp;LFIB表的建立</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E6%8A%A5%E6%96%87%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">3.9.</span> <span class="toc-text">标签报文的负载均衡</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LDP%E5%8D%8F%E8%AE%AE"><span class="toc-number">4.</span> <span class="toc-text">LDP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E6%A6%82%E8%BF%B0"><span class="toc-number">4.1.</span> <span class="toc-text">协议概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LDP%E9%82%BB%E5%B1%85%E5%BB%BA%E7%AB%8B%E8%BF%87%E7%A8%8B"><span class="toc-number">4.2.</span> <span class="toc-text">LDP邻居建立过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">4.2.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%BB%E5%B1%85%E5%8F%91%E7%8E%B0%E9%98%B6%E6%AE%B5"><span class="toc-number">4.2.2.</span> <span class="toc-text">邻居发现阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LDP%E4%BC%9A%E8%AF%9D%E5%BB%BA%E7%AB%8B%E9%98%B6%E6%AE%B5"><span class="toc-number">4.2.3.</span> <span class="toc-text">LDP会话建立阶段</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E4%BA%A4%E4%BA%92"><span class="toc-number">4.3.</span> <span class="toc-text">标签交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-number">4.4.</span> <span class="toc-text">报文格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hello%E6%8A%A5%E6%96%87"><span class="toc-number">4.4.1.</span> <span class="toc-text">Hello报文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LDP-identifier"><span class="toc-number">4.4.1.1.</span> <span class="toc-text">LDP identifier</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Initialization%E6%8A%A5%E6%96%87"><span class="toc-number">4.4.2.</span> <span class="toc-text">Initialization报文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Label-Mapping%E6%8A%A5%E6%96%87"><span class="toc-number">4.4.3.</span> <span class="toc-text">Label Mapping报文</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP%E6%AC%A1%E6%9C%AB%E8%B7%B3%E5%BC%B9%E5%87%BA%E6%9C%BA%E5%88%B6"><span class="toc-number">4.5.</span> <span class="toc-text">PHP次末跳弹出机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-1"><span class="toc-number">4.5.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B2%A1%E6%9C%89PHP%E6%9C%BA%E5%88%B6"><span class="toc-number">4.5.2.</span> <span class="toc-text">没有PHP机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89PHP%E6%9C%BA%E5%88%B6"><span class="toc-number">4.5.3.</span> <span class="toc-text">有PHP机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E7%95%99%E6%A0%87%E7%AD%BE"><span class="toc-number">4.5.4.</span> <span class="toc-text">保留标签</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%90%E5%BC%8F%E7%A9%BA%E6%A0%87%E7%AD%BE"><span class="toc-number">4.5.4.1.</span> <span class="toc-text">隐式空标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E6%8A%A5%E8%AD%A6%E6%A0%87%E7%AD%BE"><span class="toc-number">4.5.4.2.</span> <span class="toc-text">路由器报警标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#OAM%E6%A0%87%E7%AD%BE%E6%8A%A5%E8%AD%A6"><span class="toc-number">4.5.4.3.</span> <span class="toc-text">OAM标签报警</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.6.</span> <span class="toc-text">标签模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%B1%87%E6%80%BB%E5%AF%B9MPLS%E5%BD%B1%E5%93%8D"><span class="toc-number">4.7.</span> <span class="toc-text">路由汇总对MPLS影响</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E8%B7%AF%E6%A3%80%E6%B5%8B"><span class="toc-number">4.8.</span> <span class="toc-text">环路检测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9FTTL%E6%93%8D%E4%BD%9C"><span class="toc-number">4.8.1.</span> <span class="toc-text">传统TTL操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%97%ADTTL-Propagation"><span class="toc-number">4.8.2.</span> <span class="toc-text">关闭TTL Propagation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TTL%E6%89%A9%E6%95%A3%E8%A1%8C%E4%B8%BA"><span class="toc-number">4.8.3.</span> <span class="toc-text">TTL扩散行为</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LDP-amp-IGP%E5%90%8C%E6%AD%A5"><span class="toc-number">4.9.</span> <span class="toc-text">LDP&amp;IGP同步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-2"><span class="toc-number">4.9.1.</span> <span class="toc-text">基本概念</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MPLS%E9%85%8D%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text">MPLS配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="toc-number">5.1.</span> <span class="toc-text">基础命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE"><span class="toc-number">5.1.1.</span> <span class="toc-text">基础配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%BB%E5%B1%85%E5%BB%BA%E7%AB%8B%E9%85%8D%E7%BD%AE"><span class="toc-number">5.1.2.</span> <span class="toc-text">邻居建立配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#show%E5%91%BD%E4%BB%A4"><span class="toc-number">5.1.3.</span> <span class="toc-text">show命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C1"><span class="toc-number">5.2.</span> <span class="toc-text">实验1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EOSPF"><span class="toc-number">5.3.</span> <span class="toc-text">关于OSPF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="toc-number">5.4.</span> <span class="toc-text">高级特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TTL-Propagate"><span class="toc-number">5.4.1.</span> <span class="toc-text">TTL-Propagate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#targeted%E9%82%BB%E5%B1%85%E5%85%B3%E7%B3%BB%E5%BB%BA%E7%AB%8B"><span class="toc-number">5.4.2.</span> <span class="toc-text">targeted邻居关系建立</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LDP%E8%AE%A4%E8%AF%81"><span class="toc-number">5.4.3.</span> <span class="toc-text">LDP认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LDP-autoconfig"><span class="toc-number">5.4.4.</span> <span class="toc-text">LDP autoconfig</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MPLS%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84BGP%E8%B7%AF%E7%94%B1%E4%BC%A0%E9%80%92"><span class="toc-number">6.</span> <span class="toc-text">MPLS环境下的BGP路由传递</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C1-1"><span class="toc-number">6.1.</span> <span class="toc-text">实验1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C2"><span class="toc-number">6.2.</span> <span class="toc-text">实验2</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E6%96%87%E7%AB%A0"><span class="toc-number">7.</span> <span class="toc-text">引用文章</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/20-Multicast/" title="20-Multicast">20-Multicast</a><time datetime="2022-01-20T07:34:09.000Z" title="发表于 2022-01-20 15:34:09">2022-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/19-Switch/" title="19-Switch">19-Switch</a><time datetime="2022-01-20T07:32:18.000Z" title="发表于 2022-01-20 15:32:18">2022-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/18-MPLSVPN/" title="18-MPLSVPN">18-MPLSVPN</a><time datetime="2022-01-20T07:30:18.000Z" title="发表于 2022-01-20 15:30:18">2022-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/17-MPLS/" title="17-MPLS">17-MPLS</a><time datetime="2022-01-20T07:29:19.000Z" title="发表于 2022-01-20 15:29:19">2022-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/16-IPV6/" title="16-IPV6">16-IPV6</a><time datetime="2022-01-20T07:17:05.000Z" title="发表于 2022-01-20 15:17:05">2022-01-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2022 By Rookie</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://renyuan431.github.io/2022/01/20/17-MPLS/'
+    this.page.identifier = '2022/01/20/17-MPLS/'
+    this.page.title = '17-MPLS'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://newnotebook.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = '/posts/,/about/'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.akilar.top/api?renyuan431",['#e4dfd7', '#f9f4dc', '#f7e8aa', '#f7e8aa', '#f8df72', '#fcd217', '#fcc515', '#f28e16', '#fb8b05', '#d85916', '#f43e06'],'renyuan431')
+    }
+  </script><!-- hexo injector body_end end --></body></html>

@@ -1,0 +1,820 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>15-VPN | Rookie的博客</title><meta name="author" content="Rookie"><meta name="copyright" content="Rookie"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="VPN简介产生背景随着时代的发展和企业规模的壮大，企业网络也在不断的发生着变化，比如一家总部在北京的企业，可能会在上海、广州等地都有分支机构，因此需要把各个分支机构连接在一起，以便共享资源、协同工作，提高工作效率。但在广域网上传输数据有被窃听、被篡改以及被冒充的风险，专线或VPN技术可以解决这些问题。传统的专线联网方式价格昂贵，一般中小企业难以负担，这时低成本的VPN技术就孕育而生了。VPN全称是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="15-VPN">
+<meta property="og:url" content="https://renyuan431.github.io/2022/01/20/15-VPN/index.html">
+<meta property="og:site_name" content="Rookie的博客">
+<meta property="og:description" content="VPN简介产生背景随着时代的发展和企业规模的壮大，企业网络也在不断的发生着变化，比如一家总部在北京的企业，可能会在上海、广州等地都有分支机构，因此需要把各个分支机构连接在一起，以便共享资源、协同工作，提高工作效率。但在广域网上传输数据有被窃听、被篡改以及被冒充的风险，专线或VPN技术可以解决这些问题。传统的专线联网方式价格昂贵，一般中小企业难以负担，这时低成本的VPN技术就孕育而生了。VPN全称是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://renyuan431.github.io/img/index.jpg">
+<meta property="article:published_time" content="2022-01-20T07:13:53.000Z">
+<meta property="article:modified_time" content="2022-01-20T07:15:23.804Z">
+<meta property="article:author" content="Rookie">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://renyuan431.github.io/img/index.jpg"><link rel="shortcut icon" href="/img/avatar.jpg"><link rel="canonical" href="https://renyuan431.github.io/2022/01/20/15-VPN/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '15-VPN',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-20 15:15:23'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/index.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Rookie的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">15-VPN</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-20T07:13:53.000Z" title="发表于 2022-01-20 15:13:53">2022-01-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-20T07:15:23.804Z" title="更新于 2022-01-20 15:15:23">2022-01-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%90%91/">路由交换方向</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">22.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>80分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="15-VPN"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="VPN简介"><a href="#VPN简介" class="headerlink" title="VPN简介"></a>VPN简介</h1><h2 id="产生背景"><a href="#产生背景" class="headerlink" title="产生背景"></a>产生背景</h2><p>随着时代的发展和企业规模的壮大，企业网络也在不断的发生着变化，比如一家总部在北京的企业，可能会在上海、广州等地都有分支机构，因此需要把各个分支机构连接在一起，以便共享资源、协同工作，提高工作效率。但在广域网上传输数据有被窃听、被篡改以及被冒充的风险，专线或VPN技术可以解决这些问题。传统的专线联网方式价格昂贵，一般中小企业难以负担，这时低成本的VPN技术就孕育而生了。VPN全称是Virtual Private Network，也就是虚拟专用网络，它可以利用廉价接入的公共网络（主要使用Internet）来传输私有数据，相对于传统的专线连接方式具有成本优势，因此被很多企业和电信运营商所采用。VPN技术建立‘保护’网络实体之间的通信，使用加密技术防止数据被窃听，使用数据完整性验证防止数据被破坏、篡改，使用认证机制确认身份，防止数据被截获、回放。</p>
+<h2 id="连接方式"><a href="#连接方式" class="headerlink" title="连接方式"></a>连接方式</h2><p>根据网络接入方式的不同，VPN技术主要分为站点到站点（Site to Site）和远程访问（Remote Access）。</p>
+<h3 id="Site-to-Site"><a href="#Site-to-Site" class="headerlink" title="Site to Site"></a>Site to Site</h3><p><img src="/2022/01/20/15-VPN/1620099361518-76ec20ef-b231-4d35-9047-a6675b5ede1e.png" alt="img"></p>
+<p>站点到站点的连接技术是一种主要的VPN连接方式，主要用于公司重要站点之间的连接，两个站点采用VPN技术虚拟的连接在一起，使得它们在通信时就想通过普通网线一样，可以访问到对方。Site to Site对于终端用户来说是透明的，即用户感觉不到VPN技术的存在，而是觉得互相访问的站点位于同一个内网。</p>
+<p>Site to Site主要有以下几种：</p>
+<ul>
+<li><p>GRE。Generic Routing Encapsulation，通用数据封装，能够对各种网络层协议（例如IP和IPX）的数据进行封装，被封装的数据报文能够在IP网络中传输。GRE采用了Tunnel技术，是VPN的三层隧道协议。</p>
+</li>
+<li><p>IPSec VPN。是业界标准的网络安全协议，可以为IP网络通信提供透明的安全服务，保护TCP/IP通信免遭窃听和篡改，从而有效的抵御网络攻击。IPSec VPN在网络的灵活性、安全性、经济型、扩展性等方面极具优势，因此越来越受到企业客户的青睐。</p>
+</li>
+<li><p>MPLS VPN。使用MPLS技术在宽带IP的骨干网络上搭建企业IP专网，以实现跨地域、安全、高速、可靠的数据、语音、图像等多业务通信。MPLS VPN结合区分服务、流量工程（QOS）等相关技术，将公共网络可靠的性能，良好的扩展性，丰富的功能与专用网络的安全、灵活、搞笑地结合在了一起，可以为用户提供高质量的服务。</p>
+</li>
+</ul>
+<h3 id="Remote-Access"><a href="#Remote-Access" class="headerlink" title="Remote Access"></a>Remote Access</h3><p><img src="/2022/01/20/15-VPN/1620100285369-97b1688a-c900-4b5b-8a29-7fe340397111.png" alt="img"></p>
+<p>Site to Site的VPN技术只能满足公司站点之间的连接，也就是说客户必须要在公司内部才能使用这种技术来连接其他站点。如果客户出差在外，希望在一个提供Internet连接的咖啡馆、飞机场或酒店连接到公司内部，Site to Site VPN技术就不适用了。在这种场合下，需要用到Remote Access VPN。远程访问VPN一般需要预先在客户计算机上安装VPN客户端，并且通过客户端拨号到公司VPN网关，如果拨号成功，客户就像通过一根网线虚拟的连接到公司VPN网关，然后获取公司内部网络的一个地址并且使用这个内部地质来访问公司内部的服务器。Remote Access有以下几种：</p>
+<ul>
+<li><p>IPSec VPN。是一种全面的VPN技术，不仅适用于站点到站点的VPN连接方式，也能部署远程访问VPN。</p>
+</li>
+<li><p>VPDN。全称为Virtual Private Dial-up Networks，虚拟私有拨号网络，是VPN业务的一种，包括PPTP、L2TP和PPPOE等等，是基于拨号用户的虚拟专用拨号网业务。即用户已拨号接入方式连接，并且通过CDMA 1X分组网络传输数据时，VPDN会对传输的数据进行封装和加密，从而保护了数据的私密性使得VPN达到私有网络的安全级别。</p>
+</li>
+<li><p>SSL VPN。全称是Security Socket Layer，SSL，基于安全套接层协议建立远程安全访问通道的VPN技术。</p>
+</li>
+</ul>
+<h1 id="GRE"><a href="#GRE" class="headerlink" title="GRE"></a>GRE</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>GRE全称是Generic Routing Encapsulation，中文是通用路由封装协议，提供了将一种协议的报文封装在另一种协议报文中的机制，是一种隧道封装技术。GRE可以封装组播数据，并可以和IPSec结合使用，从而保证语音，视频等组播业务的安全。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p><img src="/2022/01/20/15-VPN/1619578076343-13ed4894-19b6-4f63-894f-4a5b8eac0d5b.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1619578828319-c435ed9f-4ad1-47aa-89ae-2d6799ed8512.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1619578847582-6dfa35c4-546e-408e-a3c6-eda3c56b3fed.png" alt="img"></p>
+<ul>
+<li><p>GRE用来对某些网络层协议，比如IPX的报文进行封装，使这些被封装的报文能够在另一网络协议层协议（比如IP）中传输，GRE可以解决异种网络的传输问题。</p>
+</li>
+<li><p>IPSec VPN技术可以创建一条跨越共享公网的渠道，从而实现私网互联。IPSec VPN能够安全传输IP报文，但无法在隧道的两个端点之间运行RIP和OSPF等路由协议，GRE可以将路由协议信息封装在另一种协议报文（比如IP）中进行传输；</p>
+</li>
+<li><p>使用GRE可以克服IGP协议的一些局限性，例如RIP是一种距离矢量协议，最大跳数为15，如果网络跳数超过15则无法通信。这种情况下，可以使用GRE技术在两个网络节点之间搭建隧道，隐藏它们之间的跳数，扩大网络的工作范围。</p>
+</li>
+<li><p>GRE并不支持加密，因而通过GRE隧道传输的流量是不加密的。将IPSec技术与GRE相结合，可以先建立GRE隧道队报文进行GRE封装，然后再建立IPSec隧道对报文进行加密，以保证报文传输的完整性和私密性。</p>
+</li>
+</ul>
+<h2 id="报文结构"><a href="#报文结构" class="headerlink" title="报文结构"></a>报文结构</h2><p><img src="/2022/01/20/15-VPN/1619579208799-697cbeca-e7bc-4159-bd96-e1fca0deff5a.jpeg" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1619579306197-7e141e6e-3d84-401e-adef-a4329cb4695a.png" alt="img"></p>
+<ul>
+<li><p>Checksum present：长度1bit，如果该位置1则表示后面可选的的Checksum字段存在并且包含有效信息；如果Checksum present位或Routing present位置1了，那么后面可选的Checksum以及Offset字段都会存在；</p>
+</li>
+<li><p>Routing present：长度1bit，如果该位置1，则表示后面可选的Offset字段存在并包含有效信息；如果Checksum present位或Routing present位置1了，那么后面可选的Checksum以及Offset字段都会存在；</p>
+</li>
+<li><p>Key present：长度1bit，如果该位置1，那么后面可选的Key字段存在并且包含有有效信息，Key验证是指对隧道接口进行验证，这种安全机制可以防止错误收到来自其他设备的报文。关键字字段（后面可选的Key字段）是一个四字节长的数值，只有隧道两端配置的关键字完全一致时才能通过验证，否则报文将被丢弃；</p>
+</li>
+<li><p>Sequence Number present：长度1bit，如果该位置1，那么后面可选电动车Sequence Number字段存在并且包含有效信息；</p>
+</li>
+<li><p>Strict Source Route：长度1bit，该位置1时，表示所有路由信息都包含了路由严格源的信息；</p>
+</li>
+<li><p>Recursion Control：长度3bit，包含了允许其他封装的数量，默认为0；</p>
+</li>
+<li><p>Flags：长度5bit，保留字段，必须为0；</p>
+</li>
+<li><p>Version：长度3bit，GRE版本号，必须为0；</p>
+</li>
+<li><p>Protocol：长度16bit，标识了载荷的协议类型；</p>
+</li>
+</ul>
+<h2 id="封装-解封装过程"><a href="#封装-解封装过程" class="headerlink" title="封装\解封装过程"></a>封装\解封装过程</h2><p>GRE封装报文后，封装前的<strong>报文</strong>称为净荷，封装前的<strong>报文协议</strong>称为乘客协议，然后GRE会封装GRE头部，GRE称为封装协议，也叫运载协议，最后，负责对封装后的报文进行转发的协议称为传输协议。</p>
+<ul>
+<li><p>设备从连接私网的接口收到报文后，查询报文头部中的IP地址字段，在路由器查找出下一跳接口，如果发现出接口是隧道接口，则将报文发送给隧道模块进行处理；</p>
+</li>
+<li><p>隧道模块接收到报文后，首先根据乘客协议的类型和当前GRE隧道配置的校验和参数，对报文进行GRE封装，也就是添加GRE报文头部；</p>
+</li>
+<li><p>设备给报文添加传输协议报头，即IP报头，该IP报头的源地址就是隧道源地址，目的地址就是隧道目的地址；</p>
+</li>
+<li><p>设备根据新添加的IP报头的目的地址，在路由表中查找相应的出接口，并发送报文，然后封装后的报文在公网中传输；</p>
+</li>
+<li><p>接收端设备从连接公网的接口收到报文后，首先分析IP报头，如果发现协议类型字段值为47，也就表示谢意为GRE，于是出接口将报文交给GRE模块处理。GRE模块去掉IP报头和GRE报头，并根据GRE报头的协议类型字段，发现此报文的乘客协议为私有网络中运行的协议，于是将该报文交给该协议处理。</p>
+</li>
+</ul>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p><img src="/2022/01/20/15-VPN/1619600209083-ecca7231-250f-434f-ae24-dc094e82049c.png" alt="img"></p>
+<p>PC1和PC2之间通信，在R1和R2上使用GRE隧道进行通信。</p>
+<p>配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">R1：</span><br><span class="line">interface Tunnel0</span><br><span class="line"> ip address 192.168.12.1 255.255.255.0</span><br><span class="line"> tunnel source 192.168.13.1</span><br><span class="line"> tunnel destination 192.168.23.2</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 192.168.11.254 255.255.255.0</span><br><span class="line"> duplex auto</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> ip address 192.168.13.1 255.255.255.0</span><br><span class="line"> duplex auto</span><br><span class="line">!</span><br><span class="line">ip route 0.0.0.0 0.0.0.0 192.168.13.3</span><br><span class="line">ip route 192.168.22.0 255.255.255.0 Tunnel0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R3:</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 192.168.13.3 255.255.255.0</span><br><span class="line"> duplex auto</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> ip address 192.168.23.3 255.255.255.0</span><br><span class="line"> duplex auto</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R2:</span><br><span class="line">interface Tunnel0</span><br><span class="line"> ip address 192.168.12.2 255.255.255.0</span><br><span class="line"> tunnel source 192.168.23.2</span><br><span class="line"> tunnel destination 192.168.13.1</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 192.168.23.2 255.255.255.0</span><br><span class="line"> duplex auto</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> ip address 192.168.22.254 255.255.255.0</span><br><span class="line"> duplex auto</span><br><span class="line">!</span><br><span class="line">ip route 0.0.0.0 0.0.0.0 192.168.23.3</span><br><span class="line">ip route 192.168.11.0 255.255.255.0 Tunnel0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PC1:</span><br><span class="line">ip default-gateway 192.168.11.254</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 192.168.11.1 255.255.255.0</span><br><span class="line">!</span><br><span class="line">no ip routing</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PC2:</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 192.168.22.2 255.255.255.0</span><br><span class="line">!</span><br><span class="line">ip default-gateway 192.168.22.254</span><br><span class="line">!</span><br><span class="line">no ip routing</span><br></pre></td></tr></table></figure>
+
+<p>PC1 和PC2使用路由器的IOS，所以要用‘no ip routing’关闭路由功能，并使用‘ip default-gateway’命令配置默认网关；两个Tunnel口使用192.168.12.0/24网段作为地址，在R1\R2上配置默认路由指向R3，并使用静态路由将去往PC1\PC2的网段，下一跳指向Tunnel口，使得流量走Tunnel到达对端。验证结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PC1#traceroute 192.168.22.2</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Tracing the route to 192.168.22.2</span><br><span class="line">VRF info: (vrf in name/id, vrf out name/id)</span><br><span class="line">  1 192.168.11.254 1 msec 0 msec 1 msec</span><br><span class="line">  2 192.168.12.2 1 msec 2 msec 1 msec</span><br><span class="line">  3 192.168.22.2 2 msec 2 msec *</span><br></pre></td></tr></table></figure>
+
+<h1 id="DMVPN"><a href="#DMVPN" class="headerlink" title="DMVPN"></a>DMVPN</h1><h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><p>由于现代企业采用的基本是总部——各地分支机构的模式，使用传统的GRE Tunnel的话，如果分支机构之间需要通信，则需要先将流量发回总部，再经由总部发给分支机构，这个过程经历了两次加解密，还需要两次占用中心总部的带宽，而且配置量较大，增加一个分支机构就需要再配置一个GRE Tunnel，每个分支机构\客户都需要固定的IP地址，当任意的分支机构的Tunnel down掉后，即使有其他路径可达也无法自动切换。因此GRE已经无法满足现实网络的需要了。这是DMVPN横空出世，相比Point-to-Point的GRE tunnel，DMVPN的优点有：</p>
+<ul>
+<li><p>Tunnel Interface数量大幅减少。比起GRE需要为每个Hub-Spoke配置独立的Tunnel，DMVPN只要在路由器上设定mGRE（Multipoint GRE）就可实现Full Mesh，设置复杂性大大降低；</p>
+</li>
+<li><p>分支机构不需要有固定的公网IP地址。除了中心站点需要公网固定IP地址外，其他分支机构Spoke不需要固定IP地址，因为分支机构Spoke通过Next Hop Resolution Protocol（NHRP）向Hub路由器注册自己的IP地址，而Spoke路由器亦可使用NHRP向Hub查询其他分支机构Spoke的IP地址；</p>
+</li>
+<li><p>分支机构设置相同。分支机构的Tunnel设置基本相同，只要有一个设置成功，其他机构都可以使用几乎相同的设置，省时省力。</p>
+</li>
+<li><p>动态建立Spoke-to-Spoke隧道，这些流量无需穿越Hub中心站点；</p>
+</li>
+<li><p>支持Hub到Spoke的组播；</p>
+</li>
+<li><p>拥有自愈能力，最大限度的保障了VPN隧道的运行时间；</p>
+</li>
+</ul>
+<p>DMVPN共有四个组件：</p>
+<ol>
+<li><p>mGRE，也就是Multipoint GRE；</p>
+</li>
+<li><p>NHRP，也就是Next Hop Resolution Protocol；</p>
+</li>
+<li><p>Dynamic Routing Protocol，支持路由协议，比如RIP、EIGRP、OSPF、BGP等；</p>
+</li>
+<li><p>IPSec，不是必须但建议使用以增强数据的安全性；</p>
+</li>
+</ol>
+<h2 id="mGRE"><a href="#mGRE" class="headerlink" title="mGRE"></a>mGRE</h2><p>mGRE全称是Multipoint GRE，和传统的单隧道GRE需要建立多个Tunnel不同，mGRE的单个GRE可以支持多个GRE和IPSec隧道，简化了配置的复杂性，如果一个大型企业使用传统的GRE，那么它的大概拓扑如下：</p>
+<p><img src="/2022/01/20/15-VPN/1619603368922-36b1af83-6fae-45ea-a739-49778873f946.png" alt="img"></p>
+<p>可以看到，使用传统的GRE需要多条Tunnel，不仅配置麻烦而且容易出问题。如果使用了mGRE，那么配置会简单明了的多：</p>
+<p><img src="/2022/01/20/15-VPN/1619603596582-276a0c2a-a2e9-49b5-8717-f3d2f377c077.png" alt="img"></p>
+<p>当使用mGRE的时候，每个路由器只有一个Tunnel接口，如果分支机构之间，比如分支机构1和2之间需要通信的话，那么Tunnel会‘自动的’建立好新隧道，分支机构之间的流量不必通过中心站点，而是可以直接在分支机构之间传输：</p>
+<p><img src="/2022/01/20/15-VPN/1619603816469-8762842f-67fe-4918-9a21-ea0d19633edf.png" alt="img"></p>
+<p>但此时也有个问题，那就是当配置点对点GRE隧道时，我们需要配置建立隧道的源地址和目标地址，当两个分支机构之间想传输数据时，它们该使用什么IP地址呢？这时分支机构是不知道对方的公网IP地址的，所以需要用第二个关键构成协议，NHRP，Next Hop Resolution Protocol，下一跳地址解析协议。</p>
+<h2 id="NHRP"><a href="#NHRP" class="headerlink" title="NHRP"></a>NHRP</h2><h3 id="理论知识"><a href="#理论知识" class="headerlink" title="理论知识"></a>理论知识</h3><p>当分支机构之间想要知道对方的公网IP地址时，需要使用NHRP协议，协议的基本特点如下：</p>
+<ul>
+<li><p>一个路由器会作为NHRP的Server；</p>
+</li>
+<li><p>其他的路由器是NHRP的Client；</p>
+</li>
+<li><p>NHRP的Client会在Server上注册并且报告给Server它们自己的公网IP地址；</p>
+</li>
+<li><p>NHRP的Server会在缓存中持续追踪所有的公网地址；</p>
+</li>
+<li><p>当一个Client需要通过隧道向其他Client使用隧道传输数据时，它会先向Server请求目标路由器的公网IP地址；</p>
+</li>
+</ul>
+<p>因为NHRP协议是一个Server-Client模式的协议，所以mGRE使用Hub and Spoke模式是合理的。所以Hub路由器（总部服务器）就是NHRP的Server服务器，分支机构就是Spoke和Client。</p>
+<p><img src="/2022/01/20/15-VPN/1619765917233-586ecac4-4a66-4a25-b566-901513cb888c.png" alt="img"></p>
+<p>上面的拓扑中，我们有两台Spoke路由器，当然它俩也是NHRP中的Client角色，两台Spoke分别和Hub路由器建立了Tunnel。在分支机构路由器的配置中，会配为Hub配置固定的IP地址，而在身为Hub的中心路由器的配置中，会动态的接受Spoke的地址，使用NHRP的注册、请求报文来将分支机构的公网地址注册给中心的Hub路由器。</p>
+<p><img src="/2022/01/20/15-VPN/1619766209956-3b630ac9-9a86-4fde-92ca-79c429d3852e.png" alt="img"></p>
+<p>中心的Hub路由器，也就是NHRP的Server路由器，会构建一个公网IP地址以及隧道IP地址的这两者之间的映射</p>
+<p><img src="/2022/01/20/15-VPN/1619766325173-2584f80a-b35e-4cef-a2ca-fdbbf2eba022.png" alt="img"></p>
+<p>当Spoke1想发送信息给Spoke2时，它需要知道Spoke2的公网IP地址，这时它会发送NHRP解析请求，询问身为Hub\Server的路由器，Spoke2的公网地址是什么。</p>
+<p><img src="/2022/01/20/15-VPN/1619766446411-ba6b25da-0ccb-4dcf-8f33-44bb0904c1ed.png" alt="img"></p>
+<p>Hub\Server路由器会查询缓存，找到Spoke2的条目，并且发送NHRP的解析回复报文给Spoke1，告诉Spoke1它所需要的Spoke2的公网IP地址。</p>
+<p><img src="/2022/01/20/15-VPN/1619766980605-c981c6a0-562d-4690-a720-ce2577b41f48.png" alt="img"></p>
+<p>Spoke1知道了Spoke2的公网IP地址后，可以直接使用隧道向Spoke2发送数据。只用想Hub路由器请求一个IP地址，而不用像普通GRE一样什么流量都需要经过Hub站点</p>
+<p>NHRP的作用是公网IP地址和隧道IP地址之间的转换，换句话说，Spoke路由器会把自己的公网IP地址和Tunnel地址传送给Hub\Server</p>
+<h3 id="配置命令"><a href="#配置命令" class="headerlink" title="配置命令"></a>配置命令</h3><p>Hub配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">interface Tunnel 0</span><br><span class="line"> ip address  X.X.X.1</span><br><span class="line"> tunnel source C</span><br><span class="line"> ip nhrp network-id Y   #所有的设备需要配置相同的ID</span><br><span class="line"> ip nhrp authentication ZZZ     #启动NHRP认证（可选）</span><br><span class="line"> ip nhrp map multicast dynamic  #动态接收组播映射</span><br></pre></td></tr></table></figure>
+
+<p>Spoke配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">interface Tunnel 0</span><br><span class="line">  ip address X.X.X.2</span><br><span class="line">  ip nhrp network-id Y   #所有的设备需要配置相同的ID</span><br><span class="line">  ip nhrp authentication ZZZ    #启动NHRP认证（可选）</span><br><span class="line">  ip nhrp map X.X.X.1  A.A.A.A   #Spoke需映射Hub的公网地址&lt;A.A.A.A&gt;和Tunnel地址&lt;X.X.X.1&gt;</span><br><span class="line">  ip nhrp map multicast A.A.A.A  #Spoke需要手动映射组播到Hub，用于建立动态路由协议邻居</span><br><span class="line">  ip nhrp nhs X.X.X.2   #配置NHRP server地址，Spoke启动后会到Server注册自己的Tunnel、公网地址之间的映射</span><br></pre></td></tr></table></figure>
+
+<p>优化命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Hub：</span><br><span class="line">HUB(config-if)# ip nhrp redirect</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Spoke：</span><br><span class="line">SPOKE(config-if)# ip nhrp shortcut</span><br></pre></td></tr></table></figure>
+
+<h3 id="实验-1"><a href="#实验-1" class="headerlink" title="实验"></a>实验</h3><p><img src="/2022/01/20/15-VPN/1619773869115-8b4631a1-29d3-48d1-954e-86629bdef7a0.png" alt="img"></p>
+<p>几台路由器的公网接口要能彼此先通信，再配置DMVPN，公网互通是一切的寄出，在这里R2\R3\R4上都配置了到R1的默认路由，所以彼此能ping 通：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">R2#ping 13.1.1.3</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending 5, 100-byte ICMP Echos to 13.1.1.3, timeout is 2 seconds:</span><br><span class="line">!!!!!</span><br><span class="line">Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/2 ms</span><br><span class="line">R2#ping 14.1.1.4</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending 5, 100-byte ICMP Echos to 14.1.1.4, timeout is 2 seconds:</span><br><span class="line">!!!!!</span><br><span class="line">Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms</span><br></pre></td></tr></table></figure>
+
+<p>然后来配置DMVPN：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">先配置mGRE和NHRP：</span><br><span class="line"></span><br><span class="line">R2：</span><br><span class="line">interface Tunnel0</span><br><span class="line"> ip address 10.1.1.2 255.255.255.0</span><br><span class="line"> no ip redirects</span><br><span class="line"> ip nhrp network-id 10</span><br><span class="line"> tunnel source Ethernet0/0</span><br><span class="line"> tunnel mode gre multipoint</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R3:</span><br><span class="line">interface Tunnel0</span><br><span class="line"> ip address 10.1.1.3 255.255.255.0</span><br><span class="line"> no ip redirects</span><br><span class="line"> ip nhrp map 10.1.1.2 12.1.1.2</span><br><span class="line"> ip nhrp map multicast 12.1.1.2</span><br><span class="line"> ip nhrp network-id 10</span><br><span class="line"> ip nhrp nhs 10.1.1.2</span><br><span class="line"> tunnel source Ethernet0/1</span><br><span class="line"> tunnel mode gre multipoint</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R4:</span><br><span class="line">interface Tunnel0</span><br><span class="line"> ip address 10.1.1.4 255.255.255.0</span><br><span class="line"> no ip redirects</span><br><span class="line"> ip nhrp map 10.1.1.2 12.1.1.2</span><br><span class="line"> ip nhrp map multicast 12.1.1.2</span><br><span class="line"> ip nhrp network-id 10</span><br><span class="line"> ip nhrp nhs 10.1.1.2</span><br><span class="line"> tunnel source Ethernet0/2</span><br><span class="line"> tunnel mode gre multipoint</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，R3和R4的配置基本相同，只在tunnel的IP地址上不一样，配置完mGRE和NHRP后，再来看一下配置是否成功：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">R2#show ip nhrp detail</span><br><span class="line">10.1.1.3/32 via 10.1.1.3</span><br><span class="line">   Tunnel0 created 00:10:45, expire 00:09:14</span><br><span class="line">   Type: dynamic, Flags: registered nhop</span><br><span class="line">   NBMA address: 13.1.1.3</span><br><span class="line">   Preference: 255</span><br><span class="line">10.1.1.4/32 via 10.1.1.4</span><br><span class="line">   Tunnel0 created 00:00:45, expire 00:09:14</span><br><span class="line">   Type: dynamic, Flags: registered nhop</span><br><span class="line">   NBMA address: 14.1.1.4</span><br><span class="line">   Preference: 255</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，R2上和R3、R4成功配置了mGRE和NHRP，接下来配置路由协议，这里使用OSPF协议：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">R2:</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 2.2.2.2</span><br><span class="line"> network 10.1.1.2 0.0.0.0 area 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R3:</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 3.3.3.3</span><br><span class="line"> network 10.1.1.3 0.0.0.0 area 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R4:</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 4.4.4.4</span><br><span class="line"> network 10.1.1.4 0.0.0.0 area 0</span><br></pre></td></tr></table></figure>
+
+<p>这里要注意两点，一是在OSPF中只能宣告Tunnel的IP地址进OSPF，而不能宣告上联的公网IP地址进OSPF；二是宣告完OSPF后，会发现邻居不停的Down\UP：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Adjacency forced to reset</span><br><span class="line">*May  1 16:14:34.532: %OSPF-5-ADJCHG: Process 1, Nbr 3.3.3.3 on Tunnel0 from EXCHANGE to DOWN, Neighbor Down: Adjacency forced to reset</span><br><span class="line">*May  1 16:14:34.533: %OSPF-5-ADJCHG: Process 1, Nbr 4.4.4.4 on Tunnel0 from EXCHANGE to DOWN, Neighbor Down: Adjacency forced to reset</span><br><span class="line">*May  1 16:14:34.533: %OSPF-5-ADJCHG: Process 1, Nbr 3.3.3.3 on Tunnel0 from EXCHANGE to DOWN, Neighbor Down: Adjacency forced to reset</span><br><span class="line">*May  1 16:14:34.534: %OSPF-5-ADJCHG: Process 1, Nbr 4.4.4.4 on Tunnel0 from EXCHANGE to DOWN, Neighbor Down: Adjacency forced to reset</span><br></pre></td></tr></table></figure>
+
+<p>这是为什么呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">R2(config-router)#do show ip ospf int tun 0 | include Network Type</span><br><span class="line">  Process ID 1, Router ID 2.2.2.2, Network Type POINT_TO_POINT, Cost: 1000</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">R3(config-router)#do show ip ospf int tun 0 | include Network Type</span><br><span class="line">  Process ID 1, Router ID 3.3.3.3, Network Type POINT_TO_POINT, Cost: 1000</span><br></pre></td></tr></table></figure>
+
+<p>因为这里Tunnel在OSPF协议中默认的网络类型是点对点，Point-to-Point，点对点只能有一个邻居，而这里R2有R3和R4两个邻居，所以它会持续的建立-终端邻接关系，所以Tunnel上不能使用点对点类型，必须将类型改为其他的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R2(config-if)#ip ospf network ?</span><br><span class="line">  broadcast            Specify OSPF broadcast multi-access network</span><br><span class="line">  non-broadcast        Specify OSPF NBMA network</span><br><span class="line">  point-to-multipoint  Specify OSPF point-to-multipoint network</span><br><span class="line">  point-to-point       Specify OSPF point-to-point network</span><br></pre></td></tr></table></figure>
+
+<p>除了点对点以外，还有广播、非广播、点对多点几种网络类型，在DMVPN中一般使用广播和点到多点两种模式。</p>
+<h4 id="广播模式"><a href="#广播模式" class="headerlink" title="广播模式"></a>广播模式</h4><p>先来看广播模式的配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">R2：</span><br><span class="line">interface tunnel 0</span><br><span class="line">  ip ospf network broadcast</span><br><span class="line">  ip ospf priority 255</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">R3&amp;R4：</span><br><span class="line">interface tunnel 0</span><br><span class="line">  ip ospf network broadcast</span><br><span class="line">  ip ospf priority 0</span><br></pre></td></tr></table></figure>
+
+<p>严格来说，不需要为Hub配置255的priority，这么做只是为了更好的确保Hub作为DR，将Spoke的priority设置为0确保它们不会成为DR。接下来配置OSPF进程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">R2:</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 2.2.2.2</span><br><span class="line"> network 10.1.1.2 0.0.0.0 area 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R3:</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 3.3.3.3</span><br><span class="line"> network 10.1.1.3 0.0.0.0 area 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R4:</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 4.4.4.4</span><br><span class="line"> network 10.1.1.4 0.0.0.0 area 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R2#show ip ospf neighbor</span><br><span class="line"></span><br><span class="line">Neighbor ID     Pri   State           Dead Time   Address         Interface</span><br><span class="line">3.3.3.3           0   FULL/DROTHER    00:00:36    10.1.1.3        Tunnel0</span><br><span class="line">4.4.4.4           0   FULL/DROTHER    00:00:32    10.1.1.4        Tunnel0</span><br></pre></td></tr></table></figure>
+
+<h4 id="点到多点模式"><a href="#点到多点模式" class="headerlink" title="点到多点模式"></a>点到多点模式</h4><p>这里我们将三台路由器的Tunnel接口改成点对多点：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R2(config-if)#ip ospf network point-to-Multipoint</span><br><span class="line"></span><br><span class="line">R3(config-if)#ip ospf network point-to-Multipoint</span><br><span class="line"></span><br><span class="line">R4(config-if)#ip ospf network point-to-Multipoint</span><br></pre></td></tr></table></figure>
+
+<p>可以发现，在点对多点的网络类型下，邻居很快就建立起来了，因为在这种网络类型中，不需要选择DR\BDR。</p>
+<h1 id="IPSec-vpn"><a href="#IPSec-vpn" class="headerlink" title="IPSec vpn"></a>IPSec vpn</h1><h2 id="出现背景"><a href="#出现背景" class="headerlink" title="出现背景"></a>出现背景</h2><p>在IPV4协议出现的时候，由于试用范围很小（一开始在美国国防部高级研究计划局试用）且每个接入网络网络的人均经过审核，每个设备都在严格管控之中，所以一开始IPV4协议中没有加入关于安全方面的考虑，但随着网络技术的发展以及网络范围的机构爆发式的增长，接入互联网的机构不再有审核，每台路由器也不知道都有哪些人来管理，所以安全问题日益突出，所以在IPV6协议的设计之初，加入了IP层安全性方面的设计，设计了IPSec协议，不管是IPV4还是IPV6都能够使用。</p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="密钥"><a href="#密钥" class="headerlink" title="密钥"></a>密钥</h3><p>密钥是一种参数，它是在明文转换为密文或将密文转换为明文的算法中输入的参数，用来完成加密、解密、完整性验证的秘密信息，在使用密钥对数据进行加密以后，只有用相应的密钥才能进行解密，密钥保护了信息的私密性，没有密钥，即使通信内容被第三方获取也无法获知传输信息的内容。密钥的长度决定了破解的难度，密钥越长，破解起来越困难。</p>
+<h4 id="对称密钥算法"><a href="#对称密钥算法" class="headerlink" title="对称密钥算法"></a>对称密钥算法</h4><p>对称加密算法是应用较早的加密算法。在对称加密算法中，数据发送方将明文（也就是原始的要发送的数据）和加密密钥一起经过特殊的算法加密处理后，使其变成复杂的加密密文发送出去。数据的接收方收到密文后，若想知道原始发送的数据是什么，需要使用加密过的密钥，以及相同算法的逆算法，将数据解密，才能恢复成可读的铭文数据。在对称算法中，使用的密钥只有一个，收发两端都是用这个密钥对数据进行加密和解密，所以通信的双方必须实现知道加密的密钥。因此对称算法的安全性依赖于密钥，如果密钥泄露，就意味着其他无关人员在获取到加密信息后也能解密获取其中的通信数据。主流的对称加密算法有DES，3DES等。</p>
+<p>对称加密算法的优势是，算法公开，计算量小，加密速度快，效率高。不足是双方都要使用相同的密钥，安全性得不到保证；随着参与者数量的增加，密钥数量急剧膨胀，需要(n×(n-1))/2个秘钥；因为密钥数量过多，对密钥的管理和存储是一个很大的问题；不支持数字签名，不具备不可否认性。</p>
+<h4 id="非对称密钥算法"><a href="#非对称密钥算法" class="headerlink" title="非对称密钥算法"></a>非对称密钥算法</h4><p>非对称算法需要两个密钥：公开密钥，也就是公钥，Publickey；私有密钥，也就是私钥，Privatekey。公钥与私钥是成对且相互匹配的，如果用公钥对数据进行加密，只有对应的私钥才能解密，所以私钥需要持有者严密保护，确保只有使用者才能唯一拥有。因为加密和解密使用的是两个不同的密钥，所以这种算法叫做非对称加密算法。常见的非对称加密算法有，RSA、DH和ECC等等。</p>
+<p>非对称加密算法实现机密信息交换过程，用一句话来概括就是公钥加密，私钥解密。基本过程是，所有参与通信的设备，都需要预先使用非对称密钥算法（例如RSA），生成一对密钥（公钥和私钥），然后将公钥公开，放在服务器上共享给所有通信的另一方。假设此时乙方要给甲发送数据，则乙会使用甲所公布的公钥对数据进行加密生，成加密数据，然后发送给甲方。当甲方收到加密的信息后，甲会用自己的私钥对数据进行解密，获取明文信息。</p>
+<p><img src="/2022/01/20/15-VPN/1621311792019-34ee9f72-1c1f-4702-9314-658676b4a235.png" alt="img"></p>
+<ol>
+<li><p>用户1，也就是发起方，需要预先获取用户2，也就是接收方的公钥；</p>
+</li>
+<li><p>用户1使用用户2的公钥，对需要传输的信息进行加密；</p>
+</li>
+<li><p>中途截获数据的攻击者由于没有用户2的私钥，无法对数据进行解密；</p>
+</li>
+<li><p>用户2使用自己的私钥对加密后的数据（由用户2的公钥加密，出现在步骤2中）进行解密，使用公钥加密，私钥解密的方式实现了数据的私密性</p>
+</li>
+</ol>
+<p>非对称密钥算法运算速度极慢，相比对称密钥算法要慢得多得多，因此基本不可能使用非对称密钥算法对实际数据进行加密，在实际通信中，主要使用非对称加密算法对密钥进行加密，以完成密钥交换的步骤。</p>
+<p><strong>非对称密钥算法的优势有：</strong></p>
+<ul>
+<li><p>安全。不用担心通信两端的公钥被劫持，所以非对称密钥的分发更加安全；</p>
+</li>
+<li><p>密钥的数量和通信参与者数目相同；</p>
+</li>
+<li><p>在交换公钥之前无需建立某种信任关系，因为有了公钥也没法对数据进行解密；</p>
+</li>
+<li><p>支持数字签名和不可否认性；</p>
+</li>
+</ul>
+<p><strong>非对称密钥算法的不足有：</strong></p>
+<p>加密速度奇慢无比，加密同样大小的数据，如果用对称算法DES的话，大概比非对称加密算法的RSA快几百倍。加密后的密文长度会变长，比如用RSA加密1G的数据，加密后可能会变为2G大小。</p>
+<h4 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h4><p><img src="/2022/01/20/15-VPN/1621408131350-682c0d86-377f-4d80-999a-0eb956688bad.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1641372357781-080c3f47-8201-4e2b-8d0b-1e1b03232c65.png" alt="img"></p>
+<p>非对称式算法除了可以用来加密数据，也可以用来做数字签名。数字签名是只有信息的发送者才能产生的，别人无法伪造的一段数字串，这段数字串同时也是对信息的发送者发送信息真实性的一个有效证明。它类似于在纸上的普通的物理签名，但使用了非对称加密技术。纸上的签名，比如合同或者欠条，在上面签名是承认了上面写的东西，事后不能抵赖，也就是不可否认性，签名了就承认纸上写的东西并且要履行相应的义务。谁会去检查这个签名呢？一般都是在出现问题后，比如甲向乙借了10000块钱，甲在欠条上签名，如果甲欠债不还，乙会拿出那张由甲签过名的欠条，只要签名经鉴定是甲签的，那么甲这个借钱行为就无法抵赖，无法否认。数字签名可以提供两个很重要的安全特性，完整性校验和源认证，完整性校验保证了数据在发送过程中不会产生变化，完整性由散列函数完成。源认证由散列算法提供，因为使用了甲的公钥加密以后，只有使用甲的私钥才能对数据进行解密，所以甲没法对这个进行抵赖，从而完成了源认证。数字签名可以用于驱动程序签名，PDF签名，IPSec数字签名认证，数字证书中的数字签名。</p>
+<p>实现过程为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">明文数据---------hash算法（md5）----------hash值（128bit-例如12345）-------私钥加密------------数字签名</span><br><span class="line">     </span><br><span class="line"> 数字签名 --------用对方公钥解密------hash值12345</span><br><span class="line"> 明文数据--------hash算法（md5) ---hash值12345</span><br><span class="line"></span><br><span class="line">如果散列值1和散列2相同，说明验证成功，如果散列值不相同，说明验证失败</span><br></pre></td></tr></table></figure>
+
+<h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>IPSec协议用来在IP层提供安全服务，以便其他TCP/IP协议和应用程序使用，这就意味的IPSec为那些在TCP/IP网络上的设备提供了安全通信所需要的工具。当两个设备（不管是用户终端设备，比如PC，还是中间设备，比如路由器防火墙）想要进行安全通信时，它们会在设备之间设置一个安全的通道来通信，但这个安全通道可能会经过很多中间设备，而这些中间设备并不安全。所以要确保通信的安全，必须达到以下的标准：</p>
+<ul>
+<li><p>两台设备之间必须就使用一组安全协议达成一致，这样彼此之间才能以对方理解的格式发送数据；</p>
+</li>
+<li><p>它们必须确定给数据加密的算法，这样数据的内容才会有私密性，不会被其他人所知道；</p>
+</li>
+<li><p>它们必须交换密钥，这个密钥用于解密已加密的数据；</p>
+</li>
+<li><p>完成了前几步之后，两台设备必须使用之前协商好的协议、算法和密钥，将数据重新编码然后通过网络发送给对方；</p>
+</li>
+</ul>
+<p>为了达成上述的这几个标准，IPSec协议出现了，IPSec（Internet Protocol Security）并不是一个单独的协议，而是一组服务和协议的集合，它为IP网络提供了完整的安全解决方案，提供了多种保护功能。因为IPSec工作在IP层，它能够为IP层以及IP层之上的其他更高层提供保护，而不需要其他额外的安全措施，它可以提供以下三个方面的保护：</p>
+<ul>
+<li><p>私密性（Confidentiality），数据私密性就是通过加密技术，例如使用3DES等算法，对数据进行加密，这样一来即使数据被第三方获取，也只是加密后的，无法破解更无法得知原始数据，从而杜绝数据被窃听；</p>
+</li>
+<li><p>完整性（Integrity），完整性可以确保数据在传输过程中未经第三方进行篡改，例如MD5或SHA1等算法，从而杜绝数据被篡改；</p>
+</li>
+<li><p>源认证（Authenticity），源认证就是对发送数据包的源头进行身份认证，确保发送数据的源头是合法用户，从而杜绝通信源头被冒充。源认证除了能提供发送的源用户验证，还能提供不可否认性，因为经过了源认证以后能够确定了发送源设备就是它，所以发送者无法否认；</p>
+</li>
+</ul>
+<h2 id="IPSec框架"><a href="#IPSec框架" class="headerlink" title="IPSec框架"></a>IPSec框架</h2><p><img src="/2022/01/20/15-VPN/1620124202121-45e41747-26e4-40c3-9974-909e85401ca7.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1620457405851-16b70742-4943-4e60-989e-b939517a60a3.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1620114697497-c474dadc-7c78-424a-a31f-ec9851abca8b.png" alt="img"></p>
+<p>IPSec主要使用AH（Authentication Header）Protocol、ESP（Encapsulating Security Algorithms）Protocol和IKE这三个核心协议：</p>
+<ul>
+<li><strong>AH</strong>：AH全称为Authentication Header，它是一个协议，通过添加一个根据数据段中的值所计算出来的AH报头，对数据段的全部或部分内容进行认证（AH is a protocol that provides authentication of either all or part of the contents of a datagram through the addition of a header that is calculated based on the values in the datagram. ）。AH只提供了身份验证机制，可以提供数据完整性验证（Data Integrity）、数据源身份认证（Data Origin Authentication）以及可选的对重放攻击的保护（未认证用户大量且反复的发送数据）。数据完整性验证由算法生成的摘要来确保，比如HMAC-MD5或HMAC-SHA算法；数据源身份验证由共享密钥生成的信息摘要确保；重放攻击防护由AH头部的序列号字段来提供保护。AH对IP报头和它的负载提供了完整性校验，但某些字段可能在传输过程中出现合理的变化，比如TTL字段。</li>
+<li><strong>ESP</strong>：ESP全称为Encapsulating Security Payload，ESP不仅提供了认证功能（包含数据完整性验证、数据源身份认证以及重放攻击保户），相比AH来说，ESP还额外提供了数据私密性（通过加密算法）以及。其中数据完整性由MD5或SHA这种验证完整性的算法通过生成消息摘要来确保；数据源认证，由共享密钥创建的消息摘要确保；ESP也可以值提供以上所有的功能，也可以单独提供其中的一个或两个功能，比如只提供数据私密性功能，或者只提供认证功能，或者同时提供数据私密性和认证功能。</li>
+</ul>
+<p><img src="/2022/01/20/15-VPN/1620456993738-17a1d311-a3d8-4dfb-bd19-42cbb43531c2.jpeg" alt="img"></p>
+<ul>
+<li><strong>密钥交换构架和机制</strong>：两台设备在通信时为了保证数据的私密性，会对数据进行加密，但数据到了对方设备后，还需要解密的密钥才能正常读取数据，为了让对方能解密就必须要交换密钥，除了交换密钥，还需要交换安全关联信息（Security Associations）。在IPSec中，使用<strong>IKE（Internet Key Exchange）</strong>协议来完成。</li>
+</ul>
+<p>除了ESP、AH和IKE，还有其他一些辅助的算法及协议：</p>
+<ul>
+<li><strong>加密/哈希算法</strong>：AH和ESP都是通用协议，不指定使用哪种算法来进行加密，可以使用多种算法来达成目的，这样的话灵活性比较强，所以需要通信的两端进行协商，看使用哪种算法来加密，以便通信时能正确读取数据进而解密。一般使用比较多的算法为<strong>MD5（Message Digest 5）</strong>和<strong>SHA（Secure Hash Algorithm 1）</strong>，它们都叫做哈希算法（Hashing Algorithms）因为这俩都是将输入的数据通过哈希公示计算，得出一个值的方式进行工作。</li>
+<li><strong>安全策略和关联及管理办法</strong>：因为IPSec让设备自由选择使用的安全协议，所以需要追踪设备之间的使用的是什么协议，IPSec使用<strong>安全策略（Security Policies）</strong>和<strong>安全关联（Security Associations）</strong>来完成上述工作，并且通过交换安全关联（Security Associations）来完成设备之间的信息交互。</li>
+</ul>
+<p>传统的安全技术，比如HTTPS或WEP/WEA，往往会采用某种固定的加密和散列函数，这种做法有一个弊端就是如果某天所采用的的加密算法被破解或被爆出严重的漏洞，那么使用这个算法或散列函数的技术也难免被淘汰，因为协议已经不再安全。为了避免这种事情的发生，IPSec没有定义具体的加密和散列函数，它的做法是提供一个框架性的结构，可以使用不同的算法，具体使用哪种算法，通过协商来决定，比如说，如果3DES这个168位的加密算法满足现实使用要求，那么就用它作为加密算法，如果觉得这个算法不行或出现了严重问题，那么也可以马上更换加密协议，以后出现新的加密算法也可以在IPSec框架下使用，始终保持IPSec协议的可用性，所以IPSec有多重算法选择的组合方式：</p>
+<p><img src="/2022/01/20/15-VPN/1620288800677-4f623ab6-7426-4563-b079-09efb36db7df.png" alt="img"></p>
+<h2 id="总体流程"><a href="#总体流程" class="headerlink" title="总体流程"></a>总体流程</h2><p>为了建立起IPSec tunnel，我们需要使用IKE协议，全称是Internet Key Exchange，IKE协议用于在IPSec协议中对双方所使用的具体协议，比如使用哪种加密算法、认证方式、密钥有效期等参数进行协商，IKE协商完成后的结果叫做安全关联（SA，Security Association），可以说IKE建立了安全关联。</p>
+<p>IPSec的建立过程为5个阶段：</p>
+<ul>
+<li><p>初始化：触发隧道的创建。比如在路由器上配置IPSec，然后配置哪些流量需要被IPSec保护，也就是定义感兴趣流，当路由器收到那些需要被保护的流量时，会开始IKE进程，当然也可以手动初始化隧道。在思科设备上，感兴趣流是用访问列表，access-list来匹配的，被访问列表匹配的流量会被加密，未被匹配的流量将不会被加密；</p>
+</li>
+<li><p>IKE阶段1：两台设备会对对端设备进行身份认证，协商好安全关联（包含使用什么加密协议、认证方式、密钥有效期等），并用安全关联去建立IKE第一阶段的隧道，又叫ISAKMP Tunnel；</p>
+</li>
+<li><p>IKE阶段2：在IKE阶段1的隧道中，基于需要被加密的流量协商并建立IKE阶段2的隧道，也就是IPSec SA。协商的内容包括使用哪个IPSec协议（AH或ESP），是用那种封装方式（Transport或Tunnel），使用哪种加密协议（DES或3DES还是AES），使用哪种认证协议（MD5还是SHA），生存周期为多久，是否使用可选的DH交换；</p>
+</li>
+<li><p>数据传输：用IKE阶段2的隧道传输并保护发送的数据；</p>
+</li>
+<li><p>终止：当没有需要保护的数据传输的一段时间后，IPSec隧道会终止进程；</p>
+</li>
+</ul>
+<p>初始化IPSec以后，在IKE phase1中，两个终端会协商，到底使用哪些加密、认证、哈希或其他算法协议，以及IPSec协议需要的其他参数。为什么需要协商呢？因为前面说过了，IPSec协议只规定了框架，没规定具体的协议，从而避免某个加密或认证协议算法出现问题而导致整个IPSec协议被攻破，如果一端用3DE而另一端不支持就麻烦了，所以需要IKE收集两端采用的协议，看两遍支持的协议是否相同。如果两端支持的协议相同协商成功了，会在这个阶段中会建立起ISAKMP（Internet Security Association and Key Management Protocol）会话，它也可以叫做ISAKMP Tunnel或IKE 阶段1 Tunnel。</p>
+<p>设备收集起来的关于安全的参数，叫做SA（Security Association，安全关联），让我们来看一个已经建立起IKE 第一阶段的隧道的例子：</p>
+<p><img src="/2022/01/20/15-VPN/1620790753677-eaa53e7b-7d72-4352-98ee-22c0edeb4158.png" alt="img"></p>
+<p>IKE第一阶段所建立的Tunnel仅供管理流量使用，比如keepalive等，一阶段的Tunnel是为了给第二阶段的流量提供安全保障，第二阶段叫做IKE阶段二Tunnel或IPSec隧道。</p>
+<p>当两台路由器之间建立完IKE阶段2以后如图所示：</p>
+<p><img src="/2022/01/20/15-VPN/1620791858911-5107c6d0-57b7-4604-b0a7-0038c9cc3436.png" alt="img"></p>
+<p>当阶段2建立完毕后，就能使用IKE阶段2Tunnel（或者叫IPSec Tunnel也行）来对数据进行保护，这样一来用户数据就能通过IKE 阶段2Tunnel来传输：</p>
+<p><img src="/2022/01/20/15-VPN/1620791959595-f9282a2d-81d7-41bd-b1de-2ba32392c96c.png" alt="img"></p>
+<p>IKE协议建立起了Tunnel，但它并不能为用户数据提供认证或加密功能，这需要其他两个协议来完成，它们是AH（Authentication Header）和ESP（Encapsulating Security Payload），这两个协议都能提供身份认证和数据完整性校验功能，但ESP额外支持加密功能，因此ESP在现网中使用更多，毕竟数据的私密性还是很重要的。AH和ESP都支持两种模式，Transport模式（传输模式）和Tunnel模式（隧道模式），两种模式的具体区别在后文写，简单说一下最主要的区别就是，Transport模式用原始的IP报头，原始的IP报头不会被保护，而Tunnel模式会生成新IP报头，原始的IP报头会被保护：</p>
+<p><img src="/2022/01/20/15-VPN/1620806609705-c35ee991-1436-416a-9aab-52b3118b8de0.png" alt="img"></p>
+<p>Transport模式通常在两个终端通信时使用，用来确保流量的安全，Tunnel模式通常在Site-to-Site模式VPN使用，在这种情况下，我们需要将原始的IP报文封装，因为使用的IP地址通常都是私有地址，无法在互联网中被路由。</p>
+<h2 id="IKE协议"><a href="#IKE协议" class="headerlink" title="IKE协议"></a>IKE协议</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>IKE协议全称为Internet Key Exchange，互联网密钥交换协议，负责建立和维护两种SA（Security Association，安全关联），分别是阶段一的IKE SA（也叫ISAKMP SA）以及阶段二的IPSec SA。IPSec只规定了大的框架而没有规定具体使用的加密\验证协议，所以需要使用IKE协议用来交换两端使用的协议以及其他IPSec需要用到的参数，IKE协议在RFC2409中定义，具体完成以下几个方面的任务：</p>
+<ul>
+<li><p>对建立IPSec的双方进行认证，认证需要事先协商认证的方式；</p>
+</li>
+<li><p>通过密钥交换，产生用于加密和HMAC的随机密钥；</p>
+</li>
+<li><p>协商加密参数，比如加密协议、散列函数、封装协议、封装模式和密钥有效期；</p>
+</li>
+</ul>
+<p>大概的工作方式是，IKE通过让具备IPSec能力的设备，交互SA（Security Association，安全关联），用来构建安全关联数据库，然后安全关联数据库被AH或ESP协议使用，由AH或ESP来加密用户数据。</p>
+<p>IKE协议也是一个‘混合’协议，因为它集合了或者说支持了三个协议，第一个是ISAKMP，Internet Security Association And Key Management Protocol，互联网安全关联管理协议，它是IKE的核心协议（所以也会把IKE和ISAKMP这两个术语互换使用，但要明白其中区别），规定了交换密钥和安全关联信息的体系及框架，工作的方式是通过一系列步骤来协商设备之间的SA（Security Association，安全关联），ISAKMP协议支持多种密钥交换的方式。在IKE中，ISAKMP框架是密钥交换的基础方式，他决定了IKE协商包的封装格式、密钥交换过程、模式的切换的构架，它其实是规定了一个构架，但不规定具体的协议，其他两种协议是SKEME和Oakley，Oakley规定了密钥交换的方式，提供了IPSec对各种技术的支持，例如，支持新的加密与散列技术，Oakley为IPSec提供了一个框架；SKEME定义了密钥交换的体系结构，例如DH算法就是这个协议引入的。</p>
+<h3 id="IKE和IPSec的关系"><a href="#IKE和IPSec的关系" class="headerlink" title="IKE和IPSec的关系"></a>IKE和IPSec的关系</h3><p>IKE为IPSec提供了自动协商密钥、建立IPSec SA的服务，能够简化IPSec的使用和管理，大大简化IPSec的配置和维护工作：</p>
+<p><img src="/2022/01/20/15-VPN/1621413671913-f68bd6f5-6f11-4899-b6d9-faa58e33cdb7.png" alt="img"></p>
+<p>IKE与IPSec的关系如上图所示，对等体之间建立一个IKE SA完成身份验证和密钥信息交换以后，在IKE SA的保护下，根据配置的AH\ESP安全协议等参数协商出一对 IPSec SA。从此以后，对等体之间的数据将在IPSec隧道中加密传输。</p>
+<h3 id="安全联盟"><a href="#安全联盟" class="headerlink" title="安全联盟"></a>安全联盟</h3><p>安全联盟的英文全称是Security Association，是建立IPSec隧道的通信双方对隧道参数的约定，包括隧道两端的IP地址、隧道采用的验证方式、验证算法、验证密钥、加密算法、共享秘钥以及生命周期等一系列参数。</p>
+<p>SA由三元组来唯一标识，这个三元组包括安全参数索引SPI（Security Parameter Index）、目的IP地址和使用的安全协议号（AH或ESP）。其中，SPI是为了唯一标识SA而产生的一个32bit的数值，它在AH和ESP头中传输。在手工配置SA时，需要手工指定SPI值。一般都使用IKE协商产生SA，SPI将自动随机生成。</p>
+<p>SA是一般是单向逻辑连接，因此两设备在使用IPSec通信时，至少需要建立两个SA来分别对两个方向的数据流进行安全保护，但ISAKMP SA是双向的。</p>
+<p>SA是IPSec的一个基本组成部分，SA是SADB（Security Association DataBase）的一个条目，它包含着双方关于IKE和IPSec已经协商完毕的安全信息。</p>
+<p><strong>IKE or ISAKMP SA：双向的，决定了IKE协议处理的相关细节；</strong></p>
+<p><strong>IPSec SA是单向的，与封装协议有关，决定了具体加密流量的处理方式。</strong></p>
+<p>上面这两类SA都是由IKE协议协商产生的。</p>
+<p>建立IPSec的SA主要有两种方式，手工方式和IKE自动协商的方式，现网中都是用IKE方式建立的，两者的主要区别为：</p>
+<ul>
+<li>密钥生成方式不同。手工方式下，建立SA所需的全部参数，包括加密、验证密钥都需要用户手工配置，也只能手工配置，在中大型网络中，这种方式的密钥管理成本很高；IKE方式下，建立SA需要的加密、验证密钥，是通过DH算法生成的，可以动态刷新，因此密钥管理成本低，而且安全性较高，所以现网中都是用IKE方式建立的；</li>
+<li>生命周期不同。手工方式建立的SA，一旦建立就永久存在；IKE方式建立的SA，生存周期由双方配置的生存周期参数控制。</li>
+</ul>
+<h3 id="阶段1"><a href="#阶段1" class="headerlink" title="阶段1"></a>阶段1</h3><p>阶段一是一个进行‘设置’的阶段，由于IPSec是一个框架，可以支持很多具体的技术和协议，所以建立IPSec 隧道之前，先要知道对端设备所使用的具协议和本端设备是否一致，因此要协商这些关于安全的协议和参数，两个设备之间协商后为ISAKMP创建了SA（Security Association，安全关联），也就是ISAKMP SA。SA是指两个设备之间安全相关的信息的集合，这个集合描述了两个设备安全连接的方式，也可以把SA看成是一个合同，这个合同规定了两台设备之间安全通信所使用的具体的安全机制，这个SA安全关联存储在安全关联数据库中（SADB，Security Association DataBase）。一般来说SA都是单向的，但ISAKMP SA是双向的，一旦阶段1建立完成，那么任何一台设备都可以使用ISAKMP SA来为后续的ESP或AH使用，这样还能确保阶段2数据交互的安全。一旦阶段1建立完毕将马上进入阶段2，如果阶段1失败则无法开启阶段2。</p>
+<p>整个阶段1又可以分为3个小的步骤，协商、DH密钥交换和验证。</p>
+<h4 id="协商"><a href="#协商" class="headerlink" title="协商"></a>协商</h4><p>阶段1的ISAKMP SA（Security Association安全关联）协商的内容如下：</p>
+<ul>
+<li><p>使用的加密算法，用来加密数据，确保数据的私密性，比如是使用DES、3DES还是AES等算法；</p>
+</li>
+<li><p>使用的哈希算法，用来验证数据的完整性，比如是使用MD5还是SHA等算法；</p>
+</li>
+<li><p>使用的身份认证方式，通信的两端需要说明自己是谁，可以使用预共享密钥或数字签名证书的形式；</p>
+</li>
+<li><p>DH组，全称英文是Diffie-Hellman group，DH组决定了在密钥交换过程中所使用的的秘钥的强度，DH是IPSec产生密钥资源的主要协议，是一种非对称密钥算法。DH组的数字越高，安全性越高，比如DH group5是1536bit，而长度1是768bit，但长度越长需要计算的时间相对更长。Diffie和Hellman是发明了公钥密码技术的两位大牛先驱，在使用公钥加密技术的情况下，不需再像之前一样使用同一个密钥来进行加密和解密，数据使用公钥进行加密（公钥大家都能获取的），使用保密的私钥进行解密（私钥只有通信两端知道），DH组参数（Diffie-Hellman group）定义了如何进行这种加密的属性，IKE中需要制定四个Oakley衍生出来的参数。</p>
+</li>
+<li><p>周期，也就是IKE步骤1所持续的时间，持续的时间越短意味着安全性越强，因为一旦周期结束就会换另一套密钥，破解难度很大。每个厂家的默认周期不同，一般的周期为一天，也就是86400秒；</p>
+</li>
+</ul>
+<h4 id="DH密钥交换"><a href="#DH密钥交换" class="headerlink" title="DH密钥交换"></a>DH密钥交换</h4><p>DH是一种密钥交换方式，用于生产密钥材料，并通过ISAKMP消息在发送和接收设备之间进行密钥材料交换。然后，两端设备各自计算出完全相同的对称密钥。该对称密钥用于计算加密和验证的密钥。任何时候双方都不会交换真正的密钥，而是交换一些数据，并用这些数据计算出真正的共享秘钥，并且即使第三方获取了双方交换的所有数据，也无法计算出真正的密钥。MD5、SHA1、DES、3DES等算法都可以采用DH算法来共享对称密钥。</p>
+<p>当协商的步骤完成后，通信的两端会知道需要使用什么协议，它们会使用协商好的DH组去交换秘钥，密钥交换完毕后，通过一系列的算法，得到加密和处理IKE信息的密钥，最后两端都会有这个共享秘钥，包括加密感兴趣流的密钥也是从这个共享秘钥衍生而来的，可以说这个密钥是所有密钥的始祖。</p>
+<h4 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h4><p>在认证这个阶段中，通信两端会用之前协商好的认证方式（比如SHA或MD5）对对端进行身份验证。当验证成功以后，意味着IKE的阶段1已经完成，IKE的阶段1会协商出IKE阶段1的隧道（也叫 ISAKMP 隧道），意味着下一步的通信将在该隧道上安全的进行。</p>
+<h4 id="两种模式"><a href="#两种模式" class="headerlink" title="两种模式"></a>两种模式</h4><p>阶段1的以上三个小步骤可以使用两种模式完成：主模式（Main mode）和主动模式（Aggressive mode）。</p>
+<h3 id="阶段2"><a href="#阶段2" class="headerlink" title="阶段2"></a>阶段2</h3><p>在这个阶段，其他安全协议会使用阶段1建立好的ISAKMP SA，来为自己（其他安全协议）建立SA，通常来说，这个阶段，是<strong>基于感兴</strong>（所以policy中有感兴趣流）趣流去协商、建立‘真正的’SA安全关联，因为这个SA才是用来给ESP或AH使用的，用来保护那些需要传输的数据。IKE阶段二协商SA和密钥，用于保护真正传输的数据。</p>
+<p><img src="/2022/01/20/15-VPN/1622789653451-125f3166-8ef0-4799-9c26-bb3c1553f25e.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1621647707547-91fbb87b-d3b0-44bf-b07b-067fc2a93d19.png" alt="img"></p>
+<p>在阶段2中也需要协商一些参数：</p>
+<ul>
+<li><p>使用哪种IPSec的协议，是AH还是ESP；</p>
+</li>
+<li><p>使用哪种封装模式，是Transport模式还是Tunnel模式；</p>
+</li>
+<li><p>使用哪种加密算法，是DES、3DES还是AES；</p>
+</li>
+<li><p>使用哪种认证方式，是MD5还是SHA；</p>
+</li>
+<li><p>生存周期为多久，也就是IKE阶段2存在的时间是多久，当隧道将要过期时，会更换另一套密钥；</p>
+</li>
+<li><p>DH交换（可选），DH交换用来确保‘完全向前保密’，这个步骤可选，大概过程是强迫通信两端再次进行DH交换，为IKE第二阶段生成一个新的密钥，能更好的确保通信时的安全；</p>
+</li>
+</ul>
+<h3 id="阶段1VS阶段2"><a href="#阶段1VS阶段2" class="headerlink" title="阶段1VS阶段2"></a><a target="_blank" rel="noopener" href="https://www.ibm.com/support/pages/what-are-distinctions-between-phase-1-and-phase-2-security-association">阶段1VS阶段2</a></h3><ul>
+<li><p>SA保护的对象不同。阶段1的SA用来保护通信两端的IKE报文；而阶段2的SA则用来保护感兴趣流，也就是需要加密的通信数据；</p>
+</li>
+<li><p>SA的属性不同。阶段1的SA只能指定一个IP地址作为加密点，阶段2的SA能定义一系列IP地址作为通信点；</p>
+</li>
+<li><p>SA的出现频率不同。阶段2信息出现得非常频繁（有效期小时），但IKE第一阶段的信息每一天发生一次（有效期一天）；</p>
+</li>
+<li><p>阶段1的1-4数据包是明文的，阶段1的5-6数据包以及阶段2的1-3数据包是密文；</p>
+</li>
+</ul>
+<h3 id="数据交换过程"><a href="#数据交换过程" class="headerlink" title="数据交换过程"></a>数据交换过程</h3><p><img src="/2022/01/20/15-VPN/1621416722943-4f4a9b85-51f6-4399-b17d-401ebc5b7bb3.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1621841547159-f4361c20-e4b0-409b-9cb5-3b607e739bd5.png" alt="img"></p>
+<p>阶段1可以使用两种模式来完成数据包的交换，分别是主模式（Main mode）和主动模式（Aggressive mode）。主模式使用六个数据包进行交互，主动模式使用三个数据包进行交互。不管使用几个数据包，其主要目的是对建立IPSec的双方来进行认证，以确保只有合法的对等体才能建立IPSec VPN，协商的结果就是IKE SA。</p>
+<p>第二阶段总是使用三个数据包的交换来完成，主要目的是根据需要加密的实际流量（感兴趣流），来协商保护这些流量的策略，第二阶段协商的结果就是IPSec SA。</p>
+<p>只有通过预共享密钥认证的远程访问VPN（思科叫做EZVPN）的情况下，第一阶段才会使用主动模式，也就是3个包的方式来完成第一阶段。</p>
+<h4 id="阶段1-1"><a href="#阶段1-1" class="headerlink" title="阶段1"></a>阶段1</h4><p>阶段1可以使用两种模式来完成数据包的交换，分别是主模式（Main mode）和主动模式（Aggressive mode）。主模式使用六个ISAKMP数据包进行交互，主动模式使用三个ISAKMP数据包进行交互。不管使用几个数据包，其主要目的是对建立IPSec的双方来进行认证，以确保只有合法的对等体才能建立IPSec VPN，协商的结果就是IKE SA。第一阶段如果完成，一方面标志着收发双方认证通过，还标志着会建立一个双向的ISAKMP/IKE  SA（安全关联），这个SA维护了处理ISAKMP/IKE流量的相关策略（这些策略不会处理实际感兴趣流），而对等体双方还会继续使用这个SA来保护后续阶段2的IKE快速模式3个包的交换过程。</p>
+<p>我们先看主模式下的6个包交互的过程：</p>
+<p><img src="/2022/01/20/15-VPN/1621648229334-3347ea9e-05d8-4ca8-838b-061ec5b5aa61.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1622789361245-5f7f9cae-bcdd-4b5e-9a53-b42bd57d98e0.png" alt="img"></p>
+<p><strong>第一、二个包</strong></p>
+<p>主模式数据包1和2主要负责完成两个任务：</p>
+<ol>
+<li>通过核对收到ISAKMP数据包的源IP地址，来确认收到的ISAKMP数据包是否源自于合法的对等体（Peer，相当于合法的通信对象）；</li>
+<li>协商IKE策略；IKE策略包含加密策略、散列函数、DH组、认证方式、密钥有效期。但这个策略不是用于实际加密通信点之间流量的策略；</li>
+</ol>
+<p>数据包1的wireshark抓包如下：</p>
+<p><img src="/2022/01/20/15-VPN/1621653683948-1b2305d7-8ffd-4dad-9a9d-d2df7eab4d44.png" alt="img"></p>
+<p>通信的发起者站点1（那个想要建立起隧道的设备）将会发送第一个数据包，这个数据包是建立SA的提议，上面抓包中可以看到，发起者的IP地址是192.168.12.1，收到这个数据包的的对端IP地址是192.168.12.2，并且IKE使用了UDP端口500，抓包中发起者的SPI（Security Parameter Index，安全参数索引）是一个用来标识SA的唯一值。抓包中还能看到，使用的IKE协议版本为1.0，模式为主模式，后面的Payload负载中可以找到发起者希望在SA中使用的参数，比如使用AES算法进行加密、秘钥长度为128位等。</p>
+<p>192.168.12.2收到第一个ISAKMP数据包后首先会查看该数据包的源IP地址，如果这个源地址是需要建立IPSec的地址，那么它就会接受这个包，反之则会终止整个协商进程，因为站点2并不希望和不合法的对等体建立IPSec VPN。当站点2确定接收站点1发来的第一个ISAKMP数据包后，它将会回复数据包2，,告诉VPN发起方站点1，同意使用负载中的那些参数来建立连接，数据包2的抓包如下，可以看到站点2使用另一个唯一的SPI值：</p>
+<p><img src="/2022/01/20/15-VPN/1621654332594-b168b954-068b-442a-bbd6-e9505e6036d8.png" alt="img"></p>
+<p>由于IPSec只规定了框架，没有规定具体使用的协议，所以通信双方可能会支持多协议，前两个包在协商这些具体使用协议的大概过程如下：</p>
+<p><img src="/2022/01/20/15-VPN/1621656253656-629d5776-35d0-4c16-8911-a3aa25dc8770.png" alt="img"></p>
+<p>站点2接收方首先使用本地策略Policy10，来检查对方发过来的全部策略，如果不匹配就由下一个有线的策略来检查，直到找到一个匹配的策略为止。有了这些结果，在后续交换数据包3-6的时候，就可以使用1-2数据包协商好的策略来进行处理了。</p>
+<p><strong>第三、四个包</strong></p>
+<p><img src="/2022/01/20/15-VPN/1621656772548-7df805ce-25ab-426a-9ffb-526d1428ef58.png" alt="img"></p>
+<p>前两个数据包已经协商出了IKE策略，但仅仅使用上面协商好的加密策略和散列函数来保护IKE还缺一个重要的内容，密钥。加密和HMAC都需要使用秘钥，这个密钥如何产生呢？从DH交换中使用Diffie-Hellman算法产生。所以3-4个数据包开始交换DH密钥，上图中的Payload中就是交换的参数。</p>
+<p>站点2也会发送它关于DH算法所需要交换的参数：</p>
+<p><img src="/2022/01/20/15-VPN/1621657155784-e0f12856-63c9-4acb-93e2-2d5a719fc601.png" alt="img"></p>
+<p>交互完DH所需要的参数后，两端使用DH算法计算出了加密和HMAC处理  IKE信息的密钥，加密感兴趣流的密钥也是从这个密钥衍生出来的，可以说是所有密钥的始祖。</p>
+<p><strong>第五、六个包</strong></p>
+<p><img src="/2022/01/20/15-VPN/1621657428156-7c07a76b-60f7-45e2-b702-39823447cee0.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1621657440534-75ba4ce1-49f5-4dd4-9b36-5bbea2824354.png" alt="img"></p>
+<p>第五、六个数据包用来在安全的环境下进行认证，从IKE主模式的第五、第六个数据包开始以后，都会使用之前几个数据包协商出来的加密与HMAC算法进行安全保护，所以抓包中看不到具体的内容。前面的1-4个包的交换，只是在为IKE5-6包做认证铺垫，其中1-2是为认证做好策略（比如认证策略，加密策略和散列函数等），3-4包提供密钥以供后面使用。</p>
+<p>6个数据包交换完毕后，IKE 阶段1的主模式已经完成，开始阶段2。</p>
+<h4 id="阶段2-1"><a href="#阶段2-1" class="headerlink" title="阶段2"></a>阶段2</h4><p><img src="/2022/01/20/15-VPN/1622789405532-00ef8b69-f261-4967-8a78-b9ea81f2d3a8.png" alt="img"></p>
+<p>第二阶段总是使用三个数据包的交换来完成，主要目的是根据需要加密的实际流量（感兴趣流），来协商保护这些流量的策略，第二阶段协商的结果就是IPSec SA，比如使用AH还是ESP，使用Transport还是Tunnel，使用哪种加密\认证算法，DH如何交换，生存周期为多久。在阶段2中建立IPSec Tunnel的方式只有快速模式（Quick mode），抓包如下：</p>
+<p><img src="/2022/01/20/15-VPN/1621670160150-79fc2c57-d0fb-4845-ba38-244ab10cdbec.png" alt="img"></p>
+<p>第一个及第二个数据包主要协商HASH值，SA提案，IPSec转换机，密钥材料以及感兴趣流；</p>
+<p>第三个包为，HASH用于确认隧道建立，只是确认而已。</p>
+<h2 id="ESP-amp-AH"><a href="#ESP-amp-AH" class="headerlink" title="ESP&amp;AH"></a>ESP&amp;AH</h2><h2 id><a href="#" class="headerlink" title></a><img src="/2022/01/20/15-VPN/1620114697497-c474dadc-7c78-424a-a31f-ec9851abca8b.png" alt="img"></h2><p>IPSec通过在数据包中插入一个预定义头部的方式，来保障OSI上层协议数据的安全，主要用于保护网络层（IP）数据，因此它提供了网络层的安全性。从上图中可以看出，IPSec在原始的IP头部和IP负载之间加入了一个IPSec头部，这样可以对原始的IP负载实现加密，同时还可以实现对IPSec头部和原始IP负载的验证，以确保数据的完整性。这个头部用来告诉接收方，如何去解密，如果加密没有头部，那么接收方收到以后会一脸懵逼，不知道应该如何去解密。</p>
+<p>IPSec有两种头部也就是两种协议，可以将他们理解为是协议，但更严格的来说，是两种嵌入数据中的报头，它们分别是ESP和AH：</p>
+<h3 id="AH"><a href="#AH" class="headerlink" title="AH"></a>AH</h3><p>AH全称为Authentication Header，它是一个基于IP的传输层协议，协议号为51，通过添加一个根据数据段中的值所计算出来的AH报头，对数据段的全部或部分内容进行认证（AH is a protocol that provides authentication of either all or part of the contents of a datagram through the addition of a header that is calculated based on the values in the datagram. ）。AH只提供了身份验证机制，可以提供数据完整性验证（Data Integrity）、数据源身份认证（Data Origin Authentication）以及可选的对重放攻击的保护（未认证用户大量且反复的发送数据）。数据完整性验证由算法生成的摘要来确保，比如HMAC-MD5或HMAC-SHA算法；数据源身份验证由共享密钥生成的信息摘要确保；重放攻击防护由AH头部的序列号字段来提供保护。AH对IP报头和它的负载提供了完整性校验，但某些字段可能在传输过程中出现合理的变化，比如TTL字段。但AH不提供保密性，也就是说它不会对数据进行加密，数据可以被读取但禁止修改。AH由于无法加密使得它在现网中出现的几率不大。</p>
+<p>AH提供身份认证，它起作用的方式和CRC校验有点类似，CRC使用固定的算法，根据传输数据的内容计算出一个校验值，这个校验值随着原始数据一起发送给接收端，接收端会重新计算一遍，如果计算结果和发送端计算的不同，那么说明数据在传输过程中被更改了，这个数据会被丢弃。AH和上面的概念有点像，不过AH不像CRC一样只用一个简单的算法来验证，而是使用一个特定的哈希算法以及特定的密钥（这个密钥只有通信的发送方和接收方知道），两个设备协商出来的SA会决定这些信息，以便两边设备知道如何计算出‘校验值’而其他设备无法计算出这个值。在信息的发送端，AH完成完整性校验并计算出ICV（Integrity Check Value，完整性校验值），并将这个值放入报头中的Authentication Data部分，然后发给接收端。接收端收到以后会用同样的算法以及两设备之间共享的密钥进行计算，如果计算出的值和发送端相同，则表明数据未经篡改，如果计算出的值不同则表示数据被更改了。</p>
+<p><strong>AH协议的完整性验证范围为整个IP报文。</strong></p>
+<h4 id="报头格式"><a href="#报头格式" class="headerlink" title="报头格式"></a>报头格式</h4><p><img src="/2022/01/20/15-VPN/1621841814395-8b66e52a-d34a-42b8-8206-9cb233aadbef.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1621672449208-b07f7648-39a5-4729-88c1-657b87f29641.png" alt="img"></p>
+<ul>
+<li>Next Header：下一个报头，使用IP协议ID来标识IP负载。例如TCP数据中，传输模式值为6表示下一个报头为IP报头；</li>
+</ul>
+<p><img src="/2022/01/20/15-VPN/1621680833310-c6871ae5-e61e-4136-9578-71393889dca7.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1621680839155-400edc38-e35f-4b7b-af57-711bd61000ce.png" alt="img"></p>
+<ul>
+<li><p>Payload Length：负载长度，表示AH报头的长度；</p>
+</li>
+<li><p>Reserved：保留字段，设置为全0；</p>
+</li>
+<li><p>SPI：Security Parameter Index，安全索引，与目标地址及安全协议（也就是AH）组合使用，以确保通信的正确安全关联，接收方用SPI确定这个数据包是使用哪一个安全关联的；</p>
+</li>
+<li><p>Sequence Number：序列号，这是一个计数器性质的字段，标识通过SA所发送的数据包的数量。当两个设备之间的SA建立之初，值为0，随着使用该SA传输数据的增加，该值一起增加。该字段唯一标识了SA上的数据段，用来防止重放攻击；</p>
+</li>
+<li><p>Authentication Data：认证数据，该字段包含了AH协议所执行的哈希算法的结果，也就是完整性检查值（Integrity Check Value，ICV）；</p>
+</li>
+</ul>
+<p><img src="/2022/01/20/15-VPN/1621680958845-26b3575b-db31-44cf-98f1-21932d15afc6.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1621841900432-7d02648a-1ab5-4ae5-a633-abaee09a2d92.png" alt="img"></p>
+<h3 id="ESP"><a href="#ESP" class="headerlink" title="ESP"></a>ESP</h3><p>上边提到的AH可以提供数据完整性校验，但在现网中仅仅有数据完整性校验是不够的，我们还需要防止中间设备获取通信的内容，也就是保证通信的私密性，这点AH无法做到，所以需要使用ESP协议。</p>
+<p>ESP全称为Encapsulating Security Payload，也是基于IP的传输层协议，协议号为50，ESP不仅提供了认证功能（包含数据完整性验证、数据源身份认证以及重放攻击保户），相比AH来说，ESP还额外提供了数据私密性（通过加密算法）。其中数据完整性由MD5或SHA这种验证完整性的算法通过生成消息摘要来确保；数据源认证，由共享密钥创建的消息摘要确保；重放攻击保户，由AH头部中的序列号确保；</p>
+<p>ESP也可以值提供以上所有的功能，也可以单独提供其中的一个或两个功能，比如只提供数据私密性功能，或者只提供认证功能，或者同时提供数据私密性和认证功能。</p>
+<h4 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h4><p><img src="/2022/01/20/15-VPN/1621842635839-9cad1dc4-aee7-494c-9075-7b41872b86fc.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1621842501612-9fbff2fe-e0b3-4881-afef-1fc8c86aaebb.png" alt="img"></p>
+<ul>
+<li><p>SPI：全称为Security Parameters Index，安全参数索引，用于唯一标识IPSec SA；</p>
+</li>
+<li><p>Sequence Number：序列号，是一个从1开始的单项递增的计数器，唯一的标识每一个数据包，用于防止重放攻击，因为收到相同序列号的数据包可以直接丢弃；</p>
+</li>
+<li><p>ESP Payload Data：包含由下一头部字段给出的边长数据；</p>
+</li>
+<li><p>Padding：填充字段，用于增加ESP报文头部的位数，填充字段的长度与负载数据的长度和算法油管，当待加密报文的明文长度不是密文算法所要求的长度时，需要进行填充补齐；</p>
+</li>
+<li><p>Pad Length：填充长度，给出前面填充字段的长度，如果为0时表示没有填充；</p>
+</li>
+<li><p>Next Header：标识ESP报文后面的下一个负载类型，传输模式下，这个字段是被保护的上层协议（TCP或UDP）的编号，隧道模式下，是IP协议的编号；</p>
+</li>
+<li><p>ESP Authentication Data：认证数据，该字段包含完整性校验值ICV，用于接收方进行完整性校验，可选择的认证算法与AH的相同。ESP的验证功能是可选的，如果启动了数据包验证，会在加密数据的尾部添加一个ICV值；</p>
+</li>
+</ul>
+<p><img src="/2022/01/20/15-VPN/1621844010913-83347485-6c70-45c9-b914-c7f4257bad95.png" alt="img"></p>
+<h3 id="AH-VS-ESP"><a href="#AH-VS-ESP" class="headerlink" title="AH VS ESP"></a>AH VS ESP</h3><p><img src="/2022/01/20/15-VPN/1621844031767-51de0218-76ae-45f2-ab1a-11ba785c8701.png" alt="img"></p>
+<h2 id="IPSec两种模式"><a href="#IPSec两种模式" class="headerlink" title="IPSec两种模式"></a>IPSec两种模式</h2><p>IPSec共有两种模式，Transport模式和Tunnel模式，选择不同的模式不会对插入的报头有任何影响，但不同的模式会中，受到保护的部分不同，并且也会影响报头如何进行保护。本质上来说，模式是不是用来定义AH或ESP如何执行操作的，而是用来定义其他构成因素的基础，比如SA（Security Associations）。</p>
+<h3 id="Transport-Mode"><a href="#Transport-Mode" class="headerlink" title="Transport Mode"></a>Transport Mode</h3><h4 id="基本概念-1"><a href="#基本概念-1" class="headerlink" title="基本概念"></a>基本概念</h4><p>Transport模式，中文名为传输模式，在终端到终端传输的时候使用该模式，比如一个终端客户和服务器之间的通信，或者一个工作站和网关（网关被对待成另一个终端）之间的通信，在现网中，Transport模式通常在有其他Tunnel协议（比如GRE）出现的时候使用，在这种情况下，IPSec用作保护在Tunnel上的GRE流量：</p>
+<p><img src="/2022/01/20/15-VPN/1620701023549-7c7ddfaa-24a4-46ff-bb65-db456f9f3583.gif" alt="img"></p>
+<p>在上图中，服务器和电脑既是实际的通信，也是实际的加密设备，这两台设备既要相互通信，也只能自己加密，所以加密点等于通信点，只要能满足加密点等于通信点的条件就可以进行Transport模式的封装。</p>
+<p>Transport模式使用AH或ESP报头为数据提供保护，也就是IP层的Payload，IP层的载荷，Payload载荷又由TCP/UDP报头加上数据构成，在Transport模式下，不管是使用AH还是ESP报头用来保护数据，IP报头都不被保护。载荷由IPSec报头及尾部封装而成，原有的IP报头基本保持不变，不过IP protocol字段需要变为ESP（50）或AH（51），原有的IP protocol字段信息被保存在IPSec尾部中，以便接收设备进行解封装使用。</p>
+<p>现在来看Transport模式下的数据结构，先看ESP封装，ESP报头被插到了三层报头和四层报头之间，也就是原有的IP层报头会被挪到最前端，并对protocol字段进行了少许修改，从上面这些也能看出来，Transport模式下不会对原始的IP报头进行保护或加密，因为IP报头在ESP报头前面，没有被ESP所‘包含’。ESP在新的IP报头中，被识别为Protocol ID，50。Transport模式下，传输层报头、传输层负载、ESP尾部被加密，ESP头部、传输层报头、传输层负载和ESP尾部进行验证处理。</p>
+<p><img src="/2022/01/20/15-VPN/1620702680187-7ef84075-181b-4a67-96ff-8ce377a42cfb.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1620779973358-80d4807f-e8e4-4170-a027-eb02b2a3a90a.png" alt="img"></p>
+<p>接下来看Transport模式下使用AH报头，当使用Transport模式时，AH可以独立适用，也可以和ESP一起使用，AH的作用是保护整个数据包，和前面提到的ESP的Transport模式差不多，在Transport模式下使用AH报头的数据，也没有重新生成新的IP报头，而是将IP报头中的Protocol ID字段改为51，表示后面跟着的协议为AH，然后将AH报头插入在IP报头和传输层报头之间。</p>
+<p><img src="/2022/01/20/15-VPN/1620703041742-77ba46ba-1e7b-40f9-8c89-75cfdfbb3a41.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1620466010847-2f4cbd4e-75d0-4197-90d1-22ed2a8873ec.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1620467089396-1266c060-9c77-4a42-bd47-30b412b81f36.png" alt="img"></p>
+<h4 id="判断方法"><a href="#判断方法" class="headerlink" title="判断方法"></a>判断方法</h4><p>通信点地址和加密点地址相同；通信点地址可以被路由。</p>
+<h3 id="Tunnel-Mode"><a href="#Tunnel-Mode" class="headerlink" title="Tunnel Mode"></a>Tunnel Mode</h3><h4 id="基本概念-2"><a href="#基本概念-2" class="headerlink" title="基本概念"></a>基本概念</h4><p>Tunnel模式是默认模式，使用该模式的时候，IPSec会保护整个IP数据包，这意味着IPSec会将原始数据封装起来进行加密，然后加上新的IP报头，再将全新封装好的数据通过VPN Tunnel发送到另一边。</p>
+<p>Tunnel模式主要用在网关之间的通信或者终端和网关之间的通信（这时网关充当它背后主机的代理）：</p>
+<p><img src="/2022/01/20/15-VPN/1620782664256-b64f1955-a5d4-4e03-9780-fe43a6def775.gif" alt="img"></p>
+<p>比如上图中，分支站点有一台电脑要通过站点到站点的IPSecVPN来访问中心站点的服务器，这两台电脑就是通信点，而真正对数据进行加密的设备时两个站点连接互联网的路由器，假设分支站点点路由器获取的互联网地址为202.101.1.1，中心站点的互联网地址为62.128.2.1，那么路由器的这两个地址就是加密点。很明显加密点不等于通信点，这时就应该采用Tunnel模式来对数据进行封装。</p>
+<p>在Tunnel模式下，IPSec报头（ESP或AH报头）用来保护已经封装好的完整的IP数据包。IPSec报头插入在原始的IP报头前面，并且会在IPSec的报头前，再插入一个新的IP报头，也就是说，原始的IP报头不会暴露在网络中，也是安全的，然后原始的IP报头会被封装在另一个IP数据包中。如果使用ESP的话，新的IP报头中的Protocol ID字段为50；如果使用AH的话，新的IP报头中的Protocol ID字段为51。</p>
+<p><img src="/2022/01/20/15-VPN/1620783333605-146224d7-ac89-4f8d-9c64-659882743cfa.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1620783339355-624f87e4-f3e8-4796-9221-0b51b7a13b98.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1620783343721-7c959483-ed74-49cc-87d5-90c18084274f.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1620783429631-d52d7cb8-79d9-4b3d-8093-41e04a51f764.png" alt="img"></p>
+<h4 id="判断方法-1"><a href="#判断方法-1" class="headerlink" title="判断方法"></a>判断方法</h4><p>通信点地址和加密点地址不同；通信点地址到Internet不能被路由则肯定是隧道模式。</p>
+<h3 id="两者比较"><a href="#两者比较" class="headerlink" title="两者比较"></a>两者比较</h3><p>Tunnel模式会将原始的IP数据包看成一个整体，并将这个包含了原始IP报头的整体进行保护；而Transport模式则不会保护原始的IP报头，因此一般而言，报头的顺序如下：</p>
+<ul>
+<li>Transport模式：IP报头、IPSec报头（AH或ESP）、IP层负载（包含了传输层报头）；</li>
+<li>Tunnel模式：新IP报头、IPSec报头（AH或ESP）、旧的IP报头、IP层负载；</li>
+</ul>
+<p><strong>SOLUTION:</strong></p>
+<p><strong>Tunnel mode</strong>:</p>
+<ul>
+<li><p>Tunnel mode protects the internal routing information by encrypting the IP header of the original packet. The original packet is encapsulated by a another set of IP headers.</p>
+</li>
+<li><p>It is widely implemented in site-to-site VPN scenarios.</p>
+</li>
+<li><p>NAT traversal is supported with the tunnel mode.</p>
+</li>
+<li><p>Additional headers are added to the packet; so the payload MSS is less.</p>
+</li>
+</ul>
+<p><strong>Transport mode</strong>:</p>
+<ul>
+<li><p>The transport mode encrypts only the payload and ESP trailer; so the IP header of the original packet is not encrypted.</p>
+</li>
+<li><p>The IPsec Transport mode is implemented for client-to-site VPN scenarios.</p>
+</li>
+<li><p>NAT traversal is not supported with the transport mode.</p>
+</li>
+<li><p>MSS is higher, when compared to Tunnel mode, as no additional headers are required.</p>
+</li>
+<li><p>The transport mode is usually used when another tunneling protocol (such as GRE, L2TP) is used to first encapsulate the IP data packet, then IPsec is used to protect the GRE/L2TP tunnel packets.</p>
+</li>
+</ul>
+<p>从安全性来讲，隧道模式优于传输模式，它可以完全的对原始IP数据包进行验证和加密，隧道模式下隐藏内部IP地址，协议类型和端口；</p>
+<p>从性能来讲，隧道模式因为有一个额外的IP头，所以它将比传输模式占用更多的带宽。</p>
+<h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>对称密钥算法和非对称密钥算法各自都有相应的优缺点，对称密钥算法加密速度快，但密钥不好管理，且分发密钥的过程不安全，一旦密钥被窃取就完蛋了；非对称密钥算法密钥数量少，分发方便且不存在安全隐患，但加密速度奇慢无比，不可能用于大流量数据的加密。所以在实际使用加密算法的时候，一般会让两种算法共同工作，发挥其各自的优点。</p>
+<h3 id="发送方"><a href="#发送方" class="headerlink" title="发送方"></a>发送方</h3><p><img src="/2022/01/20/15-VPN/1621397404351-138fbb3b-f2dd-4cbd-8584-909558c74600.png" alt="img"></p>
+<p>简单来说就是首先使用对称密钥加密明文，得到密文；然后使用非对称密钥算法（用对端的公钥），加密上一步的密钥（对称加密算法的密钥）得到密钥包。</p>
+<p>具体步骤如下：</p>
+<ol>
+<li><p>用户1，也就是发起方，使用本地随机数产生器，产生用于对称密钥算法的随机密钥。如果使用的对称密钥算法是DES（DES的密钥长度为56bit），也就是说随机数产生器需要产生随机的56个数字，比如‘00011101011000100101….’用于加密数据；</p>
+</li>
+<li><p>使用步骤1产生的随机密钥，对重要的明文信息通过对称加密算法进行加密，得到密文，这个过程利用了对称加密算法速度快和加密后数据紧凑的特点；</p>
+</li>
+<li><p>用户1，也就是发起方，需要预先获取用户2，也就是接收方的公钥，并使用用户2的公钥，对步骤1产生的随机密钥进行加密，得到加密的密钥包；</p>
+</li>
+<li><p>将上两个步骤产生的密文和密钥包进行打包，一起发给接收方。</p>
+</li>
+</ol>
+<h3 id="接收方"><a href="#接收方" class="headerlink" title="接收方"></a>接收方</h3><p><img src="/2022/01/20/15-VPN/1621408656867-40e34b2d-cfb2-4c00-a898-4ed1a166b102.png" alt="img"></p>
+<p>大概步骤是，使用自己的私钥从密钥包中得到明文的对称密钥，然后用对称密钥解密密文，得到明文数据。</p>
+<ol>
+<li>用户2首先提取出密钥包，并且使用自己的私钥对它进行解密，并得到密钥，这个密钥是明文的密钥。这个明文密钥之所以使用非对称密钥算法进行交换，能够有效的防止密钥在中途被劫持；</li>
+<li>用户2提取出密文，然后用上一个步骤中得到的密钥解密，得到明文信息。</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在这个解决方案中，使用了对称密钥算法对实际传输的数据进行了加密，利用的是对称算法加密速度快、加密后数据紧凑的特点。同时也使用了非对称式加密算法，加密的是对称式加密算法的密钥，从而保证了密钥交换的安全性，利用的是非对称式加密算法不怕中途劫持的特点，因为即使被中途劫持了，劫持者没有私钥依旧无法对数据进行解密，没法获取数据实际的明文内容。</p>
+<h2 id="GRE-amp-IPSec"><a href="#GRE-amp-IPSec" class="headerlink" title="GRE&amp;IPSec"></a>GRE&amp;IPSec</h2><p>由于IPSec不支持IP协议的封装，不支持多上层协议，也不支持组播，但GRE支持多种上层协议、支持组播（意味着可以运行组播类协议，比如OSPF等动态路由协议）和QOS。所以GRE Over IPSec可以使得GRE和IPSec优势互补，通过GRE将组播、广播和非IP报文封装成普通的IP报文，通过IPSec为封装后的IP报文提供安全的通信，进而可以提供在总部和分支之间安全传送广播、组播业务，例如视频会议或动态路由协议报文等。</p>
+<p>可以使用GRE over IPSec或IPSec over GRE两种方式来封装。当网关之间采用GRE Over IPSec连接时，先进性GRE封装，再进行IPSec封装。GRE Over IPSec使用的封装模式，可以是隧道模式也可以是传输模式，因为隧道模式和传输模式相比增加了IPSec头，导致报文长度更长，更容易导致分片，所以更推荐采用传输模式GRE Over IPSec。</p>
+<p>IPSec over GRE的封装方式现网中很少用到，这里就不展开讲了。</p>
+<p><img src="/2022/01/20/15-VPN/1622002486753-987b9c1d-7eb1-4f88-a21c-3a935459fb24.png" alt="img"></p>
+<p>GRE over IPSec也有Tunnel和Transport两种模式，默认是Tunnel模式，IPSec会创建一个Tunnel的新IP头；在Transport模式下，IPSec会使用GRE的原有IP报头：</p>
+<p><img src="/2022/01/20/15-VPN/1622270596653-ceca33ad-4824-4cc3-a0ae-24a98bd3f597.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1622270659715-e9be0ecc-3fe3-4843-aa2b-6ddfe3891928.png" alt="img"></p>
+<p><img src="/2022/01/20/15-VPN/1622270663790-7a5e2879-28bd-4325-b38b-672d2dd83272.png" alt="img"></p>
+<p>GRE over IPSec就是IPSec在最外层，或者叫最底层，也就是在R1和R2之间建立IPSec tunnel，把里面的GRE Tunnel整个进行加密。over是在…..只上的意思，IPSec在最底层，GRE 在IPSec的基础上运行所以叫GRE over IPSec。路由协议在GRE tunnel完成路由交换，所有数据在GRE Tunnel中传送，因为整个GRE Tunnel被加密，所以里面的路由协议以及传输的数据都会被加密。</p>
+<p><img src="/2022/01/20/15-VPN/1622341990331-6c4033e8-1823-4a69-9d1f-da99acc364a5.png" alt="img"></p>
+<h2 id="其他重要概念"><a href="#其他重要概念" class="headerlink" title="其他重要概念"></a>其他重要概念</h2><h3 id="Security-Policies"><a href="#Security-Policies" class="headerlink" title="Security Policies"></a>Security Policies</h3><h3 id="Security-Parameter-Index"><a href="#Security-Parameter-Index" class="headerlink" title="Security Parameter Index"></a>Security Parameter Index</h3><h2 id="IPSec实验"><a href="#IPSec实验" class="headerlink" title="IPSec实验"></a>IPSec实验</h2><p><img src="/2022/01/20/15-VPN/1622254019280-916eb538-10da-4b9c-bbe1-291ab2d9ef92.png" alt="img"></p>
+<p>实验需要配置R4和R5之间的Site to Site IPSec VPN。R4、R5为两台主机，网关为R2\R3的E0/0接口。</p>
+<h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">R2：</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 192.168.1.254 255.255.255.0</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"> ip address 12.1.1.2 255.255.255.0</span><br><span class="line">!</span><br><span class="line">ip route 0.0.0.0 0.0.0.0 12.1.1.1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R3:</span><br><span class="line">interface Ethernet0/0</span><br><span class="line"> ip address 192.168.2.254 255.255.255.0</span><br><span class="line">!</span><br><span class="line">interface Ethernet0/2</span><br><span class="line"> ip address 13.1.1.3 255.255.255.0</span><br><span class="line">!</span><br><span class="line">ip route 0.0.0.0 0.0.0.0 13.1.1.1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">确保两边可以ping通：</span><br><span class="line">R2#ping 13.1.1.3</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending 5, 100-byte ICMP Echos to 13.1.1.3, timeout is 2 seconds:</span><br><span class="line">!!!!!</span><br><span class="line">Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化IPSec"><a href="#初始化IPSec" class="headerlink" title="初始化IPSec"></a>初始化IPSec</h3><p>在前面介绍IPSec总体流程时说过，第一个阶段是初始化，也就是激活ISAKMP，思科设备默认已经激活，配置命令是‘crypto isakmp enable’</p>
+<h3 id="设置IKE-Phase-1"><a href="#设置IKE-Phase-1" class="headerlink" title="设置IKE Phase 1"></a>设置IKE Phase 1</h3><p>阶段1主要协商ISAKMP SA的相关参数，因为IPSec只规定了框架，没有规定具体使用的协议且支持多协议，因此需要协商通信双方使用的协议，只有使用了相同的协议才能正常进行加解密、认证等步骤，为阶段2做准备。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">R2：</span><br><span class="line">crypto isakmp policy 10</span><br><span class="line">#进入配置ISAKMP模式，每个policy由后边所配置的序号唯一标识</span><br><span class="line"></span><br><span class="line"> encryption aes</span><br><span class="line"> #设置加密算法，默认为DES</span><br><span class="line"> </span><br><span class="line"> hash md5</span><br><span class="line"> #设置完整性校验的散列算法</span><br><span class="line"> </span><br><span class="line"> authentication pre-share</span><br><span class="line"> #一阶段第5-6个包，认证方式为预共享密钥</span><br><span class="line"> </span><br><span class="line"> group 2</span><br><span class="line"> #一阶段第3-4个包，DH交换使用Group2</span><br><span class="line"> </span><br><span class="line"> lifetime 30000</span><br><span class="line"> 设置生存周期，默认为一天，86400秒</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R3：</span><br><span class="line">crypto isakmp policy 10</span><br><span class="line"> encryption aes</span><br><span class="line"> hash md5</span><br><span class="line"> authentication pre-share</span><br><span class="line"> group 2</span><br><span class="line"> lifetime 30000</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置IKE-Phase-2"><a href="#设置IKE-Phase-2" class="headerlink" title="设置IKE Phase 2"></a>设置IKE Phase 2</h3><p>在阶段2，其他安全协议会使用阶段1建立好的ISAKMP SA来为自己建立SA，这个阶段建立的才是‘真正的’SA安全关联，因为这个SA才是用来给ESP\AH使用，用来保护那些需要传输的数据的。这个阶段需要协商一些参数：</p>
+<ul>
+<li><p>使用哪种IPSec的协议，是AH还是ESP；</p>
+</li>
+<li><p>使用哪种封装模式，是Transport模式还是Tunnel模式；</p>
+</li>
+<li><p>使用哪种加密算法，是DES、3DES还是AES；</p>
+</li>
+<li><p>使用哪种认证方式，是MD5还是SHA；</p>
+</li>
+<li><p>生存周期为多久，也就是IKE阶段2存在的时间是多久，当隧道将要过期时，会更换另一套密钥；</p>
+</li>
+<li><p>DH交换（可选），DH交换用来确保‘完全向前保密’，这个步骤可选，大概过程是强迫通信两端再次进行DH交换，为IKE第二阶段生成一个新的密钥，能更好的确保通信时的安全；</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">R2(config)#crypto ipsec transform-set TS ?</span><br><span class="line">  ah-md5-hmac   AH-HMAC-MD5 transform</span><br><span class="line">  ah-sha-hmac   AH-HMAC-SHA transform</span><br><span class="line">  comp-lzs      IP Compression using the LZS compression algorithm</span><br><span class="line">  esp-3des      ESP transform using 3DES(EDE) cipher (168 bits)</span><br><span class="line">  esp-aes       ESP transform using AES cipher</span><br><span class="line">  esp-des       ESP transform using DES cipher (56 bits)</span><br><span class="line">  esp-md5-hmac  ESP transform using HMAC-MD5 auth</span><br><span class="line">  esp-null      ESP transform w/o cipher</span><br><span class="line">  esp-seal      ESP transform using SEAL cipher (160 bits)</span><br><span class="line">  esp-sha-hmac  ESP transform using HMAC-SHA auth</span><br><span class="line"></span><br><span class="line">设置转换集并进入转换集配置模式，转换集（transform-set）是一个双方使用的安全协议以及安全算法的集合，包含了阶段2协商好的那些协议。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R2(config)#crypto ipsec transform-set TS esp-3des ah-sha-hmac</span><br><span class="line">R3(config)#crypto ipsec transform-set TS esp-3des ah-sha-hmac</span><br></pre></td></tr></table></figure>
+
+<h3 id="设定Pre-share-key"><a href="#设定Pre-share-key" class="headerlink" title="设定Pre-share key"></a>设定Pre-share key</h3><p>设定</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">R2(config)#crypto isakmp key 6 ccie address 13.1.1.3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R3(config)#crypto isakmp key 6 ccie address 12.1.1.2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">6表示密码传输是以密文形式，ccie是预共享密钥，12.1.1.2和13.1.1.3是需要共享密钥的地址</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置感兴趣流"><a href="#设置感兴趣流" class="headerlink" title="设置感兴趣流"></a>设置感兴趣流</h3><p>所谓的感兴趣流（Interesting Traffic）就是需要通过VPN保护的流量，在本例中，R1的Interesting Traffic就是由192.168.1.0/24到192.168.2.0/24的流量，而R2正好相反，是从192.168.2.0/24到192.168.1.0/24的，用Access-list将这些流量匹配好。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">R2：</span><br><span class="line">ip access-list extended VPN-TRAFFIC</span><br><span class="line"> permit ip 192.168.1.0 0.0.0.255 192.168.2.0 0.0.0.255</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R3：</span><br><span class="line">ip access-list extended VPN-TRAFFIC</span><br><span class="line"> permit ip 192.168.2.0 0.0.0.255 192.168.1.0 0.0.0.255</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置Crypto-Map"><a href="#设置Crypto-Map" class="headerlink" title="设置Crypto Map"></a>设置Crypto Map</h3><p>将刚才设置的参数，都整合放入Crypto Map中，然后在接口上调用这个Map，从接口发出的数据就会使用设置好的IPSec 进行加密：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">R2(config)#crypto map CMAP 1 ipsec-isakmp</span><br><span class="line">% NOTE: This new crypto map will remain disabled until a peer</span><br><span class="line">        and a valid access list have been configured.</span><br><span class="line">R2(config-crypto-map)#set peer 13.1.1.3</span><br><span class="line">R2(config-crypto-map)#set transform-set TS</span><br><span class="line">R2(config-crypto-map)#match address VPN-Traffic</span><br><span class="line">R2(config-crypto-map)#exit</span><br><span class="line">R2(config)#interface ethernet 0/1</span><br><span class="line">R2(config-if)#crypto map CMAP</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R3(config)#crypto map CMAP 1 ipsec-isakmp</span><br><span class="line">% NOTE: This new crypto map will remain disabled until a peer</span><br><span class="line">        and a valid access list have been configured.</span><br><span class="line">R3(config-crypto-map)#set peer 12.1.1.2</span><br><span class="line">R3(config-crypto-map)#set transform-set TS</span><br><span class="line">R3(config-crypto-map)#match address VPN-Traffic</span><br><span class="line">R3(config-crypto-map)#exit</span><br><span class="line">R3(config)#interface ethernet 0/0</span><br><span class="line">R3(config-if)#crypto map CMAP</span><br></pre></td></tr></table></figure>
+
+<h3 id="验证测试"><a href="#验证测试" class="headerlink" title="验证测试"></a>验证测试</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">R4#ping 192.168.2.1</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending 5, 100-byte ICMP Echos to 192.168.2.1, timeout is 2 seconds:</span><br><span class="line">!!!!!</span><br><span class="line">Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/01/20/15-VPN/1622260587962-19b7840d-0542-4a00-bb1d-76a24d7dfa3a.png" alt="img"></p>
+<p>从抓包中能看到，无法知道具体传输了什么内容，只知道Payload是ESP。</p>
+<h4 id="查看第一阶段建立"><a href="#查看第一阶段建立" class="headerlink" title="查看第一阶段建立"></a>查看第一阶段建立</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R2#show crypto isakmp sa</span><br><span class="line">IPv4 Crypto ISAKMP SA</span><br><span class="line">dst             src             state          conn-id status</span><br><span class="line">13.1.1.3        12.1.1.2        QM_IDLE           1001 ACTIVE</span><br></pre></td></tr></table></figure>
+
+<h4 id="查看第二阶段建立"><a href="#查看第二阶段建立" class="headerlink" title="查看第二阶段建立"></a>查看第二阶段建立</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">R2#show crypto ipsec sa</span><br><span class="line"></span><br><span class="line">interface: Ethernet0/1</span><br><span class="line">    Crypto map tag: CMAP, local addr 12.1.1.2</span><br><span class="line"></span><br><span class="line">   protected vrf: (none)</span><br><span class="line">   local  ident (addr/mask/prot/port): (192.168.1.0/255.255.255.0/0/0)</span><br><span class="line">   remote ident (addr/mask/prot/port): (192.168.2.0/255.255.255.0/0/0)</span><br><span class="line">   current_peer 13.1.1.3 port 500</span><br><span class="line">     PERMIT, flags=&#123;origin_is_acl,&#125;</span><br><span class="line">    #pkts encaps: 9, #pkts encrypt: 9, #pkts digest: 9</span><br><span class="line">    #pkts decaps: 9, #pkts decrypt: 9, #pkts verify: 9</span><br><span class="line">    #pkts compressed: 0, #pkts decompressed: 0</span><br><span class="line">    #pkts not compressed: 0, #pkts compr. failed: 0</span><br><span class="line">    #pkts not decompressed: 0, #pkts decompress failed: 0</span><br><span class="line">    #send errors 0, #recv errors 0</span><br><span class="line"></span><br><span class="line">     local crypto endpt.: 12.1.1.2, remote crypto endpt.: 13.1.1.3</span><br><span class="line">     plaintext mtu 1438, path mtu 1500, ip mtu 1500, ip mtu idb Ethernet0/1</span><br><span class="line">     current outbound spi: 0x36EDBC65(921549925)</span><br><span class="line">     PFS (Y/N): N, DH group: none</span><br><span class="line"></span><br><span class="line">     inbound esp sas:</span><br><span class="line">      spi: 0x7809602A(2013880362)</span><br><span class="line">        transform: esp-3des ,</span><br><span class="line">        in use settings =&#123;Tunnel, &#125;</span><br><span class="line">        conn id: 5, flow_id: SW:5, sibling_flags 80000070, crypto map: CMAP</span><br><span class="line">        sa timing: remaining key lifetime (k/sec): (4251466/3356)</span><br><span class="line">        IV size: 8 bytes</span><br><span class="line">        replay detection support: Y</span><br><span class="line">        Status: ACTIVE(ACTIVE)</span><br><span class="line"></span><br><span class="line">     inbound ah sas:</span><br><span class="line">      spi: 0x8C299743(2351535939)</span><br><span class="line">        transform: ah-sha-hmac ,</span><br><span class="line">        in use settings =&#123;Tunnel, &#125;</span><br><span class="line">        conn id: 5, flow_id: SW:5, sibling_flags 80000070, crypto map: CMAP</span><br><span class="line">        sa timing: remaining key lifetime (k/sec): (4251466/3356)</span><br><span class="line">        replay detection support: Y</span><br><span class="line">        Status: ACTIVE(ACTIVE)</span><br><span class="line"></span><br><span class="line">     inbound pcp sas:</span><br><span class="line"></span><br><span class="line">     outbound esp sas:</span><br><span class="line">      spi: 0x27E3BDAF(669236655)</span><br><span class="line">        transform: esp-3des ,</span><br><span class="line">        in use settings =&#123;Tunnel, &#125;</span><br><span class="line">        conn id: 6, flow_id: SW:6, sibling_flags 80000070, crypto map: CMAP</span><br><span class="line">        sa timing: remaining key lifetime (k/sec): (4251466/3356)</span><br><span class="line">        IV size: 8 bytes</span><br><span class="line">        replay detection support: Y</span><br><span class="line">        Status: ACTIVE(ACTIVE)</span><br><span class="line"></span><br><span class="line">     outbound ah sas:</span><br><span class="line">      spi: 0x36EDBC65(921549925)</span><br><span class="line">        transform: ah-sha-hmac ,</span><br><span class="line">        in use settings =&#123;Tunnel, &#125;</span><br><span class="line">        conn id: 6, flow_id: SW:6, sibling_flags 80000070, crypto map: CMAP</span><br><span class="line">        sa timing: remaining key lifetime (k/sec): (4251466/3356)</span><br><span class="line">        replay detection support: Y</span><br><span class="line">        Status: ACTIVE(ACTIVE)</span><br><span class="line"></span><br><span class="line">     outbound pcp sas:</span><br></pre></td></tr></table></figure>
+
+<h2 id="GRE-over-IPSec实验"><a href="#GRE-over-IPSec实验" class="headerlink" title="GRE over IPSec实验"></a>GRE over IPSec实验</h2><p><img src="/2022/01/20/15-VPN/1622020979115-d750e6e4-df7a-47ed-bb03-52fbb2251863.png" alt="img"></p>
+<p>本实验需要在R1和R2这两个站点之间建立GRE隧道Tunnel0，Tunnel的网段为172.16.12.0/24，另外还需要在GRE隧道上运行OSPF，使得两个站点通过动态路由协议学习到身后网络的路由，1.1.1.0/24和2.2.2.0/24，最后配置IPSec VPN，对两个站点之间的GRE流量进行加密。</p>
+<h3 id="基础设置"><a href="#基础设置" class="headerlink" title="基础设置"></a>基础设置</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">R1：</span><br><span class="line">hostname R1</span><br><span class="line">!</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 1.1.1.1 255.255.255.0</span><br><span class="line">!</span><br><span class="line">interface Ethernet1/0</span><br><span class="line"> ip address 192.168.13.1 255.255.255.0</span><br><span class="line">!</span><br><span class="line">ip route 0.0.0.0 0.0.0.0 192.168.13.3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R2：</span><br><span class="line">hostname R2</span><br><span class="line">!</span><br><span class="line">interface Loopback0</span><br><span class="line"> ip address 2.2.2.2 255.255.255.0</span><br><span class="line">!</span><br><span class="line">interface Ethernet1/0</span><br><span class="line"> ip address 192.168.23.2 255.255.255.0</span><br><span class="line">!</span><br><span class="line">ip route 0.0.0.0 0.0.0.0 192.168.23.3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R3：</span><br><span class="line">hostname R3</span><br><span class="line">!</span><br><span class="line">interface Ethernet1/0</span><br><span class="line"> ip address 192.168.13.3 255.255.255.0</span><br><span class="line">!</span><br><span class="line">interface Ethernet1/1</span><br><span class="line"> ip address 192.168.23.3 255.255.255.0</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> 验证确保只有192.168.13.1 能 Ping 通 192.168.23.2：</span><br><span class="line"> R1(config)#do ping 192.168.23.2</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending 5, 100-byte ICMP Echos to 192.168.23.2, timeout is 2 seconds:</span><br><span class="line">!!!!!</span><br><span class="line">Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R1#ping 2.2.2.2 source 1.1.1.1</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending 5, 100-byte ICMP Echos to 2.2.2.2, timeout is 2 seconds:</span><br><span class="line">Packet sent with a source address of 1.1.1.1</span><br><span class="line">.....</span><br><span class="line">Success rate is 0 percent (0/5)</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置GRE隧道"><a href="#配置GRE隧道" class="headerlink" title="配置GRE隧道"></a>配置GRE隧道</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">R1:</span><br><span class="line">interface Tunnel0</span><br><span class="line"> ip address 172.16.12.1 255.255.255.0</span><br><span class="line"> tunnel source Ethernet0/0</span><br><span class="line"> tunnel destination 192.168.23.2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R2:</span><br><span class="line">interface Tunnel0</span><br><span class="line"> ip address 172.16.12.2 255.255.255.0</span><br><span class="line"> tunnel source Ethernet0/0</span><br><span class="line"> tunnel destination 192.168.13.1</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">测试GRE隧道：</span><br><span class="line">R1#ping 172.16.12.2</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending 5, 100-byte ICMP Echos to 172.16.12.2, timeout is 2 seconds:</span><br><span class="line">!!!!!</span><br><span class="line">Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置路由协议"><a href="#配置路由协议" class="headerlink" title="配置路由协议"></a>配置路由协议</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">R1:</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 1.1.1.1</span><br><span class="line"> network 1.1.1.1 0.0.0.0 area 0</span><br><span class="line"> network 172.16.12.1 0.0.0.0 area 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R2:</span><br><span class="line">router ospf 1</span><br><span class="line"> router-id 2.2.2.2</span><br><span class="line"> network 2.2.2.2 0.0.0.0 area 0</span><br><span class="line"> network 172.16.12.2 0.0.0.0 area 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R1#show ip ospf nei</span><br><span class="line"></span><br><span class="line">Neighbor ID     Pri   State           Dead Time   Address         Interface</span><br><span class="line">2.2.2.2           0   FULL/  -        00:00:39    172.16.12.2     Tunnel0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R1#show ip route ospf</span><br><span class="line">Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP</span><br><span class="line">       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area</span><br><span class="line">       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2</span><br><span class="line">       E1 - OSPF external type 1, E2 - OSPF external type 2</span><br><span class="line">       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2</span><br><span class="line">       ia - IS-IS inter area, * - candidate default, U - per-user static route</span><br><span class="line">       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP</span><br><span class="line">       a - application route</span><br><span class="line">       + - replicated route, % - next hop override, p - overrides from PfR</span><br><span class="line"></span><br><span class="line">Gateway of last resort is 192.168.13.3 to network 0.0.0.0</span><br><span class="line"></span><br><span class="line">      2.0.0.0/32 is subnetted, 1 subnets</span><br><span class="line">O        2.2.2.2 [110/1001] via 172.16.12.2, 00:01:17, Tunnel0</span><br></pre></td></tr></table></figure>
+
+<p>通过show命令可以看到R1和R2之间建立了邻居关系，并且学到了对方身后的Loopback网段的路由。</p>
+<h3 id="设置感兴趣流-1"><a href="#设置感兴趣流-1" class="headerlink" title="设置感兴趣流"></a>设置感兴趣流</h3><p>由于目标是要将整个Interface加密，因此设置ACL用来匹配感兴趣流</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#ip access-list extended IPSEC_TUNNEL </span><br><span class="line">R1(config-ext-nacl)#permit ip host 192.168.13.1 host 192.168.23.2</span><br><span class="line">R2(config)#ip access-list extended IPSEC_TUNNEL </span><br><span class="line">R2(config-ext-nacl)#permit ip host 192.168.23.2 host 192.168.13.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置IPSec"><a href="#设置IPSec" class="headerlink" title="设置IPSec"></a>设置IPSec</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#crypto isakmp key ccie address 192.168.23.2</span><br><span class="line">R1(config)#crypto isakmp policy 10</span><br><span class="line">R1(config-isakmp)#encryption aes </span><br><span class="line">R1(config-isakmp)#authentication pre-share </span><br><span class="line">R1(config-isakmp)#group 2</span><br><span class="line">R1(config-isakmp)#exit</span><br><span class="line">R1(config)#crypto ipsec transform-set TS esp-3des </span><br><span class="line">R1(cfg-crypto-trans)#exit</span><br><span class="line">R1(config)#crypto map GRE_OVER_IPSEC 10 ipsec-isakmp </span><br><span class="line">R1(config-crypto-map)#set peer 192.168.23.2</span><br><span class="line">R1(config-crypto-map)#set transform-set TS</span><br><span class="line">R1(config-crypto-map)#match address IPSEC_TUNNEL</span><br><span class="line">R2(config)#crypto isakmp key ccie address 192.168.13.1</span><br><span class="line">R2(config)#crypto isakmp policy 10</span><br><span class="line">R2(config-isakmp)#encryption aes </span><br><span class="line">R2(config-isakmp)#authentication pre-share </span><br><span class="line">R2(config-isakmp)#group 2</span><br><span class="line">R2(config-isakmp)#exit</span><br><span class="line">R2(config)#crypto ipsec transform-set TS esp-3des </span><br><span class="line">R2(cfg-crypto-trans)#exit</span><br><span class="line">R2(config)#crypto map GRE_OVER_IPSEC 10 ipsec-isakmp </span><br><span class="line">R2(config-crypto-map)#set peer 192.168.13.1</span><br><span class="line">R2(config-crypto-map)#set transform-set TS</span><br><span class="line">R2(config-crypto-map)#match address IPSEC_TUNNEL</span><br></pre></td></tr></table></figure>
+
+<h3 id="将IPSec应用到接口"><a href="#将IPSec应用到接口" class="headerlink" title="将IPSec应用到接口"></a>将IPSec应用到接口</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R1(config)#int ethernet 1/0</span><br><span class="line">R1(config-if)#crypto map GRE_OVER_IPSEC</span><br><span class="line">R2(config)#int ethernet 1/0</span><br><span class="line">R2(config-if)#crypto map GRE_OVER_IPSEC</span><br></pre></td></tr></table></figure>
+
+<h3 id="验证配置"><a href="#验证配置" class="headerlink" title="验证配置"></a>验证配置</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">R1#ping 2.2.2.2 source 1.1.1.1</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending 5, 100-byte ICMP Echos to 2.2.2.2, timeout is 2 seconds:</span><br><span class="line">Packet sent with a source address of 1.1.1.1</span><br><span class="line">!!!!!</span><br><span class="line">Success rate is 100 percent (5/5), round-trip min/avg/max = 2/5/6 ms</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R1#show crypto isakmp sa</span><br><span class="line">IPv4 Crypto ISAKMP SA</span><br><span class="line">dst             src             state          conn-id status</span><br><span class="line">192.168.23.2    192.168.13.1    QM_IDLE           1001 ACTIVE</span><br><span class="line"></span><br><span class="line">IPv6 Crypto ISAKMP SA</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">R1#show crypto ipsec sa</span><br><span class="line"></span><br><span class="line">interface: Ethernet0/0</span><br><span class="line">    Crypto map tag: GRE_OVER_IPSEC, local addr 192.168.13.1</span><br><span class="line"></span><br><span class="line">   protected vrf: (none)</span><br><span class="line">   local  ident (addr/mask/prot/port): (192.168.13.1/255.255.255.255/0/0)</span><br><span class="line">   remote ident (addr/mask/prot/port): (192.168.23.2/255.255.255.255/0/0)</span><br><span class="line">   current_peer 192.168.23.2 port 500</span><br><span class="line">     PERMIT, flags=&#123;origin_is_acl,&#125;</span><br><span class="line">    #pkts encaps: 294, #pkts encrypt: 294, #pkts digest: 294</span><br><span class="line">    #pkts decaps: 294, #pkts decrypt: 294, #pkts verify: 294</span><br><span class="line">    #pkts compressed: 0, #pkts decompressed: 0</span><br><span class="line">    #pkts not compressed: 0, #pkts compr. failed: 0</span><br><span class="line">    #pkts not decompressed: 0, #pkts decompress failed: 0</span><br><span class="line">    #send errors 0, #recv errors 0</span><br><span class="line"></span><br><span class="line">     local crypto endpt.: 192.168.13.1, remote crypto endpt.: 192.168.23.2</span><br><span class="line">     plaintext mtu 1462, path mtu 1500, ip mtu 1500, ip mtu idb Ethernet0/0</span><br><span class="line">     current outbound spi: 0x9E692FBE(2657693630)</span><br><span class="line">     PFS (Y/N): N, DH group: none</span><br><span class="line"></span><br><span class="line">     inbound esp sas:</span><br><span class="line">      spi: 0x1EF8F00(32476928)</span><br><span class="line">        transform: esp-3des ,</span><br><span class="line">        in use settings =&#123;Tunnel, &#125;</span><br><span class="line">        conn id: 1, flow_id: SW:1, sibling_flags 80004040, crypto map: GRE_OVER_IPSEC</span><br><span class="line">        sa timing: remaining key lifetime (k/sec): (4236140/882)</span><br><span class="line">        IV size: 8 bytes</span><br><span class="line">        replay detection support: N</span><br><span class="line">        Status: ACTIVE(ACTIVE)</span><br><span class="line"></span><br><span class="line">     inbound ah sas:</span><br><span class="line"></span><br><span class="line">     inbound pcp sas:</span><br><span class="line"></span><br><span class="line">     outbound esp sas:</span><br><span class="line">      spi: 0x9E692FBE(2657693630)</span><br><span class="line">        transform: esp-3des ,</span><br><span class="line">        in use settings =&#123;Tunnel, &#125;</span><br><span class="line">        conn id: 2, flow_id: SW:2, sibling_flags 80004040, crypto map: GRE_OVER_IPSEC</span><br><span class="line">        sa timing: remaining key lifetime (k/sec): (4236140/882)</span><br><span class="line">        IV size: 8 bytes</span><br><span class="line">        replay detection support: N</span><br><span class="line">        Status: ACTIVE(ACTIVE)</span><br><span class="line"></span><br><span class="line">     outbound ah sas:</span><br><span class="line"></span><br><span class="line">     outbound pcp sas:</span><br></pre></td></tr></table></figure>
+
+<h1 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h1><p><a target="_blank" rel="noopener" href="https://www.yuque.com/lcheng/hcie/qb74wf">GRE</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jannet.hk/zh-Hans/post/dynamic-multipoint-virtual-private-network-dmvpn/">Dynamic Multipoint VPN (DMVPN) 动态多点虚拟私人网络</a></p>
+<p><a target="_blank" rel="noopener" href="https://networklessons.com/cisco/ccie-routing-switching/introduction-to-dmvpn">Introduction to DMVPN</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.juniper.net/documentation/us/en/software/junos/vpn-ipsec/topics/topic-map/security-ipsec-basics.html">IPsec Basics</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.mrbluyee.com/2019/09/23/IPsec/">IPSec</a></p>
+<p><a target="_blank" rel="noopener" href="https://ipcisco.com/lesson/ipsec-vpn-overview/">IPSec VPN Overview</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ibm.com/support/pages/what-difference-between-ah-and-esp-protocols-ipsec">What is the difference between the AH and ESP protocols of IPSec?</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ibm.com/docs/en/zos/2.1.0?topic=ipsec-ah-esp-protocols">AH and ESP protocols</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.tcpipguide.com/free/t_IPSecAuthenticationHeaderAH.htm">IPSec Authentication Header (AH)</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.firewall.cx/networking-topics/protocols/870-ipsec-modes.html">UNDERSTANDING VPN IPSEC TUNNEL MODE AND IPSEC TRANSPORT MODE - WHAT’S THE DIFFERENCE?</a></p>
+<p><a target="_blank" rel="noopener" href="https://networklessons.com/cisco/ccie-routing-switching-written/ipsec-internet-protocol-security#IKE_Internet_Key_Exchange">IPsec (Internet Protocol Security)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.juniper.net/documentation/us/en/software/junos/vpn-ipsec/topics/topic-map/security-ike-basics.html">Internet Key Exchange</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38265137/article/details/89423551">IPSec基本原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38265137/article/details/89423617">IPSec之IKEv1协议详解</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38265137/article/details/89423663">IPSec之IKEv2协议详解</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ciscopress.com/articles/article.asp?p=25474&seqNum=7">How IPSec Works</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.unixwiz.net/techtips/iguide-ipsec.html">An Illustrated Guide to IPsec</a></p>
+<p><a target="_blank" rel="noopener" href="https://cshihong.github.io/2019/04/19/GRE-over-IPSec%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/">GRE over IPSec技术原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jannet.hk/zh-Hans/post/gre-over-ipsec-vs-ipsec-over-gre/">GRE over IPSec vs IPSec over GRE</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Rookie</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://renyuan431.github.io/2022/01/20/15-VPN/">https://renyuan431.github.io/2022/01/20/15-VPN/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://renyuan431.github.io" target="_blank">Rookie的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/index.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechatpay.png" target="_blank"><img class="post-qr-code-img" src="/img/wechatpay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.png" target="_blank"><img class="post-qr-code-img" src="/img/alipay.png" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/01/20/16-IPV6/"><img class="prev-cover" src="/img/index.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">16-IPV6</div></div></a></div><div class="next-post pull-right"><a href="/2020/10/11/14-BGP/"><img class="next-cover" src="/img/index.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">14、BGP</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Rookie</div><div class="author-info__description"></div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#VPN%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">VPN简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A7%E7%94%9F%E8%83%8C%E6%99%AF"><span class="toc-number">1.1.</span> <span class="toc-text">产生背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">连接方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Site-to-Site"><span class="toc-number">1.2.1.</span> <span class="toc-text">Site to Site</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Remote-Access"><span class="toc-number">1.2.2.</span> <span class="toc-text">Remote Access</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GRE"><span class="toc-number">2.</span> <span class="toc-text">GRE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.2.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E7%BB%93%E6%9E%84"><span class="toc-number">2.3.</span> <span class="toc-text">报文结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E8%A3%85-%E8%A7%A3%E5%B0%81%E8%A3%85%E8%BF%87%E7%A8%8B"><span class="toc-number">2.4.</span> <span class="toc-text">封装\解封装过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">2.5.</span> <span class="toc-text">实验</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DMVPN"><span class="toc-number">3.</span> <span class="toc-text">DMVPN</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-1"><span class="toc-number">3.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mGRE"><span class="toc-number">3.2.</span> <span class="toc-text">mGRE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NHRP"><span class="toc-number">3.3.</span> <span class="toc-text">NHRP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86"><span class="toc-number">3.3.1.</span> <span class="toc-text">理论知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%91%BD%E4%BB%A4"><span class="toc-number">3.3.2.</span> <span class="toc-text">配置命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C-1"><span class="toc-number">3.3.3.</span> <span class="toc-text">实验</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%BF%E6%92%AD%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.3.3.1.</span> <span class="toc-text">广播模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%82%B9%E5%88%B0%E5%A4%9A%E7%82%B9%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.3.3.2.</span> <span class="toc-text">点到多点模式</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IPSec-vpn"><span class="toc-number">4.</span> <span class="toc-text">IPSec vpn</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BA%E7%8E%B0%E8%83%8C%E6%99%AF"><span class="toc-number">4.1.</span> <span class="toc-text">出现背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">4.2.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E9%92%A5"><span class="toc-number">4.2.1.</span> <span class="toc-text">密钥</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E7%A7%B0%E5%AF%86%E9%92%A5%E7%AE%97%E6%B3%95"><span class="toc-number">4.2.1.1.</span> <span class="toc-text">对称密钥算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%AF%86%E9%92%A5%E7%AE%97%E6%B3%95"><span class="toc-number">4.2.1.2.</span> <span class="toc-text">非对称密钥算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="toc-number">4.2.1.3.</span> <span class="toc-text">数字签名</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E8%A7%88"><span class="toc-number">4.3.</span> <span class="toc-text">总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IPSec%E6%A1%86%E6%9E%B6"><span class="toc-number">4.4.</span> <span class="toc-text">IPSec框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="toc-number">4.5.</span> <span class="toc-text">总体流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IKE%E5%8D%8F%E8%AE%AE"><span class="toc-number">4.6.</span> <span class="toc-text">IKE协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">4.6.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IKE%E5%92%8CIPSec%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">4.6.2.</span> <span class="toc-text">IKE和IPSec的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E8%81%94%E7%9B%9F"><span class="toc-number">4.6.3.</span> <span class="toc-text">安全联盟</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B51"><span class="toc-number">4.6.4.</span> <span class="toc-text">阶段1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%8F%E5%95%86"><span class="toc-number">4.6.4.1.</span> <span class="toc-text">协商</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DH%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2"><span class="toc-number">4.6.4.2.</span> <span class="toc-text">DH密钥交换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A4%E8%AF%81"><span class="toc-number">4.6.4.3.</span> <span class="toc-text">认证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.6.4.4.</span> <span class="toc-text">两种模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B52"><span class="toc-number">4.6.5.</span> <span class="toc-text">阶段2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B51VS%E9%98%B6%E6%AE%B52"><span class="toc-number">4.6.6.</span> <span class="toc-text">阶段1VS阶段2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2%E8%BF%87%E7%A8%8B"><span class="toc-number">4.6.7.</span> <span class="toc-text">数据交换过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B6%E6%AE%B51-1"><span class="toc-number">4.6.7.1.</span> <span class="toc-text">阶段1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B6%E6%AE%B52-1"><span class="toc-number">4.6.7.2.</span> <span class="toc-text">阶段2</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ESP-amp-AH"><span class="toc-number">4.7.</span> <span class="toc-text">ESP&amp;AH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">4.8.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AH"><span class="toc-number">4.8.1.</span> <span class="toc-text">AH</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%A5%E5%A4%B4%E6%A0%BC%E5%BC%8F"><span class="toc-number">4.8.1.1.</span> <span class="toc-text">报头格式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ESP"><span class="toc-number">4.8.2.</span> <span class="toc-text">ESP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-number">4.8.2.1.</span> <span class="toc-text">报文格式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AH-VS-ESP"><span class="toc-number">4.8.3.</span> <span class="toc-text">AH VS ESP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IPSec%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.9.</span> <span class="toc-text">IPSec两种模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Transport-Mode"><span class="toc-number">4.9.1.</span> <span class="toc-text">Transport Mode</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-1"><span class="toc-number">4.9.1.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%96%B9%E6%B3%95"><span class="toc-number">4.9.1.2.</span> <span class="toc-text">判断方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tunnel-Mode"><span class="toc-number">4.9.2.</span> <span class="toc-text">Tunnel Mode</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-2"><span class="toc-number">4.9.2.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%96%B9%E6%B3%95-1"><span class="toc-number">4.9.2.2.</span> <span class="toc-text">判断方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E8%80%85%E6%AF%94%E8%BE%83"><span class="toc-number">4.9.3.</span> <span class="toc-text">两者比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86"><span class="toc-number">4.10.</span> <span class="toc-text">加密</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E6%96%B9"><span class="toc-number">4.10.1.</span> <span class="toc-text">发送方</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E6%96%B9"><span class="toc-number">4.10.2.</span> <span class="toc-text">接收方</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.10.3.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GRE-amp-IPSec"><span class="toc-number">4.11.</span> <span class="toc-text">GRE&amp;IPSec</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="toc-number">4.12.</span> <span class="toc-text">其他重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Security-Policies"><span class="toc-number">4.12.1.</span> <span class="toc-text">Security Policies</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Security-Parameter-Index"><span class="toc-number">4.12.2.</span> <span class="toc-text">Security Parameter Index</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IPSec%E5%AE%9E%E9%AA%8C"><span class="toc-number">4.13.</span> <span class="toc-text">IPSec实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE"><span class="toc-number">4.13.1.</span> <span class="toc-text">基础配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96IPSec"><span class="toc-number">4.13.2.</span> <span class="toc-text">初始化IPSec</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEIKE-Phase-1"><span class="toc-number">4.13.3.</span> <span class="toc-text">设置IKE Phase 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEIKE-Phase-2"><span class="toc-number">4.13.4.</span> <span class="toc-text">设置IKE Phase 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E5%AE%9APre-share-key"><span class="toc-number">4.13.5.</span> <span class="toc-text">设定Pre-share key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%84%9F%E5%85%B4%E8%B6%A3%E6%B5%81"><span class="toc-number">4.13.6.</span> <span class="toc-text">设置感兴趣流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AECrypto-Map"><span class="toc-number">4.13.7.</span> <span class="toc-text">设置Crypto Map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E6%B5%8B%E8%AF%95"><span class="toc-number">4.13.8.</span> <span class="toc-text">验证测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5%E5%BB%BA%E7%AB%8B"><span class="toc-number">4.13.8.1.</span> <span class="toc-text">查看第一阶段建立</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5%E5%BB%BA%E7%AB%8B"><span class="toc-number">4.13.8.2.</span> <span class="toc-text">查看第二阶段建立</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GRE-over-IPSec%E5%AE%9E%E9%AA%8C"><span class="toc-number">4.14.</span> <span class="toc-text">GRE over IPSec实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AE%BE%E7%BD%AE"><span class="toc-number">4.14.1.</span> <span class="toc-text">基础设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEGRE%E9%9A%A7%E9%81%93"><span class="toc-number">4.14.2.</span> <span class="toc-text">配置GRE隧道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE"><span class="toc-number">4.14.3.</span> <span class="toc-text">配置路由协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%84%9F%E5%85%B4%E8%B6%A3%E6%B5%81-1"><span class="toc-number">4.14.4.</span> <span class="toc-text">设置感兴趣流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEIPSec"><span class="toc-number">4.14.5.</span> <span class="toc-text">设置IPSec</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86IPSec%E5%BA%94%E7%94%A8%E5%88%B0%E6%8E%A5%E5%8F%A3"><span class="toc-number">4.14.6.</span> <span class="toc-text">将IPSec应用到接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E9%85%8D%E7%BD%AE"><span class="toc-number">4.14.7.</span> <span class="toc-text">验证配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E6%96%87%E7%AB%A0"><span class="toc-number">5.</span> <span class="toc-text">引用文章</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/20-Multicast/" title="20-Multicast">20-Multicast</a><time datetime="2022-01-20T07:34:09.000Z" title="发表于 2022-01-20 15:34:09">2022-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/19-Switch/" title="19-Switch">19-Switch</a><time datetime="2022-01-20T07:32:18.000Z" title="发表于 2022-01-20 15:32:18">2022-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/18-MPLSVPN/" title="18-MPLSVPN">18-MPLSVPN</a><time datetime="2022-01-20T07:30:18.000Z" title="发表于 2022-01-20 15:30:18">2022-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/17-MPLS/" title="17-MPLS">17-MPLS</a><time datetime="2022-01-20T07:29:19.000Z" title="发表于 2022-01-20 15:29:19">2022-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/01/20/16-IPV6/" title="16-IPV6">16-IPV6</a><time datetime="2022-01-20T07:17:05.000Z" title="发表于 2022-01-20 15:17:05">2022-01-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2022 By Rookie</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://renyuan431.github.io/2022/01/20/15-VPN/'
+    this.page.identifier = '2022/01/20/15-VPN/'
+    this.page.title = '15-VPN'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://newnotebook.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Disqus' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = '/posts/,/about/'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.akilar.top/api?renyuan431",['#e4dfd7', '#f9f4dc', '#f7e8aa', '#f7e8aa', '#f8df72', '#fcd217', '#fcc515', '#f28e16', '#fb8b05', '#d85916', '#f43e06'],'renyuan431')
+    }
+  </script><!-- hexo injector body_end end --></body></html>
