@@ -2413,7 +2413,13 @@
 <p>1B（1字节）是比较小的存储单位：1个英文字母占1个字节；一个汉字占2个字节；</p>
 <p>他们之间的换算：10M带宽=1.25MB/s网速：1M带宽=0.125MB/s=128KB/s</p>
 <p>10Mbps=10<em>1024Kbps=10</em>1024<em>1024bps=10</em>1024*1024/8 Byte/s=10/8 MB/s=1.25 MB/s</p>
-<h2 id="引用文章："><a href="#引用文章：" class="headerlink" title="引用文章："></a>引用文章：</h2><p><a href="https://zhuanlan.zhihu.com/p/50401281">浅谈带宽、网速和流量之间的关系</a></p>
+<h2 id="四、可能会涉及到的术语"><a href="#四、可能会涉及到的术语" class="headerlink" title="四、可能会涉及到的术语"></a>四、可能会涉及到的术语</h2><h2 id="jitter"><a href="#jitter" class="headerlink" title="jitter"></a>jitter</h2><blockquote>
+<p>Jitter is used to describe the degree of instability of delay.Jitter may be caused by <a href="https://en.wikipedia.org/wiki/Electromagnetic_interference">electromagnetic interference</a> and <a href="https://en.wikipedia.org/wiki/Crosstalk">crosstalk</a> with carriers of other signals. </p>
+<p>抖动是用来形容延迟的不稳定程度的。抖动可能是由电磁干扰和与其他信号载波的串扰引起的。</p>
+</blockquote>
+<p>举个例子：</p>
+<p>A：delay=100ms，测得实际幅度是98ms<del>102ms；B：delay=50ms，测的实际幅度是5ms</del>80ms。这时候，我们说，A的抖动（jitter）比B好，但是B的延迟（delay）比A好。</p>
+<h2 id="delay"><a href="#delay" class="headerlink" title="delay"></a>delay</h2><h2 id="引用文章："><a href="#引用文章：" class="headerlink" title="引用文章："></a>引用文章：</h2><p><a href="https://zhuanlan.zhihu.com/p/50401281">浅谈带宽、网速和流量之间的关系</a></p>
 <p><a href="https://www.cnblogs.com/gaizai/p/4233780.html">二、八、十、十六进制转换（图解篇）</a></p>
 ]]></content>
       <categories>
@@ -9985,6 +9991,22 @@
 <p><a href="https://www.jannet.hk/zh-Hans/post/rapid-spanning-tree-protocol-rstp/">Rapid Spanning Tree Protocol (RSTP) 快速生成树协定</a></p>
 <p><a href="https://www.jannet.hk/zh-Hans/post/multiple-spanning-tree-protocol-mstp/">Multiple Spanning Tree Protocol (MSTP) 多重生成树协定</a></p>
 ]]></content>
+      <categories>
+        <category>路由交换方向</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>21-SDWAN</title>
+    <url>/2022/01/21/21-SDWAN/</url>
+    <content><![CDATA[<p>本文大部分自翻于思科的《Cisco SD-WAN Design Guide》2020年9月版本</p>
+<h1 id="什么是SD-WAN"><a href="#什么是SD-WAN" class="headerlink" title="什么是SD-WAN"></a>什么是SD-WAN</h1><p>SD-WAN（Software Defined Wide Area Network ）的中文是软件定义的广域网，Gartner对它的定义是：</p>
+<blockquote>
+<p><strong>SD-WAN</strong> solutions provide a replacement for traditional WAN routers and are agnostic to WAN transport technologies. SD-WAN provides dynamic, policy-based, application path selection across multiple WAN connections and supports service chaining for additional services such as WAN optimization and firewalls.</p>
+<p>SD-WAN 解决方案提供了对传统广域网（WAN，Wide Area Network）的代替，并且与WAN传输技术无关。SD-WAN提供动态的、基于策略的、跨越多个WAN连接的应用路径选择，并且支持附加服务的服务链，例如</p>
+</blockquote>
+<p><img src="/2022/01/21/21-SDWAN/image-20220123171759480.png" alt="image-20220123171759480"></p>
+<h1 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h1><p><img src="/2022/01/21/21-SDWAN/image-20220124153315775.png" alt="image-20220124153315775"></p>
+<h1 id="技术构架"><a href="#技术构架" class="headerlink" title="技术构架"></a>技术构架</h1>]]></content>
       <categories>
         <category>路由交换方向</category>
       </categories>
