@@ -8153,12 +8153,17 @@
 </ul>
 <p><img src="/2022/01/21/21-SDWAN/image-20220203211445410.png" alt="image-20220203211445410"></p>
 <ul>
-<li>Centralized Management：中心化管理。vManage提供了故障、配置、计费、性能和安全的中心化管理界面，该中心化管理界面可以在day0、1、2天部署设备时使用。vManage有大量可迅速部署的策略及模板，通过这些策略和模板可以提供操作上的简洁以及部署时的便利，以达到减少变更配置及部署的时间。关于day0、day1、day2的说明如下：</li>
+<li>Centralized Management：中心化管理。vManage提供了故障、配置、计费、性能和安全的中心化管理界面，该中心化管理界面可以在day0、1、2天部署设备时使用。vManage有大量可迅速部署的策略及模板，通过这些策略和模板可以提供操作上的简洁以及部署时的便利，以达到减少变更配置及部署的时间。关于day0、day1、day2，简单来说说，day-1就是在设备上架之前，day0就是设备上架并通过ZTP等方式进行简单配置，day1是设备上架后对服务进行具体配置，day2….N是设备运行中的配置，具体的说明如下：</li>
 </ul>
 <p><img src="/2022/01/21/21-SDWAN/116795_pastedImage_2.png" alt="img"></p>
 <p><img src="/2022/01/21/21-SDWAN/116794_pastedImage_1.png" alt="img"></p>
+<p><img src="/2022/01/21/21-SDWAN/image-20220205123059128.png" alt="image-20220205123059128"></p>
 <h2 id="Application-Performance-Optimization"><a href="#Application-Performance-Optimization" class="headerlink" title="Application Performance Optimization"></a>Application Performance Optimization</h2><p>应用性能优化。提供了更好的基于应用的实时的优化，对链路实时监控，找到并切换到满足应用需求的链路上。</p>
+<p>现网中存在着各式各样的网络问题，比如丢包、广域网链路拥塞、广域网链路的高延迟以及广域网链路选择了次优路径，这些网络问题影响着终端用户的软件体验。优化软件体验对于保持高效生产至关重要。思科SD-WAN解决方案能最小化网络的丢包、延迟和抖动，能够消除广域网延迟以及传输错误所带来的不利影响，优化软件性能。下面几个组件能够达成这个目标：</p>
 <p><img src="/2022/01/21/21-SDWAN/image-20220129123854598.png" alt="image-20220129123854598"></p>
+<ul>
+<li>Application-Aware Routing：可感知应用的路由。应用感知路由允许为流量创建定制的SLA策略，并通过BFD探针（Bidirectional Forwarding Detection probe）检测实时性能。应用的流量被引导到支持该SLA的广域网链路，如果出现性能下降且超过了设定值，流量可以被分配到其他性能更好的路径。</li>
+</ul>
 <h2 id="Secure-Direct-Internet-Access"><a href="#Secure-Direct-Internet-Access" class="headerlink" title="Secure Direct Internet Access"></a>Secure Direct Internet Access</h2><p>安全的DIA。在保证安全的前提下，分支结构直接通过互联网访问云端资源，而无需绕行总部的数据中心。</p>
 <p><img src="/2022/01/21/21-SDWAN/image-20220130152431301.png" alt="image-20220130152431301"></p>
 <h2 id="Multicloud-Connectivity"><a href="#Multicloud-Connectivity" class="headerlink" title="Multicloud Connectivity"></a>Multicloud Connectivity</h2><p>多云连接。不仅能连接传统的站点，而且能够连接多个云服务。</p>
