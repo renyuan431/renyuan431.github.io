@@ -8180,10 +8180,16 @@
 <p>而PaaS简单多了，除了厨房、烤箱等基础设施，别人把披萨饼都准备好了，你需要做的是把自己的配料撒到披萨饼上，然后在供应商平台上烤出来即可。这个过程中，你需要的是搭配配方（产品）、掌握火候（营销推广），他人提供平台来给你实现。</p>
 <p>SaaS则是所有东西都是别人的，交给你的时候已经是一个成品，换到现在的话来说就是，贴上自己的Logo，你需要做的工作就是把产品卖出去即可。</p>
 <p>![as a service Models - Infographic](21-SDWAN/as a service Models - Infographic.png)</p>
-<h4 id="laaS"><a href="#laaS" class="headerlink" title="laaS"></a>laaS</h4><p>全称为Infrastructure-as-a-Service，也就是基础设施即服务，有时候也叫在实际应用中</p>
+<h4 id="laaS"><a href="#laaS" class="headerlink" title="laaS"></a>laaS</h4><p>全称为Infrastructure-as-a-Service，也就是基础设施即服务，有时候也叫Hardware-as-a-Service，在实际应用中，简单来说就是laaS公司会提供场外服务器，存储和网络硬件，你可以租用。节省了维护成本和办公场地，公司可以在任何时候利用这些硬件来运行、推出其产品。laaS发展到今天，你甚至可以将硬件外包出去。</p>
+<p>Microsoft、VMWare、Rackspace等公司就是典型的laaS公司。</p>
+<h4 id="PaaS"><a href="#PaaS" class="headerlink" title="PaaS"></a>PaaS</h4><p>PaaS有时候也叫做中间件，也就是说客户所有的开发都在这一层开展，节省了时间和资源。</p>
+<p>最典型的就是，PaaS在网上提供虚拟服务器，操作系统等集研发和分发应用于一体的各种解决方案。节省了客户在硬件开发商的费用、时间，也让分散的办公室之间合作更加便捷。一般来说，PaaS服务大致包括网页应用管理、应用设计、应用虚拟主机、存储、安全以及应用开发协作工具等。</p>
+<p>Google APP Engine、Heroku，Engine Yard就是典型的PaaS公司。</p>
+<h4 id="SaaS"><a href="#SaaS" class="headerlink" title="SaaS"></a>SaaS</h4><p>SaaS其实更简单，意味着任何一个远程服务器上的应用都可以通过网络来运行，见得比较多的就是当下各种服务中提供的SDK、API甚至是H5等形式的快捷接口形式。</p>
+<p>Citrix的GoToMeeting，Cisco的WebEx等产品都是典型的商务应用型SaaS服务。</p>
 <h1 id="技术构架"><a href="#技术构架" class="headerlink" title="技术构架"></a>技术构架</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><img src="/2022/01/21/21-SDWAN/image-20220130120800814.png" alt="image-20220130120800814"></p>
 <p><img src="/2022/01/21/21-SDWAN/image-20220130154509323.png" alt="image-20220130154509323"></p>
-<p>思科SDWAN总体架构</p>
+<p>思科SDWAN总体架构分为四个层次，Orchestration（编排），management（管理），control（控制）和data plan（控制）。</p>
 <p>vManage</p>
 <blockquote>
 <p>This is centralized network management system is software-based and provides a GUI interface to easily monitor, configure, and maintain all Cisco SD-WAN devices and their connected links in the underlay and overlay network. It provides a single pane of glass for Day 0, Day 1, and Day 2 operations. </p>
