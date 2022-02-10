@@ -8179,7 +8179,7 @@
 <p>对于LaaS来说，就是你有一个所有材料都搭配好的生披萨，你只需要把这个披萨拿到供应商店里烤出来即可，这个过程中，厨房、烤箱、煤气等是供应商提供的，你需要自备披萨面团、番茄酱、配料、奶酪等原材料。</p>
 <p>而PaaS简单多了，除了厨房、烤箱等基础设施，别人把披萨饼都准备好了，你需要做的是把自己的配料撒到披萨饼上，然后在供应商平台上烤出来即可。这个过程中，你需要的是搭配配方（产品）、掌握火候（营销推广），他人提供平台来给你实现。</p>
 <p>SaaS则是所有东西都是别人的，交给你的时候已经是一个成品，换到现在的话来说就是，贴上自己的Logo，你需要做的工作就是把产品卖出去即可。</p>
-<p>![as a service Models - Infographic](21-SDWAN/as a service Models - Infographic.png)</p>
+<p><img src="/2022/01/21/21-SDWAN/as-a-service-Models.png" alt="as-a-service-Models"></p>
 <h4 id="laaS"><a href="#laaS" class="headerlink" title="laaS"></a>laaS</h4><p>全称为Infrastructure-as-a-Service，也就是基础设施即服务，有时候也叫Hardware-as-a-Service，在实际应用中，简单来说就是laaS公司会提供场外服务器，存储和网络硬件，你可以租用。节省了维护成本和办公场地，公司可以在任何时候利用这些硬件来运行、推出其产品。laaS发展到今天，你甚至可以将硬件外包出去。</p>
 <p>Microsoft、VMWare、Rackspace等公司就是典型的laaS公司。</p>
 <h4 id="PaaS"><a href="#PaaS" class="headerlink" title="PaaS"></a>PaaS</h4><p>PaaS有时候也叫做中间件，也就是说客户所有的开发都在这一层开展，节省了时间和资源。</p>
