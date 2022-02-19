@@ -8264,9 +8264,38 @@
 <li>用全局路由表来表示VPN0；</li>
 <li>VRF Mgmt-intf（The Gigabit Ethernet Management interface is automatically part of its own VRF. This VRF, which is named “Mgmt-intf,” is automatically configured on the Cisco ASR 1000 Series Router and is dedicated to the Management Ethernet interface; no other interfaces can join this VRF.）在管理接口上默认启用，被用来代表VPN512。</li>
 </ul>
-<h2 id="控制层面"><a href="#控制层面" class="headerlink" title="控制层面"></a>控制层面</h2><h3 id="控制连接"><a href="#控制连接" class="headerlink" title="控制连接"></a>控制连接</h3><p>思科SDWAN的vManage和vSmart控制器最初会和vBond控制器进行通讯并对其身份进行认证，vManage和vSmart会和vBond形成永久的DTLS连接，而后vManage会和vSmart之间建立并维持永久的DTLS\TLS连接。</p>
-<h2 id="编排层面"><a href="#编排层面" class="headerlink" title="编排层面"></a>编排层面</h2><h2 id="数据层面"><a href="#数据层面" class="headerlink" title="数据层面"></a>数据层面</h2><h2 id="SDWAN路由"><a href="#SDWAN路由" class="headerlink" title="SDWAN路由"></a>SDWAN路由</h2><h2 id><a href="#" class="headerlink" title></a></h2><p><img src="/2022/01/21/21-SDWAN/image-20220124181223612.png" alt="image-20220124181223612"></p>
-<p><img src="/2022/01/21/21-SDWAN/image-20220124181508318.png" alt="image-20220124181508318"></p>
+<h2 id="控制层面"><a href="#控制层面" class="headerlink" title="控制层面"></a>控制层面</h2><h3 id="控制连接"><a href="#控制连接" class="headerlink" title="控制连接"></a>控制连接</h3><p>思科SDWAN的vManage和vSmart控制器最初会和vBond控制器进行通讯并对其身份进行认证，vManage和vSmart会和vBond形成永久的DTLS连接，随后vManage会和vSmart之间建立并维持永久的DTLS\TLS连接。广域网边缘路由器也采用类似的方式接入网络，但是边缘路由器会断开和vBond的短暂链接，边缘路由器会和vManage和vSmart控制器形成永久的DTLS\TLS连接，下面的图标说明了这一过程：</p>
+<p><img src="/2022/01/21/21-SDWAN/image-20220219122516052.png" alt="image-20220219122516052"></p>
+<p>到vBond的连接永远是采用DTLS方式的，默认情况下，连接到vManage和vSmart的连接也是DTLS的，但也可以在设备上将连接方式改为TLS，在安全控制协议配置中进行更改。如果一个设备的连接方式改为TLS，另一个设备的连接方式为DTLS，那么这两个设备之间的控制连接方式将使用TLS。更推荐使用TLS的方式进行连接，因为TLS用的是TCP协议，TCP协议有ACK确认包，可靠性更高。TCP是面向连接的，因此防火墙可以保存维持TCP连接的状态，允许返回流量，不用显示配置策略允许返回流量。</p>
+<p>如果vManage和vSmart有多个核心（core）的情况下，vManage和vSmart的每个核心（比如说vSmart有2个CPU，也就是vSmart有两个核心。最多支持8个核心，也就是8个CPU）会初始化，然后建立控制连接到vBond（vBond只有一个核心也就是一个CPU），vManage和vSmart之间只有一个连接。如果vSmart有两个CPU，也就是有两个核心（core），那么vSmart和vBond之间会建立并保持两个完全控制连接，每个核心一个连接。如果vManage有4个CPU，也就是4个核心，那么vBond和vManage之间就会保持着4个完全控制连接，一个核心一个连接。vSmart和vSmart之间，vManage和vManage之间都只有一个控制连接，冗余的vBond之间没有控制连接。</p>
+<h4 id="WAN-edge控制连接"><a href="#WAN-edge控制连接" class="headerlink" title="WAN edge控制连接"></a>WAN edge控制连接</h4><p>在默认情况下，广域网边缘路由器会尝试在所有可用的连接链路上建立控制连接，在和其他控制器建立连接之前，会先在每个连接链路上，尝试去连接vBond，如果链路上有多个vBond，那么每个链路上只会建立一个vBond控制连接。</p>
+<p><img src="/2022/01/21/21-SDWAN/image-20220219161612060.png" alt="image-20220219161612060"></p>
+<ul>
+<li>每个vManage核心（core）和每个vBond核心（core）之间会建立持久的DTLS连接；</li>
+<li>vSmart和vManage之间会建立持久的TLS或DTLS连接；</li>
+<li>vSmart控制器之间会建立全互联（Full mesh）的TLS\DTLS连接（每对之间一个连接）；</li>
+<li>vManage集群的实例之间会建立全互联（Full mesh）的TLS\DTLS连接（每对之间一个连接）；</li>
+<li>每个广域网边缘路由器和vManage实例之间会建立TLS\DTLS连接，每个链路（比如4G，MPLS或互联网）上只有一个连接；</li>
+<li>默认情况下，每个广域网边缘路由器和两个vSmart控制器之间默认会建立TLS\DTLS连接，每个链路一个；</li>
+</ul>
+<h2 id="编排层面"><a href="#编排层面" class="headerlink" title="编排层面"></a>编排层面</h2><h3 id="edge路由器上线overlay"><a href="#edge路由器上线overlay" class="headerlink" title="edge路由器上线overlay"></a>edge路由器上线overlay</h3><p><img src="/2022/01/21/21-SDWAN/image-20220124181223612.png" alt="image-20220124181223612"></p>
+<blockquote>
+<p>\1. Through a minimal bootstrap configuration or through the automated provisioning (ZTP or PnP) process, the WAN Edge router first attempts to authenticate with the vBond orchestrator through an encrypted DTLS connection. Once authenticated, the vBond orchestrator sends the WAN Edge router the IP addresses of the vManage network management system (NMS) and the vSmart controllers. The vBond orchestrator also informs the vSmart controllers and vManage of the new WAN Edge router wanting to join the domain.  </p>
+<p>\2. The WAN Edge router begins establishing secure DTLS or TLS sessions with the vManage and the vSmart controllers and tears down the session with the vBond orchestrator. Once the WAN Edge router authenticates with the vManage NMS, the vManage pushes the configuration to the WAN Edge router if available.  </p>
+<p>\3. The WAN Edge router attempts to establish DTLS/TLS connections to the vSmart controllers over each transport link. When it authenticates to a vSmart controller, it establishes an OMP session and then learns the routes, including prefixes, TLOCs, and service routes, encryption keys, and policies.  </p>
+<p>\4. The WAN Edge router attempts to establish BFD sessions to remote TLOCs over each transport using IPsec. </p>
+</blockquote>
+<ol>
+<li> 通过最小启动配置或者自动配置（ZTP，Zero Touch Provisioning，PnP，Plug and Play）的过程，广域网边缘路由器（edge router）首先开始尝试对vBond进行认证，认证是通过加密的DTLS连接进行的。一旦认证成功，vBond会将vManage网络管理系统（NMS）和vSmart的地址发送给edge路由器，vBond也会将新的edge路由器希望加入域的情况告知vSmart和vManage。</li>
+<li>edge路由器开始与vManage、vSmart建立安全的DTLS\TLS会话，并且结束和vBond的会话。一旦edge路由器和vManage NMS（Network Management System）完成了认证，vManage会将配置推送给edge路由器，如果vManage上有这个配置的话。</li>
+<li>edge路由器尝试在每条链路上（4G，MPLS，互联网等连接方式）和vSmart建立DTLS\TLS连接，当edge路由器和vSmart认证完毕后，edge路由器和vSmart建立OMP会话并且学习路由（包括路由前缀、TLOCs&lt;Transport Location，传输位置&gt;、服务端路由、秘钥和策略）。</li>
+<li>得个路由器在每条链路上，使用IPSec尝试和远端TLOCs建立BFD（Bidirection Forwarding Detection，双向转发检测）会话。</li>
+</ol>
+<h2 id="数据层面"><a href="#数据层面" class="headerlink" title="数据层面"></a>数据层面</h2><h3 id="vBond作为NAT促进器"><a href="#vBond作为NAT促进器" class="headerlink" title="vBond作为NAT促进器"></a>vBond作为NAT促进器</h3><p>所有的控制器或SDWAN的路由器，都不知道它们位于NAT设备之后，知道从网络外界连接的IP地址和端口，对于在SDWAN网络中成功立管理和数据层的连接十分重要。vBond在这个过程中扮演了重要角色，它的角色是STUN（Session Traversal Utilities，是一种<a href="https://zh.wikipedia.org/wiki/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE">网络协议</a>，它允许位于NAT&lt;或多重NAT&gt;后的客户端找出自己的公网地址，查出自己位于哪种类型的NAT之后以及NAT为某一个本地端口所绑定的Internet端端口。这些信息被用来在两个同时处于NAT路由器之后的主机之间建立UDP通信。该协议由RFC 5389定义。）服务器的角色，使得其他控制器和SDWAN中的路由器能够发现它们映射\转换的IP地址和端口号。SDWAN设备宣告这些信息以及TLOCs信息，使得其他SDWAN中的设备能够知晓这些信息，从而成功建立连接。</p>
+<p><img src="/2022/01/21/21-SDWAN/image-20220219182433607.png" alt="image-20220219182433607"></p>
+<h3 id="数据层面隐私及加密"><a href="#数据层面隐私及加密" class="headerlink" title="数据层面隐私及加密"></a>数据层面隐私及加密</h3><p>edge路由器使用IPSec以及秘钥用来加密和解密数据，这样能确保edge之间交互的数据流量的安全性。在传统的IPSec环境中，IKE（Internet Key Exchange）协议用来在peer路由器之间加速秘钥交换的速度。这样交换秘钥使得创建的秘钥都是成对出现的，也就是一次创建出两个秘钥，如果在全互联（Full mesh）的环境中，假设有N台设备，那么每台设备需要设备管理$N^2$个秘钥交换以及（N-1）个不同的秘钥。在思科SDWAN网络中，为了更便捷的扩展网络的规模，思科SDWAN不使用IKE协议交换秘钥，因为edge路由器之间的认证已经建立完毕（IKE交换秘钥就是为了进行认证），这也就是前面相关概念部分中vSmart概念中提到的‘allowing for a very scalable, IKE-less architecture’，也就是实现一个可扩展性极佳、无IKE的构架。控制层面（已经通过DTLS\TLS实现了认证，加密，防篡改）用来传输经过AES-256加密的对称秘钥。每个edge路由在每一个传输链路上，在每个TLOC上生成一个AES秘钥，将此秘钥信息通过OMP路由数据包传输给vSmart，vSmart再将这个秘钥信息传递到所有其他edge路由器上。</p>
+<p>默认情况下，秘钥的持续时间为24小时，每隔12小时会生成新的秘钥，新秘钥被发送到vSmart上，由vSmart传递给其他edge路由器，这意味着任何时候都有两个秘钥。</p>
+<h2 id="SDWAN路由"><a href="#SDWAN路由" class="headerlink" title="SDWAN路由"></a>SDWAN路由</h2><h2 id><a href="#" class="headerlink" title></a></h2><p><img src="/2022/01/21/21-SDWAN/image-20220124181508318.png" alt="image-20220124181508318"></p>
 <p><img src="/2022/01/21/21-SDWAN/image-20220124181553099.png" alt="image-20220124181553099"></p>
 <p><img src="/2022/01/21/21-SDWAN/image-20220124182048736.png" alt="image-20220124182048736"></p>
 <p><img src="/2022/01/21/21-SDWAN/image-20220125203935057.png" alt="image-20220125203935057"></p>
