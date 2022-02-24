@@ -8344,8 +8344,9 @@
 <p><img src="/2022/01/21/21-SDWAN/image-20220223170218180.png" alt="image-20220223170218180"></p>
 <h2 id="SDWAN路由"><a href="#SDWAN路由" class="headerlink" title="SDWAN路由"></a>SDWAN路由</h2><h3 id="Underlay-VS-Overlay路由"><a href="#Underlay-VS-Overlay路由" class="headerlink" title="Underlay VS Overlay路由"></a>Underlay VS Overlay路由</h3><p>思科SDWAN网络分为两个不同的部分，underlay和overlay。underlay网络时物理网络基础设施，它将网络设备（比如路由器、交换机）连接在一起，并使用传统的路由机制在设备之间路由流量。在SDWAN网络中，它通常由edge路由器与广域网传输链路的连接，以及广域网传输链路本身，这两者组成。连接到underlay的网络接口属于VPN0，也就是传输VPN。在广域网传输链路上，连接到运营商网关意味着要配置静态默认网关，或者要配置诸如BGP或OSPF之类的动态路由协议。这些位于underlay网络的路由过程只限于VPN0上。主要目的是为了与其他edge路由器的TLOC相连通，以便于建立IPSec隧道，组成overlay网络。</p>
 <p><img src="/2022/01/21/21-SDWAN/image-20220218175246477.png" alt="image-20220218175246477"></p>
-<p><img src="/2022/01/21/21-SDWAN/image-20220124182048736.png" alt="image-20220124182048736"></p>
-<p><img src="/2022/01/21/21-SDWAN/image-20220125203935057.png" alt="image-20220125203935057"></p>
+<p>使用underlay网络，横穿站点到站点的IPSec隧道，有助于形成SDWAN的overlay网络。OMP协议（Overlay Management Protocol）是一种基于TCP的协议，它与BGP协议类似，OMP协议为overlay网络提供路由。OMP协议运行在vSmart和edge路由器之间，控制层的信息也在此通过安全的DTLS\TLS连接进行交互。vSmart控制器在这里扮演的角色类似于路由反射器，它收到edge路由器上的路由，该路由经过处理且应用二者（vSmart和边缘路由器）之间的所有策略后，宣告给其他overlay网络中的edge路由器。</p>
+<p><img src="/2022/01/21/21-SDWAN/image-20220224144923183.png" alt="image-20220224144923183"></p>
+<h3 id="OMP协议"><a href="#OMP协议" class="headerlink" title="OMP协议"></a>OMP协议</h3><p>OMP在edge路由器和vSmart之间运行，并且在vSmart之间形成全互联的关系。当DTLS\TLS的控制连接建立以后，OMP会自动形成。OMP邻居使用system IP建立，即使存在多个DTLS\TLS连接，也只能在edge路由器和vSmart控制器之间建立一个邻居会话。</p>
 <p><img src="/2022/01/21/21-SDWAN/image-20220126152634318.png" alt="image-20220126152634318"></p>
 <p><img src="/2022/01/21/21-SDWAN/image-20220126152833236.png" alt="image-20220126152833236"></p>
 <p><img src="/2022/01/21/21-SDWAN/image-20220126153325463.png" alt="image-20220126153325463"></p>
