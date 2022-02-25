@@ -8278,6 +8278,12 @@
 <li>每个广域网边缘路由器和vManage实例之间会建立TLS\DTLS连接，每个链路（比如4G，MPLS或互联网）上只有一个连接；</li>
 <li>默认情况下，每个广域网边缘路由器和两个vSmart控制器之间默认会建立TLS\DTLS连接，每个链路一个；</li>
 </ul>
+<h3 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h3><h4 id="配置中心化策略"><a href="#配置中心化策略" class="headerlink" title="配置中心化策略"></a>配置中心化策略</h4><p>当在vManage的图形化界面上配置中心化策略时，有三个主要的概念：</p>
+<ul>
+<li>list，列表。列表用来将相关联的对象进行分类，因此你可以将他们关联到一个组中进行使用。列表在应用策略时，或者在策略定义中的匹配或操作中使用。可以为应用、color、数据前缀、策略、站点、SLA类型、TLOCs和VPN创建列表。数据前缀在数据策略中用于定义数据前缀，前缀在控制策略中用于在路由前缀上匹配。 </li>
+<li>policy definition。策略定义，策略定义控制着控制和转发的各个方面。在策略定义内可以创建策略规则，指定一系列的匹配行为，按照顺序进行匹配。可以定义以下集中类型的策略：应用-路由策略，cflowd模板，控制-策略，数据-策略以及VPN-成员策略。</li>
+<li>Policy application。应用策略，策略被应用于站点列表。</li>
+</ul>
 <h2 id="编排层面"><a href="#编排层面" class="headerlink" title="编排层面"></a>编排层面</h2><h3 id="edge路由器上线overlay"><a href="#edge路由器上线overlay" class="headerlink" title="edge路由器上线overlay"></a>edge路由器上线overlay</h3><p><img src="/2022/01/21/21-SDWAN/image-20220124181223612.png" alt="image-20220124181223612"></p>
 <blockquote>
 <p>\1. Through a minimal bootstrap configuration or through the automated provisioning (ZTP or PnP) process, the WAN Edge router first attempts to authenticate with the vBond orchestrator through an encrypted DTLS connection. Once authenticated, the vBond orchestrator sends the WAN Edge router the IP addresses of the vManage network management system (NMS) and the vSmart controllers. The vBond orchestrator also informs the vSmart controllers and vManage of the new WAN Edge router wanting to join the domain.  </p>
@@ -8346,8 +8352,18 @@
 <p><img src="/2022/01/21/21-SDWAN/image-20220218175246477.png" alt="image-20220218175246477"></p>
 <p>使用underlay网络，横穿站点到站点的IPSec隧道，有助于形成SDWAN的overlay网络。OMP协议（Overlay Management Protocol）是一种基于TCP的协议，它与BGP协议类似，OMP协议为overlay网络提供路由。OMP协议运行在vSmart和edge路由器之间，控制层的信息也在此通过安全的DTLS\TLS连接进行交互。vSmart控制器在这里扮演的角色类似于路由反射器，它收到edge路由器上的路由，该路由经过处理且应用二者（vSmart和边缘路由器）之间的所有策略后，宣告给其他overlay网络中的edge路由器。</p>
 <p><img src="/2022/01/21/21-SDWAN/image-20220224144923183.png" alt="image-20220224144923183"></p>
-<h3 id="OMP协议"><a href="#OMP协议" class="headerlink" title="OMP协议"></a>OMP协议</h3><p>OMP在edge路由器和vSmart之间运行，并且在vSmart之间形成全互联的关系。当DTLS\TLS的控制连接建立以后，OMP会自动形成。OMP邻居使用system IP建立，即使存在多个DTLS\TLS连接，也只能在edge路由器和vSmart控制器之间建立一个邻居会话。</p>
+<h3 id="OMP协议"><a href="#OMP协议" class="headerlink" title="OMP协议"></a>OMP协议</h3><h4 id="OMP概述"><a href="#OMP概述" class="headerlink" title="OMP概述"></a>OMP概述</h4><p>OMP在edge路由器和vSmart之间运行，并且在vSmart之间形成全互联的关系。当DTLS\TLS的控制连接建立以后，OMP会自动形成。OMP邻居使用system IP建立，即使存在多个DTLS\TLS连接，也只能在edge路由器和vSmart控制器之间建立一个邻居会话。OMP协议交换路由前缀、下一跳路由、秘钥以及策略信息。</p>
+<p>OMP宣告以下三种从WAN路由器到vSmart的路由：</p>
+<ol>
+<li>OMP路由或者叫vRouters。指的是从WAN的edge路由器的本地站点或服务端学到的前缀。这些前缀以静态路由或直连路由的形式出现，或者在OSPF、BGP或EIGRP协议中生成后重分布进OMP路由协议，因此它们可以在overlay中传播。OMP路由宣告的属性中包括TLOC信息, origin, origin metric, originator, preference, site ID, tag, and VPN，这个举动类似于BGP路由协议中的下一跳IP地址。一条OMP路由只有在它的目标TLOC处于活动状态时才会装载进转发表中。</li>
+<li>TLOC路由。TLOC路由不仅向WAN链路宣告TLOCs连接情况，还和其他属性，比如私有TLOC、公有IP地址、carrier, preference, site ID, tag, weight还有秘钥信息。</li>
+<li>服务路由，service route。服务路由代表着连接到广域网edge本地站点网络的服务（firewall, IPS, application optimization, 诸如此类.），可以提供给其他站点用于服务插入（也就是在普通的网络上提供防火墙IPS这种服务）。此外，这些路由内包含着起源的system ip、TLOC和VPN-IDs，VPN标签随着这种路由类型的update包发送，告诉vSmart控制器，在远程站点提供哪些VPN服务。</li>
+</ol>
 <p><img src="/2022/01/21/21-SDWAN/image-20220126152634318.png" alt="image-20220126152634318"></p>
+<p>在默认情况下，OMP只会宣告最佳路由或负载均衡情况下的路由。建议在vSmart控制器上激活send-backup-paths参数，这样配置会让OMP宣告一个特定前缀的其他可用但非最佳路径。除了促进路由收敛之外，这么做也让edge路由器基于TLOC可用性而做最佳路径选择。</p>
+<p>此外，OMP只会宣告一个路由前缀的4条负载均衡路径，这样宣告可能在某些设计环境中不够用，比如一个站点使用了双edge路由器，每个路由器连接了两个互联网传输链路的情况下，4条负载均衡路径就不够用了。这种场景下，建议将vSmart控制器上将OMP配置上‘send-path-limit’参数或者将Number of Paths Advertised per Prefix设置到最大值，也就是16。‘send-path-limit’参数配置后，选高中包括了最佳路径以及所有备份路径。</p>
+<p>要注意的是，默认情况下edge路由器只会加载四条负载均衡路径，如果想增加这个数字的话，在edge路由器上使用‘ecmp-limit’命令。其他类型的路由（包括外部OSPF路由在内）需要显示配置（explicitly configured）。对于vEdge路由器来说，OMP路由分配的管理距离是250，对于IOS SD-WAN路由器来说，管理距离是251，因此本地站点的路由优先。</p>
+<h4 id="优雅重启"><a href="#优雅重启" class="headerlink" title="优雅重启"></a>优雅重启</h4><p>如果一个OMP邻居消失了，OMP的优雅重启允许其他OMP邻居在短时间内继续工作。当edge路由器和vSmart失去连接后，edge路由器能够继续使用最后得到的路由信息来转发数据。默认的OMP优雅重启计时器的值为12小时，最大可以设置为604800秒，也就是168小时，也就是7天。IPSec密钥交换计时器默认设定的时间是24小时，尽管两个计时器都能自行进行设置，但IPSec的密钥交换计时器的数值，最小必须为OMP优雅重启计时器的两倍时长。因为vSmart控制器会将IPSec密钥分发给edge路由器，如果和vSmart的连接中断，任何在优雅重启计时器结束前的IPSec密钥交换都会导致丢包。</p>
 <p><img src="/2022/01/21/21-SDWAN/image-20220126152833236.png" alt="image-20220126152833236"></p>
 <p><img src="/2022/01/21/21-SDWAN/image-20220126153325463.png" alt="image-20220126153325463"></p>
 <h1 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h1><p><a href="https://www.riverbed.com/faq/what-is-sd-wan.html">What is SD-WAN?</a></p>
