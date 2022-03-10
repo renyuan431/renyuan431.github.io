@@ -10271,4 +10271,175 @@
         <category>路由交换方向</category>
       </categories>
   </entry>
+  <entry>
+    <title></title>
+    <url>/2022/03/10/tabletest/</url>
+    <content><![CDATA[<table>
+<thead>
+<tr>
+<th>Java Type</th>
+<th>Java DB, Derby, CloudScape</th>
+<th>Oracle</th>
+<th>DB2</th>
+<th>Sybase</th>
+<th>MS-SQL Server</th>
+<th>MySQL Server</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>boolean, java.lang.Boolean</td>
+<td>SMALLINT</td>
+<td>NUMBER(1)</td>
+<td>SMALLINT</td>
+<td>BIT</td>
+<td>BIT</td>
+<td>TINYINT(1)</td>
+</tr>
+<tr>
+<td>int, java.lang.Integer</td>
+<td>INTEGER</td>
+<td>NUMBER(10)</td>
+<td>INTEGER</td>
+<td>INTEGER</td>
+<td>INTEGER</td>
+<td>INTEGER</td>
+</tr>
+<tr>
+<td>long, java.lang.Long</td>
+<td>BIGINT</td>
+<td>NUMBER(19)</td>
+<td>INTEGER</td>
+<td>NUMERIC(19)</td>
+<td>NUMERIC(19)</td>
+<td>BIGINT</td>
+</tr>
+<tr>
+<td>float, java.lang.Float</td>
+<td>FLOAT</td>
+<td>NUMBER(19,4)</td>
+<td>FLOAT</td>
+<td>FLOAT(16)</td>
+<td>FLOAT(16)</td>
+<td>FLOAT</td>
+</tr>
+<tr>
+<td>double, java.lang.Double</td>
+<td>FLOAT</td>
+<td>NUMBER(19,4)</td>
+<td>FLOAT</td>
+<td>FLOAT(32)</td>
+<td>FLOAT(32)</td>
+<td>DOUBLE</td>
+</tr>
+<tr>
+<td>short, java.lang.Short</td>
+<td>SMALLINT</td>
+<td>NUMBER(5)</td>
+<td>SMALLINT</td>
+<td>SMALLINT</td>
+<td>SMALLINT</td>
+<td>SMALLINT</td>
+</tr>
+<tr>
+<td>byte, java.lang.Byte</td>
+<td>SMALLINT</td>
+<td>NUMBER(3)</td>
+<td>SMALLINT</td>
+<td>SMALLINT</td>
+<td>SMALLINT</td>
+<td>SMALLINT</td>
+</tr>
+<tr>
+<td>java.lang.Number</td>
+<td>DECIMAL</td>
+<td>NUMBER(38)</td>
+<td>DECIMAL(15)</td>
+<td>NUMERIC(38)</td>
+<td>NUMERIC(28)</td>
+<td>DECIMAL(38)</td>
+</tr>
+<tr>
+<td>java.math.BigInteger</td>
+<td>BIGINT</td>
+<td>NUMBER(38)</td>
+<td>BIGINT</td>
+<td>NUMERIC(38)</td>
+<td>NUMERIC(28)</td>
+<td>BIGINT</td>
+</tr>
+<tr>
+<td>java.math.BigDecimal</td>
+<td>DECIMAL</td>
+<td>NUMBER(38)</td>
+<td>DECIMAL(15)</td>
+<td>NUMERIC(38)</td>
+<td>NUMERIC(28)</td>
+<td>DECIMAL(38)</td>
+</tr>
+<tr>
+<td>java.lang.String</td>
+<td>VARCHAR(255)</td>
+<td>VARCHAR(255)</td>
+<td>VARCHAR(255)</td>
+<td>VARCHAR(255)</td>
+<td>VARCHAR(255)</td>
+<td>VARCHAR(255)</td>
+</tr>
+<tr>
+<td>char, java.lang.Character</td>
+<td>CHAR(1)</td>
+<td>CHAR(1)</td>
+<td>CHAR(1)</td>
+<td>CHAR(1)</td>
+<td>CHAR(1)</td>
+<td>CHAR(1)</td>
+</tr>
+<tr>
+<td>byte[], java.lang.Byte[], java.sql.Blob</td>
+<td>BLOB(64000)</td>
+<td>LONG RAW</td>
+<td>BLOB(64000)</td>
+<td>IMAGE</td>
+<td>IMAGE</td>
+<td>BLOB(64000)</td>
+</tr>
+<tr>
+<td>char[], java.lang.Character[], java.sql.Clob</td>
+<td>CLOB(64000)</td>
+<td>LONG</td>
+<td>CLOB(64000)</td>
+<td>TEXT</td>
+<td>TEXT</td>
+<td>TEXT(64000)</td>
+</tr>
+<tr>
+<td>java.sql.Date</td>
+<td>DATE</td>
+<td>DATE</td>
+<td>DATE</td>
+<td>DATETIME</td>
+<td>DATETIME</td>
+<td>DATE</td>
+</tr>
+<tr>
+<td>java.sql.Time</td>
+<td>TIME</td>
+<td>DATE</td>
+<td>TIME</td>
+<td>DATETIME</td>
+<td>DATETIME</td>
+<td>TIME</td>
+</tr>
+<tr>
+<td>java.sql.Timestamp</td>
+<td>TIMESTAMP</td>
+<td>DATE</td>
+<td>TIMESTAMP</td>
+<td>DATETIME</td>
+<td>DATETIME</td>
+<td>DATETIME</td>
+</tr>
+</tbody></table>
+]]></content>
+  </entry>
 </search>
