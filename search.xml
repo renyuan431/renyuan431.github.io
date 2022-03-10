@@ -10272,7 +10272,7 @@
       </categories>
   </entry>
   <entry>
-    <title></title>
+    <title>Java类型与SQL类型的映射表(Mapping table of Java types to SQL types)</title>
     <url>/2022/03/10/tabletest/</url>
     <content><![CDATA[<table>
 <thead>
