@@ -6118,7 +6118,151 @@
 </tr>
 </tbody></table>
 <p>目前我们所使用到的以太网帧基本都是Ethernet2帧。</p>
-<h1 id="二层交换"><a href="#二层交换" class="headerlink" title="二层交换"></a>二层交换</h1><h2 id="VLAN"><a href="#VLAN" class="headerlink" title="VLAN"></a>VLAN</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><img src="/2022/01/20/19-Switch/1617269394100-5e7ab195-cf71-4f29-8442-b8a2f323c2f7.png" alt="img"></p>
+<h2 id="以太网接口类型"><a href="#以太网接口类型" class="headerlink" title="以太网接口类型"></a>以太网接口类型</h2><p>以太网接口按大类分为二层接口（Layer 2 Switchport）和三层接口（Layer 3 Port），二层接口又分为四种类型，分别是access，Trunk，Tunnel以及Dynamic；三层接口分为两种类型，Switched Vritual Interface（SVI），Native Routed Interfaces。</p>
+<p><img src="/2022/01/20/19-Switch/image-20220613150532349.png" alt="image-20220613150532349"></p>
+<ul>
+<li>Access：Access类型接口只能划入一个VLAN里，能且只能传输一个VLAN的流量，比如该接口如果属于VLAN101，那么只能传输属于VLAN101的流量；</li>
+<li>Trunk：Trunk接口可以同时供多个VLAN通信，在默认情况下Trunk接口存在于所有VLAN的database中，Trunk接口同时支持ISL及802.1Q协议；</li>
+<li>Tunnel：Tunnel接口是为了802.1Q隧道使用</li>
+<li>Dynamic：Dynamic接口可以和对端的Dynamic接口动态协商Trunk接口的类型</li>
+<li>Switched Virtual Interface（SVI）：</li>
+<li>Native Routed Interfaces：</li>
+</ul>
+<blockquote>
+<p>•Access Ports: belong to and carry the traffic of only one VLAN</p>
+<p>•Trunk Ports: carry the traffic of multiple VLANs and by default is a member of all VLANs in the VLAN database. Both ISL and 802.1Q trunk ports are supported</p>
+<p>•Tunnel Ports: designed for service providers who carry traffic of multiple customers across their networks and are required to maintain the VLAN and Layer 2 protocol configurations of each customer without impacting the traffic of other customers. Both 802.1Q tunneling and <a href="https://www.ccexpert.us/ccie-2/layer-2-protocol-tunneling.html">Layer 2 protocol tunneling</a> are supported</p>
+</blockquote>
+<h2 id="二层交换"><a href="#二层交换" class="headerlink" title="二层交换"></a>二层交换</h2><p><img src="/2022/01/20/19-Switch/110620_0436_Layer2vsLay1.png" alt="img"></p>
+<h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><blockquote>
+<ul>
+<li>MAC addresses are known from all the incoming frames source addresses.</li>
+<li>Bridges and switches communicate with each other using the STP to remove bridging loops.</li>
+<li>Frames designed for unknown locations are overflowed out to all ports except the one that received the frame.</li>
+<li>It performs the same function as a transparent bridge.</li>
+<li>Frames are forwarded using specialized hardware, which is known as Application-Specific Integrated Circuits (ASIC).</li>
+<li>Layer-2 switches also perform the switching function to re-arrange the data frames from the source to its destination network.</li>
+<li>Layer-2 Switch splits a complicated LAN (local area network) into small VLAN networks.</li>
+</ul>
+</blockquote>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
+<ul>
+<li>Helps to forward packets based on unique MAC addresses</li>
+<li>Does not offer any setup or management</li>
+<li>It can be quickly deployed at a lower cost</li>
+<li>L2 switches flow accounting capabilities</li>
+<li>Low latency and improved security</li>
+</ul>
+<p>不足：</p>
+<ul>
+<li>The layer 2 switches must break up the collision domains correctly.</li>
+<li>It does not break up broadcast domains by default.</li>
+<li>L2 switches does not allow you to implement any intelligence while forwarding packets.</li>
+<li>Does not helps you to perform switching or IP address-based routing.</li>
+<li>Never given guarantee required bandwidth to VoIP users</li>
+</ul>
+<h2 id="三层交换"><a href="#三层交换" class="headerlink" title="三层交换"></a>三层交换</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><blockquote>
+<p>A Layer 3 switch is a switch that performs routing functions in addition to switching. A client computer needs a default gateway for layer 3 connectivity to any remote subnets.</p>
+<p>This type of layer helps you to combine the functionality of a switch and a router. It acts as a switch to connect devices that are on the same subnet or virtual LAN.</p>
+<p>This type of CISCO network switches support routing protocols. It helps to inspect incoming packets and makes routing decisions based on the source and destination addresses. That is how layer 3 switch acts as both for switch and a router.</p>
+</blockquote>
+<h3 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h3><h3 id="三层交换的功能"><a href="#三层交换的功能" class="headerlink" title="三层交换的功能"></a>三层交换的功能</h3><blockquote>
+<ul>
+<li>Define paths based on logical addressing</li>
+<li>Provide Security</li>
+<li>Run layer three checksums</li>
+<li>Process and respond to any option information</li>
+<li>Allows you to update simple Network Management</li>
+<li>Information Base (MIB) information</li>
+</ul>
+</blockquote>
+<h3 id="优缺点-2"><a href="#优缺点-2" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
+<ul>
+<li>L3 support routing between virtual LANs.</li>
+<li>Improve fault isolation.</li>
+<li>Provide ease of security management.</li>
+<li>Reduce broadcast traffic volumes.</li>
+<li>Ease the configuration process for VLANs, as a separate router is not needed between each VLAN.</li>
+<li>Separate routing tables, and as a result, segregate traffic better.</li>
+<li>Offers flow accounting and high-speed scalability.</li>
+<li>Lower network latency as a packet that does not make extra hops to go through a router.</li>
+</ul>
+<p>不足：</p>
+<ul>
+<li>The cost of the L3 switch is quite high compared to the Layer 2 switch.</li>
+<li>Layer 3 switch does not offer WAN functionality.</li>
+<li>Multiple tenants and virtualization.</li>
+<li>Does not offer any functionality.</li>
+</ul>
+<h2 id="二层交换VS三层交换"><a href="#二层交换VS三层交换" class="headerlink" title="二层交换VS三层交换"></a>二层交换VS三层交换</h2><table>
+<thead>
+<tr>
+<th align="left">Layer 2</th>
+<th align="left">Layer 3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Layer 2 switching is used to reduce traffic on the local network.</td>
+<td align="left">It is mostly used to Implement VLAN.</td>
+</tr>
+<tr>
+<td align="left">In Layer 2, switching packets are rerouted from the source to the destination port.</td>
+<td align="left">In Layer 3 switching, switches use a little time to check data packets before finding the best available route to direct data packets to the destination port.</td>
+</tr>
+<tr>
+<td align="left">Layer 2 uses the Address Resolution Protocol (ARP) to discover other devices’ MAC addresses.</td>
+<td align="left">Layer 3 devices utilize IP addresses for routing within Virtual LANs (VLANs).</td>
+</tr>
+<tr>
+<td align="left">Layer 2 switch comes with a little tendency of switching packets from one port to another.</td>
+<td align="left">Layer 3 switching helps devices to communicate outside the networks as well.</td>
+</tr>
+<tr>
+<td align="left">Layer 2 switch does simple switching by finding and maintain a table of MAC addresses.</td>
+<td align="left">Layer 3 switch is a specialized device that is designed for routing of data packets through IP addresses.</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Layer 2 Switch</th>
+<th>Layer 3 Switch</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Routing Function</td>
+<td>Mac address only</td>
+<td>Supports higher routing such as static routing and dynamic routing,</td>
+</tr>
+<tr>
+<td>VLAN Tagging Based on IP Address</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Inter-VLAN</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Application</td>
+<td>Pure Layer 2 domain</td>
+<td>Aggregate multiple access switches</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Layer2 is the process of using devices and MAC addresses on a LAN to segment a network.</li>
+<li>A Layer 3 switch is a switch that performs routing functions in addition to switching.</li>
+<li>Layer 2 switches perform the switching function to re-arrange the data frames from the source to its destination network.</li>
+<li>Layer 3 switches define paths based on logical addressing.</li>
+<li>Layer 2 switches are used to reduce traffic on the local network, whereas Layer 3 switches mostly used to Implement VLAN.</li>
+<li>The advantage of Layer 2 switches is that it helps to forward packets based on unique MAC addresses</li>
+<li>The advantage of Layer 3 switches offers flow accounting and high-speed scalability.</li>
+<li>The main drawback of Layer 2 switches is that it does not allow you to implement any intelligence while forwarding packets.</li>
+<li>The main drawback of the Layer 3 switch does not offer WAN functionality.</li>
+</ul>
+<h1 id="二层交换-1"><a href="#二层交换-1" class="headerlink" title="二层交换"></a>二层交换</h1><h2 id="VLAN"><a href="#VLAN" class="headerlink" title="VLAN"></a>VLAN</h2><h3 id="基本概念-1"><a href="#基本概念-1" class="headerlink" title="基本概念"></a>基本概念</h3><p><img src="/2022/01/20/19-Switch/1617269394100-5e7ab195-cf71-4f29-8442-b8a2f323c2f7.png" alt="img"></p>
 <ul>
 <li><p>一个VLAN中所有设备都是在同一广播域内，不同的VLAN为不同的广播域；</p>
 </li>
@@ -6226,7 +6370,7 @@
 <li><p>VID，VLAN ID，长度为12比特，表示该帧所属的VLAN，在VRP中，可配置的VLAN ID取值范围为1-4096。</p>
 </li>
 </ul>
-<h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h4><p>缺点是破坏了原始以太网帧的格式而且要重新计算FCS。802.1Q支持4096个VLAN，最大帧长度为1518+4=1522。</p>
+<h4 id="优缺点-3"><a href="#优缺点-3" class="headerlink" title="优缺点"></a>优缺点</h4><p>缺点是破坏了原始以太网帧的格式而且要重新计算FCS。802.1Q支持4096个VLAN，最大帧长度为1518+4=1522。</p>
 <h4 id="Native-Vlan"><a href="#Native-Vlan" class="headerlink" title="Native Vlan"></a>Native Vlan</h4><p>在802.1Q的Native vlan是不打标签的，使用Dot1Q的交换机把所有未标记的Frame转发到Native vlan中。</p>
 <ul>
 <li><p>Native VLAN所属的帧在经过Trunk时不打标签；</p>
@@ -6311,7 +6455,7 @@
 <p>比如上图中，R1的F0/0接口的IP MTU为1500，现在去ping 1.1.1.2 repeat 1 size 1500，会发现R1直接将一个ICMP包发出去了，没有分片，报文如下：</p>
 <p><img src="/2022/01/20/19-Switch/1617457634610-f9494c9a-9035-49e5-9319-839a0bf9eacd.png" alt="img"></p>
 <p>从报文中可以看到，IP包的大小为1500字节。其中IP报头20字节，ICMP报头8字节，ICMP Data 载荷1472字节，刚好1500字节，因此在思科IOS设备上，ping 后面跟着的size指的就是发出去的IP包整个大小。如果在R1上ping 1.1.1.2 repeat 1 size 1501，则由于这个IP包大于MTU1500，会被分片，然后在R2上这两个分片被重组。</p>
-<h2 id="私有VLAN"><a href="#私有VLAN" class="headerlink" title="私有VLAN"></a>私有VLAN</h2><h3 id="基本概念-1"><a href="#基本概念-1" class="headerlink" title="基本概念"></a>基本概念</h3><ul>
+<h2 id="私有VLAN"><a href="#私有VLAN" class="headerlink" title="私有VLAN"></a>私有VLAN</h2><h3 id="基本概念-2"><a href="#基本概念-2" class="headerlink" title="基本概念"></a>基本概念</h3><ul>
 <li><p>私有VLAN全称是Private VLAN，中文是私有VLAN；</p>
 </li>
 <li><p>将一个VLAN划分成几个单独的VLAN，这些VLAN都是用同一个IP网段；</p>
@@ -6797,7 +6941,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">全局打开命令：</span><br><span class="line">SW1(config)#spanning-tree loopguard default</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">端口打开命令：</span><br><span class="line">SW1(config-if)#spanning-tree guard loop</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2022/01/20/19-Switch/1617787895551-f019fd9c-6fa0-4183-bab3-33d071c0d952.png" alt="img"></p>
-<h2 id="PVST"><a href="#PVST" class="headerlink" title="PVST+"></a>PVST+</h2><h3 id="基本概念-2"><a href="#基本概念-2" class="headerlink" title="基本概念"></a>基本概念</h3><p>传统的STP，也就是802.1D，是所有的VLAN共用一颗生成树，这样一来的好处是交换机不用耗费过多的资源去计算多颗生成树，不足是，通过Block固定的端口，导致流量只走一侧，而部分链路一点流量都没有，浪费了带宽。</p>
+<h2 id="PVST"><a href="#PVST" class="headerlink" title="PVST+"></a>PVST+</h2><h3 id="基本概念-3"><a href="#基本概念-3" class="headerlink" title="基本概念"></a>基本概念</h3><p>传统的STP，也就是802.1D，是所有的VLAN共用一颗生成树，这样一来的好处是交换机不用耗费过多的资源去计算多颗生成树，不足是，通过Block固定的端口，导致流量只走一侧，而部分链路一点流量都没有，浪费了带宽。</p>
 <p>PVST+在这方面做出了改进。PVST+全称为Per Vlan Spanning Tree Plus，中文是增强的按VLAN生成树，是思科的私有协议，一个VLAN对应一颗生成树，如此一来交换机将基于VLAN计算生成树，可以通过单独的VLAN生成树调节优先级等相关参数，从而影响生成树的计算，最终实现合理的链路带宽利用：</p>
 <p><img src="/2022/01/20/19-Switch/1617867288530-d44f11b7-2675-4389-860a-85acdf82dc4a.png" alt="img"></p>
 <p>比如上图中，内网存在两个VLAN，10和20，这里让SW1成为VLAN10的主根，将它的优先级配置为最低，SW2成为VLAN10的次根，SW3优先级最高，如此一来将Block掉SW3上连接SW2的上联口，相对的VLAN20也通过参数调节，Block掉SW3连接SW1的上联接口。这样，vlan10用户出去将走左侧链路，vlan20用户走右侧用户，两边链路都得到了合理的使用，实现了负载均衡。</p>
@@ -6956,7 +7100,7 @@
 <h3 id="CIST"><a href="#CIST" class="headerlink" title="CIST"></a>CIST</h3><p>如果此时网络中又出现了另一个Region，MSTP会如何处理呢？MSTP会把Region当成一个大的虚拟交换机（Virtual Switch）去看待：</p>
 <p><img src="/2022/01/20/19-Switch/1618050131358-1a0ce80a-d00d-471f-8071-765870016b26.png" alt="img"></p>
 <p><img src="/2022/01/20/19-Switch/1618050171999-c7e32564-6df4-42a1-8847-71f94454ada1.png" alt="img"></p>
-<h1 id="三层交换"><a href="#三层交换" class="headerlink" title="三层交换"></a>三层交换</h1><h2 id="CAM-amp-TCAM"><a href="#CAM-amp-TCAM" class="headerlink" title="CAM&amp;TCAM"></a>CAM&amp;TCAM</h2><h3 id="CAM"><a href="#CAM" class="headerlink" title="CAM"></a>CAM</h3><p>CAM是交换机用于二层交换时所查的表，Content Addressable Memory Table，内容可寻址内存，在查表时使用二进制的0、1进行匹配，并且需要严格匹配，也就是目的MAC与CAM表中的MAC需要完全匹配，查找的结果如果是完全匹配，则根据返回的端口号将数据转发出去。CAM表只能输出两种结果：0表示真，也就是匹配，1表示为假，也就是不匹配。所以CAM表在构建那些需要精确匹配的表格（比如MAC地址表）的时候就非常有用，因为MAC地址为48位，需要每位都匹配才能使得数据帧从一个接口发出去。（CAM performs quick lookup based on exact match on the given search key. In essence, a CAM looks up a single record - the one matches the search key precisely——出自<a href="https://community.cisco.com/t5/switching/cam-tcam-backplane-speed/td-p/1970089">这个帖子</a>）</p>
+<h1 id="三层交换-1"><a href="#三层交换-1" class="headerlink" title="三层交换"></a>三层交换</h1><h2 id="CAM-amp-TCAM"><a href="#CAM-amp-TCAM" class="headerlink" title="CAM&amp;TCAM"></a>CAM&amp;TCAM</h2><h3 id="CAM"><a href="#CAM" class="headerlink" title="CAM"></a>CAM</h3><p>CAM是交换机用于二层交换时所查的表，Content Addressable Memory Table，内容可寻址内存，在查表时使用二进制的0、1进行匹配，并且需要严格匹配，也就是目的MAC与CAM表中的MAC需要完全匹配，查找的结果如果是完全匹配，则根据返回的端口号将数据转发出去。CAM表只能输出两种结果：0表示真，也就是匹配，1表示为假，也就是不匹配。所以CAM表在构建那些需要精确匹配的表格（比如MAC地址表）的时候就非常有用，因为MAC地址为48位，需要每位都匹配才能使得数据帧从一个接口发出去。（CAM performs quick lookup based on exact match on the given search key. In essence, a CAM looks up a single record - the one matches the search key precisely——出自<a href="https://community.cisco.com/t5/switching/cam-tcam-backplane-speed/td-p/1970089">这个帖子</a>）</p>
 <p>查看CAM表使用命令：show mac address-table dynamic [address mac-address | interface type mod/num | vlan vlan-id]</p>
 <p>查看CAM表大小使用命令：show mac address-table count</p>
 <p><img src="/2022/01/20/19-Switch/1618214813472-12f54ac0-cbee-4779-a9bf-80819f072410.png" alt="img"></p>
@@ -7007,7 +7151,7 @@
 <p>先来人事一下第一种三层接口，SVI，交换式虚拟接口，SVI中的V是Virtual，也就是虚拟的意思，也就是说它不是一个物理接口，当我们在交换机上创建了一个VLAN后，紧接着就可以创建一个与这个VLAN相对应的SVI接口，例如在三层交换机上穿件了一个VLAN10，那么VLAN10所对应的SVI接口就是Interface VLAN10或者叫SVI10这个三层接口。可以为这个三层SVI借口配置IP地址，配置的地址与VLAN10内的PC用户的IP地址为同一网段，那么这样一来，VLAN10内的用户就能够将网关指向这个SVI接口，当VLAN10的PC需要访问其他网段的数据时，这些PC就会将需要跨网段的数据交给三层的SVI10这个接口，由这个SVI接口再去做路由及数据转发这种三层才能完成的工作。在这个过程中，可以用单臂路由这个模型来类比。</p>
 <p>上图中，在三层交换机上创建了两个VLAN，VLAN10和VLAN20，同时为两个VLAN的三层SVI接口分配了地址作为各自VLAN的用户网关，这样一来，这台交换机的路由表里就有了两个VLAN网段的路由。那么当两个VLAN之间要互访时，VLAN10的用户将数据丢给自己的网关，VLAN10的SVI接口，数据到了SVI10以后，三层交换机查表，发现目的IP是VLAN20所在的网段，因此将数据从VLAN20的SVI扔出去，最终到达目的地，VLAN20的PC上。</p>
 <p>举个不是特别恰当的例子，可以把VLAN想象成一个独立的班级，PC是学生，SVI是班主任，当班级之间的学生（PC）相互通信的时候，由于都在一个班里边（同一个VLAN中），彼此都相互认识，如果要和别的班的同学通信，也就是跨网段通信，需要经过班主任去对接其他班级的班主任，因为同学之间不认识。</p>
-<h3 id="三层交换机的端口"><a href="#三层交换机的端口" class="headerlink" title="三层交换机的端口"></a>三层交换机的端口</h3><h4 id="基本概念-3"><a href="#基本概念-3" class="headerlink" title="基本概念"></a>基本概念</h4><p><img src="/2022/01/20/19-Switch/1618302381892-875363a2-f676-4e99-a377-0170714b9acd.png" alt="img"></p>
+<h3 id="三层交换机的端口"><a href="#三层交换机的端口" class="headerlink" title="三层交换机的端口"></a>三层交换机的端口</h3><h4 id="基本概念-4"><a href="#基本概念-4" class="headerlink" title="基本概念"></a>基本概念</h4><p><img src="/2022/01/20/19-Switch/1618302381892-875363a2-f676-4e99-a377-0170714b9acd.png" alt="img"></p>
 <p>总的来说，三层交换机包括两类端口，二层接口L2和三层接口L3：</p>
 <ul>
 <li>二层接口（Switchport）：二层接口包括了常见的Access mode和Trunk Mode，交换机的所有物理接口默认是二层接口，也就是Switchport。</li>
@@ -7055,7 +7199,7 @@
 
 <h2 id="冗余网关技术"><a href="#冗余网关技术" class="headerlink" title="冗余网关技术"></a>冗余网关技术</h2><p>一旦网关或关键节点出现故障，将对业务造成灾难性的故障，因此应运而生了首跳网关冗余技术，常见的有HSRP、VRRP和GLBP，相互之间的区别如下：</p>
 <p><img src="/2022/01/20/19-Switch/1618556451542-3e276964-def5-46cf-a0e6-050382f2afbd.png" alt="img"></p>
-<h3 id="基本概念-4"><a href="#基本概念-4" class="headerlink" title="基本概念"></a>基本概念</h3><p>由于HSRP和GLBP都是思科私有技术，这里只写VRRP这种公有技术。</p>
+<h3 id="基本概念-5"><a href="#基本概念-5" class="headerlink" title="基本概念"></a>基本概念</h3><p>由于HSRP和GLBP都是思科私有技术，这里只写VRRP这种公有技术。</p>
 <p>利用VRRP（Virtual Router Redundancy Protocol，虚拟路由冗余协议）协议，一组路由器可以协同工作，但只有一个处于激活状态，在一个VRRP组内的多个路由器公用一个虚拟IP地址，该地址被作为局域网内所有主机的缺省网关地址，VRRP协议决定哪个路由器被激活，被激活的路由器负责收发过来的数据包并进行路由。</p>
 <p><img src="/2022/01/20/19-Switch/1618556886952-3c05fda8-f129-4779-9a31-d434a40fd947.png" alt="img"></p>
 <ul>
@@ -7145,6 +7289,8 @@
 <p><a href="https://blog.csdn.net/jiao424525707/article/details/89493103">stp中优先级为什么是4096的倍数？</a></p>
 <p><a href="https://www.jannet.hk/zh-Hans/post/rapid-spanning-tree-protocol-rstp/">Rapid Spanning Tree Protocol (RSTP) 快速生成树协定</a></p>
 <p><a href="https://www.jannet.hk/zh-Hans/post/multiple-spanning-tree-protocol-mstp/">Multiple Spanning Tree Protocol (MSTP) 多重生成树协定</a></p>
+<p><a href="https://www.ccexpert.us/ccie-2/different-types-of-switch-ports.html">Different Types of Switch Ports</a></p>
+<p><a href="https://www.guru99.com/layer-3-layer-2-switch.html">Layer 2 Switch vs Layer 3 Switch</a></p>
 ]]></content>
       <categories>
         <category>路由交换方向</category>
