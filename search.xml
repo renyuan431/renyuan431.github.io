@@ -2187,6 +2187,44 @@
 <h2 id="NLRI"><a href="#NLRI" class="headerlink" title="NLRI"></a>NLRI</h2><p>NLRI的全称是Network Layer Reachability Information，直译成中文是网络层可达信息，简单来说是BGP的网络前缀，抓包如下：</p>
 <p><img src="/2020/10/11/14-BGP/1603516028491-82b5fd06-3916-4f72-bd4e-77df1b4a60c1.jpeg" alt="img"></p>
 <p>但问了个厂家的朋友说，NLRI其实是带着路径属性的前缀，不过抓包中并没在一起。</p>
+<h2 id="AFI-SAFI"><a href="#AFI-SAFI" class="headerlink" title="AFI\SAFI"></a><a href="https://www.thebetternetwork.com/networking/bgp-address-family-identifiers-afi-and-subsequent-address-family-identifiers-safi/">AFI\SAFI</a></h2><blockquote>
+<p>Address family identifier is shared among the BGP peers during the BGP OPEN message as a part of BGP’s Multiprotocol capabilities extension. It is used to describe the network layer protocol associated with the network addresses that follow it during the BGP UPDATE message with the NLRI.</p>
+<p>Subsequent Address family identifier provided additional information about the type of NLRI being advertised.</p>
+</blockquote>
+<p>AFI是BGP的OPEN（在BGP邻居之间传递Open报文）报文里多协议能力扩展中的一部分，AFI用来描述BGP的Update报文中与NLRI相关的网络地址的网络层协议。</p>
+<p>SAFI提供了对外宣告的NLRI的额外信息。</p>
+<blockquote>
+<p>BGP uses TCP as its transport protocol. AFI means Address Family Indicator and SAFI is the Subsequent Address Family Indicator.</p>
+<p>They are used in the Multiprotocol Extensions to BGP and are exchanged during neighbor capability exchange during the process for loading the peers. They basically tell the remote peer what Address family (IPv4, IPv6, VPNv4, VPNv6) and what specific sub address family (Multicast, unicast) the local BGP router will transport routes for.</p>
+<p>This allows BGP to not only carry IPv4 prefixes but IPv6, VPN and to carry multicast and unicast routing information.</p>
+</blockquote>
+<p>BGP在传输层使用TCP协议，AFI全称是Address Family Indicator，SAFI的全称是Subsequent Address Family Indicator.</p>
+<p>这两个概念是在BGP中用来扩展多协议支持的，在邻居建立过程中互相交换，告诉邻居使用什么地址簇（IPv4、IPv6、VPNv4、VPNv6）以及本地BGP路由器将传输哪些特定的地址簇（组播、单播）。</p>
+<p>这使得BGP不仅可以传输IPV4前缀，还可以传输IPV6、VPN等其他前缀的路由，还可以传输单播、组播的路由信息。</p>
+<p><img src="/2020/10/11/14-BGP/image-20220630114855255.png" alt="image-20220630114855255"></p>
+<blockquote>
+<p>The following list shows all possible AFI and SAFI combinations:</p>
+<ul>
+<li>AFI=1, SAFI=1, IPv4 unicast</li>
+<li>AFI=1, SAFI=2, IPv4 multicast</li>
+<li>AFI=1, SAFI=128, L3VPN IPv4 unicast</li>
+<li>AFI=1, SAFI=129, L3VPN IPv4 multicast</li>
+<li>AFI=2, SAFI=1, IPv6 unicast</li>
+<li>AFI=2, SAFI=2, IPv6 multicast</li>
+<li>AFI=25, SAFI=65, BGP-VPLS/BGP-L2VPN</li>
+<li>AFI=2, SAFI=128, L3VPN IPv6 unicast</li>
+<li>AFI=2, SAFI=129, L3VPN IPv6 multicast</li>
+<li>AFI=1, SAFI=132, RT-Constrain</li>
+<li>AFI=1, SAFI=133, Flow-spec</li>
+<li>AFI=1, SAFI=134, Flow-spec</li>
+<li>AFI=3, SAFI=128, CLNS VPN</li>
+<li>AFI=1, SAFI=5, NG-MVPN IPv4</li>
+<li>AFI=2, SAFI=5, NG-MVPN IPv6</li>
+<li>AFI=1, SAFI=66, MDT-SAFI</li>
+<li>AFI=1, SAFI=4, labeled IPv4</li>
+<li>AFI=2, SAFI=4, labeled IPv6 (6PE)</li>
+</ul>
+</blockquote>
 <h2 id="几个管理概念"><a href="#几个管理概念" class="headerlink" title="几个管理概念"></a><a href="http://www.tcpipguide.com/free/t_BGPAutonomousSystemTypesTrafficFlowsandRoutingPoli.htm">几个管理概念</a></h2><h3 id="Local-Transit-Traffic"><a href="#Local-Transit-Traffic" class="headerlink" title="Local/Transit Traffic"></a>Local/Transit Traffic</h3><p><strong>Local Traffic</strong>，直译成中文是本地流量，这种流量要么是起源于本AS，要么是终点在本AS内，也就是起始或终点在本AS内的流量叫做Local Traffic。</p>
 <p><strong>Transit Traffic</strong>，直译成中文是穿越流量，这种流量起源于外部AS，并且目的地也不在本AS内，也就是起始或终点都不在本AS内的流量叫做Transit Traffic。</p>
 <h3 id="Stub-Multihomed-AS"><a href="#Stub-Multihomed-AS" class="headerlink" title="Stub/Multihomed AS"></a>Stub/Multihomed AS</h3><p><strong>Stub AS</strong>：仅和另外一个AS相连。</p>
@@ -4079,6 +4117,7 @@
 <p><a href="https://sites.google.com/site/amitsciscozone/home/bgp/bgp-route-dampening">BGP Route Dampening</a></p>
 <p><a href="https://users.soe.ucsc.edu/~brad/CiscoIOSpdfs/Understanding-BGP-Regular-Expressions.pdf">Understanding BGP Regular Expressions</a></p>
 <p>BGP 技术笔记</p>
+<p><a href="https://www.thebetternetwork.com/networking/bgp-address-family-identifiers-afi-and-subsequent-address-family-identifiers-safi/">BGP Address Family Identifiers (AFI) and Subsequent address family identifiers (SAFI)</a></p>
 ]]></content>
       <categories>
         <category>路由交换方向</category>
