@@ -1430,7 +1430,7 @@
 <li><p>V4到V6过渡方式丰富多彩；</p>
 </li>
 </ul>
-<h1 id="报头分析"><a href="#报头分析" class="headerlink" title="报头分析"></a>报头分析</h1><h2 id="报头格式"><a href="#报头格式" class="headerlink" title="报头格式"></a><a href="https://www.educba.com/ipv6-header-format/">报头格式</a></h2><p><img src="/_posts/16-IPV6/1618573092654-3aef4f57-0fb1-4c3e-b2b8-68b07054b72a.png" alt="img"></p>
+<h1 id="报头分析"><a href="#报头分析" class="headerlink" title="报头分析"></a>报头分析</h1><h2 id="报头格式"><a href="#报头格式" class="headerlink" title="报头格式"></a><a href="https://www.educba.com/ipv6-header-format/">报头格式</a></h2><p><img src="/2022/01/20/16-IPV6/1618573092654-3aef4f57-0fb1-4c3e-b2b8-68b07054b72a.png" alt="img"></p>
 <h2 id="报头本体"><a href="#报头本体" class="headerlink" title="报头本体"></a>报头本体</h2><p>基本的IPV4报头长度为20个字节，总共12个字段，options和padding字段在需要时添加，IHL表示报头长度，Total Length表示总长度。</p>
 <p>基本的IPV6报头为40个8bit，也就是40字节长，总共8个字段。IPV6数据包由一个基本报头加上0个或多个扩展报头再加上上层协议单元构成。</p>
 <ul>
@@ -1513,11 +1513,11 @@
 </tr>
 </tbody></table>
 <p>没有扩展报头的TCP数据段：</p>
-<p><img src="/_posts/16-IPV6/1618648989607-a2968763-ab29-4cee-b74c-bb3edf0622c3.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618648989607-a2968763-ab29-4cee-b74c-bb3edf0622c3.png" alt="img"></p>
 <p>有两个扩展报头的TCP数据段：</p>
-<p><img src="/_posts/16-IPV6/1618649035047-76dca1b0-a57e-4444-b435-3a0ceebab7d3.png" alt="img"></p>
-<h3 id="扩展报头格式"><a href="#扩展报头格式" class="headerlink" title="扩展报头格式"></a>扩展报头格式</h3><p><img src="/_posts/16-IPV6/1618737686806-52f9234b-bf79-489d-a9aa-d0d55d161938.png" alt="img"></p>
-<p><img src="/_posts/16-IPV6/1618737718259-4028ee2b-00bd-4dd3-a394-3144d9b06465.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618649035047-76dca1b0-a57e-4444-b435-3a0ceebab7d3.png" alt="img"></p>
+<h3 id="扩展报头格式"><a href="#扩展报头格式" class="headerlink" title="扩展报头格式"></a>扩展报头格式</h3><p><img src="/2022/01/20/16-IPV6/1618737686806-52f9234b-bf79-489d-a9aa-d0d55d161938.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618737718259-4028ee2b-00bd-4dd3-a394-3144d9b06465.png" alt="img"></p>
 <h1 id="IPV6地址"><a href="#IPV6地址" class="headerlink" title="IPV6地址"></a>IPV6地址</h1><h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="IPV6特点"><a href="#IPV6特点" class="headerlink" title="IPV6特点"></a>IPV6特点</h3><ul>
 <li><p>更大的地址空间，从32bit到了128bit；</p>
 </li>
@@ -1543,15 +1543,15 @@
 </li>
 </ul>
 <h3 id="地址简写"><a href="#地址简写" class="headerlink" title="地址简写"></a>地址简写</h3><p>IPV6地址可以进行简写，多个前导0可以省略成一个0；比如2001:00a8:0207:0000:0000:0000;0000:8207，可以缩写成2001：a8:207:0:0:0:08207。一个或多个连续的16bit字段为0时，可以用：：表示，但整个缩写中只允许有一个：：。比如上面的例子，可以进一步缩写成2001：a8:207::8207。</p>
-<p><img src="/_posts/16-IPV6/1618740903670-0e24715e-c0a7-4155-b9fe-9af0aeb3e8b6.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618740903670-0e24715e-c0a7-4155-b9fe-9af0aeb3e8b6.png" alt="img"></p>
 <h3 id="地址URL表示"><a href="#地址URL表示" class="headerlink" title="地址URL表示"></a>地址URL表示</h3><p>http://[ipv6地址]：8080</p>
 <p>必须使用[]括起来</p>
 <h3 id="IPV6和子网划分"><a href="#IPV6和子网划分" class="headerlink" title="IPV6和子网划分"></a>IPV6和子网划分</h3><p>IPV6和V4不同之处是网络前缀范围内没有保留广播号，在IPV4中，第一个和最后一个地址是被保留给网络号和广播号的，而在IPV6中，不再有广播了，而且事实上IPV6的空间地址如此之大，以至于连VLSM都不是特别有必要了。</p>
 <h3 id="接口ID"><a href="#接口ID" class="headerlink" title="接口ID"></a>接口ID</h3><p>用于标识链路上的接口，在每条链路上，接口ID必须唯一，接口ID有很多用途，最常见的是用于黏贴在链路本地地址的前缀后面，形成128bit的接口链路本地地址。或者在无状态自动配置中，黏贴在获取到的IPV6全局单播前缀后面，构成接口的全局单播地址。接口ID的长度为64bit，根据IEEE的EUI-64规范将48bit的MAC地址转换为64bit的接口ID，MAC地址的唯一性保证了接口ID的唯一性。</p>
 <p>过程由设备自动生成，不需人为干预，由接口的MAC地址转换得到64bit的EUI-64格式接口ID的过程如下：</p>
-<p><img src="/_posts/16-IPV6/1618990388662-c0fc80f2-1b9d-478f-9376-b4026a9b5797.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618990388662-c0fc80f2-1b9d-478f-9376-b4026a9b5797.png" alt="img"></p>
 <p>将48bit的MAC对半劈开，插入FFFE，然后设置第七位，也就是U/L位，该比特位决定了48比特的MAC地址是否唯一，一个以太网地址可以有两种含义，地址可被全球管理或本地管理。全球管理指的是使用如0800-2bxx-xxxx之类的厂商MAC，本地管理指的是使用自己的值重写MAC地址，在这种情况下，这个特殊的位=1表示本地管理，为0时表示全球管理。但在EUI-64格式中，U/L的含义正好相反，0表示本地管理，1表示全球管理，所以使用EUI-64格式的地址IPV6地址，U/L位为1，则地址是全球唯一的，如果为0，则表示本地唯一。</p>
-<h2 id="地址分类"><a href="#地址分类" class="headerlink" title="地址分类"></a>地址分类</h2><p><img src="/_posts/16-IPV6/1618740577447-94dda359-ae1f-4ebc-b991-a4017dfd6bc0.png" alt="img"></p>
+<h2 id="地址分类"><a href="#地址分类" class="headerlink" title="地址分类"></a>地址分类</h2><p><img src="/2022/01/20/16-IPV6/1618740577447-94dda359-ae1f-4ebc-b991-a4017dfd6bc0.png" alt="img"></p>
 <ul>
 <li><p>单播地址（Unicast Address）：标识一个接口，目的地址为单播地址的报文会被送到标识的接口。单播地址中又有可聚合全球单播地址、链路本地单播地址、站点本地单播地址、IPV4兼容地址和未指定的环回地址；</p>
 </li>
@@ -1560,23 +1560,23 @@
 <li><p>任意播地址（Anycast Address）：标识多个接口，目的为任意播地址的报文会被送到最近的一个被标识接口，最近节点是由路由协议来定义的。</p>
 </li>
 </ul>
-<p><img src="/_posts/16-IPV6/1618741837447-3a246591-3866-4855-af2d-3e9bafb2c334.png" alt="img"></p>
-<p><img src="/_posts/16-IPV6/1618741840377-2d45fe54-db48-4db0-92ac-52b9db490c83.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618741837447-3a246591-3866-4855-af2d-3e9bafb2c334.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618741840377-2d45fe54-db48-4db0-92ac-52b9db490c83.png" alt="img"></p>
 <p>200::/7保留用于网络业务接入点NSAP，当前没有使用NSAP保留空间，NSAP地址主要用于ATM技术中；2000::/3（从2000::到3FFF::）是可聚合全球单播地址空间。</p>
 <h2 id="单播地址"><a href="#单播地址" class="headerlink" title="单播地址"></a>单播地址</h2><h3 id="可聚合全局单播地址"><a href="#可聚合全局单播地址" class="headerlink" title="可聚合全局单播地址"></a>可聚合全局单播地址</h3><p>全称为Aggregatable global unicast address，该地址类似于IPV4公网地址，是可以在互联网中路由的地址。目前已经分配的全球单播地址前缀都是001开头的，2000::到3FFF:FFFF:…..FFFF。</p>
-<p><img src="/_posts/16-IPV6/1618742281797-df84f3a5-4fc9-4b32-849f-5dc987474a50.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618742281797-df84f3a5-4fc9-4b32-849f-5dc987474a50.png" alt="img"></p>
 <p>每一个组织在注册的时候拿到的时23位的，运营商拿到32位，给企业分发是48位，企业再分发的时候是64给客户，一般情况常见的都是64位掩码，可以再由自己根据需要进一步规划：</p>
-<p><img src="/_posts/16-IPV6/1618968893619-1766790c-b177-4373-9f4a-9059aee0a6bf.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618968893619-1766790c-b177-4373-9f4a-9059aee0a6bf.png" alt="img"></p>
 <h3 id="本地站点地址"><a href="#本地站点地址" class="headerlink" title="本地站点地址"></a>本地站点地址</h3><p>英文为Site-local address，类似于IPV4中的私有地址，以FEC0：：/10为前缀，其中前10bit固定为1111111011，紧跟着后面的是连续38bit的0，因此对于站点本地地址来说，前48bit总是固定的，在接口ID和高位48bit特定前缀之间有16bit子网ID字段，供机构在内部构建子网使用，如果想在互联网上传播，那么需要做NAT。站点本地地址不是自动生成的，是手工配置的。</p>
 <p>本地站点地址永远不会用于全球IPV6因特网通信，一般用于内网通信，其实IPV6地址空间如此之庞大，以至于根本用不到Site-local地址，直接用全局单播地址即可，现网中本地站点地址用的很少。</p>
 <h3 id="链路本地地址"><a href="#链路本地地址" class="headerlink" title="链路本地地址"></a>链路本地地址</h3><p>英文为Link-Local，用于和本链路内的设备进行通信，在一条链路上必须知道对方节点的链路本地地址，如果不知道是不能通信的，所以一条链路中的IPV6节点要通信必须拥有本地链路地址，而且这个链路本地地址只在一条链路中有效，<strong>也不能被路由</strong>，不同链路的链路本地地址可以重复，因为在这个地址只在链路上使用，确保在本链路上唯一即可。设备会使用DAD（Duplicate Address Detection重复地址检测）来判断链路本地地址是否唯一。</p>
 <p>如果一台设备激活了IPV6功能，这台设备的每个接口都会自动配置一个链路本地地址，这个机制使得两个连接到同一链路的IPV6节点不需要做任何配置就可以通信，缺省网关建议使用链路本地地址，因为这个地址是最稳定的，只要激活IPV6就有的。也就是说，一台激活了IPV6功能的设备，<strong>可以没有</strong>IPV6的Global Unicast地址，但<strong>必须有</strong>IPV6的Link-Local地址。</p>
 <p>链路本地地址以FE80::/10为前缀，11-64位为0，外加一个64bit的接口标识（一般是EUI-64）</p>
-<p><img src="/_posts/16-IPV6/1618972406898-3bbf0e8a-3860-4670-99f7-8ccdf97440c6.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618972406898-3bbf0e8a-3860-4670-99f7-8ccdf97440c6.png" alt="img"></p>
 <h3 id="特殊地址"><a href="#特殊地址" class="headerlink" title="特殊地址"></a>特殊地址</h3><h4 id="未指定地址"><a href="#未指定地址" class="headerlink" title="未指定地址"></a>未指定地址</h4><p>全0的地址，也就是0:0:0:0:0:0/128，或者：/128，该地址可以表示某个接口或节点还没有IP地址，可以作为某些报文的源IP地址，比如作为DAD报文的DHCP初始化过程中客户端的起源IP。用于IPV6节点在没有获取IPV6地址时的场景。</p>
 <h4 id="环回地址"><a href="#环回地址" class="headerlink" title="环回地址"></a>环回地址</h4><p>也就是0:0:0:0:0:1/128，或者 ::1/128，用于IPV6节点发送报文给自己。</p>
 <h4 id="IPV4兼容地址"><a href="#IPV4兼容地址" class="headerlink" title="IPV4兼容地址"></a>IPV4兼容地址</h4><p>在过渡技术中，会使用到一些包含IPV4地址的IPV6地址，为了让IPV4地址显得更加突出一些，定义了内嵌IPV4地址的IPV6地址格式，内嵌IPV4地址格式是过渡机制中使用的一种特殊表示方法，在这种表示方法中，IPV6地址的部分使用十六进制表示，IPV4地址部分可以使用十进制格式，比如0:0:0:0:0:0192.168.1.2或  ::192.168.1.2（前边有96个0）IPV4兼容地址用于过渡机制，如自动IPV4兼容隧道以及NAT-PT。</p>
-<h2 id="组播地址（Multicast）"><a href="#组播地址（Multicast）" class="headerlink" title="组播地址（Multicast）"></a>组播地址（Multicast）</h2><h3 id="地址结构"><a href="#地址结构" class="headerlink" title="地址结构"></a>地址结构</h3><p><img src="/_posts/16-IPV6/1618973856148-f1a6c486-51b7-44b4-877a-3064cfac7ae1.png" alt="img"></p>
+<h2 id="组播地址（Multicast）"><a href="#组播地址（Multicast）" class="headerlink" title="组播地址（Multicast）"></a>组播地址（Multicast）</h2><h3 id="地址结构"><a href="#地址结构" class="headerlink" title="地址结构"></a>地址结构</h3><p><img src="/2022/01/20/16-IPV6/1618973856148-f1a6c486-51b7-44b4-877a-3064cfac7ae1.png" alt="img"></p>
 <p>组播地址最高位的前8位固定为1，也就是FFXX：：/8；</p>
 <p>Flags字段长度为4bit，当值为0000时表示永久分配或总所周知的组播地址；当值为0001时，表示是临时的。</p>
 <p>Scop字段长度为4bit，用来限制组播数据流在网络中发送的范围：</p>
@@ -1613,10 +1613,10 @@
 <li><p>FF02::9，链路上所有的RIP路由器</p>
 </li>
 </ul>
-<h3 id="组播地址的MAC映射"><a href="#组播地址的MAC映射" class="headerlink" title="组播地址的MAC映射"></a>组播地址的MAC映射</h3><p><img src="/_posts/16-IPV6/1618976493877-37178812-f1b0-4ce1-870c-07d7d4238221.png" alt="img"></p>
+<h3 id="组播地址的MAC映射"><a href="#组播地址的MAC映射" class="headerlink" title="组播地址的MAC映射"></a>组播地址的MAC映射</h3><p><img src="/2022/01/20/16-IPV6/1618976493877-37178812-f1b0-4ce1-870c-07d7d4238221.png" alt="img"></p>
 <h3 id="被请求节点组播地址"><a href="#被请求节点组播地址" class="headerlink" title="被请求节点组播地址"></a>被请求节点组播地址</h3><p>在IPV6组播地址中，有一种特别的组播地址，叫做Solicited-node，被请求节点组播地址，主要用于重复地址检测（DAD）和替代IPV4中的ARP，地址前缀由FF02::1:FF00:0/104和IPV6单播地址的最后24位组成。一个IPV6单播地址对应一个Solicited-node地址，有效范围为本地链路范围。</p>
 <p>地址个是：FF02:0:0:0:0:1:FFXX:XXXX，具体的对应关系如下：</p>
-<p><img src="/_posts/16-IPV6/1618976846785-18fe5a66-5733-4dc4-8309-76578cb80c3a.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618976846785-18fe5a66-5733-4dc4-8309-76578cb80c3a.png" alt="img"></p>
 <h2 id="Anycast"><a href="#Anycast" class="headerlink" title="Anycast"></a>Anycast</h2><p>任意播地址没有专门的地址空间，使用的是单播的地址空间，一个IPV6地址被分配给多个接口，仅用于路由器，发往任意播地址的数据包被路由器分配给了任意播地址的最近的一个（由路由协议判断远近），适合于One-to-One-of-Many（一对一组中的一个）的通信场合，接收方只需要是一组接口中的一个即可，如移动用户上网就需要因地理位置的不同而接入离用户最近的一个接收站，这样才可以使得移动用户在地理位置上不受太多的限制。任意播地址只能作为目的IP，不能作为源。</p>
 <h2 id="必须具备的IPV6地址"><a href="#必须具备的IPV6地址" class="headerlink" title="必须具备的IPV6地址"></a>必须具备的IPV6地址</h2><ul>
 <li><p>链路本地地址：FE80::/10；</p>
@@ -1649,21 +1649,21 @@
 <li>有状态地址自动配置，也就是DHCPV6；</li>
 <li>无状态自动配置，为了获得这个前缀，只要在路由器和主机之间运行一个协议即可。使用NDP协议的Router Solicitation恳求和Router Advertisement通告消息。前者用于发现路由器，并促使路由器发送Router Advertisement消息通报前缀信息。RA消息中包含前缀、生存期、缺省网关等信息，大致过程如下图：</li>
 </ul>
-<p><img src="/_posts/16-IPV6/1618993037246-d1623a05-467a-4650-afa0-efd12a0a47fb.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618993037246-d1623a05-467a-4650-afa0-efd12a0a47fb.png" alt="img"></p>
 <h1 id="ICMPV6"><a href="#ICMPV6" class="headerlink" title="ICMPV6"></a>ICMPV6</h1><h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><p>ICMPV6是IPV6的基础协议之一，相比之前IPV4的ICMP协议，ICMPV6协议在功能上类似，但得到了极大加强，有了很多新特性和功能上的改进，这些改进是NDP协议的一部分。协议号为58，该协议号在IPV6报头的‘下一个报头（Next Header）’字段中。</p>
-<h2 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h2><p><img src="/_posts/16-IPV6/1618993540799-95f9b04d-e776-4d79-8c8d-0eb9616471c9.png" alt="img"></p>
-<p><img src="/_posts/16-IPV6/1618993469698-cd62bf2f-0651-4559-840c-107a01872e96.png" alt="img"></p>
+<h2 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h2><p><img src="/2022/01/20/16-IPV6/1618993540799-95f9b04d-e776-4d79-8c8d-0eb9616471c9.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618993469698-cd62bf2f-0651-4559-840c-107a01872e96.png" alt="img"></p>
 <ul>
 <li>Type：类型字段，长度为8bit，表示ICMPV6消息的类型，有两种大类型的报文，差错消息（error messages，当Type字段值为0-127时）及协议消息（Informational messages，当Type字段值为128-255时），具体来说有可能这个消息是Echo Request、目标不可达或数据包过大等；</li>
 </ul>
-<p><img src="/_posts/16-IPV6/1618993779896-67f90591-e3c2-4389-8f3b-ebc6cb9ae167.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618993779896-67f90591-e3c2-4389-8f3b-ebc6cb9ae167.png" alt="img"></p>
 <ul>
 <li>Code：代码字段，长度为8bit，用于确定ICMPV6进一步的信息，对同一类型的报文进行了更详细的分类，Code字段依赖于Type字段，比如如果Type字段表示目标地址不可达，那么Code字段会给出为什么不可达的更详细信息，比如路由器没有到达目标地址的路由；</li>
 <li>Checksum：校验和，长度为16bit，用于检测ICMPV6数据是否损坏。</li>
 </ul>
 <h2 id="PMTUD"><a href="#PMTUD" class="headerlink" title="PMTUD"></a>PMTUD</h2><p>PMTUD，全称为Path MTU Discovery，也就是路径MTU检测协议，主要用于发现路径上的MTU，使得数据包从源转发到目的地的过程中避免分段。依赖PMTUD，源节点可以使用所发现的路径中的最大PMTU与目的地节点进行通信，这样可以避免数据包在从源传输到目的地的过程中，被中途的路由器分片，从而导致性能的下降。<strong>因此IPV6的分片不是在中间路由器上进行的，仅当路径MTU比需要传送的数据包小的时候，由源节点对数据包进行分片</strong>。</p>
 <p>在RFC1981中定义了PMTU发现协议，IPV6 PMTUD使用ICMP V6 type 2消息，典型过程如下：</p>
-<p><img src="/_posts/16-IPV6/1618994735904-79b3f0b0-60aa-40ff-87d5-dc540e2fe1a0.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618994735904-79b3f0b0-60aa-40ff-87d5-dc540e2fe1a0.png" alt="img"></p>
 <ol>
 <li><p>首先Source使用1500字节作为MTU向目标节点发送一个IPV6数据包；</p>
 </li>
@@ -1688,8 +1688,8 @@
 </li>
 </ul>
 <p>来看ICMPV6差错消息（error messages）的抓包：</p>
-<p><img src="/_posts/16-IPV6/1618995601019-51c956d9-f59d-46a2-9035-8cf3f0cdd79f.png" alt="img"></p>
-<h1 id="NDP"><a href="#NDP" class="headerlink" title="NDP"></a>NDP</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p><img src="/_posts/16-IPV6/1618995870801-c0d735c2-1880-464d-a875-cfcadc9473ce.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618995601019-51c956d9-f59d-46a2-9035-8cf3f0cdd79f.png" alt="img"></p>
+<h1 id="NDP"><a href="#NDP" class="headerlink" title="NDP"></a>NDP</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p><img src="/2022/01/20/16-IPV6/1618995870801-c0d735c2-1880-464d-a875-cfcadc9473ce.png" alt="img"></p>
 <ul>
 <li><p>地址解析，用来代替IPV4中的ARP（Address Resolution Protocol）和ICMP路由器发现（Router Discovery），使用ICMP完成地址解析，使用NS（Neighbor Solicitation邻居请求）和NA（邻居通告）报文来解析三层地质对应的链路层地质；</p>
 </li>
@@ -1708,16 +1708,16 @@
 <li><p>路由器重定向，路由器向一个IPV6节点发送ICMPV6消息，通知它在相同的本地链路上存在一个更好的到达目的地网段的路由器地址；</p>
 </li>
 </ul>
-<h2 id="为NDP定义的ICMPV6消息"><a href="#为NDP定义的ICMPV6消息" class="headerlink" title="为NDP定义的ICMPV6消息"></a>为NDP定义的ICMPV6消息</h2><p><img src="/_posts/16-IPV6/1618996977124-d4088dd3-514d-462a-8122-76fd933de3d1.png" alt="img"></p>
+<h2 id="为NDP定义的ICMPV6消息"><a href="#为NDP定义的ICMPV6消息" class="headerlink" title="为NDP定义的ICMPV6消息"></a>为NDP定义的ICMPV6消息</h2><p><img src="/2022/01/20/16-IPV6/1618996977124-d4088dd3-514d-462a-8122-76fd933de3d1.png" alt="img"></p>
 <h2 id="地址解析"><a href="#地址解析" class="headerlink" title="地址解析"></a>地址解析</h2><p>在IPV4中，当主机需要和目标主机通信时，必须先通过ARP协议获得目的主机的链路层地址，在IPV6中，同样需要从IP地址解析到链路层地址这个功能，邻居发现协议实现了这个功能，具体来说就是使用NS、NA和被请求节点组播地止的组合来完成，这比IPV4的ARP要高效的多，我们来看看经典的地址解析过程：</p>
-<p><img src="/_posts/16-IPV6/1619251865301-9b794107-60e9-4e80-9419-7205138b9c29.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619251865301-9b794107-60e9-4e80-9419-7205138b9c29.png" alt="img"></p>
 <ul>
 <li>Host A在向Host B发送报文之前，它必须要解析出Host B的链路层地址，所以首先Host A会发送一个NS报文，其中源地址为Host A的IPV6地址，目的地址为Host B的被请求节点组播地址，需要解析的目标IP为Host B的IPV6地址，这就表示Host A想要知道Host B的链路层地址。需要同时指出的是，在NS报文的Options字段中还携带了Host A的链路层地址；</li>
 <li>当Host B接收到了NS报文之后，就会回应NA报文，其中源地址为Host B的IPV6地址，目的地址为Host A的IPV6地址（使用NS报文中的Host A的链路层地址进行单播），Host B的链路层地址被放在Options字段中，这样就完成了一个地址解析的过程；</li>
 </ul>
-<p><img src="/_posts/16-IPV6/1618997051984-271ef167-b7d6-4c09-ab90-6d58fb8bc117.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618997051984-271ef167-b7d6-4c09-ab90-6d58fb8bc117.png" alt="img"></p>
 <p>NS中的33:33:FF:01:00:0B是IPV6目的地址（FF02::1:FF01:B）的多播映射地址。再来看NA的抓包：</p>
-<p><img src="/_posts/16-IPV6/1618997184148-be2b7024-3e04-47fb-a134-32d44819e05f.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1618997184148-be2b7024-3e04-47fb-a134-32d44819e05f.png" alt="img"></p>
 <p>注意到其中的Flag字段，R位置1表示这是台路由器，S位置1表示这是相应某个邻居请求的通告，S位如果置0则为主动发送的；O位置1表示NA消息中的条目会覆盖已有条目，收到该消息的邻居会覆盖已有条目。</p>
 <p>使用show ipv6 neighbor 可以查看邻居表项：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">R1#show ipv6 neighbors  </span><br><span class="line">IPv6 Address             Age  Link-layer Addr    State   Interface </span><br><span class="line">2012::2                  11    cc01.0cf0.0000    STALE    Fa0/0 </span><br><span class="line">FE80::CE01:CFF:FEF0:0    11    cc01.0cf0.0000    STALE    Fa0/0 </span><br></pre></td></tr></table></figure>
@@ -1778,7 +1778,7 @@
 <li><p>前缀重新编制</p>
 </li>
 </ul>
-<h3 id="路由器公告RA"><a href="#路由器公告RA" class="headerlink" title="路由器公告RA"></a>路由器公告RA</h3><p><img src="/_posts/16-IPV6/1619086398561-6362f6fa-f568-4400-948d-ff037418f121.png" alt="img"></p>
+<h3 id="路由器公告RA"><a href="#路由器公告RA" class="headerlink" title="路由器公告RA"></a>路由器公告RA</h3><p><img src="/2022/01/20/16-IPV6/1619086398561-6362f6fa-f568-4400-948d-ff037418f121.png" alt="img"></p>
 <p>PC收到RA（Router Advertisement）报文后会做一个检测：</p>
 <ul>
 <li><p>RA数据包的源地址，是否为一个Linklocal地址；</p>
@@ -1812,16 +1812,16 @@
 <li><p>IPV6地址可以通过State configuration（状态化配置）和Stateless configuration（无状态配置）来获得。状态化配置是通过手工添加或通过DHCPV6获得，无状态化是通过Prefix Advertisement（前缀宣告）获得，不管哪种方式获得地址，都会有几个时间状态，主要有两个，一个是Valid Lifetime，另一个是Preferred Lifetime。首先在DAD检查阶段，在DAD success前，地址一致处于Tentative（试验状态），这时的地址是不可用状态，直到DAD success后，进入Preferred状态，也就是首选状态，这个状态过程中的IPV6 address的有效性是由preferred lifetime决定的。Valid Lifetime是一个类似于DHCP中的Lease time（租期）的参数，如果地址超过了Valid lifetime，节点就会把这个地址设置为Inactive状态，然后delete。在Preferred time和valid lifetime之间叫做deprecated状态，在这种状态算是一种buffer，大概意思叫做不赞成使用的状态，当地址在这个时间段的时候，地址不能主动的发起连接，这也是为了保证上层应用而设计的，但是过了Valid lifetime时间就会变为invalid，这时任何连接会down掉。在思科IOS上，默认的valid lifetime为30天（2592000秒），prefer time为7天（604800秒）。</p>
 </li>
 </ul>
-<p><img src="/_posts/16-IPV6/1619165069986-e3cbf7e8-1684-4ea4-a6ed-47466435a947.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619165069986-e3cbf7e8-1684-4ea4-a6ed-47466435a947.png" alt="img"></p>
 <ul>
 <li>默认路由信息：提供关于默认路由器IPV6地址的存在和生存期信息，在IPV6中，节点使用的默认路由器地址是路由器的本地链路地址（Linklocal address），这样一来，即使前缀被重新编址，默认网关也是可达的（Linklocal address也不会变）；</li>
 <li>标志/选项；</li>
 </ul>
-<h4 id="工作机制"><a href="#工作机制" class="headerlink" title="工作机制"></a>工作机制</h4><p><img src="/_posts/16-IPV6/1619165411927-c6aca834-7b89-489b-8df7-5f2db38be033.png" alt="img"></p>
+<h4 id="工作机制"><a href="#工作机制" class="headerlink" title="工作机制"></a>工作机制</h4><p><img src="/2022/01/20/16-IPV6/1619165411927-c6aca834-7b89-489b-8df7-5f2db38be033.png" alt="img"></p>
 <h4 id="前缀公告参数配置"><a href="#前缀公告参数配置" class="headerlink" title="前缀公告参数配置"></a>前缀公告参数配置</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">R1(config-if)#ipv6 nd prefix 2001::/64 ?</span><br><span class="line">  &lt;0-4294967295&gt;   Valid Lifetime (secs) </span><br><span class="line">  at                Expire prefix at a specific time/date </span><br><span class="line">  infinite          Infinite Valid Lifetime </span><br><span class="line">  no-advertise       Do not advertise prefix </span><br><span class="line">  no-autoconfig      Do not use prefix for autoconfiguration   </span><br><span class="line">      // 当在特定前缀后开启该参数后，该前缀不能用于无状态自动配置</span><br><span class="line">  no-rtr-address    Do not send full router address in prefix advert </span><br><span class="line">  off-link          Do not use prefix for onlink determination </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">R1(config-if)#Ipv6 nd prefix 2012::/64 30 15</span><br><span class="line">     //配置Valid lifetime和prefered time，是个相对时间</span><br><span class="line">     </span><br><span class="line">配置完上面命令后，邻居R2收到前缀，如下：</span><br><span class="line">R2#sh ipv int f 0/0  </span><br><span class="line">FastEthernet0/0 is up, line protocol is up </span><br><span class="line">IPv6 is enabled, link-local address is FE80::CE00:DFF:FE48:0  </span><br><span class="line">Global unicast address(es): </span><br><span class="line">2001::CE00:DFF:FE48:0, subnet is 2001::/64 [PRE]   //状态为prefer</span><br><span class="line">valid lifetime 25 preferred lifetime 10    //两个时间不断递减</span><br><span class="line"></span><br><span class="line">当Preferred lifetime先到0时，状态变为（Deprecated），当Valid lifetime变为0时，地址抹去</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ipv6 nd prefix 2012::/64 at  XXXX   YYYYY</span><br><span class="line">xxxx为valid lifetime；YYYY为prefered time；</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ipv6 nd prefix 2012::/64 890000 720000 off-link</span><br><span class="line">off-link和L比特油管，这个比特位在RFC2461中定义，当可选的off-link关键字在CISCO IOS中被配置时，L比特被关闭，而如果L比特被打开（默认为打开状态），它表示在RA消息中的前缀是分配给本地链路的。因此，向包含这个指定前缀的地址发送数据的节点，认为目的是本地链路可达的。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ipv6 nd prefix 2012::/64 890000 720000 no-autoconfig</span><br><span class="line">no-autoconfig和A比特有关，RFC2461中定义的相关参数，A比特成为自治地址配置的标志，当这个可选关键字no-autoconfig在CISCO IOS中被配置，也就是配置了上门的命令后，A比特被置0，如果A比特被置1（默认不配置上面命令的情况下A比特置1），它指示本地链路的主机可以使用该前缀进行无状态自动配置。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ipv6 nd prefix 2012::/64 no-advertise</span><br><span class="line">该前缀不包含在RA消息中，默认情况下，思科IOS关闭这个no advertise，也就是前缀都会被包含在RA消息中。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ipv6 nd prefix default ?</span><br><span class="line">可以修改接口下nd前缀通告的默认参数</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ipv6 nd suppress-ra</span><br><span class="line">在接口上关闭路由器公告，默认情况下，当全局命令ipv6 unicast-routing被启用，思科设备的以太网口，FDDI和令牌环接口上具有RA功能</span><br></pre></td></tr></table></figure>
 
 <h4 id="使用RS请求RA"><a href="#使用RS请求RA" class="headerlink" title="使用RS请求RA"></a>使用RS请求RA</h4><p>PC可以主动发送RS来触发路由器，使得路由器发送RA，而不用等RA周期西行发送时间到了，PC才收到RA。为避免路由器请求消息在本地链路上泛滥，在启动时，每个节点只能发送3个RS消息。</p>
-<p><img src="/_posts/16-IPV6/1619250087174-94a04773-dc11-4f3a-b70d-8b0ffc02b6d3.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619250087174-94a04773-dc11-4f3a-b70d-8b0ffc02b6d3.png" alt="img"></p>
 <h3 id="调整ND参数"><a href="#调整ND参数" class="headerlink" title="调整ND参数"></a>调整ND参数</h3><ul>
 <li><p>ipv6 nd ra-lifetime，配置RA消息的生存时间，默认参数为1800S；</p>
 </li>
@@ -1832,19 +1832,19 @@
 <li><p>ipv6 nd managed-config-flag，配置这条命令后，该接口上的前缀信息将不能被链路上的主机用于无状态自动配置，主机必须使用有状态自动配置，例如DHCPV6来获取地址，默认情况下没有配置这条命令，也就是说，managed-config-flag为0，换而言之，主机在默认情况下可以通过无状态配置获取地址；</p>
 </li>
 </ul>
-<p><img src="/_posts/16-IPV6/1619250287720-bdc663bb-e144-42f0-b782-ec7fca04e23c.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619250287720-bdc663bb-e144-42f0-b782-ec7fca04e23c.png" alt="img"></p>
 <h3 id="DAD"><a href="#DAD" class="headerlink" title="DAD"></a>DAD</h3><h4 id="概述-4"><a href="#概述-4" class="headerlink" title="概述"></a>概述</h4><p>DAD全称为Duplicate Address Detection，也就是重复地址检测，是在接口使用某个IPV6单播地址之前进行的，主要是为了探测是否有其他节点使用了该地址。这个机制用在无状态配置中，是节点启动时的一个NDP机制，用来保证节点准备启用的IPV6单播地址在链路上的唯一性，这个机制使用NS消息（ICMP 135），使用源地址（::），目的地址为获取到的V6地址对应的被请求节点组播地址的NS报文来完成这个任务，</p>
 <h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>一个地址在通过重复地址检测（DAD）之前称作Tentative地址，也就是实验地址，接口还暂时不能使用这个实验地址进行正常的单播通讯，但是会加入和tentative地址所对应的Solicited-Node组播组以及All-Nodes组播。</p>
 <p>重复地址检测：IPV6的DAD和IPV4中的免费ARP类似，节点向实验地址所对应的Solicited-Node组播组发送NS报文，NS报文中目标地址即为该实验地址，如果收到某个其他站点回应的NA报文，就证明该地址已经被网络上其他设备使用，节点将不能使用该实验地址通信。如果1S后没有检测到冲突，会发送Non-Solicited advertisement（一个NA消息），宣告大家我将正式使用这个IPV6地址。</p>
 <p><strong>一边检测情况：</strong></p>
-<p><img src="/_posts/16-IPV6/1619253302149-d172e4fa-a6e5-4bf9-abe1-ec5337c10168.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619253302149-d172e4fa-a6e5-4bf9-abe1-ec5337c10168.png" alt="img"></p>
 <p>Host A的IPV6地址为FC00::1，为新配置地址，即FC00::1为Host A的实验地址，HostA向FC00::1的Solicited-Node组播组发送一个以FC00::1为请求的目标地址的NS报文进行重复地址检测，由于FC00::1并未正式指定，所以NS报文的源地址为未指定，当Host B收到该NS报文后，有两种处理方法：</p>
 <ol>
 <li>如果Host B发现FC00::1是自身的一个实验地址，则Host B放弃使用这个地址作为接口地址，并且不会发送NA报文；</li>
 <li>如果Host B发现FC00::1是一个已经正常使用的地址，Host B会向FF02::1发送一个NA报文，该消息中会包含FC00::1。这样HostA收到这个NA消息后就会发现自身的实验地址是重复的，Host A上该实验地址不生效，被标记为Duplicated状态。</li>
 </ol>
 <p><strong>两边同时检测情况：</strong></p>
-<p><img src="/_posts/16-IPV6/1619253630457-1e9ae7dc-835a-4311-a26f-810007c0dcac.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619253630457-1e9ae7dc-835a-4311-a26f-810007c0dcac.png" alt="img"></p>
 <ul>
 <li>若两个节点配置相同地质，同时做重复地址检测时，该地址处于Tentative状态，当一方收到对方发出的DAD的NS时，则接收方将不启用该地址；</li>
 <li>另一种极端的情况是，如果两端同时收到对端的NS报文，则两端都放弃该地址；</li>
@@ -1857,7 +1857,7 @@
 
 <h3 id="路由器重定向"><a href="#路由器重定向" class="headerlink" title="路由器重定向"></a>路由器重定向</h3><p>当网关设备发现报文从其他设备转发更好，它就会发送重定向报文，告知报文的发送者，让报文的发送者选择另一个网关设备。重新定向报文也承载在ICMPV6报文中，Type字段Wie137，报文中会携带更好的下一跳地址和需要重定向转发的报文的目的地址等信息。</p>
 <p>在IPV6规范中，不推荐使用可聚合全球单播或本地站点地址作为下一跳地址，如果这样做，ICMPV6重新定向消息就不会工作。因此使用Linklocal地址作为下一跳，在某些场合可能更为推荐，毕竟Linklocal地址稳定且长久不变。在配置Linklocal地址作为下一跳IP时，必须关联路由器上相应的接口。</p>
-<p><img src="/_posts/16-IPV6/1619336780678-6692f4e6-0253-4d8a-aa1a-685de937aa04.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619336780678-6692f4e6-0253-4d8a-aa1a-685de937aa04.png" alt="img"></p>
 <p>Host A要和Host B通信，A的默认网关设备是Router A，当Host A发送报文给Host B时，报文会被送到Router A，Router A收到HostA发送的报文后发现，实际上A直接发送给Router B更好，这时Router A会发送一个重定向报文给主机A，其中报文中更好的路径下一跳地址为Router B，Destination Address为Host B。主机A收到了重定向报文之后，会在默认路由表中添加一个主机地址，以后发往Host B的报文就直接发送给Router B。</p>
 <p>当设备收到一个报文后，只有在如下情况下，设备会向报文发送者发送重定向报文：</p>
 <ul>
@@ -1882,7 +1882,7 @@
 </li>
 </ul>
 <h2 id="双栈（Dual-Stack）"><a href="#双栈（Dual-Stack）" class="headerlink" title="双栈（Dual Stack）"></a>双栈（Dual Stack）</h2><p>网络中的主机、路由器或服务器等设备如果支持双栈（IPV4及IPV6协议栈），那么可以同时使用V4和V6的协议栈，简单来说也就是配一个IPV4的，再配一个IPV6的，这个路由器中同时又V4和V6的路由表。在双栈设备上，上层应用会优先选择IPV6协议栈，而不是IPV4。比如一个同事支持V4和V6的应用请求地址，会先请求AAAA记录，如果没有，则会再请求A记录。双栈可以在一个单一的设备上实现，也可以是一个双栈骨干网，对于双栈骨干网，其中的所有设备必须同时支持IPV4和IPV6协议栈，连接双栈网络的接口必须同时配置IPV4地址和IPV6地址。</p>
-<p><img src="/_posts/16-IPV6/1619337856009-08ea477f-21bc-4729-8509-2330a4213614.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619337856009-08ea477f-21bc-4729-8509-2330a4213614.png" alt="img"></p>
 <h2 id="隧道（Tunnel）"><a href="#隧道（Tunnel）" class="headerlink" title="隧道（Tunnel）"></a>隧道（Tunnel）</h2><p>在V6发展的初期，必然有许多局部的纯IPV6网络，这些V6网络被V4骨干网络隔离起来，为了使这些鼓励的‘IPV6孤岛’互联起来，可以使用隧道技术的方式来解决。利用隧道将V6孤岛连接起来，逐步扩大IPV6的实现范围，这就是目前国际IPV6实验床6Bone的计划。</p>
 <p>隧道（Tunnel）是一种封装技术，它利用一种网络协议来传输另一种网络协议，也就是利用一种网络传输协议，将其他协议产生的数据报文封装在自身的报文中，然后在网络中传输。隧道是一个虚拟的点对点的连接。一个Tunnel提供了一条使封装的数据报文能够传输的通路，并且在一个Tunnel的两端可以分别对数据报文进行封装及解封装。隧道技术就是指包括数据封装、传输和解封装在内的全过程，隧道技术是V4向V6过渡的一个重要手段。</p>
 <p>在IPV6网络与IPV4网络间的隧道入口处，路由器将IPV6的数据分组封装入IPV4中，IPV4分组的源地址和目的地址分别是隧道入口和出口的IPV4地址，在隧道的出口处再将IPV6分组取出转发给目的节点。</p>
@@ -1890,7 +1890,7 @@
 <p>按大类分可以分为手动隧道和自动隧道：</p>
 <p>手动隧道：边界设备不能自动获得隧道终点的IPV4地址，需要手工配置隧道终点的IPV4地址，报文才能正确发送至终点；</p>
 <p>自动隧道：自动隧道边界设备可以自动获得隧道终点的IPV4地址，所以不需要手工配制终点的IPV4地址，一般的做法是隧道的两个接口的IPV6地址采用内嵌IPV4地址的特殊IPV6地址形式，这样路由设备可以从IPV6报文中的目的IPV6地址中提取出IPV4地址。</p>
-<h3 id="V6-over-V4隧道"><a href="#V6-over-V4隧道" class="headerlink" title="V6 over V4隧道"></a>V6 over V4隧道</h3><p><img src="/_posts/16-IPV6/1619418880807-4eb6a947-36cc-4f90-a881-fdf21bd0e7c3.png" alt="img"></p>
+<h3 id="V6-over-V4隧道"><a href="#V6-over-V4隧道" class="headerlink" title="V6 over V4隧道"></a>V6 over V4隧道</h3><p><img src="/2022/01/20/16-IPV6/1619418880807-4eb6a947-36cc-4f90-a881-fdf21bd0e7c3.png" alt="img"></p>
 <ul>
 <li><p>边界设备启动V4/V6双栈协议，并配置IPV6 over IPV4隧道；</p>
 </li>
@@ -1906,21 +1906,21 @@
 <li>手动隧道：手动隧道即边界设备不能自动获取隧道终点的IPV4地址，需要手工配置隧道终点的IPV4地址，报文才能正确发送至隧道终点；</li>
 <li>自动隧道：自动隧道即边界设备能够自动获取隧道终点的IPV4地址，所以不需要手工配置终点的IPV4地址，只需要配置设备隧道的起点。一般做法是隧道的两个接口的IPV6地址，采用内嵌IPV4的特殊IPV6地址形式，这样路由设备可以从IPV6报文中的目的IPV6地址中提取出IPV4地址；</li>
 </ul>
-<h4 id="IPV6-over-IPV4-手工隧道"><a href="#IPV6-over-IPV4-手工隧道" class="headerlink" title="IPV6 over IPV4 手工隧道"></a>IPV6 over IPV4 手工隧道</h4><p><img src="/_posts/16-IPV6/1619419783574-4238d614-1403-4ab2-aa70-07c0c2243e2c.png" alt="img"></p>
+<h4 id="IPV6-over-IPV4-手工隧道"><a href="#IPV6-over-IPV4-手工隧道" class="headerlink" title="IPV6 over IPV4 手工隧道"></a>IPV6 over IPV4 手工隧道</h4><p><img src="/2022/01/20/16-IPV6/1619419783574-4238d614-1403-4ab2-aa70-07c0c2243e2c.png" alt="img"></p>
 <p>手动隧道会直接把IPV6报文封装到IPV4报文中去，IPV6报文作为IPV4报文的净载荷。手动隧道的源地址和目的地址也是手工指定的，它提供了一个点到点的连接。手动隧道可以建立在两个边界路由器之间，为IPV6网络（被IPV4网络分离开的）提供稳定的连接，或建立在终端系统与边界路由器之间为终端系统访问IPV6网络提供连接。隧道的边界设备必须支持IPV4/IPV6双栈协议。其他设备只需实现单协议栈即可。因为手动隧道要求在设备上手工配制隧道的源地址和目的地址，如果一个边界设备要与多个设备建立手动隧道，就需要在设备上配置多个隧道，配置比较麻烦，所以手动隧道通常用于两个边界路由器之间，为两个IPV6网络提供连接。</p>
 <p>IPV6 over IPV4手动隧道的转发机制为：当隧道边界设备的IPV6侧收到一个IPV6报文后，根据IPV6报文的目的地址查找IPV6路由转发表，如果这个收到的V6报文是从虚拟接口转发出去的，则根据隧道接口配置的隧道源端和目的端的IPV4地址进行封装。封装后变为一个IPV4报文，交给IPV4协议栈处理。报文通过IPV4网络转发到隧道的终点。隧道终点收到一个隧道协议报文后，进行隧道解封装，然后将解封装的报文交给IPV6协议栈处理。</p>
-<h4 id="IPV6-over-IPV4-GRE隧道"><a href="#IPV6-over-IPV4-GRE隧道" class="headerlink" title="IPV6 over IPV4 GRE隧道"></a>IPV6 over IPV4 GRE隧道</h4><p><img src="/_posts/16-IPV6/1619420395161-2a917d96-5d50-4b16-8f96-ecb553190195.png" alt="img"></p>
+<h4 id="IPV6-over-IPV4-GRE隧道"><a href="#IPV6-over-IPV4-GRE隧道" class="headerlink" title="IPV6 over IPV4 GRE隧道"></a>IPV6 over IPV4 GRE隧道</h4><p><img src="/2022/01/20/16-IPV6/1619420395161-2a917d96-5d50-4b16-8f96-ecb553190195.png" alt="img"></p>
 <p>IPV6 over IPV4 GRE隧道使用标准的GRE隧道技术提供了点到点的连接服务，需要手工指定隧道的端点地址。GRE隧道本身并不限制封装的协议和传输协议，一个GRE隧道中被封装的协议可以是协议允许的任何协议，比如IPV4、IPV6、MPLS等。</p>
 <p>IPV6 over IPV4 GRE隧道的传输机制和IPV6 over IPV4手动隧道相同。</p>
 <h4 id="IPV4兼容IPV6自动隧道"><a href="#IPV4兼容IPV6自动隧道" class="headerlink" title="IPV4兼容IPV6自动隧道"></a>IPV4兼容IPV6自动隧道</h4><p>IPV4兼容IPV6自欧东隧道，承载的IPV6报文的目的地址（即自动隧道使用的特殊地址）是IPV4兼容IPV6地址。IPV4兼容IPV6地址的前96位全部为0，后32位为IPV4地址，具体格式如下：</p>
-<p><img src="/_posts/16-IPV6/1619421086054-ce3a9319-c032-4183-82af-18d50e804550.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619421086054-ce3a9319-c032-4183-82af-18d50e804550.png" alt="img"></p>
 <p>转发机制如下：</p>
-<p><img src="/_posts/16-IPV6/1619421106327-21bfbe49-1130-4268-89e8-b4ec1ac65ee5.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619421106327-21bfbe49-1130-4268-89e8-b4ec1ac65ee5.png" alt="img"></p>
 <p>需要经过Router A发送给Router B的IPV6报文到达Router A以后，以目的地址::2.1.1.1查找IPV6路由，发现下一跳为Tunnel接口。由于Router 上的配置隧道的类型是IPV4兼容IPV6自动隧道。于是Router A对IPV6报文进行了封装。封装的时候IPV6报文被封装为IPV4报文，IPV4报文中的源地址为起点地址1.1.1.1，而目的IP地址直接从IPV4兼容IPV6地址::2.1.1.1的后32位拷贝过来即2.1.1.1。这个报文被路由器从隧道口发出后，在IPV4的网络中，被路由转发到目的地址2.1.1.1，也就是RouterB。Router B收到报文后，进行解封装，把其中的IPV6报文取出，送给IPV6协议栈进行处理，Router B返回Router A的报文也是按照这个过程来进行的。</p>
 <p>如果IPV4兼容IPV6地址中的IPV4地址是广播、组播、网络广播、出接口的子网广播、全0、环回等地址，则该IPV6报文被丢弃，不会进行隧道封装处理。</p>
 <p><strong>由于IPV4兼容IPV6隧道要求每一个主机都要有一个合法的IP地址，而且通讯的主机要支持双栈、支持IPV4兼容IPV6隧道，不适合大面积部署，目前该技术已经被6to4隧道所替代</strong>。</p>
 <h4 id="6to4隧道"><a href="#6to4隧道" class="headerlink" title="6to4隧道"></a>6to4隧道</h4><p>6to4隧道也属于一种自动隧道，隧道也是适用内嵌在IPV6地址中的IPV4地址建立的，与IPV4兼容自动隧道不同，6to4自动隧道支持Router到Router、Host到Router、Router到Host、Host到Host。这是因为6to4地址是用IPV4地址做为网络标识，格式如下：</p>
-<p><img src="/_posts/16-IPV6/1619422914398-f59e337d-0564-44ca-9f8f-fb294d111a82.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619422914398-f59e337d-0564-44ca-9f8f-fb294d111a82.png" alt="img"></p>
 <ul>
 <li><p>FP：可聚合全球单播地址的格式前缀（Format Prefix），其值为001；</p>
 </li>
@@ -1931,18 +1931,18 @@
 </ul>
 <p>6to4地址可以表示为2002::/16，而一个6to4网络可以表示为2002:IPV4地址::/48。6to4地址的网络前缀长度为64bit，其中前48bit（2002:a.b.c.d）被分配给路由器上的IPV4地址决定了，用户不能改变，后16位（SLA）是由用户自己定义的。</p>
 <p>6to4隧道的封装和转发过程如下：</p>
-<p><img src="/_posts/16-IPV6/1619423156892-00ae0107-7d9b-424f-ba6a-5ea27a10d419.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619423156892-00ae0107-7d9b-424f-ba6a-5ea27a10d419.png" alt="img"></p>
 <p>一个IPV4地址只能用于一个6to4隧道的源地址，如果一个边界设备连接了多个6to4网络使用同样的IPV4地址作为隧道的源地址，则使用6to4地址中的SLA ID来区分，但他们公用一个隧道。如下所示：</p>
-<p><img src="/_posts/16-IPV6/1619423292132-252703fb-68f9-4926-ac52-de2383cb2ccf.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619423292132-252703fb-68f9-4926-ac52-de2383cb2ccf.png" alt="img"></p>
 <p>随着IPV6网络的发展，普通IPV6网络需要与6to4网络通过IPV4网络互联互通，这样可以通过6to4中继路由方式实现。所谓6to4中继，就是通过6to4隧道转发的IPV6报文的目的地址不是6to4地址，但转发的下一跳是6to4地址，该下一跳路由器我们称之为6to4中继。隧道的IPV4目的地址依然从下一跳的6to4地址中获得。6to4中继示意图如下所示：</p>
-<p><img src="/_posts/16-IPV6/1619423439268-e58abffc-98aa-4e6a-9fc7-09f1fd818522.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619423439268-e58abffc-98aa-4e6a-9fc7-09f1fd818522.png" alt="img"></p>
 <p>如果6to4网络2中的主机要与IPV6网络互通，在其边界路由器上配置路由指向的下一跳为6to4中继路由器的6to4地址，中继路由器的6to4地址是与中继路由器的6to4隧道的源地址相匹配的。6to4网络2中去往普通IPv6网络的报文都会按照路由表指示的下一跳发送到6to4中继路由器。6to4中继路由器再将此报文转发到纯IPv6网络中去。当报文返回时，6to4中继路由器根据返回报文的目的地址（为6to4地址）进行IPv4报文头封装，数据就能够顺利到达6to4网络中了。</p>
 <h4 id="ISATAP隧道"><a href="#ISATAP隧道" class="headerlink" title="ISATAP隧道"></a>ISATAP隧道</h4><p>ISATAP（Intra-Site Automatic Tunnel Addressing Protocol）是另外一种自动隧道技术。ISATAP隧道同样使用了内嵌IPv4地址的特殊IPv6地址形式，只是和6to4不同的是，6to4是使用IPv4地址做为网络前缀，而ISATAP用IPv4地址做为接口标识。其接口标识符格式如下图所示：</p>
-<p><img src="/_posts/16-IPV6/1619423843637-bbf404ed-cbbd-4d8f-b75b-7336675d0d05.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619423843637-bbf404ed-cbbd-4d8f-b75b-7336675d0d05.png" alt="img"></p>
 <p>如果IPv4地址是全局唯一的，则u位为1，否则u位为0。g位是IEEE群体/个体标志。由于ISATAP是通过接口标识来表现的，所以，ISATAP地址有全局单播地址、链路本地地址、ULA地址、组播地址等形式。ISATAP地址的前64位是通过向ISATAP路由器发送请求来得到的，它可以进行地址自动配置。在ISATAP隧道的两端设备之间可以运行ND协议。ISATAP隧道将IPv4网络看作一个非广播的点到多点的链路（NBMA）。</p>
 <p>ISATAP过渡机制允许在现有的IPv4网络内部署IPv6，该技术简单而且扩展性很好，可以用于本地站点的过渡。ISATAP支持IPv6站点本地路由和全局IPv6路由域，以及自动IPv6隧道。ISATAP同时还可以与NAT结合，从而可以使用站点内部非全局唯一的IPv4地址。典型的ISATAP隧道应用是在站点内部，所以，其内嵌的IPv4地址不需要是全局唯一的。</p>
 <p>下图为ISATAP隧道一个典型应用场景：</p>
-<p><img src="/_posts/16-IPV6/1619423858735-900ad4ce-9a62-44dd-893b-984bdeaf8449.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619423858735-900ad4ce-9a62-44dd-893b-984bdeaf8449.png" alt="img"></p>
 <p>如上图所示，在IPv4网络内部有两个双栈主机Host B和Host C，它们分别有一个私网IPv4地址。要使其具有ISATAP功能，需要进行如下操作：</p>
 <ol>
 <li><p>首先配置ISATAP隧道接口，这时会根据IPv4地址生成ISATAP类型的接口ID。</p>
@@ -1957,7 +1957,7 @@
 <h3 id="V4-over-V6隧道"><a href="#V4-over-V6隧道" class="headerlink" title="V4 over V6隧道"></a>V4 over V6隧道</h3><p>利用隧道技术可以在IPv6网络上创建隧道，从而实现IPv4孤岛的互联，IPv4孤岛能通过IPv6公网访问其他IPv4网络。</p>
 <p>在IPv4 Internet向IPv6 Internet过渡的后期，IPv6网络已被大量部署，此时可能出现IPv4孤岛。利用隧道技术可在IPv6网络上创建隧道，从而实现IPv4孤岛的互连。这类似于在IP网络上利用隧道技术部署VPN。在IPv6网络上用于连接IPv4孤岛的隧道，称为IPv4 over IPv6隧道。</p>
 <p>IPv4 over IPv6隧道技术原理如下图:</p>
-<p><img src="/_posts/16-IPV6/1619423922336-095c49c1-09f9-475b-acc5-6f470bc461dc.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619423922336-095c49c1-09f9-475b-acc5-6f470bc461dc.png" alt="img"></p>
 <ol>
 <li><p>边界设备启动IPv4/IPv6双协议栈，并配置IPv4 over IPv6隧道。</p>
 </li>
@@ -2036,9 +2036,9 @@
 </ul>
 <h3 id="报文"><a href="#报文" class="headerlink" title="报文"></a>报文</h3><p>IPV6报头中的协议号仍然为89，OSPFv3的报头将V2中的认证字段都去掉了，因为IPV6报头已经有了很好的认证功能</p>
 <p>Option字段变成了24位，出现在Hello包、DBD包、Router LSA、network LSA、interAreaRouter LSA、Link LSA中，这些字段都有特殊的用途。</p>
-<p><img src="/_posts/16-IPV6/1619427632200-ebb683d1-d4f6-4940-b23c-56727d21a42a.png" alt="img"></p>
-<p><img src="/_posts/16-IPV6/1619427654395-11aa3998-3258-4695-a37b-5480cc6b98fc.png" alt="img"></p>
-<p><img src="/_posts/16-IPV6/1619427656692-1ef32206-dca7-425e-91b0-6ec1fda6b134.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619427632200-ebb683d1-d4f6-4940-b23c-56727d21a42a.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619427654395-11aa3998-3258-4695-a37b-5480cc6b98fc.png" alt="img"></p>
+<p><img src="/2022/01/20/16-IPV6/1619427656692-1ef32206-dca7-425e-91b0-6ec1fda6b134.png" alt="img"></p>
 <h3 id="配置命令-1"><a href="#配置命令-1" class="headerlink" title="配置命令"></a>配置命令</h3><p>启动OSPFV3进程，XX为OSPF进程号：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router(config)# ipv6 router ospf XX</span><br></pre></td></tr></table></figure>
 
@@ -2051,7 +2051,7 @@
 <p>在接口上激活OSPF V3</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router(config-if)# ipv6 ospf X area YY</span><br></pre></td></tr></table></figure>
 
-<h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><p><img src="/_posts/16-IPV6/1619492786124-ea4d9d63-1d07-4462-a842-807719b48412.png" alt="img"></p>
+<h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><p><img src="/2022/01/20/16-IPV6/1619492786124-ea4d9d63-1d07-4462-a842-807719b48412.png" alt="img"></p>
 <h4 id="实验需求"><a href="#实验需求" class="headerlink" title="实验需求"></a>实验需求</h4><ul>
 <li><p>完成基本IP配置；</p>
 </li>
@@ -2080,7 +2080,7 @@
 <li>Next_HOP：表示为IPV6地址，或者是一个可聚合全球单播地址及其下一跳的本地链路地址；</li>
 <li>NLRI：是一组目的地，表示为一个IPV6前缀；</li>
 </ul>
-<h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><h4 id="实验1"><a href="#实验1" class="headerlink" title="实验1"></a>实验1</h4><p><img src="/_posts/16-IPV6/1619510074097-1db382ae-c0b0-405d-be28-bc0edb37f112.png" alt="img"></p>
+<h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><h4 id="实验1"><a href="#实验1" class="headerlink" title="实验1"></a>实验1</h4><p><img src="/2022/01/20/16-IPV6/1619510074097-1db382ae-c0b0-405d-be28-bc0edb37f112.png" alt="img"></p>
 <p>实验目标：</p>
 <ul>
 <li><p>R1、R2处于AS12，AS内运行OSPFV3，使得R1和R2能够学习到对方的Loopback路由；</p>
@@ -2098,7 +2098,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">R1(config-router-af)#do show ip bgp all</span><br><span class="line">For address family: IPv4 Unicast</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">For address family: IPv6 Unicast</span><br><span class="line"></span><br><span class="line">BGP table version is 3, local router ID is 1.1.1.1</span><br><span class="line">Status codes: s suppressed, d damped, h history, * valid, &gt; best, i - internal,</span><br><span class="line">              r RIB-failure, S Stale, m multipath, b backup-path, f RT-Filter,</span><br><span class="line">              x best-external, a additional-path, c RIB-compressed,</span><br><span class="line">              t secondary path,</span><br><span class="line">Origin codes: i - IGP, e - EGP, ? - incomplete</span><br><span class="line">RPKI validation codes: V valid, I invalid, N Not found</span><br><span class="line"></span><br><span class="line">     Network          Next Hop            Metric LocPrf Weight Path</span><br><span class="line"> *&gt;i  2003::3/128      2002::2                  0    100      0 300 ?</span><br><span class="line"> *&gt;i  2023::/64        2002::2                  0    100      0 300 ?</span><br><span class="line"></span><br><span class="line">For address family: IPv4 Multicast</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">For address family: L2VPN E-VPN</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">For address family: MVPNv4 Unicast</span><br></pre></td></tr></table></figure>
 
 <p>最后R1收到了R3上的2003::3/128，而且为最优，因为R1和R2互指了Next hop self。</p>
-<h4 id="特别说明"><a href="#特别说明" class="headerlink" title="特别说明"></a>特别说明</h4><p><img src="/_posts/16-IPV6/1619575691823-e432d92c-d99b-4285-a9e8-3b4d2cdb3f21.png" alt="img"></p>
+<h4 id="特别说明"><a href="#特别说明" class="headerlink" title="特别说明"></a>特别说明</h4><p><img src="/2022/01/20/16-IPV6/1619575691823-e432d92c-d99b-4285-a9e8-3b4d2cdb3f21.png" alt="img"></p>
 <p>某些环境下，可以使用Linklocal地址来建立BGP邻接关系，这样做的好处之一是，无需为链路分配可聚合全球IP地址。在BGP中使用Linklocal地址有一些注意事项，例如要确定目的Linklocal地址相对应的路由器物理接口，因为Linklocal地址只是本地有效。还有一个是结合Route-map修改Next_hop属性。但现网中一般不这么做。</p>
 <h1 id="实验-1"><a href="#实验-1" class="headerlink" title="实验"></a>实验</h1><h1 id="IPV6组播"><a href="#IPV6组播" class="headerlink" title="IPV6组播"></a>IPV6组播</h1><h1 id="6PE及6VPE"><a href="#6PE及6VPE" class="headerlink" title="6PE及6VPE"></a>6PE及6VPE</h1><h1 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h1><p><a href="http://www.tcpipguide.com/free/t_IPv6DatagramExtensionHeaders-2.htm">The TCP/IP Guide</a></p>
 <p><a href="https://blog.csdn.net/u011784495/article/details/71693296">IPv6数据报头部格式</a></p>
