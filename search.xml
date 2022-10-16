@@ -5781,13 +5781,15 @@
 </ol>
 <h1 id="OSPF路由汇总"><a href="#OSPF路由汇总" class="headerlink" title="OSPF路由汇总"></a><a href="http://blog.sina.com.cn/s/blog_5ec353710102vtfy.html">OSPF路由汇总</a></h1><h1 id="虚链路"><a href="#虚链路" class="headerlink" title="虚链路"></a>虚链路</h1><h2 id="概述-17"><a href="#概述-17" class="headerlink" title="概述"></a>概述</h2><p><img src="/2020/06/18/13-ospf/Snipaste_2020-10-11_16-17-35.jpg" alt="Snipaste_2020-10-11_16-17-35"></p>
 <p>OSPF规定每个区域都必须与区域0相连，当出现了以上情况，可以在区域1中建立一条虚链路（Virtual-link）来过度，配置命令为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">area X（过渡区域的ID） virtual-link A.B.C.D（虚链路对端router 的Router ID）</span><br><span class="line">举例：area 1 virtual-link 3.3.3.3    </span><br><span class="line">#过渡区域为区域1，虚链路对端Router的Router ID为3.3.3.3</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">area X（过渡区域的ID） virtual-link A.B.C.D（虚链路对端router 的Router ID）</span><br><span class="line">举例：area 1 virtual-link 3.3.3.3    </span><br><span class="line">#过渡区域为区域1，虚链路对端Router的Router ID为3.3.3.3</span><br><span class="line">这里必须注意，虚链路的配置必须使用对端路由器的Router ID，而不能使用其他地址来配置</span><br></pre></td></tr></table></figure>
 
 <p>查看虚链路命令为：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show ip ospf virtual-links</span><br></pre></td></tr></table></figure>
 
+<p>也可以配合‘show ip ospf database’来使用</p>
 <p>虚链路用来连接不连续的区域，只是一种临时或割接的手段，不建议用在常规网络的实施中。本质上虚链路是一条属于区域0的线路，所以如果在Area 0上开启了验证那么Virtual-link也要做验证，如果Area 0不做验证，只虚链路上自己做认证，那验证的范围就在虚链路上。虚链路用Hello包建立，以单播形式，虚链路一旦建立起邻居则Hello包不再发送，凡是通过虚链路学到的LSA都会标注DNA表示永远不会老化。</p>
-<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p><img src="/2020/06/18/13-ospf/Snipaste_2020-10-11_16-17-35.jpg" alt="Snipaste_2020-10-11_16-17-35"></p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p><strong>实验1</strong></p>
+<p><img src="/2020/06/18/13-ospf/Snipaste_2020-10-11_16-17-35.jpg" alt="Snipaste_2020-10-11_16-17-35"></p>
 <p>R2：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 2.2.2.2</span><br><span class="line"> area 2 virtual-link 3.3.3.3</span><br><span class="line"> network 192.168.12.2 0.0.0.0 area 1</span><br><span class="line"> network 192.168.23.2 0.0.0.0 area 2</span><br></pre></td></tr></table></figure>
 
@@ -5798,6 +5800,7 @@
 <p><img src="/2020/06/18/13-ospf/Snipaste_2020-10-11_16-34-57.jpg" alt="Snipaste_2020-10-11_16-34-57"></p>
 <p>R2上的邻居表：</p>
 <p><img src="/2020/06/18/13-ospf/Snipaste_2020-10-11_16-37-22.jpg" alt="Snipaste_2020-10-11_16-37-22"></p>
+<p><strong>实验2</strong></p>
 <h1 id="OSPF选路"><a href="#OSPF选路" class="headerlink" title="OSPF选路"></a>OSPF选路</h1><ol>
 <li>直连路由：本路由器发起的LSA 1、2；</li>
 <li>区域内路由：O；LSA 1、2；</li>
@@ -7267,6 +7270,7 @@
 
 <h2 id="冗余网关技术"><a href="#冗余网关技术" class="headerlink" title="冗余网关技术"></a>冗余网关技术</h2><p>一旦网关或关键节点出现故障，将对业务造成灾难性的故障，因此应运而生了首跳网关冗余技术，常见的有HSRP、VRRP和GLBP，相互之间的区别如下：</p>
 <p><img src="/2022/01/20/19-Switch/1618556451542-3e276964-def5-46cf-a0e6-050382f2afbd.png" alt="img"></p>
+<p><img src="/2022/01/20/19-Switch/EVJ_PYJU0AABVnd.jpg" alt="Octa Networks sur Twitter : &quot;Difference between HSRP, VRRP and GLBP  Protocols #octanetworks #networking #hsrp #vrrp #glbp #protocol  #differencebetween https://t.co/rp153m7iNn&quot; / Twitter"></p>
 <h3 id="基本概念-5"><a href="#基本概念-5" class="headerlink" title="基本概念"></a>基本概念</h3><p>由于HSRP和GLBP都是思科私有技术，这里只写VRRP这种公有技术。</p>
 <p>利用VRRP（Virtual Router Redundancy Protocol，虚拟路由冗余协议）协议，一组路由器可以协同工作，但只有一个处于激活状态，在一个VRRP组内的多个路由器公用一个虚拟IP地址，该地址被作为局域网内所有主机的缺省网关地址，VRRP协议决定哪个路由器被激活，被激活的路由器负责收发过来的数据包并进行路由。</p>
 <p><img src="/2022/01/20/19-Switch/1618556886952-3c05fda8-f129-4779-9a31-d434a40fd947.png" alt="img"></p>
@@ -10522,6 +10526,15 @@
 <p><a href="https://www.networkfuntimes.com/route-distinguishers-vs-route-targets-what-are-they-why-do-we-need-them-both/">https://www.networkfuntimes.com/route-distinguishers-vs-route-targets-what-are-they-why-do-we-need-them-both/</a></p>
 <p><a href="https://ipwithease.com/rd-vs-rt-in-mpls/">https://ipwithease.com/rd-vs-rt-in-mpls/</a></p>
 <p><img src="/2022/01/20/18-MPLSVPN/1614667690580-549e5760-c735-497b-8111-2d5a2009c4e8.png" alt="img"></p>
+]]></content>
+      <categories>
+        <category>路由交换方向</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>22-Route-control</title>
+    <url>/2022/10/16/22-Route-control/</url>
+    <content><![CDATA[<h1 id="路由策略"><a href="#路由策略" class="headerlink" title="路由策略"></a>路由策略</h1><h2 id="路由匹配工具"><a href="#路由匹配工具" class="headerlink" title="路由匹配工具"></a>路由匹配工具</h2><h3 id="ACL"><a href="#ACL" class="headerlink" title="ACL"></a>ACL</h3><h3 id="Prefix-list"><a href="#Prefix-list" class="headerlink" title="Prefix-list"></a>Prefix-list</h3><h3 id="路由标记tag"><a href="#路由标记tag" class="headerlink" title="路由标记tag"></a>路由标记tag</h3><h2 id="passive-interface"><a href="#passive-interface" class="headerlink" title="passive-interface"></a>passive-interface</h2><h2 id="单播更新"><a href="#单播更新" class="headerlink" title="单播更新"></a>单播更新</h2><h2 id="AD管理距离"><a href="#AD管理距离" class="headerlink" title="AD管理距离"></a>AD管理距离</h2><h2 id="route-map"><a href="#route-map" class="headerlink" title="route-map"></a>route-map</h2><h2 id="distribute-list"><a href="#distribute-list" class="headerlink" title="distribute-list"></a>distribute-list</h2><h1 id="路由重发布"><a href="#路由重发布" class="headerlink" title="路由重发布"></a>路由重发布</h1><h1 id="路径控制"><a href="#路径控制" class="headerlink" title="路径控制"></a>路径控制</h1><h1 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h1><p><a href="https://packetlife.net/blog/2010/feb/1/understanding-ip-prefix-lists/">Understanding IP prefix lists</a></p>
 ]]></content>
       <categories>
         <category>路由交换方向</category>
